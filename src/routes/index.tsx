@@ -50,6 +50,10 @@ const routeList: RouteObject[] = [
     path: 'login',
     element: <Login />,
   },
+  {
+    path: '/external-login',
+    element: <Login />,
+  },
 ];
 
 const Router = createBrowserRouter(routeList);
