@@ -1,23 +1,23 @@
 import { createContext } from 'react';
-import Axios, { AxiosInstance } from 'axios';
+import Axios, {
+  AxiosError,
+  AxiosInstance,
+  AxiosResponse,
+  isAxiosError,
+} from 'axios';
 import { useContext } from 'react';
+import { toast } from 'common/components/StandaloneToast';
 
-console.log('baseurl:', import.meta.env.VITE_BASE_URL);
 const axios = Axios.create({
-  baseURL: import.meta.env.VITE_BASE_URL + '',
+  baseURL: import.meta.env.VITE_API_BASE_URL + '',
   timeout: 10000,
+  withCredentials: true,
   headers: {
     'Content-Type': 'application/json',
   },
 });
 
 axios.interceptors.request.use((config) => {
-  // Read token for anywhere, in this case directly from localStorage
-  const token = localStorage.getItem('token');
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-
   return config;
 });
 
@@ -29,13 +29,44 @@ axios.interceptors.response.use(
       return data;
     }
 
-    if (response.status === 401) {
-      window.location.href = 'account/login';
+    return response;
+  },
+  (error: AxiosError | Error) => {
+    if (isAxiosError(error)) {
+      const { status } = (error.response as AxiosResponse) ?? {};
+      const { code } = error;
+
+      if (code === 'ERR_NETWORK') {
+        toast({
+          title: 'Network Error!',
+          status: 'error',
+        });
+      }
+
+      switch (status) {
+        case 401: {
+          window.location.href = '/login';
+          break;
+        }
+        case 403: {
+          // "Permission denied"
+          break;
+        }
+        case 404: {
+          // "Invalid request"
+          break;
+        }
+        case 500: {
+          // "Server error"
+          break;
+        }
+        default: {
+          // "Unknown error occurred"
+          break;
+        }
+      }
     }
 
-    return Promise.reject(new Error(response.statusText || 'Error'));
-  },
-  (error) => {
     return Promise.reject(error);
   }
 );

@@ -1,3 +1,4 @@
+import theme from 'theme';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { ChakraProvider } from '@chakra-ui/react';
@@ -7,6 +8,7 @@ import { RecoilRoot } from 'recoil';
 import { RouterProvider } from 'react-router-dom';
 import router from 'routes/index';
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import { ToastContainer } from 'common/components/StandaloneToast';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
@@ -14,9 +16,10 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
       <AxiosProvider>
         <QueryProvider>
           <RecoilRoot>
-            <ChakraProvider>
+            <ChakraProvider theme={theme}>
               <RouterProvider router={router} />
             </ChakraProvider>
+            <ToastContainer />
           </RecoilRoot>
         </QueryProvider>
       </AxiosProvider>
