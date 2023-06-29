@@ -26,7 +26,6 @@ export const useClearUserData = () => {
 
   const clearData = useCallback(() => {
     resetUser();
-    localStorage.removeItem('username');
     cookie.remove('username');
   }, [resetUser]);
 

@@ -18,8 +18,6 @@ import { TextField } from 'common/components/TextField';
 import { useLogin } from 'api/apiHooks/userHooks';
 import { LoginStatus } from 'common/enums';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
-import { userState } from 'stores/user';
 import { toast } from 'common/components/StandaloneToast';
 
 type GoogleResponse = Omit<
@@ -35,7 +33,6 @@ const initialLoginParams: LoginParams = {
 
 const Login = () => {
   const navigate = useNavigate();
-  const [user, setUser] = useRecoilState(userState);
   const { mutateAsync: loginMutate, isLoading } = useLogin();
 
   const {
@@ -56,12 +53,6 @@ const Login = () => {
     });
 
     if (result === LoginStatus.success) {
-      setUser({
-        ...user,
-        userName: userNameOrEmailAddress,
-      });
-
-      localStorage.setItem('username', userNameOrEmailAddress);
       navigate('/');
       return;
     }
