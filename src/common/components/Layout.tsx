@@ -1,8 +1,14 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet } from "react-router-dom";
+import Header from "./Header";
+import { Flex } from "@chakra-ui/react";
+
 const Layout = () => {
   return (
     <>
-      <Outlet />
+      <Header />
+      <Flex justifyContent={"center"}>
+        <Outlet />
+      </Flex>
     </>
   );
 };

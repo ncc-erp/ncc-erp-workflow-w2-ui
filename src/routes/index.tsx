@@ -1,53 +1,71 @@
-import { lazy } from 'react';
-import { Navigate, RouteObject, createBrowserRouter } from 'react-router-dom';
-import WrapperRouteComponent from 'routes/WrapperRoute';
-import Layout from 'common/components/Layout';
-import RequestTemplates from 'features/requestDevices/pages/RequestTemplates';
-import MyRequests from 'features/requestDevices/pages/MyRequests';
-import Login from 'features/auth/pages/Login';
+import { lazy } from "react";
+import { Navigate, RouteObject, createBrowserRouter } from "react-router-dom";
+import Layout from "common/components/Layout";
+import RequestTemplates from "features/requestDevices/pages/RequestTemplates";
+import MyRequests from "features/requestDevices/pages/MyRequests";
+import Login from "features/auth/pages/Login";
+import Manage from "features/account/pages/Manage";
+import WrapperRoute from "./WrapperRoute";
 
-const NotFound = lazy(() => import('common/components/NotFound'));
+const NotFound = lazy(() => import("common/components/NotFound"));
 const routeList: RouteObject[] = [
   {
-    path: '/',
+    path: "/",
     element: (
-      <WrapperRouteComponent auth={true}>
+      <WrapperRoute auth={true}>
         <Layout />
-      </WrapperRouteComponent>
+      </WrapperRoute>
     ),
     children: [
       {
         index: true,
-        element: <Navigate to='request-templates' />,
+        element: <Navigate to="request-templates" />,
       },
       {
-        path: 'request-templates',
+        path: "request-templates",
         element: (
-          <WrapperRouteComponent>
+          <WrapperRoute>
             <RequestTemplates />
-          </WrapperRouteComponent>
+          </WrapperRoute>
         ),
       },
       {
-        path: 'my-requests',
+        path: "my-requests",
         element: (
-          <WrapperRouteComponent>
+          <WrapperRoute>
             <MyRequests />
-          </WrapperRouteComponent>
+          </WrapperRoute>
         ),
       },
       {
-        path: '*',
+        path: "Account",
+        children: [
+          {
+            index: true,
+            element: <Navigate to="Manage" />,
+          },
+          {
+            path: "Manage",
+            element: (
+              <WrapperRoute>
+                <Manage />
+              </WrapperRoute>
+            ),
+          },
+        ],
+      },
+      {
+        path: "*",
         element: (
-          <WrapperRouteComponent>
+          <WrapperRoute>
             <NotFound />
-          </WrapperRouteComponent>
+          </WrapperRoute>
         ),
       },
     ],
   },
   {
-    path: 'login',
+    path: "login",
     element: <Login />,
   },
   {
