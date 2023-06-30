@@ -1,4 +1,4 @@
-import { lazy } from 'react';
+import { Suspense, lazy } from 'react';
 import { Navigate, RouteObject, createBrowserRouter } from 'react-router-dom';
 import WrapperRouteComponent from 'routes/WrapperRoute';
 import Layout from 'common/components/Layout';
@@ -39,9 +39,11 @@ const routeList: RouteObject[] = [
       {
         path: '*',
         element: (
-          <WrapperRouteComponent>
-            <NotFound />
-          </WrapperRouteComponent>
+          <Suspense>
+            <WrapperRouteComponent>
+              <NotFound />
+            </WrapperRouteComponent>
+          </Suspense>
         ),
       },
     ],
