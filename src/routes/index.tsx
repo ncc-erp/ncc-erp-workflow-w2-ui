@@ -1,6 +1,6 @@
 import { lazy } from 'react';
 import { Navigate, RouteObject, createBrowserRouter } from 'react-router-dom';
-import WrapperRouteComponent from 'routes/WrapperRouter';
+import WrapperRouteComponent from 'routes/WrapperRoute';
 import Layout from 'common/components/Layout';
 import RequestTemplates from 'features/requestDevices/pages/RequestTemplates';
 import MyRequests from 'features/requestDevices/pages/MyRequests';
@@ -51,7 +51,7 @@ const routeList: RouteObject[] = [
     element: <Login />,
   },
   {
-    path: '/external-login',
+    path: 'signin-google',
     element: <Login />,
   },
 ];

@@ -1,17 +1,38 @@
-import { FC, useEffect } from 'react';
+import { useCurrentUser } from 'api/apiHooks/userHooks';
+import { useEffect } from 'react';
 import { Navigate, RouteProps } from 'react-router';
 import { useRecoilState } from 'recoil';
-import { userState } from 'stores/user';
+import { useClearUserData, userState } from 'stores/user';
 
-const PrivateRoute: FC<RouteProps> = ({ children }) => {
-  const [user] = useRecoilState(userState);
-  const logged = user.username ? true : false;
+const PrivateRoute = ({ children }: RouteProps) => {
+  const clearUser = useClearUserData();
+  const [user, setUser] = useRecoilState(userState);
+  const {
+    data: userInfo,
+    isError,
+    isFetched,
+    isFetching,
+    remove,
+  } = useCurrentUser();
+  const isUnauthorized = isFetched && (!userInfo?.userName || isError);
 
   useEffect(() => {
-    // TODO: logic & set user
-  }, []);
+    if (isFetched && !user.logged) {
+      setUser({ ...user, ...userInfo, logged: true });
+    }
+  }, [isFetched, setUser, user, userInfo]);
 
-  return logged ? children : <Navigate to='/login' />;
+  useEffect(() => {
+    isUnauthorized && clearUser();
+
+    return () => {
+      isUnauthorized && remove();
+    };
+  }, [clearUser, isUnauthorized, remove]);
+
+  if (isFetching) return <div>Loading...</div>;
+
+  return isUnauthorized ? <Navigate to='/login' /> : children;
 };
 
 export default PrivateRoute;
