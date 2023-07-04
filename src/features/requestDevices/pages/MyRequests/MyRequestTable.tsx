@@ -144,6 +144,7 @@ export const MyRequestTable = () => {
     setFilter((filter) => ({
       ...filter,
       sorting: sort,
+      skipCount: 0,
     }));
   }, [sorting]);
 

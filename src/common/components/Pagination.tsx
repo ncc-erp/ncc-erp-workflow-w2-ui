@@ -27,6 +27,7 @@ export const Pagination = ({
       display='flex'
       listStyleType='none'
       gap='12px'
+      current={current}
       as={PaginationComponent}
       itemRender={ItemRender(current, itemRenderProps)}
       {...paginationProps}
