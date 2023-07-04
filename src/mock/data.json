@@ -12,5 +12,313 @@
       "concurrencyStamp": "89876537f95448609f5b7f5be6fdc444",
       "extraProperties": {}
     }
+  ],
+  "requests": [
+    {
+      "id": "3a0b3c95-54ae-871c-5ad2-f9c71494bf21",
+      "workflowDefinitionId": "3a0b3768-650b-3d15-e7d6-0d9220745472",
+      "workflowDefinitionDisplayName": "Change Office Request",
+      "userRequestName": "admin",
+      "createdAt": "2023-05-17T15:51:10.767027Z",
+      "lastExecutedAt": "2023-05-17T15:54:57.526306Z",
+      "status": "Faulted",
+      "stakeHolders": [],
+      "currentStates": [],
+      "creatorId": null
+    },
+    {
+      "id": "3a0b3bce-c198-8122-f1c9-9c2bcfaf801d",
+      "workflowDefinitionId": "3a0b3768-650b-3d15-e7d6-0d9220745472",
+      "workflowDefinitionDisplayName": "Change Office Request",
+      "userRequestName": "Thien Dang An",
+      "createdAt": "2023-05-17T12:14:16.984386Z",
+      "lastExecutedAt": "2023-05-17T12:19:18.146026Z",
+      "status": "Pending",
+      "stakeHolders": ["Thien Dang An", null],
+      "currentStates": [
+        "PM reviews",
+        "Current HoO reviews",
+        "Destination HoO reviews"
+      ],
+      "creatorId": null
+    },
+    {
+      "id": "3a0b3bc6-b696-cdfc-41c9-76295c6c3814",
+      "workflowDefinitionId": "3a0b3768-650b-3d15-e7d6-0d9220745472",
+      "workflowDefinitionDisplayName": "Change Office Request",
+      "userRequestName": "Thien Dang An",
+      "createdAt": "2023-05-17T12:05:29.878271Z",
+      "lastExecutedAt": "2023-05-17T12:05:47.387009Z",
+      "status": "Cancelled",
+      "stakeHolders": [],
+      "currentStates": [],
+      "creatorId": null
+    },
+    {
+      "id": "3a0b39b7-980b-12b5-d74d-1f7380dccb1e",
+      "workflowDefinitionId": "3a0b3768-650b-3d15-e7d6-0d9220745472",
+      "workflowDefinitionDisplayName": "Change Office Request",
+      "userRequestName": "admin",
+      "createdAt": "2023-05-17T02:29:44.587095Z",
+      "lastExecutedAt": "2023-05-17T02:29:45.147928Z",
+      "status": "Faulted",
+      "stakeHolders": [],
+      "currentStates": [],
+      "creatorId": null
+    },
+    {
+      "id": "3a0b3c95-54ae-871c-5ad2-f9c71494bf21",
+      "workflowDefinitionId": "3a0b3768-650b-3d15-e7d6-0d9220745472",
+      "workflowDefinitionDisplayName": "Change Office Request",
+      "userRequestName": "admin",
+      "createdAt": "2023-05-17T15:51:10.767027Z",
+      "lastExecutedAt": "2023-05-17T15:54:57.526306Z",
+      "status": "Faulted",
+      "stakeHolders": [],
+      "currentStates": [],
+      "creatorId": null
+    },
+    {
+      "id": "3a0b3bce-c198-8122-f1c9-9c2bcfaf801d",
+      "workflowDefinitionId": "3a0b3768-650b-3d15-e7d6-0d9220745472",
+      "workflowDefinitionDisplayName": "Change Office Request",
+      "userRequestName": "Thien Dang An",
+      "createdAt": "2023-05-17T12:14:16.984386Z",
+      "lastExecutedAt": "2023-05-17T12:19:18.146026Z",
+      "status": "Pending",
+      "stakeHolders": ["Thien Dang An", null],
+      "currentStates": [
+        "PM reviews",
+        "Current HoO reviews",
+        "Destination HoO reviews"
+      ],
+      "creatorId": null
+    },
+    {
+      "id": "3a0b3bc6-b696-cdfc-41c9-76295c6c3814",
+      "workflowDefinitionId": "3a0b3768-650b-3d15-e7d6-0d9220745472",
+      "workflowDefinitionDisplayName": "Change Office Request",
+      "userRequestName": "Thien Dang An",
+      "createdAt": "2023-05-17T12:05:29.878271Z",
+      "lastExecutedAt": "2023-05-17T12:05:47.387009Z",
+      "status": "Cancelled",
+      "stakeHolders": [],
+      "currentStates": [],
+      "creatorId": null
+    },
+    {
+      "id": "3a0b39b7-980b-12b5-d74d-1f7380dccb1e",
+      "workflowDefinitionId": "3a0b3768-650b-3d15-e7d6-0d9220745472",
+      "workflowDefinitionDisplayName": "Change Office Request",
+      "userRequestName": "admin",
+      "createdAt": "2023-05-17T02:29:44.587095Z",
+      "lastExecutedAt": "2023-05-17T02:29:45.147928Z",
+      "status": "Faulted",
+      "stakeHolders": [],
+      "currentStates": [],
+      "creatorId": null
+    },
+    {
+      "id": "3a0b3c95-54ae-871c-5ad2-f9c71494bf21",
+      "workflowDefinitionId": "3a0b3768-650b-3d15-e7d6-0d9220745472",
+      "workflowDefinitionDisplayName": "Change Office Request",
+      "userRequestName": "admin",
+      "createdAt": "2023-05-17T15:51:10.767027Z",
+      "lastExecutedAt": "2023-05-17T15:54:57.526306Z",
+      "status": "Faulted",
+      "stakeHolders": [],
+      "currentStates": [],
+      "creatorId": null
+    },
+    {
+      "id": "3a0b3bce-c198-8122-f1c9-9c2bcfaf801d",
+      "workflowDefinitionId": "3a0b3768-650b-3d15-e7d6-0d9220745472",
+      "workflowDefinitionDisplayName": "Change Office Request",
+      "userRequestName": "Thien Dang An",
+      "createdAt": "2023-05-17T12:14:16.984386Z",
+      "lastExecutedAt": "2023-05-17T12:19:18.146026Z",
+      "status": "Pending",
+      "stakeHolders": ["Thien Dang An", null],
+      "currentStates": [
+        "PM reviews",
+        "Current HoO reviews",
+        "Destination HoO reviews"
+      ],
+      "creatorId": null
+    },
+    {
+      "id": "3a0b3bc6-b696-cdfc-41c9-76295c6c3814",
+      "workflowDefinitionId": "3a0b3768-650b-3d15-e7d6-0d9220745472",
+      "workflowDefinitionDisplayName": "Change Office Request",
+      "userRequestName": "Thien Dang An",
+      "createdAt": "2023-05-17T12:05:29.878271Z",
+      "lastExecutedAt": "2023-05-17T12:05:47.387009Z",
+      "status": "Cancelled",
+      "stakeHolders": [],
+      "currentStates": [],
+      "creatorId": null
+    },
+    {
+      "id": "3a0b39b7-980b-12b5-d74d-1f7380dccb1e",
+      "workflowDefinitionId": "3a0b3768-650b-3d15-e7d6-0d9220745472",
+      "workflowDefinitionDisplayName": "Change Office Request",
+      "userRequestName": "admin",
+      "createdAt": "2023-05-17T02:29:44.587095Z",
+      "lastExecutedAt": "2023-05-17T02:29:45.147928Z",
+      "status": "Faulted",
+      "stakeHolders": [],
+      "currentStates": [],
+      "creatorId": null
+    }
+  ],
+  "requestTemplates": [
+    {
+      "definitionId": "3a05daee-8f55-1e4c-9ac3-443c04309b77",
+      "name": "ChangeOfficeRequestWorkflow",
+      "displayName": "Change Office Request",
+      "description": null,
+      "version": 9,
+      "isSingleton": false,
+      "isPublished": true,
+      "isLatest": true,
+      "inputDefinition": {
+        "workflowDefinitionId": "3a05daee-8f55-1e4c-9ac3-443c04309b77",
+        "propertyDefinitions": [
+          {
+            "name": "CurrentOffice",
+            "type": "OfficeList",
+            "isRequired": true
+          },
+          {
+            "name": "DestinationOffice",
+            "type": "OfficeList",
+            "isRequired": true
+          },
+          {
+            "name": "Content",
+            "type": "RichText",
+            "isRequired": true
+          },
+          {
+            "name": "StartDate",
+            "type": "DateTime",
+            "isRequired": true
+          },
+          {
+            "name": "EndDate",
+            "type": "DateTime",
+            "isRequired": false
+          }
+        ],
+        "id": "3a05ffba-3830-e0d4-e931-9381c70a3710"
+      },
+      "id": "3a0bd946-73ea-a5d7-fa1a-e97d9b0af556"
+    },
+    {
+      "definitionId": "3a057e11-7cde-1749-5c03-60520662a1f5",
+      "name": "Device Request",
+      "displayName": "Device Request",
+      "description": null,
+      "version": 23,
+      "isSingleton": false,
+      "isPublished": true,
+      "isLatest": true,
+      "inputDefinition": {
+        "workflowDefinitionId": "3a057e11-7cde-1749-5c03-60520662a1f5",
+        "propertyDefinitions": [
+          {
+            "name": "CurrentOffice",
+            "type": "OfficeList",
+            "isRequired": true
+          },
+          {
+            "name": "Project",
+            "type": "MyProject",
+            "isRequired": true
+          },
+          {
+            "name": "Device",
+            "type": "Text",
+            "isRequired": true
+          },
+          {
+            "name": "Reason",
+            "type": "RichText",
+            "isRequired": true
+          }
+        ],
+        "id": "3a057e11-efb1-941c-e984-d72e30aa520c"
+      },
+      "id": "3a0bd3ff-381f-9bfe-41e7-c92abebbc1a0"
+    },
+    {
+      "definitionId": "3a0b89d4-93b5-232f-964d-ffa129064cc6",
+      "name": "Office Equipment Request",
+      "displayName": "Office Equipment Request",
+      "description": null,
+      "version": 3,
+      "isSingleton": false,
+      "isPublished": true,
+      "isLatest": true,
+      "inputDefinition": {
+        "workflowDefinitionId": "3a0b89d4-93b5-232f-964d-ffa129064cc6",
+        "propertyDefinitions": [
+          {
+            "name": "CurrentOffice",
+            "type": "OfficeList",
+            "isRequired": true
+          },
+          {
+            "name": "Equipment",
+            "type": "Text",
+            "isRequired": true
+          },
+          {
+            "name": "Reason",
+            "type": "RichText",
+            "isRequired": true
+          }
+        ],
+        "id": "3a0b89d7-218a-08db-93d8-e0d5979b3ff0"
+      },
+      "id": "3a0bd3ff-9329-746a-dfa3-8484d8b5c87f"
+    },
+    {
+      "definitionId": "3a059dc6-a381-3cc5-b6ff-7a6559d1adf7",
+      "name": "WFH Request",
+      "displayName": "WFH Request",
+      "description": null,
+      "version": 13,
+      "isSingleton": false,
+      "isPublished": true,
+      "isLatest": true,
+      "inputDefinition": {
+        "workflowDefinitionId": "3a059dc6-a381-3cc5-b6ff-7a6559d1adf7",
+        "propertyDefinitions": [
+          {
+            "name": "CurrentOffice",
+            "type": "OfficeList",
+            "isRequired": true
+          },
+          {
+            "name": "Project",
+            "type": "MyProject",
+            "isRequired": true
+          },
+          {
+            "name": "Reason",
+            "type": "RichText",
+            "isRequired": true
+          },
+          {
+            "name": "Dates",
+            "type": "DateTime",
+            "isRequired": true
+          }
+        ],
+        "id": "3a05bbcd-9728-0c18-2bb1-1dfa77590b25"
+      },
+      "id": "3a0bd3ff-d8cb-4831-0c93-323a1ef75da2"
+    }
   ]
 }

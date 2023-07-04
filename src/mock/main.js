@@ -14,7 +14,7 @@ const file = join(__dirname, 'data.json');
 
 // Configure lowdb to write data to JSON file
 const adapter = new JSONFile(file);
-const defaultData = { account: [] };
+const defaultData = { account: [], requests: [], requestTemplates: [] };
 const db = new Low(adapter, defaultData);
 await db.read();
 
@@ -51,6 +51,48 @@ server.get('/api/account/my-profile', (req, res) => {
   });
 
   res.send({ ...user });
+});
+
+server.post('/api/app/workflow-instance/list', (req, res) => {
+  const {
+    Status,
+    WorkflowDefinitionId,
+    maxResultCount = 10,
+    skipCount = 0,
+    sorting = 'createdAt desc',
+  } = req.body;
+  const [sortColumn, sortType] = sorting.split(' ');
+
+  let data = db.data.requests.filter(({ status, workflowDefinitionId }) => {
+    const matchStatus = !Status || status === Status;
+    const matchWorkflow =
+      !WorkflowDefinitionId || WorkflowDefinitionId === workflowDefinitionId;
+
+    return matchStatus && matchWorkflow;
+  });
+
+  const result = data
+    .sort((a, b) => {
+      const aDateInMilis = new Date(a[sortColumn]).getTime();
+      const bDateInMilis = new Date(b[sortColumn]).getTime();
+
+      return sortType === 'desc'
+        ? bDateInMilis - aDateInMilis
+        : aDateInMilis - bDateInMilis;
+    })
+    .slice(skipCount, skipCount + maxResultCount);
+
+  res.send({
+    items: result,
+    totalCount: data.length,
+  });
+});
+
+server.post('/api/app/workflow-definition/list-all', (req, res) => {
+  res.send({
+    items: db.data.requestTemplates,
+    totalCount: db.data.requestTemplates.length,
+  });
 });
 
 server.listen(5000, () => {
