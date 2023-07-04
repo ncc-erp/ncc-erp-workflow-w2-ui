@@ -5,50 +5,75 @@ import {
   DrawerOverlay,
   Icon,
   IconButton,
+  Portal,
   useMediaQuery,
 } from '@chakra-ui/react';
 import { SideBarContent } from 'common/components/SideBar/SideBarContent';
+import { ReactNode, useEffect, useRef } from 'react';
 import { HiMenuAlt2 } from 'react-icons/hi';
 import { IoCloseOutline } from 'react-icons/io5';
 import { useRecoilValue } from 'recoil';
 import { appConfigState, useSetAppConfig } from 'stores/appConfig';
 
+interface PortalWrapperProps {
+  children: ReactNode;
+  shouldRenderInPortal: boolean;
+}
+
 export const SideNav = () => {
+  const sideBarRef = useRef<HTMLDivElement>(null);
   const { openSideBar } = useRecoilValue(appConfigState);
+  const { setSideBarWidth } = useSetAppConfig();
   const { onCloseSideBar, onOpenSideBar } = useSetAppConfig();
-  const [isLargeSceen] = useMediaQuery(['(min-width: 62em)']); // https://chakra-ui.com/docs/styled-system/theme
+  const [isSmallScreen, isLargeSceen] = useMediaQuery([
+    '(max-width: 47em)',
+    '(min-width: 62em)',
+  ]); // https://chakra-ui.com/docs/styled-system/theme
+
+  useEffect(() => {
+    sideBarRef.current && setSideBarWidth(sideBarRef.current.offsetWidth);
+  }, [setSideBarWidth, sideBarRef]);
 
   return (
     <>
       <Box
+        ref={sideBarRef}
         w={isLargeSceen ? '240px' : 'auto'}
         borderRightWidth='1px'
         borderRightColor='gray.200'
         bgColor='gray.50'
         h='100vh'
+        position='sticky'
+        zIndex='docked'
+        top={0}
+        left={0}
       >
         {isLargeSceen ? (
           <SideBarContent />
         ) : (
-          <IconButton
-            size={{ base: 'md', md: 'sm' }}
-            aria-label=''
-            onClick={onOpenSideBar}
-            position={{ base: 'fixed', md: 'initial' }}
-            rounded={{ base: 'md', md: 0 }}
-            variant='ghost'
-            bgColor='whiteAlpha.100'
-            backdropFilter='auto'
-            backdropBlur='4px'
-            border={{ base: '1px', md: 0 }}
-            borderColor='gray.100'
-            top='10px'
-            left='10px'
-            aspectRatio='1/1'
-            zIndex='overlay'
-          >
-            <Icon fontSize='xl' as={HiMenuAlt2} />
-          </IconButton>
+          <PortalWrapper shouldRenderInPortal={isSmallScreen}>
+            <IconButton
+              size={{ base: 'md', md: 'sm' }}
+              aria-label=''
+              onClick={onOpenSideBar}
+              position={{ base: 'fixed', md: 'initial' }}
+              rounded={{ base: 'md', md: 0 }}
+              variant='ghost'
+              bgColor='whiteAlpha.100'
+              backdropFilter='auto'
+              backdropBlur='4px'
+              border={{ base: '1px', md: 0 }}
+              borderColor='gray.100'
+              top='10px'
+              right='10px'
+              aspectRatio='1/1'
+            >
+              <Icon
+                fontSize='xl'
+                as={HiMenuAlt2}
+              />
+            </IconButton>
+          </PortalWrapper>
         )}
       </Box>
       <Drawer
@@ -58,7 +83,10 @@ export const SideNav = () => {
         isOpen={openSideBar}
       >
         <DrawerOverlay />
-        <DrawerContent w='240px' position='relative'>
+        <DrawerContent
+          w='240px'
+          position='relative'
+        >
           <SideBarContent />
           <IconButton
             aria-label=''
@@ -69,10 +97,20 @@ export const SideNav = () => {
             size='xs'
             onClick={onCloseSideBar}
           >
-            <Icon fontSize='xl' as={IoCloseOutline} />
+            <Icon
+              fontSize='xl'
+              as={IoCloseOutline}
+            />
           </IconButton>
         </DrawerContent>
       </Drawer>
     </>
   );
+};
+
+const PortalWrapper = ({
+  shouldRenderInPortal,
+  children,
+}: PortalWrapperProps) => {
+  return shouldRenderInPortal ? <Portal>{children}</Portal> : children;
 };

@@ -18,8 +18,9 @@ import { BiLogOutCircle } from 'react-icons/bi';
 import { HiUser } from 'react-icons/hi2';
 import { VscKebabVertical } from 'react-icons/vsc';
 import { useRecoilValue } from 'recoil';
-import { userState } from 'stores/user';
+import { useClearUserData, userState } from 'stores/user';
 import { useSetAppConfig } from 'stores/appConfig';
+import { useNavigate } from 'react-router-dom';
 
 const NavList = [
   {
@@ -36,13 +37,33 @@ const NavList = [
 
 export const SideBarContent = () => {
   const user = useRecoilValue(userState);
+  const clearUser = useClearUserData();
+  const navigate = useNavigate();
   const { onCloseSideBar } = useSetAppConfig();
   const userName = [user.name, user.surname].join(' ');
 
+  const onNavigate = (to: string, logout?: boolean) => () => {
+    logout && clearUser();
+    navigate(to);
+  };
+
   return (
-    <VStack bgColor='gray.50' h='100vh' alignItems='stretch' spacing={0}>
-      <HStack alignItems='center' py='20px' px='16px' spacing='12px'>
-        <Image h='24px' src='/logo.png' />
+    <VStack
+      bgColor='gray.50'
+      h='100vh'
+      alignItems='stretch'
+      spacing={0}
+    >
+      <HStack
+        alignItems='center'
+        py='20px'
+        px='16px'
+        spacing='12px'
+      >
+        <Image
+          h='24px'
+          src='/logo.png'
+        />
         <Heading fontSize='sm'>NCC Workflow</Heading>
       </HStack>
       <VStack
@@ -58,7 +79,11 @@ export const SideBarContent = () => {
         }}
       >
         {NavList.map((nav) => (
-          <NavLink key={nav.to} {...nav} onClick={onCloseSideBar} />
+          <NavLink
+            key={nav.to}
+            {...nav}
+            onClick={onCloseSideBar}
+          />
         ))}
       </VStack>
       <HStack
@@ -68,20 +93,52 @@ export const SideBarContent = () => {
         py='16px'
         spacing='12px'
       >
-        <Avatar size='sm' name={userName} />
-        <Text fontSize='sm' fontWeight={600} noOfLines={1}>
+        <Avatar
+          size='sm'
+          name={userName}
+        />
+        <Text
+          fontSize='sm'
+          fontWeight={600}
+          noOfLines={1}
+        >
           {user.email}
         </Text>
-        <Menu autoSelect={false} placement='top-end'>
-          <MenuButton ml='auto' as={IconButton} variant='ghost' size='sm'>
-            <Icon as={VscKebabVertical} />
-          </MenuButton>
-          <MenuList minW='200px'>
-            <MenuItem>
-              <NavLink text='My profile' to='/my-profile' icon={HiUser} />
+        <Menu
+          autoSelect={false}
+          placement='top-end'
+        >
+          <MenuButton
+            ml='auto'
+            as={IconButton}
+            variant='ghost'
+            size='sm'
+            icon={<Icon as={VscKebabVertical} />}
+          />
+          <MenuList minW='140px'>
+            <MenuItem
+              display='flex'
+              gap='12px'
+              onClick={onNavigate('/my-profile')}
+            >
+              <Icon
+                as={HiUser}
+                fontSize='xl'
+                color='gray.500'
+              />
+              <Text fontSize='sm'>My profile</Text>
             </MenuItem>
-            <MenuItem>
-              <NavLink text='Log out' to='/login' icon={BiLogOutCircle} />
+            <MenuItem
+              display='flex'
+              gap='12px'
+              onClick={onNavigate('/login', true)}
+            >
+              <Icon
+                as={BiLogOutCircle}
+                fontSize='xl'
+                color='gray.500'
+              />
+              <Text fontSize='sm'>Log out</Text>
             </MenuItem>
           </MenuList>
         </Menu>

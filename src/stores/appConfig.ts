@@ -4,6 +4,7 @@ import { AppConfig } from 'models/appConfig';
 
 const initialState: AppConfig = {
   openSideBar: false,
+  sideBarWidth: 0,
 };
 
 export const appConfigState = atom({
@@ -24,8 +25,15 @@ export const useSetAppConfig = () => {
     [setAppConfig]
   );
 
+  const setSideBarWidth = useCallback(
+    (width: number) =>
+      setAppConfig((appConfig) => ({ ...appConfig, sideBarWidth: width })),
+    [setAppConfig]
+  );
+
   return {
     onCloseSideBar,
     onOpenSideBar,
+    setSideBarWidth,
   };
 };

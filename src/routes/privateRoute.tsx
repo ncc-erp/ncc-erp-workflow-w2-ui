@@ -1,3 +1,4 @@
+import { Center, Spinner } from '@chakra-ui/react';
 import { useCurrentUser } from 'api/apiHooks/userHooks';
 import { useEffect } from 'react';
 import { Navigate, RouteProps } from 'react-router';
@@ -30,7 +31,17 @@ const PrivateRoute = ({ children }: RouteProps) => {
     };
   }, [clearUser, isUnauthorized, remove]);
 
-  if (isFetching) return <div>Loading...</div>;
+  if (isFetching)
+    return (
+      <Center h='100vh'>
+        <Spinner
+          mx='auto'
+          speed='0.65s'
+          thickness='3px'
+          size='xl'
+        />
+      </Center>
+    );
 
   return isUnauthorized ? <Navigate to='/login' /> : children;
 };
