@@ -8,20 +8,21 @@ import {
   Icon,
 } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
-import { CodeResponse, useGoogleLogin } from '@react-oauth/google';
+import { TokenResponse, useGoogleLogin } from '@react-oauth/google';
 import LoginBackground from 'assets/images/login_background.jpg';
 import Logo from 'assets/images/w2_logo.png';
 import { PasswordField } from 'common/components/PasswordField';
-import { LoginParams } from 'models/user';
+import { LoginExternalParams, LoginParams } from 'models/user';
 import { FcGoogle } from 'react-icons/fc';
 import { TextField } from 'common/components/TextField';
-import { useLogin } from 'api/apiHooks/userHooks';
+import { useLogin, useLoginExternal } from 'api/apiHooks/userHooks';
 import { LoginStatus } from 'common/enums';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'common/components/StandaloneToast';
+import { getInfoUserByGoogle } from 'api/ExternalProvider';
 
 type GoogleResponse = Omit<
-  CodeResponse,
+  TokenResponse,
   'error' | 'error_description' | 'error_uri'
 >;
 
@@ -33,7 +34,8 @@ const initialLoginParams: LoginParams = {
 
 const Login = () => {
   const navigate = useNavigate();
-  const { mutateAsync: loginMutate, isLoading } = useLogin();
+  const { mutateAsync: loginMutate, isLoading: isLoginLoading } = useLogin();
+  const { mutateAsync: loginGoogleMutate, isLoading: isLoginLoadingGoogle } = useLoginExternal();
 
   const {
     handleSubmit,
@@ -64,16 +66,37 @@ const Login = () => {
     });
   };
 
-  const onGoogleLogin = (codeResponse: GoogleResponse) => {
-    console.log(codeResponse);
-    // TODO
+  const onLoginGoogle = async ({
+    emailAddress,
+    name
+  }: LoginExternalParams) => {
+    const { result } = await loginGoogleMutate({
+      emailAddress: emailAddress.trim(),
+      name: name
+    });
+
+    if (result === LoginStatus.success) {
+      navigate('/');
+      return;
+    }
+
+    toast({
+      title: 'Login Failed!',
+      description: 'Cannot login with google!',
+      status: 'error',
+    });
   };
 
-  const login = useGoogleLogin({
-    flow: 'auth-code',
-    ux_mode: 'popup',
-    redirect_uri: import.meta.env.VITE_GOOGLE_LOGIN_REDIRECT,
-    onSuccess: onGoogleLogin,
+  const loginGoogle = useGoogleLogin({
+    onSuccess: async (tokenResponse: GoogleResponse) => {
+      try {
+        const res = await getInfoUserByGoogle(tokenResponse.access_token);
+        const { email, name } = res.data;
+        onLoginGoogle({ emailAddress: email, name: name });
+      } catch (error) {
+        console.error(error);
+      }
+    },
   });
 
   return (
@@ -144,7 +167,7 @@ const Login = () => {
                 mt='14px'
                 h='50px'
                 type='submit'
-                isLoading={isLoading}
+                isLoading={isLoginLoading}
                 colorScheme='blackButton'
                 w='full'
                 textColor='white'
@@ -154,7 +177,8 @@ const Login = () => {
             </VStack>
           </form>
           <Button
-            onClick={login}
+            isLoading={isLoginLoadingGoogle}
+            onClick={() => loginGoogle()}
             w='full'
             h='50px'
           >
