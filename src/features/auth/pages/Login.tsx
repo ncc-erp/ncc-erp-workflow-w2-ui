@@ -8,23 +8,24 @@ import {
   Icon,
 } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
-import { TokenResponse, useGoogleLogin } from '@react-oauth/google';
+// import { TokenResponse, useGoogleLogin } from '@react-oauth/google';
 import LoginBackground from 'assets/images/login_background.jpg';
 import Logo from 'assets/images/w2_logo.png';
 import { PasswordField } from 'common/components/PasswordField';
-import { LoginExternalParams, LoginParams } from 'models/user';
+import { LoginParams } from 'models/user';
 import { FcGoogle } from 'react-icons/fc';
 import { TextField } from 'common/components/TextField';
-import { useLogin, useLoginExternal } from 'api/apiHooks/userHooks';
+import { useLogin } from 'api/apiHooks/userHooks';
 import { LoginStatus } from 'common/enums';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'common/components/StandaloneToast';
-import { getInfoUserByGoogle } from 'api/ExternalProvider';
+import { userManager } from 'services/authService';
+// import { getInfoUserByGoogle } from 'api/ExternalProvider';
 
-type GoogleResponse = Omit<
-  TokenResponse,
-  'error' | 'error_description' | 'error_uri'
->;
+// type GoogleResponse = Omit<
+//   TokenResponse,
+//   'error' | 'error_description' | 'error_uri'
+// >;
 
 const initialLoginParams: LoginParams = {
   userNameOrEmailAddress: '',
@@ -35,7 +36,6 @@ const initialLoginParams: LoginParams = {
 const Login = () => {
   const navigate = useNavigate();
   const { mutateAsync: loginMutate, isLoading: isLoginLoading } = useLogin();
-  const { mutateAsync: loginGoogleMutate, isLoading: isLoginLoadingGoogle } = useLoginExternal();
 
   const {
     handleSubmit,
@@ -66,38 +66,42 @@ const Login = () => {
     });
   };
 
-  const onLoginGoogle = async ({
-    emailAddress,
-    name
-  }: LoginExternalParams) => {
-    const { result } = await loginGoogleMutate({
-      emailAddress: emailAddress.trim(),
-      name: name
-    });
+  // const onLoginGoogle = async ({
+  //   emailAddress,
+  //   name
+  // }: LoginExternalParams) => {
+  //   const { result } = await loginGoogleMutate({
+  //     emailAddress: emailAddress.trim(),
+  //     name: name
+  //   });
 
-    if (result === LoginStatus.success) {
-      navigate('/');
-      return;
-    }
+  //   if (result === LoginStatus.success) {
+  //     navigate('/');
+  //     return;
+  //   }
 
-    toast({
-      title: 'Login Failed!',
-      description: 'Cannot login with google!',
-      status: 'error',
-    });
+  //   toast({
+  //     title: 'Login Failed!',
+  //     description: 'Cannot login with google!',
+  //     status: 'error',
+  //   });
+  // };
+
+  // const loginGoogle = useGoogleLogin({
+  //   onSuccess: async (tokenResponse: GoogleResponse) => {
+  //     try {
+  //       const res = await getInfoUserByGoogle(tokenResponse.access_token);
+  //       const { email, name } = res.data;
+  //       onLoginGoogle({ emailAddress: email, name: name });
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   },
+  // });
+
+  const handleLogin = () => {
+    userManager.signinRedirect();
   };
-
-  const loginGoogle = useGoogleLogin({
-    onSuccess: async (tokenResponse: GoogleResponse) => {
-      try {
-        const res = await getInfoUserByGoogle(tokenResponse.access_token);
-        const { email, name } = res.data;
-        onLoginGoogle({ emailAddress: email, name: name });
-      } catch (error) {
-        console.error(error);
-      }
-    },
-  });
 
   return (
     <Grid
@@ -177,8 +181,9 @@ const Login = () => {
             </VStack>
           </form>
           <Button
-            isLoading={isLoginLoadingGoogle}
-            onClick={() => loginGoogle()}
+            // isLoading={isLoginLoadingGoogle}
+            // onClick={() => loginGoogle()}
+            onClick={handleLogin}
             w='full'
             h='50px'
           >

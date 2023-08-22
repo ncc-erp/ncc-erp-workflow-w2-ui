@@ -20,8 +20,8 @@ export interface LoginParams {
 }
 
 export interface LoginExternalParams {
-  emailAddress: string;
-  name: string;
+  provider: string;
+  idToken: string;
 }
 
 export interface LoginResult {

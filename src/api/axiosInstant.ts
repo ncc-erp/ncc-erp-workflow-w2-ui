@@ -7,6 +7,8 @@ import Axios, {
 } from 'axios';
 import { useContext } from 'react';
 import { toast } from 'common/components/StandaloneToast';
+import { getItem } from 'utils/localStorage';
+import { LocalStorageKeys } from 'common/enums';
 
 const axios = Axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL + '',
@@ -18,6 +20,13 @@ const axios = Axios.create({
 });
 
 axios.interceptors.request.use((config) => {
+  const accessToken: string | null = getItem(LocalStorageKeys.Access_token);
+  if (accessToken != null) {
+    const accessHeader = `Bearer ${accessToken}`;
+    if (config.headers != null) {
+      config.headers.Authorization = accessHeader;
+    }
+  }
   return config;
 });
 
