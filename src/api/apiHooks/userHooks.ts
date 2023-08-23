@@ -8,9 +8,9 @@ export const useLogin = () => {
 };
 
 export const useLoginExternal = () => {
-  return useCreate<LoginExternalParams, LoginResult>('/external-resource/external-login');
+  return useCreate<LoginExternalParams, LoginResult>(`/app/external-resource/external-login`);
 };
 
 export const useCurrentUser = () => {
-  return useGetOne<User>(currentUserKey, '/account/my-profile');
+  return useGetOne<User>(currentUserKey, `/account/my-profile`);
 };

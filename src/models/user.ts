@@ -21,10 +21,11 @@ export interface LoginParams {
 
 export interface LoginExternalParams {
   provider: string;
-  idToken: string;
+  idToken?: string;
 }
 
 export interface LoginResult {
   result: LoginStatus;
   description: string;
+  token?: string
 }

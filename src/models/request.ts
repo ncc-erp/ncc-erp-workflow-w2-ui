@@ -54,7 +54,3 @@ export interface PropertyDefinition {
   type: string;
   isRequired: boolean;
 }
-
-export interface ApiVersion {
-  apiVersion: string
-}

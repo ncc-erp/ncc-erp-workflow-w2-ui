@@ -20,7 +20,7 @@ const axios = Axios.create({
 });
 
 axios.interceptors.request.use((config) => {
-  const accessToken: string | null = getItem(LocalStorageKeys.Access_token);
+  const accessToken: string | null = getItem(LocalStorageKeys.accessToken);
   if (accessToken != null) {
     const accessHeader = `Bearer ${accessToken}`;
     if (config.headers != null) {

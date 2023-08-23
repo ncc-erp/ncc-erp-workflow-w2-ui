@@ -1,18 +1,10 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { userManager } from 'services/authService';
 
-function LoginCallback() {
+const LoginCallback = () => {
   useEffect(() => {
-    userManager.signinRedirectCallback().then(() => {
-      window.location.href = '/';
-    });
+    userManager.signinPopupCallback();
   }, []);
-
-  return (
-    <div>
-      <p>Đang xử lý...</p>
-    </div>
-  );
 }
 
 export default LoginCallback;

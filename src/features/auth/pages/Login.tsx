@@ -8,24 +8,18 @@ import {
   Icon,
 } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
-// import { TokenResponse, useGoogleLogin } from '@react-oauth/google';
 import LoginBackground from 'assets/images/login_background.jpg';
 import Logo from 'assets/images/w2_logo.png';
 import { PasswordField } from 'common/components/PasswordField';
-import { LoginParams } from 'models/user';
+import { LoginExternalParams, LoginParams } from 'models/user';
 import { FcGoogle } from 'react-icons/fc';
 import { TextField } from 'common/components/TextField';
-import { useLogin } from 'api/apiHooks/userHooks';
-import { LoginStatus } from 'common/enums';
+import { useLogin, useLoginExternal } from 'api/apiHooks/userHooks';
+import { LocalStorageKeys, LoginStatus } from 'common/enums';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'common/components/StandaloneToast';
 import { userManager } from 'services/authService';
-// import { getInfoUserByGoogle } from 'api/ExternalProvider';
-
-// type GoogleResponse = Omit<
-//   TokenResponse,
-//   'error' | 'error_description' | 'error_uri'
-// >;
+import { setItem } from 'utils/localStorage';
 
 const initialLoginParams: LoginParams = {
   userNameOrEmailAddress: '',
@@ -36,6 +30,7 @@ const initialLoginParams: LoginParams = {
 const Login = () => {
   const navigate = useNavigate();
   const { mutateAsync: loginMutate, isLoading: isLoginLoading } = useLogin();
+  const { mutateAsync: loginExternalMutate, isLoading: isLoginExternalLoading } = useLoginExternal();
 
   const {
     handleSubmit,
@@ -66,41 +61,23 @@ const Login = () => {
     });
   };
 
-  // const onLoginGoogle = async ({
-  //   emailAddress,
-  //   name
-  // }: LoginExternalParams) => {
-  //   const { result } = await loginGoogleMutate({
-  //     emailAddress: emailAddress.trim(),
-  //     name: name
-  //   });
+  const onLoginExternal = async ({
+    provider,
+    idToken,
+  }: LoginExternalParams) => {
+    const { token } = await loginExternalMutate({
+      provider,
+      idToken
+    });
+    if (token) {
+      setItem(LocalStorageKeys.accessToken, token)
+    }
+  };
 
-  //   if (result === LoginStatus.success) {
-  //     navigate('/');
-  //     return;
-  //   }
-
-  //   toast({
-  //     title: 'Login Failed!',
-  //     description: 'Cannot login with google!',
-  //     status: 'error',
-  //   });
-  // };
-
-  // const loginGoogle = useGoogleLogin({
-  //   onSuccess: async (tokenResponse: GoogleResponse) => {
-  //     try {
-  //       const res = await getInfoUserByGoogle(tokenResponse.access_token);
-  //       const { email, name } = res.data;
-  //       onLoginGoogle({ emailAddress: email, name: name });
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   },
-  // });
-
-  const handleLogin = () => {
-    userManager.signinRedirect();
+  const handleLogin = async () => {
+    const currentUser = await userManager.signinPopup();
+    await onLoginExternal({ provider: "Google", idToken: currentUser.id_token })
+    window.location.href = '/';
   };
 
   return (
@@ -181,8 +158,7 @@ const Login = () => {
             </VStack>
           </form>
           <Button
-            // isLoading={isLoginLoadingGoogle}
-            // onClick={() => loginGoogle()}
+            isLoading={isLoginExternalLoading}
             onClick={handleLogin}
             w='full'
             h='50px'
