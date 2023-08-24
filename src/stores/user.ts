@@ -2,6 +2,8 @@ import { atom, useResetRecoilState } from 'recoil';
 import { User } from 'models/user';
 import { useCallback } from 'react';
 import cookie from 'js-cookie';
+import { removeItem } from 'utils/localStorage';
+import { LocalStorageKeys } from 'common/enums';
 
 const initialState: User = {
   logged: false,
@@ -25,6 +27,7 @@ export const useClearUserData = () => {
   const resetUser = useResetRecoilState(userState);
 
   const clearData = useCallback(() => {
+    removeItem(LocalStorageKeys.accessToken);
     resetUser();
     cookie.remove('username');
   }, [resetUser]);

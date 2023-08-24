@@ -27,3 +27,19 @@ export const useGetOne = <T>(
 
   return useQuery(key, () => getData());
 };
+
+export const useGetListByPost = <T, D = object>(
+  key: QueryKey,
+  url: string,
+  filter?: D,
+  config?: AxiosRequestConfig
+) => {
+  const axios = useAxios();
+
+  const getData = async () => {
+    const data: T = await axios.post(`${url}`, filter, config);
+    return data;
+  };
+
+  return useQuery(key, () => getData());
+};
