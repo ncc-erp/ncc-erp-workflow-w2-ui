@@ -8,11 +8,10 @@ const defaultConfig = {
 
 export default defineConfig(({ mode }) => {
   process.env = {...process.env, ...loadEnv(mode, process.cwd())};
-  console.log(process.env.USE_VITE_PROXY);
     return {
       ...defaultConfig,
       server: {
-        proxy: !process.env.USE_VITE_PROXY 
+        proxy: process.env.USE_VITE_PROXY !== 'false'
           ? {
             '/api': {
               target: process.env.VITE_SERVER_URL,
