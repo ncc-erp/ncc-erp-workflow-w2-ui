@@ -10,10 +10,10 @@ import { toast } from 'common/components/StandaloneToast';
 import { getItem } from 'utils/localStorage';
 import { LocalStorageKeys } from 'common/enums';
 
-const { VITE_API_BASE_URL, VITE_API_BASE_URL_PROXY, USE_VITE_PROXY } = import.meta.env;
+const { VITE_API_BASE_URL } = import.meta.env;
 
 const axios = Axios.create({
-  baseURL: USE_VITE_PROXY !== 'false' ? VITE_API_BASE_URL_PROXY + '' : VITE_API_BASE_URL + '' ,
+  baseURL: VITE_API_BASE_URL,
   timeout: 10000,
   withCredentials: true,
   headers: {

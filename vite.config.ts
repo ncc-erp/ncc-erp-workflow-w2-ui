@@ -11,10 +11,10 @@ export default defineConfig(({ mode }) => {
     return {
       ...defaultConfig,
       server: {
-        proxy: process.env.USE_VITE_PROXY !== 'false'
+        proxy: process.env.VITE_PROXY_SERVER_URL
           ? {
             '/api': {
-              target: process.env.VITE_SERVER_URL,
+              target: process.env.VITE_PROXY_SERVER_URL,
               changeOrigin: true,
             }
           }

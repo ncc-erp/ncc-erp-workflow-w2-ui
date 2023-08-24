@@ -1,7 +1,6 @@
 import { UserManager } from 'oidc-client';
 
 const { VITE_OAUTH_CLIENT_ID, VITE_GOOGLE_LOGIN_REDIRECT, VITE_AUTHORITY_URL } = import.meta.env;
-
 const oidcConfig = {
   authority: VITE_AUTHORITY_URL,
   client_id: VITE_OAUTH_CLIENT_ID, 
