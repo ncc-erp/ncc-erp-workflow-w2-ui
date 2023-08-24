@@ -2,11 +2,11 @@ import { useEffect } from 'react';
 import { userManager } from 'services/authService';
 
 const LoginCallback = () => {
-	useEffect(() => {
-		userManager.signinPopupCallback();
-	}, []);
+  useEffect(() => {
+    userManager.signinPopupCallback();
+  }, []);
 
-	return <></>;
+  return <></>;
 };
 
 export default LoginCallback;

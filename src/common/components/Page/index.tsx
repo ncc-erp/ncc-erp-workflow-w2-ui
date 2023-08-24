@@ -7,11 +7,11 @@ import { PageHeaderRight } from 'common/components/Page/PageHeaderRight';
 import { PageBody } from 'common/components/Page/PageBody';
 
 interface PageProps extends BoxProps {
-	children: ReactNode;
+  children: ReactNode;
 }
 
 const Page = ({ children, ...props }: PageProps) => {
-	return <Box {...props}>{children}</Box>;
+  return <Box {...props}>{children}</Box>;
 };
 
 Page.Header = PageHeader;

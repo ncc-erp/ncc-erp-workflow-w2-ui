@@ -1,4 +1,4 @@
 export interface AppConfig {
-	openSideBar: boolean;
-	sideBarWidth: number;
+  openSideBar: boolean;
+  sideBarWidth: number;
 }

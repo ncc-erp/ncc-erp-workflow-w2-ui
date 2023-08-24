@@ -9,58 +9,58 @@ import LoginCallback from 'features/auth/pages/LoginCallback';
 
 const NotFound = lazy(() => import('common/components/NotFound'));
 const routeList: RouteObject[] = [
-	{
-		path: '/',
-		element: (
-			<WrapperRouteComponent auth={true}>
-				<Layout />
-			</WrapperRouteComponent>
-		),
-		children: [
-			{
-				index: true,
-				element: <Navigate to="request-templates" />,
-			},
-			{
-				path: 'request-templates',
-				element: (
-					<WrapperRouteComponent>
-						<RequestTemplates />
-					</WrapperRouteComponent>
-				),
-			},
-			{
-				path: 'my-requests',
-				element: (
-					<WrapperRouteComponent>
-						<MyRequests />
-					</WrapperRouteComponent>
-				),
-			},
-			{
-				path: '*',
-				element: (
-					<Suspense>
-						<WrapperRouteComponent>
-							<NotFound />
-						</WrapperRouteComponent>
-					</Suspense>
-				),
-			},
-		],
-	},
-	{
-		path: 'callback',
-		element: <LoginCallback />,
-	},
-	{
-		path: 'login',
-		element: <Login />,
-	},
-	{
-		path: 'signin-google',
-		element: <Login />,
-	},
+  {
+    path: '/',
+    element: (
+      <WrapperRouteComponent auth={true}>
+        <Layout />
+      </WrapperRouteComponent>
+    ),
+    children: [
+      {
+        index: true,
+        element: <Navigate to="request-templates" />,
+      },
+      {
+        path: 'request-templates',
+        element: (
+          <WrapperRouteComponent>
+            <RequestTemplates />
+          </WrapperRouteComponent>
+        ),
+      },
+      {
+        path: 'my-requests',
+        element: (
+          <WrapperRouteComponent>
+            <MyRequests />
+          </WrapperRouteComponent>
+        ),
+      },
+      {
+        path: '*',
+        element: (
+          <Suspense>
+            <WrapperRouteComponent>
+              <NotFound />
+            </WrapperRouteComponent>
+          </Suspense>
+        ),
+      },
+    ],
+  },
+  {
+    path: 'callback',
+    element: <LoginCallback />,
+  },
+  {
+    path: 'login',
+    element: <Login />,
+  },
+  {
+    path: 'signin-google',
+    element: <Login />,
+  },
 ];
 
 const Router = createBrowserRouter(routeList);

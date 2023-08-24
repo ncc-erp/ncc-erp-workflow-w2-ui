@@ -2,9 +2,9 @@ import { StackItem } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 
 interface PageHeaderLeftProps {
-	children: ReactNode;
+  children: ReactNode;
 }
 
 export const PageHeaderLeft = ({ children }: PageHeaderLeftProps) => {
-	return <StackItem justifySelf="flex-start">{children}</StackItem>;
+  return <StackItem justifySelf="flex-start">{children}</StackItem>;
 };

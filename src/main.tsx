@@ -11,18 +11,18 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import { ToastContainer } from 'common/components/StandaloneToast';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-	<React.StrictMode>
-		<GoogleOAuthProvider clientId={import.meta.env.VITE_OAUTH_CLIENT_ID}>
-			<AxiosProvider>
-				<QueryProvider>
-					<RecoilRoot>
-						<ChakraProvider theme={theme}>
-							<RouterProvider router={router} />
-						</ChakraProvider>
-						<ToastContainer />
-					</RecoilRoot>
-				</QueryProvider>
-			</AxiosProvider>
-		</GoogleOAuthProvider>
-	</React.StrictMode>
+  <React.StrictMode>
+    <GoogleOAuthProvider clientId={import.meta.env.VITE_OAUTH_CLIENT_ID}>
+      <AxiosProvider>
+        <QueryProvider>
+          <RecoilRoot>
+            <ChakraProvider theme={theme}>
+              <RouterProvider router={router} />
+            </ChakraProvider>
+            <ToastContainer />
+          </RecoilRoot>
+        </QueryProvider>
+      </AxiosProvider>
+    </GoogleOAuthProvider>
+  </React.StrictMode>
 );

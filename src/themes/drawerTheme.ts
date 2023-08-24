@@ -1,7 +1,7 @@
 export const drawerTheme = {
-	sizes: {
-		sideNav: {
-			dialog: { maxWidth: '240px' },
-		},
-	},
+  sizes: {
+    sideNav: {
+      dialog: { maxWidth: '240px' },
+    },
+  },
 };
