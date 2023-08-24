@@ -8,7 +8,7 @@
     "dev": "vite --host 0.0.0.0 --port 4200",
     "build": "tsc && vite build",
     "lint": "eslint . --fix --max-warnings=0",
-    "format": "prettier . --write",
+    "format": "prettier --cache --write",
     "preview": "vite preview",
     "mock-api": "nodemon src/mock/main.js",
     "prepare": "husky install"
