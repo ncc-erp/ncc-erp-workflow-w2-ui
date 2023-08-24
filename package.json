@@ -9,9 +9,11 @@
     "build": "tsc && vite build",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "mock-api": "nodemon src/mock/main.js"
+    "mock-api": "nodemon src/mock/main.js",
+    "preinstall": "npx only-allow pnpm"
   },
   "dependencies": {
+    "@chakra-ui/anatomy": "^2.2.0",
     "@chakra-ui/react": "^2.7.1",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
@@ -26,12 +28,14 @@
     "js-cookie": "^3.0.5",
     "oidc-client": "^1.11.5",
     "oidc-client-ts": "^2.2.5",
+    "pnpm": "^8.6.12",
     "qs": "^6.11.2",
     "rc-pagination": "^3.5.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.45.0",
     "react-icons": "^4.10.1",
+    "react-router": "^6.15.0",
     "react-router-dom": "^6.13.0",
     "recoil": "^0.7.7"
   },
