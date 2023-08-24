@@ -1,4 +1,4 @@
-name: Run Lint and Prettier
+name: Run Prettier
 
 on:
   pull_request:
@@ -23,5 +23,5 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Run lint and prettier
+      - name: Run prettier
         run: npm run format
