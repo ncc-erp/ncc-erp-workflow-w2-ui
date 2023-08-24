@@ -1,16 +1,16 @@
 {
-  "account": [
-    {
-      "userName": "admin",
-      "password": "1q2w3E*",
-      "email": "admin@abp.io",
-      "name": "admin",
-      "surname": null,
-      "phoneNumber": null,
-      "isExternal": false,
-      "hasPassword": true,
-      "concurrencyStamp": "89876537f95448609f5b7f5be6fdc444",
-      "extraProperties": {}
-    }
-  ]
+	"account": [
+		{
+			"userName": "admin",
+			"password": "1q2w3E*",
+			"email": "admin@abp.io",
+			"name": "admin",
+			"surname": null,
+			"phoneNumber": null,
+			"isExternal": false,
+			"hasPassword": true,
+			"concurrencyStamp": "89876537f95448609f5b7f5be6fdc444",
+			"extraProperties": {}
+		}
+	]
 }

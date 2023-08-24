@@ -4,9 +4,9 @@ import { useCreate, useGetOne } from 'api/apiHooks';
 export const currentUserKey = ['currentUser'];
 
 export const useLogin = () => {
-  return useCreate<LoginParams, LoginResult>('/account/login');
+	return useCreate<LoginParams, LoginResult>('/account/login');
 };
 
 export const useCurrentUser = () => {
-  return useGetOne<User>(currentUserKey, '/account/my-profile');
+	return useGetOne<User>(currentUserKey, '/account/my-profile');
 };

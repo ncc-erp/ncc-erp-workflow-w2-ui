@@ -25,34 +25,34 @@ server.use(cookieParser());
 
 // Add custom routes before JSON Server router
 server.post('/api/account/login', (req, res) => {
-  const { userNameOrEmailAddress, password } = req.body;
-  const user = db.data.account.find(({ userName }) => {
-    return userName === userNameOrEmailAddress;
-  });
+	const { userNameOrEmailAddress, password } = req.body;
+	const user = db.data.account.find(({ userName }) => {
+		return userName === userNameOrEmailAddress;
+	});
 
-  if (user && user.password === password) {
-    res.cookie('username', userNameOrEmailAddress);
-    res.send({
-      result: 1,
-      description: 'success',
-    });
-  }
+	if (user && user.password === password) {
+		res.cookie('username', userNameOrEmailAddress);
+		res.send({
+			result: 1,
+			description: 'success',
+		});
+	}
 
-  res.send({
-    result: 2,
-    description: 'InvalidUserNameOrPassword',
-  });
+	res.send({
+		result: 2,
+		description: 'InvalidUserNameOrPassword',
+	});
 });
 
 server.get('/api/account/my-profile', (req, res) => {
-  const currentUsername = req.cookies?.username;
-  const user = db.data.account.find(({ userName }) => {
-    return userName === currentUsername;
-  });
+	const currentUsername = req.cookies?.username;
+	const user = db.data.account.find(({ userName }) => {
+		return userName === currentUsername;
+	});
 
-  res.send({ ...user });
+	res.send({ ...user });
 });
 
 server.listen(5000, () => {
-  console.log('JSON Server is running');
+	console.log('JSON Server is running');
 });
