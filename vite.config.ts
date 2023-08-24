@@ -11,7 +11,7 @@ export default defineConfig({
     },
     proxy: {
       '/api': {
-        target: 'http://10.10.32.10:4433',
+        target: process.env.VITE_SERVER_URL,
         changeOrigin: true,
       },
     }
