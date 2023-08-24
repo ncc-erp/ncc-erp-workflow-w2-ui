@@ -7,9 +7,13 @@ import Axios, {
 } from 'axios';
 import { useContext } from 'react';
 import { toast } from 'common/components/StandaloneToast';
+import { getItem } from 'utils/localStorage';
+import { LocalStorageKeys } from 'common/enums';
+
+const { VITE_API_BASE_URL } = import.meta.env;
 
 const axios = Axios.create({
-	baseURL: import.meta.env.VITE_API_BASE_URL + '',
+	baseURL: VITE_API_BASE_URL,
 	timeout: 10000,
 	withCredentials: true,
 	headers: {
@@ -18,6 +22,13 @@ const axios = Axios.create({
 });
 
 axios.interceptors.request.use((config) => {
+	const accessToken: string | null = getItem(LocalStorageKeys.accessToken);
+	if (accessToken != null) {
+		const accessHeader = `Bearer ${accessToken}`;
+		if (config.headers != null) {
+			config.headers.Authorization = accessHeader;
+		}
+	}
 	return config;
 });
 

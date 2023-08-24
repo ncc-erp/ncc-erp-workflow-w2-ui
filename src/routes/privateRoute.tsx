@@ -1,8 +1,11 @@
+import { Center, Spinner } from '@chakra-ui/react';
 import { useCurrentUser } from 'api/apiHooks/userHooks';
+import { LocalStorageKeys } from 'common/enums';
 import { useEffect } from 'react';
 import { Navigate, RouteProps } from 'react-router';
 import { useRecoilState } from 'recoil';
 import { useClearUserData, userState } from 'stores/user';
+import { getItem } from 'utils/localStorage';
 
 const PrivateRoute = ({ children }: RouteProps) => {
 	const clearUser = useClearUserData();
@@ -14,7 +17,10 @@ const PrivateRoute = ({ children }: RouteProps) => {
 		isFetching,
 		remove,
 	} = useCurrentUser();
-	const isUnauthorized = isFetched && (!userInfo?.userName || isError);
+
+	const accessToken: string | null = getItem(LocalStorageKeys.accessToken);
+	const isUnauthorized =
+		isFetched && (!userInfo?.userName || isError) && accessToken === null;
 
 	useEffect(() => {
 		if (isFetched && !user.logged) {
@@ -30,7 +36,12 @@ const PrivateRoute = ({ children }: RouteProps) => {
 		};
 	}, [clearUser, isUnauthorized, remove]);
 
-	if (isFetching) return <div>Loading...</div>;
+	if (isFetching)
+		return (
+			<Center h="100vh">
+				<Spinner mx="auto" speed="0.65s" thickness="3px" size="xl" />
+			</Center>
+		);
 
 	return isUnauthorized ? <Navigate to="/login" /> : children;
 };

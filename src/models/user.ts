@@ -19,7 +19,13 @@ export interface LoginParams {
 	rememberMe: boolean;
 }
 
+export interface LoginExternalParams {
+	provider: string;
+	idToken?: string;
+}
+
 export interface LoginResult {
 	result: LoginStatus;
 	description: string;
+	token?: string;
 }
