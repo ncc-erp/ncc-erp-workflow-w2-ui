@@ -43,7 +43,7 @@ const PrivateRoute = ({ children }: RouteProps) => {
       </Center>
     );
 
-  return isUnauthorized ? <Navigate to="/login" /> : children;
+  return isUnauthorized ? <Navigate to="/login" /> : <>{children}</>;
 };
 
 export default PrivateRoute;
