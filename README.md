@@ -39,11 +39,11 @@ pnpm install
 - Create `.env.development` and add these config:
 
 ```bash
-VITE_OAUTH_CLIENT_ID='797442917082-hihd7e20h4bef4oh0fbr7b8lml27ki7n.apps.googleusercontent.com'
-VITE_GOOGLE_LOGIN_REDIRECT='http://localhost:4200'
-VITE_AUTHORITY_URL='https://accounts.google.com'
-VITE_API_BASE_URL='/api'
-VITE_PROXY_SERVER_URL='http://10.10.32.10:4433'
+VITE_OAUTH_CLIENT_ID=
+VITE_GOOGLE_LOGIN_REDIRECT=
+VITE_AUTHORITY_URL=
+VITE_API_BASE_URL=
+VITE_PROXY_SERVER_URL=
 ```
 - Run Project:
 ```bash
