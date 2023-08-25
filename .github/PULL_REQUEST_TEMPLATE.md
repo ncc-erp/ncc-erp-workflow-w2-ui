@@ -21,9 +21,9 @@
 
 ## Checklist (check all applicable)
 
-- [ ] Refactor
-- [ ] Feature
-- [ ] Bug Fix
+- [ ] Self Review
+- [ ] Self Test
+- [ ] Upload Evidence
 - [ ] Optimization
 - [ ] Documentation Update
 
