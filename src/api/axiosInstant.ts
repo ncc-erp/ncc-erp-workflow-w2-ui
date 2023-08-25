@@ -44,40 +44,14 @@ axios.interceptors.response.use(
   },
   (error: AxiosError | Error) => {
     if (isAxiosError(error)) {
-      const { status } = (error.response as AxiosResponse) ?? {};
-      const { code } = error;
-
-      if (code === 'ERR_NETWORK') {
-        toast({
-          title: 'Network Error!',
-          status: 'error',
-        });
-      }
-
-      switch (status) {
-        case 401: {
-          window.location.href = '/login';
-          break;
-        }
-        case 403: {
-          // "Permission denied"
-          break;
-        }
-        case 404: {
-          // "Invalid request"
-          break;
-        }
-        case 500: {
-          // "Server error"
-          break;
-        }
-        default: {
-          // "Unknown error occurred"
-          break;
-        }
-      }
+      const { data } = (error.response as AxiosResponse) ?? {};
+      const { message } = error;
+      const errorMessage = data?.error?.message || message;
+      toast({
+        title: errorMessage,
+        status: 'error',
+      });
     }
-
     return Promise.reject(error);
   }
 );
