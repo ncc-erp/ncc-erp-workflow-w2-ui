@@ -13,6 +13,11 @@ export interface Request {
   creatorId?: string;
 }
 
+export interface RequestTemplate {
+  id: string;
+  displayName: string;
+}
+
 export interface FilterRequestParams {
   Status?: string;
   WorkflowDefinitionId?: string;

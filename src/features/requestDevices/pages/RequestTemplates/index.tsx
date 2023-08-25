@@ -1,26 +1,26 @@
-import { Button } from '@chakra-ui/react';
 import { useRequestTemplates } from 'api/apiHooks/requestHooks';
-import { useCurrentUser } from 'api/apiHooks/userHooks';
-import { useNavigate } from 'react-router-dom';
-import { useClearUserData } from 'stores/user';
+import Page from 'common/components/Page';
+import { RequestTemplateTable } from './RequestTemplateTable';
 
 const RequestTemplates = () => {
-  const clearUser = useClearUserData();
-  const navigate = useNavigate();
-  const { remove } = useCurrentUser();
-  const { data: requestTemplateData } = useRequestTemplates();
+  const { data, isLoading } = useRequestTemplates();
 
-  const onLogout = () => {
-    clearUser();
-    navigate('/login');
-    remove();
-  };
-
+  console.log('Request data::: ', data);
   return (
-    <div>
-      Request templates {JSON.stringify(requestTemplateData, null, 2)}{' '}
-      <Button onClick={onLogout}>Log out</Button>
-    </div>
+    <Page>
+      <Page.Header>
+        <Page.HeaderLeft>
+          <Page.Heading>Requests Template</Page.Heading>
+        </Page.HeaderLeft>
+      </Page.Header>
+
+      <Page.Body>
+        <RequestTemplateTable
+          data={data || { items: [], totalCount: 0 }}
+          isLoading={isLoading}
+        />
+      </Page.Body>
+    </Page>
   );
 };
 
