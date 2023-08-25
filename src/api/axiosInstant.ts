@@ -44,41 +44,14 @@ axios.interceptors.response.use(
   },
   (error: AxiosError | Error) => {
     if (isAxiosError(error)) {
-      const { status, data } = (error.response as AxiosResponse) ?? {};
-      const { code } = error;
-
-      if (code === 'ERR_NETWORK') {
-        toast({
-          title: 'Network Error!',
-          status: 'error',
-        });
-      } else {
-        const errorMessage = data?.error?.message || 'An error occurred';
-
-      switch (status) {
-        case 401: {
-          window.location.href = '/login';
-          break;
-        }
-        case 403: 
-        case 404: 
-        case 500: {
-          toast({
-            title: errorMessage,
-            status: 'error',
-          });
-          break;
-        }
-        default: {
-          toast({
-            title: errorMessage,
-            status: 'error',
-          });
-          break;
-        }
-      }
-    }}
-
+      const { data } = (error.response as AxiosResponse) ?? {};
+      const { message } = error;
+      const errorMessage = data?.error?.message || message;
+      toast({
+        title: errorMessage,
+        status: 'error',
+      });
+    }
     return Promise.reject(error);
   }
 );
