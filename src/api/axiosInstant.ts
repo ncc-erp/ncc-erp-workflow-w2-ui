@@ -44,7 +44,7 @@ axios.interceptors.response.use(
   },
   (error: AxiosError | Error) => {
     if (isAxiosError(error)) {
-      const { status } = (error.response as AxiosResponse) ?? {};
+      const { status, data } = (error.response as AxiosResponse) ?? {};
       const { code } = error;
 
       if (code === 'ERR_NETWORK') {
@@ -52,31 +52,32 @@ axios.interceptors.response.use(
           title: 'Network Error!',
           status: 'error',
         });
-      }
+      } else {
+        const errorMessage = data?.error?.message || 'An error occurred';
 
       switch (status) {
         case 401: {
           window.location.href = '/login';
           break;
         }
-        case 403: {
-          // "Permission denied"
-          break;
-        }
-        case 404: {
-          // "Invalid request"
-          break;
-        }
+        case 403: 
+        case 404: 
         case 500: {
-          // "Server error"
+          toast({
+            title: errorMessage,
+            status: 'error',
+          });
           break;
         }
         default: {
-          // "Unknown error occurred"
+          toast({
+            title: errorMessage,
+            status: 'error',
+          });
           break;
         }
       }
-    }
+    }}
 
     return Promise.reject(error);
   }
