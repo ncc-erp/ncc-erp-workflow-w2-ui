@@ -13,16 +13,16 @@ export const NavLink = ({ to, text, icon, onClick }: NavLinkProps) => {
     <Link
       as={NavLinkComponent}
       to={to}
-      px='8px'
-      py='6px'
-      w='full'
-      fontWeight='600'
-      display='flex'
-      alignItems='center'
-      gap='12px'
-      fontSize='sm'
-      rounded='md'
-      textDecoration='none'
+      px="8px"
+      py="6px"
+      w="full"
+      fontWeight="600"
+      display="flex"
+      alignItems="center"
+      gap="12px"
+      fontSize="sm"
+      rounded="md"
+      textDecoration="none"
       onClick={onClick}
       _hover={{
         backgroundColor: 'gray.200',
@@ -31,7 +31,7 @@ export const NavLink = ({ to, text, icon, onClick }: NavLinkProps) => {
         backgroundColor: 'gray.200',
       }}
     >
-      <Icon textColor='gray.500' as={icon} fontSize='xl' />
+      <Icon textColor="gray.500" as={icon} fontSize="xl" />
       {text}
     </Link>
   );

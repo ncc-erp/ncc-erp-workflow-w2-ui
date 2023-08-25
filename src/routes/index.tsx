@@ -19,7 +19,7 @@ const routeList: RouteObject[] = [
     children: [
       {
         index: true,
-        element: <Navigate to='request-templates' />,
+        element: <Navigate to="request-templates" />,
       },
       {
         path: 'request-templates',

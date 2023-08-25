@@ -45,41 +45,41 @@ server.post('/api/account/login', (req, res) => {
 });
 
 server.post('/api/account/loginExternal', (req, res) => {
-    const { emailAddress, name } = req.body;
-    const existingUser = db.data.account.find(({ email }) => {
-      return email === emailAddress
-    });
+  const { emailAddress, name } = req.body;
+  const existingUser = db.data.account.find(({ email }) => {
+    return email === emailAddress;
+  });
 
-    if (existingUser) {
-      res.cookie('username', emailAddress.split("@")[0]);
-      res.send({
-        result: 1,
-        description: 'UsernameAlreadyExists',
-      });
-    } else {
-      const newUser = {
-        userName: emailAddress.split("@")[0],
-        password: '1q2w3E*',
-        email: emailAddress,
-        name: name,
-        surname: null,
-        phoneNumber: null,
-        isExternal: true,
-        hasPassword: true,
-        concurrencyStamp: "89876537f95448609f5b7f5be6fdc445",
-        extraProperties: {}
-      };
-  
-      db.data.account.push(newUser);
-      db.write();
-  
-      res.cookie('username', emailAddress.split("@")[0]);
-      res.send({
-        result: 1,
-        description: 'AccountCreatedSuccessfully',
-      });
-    }
-  });  
+  if (existingUser) {
+    res.cookie('username', emailAddress.split('@')[0]);
+    res.send({
+      result: 1,
+      description: 'UsernameAlreadyExists',
+    });
+  } else {
+    const newUser = {
+      userName: emailAddress.split('@')[0],
+      password: '1q2w3E*',
+      email: emailAddress,
+      name: name,
+      surname: null,
+      phoneNumber: null,
+      isExternal: true,
+      hasPassword: true,
+      concurrencyStamp: '89876537f95448609f5b7f5be6fdc445',
+      extraProperties: {},
+    };
+
+    db.data.account.push(newUser);
+    db.write();
+
+    res.cookie('username', emailAddress.split('@')[0]);
+    res.send({
+      result: 1,
+      description: 'AccountCreatedSuccessfully',
+    });
+  }
+});
 
 server.get('/api/account/my-profile', (req, res) => {
   const currentUsername = req.cookies?.username;

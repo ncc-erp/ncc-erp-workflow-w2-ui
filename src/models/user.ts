@@ -27,5 +27,5 @@ export interface LoginExternalParams {
 export interface LoginResult {
   result: LoginStatus;
   description: string;
-  token?: string
+  token?: string;
 }

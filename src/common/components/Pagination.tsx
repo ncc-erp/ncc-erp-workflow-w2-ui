@@ -24,9 +24,9 @@ export const Pagination = ({
 }: PaginationProps) => {
   return (
     <Box
-      display='flex'
-      listStyleType='none'
-      gap='12px'
+      display="flex"
+      listStyleType="none"
+      gap="12px"
       current={current}
       as={PaginationComponent}
       itemRender={ItemRender(current, itemRenderProps)}
@@ -41,11 +41,11 @@ const ItemRender: ItemRenderFn =
       case 'jump-next':
         return (
           <Button
-            rounded='sm'
-            variant='outline'
-            borderColor='black'
-            size='sm'
-            aspectRatio='1/1'
+            rounded="sm"
+            variant="outline"
+            borderColor="black"
+            size="sm"
+            aspectRatio="1/1"
             {...buttonProps}
           >
             <Icon as={MdOutlineKeyboardDoubleArrowRight} />
@@ -54,11 +54,11 @@ const ItemRender: ItemRenderFn =
       case 'jump-prev':
         return (
           <Button
-            rounded='sm'
-            variant='outline'
-            borderColor='black'
-            size='sm'
-            aspectRatio='1/1'
+            rounded="sm"
+            variant="outline"
+            borderColor="black"
+            size="sm"
+            aspectRatio="1/1"
             {...buttonProps}
           >
             <Icon as={MdOutlineKeyboardDoubleArrowLeft} />
@@ -67,11 +67,11 @@ const ItemRender: ItemRenderFn =
       case 'prev':
         return (
           <Button
-            rounded='sm'
-            variant='outline'
-            borderColor='black'
-            size='sm'
-            aspectRatio='1/1'
+            rounded="sm"
+            variant="outline"
+            borderColor="black"
+            size="sm"
+            aspectRatio="1/1"
             {...buttonProps}
           >
             <Icon as={GrFormPrevious} />
@@ -80,11 +80,11 @@ const ItemRender: ItemRenderFn =
       case 'next':
         return (
           <Button
-            rounded='sm'
-            variant='outline'
-            borderColor='black'
-            size='sm'
-            aspectRatio='1/1'
+            rounded="sm"
+            variant="outline"
+            borderColor="black"
+            size="sm"
+            aspectRatio="1/1"
             {...buttonProps}
           >
             <Icon as={GrFormNext} />
@@ -93,11 +93,11 @@ const ItemRender: ItemRenderFn =
       default:
         return (
           <Button
-            rounded='sm'
+            rounded="sm"
             variant={activePage === current ? 'solid' : 'outline'}
             colorScheme={activePage === current ? 'blackButton' : undefined}
-            borderColor='black'
-            size='sm'
+            borderColor="black"
+            size="sm"
             {...buttonProps}
           >
             {current}

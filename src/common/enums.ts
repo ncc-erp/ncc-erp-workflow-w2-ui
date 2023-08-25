@@ -27,5 +27,5 @@ export enum SortDirection {
 export enum LocalStorageKeys {
   accessToken = 'accessToken',
   expireInSeconds = 'expireInSeconds',
-  currentUser = 'currentUser'
+  currentUser = 'currentUser',
 }

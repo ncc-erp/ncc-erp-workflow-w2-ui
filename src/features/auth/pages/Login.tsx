@@ -30,7 +30,10 @@ const initialLoginParams: LoginParams = {
 const Login = () => {
   const navigate = useNavigate();
   const { mutateAsync: loginMutate, isLoading: isLoginLoading } = useLogin();
-  const { mutateAsync: loginExternalMutate, isLoading: isLoginExternalLoading } = useLoginExternal();
+  const {
+    mutateAsync: loginExternalMutate,
+    isLoading: isLoginExternalLoading,
+  } = useLoginExternal();
 
   const {
     handleSubmit,
@@ -67,16 +70,19 @@ const Login = () => {
   }: LoginExternalParams) => {
     const { token } = await loginExternalMutate({
       provider,
-      idToken
+      idToken,
     });
     if (token) {
-      setItem(LocalStorageKeys.accessToken, token)
+      setItem(LocalStorageKeys.accessToken, token);
     }
   };
 
   const handleLogin = async () => {
     const currentUser = await userManager.signinPopup();
-    await onLoginExternal({ provider: "Google", idToken: currentUser.id_token })
+    await onLoginExternal({
+      provider: 'Google',
+      idToken: currentUser.id_token,
+    });
     window.location.href = '/';
   };
 
@@ -84,54 +90,42 @@ const Login = () => {
     <Grid
       templateColumns={{ base: 'auto', xl: '780px 1fr' }}
       backgroundImage={`url(${LoginBackground})`}
-      backgroundPosition='60% 50%'
+      backgroundPosition="60% 50%"
     >
       <VStack
         p={{ base: '14px', md: '38px 44px' }}
-        h='100vh'
-        backgroundColor='white'
-        alignItems='left'
+        h="100vh"
+        backgroundColor="white"
+        alignItems="left"
       >
-        <Box width='full'>
-          <Image
-            h='36px'
-            src={Logo}
-          />
+        <Box width="full">
+          <Image h="36px" src={Logo} />
         </Box>
         <VStack
           flex={1}
-          mx='auto'
+          mx="auto"
           w={{ base: 'full', md: '380px' }}
-          justifyContent='center'
-          spacing='20px'
+          justifyContent="center"
+          spacing="20px"
         >
-          <Heading
-            as='h1'
-            size='md'
-            textAlign='left'
-            w='full'
-            fontWeight={700}
-          >
+          <Heading as="h1" size="md" textAlign="left" w="full" fontWeight={700}>
             Sign In
           </Heading>
-          <form
-            style={{ width: '100%' }}
-            onSubmit={handleSubmit(onLogin)}
-          >
-            <VStack spacing='14px'>
+          <form style={{ width: '100%' }} onSubmit={handleSubmit(onLogin)}>
+            <VStack spacing="14px">
               <TextField
-                h='50px'
-                placeholder='Username or email address'
-                fontSize='sm'
+                h="50px"
+                placeholder="Username or email address"
+                fontSize="sm"
                 error={errors.userNameOrEmailAddress?.message}
                 {...register('userNameOrEmailAddress', {
                   required: 'The Username or email address field is required!',
                 })}
               />
               <PasswordField
-                h='50px'
-                placeholder='Password'
-                fontSize='sm'
+                h="50px"
+                placeholder="Password"
+                fontSize="sm"
                 error={errors.password?.message}
                 {...register('password', {
                   required: 'The password field is required!',
@@ -145,13 +139,13 @@ const Login = () => {
                 }}
               />
               <Button
-                mt='14px'
-                h='50px'
-                type='submit'
+                mt="14px"
+                h="50px"
+                type="submit"
                 isLoading={isLoginLoading}
-                colorScheme='blackButton'
-                w='full'
-                textColor='white'
+                colorScheme="blackButton"
+                w="full"
+                textColor="white"
               >
                 Sign in
               </Button>
@@ -160,15 +154,10 @@ const Login = () => {
           <Button
             isLoading={isLoginExternalLoading}
             onClick={handleLogin}
-            w='full'
-            h='50px'
+            w="full"
+            h="50px"
           >
-            <Icon
-              as={FcGoogle}
-              mr='16px'
-              filter=''
-              fontSize='24px'
-            />
+            <Icon as={FcGoogle} mr="16px" filter="" fontSize="24px" />
             Sign in with Google
           </Button>
         </VStack>

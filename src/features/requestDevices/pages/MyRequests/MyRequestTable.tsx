@@ -80,9 +80,9 @@ export const MyRequestTable = () => {
       [
         columnHelper.accessor('workflowDefinitionDisplayName', {
           id: 'workflowDefinitionDisplayName',
-          header: () => <Box pl='16px'>Request template</Box>,
+          header: () => <Box pl="16px">Request template</Box>,
           enableSorting: false,
-          cell: (info) => <Box pl='16px'>{info.getValue()}</Box>,
+          cell: (info) => <Box pl="16px">{info.getValue()}</Box>,
         }),
         columnHelper.accessor('userRequestName', {
           id: 'userRequestName',
@@ -123,7 +123,7 @@ export const MyRequestTable = () => {
         columnHelper.display({
           id: 'actions',
           enableSorting: false,
-          header: () => <Center w='full'>Actions</Center>,
+          header: () => <Center w="full">Actions</Center>,
           cell: (info) => (
             <Center>
               <RowAction
@@ -184,48 +184,37 @@ export const MyRequestTable = () => {
 
   return (
     <Box>
-      <HStack
-        w='full'
-        pl='24px'
-        pb='8px'
-        alignItems='flex-end'
-        flexWrap='wrap'
-      >
-        <Box w='220px'>
+      <HStack w="full" pl="24px" pb="8px" alignItems="flex-end" flexWrap="wrap">
+        <Box w="220px">
           <SelectField
-            size='sm'
-            rounded='md'
+            size="sm"
+            rounded="md"
             onChange={onTemplateStatusChange('WorkflowDefinitionId')}
             options={requestTemplateOtions}
           />
         </Box>
-        <Box w='112px'>
+        <Box w="112px">
           <SelectField
-            size='sm'
-            rounded='md'
+            size="sm"
+            rounded="md"
             onChange={onTemplateStatusChange('Status')}
             options={statusOptions}
           />
         </Box>
       </HStack>
       {isLoading ? (
-        <Center h='200px'>
-          <Spinner
-            mx='auto'
-            speed='0.65s'
-            thickness='3px'
-            size='xl'
-          />
+        <Center h="200px">
+          <Spinner mx="auto" speed="0.65s" thickness="3px" size="xl" />
         </Center>
       ) : (
         <EmptyWrapper
           isEmpty={!requests.length}
-          h='200px'
-          fontSize='xs'
+          h="200px"
+          fontSize="xs"
           message={'No requests found!'}
         >
           <Box
-            overflowX='auto'
+            overflowX="auto"
             w={{ base: `calc(100vw - ${sideBarWidth}px)`, lg: 'auto' }}
           >
             <Table
@@ -238,23 +227,16 @@ export const MyRequestTable = () => {
         </EmptyWrapper>
       )}
       <HStack
-        py='20px'
-        px='24px'
-        justifyContent='space-between'
-        borderBottom='1px'
-        borderColor='gray.200'
-        flexWrap='wrap'
+        py="20px"
+        px="24px"
+        justifyContent="space-between"
+        borderBottom="1px"
+        borderColor="gray.200"
+        flexWrap="wrap"
       >
-        <HStack
-          alignItems='center'
-          spacing='6px'
-          flexWrap='wrap'
-        >
-          <PageSize
-            noOfRows={noOfRows}
-            onChange={onPageSizeChange}
-          />
-          <Spacer w='12px' />
+        <HStack alignItems="center" spacing="6px" flexWrap="wrap">
+          <PageSize noOfRows={noOfRows} onChange={onPageSizeChange} />
+          <Spacer w="12px" />
           <ShowingItemText
             skipCount={filter.skipCount}
             maxResultCount={filter.maxResultCount}

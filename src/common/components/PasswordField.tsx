@@ -40,22 +40,15 @@ export const PasswordField = forwardRef(
     const handleClick = () => setShow(!show);
 
     return (
-      <InputWrapper
-        label={label}
-        error={error}
-      >
+      <InputWrapper label={label} error={error}>
         <InputGroup {...wrapperProps}>
-          <Input
-            {...inputProps}
-            ref={ref}
-            type={show ? 'text' : 'password'}
-          />
-          <InputRightElement h='full'>
+          <Input {...inputProps} ref={ref} type={show ? 'text' : 'password'} />
+          <InputRightElement h="full">
             <IconButton
-              size='sm'
-              variant='ghost'
+              size="sm"
+              variant="ghost"
               onClick={handleClick}
-              aria-label=''
+              aria-label=""
               {...buttonProps}
             >
               <Icon

@@ -47,29 +47,16 @@ export const SideBarContent = () => {
   };
 
   return (
-    <VStack
-      bgColor='gray.50'
-      h='100vh'
-      alignItems='stretch'
-      spacing={0}
-    >
-      <HStack
-        alignItems='center'
-        py='20px'
-        px='16px'
-        spacing='12px'
-      >
-        <Image
-          h='24px'
-          src='/logo.png'
-        />
-        <Heading fontSize='sm'>NCC Workflow</Heading>
+    <VStack bgColor="gray.50" h="100vh" alignItems="stretch" spacing={0}>
+      <HStack alignItems="center" py="20px" px="16px" spacing="12px">
+        <Image h="24px" src="/logo.png" />
+        <Heading fontSize="sm">NCC Workflow</Heading>
       </HStack>
       <VStack
-        p='12px'
-        align='flex-start'
-        spacing='4px'
-        overflowY='auto'
+        p="12px"
+        align="flex-start"
+        spacing="4px"
+        overflowY="auto"
         flex={1}
         sx={{
           '&::-webkit-scrollbar': {
@@ -78,66 +65,44 @@ export const SideBarContent = () => {
         }}
       >
         {NavList.map((nav) => (
-          <NavLink
-            key={nav.to}
-            {...nav}
-            onClick={onCloseSideBar}
-          />
+          <NavLink key={nav.to} {...nav} onClick={onCloseSideBar} />
         ))}
       </VStack>
       <HStack
-        borderTopWidth='1px'
-        borderTopColor='gray.200'
-        px='12px'
-        py='16px'
-        spacing='12px'
+        borderTopWidth="1px"
+        borderTopColor="gray.200"
+        px="12px"
+        py="16px"
+        spacing="12px"
       >
-        <Avatar
-          size='sm'
-          name={userName}
-        />
-        <Text
-          fontSize='sm'
-          fontWeight={600}
-          noOfLines={1}
-        >
+        <Avatar size="sm" name={userName} />
+        <Text fontSize="sm" fontWeight={600} noOfLines={1}>
           {user.email}
         </Text>
-        <Menu
-          autoSelect={false}
-          placement='top-end'
-        >
+        <Menu autoSelect={false} placement="top-end">
           <MenuButton
-            ml='auto'
+            ml="auto"
             as={IconButton}
-            variant='ghost'
-            size='sm'
+            variant="ghost"
+            size="sm"
             icon={<Icon as={VscKebabVertical} />}
           />
-          <MenuList minW='140px'>
+          <MenuList minW="140px">
             <MenuItem
-              display='flex'
-              gap='12px'
+              display="flex"
+              gap="12px"
               onClick={onNavigate('/my-profile')}
             >
-              <Icon
-                as={HiUser}
-                fontSize='xl'
-                color='gray.500'
-              />
-              <Text fontSize='sm'>My profile</Text>
+              <Icon as={HiUser} fontSize="xl" color="gray.500" />
+              <Text fontSize="sm">My profile</Text>
             </MenuItem>
             <MenuItem
-              display='flex'
-              gap='12px'
+              display="flex"
+              gap="12px"
               onClick={onNavigate('/login', true)}
             >
-              <Icon
-                as={BiLogOutCircle}
-                fontSize='xl'
-                color='gray.500'
-              />
-              <Text fontSize='sm'>Log out</Text>
+              <Icon as={BiLogOutCircle} fontSize="xl" color="gray.500" />
+              <Text fontSize="sm">Log out</Text>
             </MenuItem>
           </MenuList>
         </Menu>

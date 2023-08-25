@@ -6,7 +6,6 @@ const LoginCallback = () => {
     userManager.signinPopupCallback();
   }, []);
 
-  return <></>
-}
+  return <></>;
 
 export default LoginCallback;
