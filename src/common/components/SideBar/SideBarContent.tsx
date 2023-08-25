@@ -18,7 +18,7 @@ import { BiLogOutCircle } from 'react-icons/bi';
 import { HiUser } from 'react-icons/hi2';
 import { VscKebabVertical } from 'react-icons/vsc';
 import { useRecoilValue } from 'recoil';
-import { useClearUserData, userState } from 'stores/user';
+import { userState } from 'stores/user';
 import { useSetAppConfig } from 'stores/appConfig';
 import { useNavigate } from 'react-router-dom';
 
@@ -37,13 +37,12 @@ const NavList = [
 
 export const SideBarContent = () => {
   const user = useRecoilValue(userState);
-  const clearUser = useClearUserData();
   const navigate = useNavigate();
   const { onCloseSideBar } = useSetAppConfig();
   const userName = [user.name, user.surname].join(' ');
 
   const onNavigate = (to: string, logout?: boolean) => () => {
-    logout && clearUser();
+    logout;
     navigate(to);
   };
 

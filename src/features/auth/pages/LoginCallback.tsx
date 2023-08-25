@@ -5,6 +5,8 @@ const LoginCallback = () => {
   useEffect(() => {
     userManager.signinPopupCallback();
   }, []);
+
+  return <></>
 }
 
 export default LoginCallback;

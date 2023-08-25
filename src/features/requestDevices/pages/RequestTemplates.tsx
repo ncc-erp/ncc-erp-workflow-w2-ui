@@ -1,17 +1,14 @@
 import { Button } from '@chakra-ui/react';
-import { useCurrentUser } from 'api/apiHooks/userHooks';
+import { LocalStorageKeys } from 'common/enums';
 import { useNavigate } from 'react-router-dom';
-import { useClearUserData } from 'stores/user';
+import { removeItem } from 'utils/localStorage';
 
 const RequestTemplates = () => {
-  const clearUser = useClearUserData();
   const navigate = useNavigate();
-  const { remove } = useCurrentUser();
 
   const onLogout = () => {
-    clearUser();
+    removeItem(LocalStorageKeys.accessToken);
     navigate('/login');
-    remove();
   };
 
   return (
