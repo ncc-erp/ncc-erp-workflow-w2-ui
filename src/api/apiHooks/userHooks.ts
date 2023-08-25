@@ -1,4 +1,9 @@
-import { LoginExternalParams, LoginParams, LoginResult, User } from 'models/user';
+import {
+  LoginExternalParams,
+  LoginParams,
+  LoginResult,
+  User,
+} from 'models/user';
 import { useCreate, useGetOne } from 'api/apiHooks';
 
 export const currentUserKey = ['currentUser'];
@@ -8,7 +13,9 @@ export const useLogin = () => {
 };
 
 export const useLoginExternal = () => {
-  return useCreate<LoginExternalParams, LoginResult>(`/app/external-resource/external-login`);
+  return useCreate<LoginExternalParams, LoginResult>(
+    `/app/external-resource/external-login`
+  );
 };
 
 export const useCurrentUser = () => {

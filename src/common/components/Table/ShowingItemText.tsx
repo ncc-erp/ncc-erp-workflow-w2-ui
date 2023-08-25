@@ -18,10 +18,7 @@ export const ShowingItemText = ({
       : maxResultCount + skipCount;
 
   return (
-    <Text
-      whiteSpace='nowrap'
-      fontSize='xs'
-    >
+    <Text whiteSpace="nowrap" fontSize="xs">
       {`showing ${from} to ${to} of ${totalCount} entries`}
     </Text>
   );

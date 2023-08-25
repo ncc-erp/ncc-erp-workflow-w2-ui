@@ -46,10 +46,7 @@ export const Table = <D,>({
   });
 
   return (
-    <TableComponent
-      borderTop='1px'
-      borderColor='gray.200'
-    >
+    <TableComponent borderTop="1px" borderColor="gray.200">
       <Thead>
         {table.getHeaderGroups().map((headerGroup) => (
           <Tr key={headerGroup.id}>
@@ -58,37 +55,27 @@ export const Table = <D,>({
                 <Th
                   key={header.id}
                   colSpan={header.colSpan}
-                  textTransform='none'
+                  textTransform="none"
                   fontWeight={400}
-                  fontSize='sm'
-                  borderRight='1px'
-                  borderColor='gray.200'
-                  color='chakra-body-text._dark'
-                  px='8px'
+                  fontSize="sm"
+                  borderRight="1px"
+                  borderColor="gray.200"
+                  color="chakra-body-text._dark"
+                  px="8px"
                 >
                   {header.isPlaceholder ? null : (
                     <Box
-                      display='flex'
-                      alignItems='center'
-                      gap='12px'
+                      display="flex"
+                      alignItems="center"
+                      gap="12px"
                       onClick={header.column.getToggleSortingHandler()}
                       cursor={
                         header.column.getCanSort() ? 'pointer' : 'initial'
                       }
                     >
                       {{
-                        asc: (
-                          <Icon
-                            fontSize='md'
-                            as={IoMdArrowDropup}
-                          />
-                        ),
-                        desc: (
-                          <Icon
-                            fontSize='md'
-                            as={IoMdArrowDropdown}
-                          />
-                        ),
+                        asc: <Icon fontSize="md" as={IoMdArrowDropup} />,
+                        desc: <Icon fontSize="md" as={IoMdArrowDropdown} />,
                       }[header.column.getIsSorted() as string] ?? null}
                       {flexRender(
                         header.column.columnDef.header,
@@ -113,10 +100,10 @@ export const Table = <D,>({
                   return (
                     <Td
                       key={cell.id}
-                      fontSize='sm'
-                      borderRight='1px'
-                      borderColor='gray.200'
-                      px='8px'
+                      fontSize="sm"
+                      borderRight="1px"
+                      borderColor="gray.200"
+                      px="8px"
                     >
                       {flexRender(
                         cell.column.columnDef.cell,

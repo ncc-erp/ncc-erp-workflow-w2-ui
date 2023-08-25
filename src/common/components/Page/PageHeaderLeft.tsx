@@ -6,5 +6,5 @@ interface PageHeaderLeftProps {
 }
 
 export const PageHeaderLeft = ({ children }: PageHeaderLeftProps) => {
-  return <StackItem justifySelf='flex-start'>{children}</StackItem>;
+  return <StackItem justifySelf="flex-start">{children}</StackItem>;
 };

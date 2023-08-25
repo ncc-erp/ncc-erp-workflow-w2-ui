@@ -19,7 +19,8 @@ const PrivateRoute = ({ children }: RouteProps) => {
   } = useCurrentUser();
 
   const accessToken: string | null = getItem(LocalStorageKeys.accessToken);
-  const isUnauthorized = isFetched && (!userInfo?.userName || isError) && accessToken === null;
+  const isUnauthorized =
+    isFetched && (!userInfo?.userName || isError) && accessToken === null;
 
   useEffect(() => {
     if (isFetched && !user.logged) {
@@ -37,17 +38,12 @@ const PrivateRoute = ({ children }: RouteProps) => {
 
   if (isFetching)
     return (
-      <Center h='100vh'>
-        <Spinner
-          mx='auto'
-          speed='0.65s'
-          thickness='3px'
-          size='xl'
-        />
+      <Center h="100vh">
+        <Spinner mx="auto" speed="0.65s" thickness="3px" size="xl" />
       </Center>
     );
 
-  return isUnauthorized ? <Navigate to='/login' /> : children;
+  return isUnauthorized ? <Navigate to="/login" /> : children;
 };
 
 export default PrivateRoute;
