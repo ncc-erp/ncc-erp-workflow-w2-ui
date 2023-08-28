@@ -3,6 +3,11 @@ export enum LoginStatus {
   failed = 2,
 }
 
+export enum ERole {
+  Admin = 'Admin',
+  User = 'DefaultUser',
+}
+
 export enum RequestStatus {
   Approved = 'Approved',
   Rejected = 'Rejected',
