@@ -4,7 +4,7 @@ export enum LoginStatus {
 }
 
 export enum ERole {
-  Admin = 'Admin',
+  Admin = 'admin',
   User = 'DefaultUser'
 }
 

@@ -13,7 +13,7 @@ import {
   IconButton,
 } from '@chakra-ui/react';
 import { NavLink } from 'common/components/SideBar/NavLink';
-import { TbAppsFilled, TbArticleFilledFilled } from 'react-icons/tb';
+import { TbAppsFilled, TbArticleFilledFilled, TbSettingsBolt } from 'react-icons/tb';
 import { BiLogOutCircle } from 'react-icons/bi';
 import { HiUser } from 'react-icons/hi2';
 import { VscKebabVertical } from 'react-icons/vsc';
@@ -21,21 +21,27 @@ import { useRecoilValue } from 'recoil';
 import { userState } from 'stores/user';
 import { useSetAppConfig } from 'stores/appConfig';
 import { useNavigate } from 'react-router-dom';
-
-const NavList = [
-  {
-    to: '/request-templates',
-    text: 'Request templates',
-    icon: TbAppsFilled,
-  },
-  {
-    to: '/my-requests',
-    text: 'My requests',
-    icon: TbArticleFilledFilled,
-  },
-];
+import { useIsAdmin } from 'hooks/useIsAdmin';
 
 export const SideBarContent = () => {
+  const isAdmin = useIsAdmin();
+  const NavList = [
+    isAdmin && {
+      to: '/administration',
+      text: 'Administration',
+      icon: TbSettingsBolt,
+    },
+    {
+      to: '/request-templates',
+      text: 'Request templates',
+      icon: TbAppsFilled,
+    },
+    {
+      to: '/my-requests',
+      text: 'My requests',
+      icon: TbArticleFilledFilled,
+    },
+  ];
   const user = useRecoilValue(userState);
   const navigate = useNavigate();
   const { onCloseSideBar } = useSetAppConfig();
