@@ -1,6 +1,6 @@
 import { useRequestTemplates } from 'api/apiHooks/requestHooks';
 import Page from 'common/components/Page';
-import { RequestTemplateTable } from './RequestTemplateTable';
+import { RequestTemplateTable } from './components/RequestTemplateTable';
 
 const RequestTemplates = () => {
   const { data, isLoading } = useRequestTemplates();

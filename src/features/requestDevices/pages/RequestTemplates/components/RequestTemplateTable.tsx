@@ -56,6 +56,8 @@ export const RequestTemplateTable = ({
   const [filter, setFilter] = useState<FilterRequestParams>(initialFilter);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [requestId, setRequestId] = useState<string>('');
+  const [modalTitle, setModalTitle] = useState<string>('');
+  const [modalWorkflow, setModalWorkflow] = useState<string>('');
   const [sorting, setSorting] = useState<SortingState>(initialSorting);
 
   const { sideBarWidth } = useRecoilValue(appConfigState);
@@ -80,15 +82,18 @@ export const RequestTemplateTable = ({
           id: 'actions',
           enableSorting: false,
           header: () => <Center w="full">Actions</Center>,
-          cell: (info) => (
-            <Center>
-              <IconButton
-                onClick={onAction(info.row.original.id)}
-                aria-label="Popup modal"
-                icon={<RiAddFill />}
-              />
-            </Center>
-          ),
+          cell: (info) => {
+            const { definitionId, displayName, name } = info.row.original;
+            return (
+              <Center>
+                <IconButton
+                  onClick={onAction(definitionId, displayName, name)}
+                  aria-label="Popup modal"
+                  icon={<RiAddFill />}
+                />
+              </Center>
+            );
+          },
         }),
       ] as ColumnDef<RequestTemplate>[],
     [columnHelper]
@@ -120,10 +125,13 @@ export const RequestTemplateTable = ({
     }));
   };
 
-  const onAction = (requestId: string) => () => {
-    setIsModalOpen(true);
-    setRequestId(requestId);
-  };
+  const onAction =
+    (requestId: string, displayName: string, workflow: string) => () => {
+      setIsModalOpen(true);
+      setRequestId(requestId);
+      setModalTitle(displayName);
+      setModalWorkflow(workflow);
+    };
 
   const onCloseModal = () => {
     setIsModalOpen(false);
@@ -186,6 +194,8 @@ export const RequestTemplateTable = ({
         isOpen={isModalOpen}
         onClose={onCloseModal}
         requestId={requestId}
+        displayName={modalTitle}
+        workflow={modalWorkflow}
       />
     </Box>
   );
