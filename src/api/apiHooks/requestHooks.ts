@@ -3,13 +3,25 @@ import {
   FilterRequestResult,
   RequestTemplateResult,
 } from 'models/request';
-import { useGetListByPost } from 'api/apiHooks';
+import { useCancelByPost, useDelete, useGetListByPost } from 'api/apiHooks';
 
 export const useMyRequests = (filter: FilterRequestParams) => {
   return useGetListByPost<FilterRequestResult>(
-    ['FilterRequest', filter],
+    ['filterRequest', filter],
     '/app/workflow-instance/list',
     filter
+  );
+};
+
+export const useDeleteRequest = () => {
+  return useDelete(
+    `/app/workflow-instance`,
+  );
+};
+
+export const useCancelRequest = () => {
+  return useCancelByPost(
+    `/app/workflow-instance`,
   );
 };
 

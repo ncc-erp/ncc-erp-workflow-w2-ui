@@ -43,3 +43,23 @@ export const useGetListByPost = <T, D = object>(
 
   return useQuery(key, () => getData());
 };
+
+export const useDelete = (url: string) => {
+  const axios = useAxios();
+
+  const mutate = async (params: string) => {
+    await axios.delete(`${url}/${params}`);
+  };
+
+  return useMutation(mutate);
+};
+
+export const useCancelByPost = (url: string) => {
+  const axios = useAxios();
+
+  const mutate = async (params: string) => {
+    await axios.post(`${url}/${params}/cancel`);
+  };
+
+  return useMutation(mutate);
+};
