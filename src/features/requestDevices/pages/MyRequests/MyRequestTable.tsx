@@ -3,8 +3,14 @@ import {
   SortingState,
   createColumnHelper,
 } from '@tanstack/react-table';
+import { useQueryClient } from '@tanstack/react-query';
 import { Box, Center, HStack, Spacer, Spinner } from '@chakra-ui/react';
-import { useMyRequests, useRequestTemplates } from 'api/apiHooks/requestHooks';
+import {
+  useCancelRequest,
+  useDeleteRequest,
+  useMyRequests,
+  useRequestTemplates,
+} from 'api/apiHooks/requestHooks';
 import { SelectField } from 'common/components/SelectField';
 import { Table } from 'common/components/Table/Table';
 import { RequestSortField, RequestStatus, SortDirection } from 'common/enums';
@@ -19,6 +25,8 @@ import { RowAction } from 'features/requestDevices/pages/MyRequests/RowAction';
 import { EmptyWrapper } from 'common/components/EmptyWrapper';
 import { useRecoilValue } from 'recoil';
 import { appConfigState } from 'stores/appConfig';
+import { toast } from 'common/components/StandaloneToast';
+import { ModalConfirm } from 'common/components/ModalConfirm';
 
 const initialFilter: FilterRequestParams = {
   Status: '',
@@ -47,6 +55,15 @@ export const MyRequestTable = () => {
   const currentPage = (maxResultCount + skipCount) / maxResultCount;
   const columnHelper = createColumnHelper<Request>();
 
+  const queryClient = useQueryClient();
+  const deleteRequestMutation = useDeleteRequest();
+  const cancelRequestMutation = useCancelRequest();
+  const [isOpen, setIsOpen] = useState(false);
+  const [modalTitle, setModalTitle] = useState('');
+  const [modalDescription, setModalDescription] = useState('');
+  const [actionType, setActionType] = useState('');
+  const [requestId, setRequestId] = useState('');
+
   const statusOptions = useMemo(() => {
     const defaultOptions = {
       value: '',
@@ -67,8 +84,8 @@ export const MyRequestTable = () => {
       label: 'All types',
     };
 
-    const options = requestTemplates.map(({ id, displayName }) => ({
-      value: id,
+    const options = requestTemplates.map(({ definitionId, displayName }) => ({
+      value: definitionId,
       label: displayName,
     }));
 
@@ -171,86 +188,119 @@ export const MyRequestTable = () => {
     };
 
   const onAction = (requestId: string, type: 'delete' | 'cancel') => () => {
-    console.log('requestId', requestId);
-    switch (type) {
-      case 'delete':
-        // TODO
-        break;
-      case 'cancel':
-        // TODO
-        break;
+    setRequestId(requestId);
+    setActionType(type);
+    setModalTitle(`Confirm ${type} request`);
+    setModalDescription(`Request will be ${type}ed. Do you confirm that?`);
+    setIsOpen(true);
+  };
+
+  const handleConfirmation = async () => {
+    setIsOpen(false);
+    if (requestId.length === 0) return;
+
+    const mutation =
+      actionType === 'delete' ? deleteRequestMutation : cancelRequestMutation;
+    const successMessage =
+      actionType === 'delete'
+        ? 'Deleted successfully!'
+        : 'Cancelled successfully!';
+    const errorMessage =
+      actionType === 'delete' ? 'Delete failed!' : 'Cancel failed!';
+
+    try {
+      await mutation.mutateAsync(requestId);
+      queryClient.invalidateQueries('filterRequest');
+      toast({ title: successMessage, status: 'success' });
+    } catch (error) {
+      toast({ title: errorMessage, status: 'error' });
     }
   };
 
   return (
-    <Box>
-      <HStack w="full" pl="24px" pb="8px" alignItems="flex-end" flexWrap="wrap">
-        <Box w="220px">
-          <SelectField
-            size="sm"
-            rounded="md"
-            onChange={onTemplateStatusChange('WorkflowDefinitionId')}
-            options={requestTemplateOtions}
-          />
-        </Box>
-        <Box w="112px">
-          <SelectField
-            size="sm"
-            rounded="md"
-            onChange={onTemplateStatusChange('Status')}
-            options={statusOptions}
-          />
-        </Box>
-      </HStack>
-      {isLoading ? (
-        <Center h="200px">
-          <Spinner mx="auto" speed="0.65s" thickness="3px" size="xl" />
-        </Center>
-      ) : (
-        <EmptyWrapper
-          isEmpty={!requests.length}
-          h="200px"
-          fontSize="xs"
-          message={'No requests found!'}
+    <>
+      <Box>
+        <HStack
+          w="full"
+          pl="24px"
+          pb="8px"
+          alignItems="flex-end"
+          flexWrap="wrap"
         >
-          <Box
-            overflowX="auto"
-            w={{ base: `calc(100vw - ${sideBarWidth}px)`, lg: 'auto' }}
-          >
-            <Table
-              columns={myRequestColumns}
-              data={requests}
-              sorting={sorting}
-              onSortingChange={setSorting}
+          <Box w="220px">
+            <SelectField
+              size="sm"
+              rounded="md"
+              onChange={onTemplateStatusChange('WorkflowDefinitionId')}
+              options={requestTemplateOtions}
             />
           </Box>
-        </EmptyWrapper>
-      )}
-      <HStack
-        py="20px"
-        px="24px"
-        justifyContent="space-between"
-        borderBottom="1px"
-        borderColor="gray.200"
-        flexWrap="wrap"
-      >
-        <HStack alignItems="center" spacing="6px" flexWrap="wrap">
-          <PageSize noOfRows={noOfRows} onChange={onPageSizeChange} />
-          <Spacer w="12px" />
-          <ShowingItemText
-            skipCount={filter.skipCount}
-            maxResultCount={filter.maxResultCount}
-            totalCount={totalCount}
+          <Box w="112px">
+            <SelectField
+              size="sm"
+              rounded="md"
+              onChange={onTemplateStatusChange('Status')}
+              options={statusOptions}
+            />
+          </Box>
+        </HStack>
+        {isLoading ? (
+          <Center h="200px">
+            <Spinner mx="auto" speed="0.65s" thickness="3px" size="xl" />
+          </Center>
+        ) : (
+          <EmptyWrapper
+            isEmpty={!requests.length}
+            h="200px"
+            fontSize="xs"
+            message={'No requests found!'}
+          >
+            <Box
+              overflowX="auto"
+              w={{ base: `calc(100vw - ${sideBarWidth}px)`, lg: 'auto' }}
+            >
+              <Table
+                columns={myRequestColumns}
+                data={requests}
+                sorting={sorting}
+                onSortingChange={setSorting}
+              />
+            </Box>
+          </EmptyWrapper>
+        )}
+        <HStack
+          py="20px"
+          px="24px"
+          justifyContent="space-between"
+          borderBottom="1px"
+          borderColor="gray.200"
+          flexWrap="wrap"
+        >
+          <HStack alignItems="center" spacing="6px" flexWrap="wrap">
+            <PageSize noOfRows={noOfRows} onChange={onPageSizeChange} />
+            <Spacer w="12px" />
+            <ShowingItemText
+              skipCount={filter.skipCount}
+              maxResultCount={filter.maxResultCount}
+              totalCount={totalCount}
+            />
+          </HStack>
+          <Pagination
+            total={totalCount}
+            pageSize={filter.maxResultCount}
+            current={currentPage}
+            onChange={onPageChange}
+            hideOnSinglePage
           />
         </HStack>
-        <Pagination
-          total={totalCount}
-          pageSize={filter.maxResultCount}
-          current={currentPage}
-          onChange={onPageChange}
-          hideOnSinglePage
-        />
-      </HStack>
-    </Box>
+      </Box>
+      <ModalConfirm
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        onConfirm={handleConfirmation}
+        title={modalTitle}
+        description={modalDescription}
+      />
+    </>
   );
 };
