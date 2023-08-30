@@ -7,7 +7,7 @@ const PrivateRoute = ({ children }: RouteProps) => {
   const accessToken: string | null = getItem(LocalStorageKeys.accessToken);
   const isUnauthorized = accessToken === null;
 
-  return isUnauthorized ? <Navigate to="/login" /> : children;
+  return isUnauthorized ? <Navigate to="/login" /> : <>{children}</>;
 };
 
 export default PrivateRoute;

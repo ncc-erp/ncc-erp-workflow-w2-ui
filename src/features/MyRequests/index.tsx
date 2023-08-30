@@ -1,5 +1,5 @@
 import Page from 'common/components/Page';
-import { MyRequestTable } from './MyRequestTable';
+import { MyRequestTable } from './components/MyRequestTable';
 
 const MyRequests = () => {
   return (

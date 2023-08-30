@@ -3,9 +3,9 @@ import { Navigate, RouteObject, createBrowserRouter } from 'react-router-dom';
 import WrapperRouteComponent from 'routes/WrapperRoute';
 import Layout from 'common/components/Layout';
 import RequestTemplates from 'features/requestDevices/pages/RequestTemplates';
-import MyRequests from 'features/requestDevices/pages/MyRequests';
 import Login from 'features/auth/pages/Login';
 import LoginCallback from 'features/auth/pages/LoginCallback';
+import MyRequests from 'features/MyRequests';
 
 const NotFound = lazy(() => import('common/components/NotFound'));
 const routeList: RouteObject[] = [
