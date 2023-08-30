@@ -8,7 +8,7 @@ export enum RequestStatus {
   Rejected = 'Rejected',
   Idle = 'Idle',
   Running = 'Running',
-  Pending = 'Suspended',
+  Pending = 'Pending',
   Finished = 'Finished',
   Faulted = 'Faulted',
   Canceled = 'Cancelled',
