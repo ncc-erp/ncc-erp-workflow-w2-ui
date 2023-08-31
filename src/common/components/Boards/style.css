@@ -1,3 +1,9 @@
+.container {
+  display: flex;
+  gap: 5px;
+  margin: 10px 20px
+}
+
 .item {
   display: flex;
   flex-direction: column;
@@ -77,4 +83,13 @@
 
 .timestamp {
   color: #888;
+}
+
+.columnLabel {
+  margin-bottom: 10px;
+  padding: 8px;
+  background-color: #fff;
+  border-radius: 5px;
+
+  font-weight: bold;
 }

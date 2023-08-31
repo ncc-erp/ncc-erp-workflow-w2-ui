@@ -20,3 +20,9 @@ export const noOfRows: option[] = [
     label: 100,
   },
 ];
+
+export const BoardColumnStatus = {
+  Pending: 0,
+  Approved: 1,
+  Canceled: 2,
+};

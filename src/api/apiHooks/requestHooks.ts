@@ -7,22 +7,18 @@ import { useCancelByPost, useDelete, useGetListByPost } from 'api/apiHooks';
 
 export const useMyRequests = (filter: FilterRequestParams) => {
   return useGetListByPost<FilterRequestResult>(
-    ['filterRequest', filter],
+    ['filterRequest', filter + `${new Date()}`],
     '/app/workflow-instance/list',
     filter
   );
 };
 
 export const useDeleteRequest = () => {
-  return useDelete(
-    `/app/workflow-instance`,
-  );
+  return useDelete(`/app/workflow-instance`);
 };
 
 export const useCancelRequest = () => {
-  return useCancelByPost(
-    `/app/workflow-instance`,
-  );
+  return useCancelByPost(`/app/workflow-instance`);
 };
 
 export const useRequestTemplates = () => {
