@@ -20,3 +20,21 @@ export const noOfRows: option[] = [
     label: 100,
   },
 ];
+
+export const roleItems: option[] = [
+  {
+    value: '3a0d2b5e-303e-34cd-eb0a-91fa0ff1bb87',
+    label: 'Admin',
+  },
+  {
+    value: '3a0d2b5e-34b3-e52a-1e8f-d795068c6657',
+    label: 'Default User',
+  },
+];
+
+export const UserAction = {
+  CREATE: 'Create',
+  EDIT: 'Edit',
+  PERMISSIONS: 'Permissions',
+  DELETE: 'Delete',
+};
