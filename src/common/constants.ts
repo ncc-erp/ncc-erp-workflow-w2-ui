@@ -20,3 +20,8 @@ export const noOfRows: option[] = [
     label: 100,
   },
 ];
+
+export const Roles = {
+  Admin: 'admin',
+  User: 'DefaultUser',
+};
