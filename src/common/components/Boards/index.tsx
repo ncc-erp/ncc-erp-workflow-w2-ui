@@ -95,6 +95,7 @@ const Boards = ({ data }: BoardsProps): JSX.Element => {
           toast({ title: 'Cancelled successfully!', status: 'success' });
         } catch (error) {
           toast({ title: 'Cancelled Error!', status: 'error' });
+          return;
         }
       }
 
