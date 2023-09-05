@@ -26,3 +26,8 @@ export const BoardColumnStatus = {
   Approved: 1,
   Canceled: 2,
 };
+
+export const Roles = {
+  Admin: 'admin',
+  User: 'DefaultUser',
+};
