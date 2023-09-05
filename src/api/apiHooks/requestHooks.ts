@@ -4,10 +4,11 @@ import {
   RequestTemplateResult,
 } from 'models/request';
 import { useCancelByPost, useDelete, useGetListByPost } from 'api/apiHooks';
+import { QueryKeys } from 'common/constants';
 
 export const useMyRequests = (filter: FilterRequestParams) => {
   return useGetListByPost<FilterRequestResult>(
-    ['filterRequest', filter],
+    [QueryKeys.FILTER_REQUEST, filter],
     '/app/workflow-instance/list',
     filter
   );
@@ -27,7 +28,7 @@ export const useCancelRequest = () => {
 
 export const useRequestTemplates = () => {
   return useGetListByPost<RequestTemplateResult>(
-    ['requestTemplates'],
+    [QueryKeys.REQUEST_TEMPLATES],
     '/app/workflow-definition/list-all'
   );
 };

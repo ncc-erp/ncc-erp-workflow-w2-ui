@@ -32,3 +32,11 @@ export const UserAction = {
   PERMISSIONS: 'Permissions',
   DELETE: 'Delete',
 };
+
+export const QueryKeys = {
+  GET_ALL_ROLES: 'getAllRoles',
+  GET_ROLE_BY_USER: 'getRoleByUserId',
+  FILTER_USER: 'filterUser',
+  FILTER_REQUEST: 'filterRequest',
+  REQUEST_TEMPLATES: 'requestTemplates',
+};
