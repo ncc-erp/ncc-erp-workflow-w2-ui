@@ -21,6 +21,12 @@ export const noOfRows: option[] = [
   },
 ];
 
+export const BoardColumnStatus = {
+  Pending: 0,
+  Approved: 1,
+  Canceled: 2,
+};
+
 export const Roles = {
   Admin: 'admin',
   User: 'DefaultUser',

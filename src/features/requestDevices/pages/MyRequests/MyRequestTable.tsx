@@ -5,7 +5,12 @@ import {
 } from '@tanstack/react-table';
 import { useQueryClient } from '@tanstack/react-query';
 import { Box, Center, HStack, Spacer, Spinner } from '@chakra-ui/react';
-import { useCancelRequest, useDeleteRequest, useMyRequests, useRequestTemplates } from 'api/apiHooks/requestHooks';
+import {
+  useCancelRequest,
+  useDeleteRequest,
+  useMyRequests,
+  useRequestTemplates,
+} from 'api/apiHooks/requestHooks';
 import { SelectField } from 'common/components/SelectField';
 import { Table } from 'common/components/Table/Table';
 import { RequestSortField, RequestStatus, SortDirection } from 'common/enums';
@@ -177,10 +182,10 @@ export const MyRequestTable = () => {
 
   const onTemplateStatusChange =
     (key: 'Status' | 'WorkflowDefinitionId') =>
-      (event: ChangeEvent<HTMLSelectElement>) => {
-        const value = event.target.value;
-        setFilter({ ...filter, [key]: value });
-      };
+    (event: ChangeEvent<HTMLSelectElement>) => {
+      const value = event.target.value;
+      setFilter({ ...filter, [key]: value });
+    };
 
   const onAction = (requestId: string, type: 'delete' | 'cancel') => () => {
     setRequestId(requestId);
@@ -193,14 +198,19 @@ export const MyRequestTable = () => {
   const handleConfirmation = async () => {
     setIsOpen(false);
     if (requestId.length === 0) return;
-  
-    const mutation = actionType === 'delete' ? deleteRequestMutation : cancelRequestMutation;
-    const successMessage = actionType === 'delete' ? 'Deleted successfully!' : 'Cancelled successfully!';
-    const errorMessage = actionType === 'delete' ? 'Delete failed!' : 'Cancel failed!';
-  
+
+    const mutation =
+      actionType === 'delete' ? deleteRequestMutation : cancelRequestMutation;
+    const successMessage =
+      actionType === 'delete'
+        ? 'Deleted successfully!'
+        : 'Cancelled successfully!';
+    const errorMessage =
+      actionType === 'delete' ? 'Delete failed!' : 'Cancel failed!';
+
     try {
       await mutation.mutateAsync(requestId);
-      queryClient.invalidateQueries('filterRequest');
+      queryClient.invalidateQueries({ queryKey: ['filterRequest'] });
       toast({ title: successMessage, status: 'success' });
     } catch (error) {
       toast({ title: errorMessage, status: 'error' });
@@ -210,7 +220,13 @@ export const MyRequestTable = () => {
   return (
     <>
       <Box>
-        <HStack w="full" pl="24px" pb="8px" alignItems="flex-end" flexWrap="wrap">
+        <HStack
+          w="full"
+          pl="24px"
+          pb="8px"
+          alignItems="flex-end"
+          flexWrap="wrap"
+        >
           <Box w="220px">
             <SelectField
               size="sm"

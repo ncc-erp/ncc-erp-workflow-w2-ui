@@ -13,5 +13,5 @@ export const EmptyWrapper = ({
   message = 'empty',
   ...props
 }: EmptyWrapperProps) => {
-  return isEmpty ? <Center {...props}>{message}</Center> : children;
+  return isEmpty ? <Center {...props}>{message}</Center> : <>{children}</>;
 };

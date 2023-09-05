@@ -13,14 +13,15 @@ import {
   IconButton,
 } from '@chakra-ui/react';
 import { NavLink } from 'common/components/SideBar/NavLink';
-import { 
+import {
   TbAppsFilled,
-  TbArticleFilledFilled, 
-  TbSettingsBolt, 
-  TbUserCircle, 
-  TbBrandMastercard, 
-  TbChevronUp, 
-  TbChevronDown 
+  TbArticleFilledFilled,
+  TbSettingsBolt,
+  TbUserCircle,
+  TbBrandMastercard,
+  TbChevronUp,
+  TbChevronDown,
+  TbLayoutBoard,
 } from 'react-icons/tb';
 import { BiLogOutCircle } from 'react-icons/bi';
 import { HiUser } from 'react-icons/hi2';
@@ -45,7 +46,12 @@ export const SideBarContent = () => {
       to: '/my-requests',
       text: 'My requests',
       icon: TbArticleFilledFilled,
-    }
+    },
+    {
+      to: '/tasks',
+      text: 'Tasks',
+      icon: TbLayoutBoard,
+    },
   ];
 
   const AdminNavList = [
@@ -69,9 +75,9 @@ export const SideBarContent = () => {
           text: 'Settings',
           icon: TbSettingsBolt,
         },
-      ]
-    }
-  ]
+      ],
+    },
+  ];
 
   const user = useRecoilValue(userState);
   const navigate = useNavigate();
@@ -106,14 +112,21 @@ export const SideBarContent = () => {
         ))}
         {isAdmin && (
           <>
-            <NavLink key={AdminNavList[0].to} {...AdminNavList[0]} onClick={() => setSubMenuOpen(!isSubMenuOpen)} />
+            <NavLink
+              key={AdminNavList[0].to}
+              {...AdminNavList[0]}
+              onClick={() => setSubMenuOpen(!isSubMenuOpen)}
+            />
             {isSubMenuOpen &&
               AdminNavList[0].subMenu.map((subNavItem) => (
                 <HStack px="10px">
-                  <NavLink key={subNavItem.to} {...subNavItem} onClick={onCloseSideBar} />
+                  <NavLink
+                    key={subNavItem.to}
+                    {...subNavItem}
+                    onClick={onCloseSideBar}
+                  />
                 </HStack>
-              ))
-            }
+              ))}
           </>
         )}
       </VStack>
