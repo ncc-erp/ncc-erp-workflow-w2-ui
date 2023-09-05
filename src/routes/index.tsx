@@ -6,6 +6,7 @@ import RequestTemplates from 'features/requestDevices/pages/RequestTemplates';
 import MyRequests from 'features/requestDevices/pages/MyRequests';
 import Login from 'features/auth/pages/Login';
 import LoginCallback from 'features/auth/pages/LoginCallback';
+import PostAndWFH from 'features/manage/pages/PostAndWFH';
 
 const NotFound = lazy(() => import('common/components/NotFound'));
 const routeList: RouteObject[] = [
@@ -34,6 +35,14 @@ const routeList: RouteObject[] = [
         element: (
           <WrapperRouteComponent>
             <MyRequests />
+          </WrapperRouteComponent>
+        ),
+      },
+      {
+        path: 'report-wfh',
+        element: (
+          <WrapperRouteComponent>
+            <PostAndWFH />
           </WrapperRouteComponent>
         ),
       },
