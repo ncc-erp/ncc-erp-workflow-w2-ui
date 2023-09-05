@@ -1,20 +1,20 @@
 import Page from 'common/components/Page';
-import { MyRequestBoard } from './components/MyRequestBoard';
+import { TasksBoard } from './components/TasksBoard';
 
-const MyRequests = () => {
+const Tasks = () => {
   return (
     <Page>
       <Page.Header>
         <Page.HeaderLeft>
-          <Page.Heading>My requests</Page.Heading>
+          <Page.Heading>Tasks Board</Page.Heading>
         </Page.HeaderLeft>
       </Page.Header>
 
       <Page.Body>
-        <MyRequestBoard />
+        <TasksBoard />
       </Page.Body>
     </Page>
   );
 };
 
-export default MyRequests;
+export default Tasks;

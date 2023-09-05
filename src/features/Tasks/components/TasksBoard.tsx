@@ -15,7 +15,7 @@ const initialFilter: FilterRequestParams = {
   maxResultCount: +noOfRows[0].value,
 };
 
-export const MyRequestBoard = () => {
+export const TasksBoard = () => {
   const [filter, setFilter] = useState<FilterRequestParams>(initialFilter);
 
   const { data, isLoading } = useMyRequests(filter);

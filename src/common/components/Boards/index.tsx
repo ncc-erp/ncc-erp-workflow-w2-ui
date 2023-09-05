@@ -94,7 +94,7 @@ const Boards = ({ data }: BoardsProps): JSX.Element => {
           queryClient.invalidateQueries({ queryKey: ['filterRequest'] });
           toast({ title: 'Cancelled successfully!', status: 'success' });
         } catch (error) {
-          toast({ title: 'Cancelled Error!', status: 'error' });
+          console.error(error);
           return;
         }
       }

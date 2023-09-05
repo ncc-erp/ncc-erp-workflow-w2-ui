@@ -5,7 +5,8 @@ import Layout from 'common/components/Layout';
 import RequestTemplates from 'features/requestDevices/pages/RequestTemplates';
 import Login from 'features/auth/pages/Login';
 import LoginCallback from 'features/auth/pages/LoginCallback';
-import MyRequests from 'features/MyRequests';
+import Tasks from 'features/Tasks';
+import MyRequests from 'features/requestDevices/pages/MyRequests';
 
 const NotFound = lazy(() => import('common/components/NotFound'));
 const routeList: RouteObject[] = [
@@ -34,6 +35,14 @@ const routeList: RouteObject[] = [
         element: (
           <WrapperRouteComponent>
             <MyRequests />
+          </WrapperRouteComponent>
+        ),
+      },
+      {
+        path: 'tasks',
+        element: (
+          <WrapperRouteComponent>
+            <Tasks />
           </WrapperRouteComponent>
         ),
       },

@@ -21,12 +21,12 @@ import { Pagination } from 'common/components/Pagination';
 import { dateFormat, noOfRows } from 'common/constants';
 import { PageSize } from 'common/components/Table/PageSize';
 import { ShowingItemText } from 'common/components/Table/ShowingItemText';
+import { RowAction } from 'features/requestDevices/pages/MyRequests/RowAction';
 import { EmptyWrapper } from 'common/components/EmptyWrapper';
 import { useRecoilValue } from 'recoil';
 import { appConfigState } from 'stores/appConfig';
 import { toast } from 'common/components/StandaloneToast';
 import { ModalConfirm } from 'common/components/ModalConfirm';
-import { RowAction } from './RowAction';
 
 const initialFilter: FilterRequestParams = {
   Status: '',
@@ -210,7 +210,7 @@ export const MyRequestTable = () => {
 
     try {
       await mutation.mutateAsync(requestId);
-      queryClient.invalidateQueries({ queryKey: ['filterRequest'] });
+      queryClient.invalidateQueries('filterRequest');
       toast({ title: successMessage, status: 'success' });
     } catch (error) {
       toast({ title: errorMessage, status: 'error' });

@@ -45,15 +45,15 @@ const useBoard = () => {
     isDragging: boolean,
     draggableStyle: DraggingStyle | NotDraggingStyle | undefined
   ): React.CSSProperties => ({
-    // some basic styles to make the items look a bit nicer
+    // basic styles to items
     userSelect: 'none',
     padding: 0,
     margin: 0,
 
-    // change background colour if dragging
+    // change background color if dragging
     background: isDragging ? 'lightgreen' : 'white',
 
-    // styles we need to apply on draggables
+    // styles apply on draggable
     ...draggableStyle,
   });
 

@@ -13,7 +13,11 @@ import {
   IconButton,
 } from '@chakra-ui/react';
 import { NavLink } from 'common/components/SideBar/NavLink';
-import { TbAppsFilled, TbArticleFilledFilled } from 'react-icons/tb';
+import {
+  TbAppsFilled,
+  TbArticleFilledFilled,
+  TbLayoutBoard,
+} from 'react-icons/tb';
 import { BiLogOutCircle } from 'react-icons/bi';
 import { HiUser } from 'react-icons/hi2';
 import { VscKebabVertical } from 'react-icons/vsc';
@@ -32,6 +36,11 @@ const NavList = [
     to: '/my-requests',
     text: 'My requests',
     icon: TbArticleFilledFilled,
+  },
+  {
+    to: '/tasks',
+    text: 'Tasks',
+    icon: TbLayoutBoard,
   },
 ];
 
