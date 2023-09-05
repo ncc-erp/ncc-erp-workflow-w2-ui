@@ -210,7 +210,7 @@ export const MyRequestTable = () => {
 
     try {
       await mutation.mutateAsync(requestId);
-      queryClient.invalidateQueries('filterRequest');
+      queryClient.invalidateQueries({ queryKey: ['filterRequest'] });
       toast({ title: successMessage, status: 'success' });
     } catch (error) {
       toast({ title: errorMessage, status: 'error' });
