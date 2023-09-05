@@ -30,10 +30,9 @@ export interface ModalUserParams {
   phoneNumber: string;
   isActive: boolean;
   lockoutEnabled: boolean;
-  roleNames?: [string];
+  roleNames: string[];
   password?: string;
 }
-
 export interface FilterUserParams {
   filter: string;
   maxResultCount: number;

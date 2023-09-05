@@ -13,7 +13,7 @@ import {
   IconButton,
 } from '@chakra-ui/react';
 import { NavLink } from 'common/components/SideBar/NavLink';
-import { TbAppsFilled, TbArticleFilledFilled, TbBrandMastercard, TbChevronDown, TbChevronUp, TbSettingsBolt, TbUserCircle } from 'react-icons/tb';
+import { TbAppsFilled, TbArticleFilledFilled, TbBrandMastercard, TbChevronDown, TbChevronUp } from 'react-icons/tb';
 import { BiLogOutCircle } from 'react-icons/bi';
 import { HiUser } from 'react-icons/hi2';
 import { VscKebabVertical } from 'react-icons/vsc';
@@ -22,8 +22,10 @@ import { userState } from 'stores/user';
 import { useSetAppConfig } from 'stores/appConfig';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import { useIsAdmin } from 'hooks/useIsAdmin';
 
 export const SideBarContent = () => {
+  const isAdmin = useIsAdmin();
   const [isSubMenuOpen, setSubMenuOpen] = useState(false);
   const NavList = [
     {
@@ -45,19 +47,9 @@ export const SideBarContent = () => {
       icon: isSubMenuOpen ? TbChevronUp : TbChevronDown,
       subMenu: [
         {
-          to: '/administration/tenant-management',
-          text: 'Tenant management',
-          icon: TbUserCircle,
-        },
-        {
           to: '/administration/user-management',
           text: 'User management',
           icon: TbBrandMastercard,
-        },
-        {
-          to: '/administration/settings',
-          text: 'Settings',
-          icon: TbSettingsBolt,
         },
       ]
     }
@@ -94,13 +86,17 @@ export const SideBarContent = () => {
         {NavList.map((nav) => (
           <NavLink key={nav.to} {...nav} onClick={onCloseSideBar} />
         ))}
-        <NavLink key={AdminNavList[0].to} {...AdminNavList[0]} onClick={() => setSubMenuOpen(!isSubMenuOpen)} />
-        {isSubMenuOpen &&
-          AdminNavList[0].subMenu.map((subNavItem) => (
-            <HStack px="10px">
-              <NavLink key={subNavItem.text} {...subNavItem} onClick={onCloseSideBar} />
-            </HStack>
-          ))
+        {isAdmin &&
+          <>
+            <NavLink key={AdminNavList[0].to} {...AdminNavList[0]} onClick={() => setSubMenuOpen(!isSubMenuOpen)} />
+            {isSubMenuOpen &&
+              AdminNavList[0].subMenu.map((subNavItem) => (
+                <HStack px="10px">
+                  <NavLink key={subNavItem.text} {...subNavItem} onClick={onCloseSideBar} />
+                </HStack>
+              ))
+            }
+          </>
         }
       </VStack>
       <HStack

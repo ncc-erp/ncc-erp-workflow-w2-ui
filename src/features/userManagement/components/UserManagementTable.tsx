@@ -3,7 +3,7 @@ import {
     SortingState,
     createColumnHelper,
 } from '@tanstack/react-table';
-import { Box, Button, Center, HStack, Input, InputGroup, InputRightAddon, Spacer, Spinner } from '@chakra-ui/react';
+import { Box, Button, Center, HStack, Input, InputGroup, InputLeftElement, Spacer, Spinner } from '@chakra-ui/react';
 import { Table } from 'common/components/Table/Table';
 import { SortDirection, UserSortField } from 'common/enums';
 import { useEffect, useMemo, useState } from 'react';
@@ -17,7 +17,9 @@ import { appConfigState } from 'stores/appConfig';
 import { FilterUserParams, UserIdentity } from 'models/userIdentity';
 import { useUserIdentity } from 'api/apiHooks/userIdentityHooks';
 import { RowAction } from './RowAction';
-import { UserModal } from './components/modal/UserModal';
+import { UserModal } from './UserModal';
+import useDebounced from 'hooks/useDebounced';
+import { BiSearchAlt } from 'react-icons/bi';
 
 const initialFilter: FilterUserParams = {
     filter: '',
@@ -35,19 +37,16 @@ const initialSorting: SortingState = [
 
 export const UserManagementTable = () => {
     const { sideBarWidth } = useRecoilValue(appConfigState);
-    const [filter, setFilter] = useState<FilterUserParams>(initialFilter);
+    const [filterUser, setFilterUser] = useState<FilterUserParams>(initialFilter);
     const [sorting, setSorting] = useState<SortingState>(initialSorting);
-    const { data, isLoading } = useUserIdentity(filter);
+    const { data, isLoading } = useUserIdentity(filterUser);
     const { items: requests = [], totalCount = 0 } = data ?? {};
     const columnHelper = createColumnHelper<UserIdentity>();
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const [modalTitle, setModalTitle] = useState<string>('');
-    const [user, setUser] = useState({});
-
-    const currentPage = useMemo(() => {
-        const { skipCount, maxResultCount } = filter;
-        return (maxResultCount + skipCount) / maxResultCount;
-    }, [filter]);
+    const [user, setUser] = useState<UserIdentity>();
+    const [txtSearch, setTxtSearch] = useState('');
+    const txtSearchDebounced = useDebounced(txtSearch, 500);
 
     const userColumns = useMemo(
         () =>
@@ -89,27 +88,39 @@ export const UserManagementTable = () => {
         [columnHelper]
     );
 
+    const currentPage = useMemo(() => {
+        const { skipCount, maxResultCount } = filterUser;
+        return (maxResultCount + skipCount) / maxResultCount;
+    }, [filterUser]);
+
     useEffect(() => {
         const { id, desc } = sorting?.[0] ?? {};
         const sort = `${id} ${desc ? SortDirection.desc : SortDirection.asc}`;
 
-        setFilter((filter) => ({
+        setFilterUser((filter) => ({
             ...filter,
             sorting: sort,
             skipCount: 0,
         }));
     }, [sorting]);
 
+    useEffect(() => {
+        setFilterUser((filterUser) => ({
+            ...filterUser,
+            filter: txtSearchDebounced
+        }));
+    }, [txtSearchDebounced]);
+
     const onPageChange = (page: number) => {
-        setFilter((filter) => ({
+        setFilterUser((filter) => ({
             ...filter,
             skipCount: filter.maxResultCount * (page - 1),
         }));
     };
 
     const onPageSizeChange = (pageSize: number) => {
-        setFilter((filter) => ({
-            ...filter,
+        setFilterUser((filterUser) => ({
+            ...filterUser,
             maxResultCount: pageSize,
             skipCount: 0,
         }));
@@ -118,7 +129,6 @@ export const UserManagementTable = () => {
     const onAction = (user: UserIdentity, type: 'Edit' | 'Permissions' | 'Delete') => () => {
         setUser(user);
         setIsModalOpen(true);
-        // setUserId(userId);
         setModalTitle(type);
     };
 
@@ -129,19 +139,24 @@ export const UserManagementTable = () => {
     return (
         <>
             <Box>
-                <HStack w="full" pl="24px" pb="8px" align="space-between" flexWrap="wrap">
+                <HStack w="full" p="0px 20px 8px 24px" mb={5} justifyContent="space-between" flexWrap="wrap">
                     <Box w="220px">
-                        <InputGroup borderRadius={5} size="sm">
-                            <Input type="text" placeholder="Search..." border="1px solid #949494" />
-                            <InputRightAddon p={0} border="none">
-                                <Button size="sm" borderLeftRadius={0} borderRightRadius={3.3}>
-                                    Search
-                                </Button>
-                            </InputRightAddon>
+                        <InputGroup borderRadius={5} >
+                            <InputLeftElement pointerEvents='none'>
+                                <BiSearchAlt color='gray.300' fontSize={18} />
+                            </InputLeftElement>
+                            <Input
+                                type="text"
+                                placeholder="Search..."
+                                border="1px solid #949494"
+                                fontSize={15}
+                                value={txtSearch}
+                                onChange={(e) => setTxtSearch(e.target.value)}
+                            />
                         </InputGroup>
                     </Box>
                     <Box w="112px">
-                        <Button onClick={() => {
+                        <Button colorScheme='blue' onClick={() => {
                             setIsModalOpen(true);
                             setModalTitle('Create');
                         }}>New user</Button>
@@ -184,25 +199,27 @@ export const UserManagementTable = () => {
                         <PageSize noOfRows={noOfRows} onChange={onPageSizeChange} />
                         <Spacer w="12px" />
                         <ShowingItemText
-                            skipCount={filter.skipCount}
-                            maxResultCount={filter.maxResultCount}
+                            skipCount={filterUser.skipCount}
+                            maxResultCount={filterUser.maxResultCount}
                             totalCount={totalCount}
                         />
                     </HStack>
                     <Pagination
                         total={totalCount}
-                        pageSize={filter.maxResultCount}
+                        pageSize={filterUser.maxResultCount}
                         current={currentPage}
                         onChange={onPageChange}
                         hideOnSinglePage
                     />
                 </HStack>
-                <UserModal
-                    isOpen={isModalOpen}
-                    onClose={onCloseModal}
-                    user={user}
-                    modalTitle={modalTitle}
-                />
+                {user &&
+                    <UserModal
+                        isOpen={isModalOpen}
+                        onClose={onCloseModal}
+                        user={user}
+                        modalTitle={modalTitle}
+                    />
+                }
             </Box >
         </>
     );

@@ -6,7 +6,7 @@ export const validationSchema = yup.object().shape({
     userName: yup.string()
         .required('User name field is required!'),
     password: yup.string()
-        .required('Password field is required!')
+        .nullable()
         .min(6, 'Passwords must be at least 6 characters')
         .matches(/[a-zA-Z]/, 'Passwords must have at least one non alphanumeric character')
         .matches(/[0-9]/, 'Passwords must have at least one digit')
@@ -15,6 +15,7 @@ export const validationSchema = yup.object().shape({
         .required('Email address field is required!')
         .email('Email address field is not a valid e-mail address.'),
     phoneNumber: yup.string()
+        .nullable()
         .min(10, 'Phone number is not valid')
         .matches(phoneRegExp, 'Phone number is not valid')
 });
