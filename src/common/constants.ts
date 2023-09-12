@@ -88,3 +88,28 @@ export const project = [
     value: 'Yukimi',
   },
 ];
+export const BoardColumnStatus = {
+  Pending: 0,
+  Approved: 1,
+  Canceled: 2,
+};
+
+export const UserRoles = {
+  ADMIN: 'admin',
+  DEFAULT_USER: 'DefaultUser',
+};
+
+export const UserAction = {
+  CREATE: 'Create',
+  EDIT: 'Edit',
+  PERMISSIONS: 'Permissions',
+  DELETE: 'Delete',
+};
+
+export const QueryKeys = {
+  GET_ALL_ROLES: 'getAllRoles',
+  GET_ROLE_BY_USER: 'getRoleByUserId',
+  FILTER_USER: 'filterUser',
+  FILTER_REQUEST: 'filterRequest',
+  REQUEST_TEMPLATES: 'requestTemplates',
+};

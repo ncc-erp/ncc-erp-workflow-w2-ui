@@ -103,5 +103,5 @@ const PortalWrapper = ({
   shouldRenderInPortal,
   children,
 }: PortalWrapperProps) => {
-  return shouldRenderInPortal ? <Portal>{children}</Portal> : children;
+  return shouldRenderInPortal ? <Portal>{children}</Portal> : <>{children}</>;
 };

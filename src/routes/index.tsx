@@ -1,11 +1,18 @@
 import { Suspense, lazy } from 'react';
-import { Navigate, RouteObject, createBrowserRouter } from 'react-router-dom';
+import {
+  Navigate,
+  Outlet,
+  RouteObject,
+  createBrowserRouter,
+} from 'react-router-dom';
 import WrapperRouteComponent from 'routes/WrapperRoute';
 import Layout from 'common/components/Layout';
 import MyRequests from 'features/requestDevices/pages/MyRequests';
 import Login from 'features/auth/pages/Login';
 import LoginCallback from 'features/auth/pages/LoginCallback';
 import RequestTemplates from 'features/RequestTemplates';
+import UserManagement from 'features/userManagement';
+import Tasks from 'features/Tasks';
 
 const NotFound = lazy(() => import('common/components/NotFound'));
 const routeList: RouteObject[] = [
@@ -34,6 +41,36 @@ const routeList: RouteObject[] = [
         element: (
           <WrapperRouteComponent>
             <MyRequests />
+          </WrapperRouteComponent>
+        ),
+      },
+      {
+        path: 'administration',
+        element: (
+          <WrapperRouteComponent>
+            <Outlet />
+          </WrapperRouteComponent>
+        ),
+        children: [
+          {
+            index: true,
+            element: <Navigate to="user-management" />,
+          },
+          {
+            path: 'user-management',
+            element: (
+              <WrapperRouteComponent>
+                <UserManagement />
+              </WrapperRouteComponent>
+            ),
+          },
+        ],
+      },
+      {
+        path: 'tasks',
+        element: (
+          <WrapperRouteComponent>
+            <Tasks />
           </WrapperRouteComponent>
         ),
       },

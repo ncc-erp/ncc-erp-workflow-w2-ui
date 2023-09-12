@@ -13,7 +13,15 @@ import {
   IconButton,
 } from '@chakra-ui/react';
 import { NavLink } from 'common/components/SideBar/NavLink';
-import { TbAppsFilled, TbArticleFilledFilled } from 'react-icons/tb';
+import {
+  TbAppsFilled,
+  TbArticleFilledFilled,
+  TbSettingsBolt,
+  TbBrandMastercard,
+  TbChevronUp,
+  TbChevronDown,
+  TbLayoutBoard,
+} from 'react-icons/tb';
 import { BiLogOutCircle } from 'react-icons/bi';
 import { HiUser } from 'react-icons/hi2';
 import { VscKebabVertical } from 'react-icons/vsc';
@@ -21,21 +29,50 @@ import { useRecoilValue } from 'recoil';
 import { userState } from 'stores/user';
 import { useSetAppConfig } from 'stores/appConfig';
 import { useNavigate } from 'react-router-dom';
-
-const NavList = [
-  {
-    to: '/request-templates',
-    text: 'Request templates',
-    icon: TbAppsFilled,
-  },
-  {
-    to: '/my-requests',
-    text: 'My requests',
-    icon: TbArticleFilledFilled,
-  },
-];
+import { useState } from 'react';
+import { useIsAdmin } from 'hooks/useIsAdmin';
 
 export const SideBarContent = () => {
+  const isAdmin = useIsAdmin();
+  const [isSubMenuOpen, setSubMenuOpen] = useState(false);
+  const NavList = [
+    {
+      to: '/request-templates',
+      text: 'Request templates',
+      icon: TbAppsFilled,
+    },
+    {
+      to: '/my-requests',
+      text: 'My requests',
+      icon: TbArticleFilledFilled,
+    },
+    {
+      to: '/tasks',
+      text: 'Tasks',
+      icon: TbLayoutBoard,
+    },
+  ];
+
+  const AdminNavList = [
+    {
+      to: '/administration',
+      text: 'Administration',
+      icon: isSubMenuOpen ? TbChevronUp : TbChevronDown,
+      subMenu: [
+        {
+          to: '/administration/user-management',
+          text: 'User management',
+          icon: TbBrandMastercard,
+        },
+        {
+          to: '/settings',
+          text: 'Settings',
+          icon: TbSettingsBolt,
+        },
+      ],
+    },
+  ];
+
   const user = useRecoilValue(userState);
   const navigate = useNavigate();
   const { onCloseSideBar } = useSetAppConfig();
@@ -67,6 +104,25 @@ export const SideBarContent = () => {
         {NavList.map((nav) => (
           <NavLink key={nav.to} {...nav} onClick={onCloseSideBar} />
         ))}
+        {isAdmin && (
+          <>
+            <NavLink
+              key={AdminNavList[0].to}
+              {...AdminNavList[0]}
+              onClick={() => setSubMenuOpen(!isSubMenuOpen)}
+            />
+            {isSubMenuOpen &&
+              AdminNavList[0].subMenu.map((subNavItem) => (
+                <HStack px="10px">
+                  <NavLink
+                    key={subNavItem.to}
+                    {...subNavItem}
+                    onClick={onCloseSideBar}
+                  />
+                </HStack>
+              ))}
+          </>
+        )}
       </VStack>
       <HStack
         borderTopWidth="1px"

@@ -18,7 +18,7 @@ import { format } from 'date-fns';
 import { FilterRequestParams, Request } from 'models/request';
 import { ChangeEvent, useEffect, useMemo, useState } from 'react';
 import { Pagination } from 'common/components/Pagination';
-import { dateFormat, noOfRows } from 'common/constants';
+import { QueryKeys, dateFormat, noOfRows } from 'common/constants';
 import { PageSize } from 'common/components/Table/PageSize';
 import { ShowingItemText } from 'common/components/Table/ShowingItemText';
 import { RowAction } from 'features/requestDevices/pages/MyRequests/RowAction';
@@ -210,7 +210,7 @@ export const MyRequestTable = () => {
 
     try {
       await mutation.mutateAsync(requestId);
-      queryClient.invalidateQueries('filterRequest');
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.FILTER_REQUEST] });
       toast({ title: successMessage, status: 'success' });
     } catch (error) {
       toast({ title: errorMessage, status: 'error' });

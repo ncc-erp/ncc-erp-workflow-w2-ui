@@ -19,6 +19,12 @@ export enum RequestSortField {
   lastExecutedAt = 'lastExecutedAt',
 }
 
+export enum UserSortField {
+  userName = 'userName',
+  email = 'email',
+  phoneNumber = 'phoneNumber',
+}
+
 export enum SortDirection {
   asc = 'asc',
   desc = 'desc',
