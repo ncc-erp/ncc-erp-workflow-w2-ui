@@ -1,5 +1,5 @@
 import { RouteProps } from 'react-router';
-import PrivateRoute from './privateRoute';
+import PrivateRoute from 'routes/privateRoute';
 
 export type WrapperRouteProps = RouteProps & {
   auth?: boolean;

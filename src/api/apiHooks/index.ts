@@ -2,10 +2,7 @@ import { useAxios } from 'api/axiosInstant';
 import { AxiosRequestConfig } from 'axios';
 import { QueryKey, useMutation, useQuery } from '@tanstack/react-query';
 
-export const useCreate = <T, U>(
-  url: string,
-  config?: AxiosRequestConfig
-) => {
+export const useCreate = <T, U>(url: string, config?: AxiosRequestConfig) => {
   const axios = useAxios();
 
   const mutate = async (params: T) => {

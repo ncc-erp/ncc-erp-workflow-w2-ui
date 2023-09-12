@@ -1,9 +1,19 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
+  ChangeOfficeRequestFormParams,
+  DeviceRequestFormParams,
   FilterRequestParams,
   FilterRequestResult,
+  OfficeEquipmentRequestFormParams,
   RequestTemplateResult,
+  WfhRequestFormParams,
 } from 'models/request';
-import { useCancelByPost, useDelete, useGetListByPost } from 'api/apiHooks';
+import {
+  useCancelByPost,
+  useDelete,
+  useGetListByPost,
+  useCreate,
+} from 'api/apiHooks';
 import { QueryKeys } from 'common/constants';
 
 export const useMyRequests = (filter: FilterRequestParams) => {
@@ -27,4 +37,20 @@ export const useRequestTemplates = () => {
     [QueryKeys.REQUEST_TEMPLATES],
     '/app/workflow-definition/list-all'
   );
+};
+
+export const useRequestWorkflow = () => {
+  return useCreate<ChangeOfficeRequestFormParams, any>('/account/login');
+};
+
+export const useOfficeEquipmentRequestWorkflow = () => {
+  return useCreate<OfficeEquipmentRequestFormParams, any>('/account/login');
+};
+
+export const useWfhRequestWorkflow = () => {
+  return useCreate<WfhRequestFormParams, any>('/account/login');
+};
+
+export const useDeviceRequestWorkflow = () => {
+  return useCreate<DeviceRequestFormParams, any>('/account/login');
 };

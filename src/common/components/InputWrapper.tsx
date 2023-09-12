@@ -12,7 +12,11 @@ export const InputWrapper = ({ children, label, error }: InputWrapperProps) => {
 
   return (
     <FormControl isInvalid={isInvalid}>
-      {label && <FormLabel fontSize={14} my={3}>{label}</FormLabel>}
+      {label && (
+        <FormLabel fontSize={14} my={3}>
+          {label}
+        </FormLabel>
+      )}
       {children}
       {error && <FormErrorMessage>{error}</FormErrorMessage>}
     </FormControl>

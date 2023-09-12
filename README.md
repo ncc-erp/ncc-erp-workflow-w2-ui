@@ -4,7 +4,7 @@ W2 is one of the NCC tools to controls, request to the workflow of the company,
 
 - [Prerequisites](#prerequisites)
 - [Frontend Setup](#frontend-setup)
-- [Backend](#backend-setup)
+- [Backend](#backend)
 
 ### Prerequisites
 

@@ -6,7 +6,12 @@ import {
   MenuItem,
   Icon,
 } from '@chakra-ui/react';
-import { RiSettings4Fill, RiDeleteBin6Fill, RiEdit2Fill, RiUser2Fill } from 'react-icons/ri';
+import {
+  RiSettings4Fill,
+  RiDeleteBin6Fill,
+  RiEdit2Fill,
+  RiUser2Fill,
+} from 'react-icons/ri';
 
 interface RowActionProps {
   onEdit: () => void;
@@ -14,7 +19,11 @@ interface RowActionProps {
   onDelete: () => void;
 }
 
-export const RowAction = ({ onEdit, onPermissions, onDelete }: RowActionProps) => {
+export const RowAction = ({
+  onEdit,
+  onPermissions,
+  onDelete,
+}: RowActionProps) => {
   return (
     <Menu>
       <MenuButton
@@ -23,7 +32,9 @@ export const RowAction = ({ onEdit, onPermissions, onDelete }: RowActionProps) =
         variant="ghost"
         size="sm"
         icon={<Icon color="gray.500" fontSize="lg" as={RiSettings4Fill} />}
-      >Actions</MenuButton>
+      >
+        Actions
+      </MenuButton>
       <MenuList minW="100px">
         <MenuItem display="flex" gap="12px" onClick={onEdit}>
           <Icon color="gray.500" as={RiEdit2Fill} />

@@ -16,7 +16,7 @@ export const PageSize = ({ noOfRows, onChange }: PageSizeProps) => {
   return (
     <HStack spacing={0}>
       <Text whiteSpace="nowrap" fontSize="xs">
-        No. of rows
+        No of rows
       </Text>
       <SelectField
         options={noOfRows}

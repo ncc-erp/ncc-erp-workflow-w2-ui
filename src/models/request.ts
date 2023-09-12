@@ -13,6 +13,11 @@ export interface Request {
   creatorId?: string;
 }
 
+export interface RequestTemplate {
+  id: string;
+  displayName: string;
+}
+
 export interface FilterRequestParams {
   Status?: string;
   WorkflowDefinitionId?: string;
@@ -53,4 +58,31 @@ export interface PropertyDefinition {
   name: string;
   type: string;
   isRequired: boolean;
+}
+
+export interface ChangeOfficeRequestFormParams {
+  currentOffice: string;
+  destinationOffice: string;
+  content: string;
+  startDate: Date;
+  endDate: Date;
+}
+
+export interface OfficeEquipmentRequestFormParams {
+  currentOffice: string;
+  reason: string;
+}
+
+export interface WfhRequestFormParams {
+  currentOffice: string;
+  currentProject: string;
+  reason: string;
+  date: Date;
+}
+
+export interface DeviceRequestFormParams {
+  currentOffice: string;
+  currentProject: string;
+  device: string;
+  reason: string;
 }
