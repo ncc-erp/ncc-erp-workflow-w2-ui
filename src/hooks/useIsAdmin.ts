@@ -1,4 +1,4 @@
-import { Roles } from 'common/constants';
+import { UserRoles } from 'common/constants';
 import { LocalStorageKeys } from 'common/enums';
 import { useMemo } from 'react';
 import { parseJwt } from 'utils/parseJwt';
@@ -11,8 +11,7 @@ export function useIsAdmin() {
     }
     return null;
   }, [token]);
-
-  const isAdmin = decodedToken ? decodedToken.role === Roles.Admin : false;
+  const isAdmin = decodedToken ? decodedToken.role === UserRoles.ADMIN : false;
 
   return isAdmin;
 }

@@ -2,11 +2,30 @@ import { useAxios } from 'api/axiosInstant';
 import { AxiosRequestConfig } from 'axios';
 import { QueryKey, useMutation, useQuery } from '@tanstack/react-query';
 
-export const useCreate = <T, U>(url: string, config?: AxiosRequestConfig) => {
+export const useCreate = <T, U>(
+  url: string,
+  config?: AxiosRequestConfig
+) => {
   const axios = useAxios();
 
   const mutate = async (params: T) => {
     const data: U = await axios.post(`${url}`, params, config);
+    return data;
+  };
+
+  return useMutation(mutate);
+};
+
+export const useUpdate = <T, D, U>(
+  url: string,
+  params?: T,
+  body?: D,
+  config?: AxiosRequestConfig
+) => {
+  const axios = useAxios();
+
+  const mutate = async () => {
+    const data: U = await axios.put(`${url}/${params}`, body, config);
     return data;
   };
 
@@ -26,6 +45,22 @@ export const useGetOne = <T>(
   };
 
   return useQuery(key, () => getData());
+};
+
+export const useGetList = <T, D = object | string>(
+  key: QueryKey,
+  url: string,
+  params?: D,
+  config?: AxiosRequestConfig
+) => {
+  const axios = useAxios();
+
+  const getData = async () => {
+    const data: T = await axios.get(`${url}`, { params, ...config });
+    return data;
+  };
+
+  return useQuery(key, getData);
 };
 
 export const useGetListByPost = <T, D = object>(

@@ -17,7 +17,6 @@ import {
   TbAppsFilled,
   TbArticleFilledFilled,
   TbSettingsBolt,
-  TbUserCircle,
   TbBrandMastercard,
   TbChevronUp,
   TbChevronDown,
@@ -30,8 +29,8 @@ import { useRecoilValue } from 'recoil';
 import { userState } from 'stores/user';
 import { useSetAppConfig } from 'stores/appConfig';
 import { useNavigate } from 'react-router-dom';
-import { useIsAdmin } from 'hooks/useIsAdmin';
 import { useState } from 'react';
+import { useIsAdmin } from 'hooks/useIsAdmin';
 
 export const SideBarContent = () => {
   const isAdmin = useIsAdmin();
@@ -61,13 +60,8 @@ export const SideBarContent = () => {
       icon: isSubMenuOpen ? TbChevronUp : TbChevronDown,
       subMenu: [
         {
-          to: '/tenant-management',
-          text: 'Tenant management',
-          icon: TbUserCircle,
-        },
-        {
-          to: '/identity-management',
-          text: 'Identity management',
+          to: '/administration/user-management',
+          text: 'User management',
           icon: TbBrandMastercard,
         },
         {
