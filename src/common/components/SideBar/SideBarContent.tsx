@@ -13,7 +13,15 @@ import {
   IconButton,
 } from '@chakra-ui/react';
 import { NavLink } from 'common/components/SideBar/NavLink';
-import { TbAppsFilled, TbArticleFilledFilled, TbBrandMastercard, TbChevronDown, TbChevronUp } from 'react-icons/tb';
+import {
+  TbAppsFilled,
+  TbArticleFilledFilled,
+  TbSettingsBolt,
+  TbBrandMastercard,
+  TbChevronUp,
+  TbChevronDown,
+  TbLayoutBoard,
+} from 'react-icons/tb';
 import { BiLogOutCircle } from 'react-icons/bi';
 import { HiUser } from 'react-icons/hi2';
 import { VscKebabVertical } from 'react-icons/vsc';
@@ -38,6 +46,11 @@ export const SideBarContent = () => {
       text: 'My requests',
       icon: TbArticleFilledFilled,
     },
+    {
+      to: '/tasks',
+      text: 'Tasks',
+      icon: TbLayoutBoard,
+    },
   ];
 
   const AdminNavList = [
@@ -51,9 +64,14 @@ export const SideBarContent = () => {
           text: 'User management',
           icon: TbBrandMastercard,
         },
-      ]
-    }
-  ]
+        {
+          to: '/settings',
+          text: 'Settings',
+          icon: TbSettingsBolt,
+        },
+      ],
+    },
+  ];
 
   const user = useRecoilValue(userState);
   const navigate = useNavigate();
@@ -86,18 +104,25 @@ export const SideBarContent = () => {
         {NavList.map((nav) => (
           <NavLink key={nav.to} {...nav} onClick={onCloseSideBar} />
         ))}
-        {isAdmin &&
+        {isAdmin && (
           <>
-            <NavLink key={AdminNavList[0].to} {...AdminNavList[0]} onClick={() => setSubMenuOpen(!isSubMenuOpen)} />
+            <NavLink
+              key={AdminNavList[0].to}
+              {...AdminNavList[0]}
+              onClick={() => setSubMenuOpen(!isSubMenuOpen)}
+            />
             {isSubMenuOpen &&
               AdminNavList[0].subMenu.map((subNavItem) => (
                 <HStack px="10px">
-                  <NavLink key={subNavItem.text} {...subNavItem} onClick={onCloseSideBar} />
+                  <NavLink
+                    key={subNavItem.to}
+                    {...subNavItem}
+                    onClick={onCloseSideBar}
+                  />
                 </HStack>
-              ))
-            }
+              ))}
           </>
-        }
+        )}
       </VStack>
       <HStack
         borderTopWidth="1px"

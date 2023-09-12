@@ -1,0 +1,95 @@
+.container {
+  display: flex;
+  gap: 5px;
+  margin: 10px 20px
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: flex-start;
+  gap: 5px;
+
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 10px;
+
+  background-color: #f9f9f9;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+
+  padding: 8px;
+  font-size: 12px;
+  margin-bottom: 5px;
+}
+
+.itemPending {
+  border-left: 4px solid #FBE74B;
+}
+.itemApproved {
+  border-left: 4px solid #00B894;
+}
+.itemCanceled {
+  border-left: 4px solid #FF7675;
+}
+
+.content {
+  font-weight: bold;
+}
+
+.title {
+  color: #007bff;
+  font-size: 14px;
+}
+
+.person {
+  color: #555;
+}
+
+.stateWrapper {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+
+  width: 100%;
+}
+.statusWrapper {
+  display: flex;
+  align-items: center;
+  gap: 5px
+}
+
+.status {
+  display: inline-block;
+  border-radius: 20px;
+  width: 7px;
+  height: 7px;
+}
+
+.statusPending {
+  background-color: #FBE74B;
+}
+
+.statusApproved {
+  background-color: #00B894;
+}
+.statusCanceled {
+  background-color: #FF7675;
+}
+
+.state {
+  color: #0000008C;
+}
+
+.timestamp {
+  color: #888;
+}
+
+.columnLabel {
+  margin-bottom: 10px;
+  padding: 8px;
+  background-color: #fff;
+  border-radius: 5px;
+
+  font-weight: bold;
+}
