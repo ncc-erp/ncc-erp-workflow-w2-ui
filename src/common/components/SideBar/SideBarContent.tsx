@@ -24,11 +24,11 @@ import {
   TbAppsFilled,
   TbArticleFilledFilled,
   TbSettingsBolt,
-  TbUserCircle,
   TbBrandMastercard,
   TbSpeakerphone,
   TbUserCog,
   TbHomeEdit,
+  TbLayoutBoard,
 } from 'react-icons/tb';
 import { BiLogOutCircle } from 'react-icons/bi';
 import { HiUser } from 'react-icons/hi2';
@@ -52,6 +52,11 @@ export const SideBarContent = () => {
       text: 'My requests',
       icon: TbArticleFilledFilled,
     },
+    {
+      to: '/tasks',
+      text: 'Tasks',
+      icon: TbLayoutBoard,
+    },
   ];
 
   const AdminNavList = [
@@ -61,13 +66,8 @@ export const SideBarContent = () => {
       icon: TbUserCog,
       subMenu: [
         {
-          to: '/tenant-management',
-          text: 'Tenant management',
-          icon: TbUserCircle,
-        },
-        {
-          to: '/identity-management',
-          text: 'Identity management',
+          to: '/administration/user-management',
+          text: 'User management',
           icon: TbBrandMastercard,
         },
         {
