@@ -90,31 +90,25 @@ export const Table = <D,>({
         ))}
       </Thead>
       <Tbody>
-        {table
-          .getRowModel()
-          .rows.slice(0, 10)
-          .map((row) => {
-            return (
-              <Tr key={row.id}>
-                {row.getVisibleCells().map((cell) => {
-                  return (
-                    <Td
-                      key={cell.id}
-                      fontSize="sm"
-                      borderRight="1px"
-                      borderColor="gray.200"
-                      px="8px"
-                    >
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </Td>
-                  );
-                })}
-              </Tr>
-            );
-          })}
+        {table.getRowModel().rows.map((row) => {
+          return (
+            <Tr key={row.id}>
+              {row.getVisibleCells().map((cell) => {
+                return (
+                  <Td
+                    key={cell.id}
+                    fontSize="sm"
+                    borderRight="1px"
+                    borderColor="gray.200"
+                    px="8px"
+                  >
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </Td>
+                );
+              })}
+            </Tr>
+          );
+        })}
       </Tbody>
     </TableComponent>
   );

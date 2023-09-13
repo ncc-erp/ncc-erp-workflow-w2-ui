@@ -11,16 +11,24 @@ import {
   MenuList,
   Icon,
   IconButton,
+  Link,
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
+  Box,
 } from '@chakra-ui/react';
 import { NavLink } from 'common/components/SideBar/NavLink';
 import {
   TbAppsFilled,
   TbArticleFilledFilled,
   TbSettingsBolt,
-  TbBrandMastercard,
-  TbChevronUp,
-  TbChevronDown,
   TbLayoutBoard,
+  TbBrandMastercard,
+  TbSpeakerphone,
+  TbUserCog,
+  TbHomeEdit,
 } from 'react-icons/tb';
 import { BiLogOutCircle } from 'react-icons/bi';
 import { HiUser } from 'react-icons/hi2';
@@ -29,12 +37,10 @@ import { useRecoilValue } from 'recoil';
 import { userState } from 'stores/user';
 import { useSetAppConfig } from 'stores/appConfig';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
 import { useIsAdmin } from 'hooks/useIsAdmin';
 
 export const SideBarContent = () => {
   const isAdmin = useIsAdmin();
-  const [isSubMenuOpen, setSubMenuOpen] = useState(false);
   const NavList = [
     {
       to: '/request-templates',
@@ -57,7 +63,7 @@ export const SideBarContent = () => {
     {
       to: '/administration',
       text: 'Administration',
-      icon: isSubMenuOpen ? TbChevronUp : TbChevronDown,
+      icon: TbUserCog,
       subMenu: [
         {
           to: '/administration/user-management',
@@ -68,6 +74,18 @@ export const SideBarContent = () => {
           to: '/settings',
           text: 'Settings',
           icon: TbSettingsBolt,
+        },
+      ],
+    },
+    {
+      to: '/report',
+      text: 'Report',
+      icon: TbSpeakerphone,
+      subMenu: [
+        {
+          to: '/report-wfh',
+          text: 'Report WFH',
+          icon: TbHomeEdit,
         },
       ],
     },
@@ -106,21 +124,59 @@ export const SideBarContent = () => {
         ))}
         {isAdmin && (
           <>
-            <NavLink
-              key={AdminNavList[0].to}
-              {...AdminNavList[0]}
-              onClick={() => setSubMenuOpen(!isSubMenuOpen)}
-            />
-            {isSubMenuOpen &&
-              AdminNavList[0].subMenu.map((subNavItem) => (
-                <HStack px="10px">
-                  <NavLink
-                    key={subNavItem.to}
-                    {...subNavItem}
-                    onClick={onCloseSideBar}
-                  />
-                </HStack>
-              ))}
+            {AdminNavList?.map((adminNav) => {
+              return (
+                <Accordion
+                  allowToggle
+                  borderColor={'transparent'}
+                  w={'100%'}
+                  key={adminNav.to}
+                >
+                  <AccordionItem>
+                    <AccordionButton
+                      borderRadius={'0.375rem'}
+                      p={0}
+                      _hover={{
+                        backgroundColor: 'gray.200',
+                      }}
+                      _activeLink={{
+                        backgroundColor: 'gray.200',
+                      }}
+                    >
+                      <Link
+                        px="8px"
+                        py="6px"
+                        w="full"
+                        fontWeight="600"
+                        display="flex"
+                        alignItems="center"
+                        gap="12px"
+                        fontSize="sm"
+                        rounded="md"
+                        textDecoration="none !important"
+                      >
+                        <Icon
+                          textColor="gray.500"
+                          fontSize="xl"
+                          as={adminNav.icon}
+                        />
+                        {adminNav.text}
+                      </Link>
+                      <AccordionIcon />
+                    </AccordionButton>
+                    <AccordionPanel p={0} pl={2}>
+                      {adminNav.subMenu.map((item) => {
+                        return (
+                          <Box mt={1} key={item.to}>
+                            <NavLink {...item} onClick={onCloseSideBar} />
+                          </Box>
+                        );
+                      })}
+                    </AccordionPanel>
+                  </AccordionItem>
+                </Accordion>
+              );
+            })}
           </>
         )}
       </VStack>
