@@ -42,7 +42,11 @@ export const ModalConfirm = ({
           <Button variant="ghost" mr={3} onClick={onClose}>
             Cancel
           </Button>
-          <Button colorScheme="blue" onClick={onConfirm}>
+          <Button
+            backgroundColor="primaryColor"
+            color="white"
+            onClick={onConfirm}
+          >
             Yes
           </Button>
         </ModalFooter>

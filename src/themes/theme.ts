@@ -16,10 +16,10 @@ const theme = extendTheme({
     blackButton: {
       700: '#252929',
       600: '#000000',
-      500: '#252929',
+      500: '#414141',
     },
-    primaryColor: '#e53e3e',
-    secondaryColor: '#e2e8f0'
+    primaryColor: '#f16471',
+    secondaryColor: '#e2e8f0',
   },
   components: {
     Menu: menuTheme,

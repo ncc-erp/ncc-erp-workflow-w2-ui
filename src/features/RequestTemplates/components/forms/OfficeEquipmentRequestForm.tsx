@@ -74,7 +74,7 @@ const OfficeEquipmentRequestForm = () => {
       style={{ width: '100%', marginBottom: '20px' }}
       onSubmit={handleSubmit(onSubmit)}
     >
-      <VStack spacing="14px" alignItems="flex-start">
+      <VStack spacing="14px" alignItems="flex-start" mt={3}>
         <Text whiteSpace="nowrap" fontSize="sm" fontWeight="medium">
           Current Office
         </Text>
@@ -101,11 +101,14 @@ const OfficeEquipmentRequestForm = () => {
         <Button
           mt="14px"
           h="45px"
+          w="30%"
           type="submit"
+          fontSize="md"
           isLoading={isLoginLoading}
-          colorScheme="blackButton"
-          w="full"
+          background="primaryColor"
+          colorScheme="primaryColor"
           textColor="white"
+          alignSelf="center"
         >
           Save
         </Button>
