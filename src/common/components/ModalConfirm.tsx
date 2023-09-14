@@ -33,16 +33,20 @@ export const ModalConfirm = ({
     >
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>{title}</ModalHeader>
+        <ModalHeader fontSize="16px">{title}</ModalHeader>
         <ModalCloseButton />
-        <ModalBody>
+        <ModalBody pt={0}>
           <p>{description}</p>
         </ModalBody>
         <ModalFooter>
           <Button variant="ghost" mr={3} onClick={onClose}>
             Cancel
           </Button>
-          <Button colorScheme="blue" onClick={onConfirm}>
+          <Button
+            backgroundColor="primaryColor"
+            color="white"
+            onClick={onConfirm}
+          >
             Yes
           </Button>
         </ModalFooter>

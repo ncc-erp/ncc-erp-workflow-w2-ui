@@ -81,14 +81,15 @@ export const TablePostAndWFH = () => {
         <HStack
           w="full"
           pl="24px"
-          pb="8px"
+          pb="3px"
           alignItems="flex-end"
           flexWrap="wrap"
         >
-          <InputGroup size="md" w={'50%'}>
+          <InputGroup w={'20%'}>
             <Input
               type="text"
               placeholder="Enter email"
+              fontSize="14px"
               mb={2}
               onChange={(e) => setEmail(e.target.value)}
             />
@@ -103,6 +104,7 @@ export const TablePostAndWFH = () => {
           </Center>
         ) : (
           <Box
+            p = "20px 30px 20px 30px"
             overflowX="auto"
             w={{ base: `calc(100vw - ${sideBarWidth}px)`, lg: 'auto' }}
           >
@@ -110,8 +112,7 @@ export const TablePostAndWFH = () => {
           </Box>
         )}
         <HStack
-          py="20px"
-          px="24px"
+          p = "0px 30px 20px 30px"
           justifyContent="space-between"
           borderBottom="1px"
           borderColor="gray.200"

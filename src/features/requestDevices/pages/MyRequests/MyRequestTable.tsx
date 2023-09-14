@@ -103,21 +103,21 @@ export const MyRequestTable = () => {
         }),
         columnHelper.accessor('userRequestName', {
           id: 'userRequestName',
-          header: 'Request user',
+          header: () => <Box pl="16px">Request user</Box>,
           enableSorting: false,
           cell: (info) => info.getValue(),
         }),
         columnHelper.accessor('currentStates', {
           id: 'currentStates',
-          header: 'Current states',
+          header: () => <Box textAlign="center">Current states</Box>,
           enableSorting: false,
-          cell: (info) => <pre>{info.getValue().join('\n')}</pre>,
+          cell: (info) => info.getValue().join('\n'),
         }),
         columnHelper.accessor('stakeHolders', {
           id: 'stakeHolders',
           header: 'Stake holders',
           enableSorting: false,
-          cell: (info) => <pre>{info.getValue().join('\n')}</pre>,
+          cell: (info) => info.getValue().join('\n'),
         }),
         columnHelper.accessor('createdAt', {
           id: 'createdAt',
@@ -256,6 +256,7 @@ export const MyRequestTable = () => {
             message={'No requests found!'}
           >
             <Box
+              p = "20px 30px 0px 30px"
               overflowX="auto"
               w={{ base: `calc(100vw - ${sideBarWidth}px)`, lg: 'auto' }}
             >
@@ -269,8 +270,7 @@ export const MyRequestTable = () => {
           </EmptyWrapper>
         )}
         <HStack
-          py="20px"
-          px="24px"
+          p = "20px 30px 20px 30px"
           justifyContent="space-between"
           borderBottom="1px"
           borderColor="gray.200"

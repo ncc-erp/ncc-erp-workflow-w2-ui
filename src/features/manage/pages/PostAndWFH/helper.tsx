@@ -28,13 +28,13 @@ export const postAndWTFColumns = [
     id: 'numOfPosts',
     header: 'Number of posts',
     enableSorting: false,
-    cell: (info) => <pre>{info.getValue()}</pre>,
+    cell: (info) => info.getValue(),
   }),
   columnHelper.accessor('numOfRequestWFH', {
     id: 'numOfRequestWFH',
     header: 'Number of requests for WFH',
     enableSorting: false,
-    cell: (info) => <pre>{info.getValue()}</pre>,
+    cell: (info) => info.getValue(),
   }),
   columnHelper.display({
     id: 'status',

@@ -17,9 +17,9 @@ export const SelectField = forwardRef(
       <InputWrapper label={label} error={error}>
         <Select
           ref={ref}
-          variant="filled"
           fontSize="sm"
           rounded="md"
+          h = "40px"
           icon={<Icon as={RiArrowDropDownFill} />}
           {...inputProps}
         >

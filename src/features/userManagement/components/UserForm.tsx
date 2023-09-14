@@ -17,7 +17,7 @@ import { TextField } from 'common/components/TextField';
 import { QueryKeys, UserRoles } from 'common/constants';
 import { useFormik } from 'formik';
 import { ModalUserParams } from 'models/userIdentity';
-import { useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { validationSchema } from 'utils/validationSchema';
 
 interface UserFormProps {
@@ -28,6 +28,13 @@ interface UserFormProps {
 
 const UserForm = ({ initialValues, userId, onClose }: UserFormProps) => {
   const [userValues, setUserValues] = useState(initialValues);
+  const [passwordConfirm, setPasswordConfirm] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+
+  const handlePasswordConfirmChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setPasswordConfirm(e.target.value);
+  };
+
   const { mutate, isLoading, isSuccess, isError } = useUpdateUser(
     userId,
     userValues
@@ -35,6 +42,12 @@ const UserForm = ({ initialValues, userId, onClose }: UserFormProps) => {
   const queryClient = useQueryClient();
 
   const handleSubmit = async (values: ModalUserParams) => {
+    if (passwordConfirm && values.password !== passwordConfirm) {
+      setPasswordError('Passwords do not match');
+      return;
+    } else {
+      setPasswordError('');
+    }
     setUserValues(values);
     await mutate();
   };
@@ -77,17 +90,22 @@ const UserForm = ({ initialValues, userId, onClose }: UserFormProps) => {
   return (
     <Tabs size="md" variant="enclosed">
       <TabList>
-        <Tab>User information</Tab>
-        <Tab>Roles</Tab>
+        <Tab fontSize="16px" fontWeight="medium">
+          User information
+        </Tab>
+        <Tab fontSize="16px" fontWeight="medium">
+          Roles
+        </Tab>
       </TabList>
       <form onSubmit={formik.handleSubmit}>
         <TabPanels>
-          <TabPanel>
+          <TabPanel p="0" mt="5">
             <TextField
               h="10"
-              label="User name *"
+              isRequired
+              label="User name"
               placeholder="User name"
-              fontSize="small"
+              fontSize={15}
               error={formik.errors.userName}
               name="userName"
               onChange={formik.handleChange}
@@ -99,7 +117,7 @@ const UserForm = ({ initialValues, userId, onClose }: UserFormProps) => {
               h="10"
               label="Name"
               placeholder="Name"
-              fontSize="small"
+              fontSize={15}
               error={formik.errors.name}
               name="name"
               onChange={formik.handleChange}
@@ -110,7 +128,7 @@ const UserForm = ({ initialValues, userId, onClose }: UserFormProps) => {
               h="10"
               label="Surname"
               placeholder="Surname"
-              fontSize="small"
+              fontSize={15}
               error={formik.errors.surname}
               name="surname"
               onChange={formik.handleChange}
@@ -121,7 +139,7 @@ const UserForm = ({ initialValues, userId, onClose }: UserFormProps) => {
               h="10"
               label="Password"
               placeholder="Password"
-              fontSize="small"
+              fontSize={15}
               error={formik.errors.password}
               name="password"
               onChange={formik.handleChange}
@@ -136,11 +154,31 @@ const UserForm = ({ initialValues, userId, onClose }: UserFormProps) => {
                 mr: '10px',
               }}
             />
+            <PasswordField
+              h="10"
+              label="Confirm Password"
+              placeholder="Confirm Password"
+              fontSize={15}
+              error={passwordError}
+              name="passwordConfirm"
+              onChange={handlePasswordConfirmChange}
+              onBlur={formik.handleBlur}
+              value={passwordConfirm}
+              autoComplete="off"
+              iconsProps={{
+                w: '18px',
+                h: '18px',
+              }}
+              buttonProps={{
+                mr: '10px',
+              }}
+            />
             <TextField
               h="10"
-              label="Email address *"
+              label="Email address"
               placeholder="Email address"
-              fontSize="small"
+              isRequired
+              fontSize={15}
               error={formik.errors.email}
               name="email"
               onChange={formik.handleChange}
@@ -152,16 +190,18 @@ const UserForm = ({ initialValues, userId, onClose }: UserFormProps) => {
               h="10"
               label="Phone number"
               placeholder="Phone number"
-              fontSize="small"
+              fontSize={15}
               error={formik.errors.phoneNumber}
               name="phoneNumber"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.phoneNumber}
             />
-            <Stack mt={5} direction="column">
+            <Stack mt={5} mb={5} direction="column">
               <Checkbox
-                colorScheme="blue"
+                size="md"
+                fontWeight="medium"
+                colorScheme="gray"
                 isChecked={formik.values.isActive}
                 onChange={(e) =>
                   handleChangeCheckbox('isActive', e.target.checked)
@@ -170,7 +210,9 @@ const UserForm = ({ initialValues, userId, onClose }: UserFormProps) => {
                 Active
               </Checkbox>
               <Checkbox
-                colorScheme="blue"
+                colorScheme="gray"
+                size="md"
+                fontWeight="medium"
                 isChecked={formik.values.lockoutEnabled}
                 onChange={(e) =>
                   handleChangeCheckbox('lockoutEnabled', e.target.checked)
@@ -180,10 +222,10 @@ const UserForm = ({ initialValues, userId, onClose }: UserFormProps) => {
               </Checkbox>
             </Stack>
           </TabPanel>
-          <TabPanel>
-            <Stack mt={5} direction="column">
+          <TabPanel p="0">
+            <Stack mt={6} mb={6} direction="column">
               <Checkbox
-                colorScheme="blue"
+                colorScheme="gray"
                 isChecked={formik.values.roleNames.includes(UserRoles.ADMIN)}
                 onChange={(e) =>
                   handleChangeRolesCheckbox(UserRoles.ADMIN, e.target.checked)
@@ -192,7 +234,7 @@ const UserForm = ({ initialValues, userId, onClose }: UserFormProps) => {
                 {UserRoles.ADMIN}
               </Checkbox>
               <Checkbox
-                colorScheme="blue"
+                colorScheme="gray"
                 isChecked={formik.values.roleNames.includes(
                   UserRoles.DEFAULT_USER
                 )}
@@ -209,11 +251,16 @@ const UserForm = ({ initialValues, userId, onClose }: UserFormProps) => {
           </TabPanel>
         </TabPanels>
         <Divider></Divider>
-        <Stack mt={5} mb={3} direction="row" justifyContent="center">
+        <Stack mb={3} mt={5} direction="row" justifyContent="center">
           <Button colorScheme="gray" onClick={() => onClose()}>
             Cancel
           </Button>
-          <Button colorScheme="blue" type="submit" isLoading={isLoading}>
+          <Button
+            background="primaryColor"
+            color="white"
+            type="submit"
+            isLoading={isLoading}
+          >
             Submit
           </Button>
         </Stack>

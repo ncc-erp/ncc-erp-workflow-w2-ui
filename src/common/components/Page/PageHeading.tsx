@@ -7,7 +7,7 @@ interface PageHeadingProps extends HeadingProps {
 
 export const PageHeading = ({ children, ...props }: PageHeadingProps) => {
   return (
-    <Heading as="h1" fontSize="lg" fontWeight={400} {...props}>
+    <Heading as="h1" fontSize="lg" fontWeight={600} {...props}>
       {children}
     </Heading>
   );

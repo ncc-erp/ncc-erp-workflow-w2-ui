@@ -100,8 +100,8 @@ const WfhRequestForm = () => {
       style={{ width: '100%', marginBottom: '20px' }}
       onSubmit={handleSubmit(onLogin)}
     >
-      <VStack spacing="14px" alignItems="flex-start">
-        <Text whiteSpace="nowrap" fontSize="md">
+      <VStack spacing="14px" alignItems="flex-start" mt={3}>
+        <Text whiteSpace="nowrap" fontSize="sm" fontWeight="medium">
           Current Office
         </Text>
         <SelectField
@@ -114,7 +114,7 @@ const WfhRequestForm = () => {
           })}
         />
 
-        <Text whiteSpace="nowrap" fontSize="md">
+        <Text whiteSpace="nowrap" fontSize="sm" fontWeight="medium">
           Project
         </Text>
         <SelectField
@@ -127,7 +127,7 @@ const WfhRequestForm = () => {
           options={projectOptions}
         />
 
-        <Text whiteSpace="nowrap" fontSize="md">
+        <Text whiteSpace="nowrap" fontSize="sm" fontWeight="medium">
           Reason
         </Text>
         <TextareaField
@@ -137,19 +137,22 @@ const WfhRequestForm = () => {
           })}
         />
 
-        <Text whiteSpace="nowrap" fontSize="md">
+        <Text whiteSpace="nowrap" fontSize="sm" fontWeight="medium">
           Date
         </Text>
         <CustomDatePicker inputDate={startDate} onChange={setStartDate} />
 
         <Button
           mt="14px"
-          h="50px"
+          h="45px"
+          w="30%"
           type="submit"
+          fontSize="md"
           isLoading={isLoginLoading}
-          colorScheme="blackButton"
-          w="full"
+          background="primaryColor"
+          colorScheme="primaryColor"
           textColor="white"
+          alignSelf="center"
         >
           Save
         </Button>

@@ -5,12 +5,11 @@ import {
 } from '@tanstack/react-table';
 import {
   Box,
-  Button,
   Center,
   HStack,
   Input,
   InputGroup,
-  InputLeftElement,
+  InputRightElement,
   Spacer,
   Spinner,
 } from '@chakra-ui/react';
@@ -29,7 +28,7 @@ import { useUserIdentity } from 'api/apiHooks/userIdentityHooks';
 import { RowAction } from './RowAction';
 import { UserModal } from './UserModal';
 import useDebounced from 'hooks/useDebounced';
-import { BiSearchAlt } from 'react-icons/bi';
+import { TbSearch } from 'react-icons/tb';
 
 const initialFilter: FilterUserParams = {
   filter: '',
@@ -152,37 +151,30 @@ export const UserManagementTable = () => {
       <Box>
         <HStack
           w="full"
-          p="0px 20px 8px 24px"
-          mb={5}
+          p = "0px 30px 20px 0px"
           justifyContent="space-between"
-          flexWrap="wrap"
+          display="flex"
         >
-          <Box w="220px">
-            <InputGroup borderRadius={5}>
-              <InputLeftElement pointerEvents="none">
-                <BiSearchAlt color="gray.300" fontSize={18} />
-              </InputLeftElement>
-              <Input
-                type="text"
-                placeholder="Search..."
-                border="1px solid #949494"
-                fontSize={15}
-                value={txtSearch}
-                onChange={(e) => setTxtSearch(e.target.value)}
-              />
-            </InputGroup>
-          </Box>
-          <Box w="112px">
-            <Button
-              colorScheme="blue"
-              onClick={() => {
-                setIsModalOpen(true);
-                setModalTitle('Create');
-              }}
+            <HStack
+              w="full"
+              pl="24px"
+              alignItems="flex-end"
+              flexWrap="wrap"
             >
-              New user
-            </Button>
-          </Box>
+              <InputGroup w={'20%'}>
+                <Input
+                  type="text"
+                  placeholder="Enter email"
+                  fontSize="14px"
+                  mb={2}
+                  value={txtSearch}
+                  onChange={(e) => setTxtSearch(e.target.value)}
+                />
+                <InputRightElement width="40px">
+                  <TbSearch />
+                </InputRightElement>
+              </InputGroup>
+            </HStack>
         </HStack>
         {isLoading ? (
           <Center h="200px">
@@ -196,6 +188,7 @@ export const UserManagementTable = () => {
             message={'No requests found!'}
           >
             <Box
+              p="0px 30px 20px 30px"
               overflowX="auto"
               w={{ base: `calc(100vw - ${sideBarWidth}px)`, lg: 'auto' }}
             >
@@ -209,8 +202,7 @@ export const UserManagementTable = () => {
           </EmptyWrapper>
         )}
         <HStack
-          py="20px"
-          px="24px"
+          p="0px 30px 20px 30px"
           justifyContent="space-between"
           borderBottom="1px"
           borderColor="gray.200"

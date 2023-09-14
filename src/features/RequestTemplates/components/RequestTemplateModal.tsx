@@ -1,4 +1,5 @@
 import {
+  Divider,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -35,7 +36,8 @@ export const RequestTemplateModal = ({
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>{displayName}</ModalHeader>
+        <ModalHeader fontSize="md">{displayName}</ModalHeader>
+        <Divider></Divider>
         <ModalCloseButton />
         <ModalBody>{workflowComponents[workflow]}</ModalBody>
       </ModalContent>

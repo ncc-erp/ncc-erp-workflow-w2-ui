@@ -78,6 +78,7 @@ export const TasksBoard = () => {
         <Box w="220px">
           <SelectField
             value={filter.WorkflowDefinitionId}
+            cursor="pointer"
             size="sm"
             rounded="md"
             onChange={onTemplateStatusChange('WorkflowDefinitionId')}
@@ -89,6 +90,7 @@ export const TasksBoard = () => {
             value={filter.Status}
             size="sm"
             rounded="md"
+            cursor="pointer"
             onChange={onTemplateStatusChange('Status')}
             options={statusOptions}
           />
