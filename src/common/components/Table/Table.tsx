@@ -56,12 +56,14 @@ export const Table = <D,>({
                   key={header.id}
                   colSpan={header.colSpan}
                   textTransform="none"
-                  fontWeight={400}
+                  fontWeight={600}
                   fontSize="sm"
                   borderRight="1px"
                   borderColor="gray.200"
-                  color="chakra-body-text._dark"
+                  color="blackAlpha.900"
                   px="8px"
+                  background="secondaryColor"
+                  textAlign="center"
                 >
                   {header.isPlaceholder ? null : (
                     <Box
@@ -97,7 +99,7 @@ export const Table = <D,>({
                 return (
                   <Td
                     key={cell.id}
-                    fontSize="sm"
+                    fontSize="14px"
                     borderRight="1px"
                     borderColor="gray.200"
                     px="8px"

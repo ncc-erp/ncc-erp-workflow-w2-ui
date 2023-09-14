@@ -20,9 +20,15 @@ dependencies:
   '@emotion/styled':
     specifier: ^11.11.0
     version: 11.11.0(@emotion/react@11.11.1)(@types/react@18.0.37)(react@18.2.0)
+  '@fontsource/montserrat':
+    specifier: ^5.0.8
+    version: 5.0.8
   '@fontsource/open-sans':
     specifier: ^5.0.3
     version: 5.0.3
+  '@fontsource/raleway':
+    specifier: ^5.0.8
+    version: 5.0.8
   '@hello-pangea/dnd':
     specifier: ^16.3.0
     version: 16.3.0(@types/react-dom@18.0.11)(@types/react@18.0.37)(react-dom@18.2.0)(react@18.2.0)
@@ -1888,8 +1894,16 @@ packages:
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dev: true
 
+  /@fontsource/montserrat@5.0.8:
+    resolution: {integrity: sha512-bNj6wfiWXXbsxb2ffatjpX+GBv30cWZ1lwNXW9qTeX2FnzPomsGRV4HdPrf3TqyTiVqX6fLo80zrQcMi7r8+fA==}
+    dev: false
+
   /@fontsource/open-sans@5.0.3:
     resolution: {integrity: sha512-L86qrEfW7IWSGojCtiPpw2/M6qKjxDG+EV4k1xMVFCkhh6Z6gyZwevqCt0yOvd1BmjrtUAIAfSzFTjBn3DeZJw==}
+    dev: false
+
+  /@fontsource/raleway@5.0.8:
+    resolution: {integrity: sha512-b6ZTFQ7sZSUSm/ny0SNXdafcu+p6jpIzpEc1Woxym4qkuAp3kONZJs9r+HYPfMm/fDW1VBIzZxVOLhglYzdw6Q==}
     dev: false
 
   /@hello-pangea/dnd@16.3.0(@types/react-dom@18.0.11)(@types/react@18.0.37)(react-dom@18.2.0)(react@18.2.0):

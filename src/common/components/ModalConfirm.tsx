@@ -33,9 +33,9 @@ export const ModalConfirm = ({
     >
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>{title}</ModalHeader>
+        <ModalHeader fontSize="16px">{title}</ModalHeader>
         <ModalCloseButton />
-        <ModalBody>
+        <ModalBody pt={0}>
           <p>{description}</p>
         </ModalBody>
         <ModalFooter>

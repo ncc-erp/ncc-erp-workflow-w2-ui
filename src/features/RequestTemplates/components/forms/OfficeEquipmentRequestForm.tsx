@@ -75,7 +75,7 @@ const OfficeEquipmentRequestForm = () => {
       onSubmit={handleSubmit(onSubmit)}
     >
       <VStack spacing="14px" alignItems="flex-start">
-        <Text whiteSpace="nowrap" fontSize="md">
+        <Text whiteSpace="nowrap" fontSize="sm" fontWeight="medium">
           Current Office
         </Text>
         <SelectField
@@ -88,7 +88,7 @@ const OfficeEquipmentRequestForm = () => {
           })}
         />
 
-        <Text whiteSpace="nowrap" fontSize="md">
+        <Text whiteSpace="nowrap" fontSize="sm" fontWeight="medium">
           Reason
         </Text>
         <TextareaField
@@ -100,7 +100,7 @@ const OfficeEquipmentRequestForm = () => {
 
         <Button
           mt="14px"
-          h="50px"
+          h="45px"
           type="submit"
           isLoading={isLoginLoading}
           colorScheme="blackButton"

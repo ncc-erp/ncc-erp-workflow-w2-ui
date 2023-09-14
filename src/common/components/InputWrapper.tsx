@@ -5,15 +5,16 @@ export interface InputWrapperProps {
   children: ReactNode;
   label?: string;
   error?: string;
+  isRequired?: boolean;
 }
 
-export const InputWrapper = ({ children, label, error }: InputWrapperProps) => {
+export const InputWrapper = ({ children, label, error, isRequired }: InputWrapperProps) => {
   const isInvalid = !!error;
 
   return (
-    <FormControl isInvalid={isInvalid}>
+    <FormControl isInvalid={isInvalid} isRequired={isRequired}>
       {label && (
-        <FormLabel fontSize={14} my={3}>
+        <FormLabel fontSize={15} my={3} fontWeight="medium">
           {label}
         </FormLabel>
       )}

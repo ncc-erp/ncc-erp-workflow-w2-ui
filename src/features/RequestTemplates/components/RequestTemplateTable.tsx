@@ -153,6 +153,7 @@ export const RequestTemplateTable = ({
           <Box
             overflowX="auto"
             w={{ base: `calc(100vw - ${sideBarWidth}px)`, lg: 'auto' }}
+            p = "10px 30px 0px 30px"
           >
             <Table
               columns={myRequestColumns}
@@ -165,11 +166,8 @@ export const RequestTemplateTable = ({
       )}
 
       <HStack
-        py="20px"
-        px="24px"
+        p = "20px 30px 20px 30px"
         justifyContent="space-between"
-        borderBottom="1px"
-        borderColor="gray.200"
         flexWrap="wrap"
       >
         <HStack alignItems="center" spacing="6px" flexWrap="wrap">

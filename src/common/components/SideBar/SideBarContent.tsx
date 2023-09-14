@@ -38,6 +38,7 @@ import { userState } from 'stores/user';
 import { useSetAppConfig } from 'stores/appConfig';
 import { useNavigate } from 'react-router-dom';
 import { useIsAdmin } from 'hooks/useIsAdmin';
+import Logo from 'assets/images/ncc_logo.svg';
 
 export const SideBarContent = () => {
   const isAdmin = useIsAdmin();
@@ -103,9 +104,9 @@ export const SideBarContent = () => {
 
   return (
     <VStack bgColor="gray.50" h="100vh" alignItems="stretch" spacing={0}>
-      <HStack alignItems="center" py="20px" px="16px" spacing="12px">
-        <Image h="24px" src="/logo.png" />
-        <Heading fontSize="sm">NCC Workflow</Heading>
+      <HStack cursor="pointer" alignItems="center" py="20px" px="16px" spacing="12px" onClick={onNavigate("/")}>
+        <Image h="40px" src={Logo} />
+        <Heading fontSize="18px">NCC Workflow</Heading>
       </HStack>
       <VStack
         p="12px"
@@ -164,7 +165,7 @@ export const SideBarContent = () => {
                       </Link>
                       <AccordionIcon />
                     </AccordionButton>
-                    <AccordionPanel p={0} pl={2}>
+                    <AccordionPanel p={0} pl={7}>
                       {adminNav.subMenu.map((item) => {
                         return (
                           <Box mt={1} key={item.to}>

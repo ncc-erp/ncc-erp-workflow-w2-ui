@@ -43,7 +43,7 @@ const ItemRender: ItemRenderFn =
           <Button
             rounded="sm"
             variant="outline"
-            borderColor="black"
+            borderRadius="8px"
             size="sm"
             aspectRatio="1/1"
             {...buttonProps}
@@ -56,7 +56,7 @@ const ItemRender: ItemRenderFn =
           <Button
             rounded="sm"
             variant="outline"
-            borderColor="black"
+            borderRadius="8px"
             size="sm"
             aspectRatio="1/1"
             {...buttonProps}
@@ -69,7 +69,7 @@ const ItemRender: ItemRenderFn =
           <Button
             rounded="sm"
             variant="outline"
-            borderColor="black"
+            borderRadius="8px"
             size="sm"
             aspectRatio="1/1"
             {...buttonProps}
@@ -82,7 +82,7 @@ const ItemRender: ItemRenderFn =
           <Button
             rounded="sm"
             variant="outline"
-            borderColor="black"
+            borderRadius="8px"
             size="sm"
             aspectRatio="1/1"
             {...buttonProps}
@@ -96,8 +96,8 @@ const ItemRender: ItemRenderFn =
             rounded="sm"
             variant={activePage === current ? 'solid' : 'outline'}
             colorScheme={activePage === current ? 'blackButton' : undefined}
-            borderColor="black"
             size="sm"
+            borderRadius="8px"
             {...buttonProps}
           >
             {current}

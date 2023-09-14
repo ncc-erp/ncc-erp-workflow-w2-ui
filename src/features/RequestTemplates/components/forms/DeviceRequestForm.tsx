@@ -101,7 +101,7 @@ const DeviceRequestForm = () => {
       onSubmit={handleSubmit(onLogin)}
     >
       <VStack spacing="14px" alignItems="flex-start">
-        <Text whiteSpace="nowrap" fontSize="md">
+        <Text whiteSpace="nowrap" fontSize="sm" fontWeight="medium">
           Current Office
         </Text>
         <SelectField
@@ -114,7 +114,7 @@ const DeviceRequestForm = () => {
           })}
         />
 
-        <Text whiteSpace="nowrap" fontSize="md">
+        <Text whiteSpace="nowrap" fontSize="sm" fontWeight="medium">
           Project
         </Text>
         <SelectField
@@ -127,7 +127,7 @@ const DeviceRequestForm = () => {
           options={projectOptions}
         />
 
-        <Text whiteSpace="nowrap" fontSize="md">
+        <Text whiteSpace="nowrap" fontSize="sm" fontWeight="medium">
           Device
         </Text>
         <TextField
@@ -140,7 +140,7 @@ const DeviceRequestForm = () => {
           })}
         />
 
-        <Text whiteSpace="nowrap" fontSize="md">
+        <Text whiteSpace="nowrap" fontSize="sm" fontWeight="medium">
           Reason
         </Text>
         <TextareaField
@@ -152,7 +152,7 @@ const DeviceRequestForm = () => {
 
         <Button
           mt="14px"
-          h="50px"
+          h="45px"
           type="submit"
           isLoading={isLoginLoading}
           colorScheme="blackButton"

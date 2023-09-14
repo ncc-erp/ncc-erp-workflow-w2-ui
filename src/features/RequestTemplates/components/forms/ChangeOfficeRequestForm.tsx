@@ -85,7 +85,7 @@ const ChangeOfficeRequestForm = () => {
       onSubmit={handleSubmit(onLogin)}
     >
       <VStack spacing="14px" alignItems="flex-start">
-        <Text whiteSpace="nowrap" fontSize="md">
+        <Text whiteSpace="nowrap" fontSize="sm" fontWeight="medium">
           Current Office
         </Text>
         <SelectField
@@ -98,7 +98,7 @@ const ChangeOfficeRequestForm = () => {
           })}
         />
 
-        <Text whiteSpace="nowrap" fontSize="md">
+        <Text whiteSpace="nowrap" fontSize="sm" fontWeight="medium">
           Destination Office
         </Text>
         <SelectField
@@ -111,7 +111,7 @@ const ChangeOfficeRequestForm = () => {
           options={officeOptions}
         />
 
-        <Text whiteSpace="nowrap" fontSize="md">
+        <Text whiteSpace="nowrap" fontSize="sm" fontWeight="medium">
           Content
         </Text>
         <TextareaField
@@ -121,19 +121,19 @@ const ChangeOfficeRequestForm = () => {
           })}
         />
 
-        <Text whiteSpace="nowrap" fontSize="md">
+        <Text whiteSpace="nowrap" fontSize="sm" fontWeight="medium">
           Start Date
         </Text>
         <CustomDatePicker inputDate={startDate} onChange={setStartDate} />
 
-        <Text whiteSpace="nowrap" fontSize="md">
+        <Text whiteSpace="nowrap" fontSize="sm" fontWeight="medium">
           End Date
         </Text>
         <CustomDatePicker inputDate={endDate} onChange={setEndDate} />
 
         <Button
           mt="14px"
-          h="50px"
+          h="45px"
           type="submit"
           isLoading={isLoginLoading}
           colorScheme="blackButton"

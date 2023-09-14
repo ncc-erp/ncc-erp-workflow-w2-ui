@@ -77,17 +77,18 @@ const UserForm = ({ initialValues, userId, onClose }: UserFormProps) => {
   return (
     <Tabs size="md" variant="enclosed">
       <TabList>
-        <Tab>User information</Tab>
-        <Tab>Roles</Tab>
+        <Tab fontSize="16px" fontWeight="medium">User information</Tab>
+        <Tab fontSize="16px" fontWeight="medium">Roles</Tab>
       </TabList>
       <form onSubmit={formik.handleSubmit}>
         <TabPanels>
-          <TabPanel>
+          <TabPanel p="0" mt="5">
             <TextField
               h="10"
-              label="User name *"
+              isRequired
+              label="User name"
               placeholder="User name"
-              fontSize="small"
+              fontSize={15}
               error={formik.errors.userName}
               name="userName"
               onChange={formik.handleChange}
@@ -99,7 +100,7 @@ const UserForm = ({ initialValues, userId, onClose }: UserFormProps) => {
               h="10"
               label="Name"
               placeholder="Name"
-              fontSize="small"
+              fontSize={15}
               error={formik.errors.name}
               name="name"
               onChange={formik.handleChange}
@@ -110,7 +111,7 @@ const UserForm = ({ initialValues, userId, onClose }: UserFormProps) => {
               h="10"
               label="Surname"
               placeholder="Surname"
-              fontSize="small"
+              fontSize={15}
               error={formik.errors.surname}
               name="surname"
               onChange={formik.handleChange}
@@ -121,7 +122,7 @@ const UserForm = ({ initialValues, userId, onClose }: UserFormProps) => {
               h="10"
               label="Password"
               placeholder="Password"
-              fontSize="small"
+              fontSize={15}
               error={formik.errors.password}
               name="password"
               onChange={formik.handleChange}
@@ -138,9 +139,10 @@ const UserForm = ({ initialValues, userId, onClose }: UserFormProps) => {
             />
             <TextField
               h="10"
-              label="Email address *"
+              isRequired
+              label="Email address"
               placeholder="Email address"
-              fontSize="small"
+              fontSize={15}
               error={formik.errors.email}
               name="email"
               onChange={formik.handleChange}
@@ -152,15 +154,17 @@ const UserForm = ({ initialValues, userId, onClose }: UserFormProps) => {
               h="10"
               label="Phone number"
               placeholder="Phone number"
-              fontSize="small"
+              fontSize={15}
               error={formik.errors.phoneNumber}
               name="phoneNumber"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.phoneNumber}
             />
-            <Stack mt={5} direction="column">
+            <Stack mt={5} mb={5} direction="column">
               <Checkbox
+                size='md'
+                fontWeight="medium"
                 colorScheme="blue"
                 isChecked={formik.values.isActive}
                 onChange={(e) =>
@@ -171,6 +175,8 @@ const UserForm = ({ initialValues, userId, onClose }: UserFormProps) => {
               </Checkbox>
               <Checkbox
                 colorScheme="blue"
+                size='md'
+                fontWeight="medium"
                 isChecked={formik.values.lockoutEnabled}
                 onChange={(e) =>
                   handleChangeCheckbox('lockoutEnabled', e.target.checked)
@@ -180,8 +186,8 @@ const UserForm = ({ initialValues, userId, onClose }: UserFormProps) => {
               </Checkbox>
             </Stack>
           </TabPanel>
-          <TabPanel>
-            <Stack mt={5} direction="column">
+          <TabPanel p="0">
+            <Stack mt={6} mb={6} direction="column">
               <Checkbox
                 colorScheme="blue"
                 isChecked={formik.values.roleNames.includes(UserRoles.ADMIN)}
@@ -209,7 +215,7 @@ const UserForm = ({ initialValues, userId, onClose }: UserFormProps) => {
           </TabPanel>
         </TabPanels>
         <Divider></Divider>
-        <Stack mt={5} mb={3} direction="row" justifyContent="center">
+        <Stack mb={3} mt={5} direction="row" justifyContent="center">
           <Button colorScheme="gray" onClick={() => onClose()}>
             Cancel
           </Button>

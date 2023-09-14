@@ -35,7 +35,7 @@ export const RequestTemplateModal = ({
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>{displayName}</ModalHeader>
+        <ModalHeader fontSize="18px">{displayName}</ModalHeader>
         <ModalCloseButton />
         <ModalBody>{workflowComponents[workflow]}</ModalBody>
       </ModalContent>
