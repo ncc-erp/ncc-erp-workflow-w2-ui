@@ -34,7 +34,7 @@ const initialFilter: FilterWfhParams = {
   maxResultCount: +noOfRows[0].value,
   skipCount: 0,
   sorting: [WfhSortField.email, 'desc'].join(' '),
-  filter: '',
+  keySearch: '',
 };
 
 const initialSorting: SortingState = [
@@ -139,7 +139,7 @@ export const TablePostAndWFH = () => {
   useEffect(() => {
     setFilter((filter) => ({
       ...filter,
-      filter: txtSearchDebounced,
+      keySearch: txtSearchDebounced,
     }));
   }, [txtSearchDebounced]);
 
