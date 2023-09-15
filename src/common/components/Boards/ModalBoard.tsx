@@ -71,7 +71,7 @@ const ModalBoard = (props: ModalBoardProps): JSX.Element => {
                 colorScheme="red"
                 onClick={onConfirm}
                 ml={3}
-                isDisabled={isDisabled}
+                isDisabled={isDisabled || isLoading}
               >
                 {isLoading ? <Spinner /> : 'Confirm'}
               </Button>
