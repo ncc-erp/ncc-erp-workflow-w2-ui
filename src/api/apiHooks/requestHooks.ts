@@ -13,8 +13,12 @@ import {
   useDelete,
   useGetListByPost,
   useCreate,
+  useGetOne,
 } from 'api/apiHooks';
 import { QueryKeys } from 'common/constants';
+import { officeList } from 'models/office';
+import { projectList } from 'models/project';
+import { UserInfor } from 'models/user';
 
 export const useMyRequests = (filter: FilterRequestParams) => {
   return useGetListByPost<FilterRequestResult>(
@@ -54,3 +58,24 @@ export const useWfhRequestWorkflow = () => {
 export const useDeviceRequestWorkflow = () => {
   return useCreate<DeviceRequestFormParams, any>('/account/login');
 };
+
+export const useOffices = () => {
+  return useGetOne<typeof officeList>(
+      [QueryKeys.GET_OFFICES],
+      '/app/external-resource/of-office'
+    );
+}
+
+export const useUserProjects = () => {
+  return useGetOne<typeof projectList>(
+    [QueryKeys.GET_PROJECT_USER],
+    '/app/external-resource/current-user-projects'
+  );
+}
+
+export const useUserInfoWithBranch = (userEmail: string) => {
+  return useGetOne<UserInfor>(
+    [QueryKeys.GET_USER_INFO_WITH_BRANCH, userEmail],
+    `/app/external-resource/user-info-by-email?userEmail=${userEmail}`,
+  )
+}

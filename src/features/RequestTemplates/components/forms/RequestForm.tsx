@@ -1,19 +1,21 @@
 import { Button, Text, VStack } from '@chakra-ui/react';
-import { useOfficeEquipmentRequestWorkflow } from 'api/apiHooks/requestHooks';
+import { useOfficeEquipmentRequestWorkflow, useOffices, useUserProjects, useUserInfoWithBranch } from 'api/apiHooks/requestHooks';
 import { SelectField } from 'common/components/SelectField';
 import { TextareaField } from 'common/components/TextareaField';
 import { TextField } from 'common/components/TextField';
 import { useForm } from 'react-hook-form';
-import MultiDatePicker from "react-multi-date-picker";
+import MultiDatePicker, { DateObject } from "react-multi-date-picker";
 import Toolbar from "react-multi-date-picker/plugins/toolbar"
 
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import '../../../../common/components/DatePicker/style.css';
 
-import { office, project } from 'common/constants';
-import 'react-datepicker/dist/react-datepicker.css';
-import { InputDefinition } from 'models/request';
+import { InputDefinition, PropertyDefinition } from 'models/request';
+import { IOffices } from 'models/office';
+import { IProjects } from 'models/project';
+import { parseJwt } from 'utils/parseJwt';
+import { ChangeEvent } from 'react';
 
 interface RequestFormProps {
     inputDefinition: InputDefinition | undefined
@@ -22,30 +24,33 @@ interface RequestFormProps {
 const RequestForm = ({
     inputDefinition
 }: RequestFormProps) => {
+    const { data: offices } = useOffices();
+    const { data: projects } = useUserProjects();
+    const userInfo = parseJwt(localStorage.getItem("accessToken"));
+    const { data: user } = useUserInfoWithBranch(userInfo.email);
+
     const {
         isLoading: isLoginLoading,
     } = useOfficeEquipmentRequestWorkflow();
-
-    const getOptions = (type: any) => {
-        let data: any;
+    const getOptions = (type: string) => {
         switch (type) {
             case 'OfficeList':
-                data = office;
-                break;
+                return offices?.map((office: IOffices) => ({
+                    value: office?.code,
+                    label: office?.displayName,
+                }));
 
             case 'MyProject':
-                data = project;
-                break;
+                return projects?.map((project: IProjects) => ({
+                    value: project?.code,
+                    label: project?.name,
+                }));
         }
-        const options = Object.values(data).map((x: any) => ({
-            value: x.value,
-            label: x.label,
-        }));
-        return options;
     };
 
     const {
         handleSubmit,
+        register,
     } = useForm({
         defaultValues: {
             ...formParams
@@ -60,51 +65,74 @@ const RequestForm = ({
         formParams[variable] = newDate;
     }
 
-    const handleDatesChange = (newDates: any, variable: string) => {
-        formParams[variable] = newDates; 
+    const handleDatesChange = (newDates: DateObject | DateObject[] | null, variable: string) => {
+        formParams[variable] = newDates;
     }
 
+    const handleChangeSelectValue = (e: ChangeEvent<HTMLSelectElement>, variable: string) => {
+        formParams[variable] = e.target.value
+    }
+
+    const handleChangeTextValue = (e: ChangeEvent<HTMLInputElement>, variable: string) => {
+        formParams[variable] = e.target.value
+    }
+
+    const handleChangeTextAriaValue = (e: ChangeEvent<HTMLTextAreaElement>, variable: string) => {
+        formParams[variable] = e.target.value
+    }
     var formParams: any = {};
 
-    const getField = (Field: any) => {
+    const getField = (Field: PropertyDefinition) => {
         const fieldname = (Field?.name) ? Field.name : "";
         switch (Field?.type) {
             case "OfficeList":
             case "MyProject":
-                formParams[fieldname] = '';
+                formParams[fieldname] = user?.branch;
                 return <>
                     <Text whiteSpace="nowrap" fontSize="md">
-                        {Field?.name}
+                        {fieldname}
                         {Field?.isRequired ? <span style={{ color: "red" }}> *</span> : ''}
                     </Text>
                     <SelectField
                         size="sm"
                         rounded="md"
-                        options={getOptions(Field?.type)}
+                        options={ getOptions(Field?.type) ?? [{ value: "", label: "" }] }
+                        value={user?.branch}
+                        {...register(fieldname, {
+                            required: `${fieldname} is required`,
+                        })}
+                        onChange={(newValue) => handleChangeSelectValue(newValue, fieldname)}
                     />
                 </>;
             case "Text":
                 formParams[fieldname] = '';
                 return <>
                     <Text whiteSpace="nowrap" fontSize="md">
-                        {Field?.name}
+                        {fieldname}
                         {Field?.isRequired ? <span style={{ color: "red" }}> *</span> : ''}
                     </Text>
                     <TextField
                         h="50px"
                         placeholder={fieldname}
                         fontSize="sm"
+                        {...register(fieldname, {
+                            required: `${fieldname} is required`,
+                        })}
+                        onChange={(newValue) => handleChangeTextValue(newValue, fieldname)}
                     />
                 </>
             case "RichText":
                 formParams[fieldname] = '';
                 return <>
                     <Text whiteSpace="nowrap" fontSize="md">
-                        {Field?.name}
+                        {fieldname}
                         {Field?.isRequired ? <span style={{ color: "red" }}> *</span> : ''}
                     </Text>
                     <TextareaField
-
+                        {...register(fieldname, {
+                            required: `${fieldname} is required`,
+                        })}
+                        onChange={(newValue) => handleChangeTextAriaValue(newValue, fieldname)}
                     />
                 </>
             case "DateTime":
@@ -134,8 +162,8 @@ const RequestForm = ({
                             onChange={(newDates) => handleDatesChange(newDates, fieldname)}
                             plugins={[
                                 <Toolbar
-                                position="bottom" 
-                                sort={["close"]} 
+                                    position="bottom"
+                                    sort={["close"]}
                                 />,
                             ]}
                             style={{
@@ -150,8 +178,8 @@ const RequestForm = ({
         }
     }
 
-    const renderFormContent = (Fields: any) => {
-        return Fields.map(function (Field: any) {
+    const renderFormContent = (Fields: PropertyDefinition[] | undefined) => {
+        return Fields?.map(function (Field: PropertyDefinition) {
             return getField(Field)
         });
     }

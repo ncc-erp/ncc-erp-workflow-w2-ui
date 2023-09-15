@@ -112,4 +112,7 @@ export const QueryKeys = {
   FILTER_USER: 'filterUser',
   FILTER_REQUEST: 'filterRequest',
   REQUEST_TEMPLATES: 'requestTemplates',
+  GET_OFFICES: 'getOffices',
+  GET_PROJECT_USER: "getProjectsUser",
+  GET_USER_INFO_WITH_BRANCH: "getUserInfoWithBranch"
 };
