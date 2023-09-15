@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import classNames from 'classnames';
 import { toast } from 'common/components/StandaloneToast';
-import { BoardColumnStatus, QueryKeys } from 'common/constants';
+import { BoardColumnStatus, QueryKeys, TaskStatus } from 'common/constants';
 import './style.css';
 import useBoard from './useBoard';
 import { ModalConfirm } from '../ModalConfirm';
@@ -108,7 +108,7 @@ const Boards = ({ data }: BoardsProps): JSX.Element => {
     try {
       setIsLoading(true);
       switch (Number(destination.droppableId)) {
-        case BoardColumnStatus.Canceled - 1:
+        case BoardColumnStatus.Canceled:
           await cancelTaskMutation.mutateAsync(
             state[Number(source.droppableId)][source.index].id
           );
@@ -157,10 +157,10 @@ const Boards = ({ data }: BoardsProps): JSX.Element => {
 
   useEffect(() => {
     setState([
-      [...data.items].filter((x) => x.status === BoardColumnStatus.Pending),
-      [...data.items].filter((x) => x.status === BoardColumnStatus.Approved),
-      [...data.items].filter((x) => x.status === BoardColumnStatus.Rejected),
-      [...data.items].filter((x) => x.status === BoardColumnStatus.Canceled),
+      [...data.items].filter((x) => x.status === TaskStatus.Pending),
+      [...data.items].filter((x) => x.status === TaskStatus.Approved),
+      [...data.items].filter((x) => x.status === TaskStatus.Rejected),
+      [...data.items].filter((x) => x.status === TaskStatus.Canceled),
     ]);
   }, [data]);
 
@@ -213,7 +213,7 @@ const Boards = ({ data }: BoardsProps): JSX.Element => {
                                 itemRejected:
                                   ind === BoardColumnStatus.Rejected,
                                 itemCanceled:
-                                  ind + 1 === BoardColumnStatus.Canceled,
+                                  ind === BoardColumnStatus.Canceled,
                               })}
                             >
                               <div>
@@ -237,7 +237,7 @@ const Boards = ({ data }: BoardsProps): JSX.Element => {
                                       statusRejected:
                                         ind === BoardColumnStatus.Rejected,
                                       statusCanceled:
-                                        ind + 1 === BoardColumnStatus.Canceled,
+                                        ind === BoardColumnStatus.Canceled,
                                     })}
                                   />
                                   {Object.keys(BoardColumnStatus)[ind]}

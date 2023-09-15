@@ -3,7 +3,7 @@ import { useRequestTemplates } from 'api/apiHooks/requestHooks';
 import { useAllTask } from 'api/apiHooks/taskHooks';
 import Boards from 'common/components/Boards';
 import { SelectField } from 'common/components/SelectField';
-import { BoardColumnStatus } from 'common/constants';
+import { TaskStatus } from 'common/constants';
 import { FilterTasks } from 'models/task';
 import { ChangeEvent, useMemo, useState } from 'react';
 
@@ -32,7 +32,7 @@ export const TasksBoard = () => {
       label: 'All status',
     };
 
-    const options = Object.entries(BoardColumnStatus).map(([key, value]) => ({
+    const options = Object.entries(TaskStatus).map(([key, value]) => ({
       value,
       label: key,
     }));
@@ -55,7 +55,7 @@ export const TasksBoard = () => {
   }, [requestTemplates]);
 
   const onTemplateStatusChange =
-    (key: 'status' | 'WorkflowDefinitionId') =>
+    (key: 'status' | 'workflowDefinitionId') =>
     (event: ChangeEvent<HTMLSelectElement>) => {
       const value = event.target.value;
       setFilter({ ...filter, [key]: value });
@@ -75,10 +75,10 @@ export const TasksBoard = () => {
         <Box w="220px">
           <SelectField
             cursor="pointer"
-            value={''}
+            value={filter.workflowDefinitionId}
             size="sm"
             rounded="md"
-            onChange={onTemplateStatusChange('WorkflowDefinitionId')}
+            onChange={onTemplateStatusChange('workflowDefinitionId')}
             options={requestTemplateOtions}
           />
         </Box>

@@ -92,6 +92,14 @@ export const BoardColumnStatus = {
   Pending: 0,
   Approved: 1,
   Rejected: 2,
+  Canceled: 3,
+};
+
+export const TaskStatus = {
+  Pending: 0,
+  Approved: 1,
+  Rejected: 2,
+  // Failed: 3,
   Canceled: 4,
 };
 

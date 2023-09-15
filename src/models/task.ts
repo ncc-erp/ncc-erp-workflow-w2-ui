@@ -13,6 +13,7 @@ export interface ITask {
 
 export interface FilterTasks {
   status?: number;
+  workflowDefinitionId?: string;
   maxResultCount: number;
   skipCount: number;
 }
