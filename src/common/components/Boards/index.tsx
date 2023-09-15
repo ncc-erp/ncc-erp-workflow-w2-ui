@@ -47,7 +47,6 @@ const Boards = ({ data }: BoardsProps): JSX.Element => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
-
   const queryClient = useQueryClient();
   const cancelTaskMutation = useCancelTask();
   const approveTaskMutation = useApproveTask();
@@ -186,6 +185,7 @@ const Boards = ({ data }: BoardsProps): JSX.Element => {
                         key={item.id}
                         draggableId={item.id}
                         index={index}
+                        isDragDisabled={+item.status !== +TaskStatus.Pending}
                       >
                         {(provided, snapshot) => (
                           <div
