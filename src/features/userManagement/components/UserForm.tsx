@@ -252,11 +252,11 @@ const UserForm = ({ initialValues, userId, onClose }: UserFormProps) => {
         </TabPanels>
         <Divider></Divider>
         <Stack mb={3} mt={5} direction="row" justifyContent="center">
-          <Button colorScheme="gray" onClick={() => onClose()}>
+          <Button colorScheme="gray" color="gray" onClick={() => onClose()}>
             Cancel
           </Button>
           <Button
-            background="primaryColor"
+            background="primary"
             color="white"
             type="submit"
             isLoading={isLoading}

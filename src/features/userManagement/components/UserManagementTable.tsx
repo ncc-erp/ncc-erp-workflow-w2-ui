@@ -93,7 +93,7 @@ export const UserManagementTable = () => {
             </Center>
           ),
         }),
-      ] as ColumnDef<Request>[],
+      ] as ColumnDef<UserIdentity>[],
     [columnHelper]
   );
 
@@ -151,30 +151,25 @@ export const UserManagementTable = () => {
       <Box>
         <HStack
           w="full"
-          p = "0px 30px 20px 0px"
+          p="0px 30px 20px 0px"
           justifyContent="space-between"
           display="flex"
         >
-            <HStack
-              w="full"
-              pl="24px"
-              alignItems="flex-end"
-              flexWrap="wrap"
-            >
-              <InputGroup w={'20%'}>
-                <Input
-                  type="text"
-                  placeholder="Enter email"
-                  fontSize="14px"
-                  mb={2}
-                  value={txtSearch}
-                  onChange={(e) => setTxtSearch(e.target.value)}
-                />
-                <InputRightElement width="40px">
-                  <TbSearch />
-                </InputRightElement>
-              </InputGroup>
-            </HStack>
+          <HStack w="full" pl="24px" alignItems="flex-end" flexWrap="wrap">
+            <InputGroup w={'20%'}>
+              <Input
+                type="text"
+                placeholder="Enter email"
+                fontSize="14px"
+                mb={2}
+                value={txtSearch}
+                onChange={(e) => setTxtSearch(e.target.value)}
+              />
+              <InputRightElement width="40px">
+                <TbSearch />
+              </InputRightElement>
+            </InputGroup>
+          </HStack>
         </HStack>
         {isLoading ? (
           <Center h="200px">
