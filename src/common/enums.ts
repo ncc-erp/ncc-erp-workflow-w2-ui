@@ -25,6 +25,10 @@ export enum UserSortField {
   phoneNumber = 'phoneNumber',
 }
 
+export enum WfhSortField {
+  email = 'Email',
+}
+
 export enum SortDirection {
   asc = 'asc',
   desc = 'desc',
