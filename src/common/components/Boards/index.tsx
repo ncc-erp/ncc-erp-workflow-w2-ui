@@ -153,7 +153,6 @@ const Boards = ({ data }: BoardsProps): JSX.Element => {
 
       setState(newState);
       handleClose();
-      throw new Error('hiohih');
     } catch (error) {
       console.error(error);
     } finally {
