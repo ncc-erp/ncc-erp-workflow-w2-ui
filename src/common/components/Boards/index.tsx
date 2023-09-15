@@ -108,7 +108,7 @@ const Boards = ({ data }: BoardsProps): JSX.Element => {
     try {
       setIsLoading(true);
       switch (Number(destination.droppableId)) {
-        case BoardColumnStatus.Canceled:
+        case BoardColumnStatus.Canceled - 1:
           await cancelTaskMutation.mutateAsync(
             state[Number(source.droppableId)][source.index].id
           );
