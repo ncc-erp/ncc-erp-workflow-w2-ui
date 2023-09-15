@@ -24,13 +24,16 @@
 }
 
 .itemPending {
-  border-left: 4px solid #FBE74B;
+  border-left: 4px solid #279EFF;
 }
 .itemApproved {
   border-left: 4px solid #00B894;
 }
-.itemCanceled {
+.itemRejected {
   border-left: 4px solid #FF7675;
+}
+.itemCanceled {
+  border-left: 4px solid #FFBB5C;
 }
 
 .content {
@@ -67,14 +70,17 @@
 }
 
 .statusPending {
-  background-color: #FBE74B;
+  background-color: #279EFF;
 }
 
 .statusApproved {
   background-color: #00B894;
 }
-.statusCanceled {
+.statusRejected {
   background-color: #FF7675;
+}
+.statusCanceled {
+  background-color: #FFBB5C;
 }
 
 .state {
@@ -90,6 +96,35 @@
   padding: 8px;
   background-color: #fff;
   border-radius: 5px;
-
   font-weight: bold;
+}
+
+.columnContent{
+  height: 94%;
+  overflow-y: auto;
+  padding-right: 5px;
+}
+
+.columnContent::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	background-color: #F5F5F5;
+	border-radius: 8px;
+}
+
+.columnContent::-webkit-scrollbar
+{
+	width: 8px;
+	background-color: #F5F5F5;
+}
+
+.columnContent::-webkit-scrollbar-thumb
+{
+	border-radius: 8px;
+	background: #B4B4B3;
+}
+
+.columnContent::-webkit-scrollbar-thumb:hover
+{
+	background: #A9A9A4;
 }

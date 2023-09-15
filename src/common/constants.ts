@@ -91,7 +91,16 @@ export const project = [
 export const BoardColumnStatus = {
   Pending: 0,
   Approved: 1,
-  Canceled: 2,
+  Rejected: 2,
+  Canceled: 3,
+};
+
+export const TaskStatus = {
+  Pending: 0,
+  Approved: 1,
+  Rejected: 2,
+  // Failed: 3,
+  Canceled: 4,
 };
 
 export const UserRoles = {
@@ -112,5 +121,7 @@ export const QueryKeys = {
   FILTER_USER: 'filterUser',
   FILTER_REQUEST: 'filterRequest',
   REQUEST_TEMPLATES: 'requestTemplates',
+  GET_ALL_TASK: 'getAllTask',
+  FILTER_TASK: 'filterTask',
   GET_WFH_LIST: 'getWfhList',
 };
