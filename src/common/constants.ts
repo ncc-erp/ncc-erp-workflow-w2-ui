@@ -112,4 +112,5 @@ export const QueryKeys = {
   FILTER_USER: 'filterUser',
   FILTER_REQUEST: 'filterRequest',
   REQUEST_TEMPLATES: 'requestTemplates',
+  GET_WFH_LIST: 'getWfhList',
 };

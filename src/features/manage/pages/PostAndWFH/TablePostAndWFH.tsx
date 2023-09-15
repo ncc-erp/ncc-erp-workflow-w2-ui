@@ -1,84 +1,155 @@
 import {
   Box,
-  Input,
+  // Input,
   Center,
   HStack,
+  Progress,
   Spacer,
   Spinner,
-  InputGroup,
-  InputRightElement,
+  Stack,
+  // InputGroup,
+  // InputRightElement,
 } from '@chakra-ui/react';
 import { useRecoilValue } from 'recoil';
-import { TbSearch } from 'react-icons/tb';
+// import { TbSearch } from 'react-icons/tb';
 import { noOfRows } from 'common/constants';
-import useDebounce from 'hooks/useDebounce';
-import { postAndWTFColumns } from './helper';
-import usePostAndWFH from 'hooks/usePostAndWFH';
-import { IFilterReportWFH } from 'models/manage';
+// import useDebounce from 'hooks/useDebounce';
+// import { postAndWTFColumns } from './helper';
+// import usePostAndWFH from 'hooks/usePostAndWFH';
+import { FilterWfhParams, IPostAndWFH } from 'models/manage';
 import { appConfigState } from 'stores/appConfig';
 import { Table } from 'common/components/Table/Table';
-import { useCallback, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Pagination } from 'common/components/Pagination';
 import { PageSize } from 'common/components/Table/PageSize';
 import { ShowingItemText } from 'common/components/Table/ShowingItemText';
+import { SortDirection, WfhSortField } from 'common/enums';
+import { useWfhList } from 'api/apiHooks/reportHooks';
+import {
+  ColumnDef,
+  SortingState,
+  createColumnHelper,
+} from '@tanstack/react-table';
+import { EmptyWrapper } from 'common/components/EmptyWrapper';
 
-const initialFilter: IFilterReportWFH = {
-  search: '',
-  pages: 0,
-  per_page: +noOfRows[0].value,
+const initialFilter: FilterWfhParams = {
+  maxResultCount: +noOfRows[0].value,
+  skipCount: 0,
+  sorting: [WfhSortField.email, 'desc'].join(' '),
 };
+
+const initialSorting: SortingState = [
+  {
+    id: WfhSortField.email,
+    desc: false,
+  },
+];
 
 export const TablePostAndWFH = () => {
   // State
-  const [filter, setFilter] = useState<IFilterReportWFH>(initialFilter);
-  const [email, setEmail] = useState<string>('');
-
-  // Hooks
+  const [filter, setFilter] = useState<FilterWfhParams>(initialFilter);
+  const [sorting, setSorting] = useState<SortingState>(initialSorting);
+  const columnHelper = createColumnHelper<IPostAndWFH>();
   const { sideBarWidth } = useRecoilValue(appConfigState);
-  const { data, loading: isLoading, length } = usePostAndWFH(filter);
+  const { data, isLoading } = useWfhList(filter);
+  const { items: wfhList = [], totalCount = 0 } = data ?? {};
 
-  const { pages, per_page } = filter;
+  const getPercentPostWFH = (numOfPosts: number, numOfRequestWFH: number) => {
+    return (numOfPosts / numOfRequestWFH) * 100;
+  };
 
-  const currentPage = useMemo(
-    () => (per_page + pages) / per_page,
-    [pages, per_page]
-  );
-
-  const onPageChange = useCallback(
-    (page: number) => {
-      setFilter((filter) => ({
-        ...filter,
-        pages: filter.per_page * (page - 1),
-      }));
-    },
-    [setFilter]
-  );
-
-  const onPageSizeChange = useCallback(
-    (pageSize: number) => {
-      setFilter((filter) => ({
-        ...filter,
-        per_page: pageSize,
-        pages: 0,
-      }));
-    },
-    [setFilter]
-  );
-
-  useDebounce(
+  const wfhColumns = useMemo(
     () =>
-      setFilter((filter) => ({
-        ...filter,
-        search: email,
-      })),
-    300,
-    [email]
+      [
+        columnHelper.accessor('userRequestName', {
+          id: 'userRequestName',
+          header: () => <Box pl="16px">Email address</Box>,
+          enableSorting: true,
+          sortDescFirst: true,
+          cell: (info) => <Box pl="16px">{info.getValue()}</Box>,
+        }),
+        columnHelper.accessor('totalposts', {
+          id: 'totalposts',
+          header: 'Number of posts',
+          enableSorting: true,
+          cell: (info) => info.getValue(),
+        }),
+        columnHelper.accessor('totaldays', {
+          id: 'totaldays',
+          header: 'Number of requests for WFH',
+          enableSorting: true,
+          cell: (info) => info.getValue(),
+        }),
+        columnHelper.display({
+          id: 'status',
+          enableSorting: false,
+          header: () => <Box pr="16px">Status</Box>,
+          cell: (info) => {
+            const percent = getPercentPostWFH(
+              info.row.original.totalposts,
+              info.row.original.totaldays
+            );
+            return (
+              <Stack minW={200} pr="16px">
+                <Progress
+                  w={'100%'}
+                  colorScheme={percent >= 100 ? 'green' : 'blue'}
+                  size="sm"
+                  value={percent}
+                />
+              </Stack>
+            );
+          },
+        }),
+      ] as ColumnDef<Request>[],
+    [columnHelper]
   );
+
+  const currentPage = useMemo(() => {
+    const { skipCount, maxResultCount } = filter;
+    return (maxResultCount + skipCount) / maxResultCount;
+  }, [filter]);
+
+  useEffect(() => {
+    const { id, desc } = sorting?.[0] ?? {};
+    const sort = `${id} ${desc ? SortDirection.desc : SortDirection.asc}`;
+
+    setFilter((filter) => ({
+      ...filter,
+      sorting: sort,
+      skipCount: 0,
+    }));
+  }, [sorting]);
+
+  const onPageChange = (page: number) => {
+    setFilter((filter) => ({
+      ...filter,
+      skipCount: filter.maxResultCount * (page - 1),
+    }));
+  };
+
+  const onPageSizeChange = (pageSize: number) => {
+    setFilter((filter) => ({
+      ...filter,
+      maxResultCount: pageSize,
+      skipCount: 0,
+    }));
+  };
+
+  // useDebounce(
+  //   () =>
+  //     setFilter((filter) => ({
+  //       ...filter,
+  //       search: email,
+  //     })),
+  //   300,
+  //   [email]
+  // );
 
   return (
     <>
       <Box>
-        <HStack
+        {/* <HStack
           w="full"
           pl="24px"
           pb="3px"
@@ -97,22 +168,34 @@ export const TablePostAndWFH = () => {
               <TbSearch />
             </InputRightElement>
           </InputGroup>
-        </HStack>
+        </HStack> */}
         {isLoading ? (
           <Center h="200px">
             <Spinner mx="auto" speed="0.65s" thickness="3px" size="xl" />
           </Center>
         ) : (
-          <Box
-            p = "20px 30px 20px 30px"
-            overflowX="auto"
-            w={{ base: `calc(100vw - ${sideBarWidth}px)`, lg: 'auto' }}
+          <EmptyWrapper
+            isEmpty={!wfhList.length}
+            h="200px"
+            fontSize="xs"
+            message={'No requests found!'}
           >
-            <Table columns={postAndWTFColumns} data={data} />
-          </Box>
+            <Box
+              p="20px 30px 20px 30px"
+              overflowX="auto"
+              w={{ base: `calc(100vw - ${sideBarWidth}px)`, lg: 'auto' }}
+            >
+              <Table
+                columns={wfhColumns}
+                data={wfhList}
+                onSortingChange={setSorting}
+                sorting={sorting}
+              />
+            </Box>
+          </EmptyWrapper>
         )}
         <HStack
-          p = "0px 30px 20px 30px"
+          p="0px 30px 20px 30px"
           justifyContent="space-between"
           borderBottom="1px"
           borderColor="gray.200"
@@ -122,14 +205,14 @@ export const TablePostAndWFH = () => {
             <PageSize noOfRows={noOfRows} onChange={onPageSizeChange} />
             <Spacer w="12px" />
             <ShowingItemText
-              skipCount={pages}
-              maxResultCount={per_page}
-              totalCount={length}
+              skipCount={filter.skipCount}
+              maxResultCount={filter.maxResultCount}
+              totalCount={totalCount}
             />
           </HStack>
           <Pagination
-            total={length}
-            pageSize={per_page}
+            total={totalCount}
+            pageSize={filter.maxResultCount}
             current={currentPage}
             onChange={onPageChange}
             hideOnSinglePage
