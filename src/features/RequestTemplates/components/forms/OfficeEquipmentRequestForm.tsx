@@ -105,8 +105,8 @@ const OfficeEquipmentRequestForm = () => {
           type="submit"
           fontSize="md"
           isLoading={isLoginLoading}
-          background="primaryColor"
-          colorScheme="primaryColor"
+          background="primary"
+          colorScheme="primary"
           textColor="white"
           alignSelf="center"
         >
