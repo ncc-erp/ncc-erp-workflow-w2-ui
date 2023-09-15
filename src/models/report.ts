@@ -94,6 +94,7 @@ export interface FilterWfhParams {
   maxResultCount: number;
   skipCount: number;
   sorting: string;
+  filter: string;
 }
 
 export interface ListResult<T> {

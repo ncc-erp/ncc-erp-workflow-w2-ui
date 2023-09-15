@@ -1,22 +1,18 @@
 import {
   Box,
-  // Input,
   Center,
   HStack,
+  Input,
+  InputGroup,
+  InputRightElement,
   Progress,
   Spacer,
   Spinner,
   Stack,
-  // InputGroup,
-  // InputRightElement,
 } from '@chakra-ui/react';
 import { useRecoilValue } from 'recoil';
-// import { TbSearch } from 'react-icons/tb';
 import { noOfRows } from 'common/constants';
-// import useDebounce from 'hooks/useDebounce';
-// import { postAndWTFColumns } from './helper';
-// import usePostAndWFH from 'hooks/usePostAndWFH';
-import { FilterWfhParams, IPostAndWFH } from 'models/manage';
+import { FilterWfhParams, IPostAndWFH } from 'models/report';
 import { appConfigState } from 'stores/appConfig';
 import { Table } from 'common/components/Table/Table';
 import { useEffect, useMemo, useState } from 'react';
@@ -31,11 +27,14 @@ import {
   createColumnHelper,
 } from '@tanstack/react-table';
 import { EmptyWrapper } from 'common/components/EmptyWrapper';
+import { TbSearch } from 'react-icons/tb';
+import useDebounced from 'hooks/useDebounced';
 
 const initialFilter: FilterWfhParams = {
   maxResultCount: +noOfRows[0].value,
   skipCount: 0,
   sorting: [WfhSortField.email, 'desc'].join(' '),
+  filter: '',
 };
 
 const initialSorting: SortingState = [
@@ -46,13 +45,14 @@ const initialSorting: SortingState = [
 ];
 
 export const TablePostAndWFH = () => {
-  // State
   const [filter, setFilter] = useState<FilterWfhParams>(initialFilter);
   const [sorting, setSorting] = useState<SortingState>(initialSorting);
   const columnHelper = createColumnHelper<IPostAndWFH>();
   const { sideBarWidth } = useRecoilValue(appConfigState);
   const { data, isLoading } = useWfhList(filter);
   const { items: wfhList = [], totalCount = 0 } = data ?? {};
+  const [txtSearch, setTxtSearch] = useState('');
+  const txtSearchDebounced = useDebounced(txtSearch, 500);
 
   const getPercentPostWFH = (numOfPosts: number, numOfRequestWFH: number) => {
     return (numOfPosts / numOfRequestWFH) * 100;
@@ -101,7 +101,7 @@ export const TablePostAndWFH = () => {
             );
           },
         }),
-      ] as ColumnDef<Request>[],
+      ] as ColumnDef<IPostAndWFH>[],
     [columnHelper]
   );
 
@@ -136,20 +136,17 @@ export const TablePostAndWFH = () => {
     }));
   };
 
-  // useDebounce(
-  //   () =>
-  //     setFilter((filter) => ({
-  //       ...filter,
-  //       search: email,
-  //     })),
-  //   300,
-  //   [email]
-  // );
+  useEffect(() => {
+    setFilter((filter) => ({
+      ...filter,
+      filter: txtSearchDebounced,
+    }));
+  }, [txtSearchDebounced]);
 
   return (
     <>
       <Box>
-        {/* <HStack
+        <HStack
           w="full"
           pl="24px"
           pb="3px"
@@ -162,13 +159,13 @@ export const TablePostAndWFH = () => {
               placeholder="Enter email"
               fontSize="14px"
               mb={2}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => setTxtSearch(e.target.value)}
             />
             <InputRightElement width="40px">
               <TbSearch />
             </InputRightElement>
           </InputGroup>
-        </HStack> */}
+        </HStack>
         {isLoading ? (
           <Center h="200px">
             <Spinner mx="auto" speed="0.65s" thickness="3px" size="xl" />

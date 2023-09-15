@@ -1,6 +1,6 @@
 import { useGetList } from '.';
 import { QueryKeys } from 'common/constants';
-import { FilterWfhParams, FilterWfhResult } from 'models/manage';
+import { FilterWfhParams, FilterWfhResult } from 'models/report';
 
 export const useWfhList = (filter: FilterWfhParams) => {
   return useGetList<FilterWfhResult>(
