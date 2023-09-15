@@ -123,4 +123,5 @@ export const QueryKeys = {
   REQUEST_TEMPLATES: 'requestTemplates',
   GET_ALL_TASK: 'getAllTask',
   FILTER_TASK: 'filterTask',
+  GET_WFH_LIST: 'getWfhList',
 };

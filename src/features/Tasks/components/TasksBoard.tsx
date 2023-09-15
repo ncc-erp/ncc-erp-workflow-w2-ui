@@ -1,6 +1,6 @@
 import { Box, Center, HStack, Spinner } from '@chakra-ui/react';
 import { useRequestTemplates } from 'api/apiHooks/requestHooks';
-import { useAllTask } from 'api/apiHooks/taskHooks';
+import { useGetAllTask } from 'api/apiHooks/taskHooks';
 import Boards from 'common/components/Boards';
 import { SelectField } from 'common/components/SelectField';
 import { TaskStatus } from 'common/constants';
@@ -15,7 +15,7 @@ const initialFilter: FilterTasks = {
 export const TasksBoard = () => {
   const [filter, setFilter] = useState<FilterTasks>(initialFilter);
 
-  const { data: listTask, isLoading } = useAllTask(filter);
+  const { data: listTask, isLoading } = useGetAllTask(filter);
   const { data: requestTemplateData } = useRequestTemplates();
 
   const requestTemplates = useMemo(() => {
@@ -94,7 +94,9 @@ export const TasksBoard = () => {
         </Box>
       </HStack>
 
-      {!isLoading && <Boards data={listTask} />}
+      {!isLoading && (
+        <Boards data={listTask.items} totalCount={listTask.totalCount} />
+      )}
     </Box>
   );
 };

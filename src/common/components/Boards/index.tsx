@@ -14,16 +14,18 @@ import './style.css';
 import useBoard from './useBoard';
 import { ModalConfirm } from '../ModalConfirm';
 import { Box, useDisclosure } from '@chakra-ui/react';
-import { ITask, TaskResult } from 'models/task';
+import { ITask } from 'models/task';
 import {
   useApproveTask,
   useCancelTask,
   useRejectTask,
 } from 'api/apiHooks/taskHooks';
 import ModalBoard from './ModalBoard';
+import { ETaskStatus } from 'common/enums';
 
 interface BoardsProps {
-  data: TaskResult;
+  data: ITask[];
+  totalCount: number;
 }
 
 interface ModalStatus {
@@ -43,7 +45,12 @@ const Boards = ({ data }: BoardsProps): JSX.Element => {
   const [result, setResult] = useState<DropResult>();
   const [isRejected, setIsRejected] = useState<boolean>(false);
   const [reason, setReason] = useState<string>('');
-  const [state, setState] = useState<ITask[][]>([]);
+  const [state, setState] = useState<Record<ETaskStatus, ITask[]>>({
+    [ETaskStatus.Pending]: [],
+    [ETaskStatus.Approved]: [],
+    [ETaskStatus.Rejected]: [],
+    [ETaskStatus.Canceled]: [],
+  });
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -78,11 +85,11 @@ const Boards = ({ data }: BoardsProps): JSX.Element => {
   const onDragEnd = async (result: DropResult) => {
     const { destination, source } = result;
     if (!destination) return;
-    const sInd = +source.droppableId;
+    const sInd = +source.droppableId as ETaskStatus;
     const dInd = +destination.droppableId;
     if (sInd === dInd) {
       const items = reorder(state[sInd], source.index, destination.index);
-      const newState = [...state];
+      const newState = { ...state };
       newState[sInd] = items;
 
       setState(newState);
@@ -99,8 +106,8 @@ const Boards = ({ data }: BoardsProps): JSX.Element => {
     const { source, destination } = result as DropResult;
     if (!destination) return;
 
-    const sInd = +source.droppableId;
-    const dInd = +destination.droppableId;
+    const sInd = +source.droppableId as ETaskStatus;
+    const dInd = +destination.droppableId as ETaskStatus;
 
     const results = move(state[sInd], state[dInd], source, destination);
 
@@ -109,7 +116,7 @@ const Boards = ({ data }: BoardsProps): JSX.Element => {
       switch (Number(destination.droppableId)) {
         case BoardColumnStatus.Canceled:
           await cancelTaskMutation.mutateAsync(
-            state[Number(source.droppableId)][source.index].id
+            state[ETaskStatus.Pending][source.index].id
           );
           queryClient.invalidateQueries({
             queryKey: [QueryKeys.FILTER_TASK],
@@ -118,7 +125,7 @@ const Boards = ({ data }: BoardsProps): JSX.Element => {
           break;
         case BoardColumnStatus.Approved:
           await approveTaskMutation.mutateAsync(
-            state[Number(source.droppableId)][source.index].id
+            state[ETaskStatus.Pending][source.index].id
           );
           queryClient.invalidateQueries({
             queryKey: [QueryKeys.FILTER_TASK],
@@ -128,7 +135,7 @@ const Boards = ({ data }: BoardsProps): JSX.Element => {
         case BoardColumnStatus.Rejected:
           if (!reason) return;
           await rejectTaskMutation.mutateAsync({
-            id: state[Number(source.droppableId)][source.index].id,
+            id: state[ETaskStatus.Pending][source.index].id,
             reason,
           });
           queryClient.invalidateQueries({
@@ -139,35 +146,43 @@ const Boards = ({ data }: BoardsProps): JSX.Element => {
         default:
           break;
       }
+
+      const newState = { ...state };
+      newState[sInd] = results[sInd];
+      newState[dInd] = results[dInd];
+
+      setState(newState);
+      handleClose();
+      throw new Error('hiohih');
     } catch (error) {
       console.error(error);
-      return;
     } finally {
       setIsLoading(false);
     }
-
-    const newState = [...state];
-    newState[sInd] = results[sInd];
-    newState[dInd] = results[dInd];
-
-    setState(newState);
-    handleClose();
   };
 
   useEffect(() => {
-    setState([
-      [...data.items].filter((x) => x.status === TaskStatus.Pending),
-      [...data.items].filter((x) => x.status === TaskStatus.Approved),
-      [...data.items].filter((x) => x.status === TaskStatus.Rejected),
-      [...data.items].filter((x) => x.status === TaskStatus.Canceled),
-    ]);
+    setState({
+      [ETaskStatus.Pending]: data.filter(
+        (x) => x.status === TaskStatus.Pending
+      ),
+      [ETaskStatus.Approved]: data.filter(
+        (x) => x.status === TaskStatus.Approved
+      ),
+      [ETaskStatus.Rejected]: data.filter(
+        (x) => x.status === TaskStatus.Rejected
+      ),
+      [ETaskStatus.Canceled]: data.filter(
+        (x) => x.status === TaskStatus.Canceled
+      ),
+    });
   }, [data]);
 
   return (
     <>
       <DragDropContext onDragEnd={onDragEnd}>
         <div className="container">
-          {state.map((el, ind) => (
+          {Object.values(state).map((el, ind) => (
             <Droppable key={ind} droppableId={`${ind}`}>
               {(provided, snapshot) => (
                 <div

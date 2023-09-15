@@ -3,7 +3,7 @@ import { useGetListByPost, useRejectedTask, useUpdateStatus } from '.';
 import { QueryKeys } from 'common/constants';
 import { TaskResult } from 'models/task';
 
-export const useAllTask = (filter: FilterTasks) => {
+export const useGetAllTask = (filter: FilterTasks) => {
   return useGetListByPost<TaskResult>(
     [QueryKeys.GET_ALL_TASK, filter],
     '/app/task/list',
