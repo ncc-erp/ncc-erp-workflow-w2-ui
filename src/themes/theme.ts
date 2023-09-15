@@ -18,8 +18,8 @@ const theme = extendTheme({
       600: '#000000',
       500: '#414141',
     },
-    primaryColor: '#f16471',
-    secondaryColor: '#e2e8f0',
+    primary: '#f16471',
+    secondary: '#e2e8f0',
   },
   components: {
     Menu: menuTheme,
