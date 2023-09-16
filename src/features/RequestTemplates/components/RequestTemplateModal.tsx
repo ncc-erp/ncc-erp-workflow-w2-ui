@@ -15,7 +15,7 @@ interface RequestTemplateModalProps {
   displayName?: string;
   requestId: string;
   workflow: string;
-  inputDefinition: InputDefinition | undefined;
+  inputDefinition?: InputDefinition;
 }
 
 export const RequestTemplateModal = ({
