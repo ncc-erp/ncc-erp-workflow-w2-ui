@@ -1,17 +1,17 @@
-import { Request } from 'models/request';
 import {
   DraggableLocation,
   DraggingStyle,
   NotDraggingStyle,
 } from '@hello-pangea/dnd';
+import { ITask } from 'models/task';
 
 const useBoard = () => {
   // reordering the result in the same list
   const reorder = (
-    list: Request[],
+    list: ITask[],
     startIndex: number,
     endIndex: number
-  ): Request[] => {
+  ): ITask[] => {
     const result = Array.from(list);
     const [removed] = result.splice(startIndex, 1);
     result.splice(endIndex, 0, removed);
@@ -21,8 +21,8 @@ const useBoard = () => {
 
   // Moves an item from one list to another list.
   const move = (
-    source: Request[],
-    destination: Request[],
+    source: ITask[],
+    destination: ITask[],
     droppableSource: DraggableLocation,
     droppableDestination: DraggableLocation
   ) => {
@@ -32,7 +32,7 @@ const useBoard = () => {
 
     destClone.splice(droppableDestination.index, 0, removed);
 
-    const result: { [key: string]: Request[] } = {};
+    const result: { [key: string]: ITask[] } = {};
     result[droppableSource.droppableId] = sourceClone;
     result[droppableDestination.droppableId] = destClone;
 
@@ -60,8 +60,10 @@ const useBoard = () => {
   const getListStyle = (isDraggingOver: boolean): React.CSSProperties => ({
     background: isDraggingOver ? 'lightblue' : '#eee',
     padding: grid,
-    width: 250,
-    minHeight: 700,
+    minWidth: 250,
+    width: '100%',
+    height: 725,
+    // overflowY: 'auto',
   });
 
   return {

@@ -1,7 +1,7 @@
 import Page from 'common/components/Page';
 import { Navigate } from 'react-router-dom';
 import { useIsAdmin } from 'hooks/useIsAdmin';
-import { TablePostAndWFH } from './TablePostAndWFH';
+import { TablePostAndWFH } from './PostAndWFHTable';
 
 const PostAndWFH = () => {
   const isAdmin = useIsAdmin();

@@ -13,7 +13,7 @@ import LoginCallback from 'features/auth/pages/LoginCallback';
 import RequestTemplates from 'features/RequestTemplates';
 import UserManagement from 'features/userManagement';
 import Tasks from 'features/Tasks';
-import PostAndWFH from 'features/manage/pages/PostAndWFH';
+import PostAndWFH from 'features/report';
 
 const NotFound = lazy(() => import('common/components/NotFound'));
 const routeList: RouteObject[] = [

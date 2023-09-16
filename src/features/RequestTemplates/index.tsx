@@ -5,7 +5,6 @@ import { RequestTemplateTable } from './components/RequestTemplateTable';
 const RequestTemplates = () => {
   const { data, isLoading } = useRequestTemplates();
 
-  console.log('Request data::: ', data);
   return (
     <Page>
       <Page.Header>

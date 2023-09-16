@@ -95,3 +95,23 @@ export const useCancelByPost = (url: string) => {
 
   return useMutation(mutate);
 };
+
+export const useUpdateStatus = (url: string, status: string) => {
+  const axios = useAxios();
+
+  const mutate = async (params: string) => {
+    await axios.post(`${url}/${params}/${status}`);
+  };
+
+  return useMutation(mutate);
+};
+
+export const useRejectedTask = (url: string) => {
+  const axios = useAxios();
+
+  const mutate = async (params: { id: string; reason: string }) => {
+    await axios.post(`${url}/${params.id}/reject?reason=${params.reason}`);
+  };
+
+  return useMutation(mutate);
+};

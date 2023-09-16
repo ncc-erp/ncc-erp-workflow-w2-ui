@@ -1,10 +1,9 @@
 export interface IPostAndWFH {
-  userId: number | undefined;
-  userName?: string | undefined;
-  numOfPosts: number;
-  numOfRequestWFH: number;
-  index?: number;
-  email?: string;
+  userRequestName: string;
+  totaldays: number;
+  totalposts: number;
+  posts: [];
+  requests: [];
 }
 
 export interface IRender {
@@ -90,3 +89,17 @@ export interface IFilterReportWFH {
   pages: number;
   per_page: number;
 }
+
+export interface FilterWfhParams {
+  maxResultCount: number;
+  skipCount: number;
+  sorting: string;
+  keySearch: string;
+}
+
+export interface ListResult<T> {
+  totalCount: number;
+  items: T[];
+}
+
+export type FilterWfhResult = ListResult<IPostAndWFH>;
