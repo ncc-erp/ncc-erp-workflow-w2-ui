@@ -21,6 +21,7 @@ import { RequestSortField, SortDirection } from 'common/enums';
 import { RiAddFill } from 'react-icons/ri';
 import {
   FilterRequestParams,
+  InputDefinition,
   RequestTemplate,
   RequestTemplateResult,
 } from 'models/request';
@@ -58,6 +59,8 @@ export const RequestTemplateTable = ({
   const [requestId, setRequestId] = useState<string>('');
   const [modalTitle, setModalTitle] = useState<string>('');
   const [modalWorkflow, setModalWorkflow] = useState<string>('');
+  const [inputDefinition, setModalInputDefinition] =
+    useState<InputDefinition>();
   const [sorting, setSorting] = useState<SortingState>(initialSorting);
 
   const { sideBarWidth } = useRecoilValue(appConfigState);
@@ -83,11 +86,17 @@ export const RequestTemplateTable = ({
           enableSorting: false,
           header: () => <Center w="full">Actions</Center>,
           cell: (info) => {
-            const { definitionId, displayName, name } = info.row.original;
+            const { definitionId, displayName, name, inputDefinition } =
+              info.row.original;
             return (
               <Center>
                 <IconButton
-                  onClick={onAction(definitionId, displayName, name)}
+                  onClick={onAction(
+                    definitionId,
+                    displayName,
+                    name,
+                    inputDefinition
+                  )}
                   aria-label="Popup modal"
                   icon={<RiAddFill />}
                 />
@@ -126,11 +135,18 @@ export const RequestTemplateTable = ({
   };
 
   const onAction =
-    (requestId: string, displayName: string, workflow: string) => () => {
+    (
+      requestId: string,
+      displayName: string,
+      workflow: string,
+      inputDefinition: InputDefinition
+    ) =>
+    () => {
       setIsModalOpen(true);
       setRequestId(requestId);
       setModalTitle(displayName);
       setModalWorkflow(workflow);
+      setModalInputDefinition(inputDefinition);
     };
 
   const onCloseModal = () => {
@@ -153,7 +169,7 @@ export const RequestTemplateTable = ({
           <Box
             overflowX="auto"
             w={{ base: `calc(100vw - ${sideBarWidth}px)`, lg: 'auto' }}
-            p = "10px 30px 0px 30px"
+            p="10px 30px 0px 30px"
           >
             <Table
               columns={myRequestColumns}
@@ -166,7 +182,7 @@ export const RequestTemplateTable = ({
       )}
 
       <HStack
-        p = "20px 30px 20px 30px"
+        p="20px 30px 20px 30px"
         justifyContent="space-between"
         flexWrap="wrap"
       >
@@ -194,6 +210,7 @@ export const RequestTemplateTable = ({
         requestId={requestId}
         displayName={modalTitle}
         workflow={modalWorkflow}
+        inputDefinition={inputDefinition}
       />
     </Box>
   );

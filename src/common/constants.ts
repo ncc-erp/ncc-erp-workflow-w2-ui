@@ -121,7 +121,11 @@ export const QueryKeys = {
   FILTER_USER: 'filterUser',
   FILTER_REQUEST: 'filterRequest',
   REQUEST_TEMPLATES: 'requestTemplates',
+  GET_OFFICES: 'getOffices',
+  GET_PROJECT_USER: 'getProjectsUser',
+  GET_USER_INFO_WITH_BRANCH: 'getUserInfoWithBranch',
   GET_ALL_TASK: 'getAllTask',
   FILTER_TASK: 'filterTask',
   GET_WFH_LIST: 'getWfhList',
+  GET_USER_CURRENT_PROJECT: 'getUserCurrentProject',
 };

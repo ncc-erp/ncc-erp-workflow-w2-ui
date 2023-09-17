@@ -92,6 +92,9 @@ dependencies:
   react-icons:
     specifier: ^4.11.0
     version: 4.11.0(react@18.2.0)
+  react-multi-date-picker:
+    specifier: ^4.3.1
+    version: 4.3.1(react-dom@18.2.0)(react@18.2.0)
   react-router:
     specifier: ^6.16.0
     version: 6.16.0(react@18.2.0)
@@ -5217,6 +5220,10 @@ packages:
       react: 18.2.0
     dev: false
 
+  /react-date-object@2.1.7:
+    resolution: {integrity: sha512-810eaGk/xvQBJNncPvhwXaKcSwPRKX48jtY/5U5T1bSUnGFqmBdMvl4EVl76cyzQ8U3KX6hpF6xZ1c0eY9vvJA==}
+    dev: false
+
   /react-datepicker@4.17.0(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-z50H44XbnkYlns7gVHzHK4jWAzLfvQehh5Lvindb09J97yVJKIbsmHs98D0f77tdZc3dSYM7oAqsFY55dBeOGQ==}
     peerDependencies:
@@ -5241,6 +5248,16 @@ packages:
       loose-envify: 1.4.0
       react: 18.2.0
       scheduler: 0.23.0
+
+  /react-element-popper@2.1.6(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-8va7mUmrKIkUnaM2t5Dyctd8cjgVgVcrv5vVD0FRay0sN6EPBCKa0bDi1/KmVDAjfgSIn7zQnjtc4VojcGrkgQ==}
+    peerDependencies:
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
 
   /react-fast-compare@2.0.4:
     resolution: {integrity: sha512-suNP+J1VU1MWFKcyt7RtjiSWUjvidmQSlqu+eHslq+342xCbGTYmC0mEhPCOHxlW0CywylOC1u2DFAT+bv4dBw==}
@@ -5294,6 +5311,18 @@ packages:
 
   /react-is@18.2.0:
     resolution: {integrity: sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==}
+    dev: false
+
+  /react-multi-date-picker@4.3.1(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-FBL7U9Ee3njRb3KAYijo4ySQDFWFZBKCrFd+FyXPHHoA4gPoY3yPk/gnKPX1M2/LetKVIM5bo8Moh7UJgDVX5g==}
+    peerDependencies:
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
+    dependencies:
+      react: 18.2.0
+      react-date-object: 2.1.7
+      react-dom: 18.2.0(react@18.2.0)
+      react-element-popper: 2.1.6(react-dom@18.2.0)(react@18.2.0)
     dev: false
 
   /react-onclickoutside@6.13.0(react-dom@18.2.0)(react@18.2.0):
