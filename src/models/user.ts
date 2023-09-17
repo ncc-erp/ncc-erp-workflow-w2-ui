@@ -30,7 +30,7 @@ export interface LoginResult {
   token?: string;
 }
 
-export interface UserInfor {
+export interface UserInfo {
   email: string;
   fullName: string;
   branch: string;

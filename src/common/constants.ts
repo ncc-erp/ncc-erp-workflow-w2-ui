@@ -127,4 +127,5 @@ export const QueryKeys = {
   GET_ALL_TASK: 'getAllTask',
   FILTER_TASK: 'filterTask',
   GET_WFH_LIST: 'getWfhList',
+  GET_USER_CURRENT_PROJECT: 'getUserCurrentProject',
 };

@@ -86,3 +86,8 @@ export interface DeviceRequestFormParams {
   device: string;
   reason: string;
 }
+
+export interface IRequestFormParams {
+  workflowDefinitionId?: string;
+  input: object;
+}

@@ -5,6 +5,7 @@ import {
   FilterRequestParams,
   FilterRequestResult,
   OfficeEquipmentRequestFormParams,
+  IRequestFormParams,
   RequestTemplateResult,
   WfhRequestFormParams,
 } from 'models/request';
@@ -17,8 +18,8 @@ import {
 } from 'api/apiHooks';
 import { QueryKeys } from 'common/constants';
 import { officeList } from 'models/office';
-import { projectList } from 'models/project';
-import { UserInfor } from 'models/user';
+import { ICurrentProject, projectList } from 'models/project';
+import { UserInfo } from 'models/user';
 
 export const useMyRequests = (filter: FilterRequestParams) => {
   return useGetListByPost<FilterRequestResult>(
@@ -61,21 +62,34 @@ export const useDeviceRequestWorkflow = () => {
 
 export const useOffices = () => {
   return useGetOne<typeof officeList>(
-      [QueryKeys.GET_OFFICES],
-      '/app/external-resource/of-office'
-    );
-}
+    [QueryKeys.GET_OFFICES],
+    '/app/external-resource/of-office'
+  );
+};
 
 export const useUserProjects = () => {
   return useGetOne<typeof projectList>(
     [QueryKeys.GET_PROJECT_USER],
     '/app/external-resource/current-user-projects'
   );
-}
+};
 
 export const useUserInfoWithBranch = (userEmail: string) => {
-  return useGetOne<UserInfor>(
+  return useGetOne<UserInfo>(
     [QueryKeys.GET_USER_INFO_WITH_BRANCH, userEmail],
-    `/app/external-resource/user-info-by-email?userEmail=${userEmail}`,
-  )
-}
+    `/app/external-resource/user-info-by-email?userEmail=${userEmail}`
+  );
+};
+
+export const useNewRequestWorkflow = () => {
+  return useCreate<IRequestFormParams, any>(
+    '/app/workflow-instance/new-instance'
+  );
+};
+
+export const useUserCurrentProject = () => {
+  return useGetOne<ICurrentProject>(
+    [QueryKeys.GET_USER_CURRENT_PROJECT],
+    '/app/external-resource/current-user-working-project'
+  );
+};

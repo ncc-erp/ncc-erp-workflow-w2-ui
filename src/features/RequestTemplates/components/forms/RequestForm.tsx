@@ -1,9 +1,10 @@
 import { Button, Text, VStack } from '@chakra-ui/react';
 import {
-  useOfficeEquipmentRequestWorkflow,
   useOffices,
   useUserProjects,
   useUserInfoWithBranch,
+  useNewRequestWorkflow,
+  useUserCurrentProject,
 } from 'api/apiHooks/requestHooks';
 import { SelectField } from 'common/components/SelectField';
 import { TextareaField } from 'common/components/TextareaField';
@@ -16,11 +17,17 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import './style.css';
 
-import { InputDefinition, PropertyDefinition } from 'models/request';
+import {
+  InputDefinition,
+  PropertyDefinition,
+  IRequestFormParams,
+} from 'models/request';
 import { IOffices } from 'models/office';
 import { IProjects } from 'models/project';
-import { parseJwt } from 'utils/parseJwt';
 import { ChangeEvent, useState } from 'react';
+import { format } from 'date-fns/esm';
+import { useCurrentUser } from 'hooks/useCurrentUser';
+import { toast } from 'common/components/StandaloneToast';
 
 interface RequestFormProps {
   inputDefinition?: InputDefinition;
@@ -30,36 +37,56 @@ type FormParams = Record<
   string | DateObject | DateObject[] | null | Date | undefined
 >;
 
-const RequestForm = ({ inputDefinition }: RequestFormProps) => {
-  const { data: offices } = useOffices();
-  const { data: projects } = useUserProjects();
-  const userInfo = parseJwt(localStorage.getItem('accessToken'));
-  const { data: user } = useUserInfoWithBranch(userInfo.email);
+type FormParamsValue =
+  | string
+  | DateObject
+  | DateObject[]
+  | null
+  | Date
+  | undefined;
 
-  const { isLoading: isLoginLoading } = useOfficeEquipmentRequestWorkflow();
+const RequestForm = ({ inputDefinition }: RequestFormProps) => {
+  const { data: offices, isLoading: isLoading } = useOffices();
+  const { data: projects } = useUserProjects();
+  const currentUser = useCurrentUser();
+  const { data: userInfo } = useUserInfoWithBranch(currentUser.email);
+  const { data: userCurrentProject } = useUserCurrentProject();
 
   const [formParams, setFormParams] = useState<FormParams>({});
 
-  const getOptions = (type: string) => {
-    switch (type) {
-      case 'OfficeList':
-        return offices?.map((office: IOffices) => ({
-          value: office?.code,
-          label: office?.displayName,
-        }));
-
-      case 'MyProject':
-        return projects?.map((project: IProjects) => ({
-          value: project?.code,
-          label: project?.name,
-        }));
+  const { handleSubmit } = useForm<FormParams>({});
+  const { mutateAsync: createMutate } = useNewRequestWorkflow();
+  const formatDate = (date: FormParamsValue) => {
+    if (date instanceof Date) {
+      return format(date, 'yyyy/MM/dd');
+    } else {
+      return date?.toString();
     }
   };
 
-  const { handleSubmit } = useForm({});
-
   const onSubmit = async () => {
-    console.log(11111, formParams);
+    const formParamsFormatted = { ...formParams };
+    Object.keys(formParamsFormatted).forEach((key) => {
+      if (
+        formParamsFormatted[key] instanceof Date ||
+        formParamsFormatted[key] instanceof DateObject ||
+        Array.isArray(formParams[key])
+      ) {
+        formParamsFormatted[key] = formatDate(formParamsFormatted[key]);
+      }
+    });
+
+    const RequestFormParams: IRequestFormParams = {
+      workflowDefinitionId: inputDefinition?.workflowDefinitionId,
+      input: formParamsFormatted,
+    };
+
+    const { result } = await createMutate(RequestFormParams);
+    console.log(result);
+    toast({
+      description: 'Create Request Successfully',
+      status: 'success',
+    });
   };
 
   const handleChangeValue = (
@@ -83,12 +110,38 @@ const RequestForm = ({ inputDefinition }: RequestFormProps) => {
     }
     setFormParams(updatedFormParams);
   };
+
+  const getOptions = (type: string) => {
+    switch (type) {
+      case 'OfficeList':
+        return offices?.map((office: IOffices) => ({
+          value: office?.code,
+          label: office?.displayName,
+        }));
+
+      case 'MyProject':
+        return projects?.map((project: IProjects) => ({
+          value: project?.code,
+          label: project?.name,
+        }));
+    }
+  };
+
+  const getDefaultValueSelected = (type: string, fieldname: string) => {
+    switch (type) {
+      case 'OfficeList':
+        return formParams[fieldname] ?? userInfo?.branch;
+      case 'MyProject':
+        return formParams[fieldname] ?? userCurrentProject?.code;
+    }
+  };
+
   const getField = (Field: PropertyDefinition) => {
     const fieldname = Field?.name ? Field.name : '';
     switch (Field?.type) {
       case 'OfficeList':
       case 'MyProject':
-        formParams[fieldname] = formParams[fieldname] ?? user?.branch;
+        formParams[fieldname] = getDefaultValueSelected(Field?.type, fieldname);
         return (
           <>
             <Text whiteSpace="nowrap" fontSize="md">
@@ -220,7 +273,7 @@ const RequestForm = ({ inputDefinition }: RequestFormProps) => {
           mt="14px"
           h="50px"
           type="submit"
-          isLoading={isLoginLoading}
+          isLoading={isLoading}
           colorScheme="blackButton"
           w="full"
           textColor="white"
