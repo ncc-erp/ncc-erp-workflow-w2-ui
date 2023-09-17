@@ -70,7 +70,7 @@ const RequestForm = ({ inputDefinition }: RequestFormProps) => {
       if (
         formParamsFormatted[key] instanceof Date ||
         formParamsFormatted[key] instanceof DateObject ||
-        Array.isArray(formParams[key])
+        Array.isArray(formParamsFormatted[key])
       ) {
         formParamsFormatted[key] = formatDate(formParamsFormatted[key]);
       }
