@@ -67,7 +67,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
   const { mutateAsync: createMutate } = useNewRequestWorkflow();
   const formatDate = (date: FormParamsValue) => {
     if (date instanceof Date) {
-      return format(date, 'yyyy/MM/dd');
+      return format(date, 'dd/MM/yyyy');
     } else {
       return date?.toString();
     }
@@ -268,7 +268,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
                       className="datePicker"
                       onChange={field.onChange}
                       selected={field.value as Date}
-                      dateFormat="dd-MM-yyyy"
+                      dateFormat="dd/MM/yyyy"
                     />
                   );
                 }}
