@@ -31,6 +31,7 @@ import { toast } from 'common/components/StandaloneToast';
 
 interface RequestFormProps {
   inputDefinition?: InputDefinition;
+  onCloseModal: () => void;
 }
 type FormParams = Record<
   string,
@@ -45,16 +46,19 @@ type FormParamsValue =
   | Date
   | undefined;
 
-const RequestForm = ({ inputDefinition }: RequestFormProps) => {
-  const { data: offices, isLoading: isLoading } = useOffices();
+const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
+  const { data: offices } = useOffices();
   const { data: projects } = useUserProjects();
   const currentUser = useCurrentUser();
   const { data: userInfo } = useUserInfoWithBranch(currentUser.email);
   const { data: userCurrentProject } = useUserCurrentProject();
 
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [formParams, setFormParams] = useState<FormParams>({});
-
   const { handleSubmit } = useForm<FormParams>({});
+  const requiredFields: Array<string> = [];
+  const [errors, setErrors] = useState<Record<string, string>>({});
+
   const { mutateAsync: createMutate } = useNewRequestWorkflow();
   const formatDate = (date: FormParamsValue) => {
     if (date instanceof Date) {
@@ -64,7 +68,30 @@ const RequestForm = ({ inputDefinition }: RequestFormProps) => {
     }
   };
 
+  const validateValue = async () => {
+    const fieldErrors: Record<string, string> = {};
+    requiredFields.forEach((field) => {
+      if (
+        !formParams[field] ||
+        (formParams[field] as Array<DateObject>)?.length == 0
+      ) {
+        fieldErrors[field] = `${field} is required!`;
+      }
+    });
+    return fieldErrors;
+  };
+
   const onSubmit = async () => {
+    setIsLoading(true);
+
+    setErrors({});
+    const fieldErrors = await validateValue();
+    if (Object.keys(fieldErrors).length) {
+      setIsLoading(false);
+      setErrors(fieldErrors);
+      return;
+    }
+
     const formParamsFormatted = { ...formParams };
     Object.keys(formParamsFormatted).forEach((key) => {
       if (
@@ -82,11 +109,13 @@ const RequestForm = ({ inputDefinition }: RequestFormProps) => {
     };
 
     const { result } = await createMutate(RequestFormParams);
+    setIsLoading(false);
     console.log(result);
     toast({
       description: 'Create Request Successfully',
       status: 'success',
     });
+    onCloseModal();
   };
 
   const handleChangeValue = (
@@ -109,6 +138,10 @@ const RequestForm = ({ inputDefinition }: RequestFormProps) => {
       updatedFormParams[variable] = e;
     }
     setFormParams(updatedFormParams);
+  };
+
+  const toDisplayName = (inputName: string) => {
+    return inputName.replace(/([a-z])([A-Z])/g, '$1 $2');
   };
 
   const getOptions = (type: string) => {
@@ -138,6 +171,7 @@ const RequestForm = ({ inputDefinition }: RequestFormProps) => {
 
   const getField = (Field: PropertyDefinition) => {
     const fieldname = Field?.name ? Field.name : '';
+    Field?.isRequired ? requiredFields.push(fieldname) : '';
     switch (Field?.type) {
       case 'OfficeList':
       case 'MyProject':
@@ -145,7 +179,7 @@ const RequestForm = ({ inputDefinition }: RequestFormProps) => {
         return (
           <>
             <Text whiteSpace="nowrap" fontSize="md">
-              {fieldname}
+              {toDisplayName(fieldname)}
               {Field?.isRequired ? (
                 <span style={{ color: 'red' }}> *</span>
               ) : (
@@ -160,6 +194,11 @@ const RequestForm = ({ inputDefinition }: RequestFormProps) => {
               value={formParams[fieldname] as string}
               onChange={(newValue) => handleChangeValue(newValue, fieldname)}
             />
+            {fieldname in errors ? (
+              <span style={{ color: 'red' }}>{errors[fieldname]}</span>
+            ) : (
+              ''
+            )}
           </>
         );
       case 'Text':
@@ -167,7 +206,7 @@ const RequestForm = ({ inputDefinition }: RequestFormProps) => {
         return (
           <>
             <Text whiteSpace="nowrap" fontSize="md">
-              {fieldname}
+              {toDisplayName(fieldname)}
               {Field?.isRequired ? (
                 <span style={{ color: 'red' }}> *</span>
               ) : (
@@ -182,6 +221,11 @@ const RequestForm = ({ inputDefinition }: RequestFormProps) => {
               onChange={(newValue) => handleChangeValue(newValue, fieldname)}
               value={formParams[fieldname] as string}
             />
+            {fieldname in errors ? (
+              <span style={{ color: 'red' }}>{errors[fieldname]}</span>
+            ) : (
+              ''
+            )}
           </>
         );
       case 'RichText':
@@ -189,7 +233,7 @@ const RequestForm = ({ inputDefinition }: RequestFormProps) => {
         return (
           <>
             <Text whiteSpace="nowrap" fontSize="md">
-              {fieldname}
+              {toDisplayName(fieldname)}
               {Field?.isRequired ? (
                 <span style={{ color: 'red' }}> *</span>
               ) : (
@@ -201,6 +245,11 @@ const RequestForm = ({ inputDefinition }: RequestFormProps) => {
               onChange={(newValue) => handleChangeValue(newValue, fieldname)}
               value={formParams[fieldname] as string}
             />
+            {fieldname in errors ? (
+              <span style={{ color: 'red' }}>{errors[fieldname]}</span>
+            ) : (
+              ''
+            )}
           </>
         );
       case 'DateTime':
@@ -209,7 +258,7 @@ const RequestForm = ({ inputDefinition }: RequestFormProps) => {
           return (
             <>
               <Text whiteSpace="nowrap" fontSize="md">
-                {Field?.name}
+                {toDisplayName(fieldname)}
                 {Field?.isRequired ? (
                   <span style={{ color: 'red' }}> *</span>
                 ) : (
@@ -224,13 +273,18 @@ const RequestForm = ({ inputDefinition }: RequestFormProps) => {
                 dateFormat="dd-MM-yyyy"
                 value={formParams[fieldname] as string}
               />
+              {fieldname in errors ? (
+                <span style={{ color: 'red' }}>{errors[fieldname]}</span>
+              ) : (
+                ''
+              )}
             </>
           );
         else
           return (
             <>
               <Text whiteSpace="nowrap" fontSize="md">
-                {Field?.name}
+                {toDisplayName(fieldname)}
                 {Field?.isRequired ? (
                   <span style={{ color: 'red' }}> *</span>
                 ) : (
@@ -245,12 +299,17 @@ const RequestForm = ({ inputDefinition }: RequestFormProps) => {
                 plugins={[<Toolbar position="bottom" sort={['close']} />]}
                 style={{
                   width: '100%',
-                  height: '32px',
+                  height: '40px',
                   borderRadius: '5px',
                   fontSize: '16px',
                   padding: '3px 10px',
                 }}
               />
+              {fieldname in errors ? (
+                <span style={{ color: 'red' }}>{errors[fieldname]}</span>
+              ) : (
+                ''
+              )}
             </>
           );
     }
