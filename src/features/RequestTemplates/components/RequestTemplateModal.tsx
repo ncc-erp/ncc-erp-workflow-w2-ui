@@ -32,7 +32,10 @@ export const RequestTemplateModal = ({
         <Divider></Divider>
         <ModalCloseButton />
         <ModalBody>
-          <RequestForm inputDefinition={inputDefinition} />
+          <RequestForm
+            inputDefinition={inputDefinition}
+            onCloseModal={onClose}
+          />
         </ModalBody>
       </ModalContent>
     </Modal>
