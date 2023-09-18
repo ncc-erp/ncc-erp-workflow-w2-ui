@@ -5,7 +5,9 @@ import {
   MenuList,
   MenuItem,
   Icon,
+  useColorModeValue,
 } from '@chakra-ui/react';
+import { ColorThemeMode } from 'common/constants';
 import {
   RiSettings4Fill,
   RiDeleteBin6Fill,
@@ -24,6 +26,9 @@ export const RowAction = ({
   onPermissions,
   onDelete,
 }: RowActionProps) => {
+  const bg = useColorModeValue(ColorThemeMode.LIGHT, ColorThemeMode.DARK);
+  const color = useColorModeValue(ColorThemeMode.DARK, ColorThemeMode.LIGHT);
+
   return (
     <Menu>
       <MenuButton
@@ -35,16 +40,21 @@ export const RowAction = ({
       >
         Actions
       </MenuButton>
-      <MenuList minW="100px">
-        <MenuItem display="flex" gap="12px" onClick={onEdit}>
+      <MenuList minW="100px" bg={bg}>
+        <MenuItem color={color} display="flex" gap="12px" onClick={onEdit}>
           <Icon color="gray.500" as={RiEdit2Fill} />
           Edit
         </MenuItem>
-        <MenuItem display="flex" gap="12px" onClick={onPermissions}>
+        <MenuItem
+          color={color}
+          display="flex"
+          gap="12px"
+          onClick={onPermissions}
+        >
           <Icon color="gray.500" as={RiUser2Fill} />
           Permissions
         </MenuItem>
-        <MenuItem display="flex" gap="12px" onClick={onDelete}>
+        <MenuItem color={color} display="flex" gap="12px" onClick={onDelete}>
           <Icon color="gray.500" as={RiDeleteBin6Fill} />
           Delete
         </MenuItem>

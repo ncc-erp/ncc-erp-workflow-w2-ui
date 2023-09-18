@@ -9,11 +9,16 @@ import { useEffect, useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import classNames from 'classnames';
 import { toast } from 'common/components/StandaloneToast';
-import { BoardColumnStatus, QueryKeys, TaskStatus } from 'common/constants';
+import {
+  BoardColumnStatus,
+  ColorThemeMode,
+  QueryKeys,
+  TaskStatus,
+} from 'common/constants';
 import './style.css';
 import useBoard from './useBoard';
 import { ModalConfirm } from '../ModalConfirm';
-import { Box, useDisclosure } from '@chakra-ui/react';
+import { Box, useColorModeValue, useDisclosure } from '@chakra-ui/react';
 import { ITask } from 'models/task';
 import {
   useApproveTask,
@@ -41,6 +46,7 @@ const initialModalStatus: ModalStatus = {
 };
 
 const Boards = ({ data }: BoardsProps): JSX.Element => {
+  const color = useColorModeValue(ColorThemeMode.DARK, ColorThemeMode.LIGHT);
   const [modalState, setModalState] = useState(initialModalStatus);
   const [result, setResult] = useState<DropResult>();
   const [isRejected, setIsRejected] = useState<boolean>(false);
@@ -189,7 +195,7 @@ const Boards = ({ data }: BoardsProps): JSX.Element => {
                   style={getListStyle(snapshot.isDraggingOver)}
                   {...provided.droppableProps}
                 >
-                  <div className="columnLabel">
+                  <div className="columnLabel" style={{ color: color }}>
                     {Object.keys(BoardColumnStatus)[ind]}
                   </div>
 

@@ -8,6 +8,7 @@ const MyRequests = () => {
         <Page.HeaderLeft>
           <Page.Heading>My requests</Page.Heading>
         </Page.HeaderLeft>
+        <Page.HeaderRight />
       </Page.Header>
       <Page.Body>
         <MyRequestTable />

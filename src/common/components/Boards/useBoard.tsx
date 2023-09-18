@@ -1,3 +1,4 @@
+import { useColorModeValue } from '@chakra-ui/react';
 import {
   DraggableLocation,
   DraggingStyle,
@@ -6,6 +7,8 @@ import {
 import { ITask } from 'models/task';
 
 const useBoard = () => {
+  const bg = useColorModeValue('#f7fafc', '#10151f');
+
   // reordering the result in the same list
   const reorder = (
     list: ITask[],
@@ -58,11 +61,12 @@ const useBoard = () => {
   });
 
   const getListStyle = (isDraggingOver: boolean): React.CSSProperties => ({
-    background: isDraggingOver ? 'lightblue' : '#eee',
+    background: isDraggingOver ? 'lightblue' : bg,
     padding: grid,
     minWidth: 250,
     width: '100%',
     height: 725,
+    borderRadius: 10,
     // overflowY: 'auto',
   });
 

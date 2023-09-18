@@ -125,3 +125,8 @@ export const QueryKeys = {
   FILTER_TASK: 'filterTask',
   GET_WFH_LIST: 'getWfhList',
 };
+
+export const ColorThemeMode = {
+  LIGHT: 'light',
+  DARK: 'dark',
+};

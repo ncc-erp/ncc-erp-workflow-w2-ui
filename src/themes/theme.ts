@@ -8,6 +8,10 @@ import { menuTheme } from 'themes/menuTheme';
 import { drawerTheme } from 'themes/drawerTheme';
 
 const theme = extendTheme({
+  config: {
+    initialColorMode: 'light',
+    useSystemColorMode: false,
+  },
   fonts: {
     body: `'Montserrat'`,
     heading: `'Montserrat'`,
@@ -20,6 +24,8 @@ const theme = extendTheme({
     },
     primary: '#f16471',
     secondary: '#e2e8f0',
+    light: '#f7fafc',
+    dark: '#10151f',
   },
   components: {
     Menu: menuTheme,

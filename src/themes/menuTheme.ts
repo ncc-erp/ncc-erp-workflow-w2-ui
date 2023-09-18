@@ -19,9 +19,11 @@ const baseStyle = definePartsStyle({
     rounded: '4px',
     _hover: {
       bg: 'gray.200',
+      color: 'black',
     },
     _focus: {
       bg: 'gray.200',
+      color: 'black',
     },
   },
 });

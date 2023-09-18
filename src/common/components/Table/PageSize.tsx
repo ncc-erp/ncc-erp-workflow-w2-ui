@@ -23,6 +23,7 @@ export const PageSize = ({ noOfRows, onChange }: PageSizeProps) => {
         variant="ghost"
         size="xs"
         mt="-3px"
+        ml="10px"
         fontSize="sm"
         onChange={handleChange}
       />

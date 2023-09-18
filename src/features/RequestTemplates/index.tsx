@@ -11,8 +11,8 @@ const RequestTemplates = () => {
         <Page.HeaderLeft>
           <Page.Heading>Requests Template</Page.Heading>
         </Page.HeaderLeft>
+        <Page.HeaderRight />
       </Page.Header>
-
       <Page.Body>
         <RequestTemplateTable
           data={data || { items: [], totalCount: 0 }}

@@ -8,8 +8,8 @@ const Tasks = () => {
         <Page.HeaderLeft>
           <Page.Heading>Tasks Board</Page.Heading>
         </Page.HeaderLeft>
+        <Page.HeaderRight />
       </Page.Header>
-
       <Page.Body>
         <TasksBoard />
       </Page.Body>
