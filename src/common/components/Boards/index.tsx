@@ -15,11 +15,7 @@ import useBoard from './useBoard';
 import { ModalConfirm } from '../ModalConfirm';
 import { Box, useDisclosure } from '@chakra-ui/react';
 import { ITask } from 'models/task';
-import {
-  useApproveTask,
-  useCancelTask,
-  useRejectTask,
-} from 'api/apiHooks/taskHooks';
+import { useApproveTask, useRejectTask } from 'api/apiHooks/taskHooks';
 import ModalBoard from './ModalBoard';
 import { ETaskStatus } from 'common/enums';
 
@@ -49,13 +45,11 @@ const Boards = ({ data }: BoardsProps): JSX.Element => {
     [ETaskStatus.Pending]: [],
     [ETaskStatus.Approved]: [],
     [ETaskStatus.Rejected]: [],
-    [ETaskStatus.Canceled]: [],
   });
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const queryClient = useQueryClient();
-  const cancelTaskMutation = useCancelTask();
   const approveTaskMutation = useApproveTask();
   const rejectTaskMutation = useRejectTask();
   const { reorder, move, getItemStyle, getListStyle } = useBoard();
@@ -114,15 +108,6 @@ const Boards = ({ data }: BoardsProps): JSX.Element => {
     try {
       setIsLoading(true);
       switch (Number(destination.droppableId)) {
-        case BoardColumnStatus.Canceled:
-          await cancelTaskMutation.mutateAsync(
-            state[ETaskStatus.Pending][source.index].id
-          );
-          queryClient.invalidateQueries({
-            queryKey: [QueryKeys.FILTER_TASK],
-          });
-          toast({ title: 'Cancelled successfully!', status: 'success' });
-          break;
         case BoardColumnStatus.Approved:
           await approveTaskMutation.mutateAsync(
             state[ETaskStatus.Pending][source.index].id
@@ -130,6 +115,7 @@ const Boards = ({ data }: BoardsProps): JSX.Element => {
           queryClient.invalidateQueries({
             queryKey: [QueryKeys.FILTER_TASK],
           });
+          state[ETaskStatus.Pending][source.index].status = TaskStatus.Approved;
           toast({ title: 'Approved successfully!', status: 'success' });
           break;
         case BoardColumnStatus.Rejected:
@@ -141,6 +127,7 @@ const Boards = ({ data }: BoardsProps): JSX.Element => {
           queryClient.invalidateQueries({
             queryKey: [QueryKeys.FILTER_TASK],
           });
+          state[ETaskStatus.Pending][source.index].status = TaskStatus.Rejected;
           toast({ title: 'Rejected successfully!', status: 'success' });
           break;
         default:
@@ -170,9 +157,6 @@ const Boards = ({ data }: BoardsProps): JSX.Element => {
       ),
       [ETaskStatus.Rejected]: data.filter(
         (x) => x.status === TaskStatus.Rejected
-      ),
-      [ETaskStatus.Canceled]: data.filter(
-        (x) => x.status === TaskStatus.Canceled
       ),
     });
   }, [data]);
