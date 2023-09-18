@@ -11,10 +11,6 @@ export const useGetAllTask = (filter: FilterTasks) => {
   );
 };
 
-export const useCancelTask = () => {
-  return useUpdateStatus('/app/task', 'cancel');
-};
-
 export const useApproveTask = () => {
   return useUpdateStatus('/app/task', 'approve');
 };

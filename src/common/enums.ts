@@ -18,7 +18,6 @@ export enum ETaskStatus {
   Pending = 0,
   Approved = 1,
   Rejected = 2,
-  Canceled = 3,
 }
 
 export enum RequestSortField {
