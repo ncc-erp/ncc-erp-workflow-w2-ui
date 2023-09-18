@@ -9,7 +9,7 @@ import {
 import { SelectField } from 'common/components/SelectField';
 import { TextareaField } from 'common/components/TextareaField';
 import { TextField } from 'common/components/TextField';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import MultiDatePicker, { DateObject } from 'react-multi-date-picker';
 import Toolbar from 'react-multi-date-picker/plugins/toolbar';
 
@@ -28,6 +28,7 @@ import { ChangeEvent, useState } from 'react';
 import { format } from 'date-fns/esm';
 import { useCurrentUser } from 'hooks/useCurrentUser';
 import { toast } from 'common/components/StandaloneToast';
+import { ErrorMessage } from '@hookform/error-message';
 
 interface RequestFormProps {
   inputDefinition?: InputDefinition;
@@ -55,10 +56,14 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [formParams, setFormParams] = useState<FormParams>({});
-  const { handleSubmit } = useForm<FormParams>({});
-  const requiredFields: Array<string> = [];
-  const [errors, setErrors] = useState<Record<string, string>>({});
-
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm<FormParams>({
+    criteriaMode: 'all',
+  });
   const { mutateAsync: createMutate } = useNewRequestWorkflow();
   const formatDate = (date: FormParamsValue) => {
     if (date instanceof Date) {
@@ -68,29 +73,8 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
     }
   };
 
-  const validateValue = async () => {
-    const fieldErrors: Record<string, string> = {};
-    requiredFields.forEach((field) => {
-      if (
-        !formParams[field] ||
-        (formParams[field] as Array<DateObject>)?.length == 0
-      ) {
-        fieldErrors[field] = `${field} is required!`;
-      }
-    });
-    return fieldErrors;
-  };
-
   const onSubmit = async () => {
     setIsLoading(true);
-
-    setErrors({});
-    const fieldErrors = await validateValue();
-    if (Object.keys(fieldErrors).length) {
-      setIsLoading(false);
-      setErrors(fieldErrors);
-      return;
-    }
 
     const formParamsFormatted = { ...formParams };
     Object.keys(formParamsFormatted).forEach((key) => {
@@ -108,9 +92,9 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
       input: formParamsFormatted,
     };
 
-    const { result } = await createMutate(RequestFormParams);
+    await createMutate(RequestFormParams);
+
     setIsLoading(false);
-    console.log(result);
     toast({
       description: 'Create Request Successfully',
       status: 'success',
@@ -119,24 +103,11 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
   };
 
   const handleChangeValue = (
-    e:
-      | ChangeEvent<HTMLSelectElement | HTMLInputElement | HTMLTextAreaElement>
-      | Date
-      | DateObject
-      | DateObject[]
-      | null,
+    e: ChangeEvent<HTMLSelectElement | HTMLInputElement | HTMLTextAreaElement>,
     variable: string
   ) => {
     const updatedFormParams = { ...formParams };
-    if (e && 'target' in e) {
-      updatedFormParams[variable] = e.target.value;
-    } else if (
-      Array.isArray(e) ||
-      e instanceof Date ||
-      e instanceof DateObject
-    ) {
-      updatedFormParams[variable] = e;
-    }
+    updatedFormParams[variable] = e.target.value;
     setFormParams(updatedFormParams);
   };
 
@@ -171,7 +142,6 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
 
   const getField = (Field: PropertyDefinition) => {
     const fieldname = Field?.name ? Field.name : '';
-    Field?.isRequired ? requiredFields.push(fieldname) : '';
     switch (Field?.type) {
       case 'OfficeList':
       case 'MyProject':
@@ -187,18 +157,24 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
               )}
             </Text>
             <SelectField
-              name={fieldname}
               size="sm"
               rounded="md"
               options={getOptions(Field?.type) ?? [{ value: '', label: '' }]}
               value={formParams[fieldname] as string}
-              onChange={(newValue) => handleChangeValue(newValue, fieldname)}
+              {...register(fieldname, {
+                required: Field?.isRequired
+                  ? `${fieldname} is Required`
+                  : false,
+                onChange: (e) => handleChangeValue(e, fieldname),
+              })}
             />
-            {fieldname in errors ? (
-              <span style={{ color: 'red' }}>{errors[fieldname]}</span>
-            ) : (
-              ''
-            )}
+            <ErrorMessage
+              errors={errors}
+              name={fieldname}
+              render={({ message }) => (
+                <span style={{ color: 'red' }}>{message}</span>
+              )}
+            />
           </>
         );
       case 'Text':
@@ -214,18 +190,24 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
               )}
             </Text>
             <TextField
-              name={fieldname}
               h="50px"
               placeholder={fieldname}
               fontSize="sm"
-              onChange={(newValue) => handleChangeValue(newValue, fieldname)}
               value={formParams[fieldname] as string}
+              {...register(fieldname, {
+                required: Field?.isRequired
+                  ? `${fieldname} is Required`
+                  : false,
+                onChange: (e) => handleChangeValue(e, fieldname),
+              })}
             />
-            {fieldname in errors ? (
-              <span style={{ color: 'red' }}>{errors[fieldname]}</span>
-            ) : (
-              ''
-            )}
+            <ErrorMessage
+              errors={errors}
+              name={fieldname}
+              render={({ message }) => (
+                <span style={{ color: 'red' }}>{message}</span>
+              )}
+            />
           </>
         );
       case 'RichText':
@@ -241,19 +223,25 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
               )}
             </Text>
             <TextareaField
-              name={fieldname}
-              onChange={(newValue) => handleChangeValue(newValue, fieldname)}
               value={formParams[fieldname] as string}
+              {...register(fieldname, {
+                required: Field?.isRequired
+                  ? `${fieldname} is Required`
+                  : false,
+                onChange: (e) => handleChangeValue(e, fieldname),
+              })}
             />
-            {fieldname in errors ? (
-              <span style={{ color: 'red' }}>{errors[fieldname]}</span>
-            ) : (
-              ''
-            )}
+            <ErrorMessage
+              errors={errors}
+              name={fieldname}
+              render={({ message }) => (
+                <span style={{ color: 'red' }}>{message}</span>
+              )}
+            />
           </>
         );
       case 'DateTime':
-        formParams[fieldname] = formParams[fieldname] ?? new Date();
+        formParams[fieldname] = formParams[fieldname] ?? '';
         if (fieldname != 'Dates')
           return (
             <>
@@ -265,19 +253,33 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
                   ''
                 )}
               </Text>
-              <DatePicker
+              <Controller
+                control={control}
+                rules={{
+                  required: Field?.isRequired
+                    ? `${fieldname} is Required`
+                    : false,
+                }}
                 name={fieldname}
-                className="datePicker"
-                selected={formParams[fieldname] as Date}
-                onChange={(newDate) => handleChangeValue(newDate, fieldname)}
-                dateFormat="dd-MM-yyyy"
-                value={formParams[fieldname] as string}
+                render={({ field }) => {
+                  formParams[fieldname] = field.value;
+                  return (
+                    <DatePicker
+                      className="datePicker"
+                      onChange={field.onChange}
+                      selected={field.value as Date}
+                      dateFormat="dd-MM-yyyy"
+                    />
+                  );
+                }}
               />
-              {fieldname in errors ? (
-                <span style={{ color: 'red' }}>{errors[fieldname]}</span>
-              ) : (
-                ''
-              )}
+              <ErrorMessage
+                errors={errors}
+                name={fieldname}
+                render={({ message }) => (
+                  <span style={{ color: 'red' }}>{message}</span>
+                )}
+              />
             </>
           );
         else
@@ -291,25 +293,40 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
                   ''
                 )}
               </Text>
-              <MultiDatePicker
+              <Controller
+                control={control}
+                rules={{
+                  required: Field?.isRequired
+                    ? `${fieldname} is Required`
+                    : false,
+                }}
                 name={fieldname}
-                multiple
-                value={formParams[fieldname]}
-                onChange={(newDates) => handleChangeValue(newDates, fieldname)}
-                plugins={[<Toolbar position="bottom" sort={['close']} />]}
-                style={{
-                  width: '100%',
-                  height: '40px',
-                  borderRadius: '5px',
-                  fontSize: '16px',
-                  padding: '3px 10px',
+                render={({ field }) => {
+                  formParams[fieldname] = field.value;
+                  return (
+                    <MultiDatePicker
+                      multiple
+                      onChange={field.onChange}
+                      value={field.value}
+                      plugins={[<Toolbar position="bottom" sort={['close']} />]}
+                      style={{
+                        width: '100%',
+                        height: '40px',
+                        borderRadius: '5px',
+                        fontSize: '16px',
+                        padding: '3px 10px',
+                      }}
+                    />
+                  );
                 }}
               />
-              {fieldname in errors ? (
-                <span style={{ color: 'red' }}>{errors[fieldname]}</span>
-              ) : (
-                ''
-              )}
+              <ErrorMessage
+                errors={errors}
+                name={fieldname}
+                render={({ message }) => (
+                  <span style={{ color: 'red' }}>{message}</span>
+                )}
+              />
             </>
           );
     }
