@@ -308,6 +308,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
                       multiple
                       onChange={field.onChange}
                       value={field.value}
+                      format='DD/MM/YYYY'
                       plugins={[<Toolbar position="bottom" sort={['close']} />]}
                       style={{
                         width: '100%',
