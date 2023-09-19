@@ -9,6 +9,7 @@ import {
 } from '@chakra-ui/react';
 import { InputDefinition } from 'models/request';
 import RequestForm from './forms/RequestForm';
+import './style.css';
 interface RequestTemplateModalProps {
   isOpen: boolean;
   onClose: () => void;

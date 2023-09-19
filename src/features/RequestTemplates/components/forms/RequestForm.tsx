@@ -147,11 +147,11 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
       case 'MyProject':
         formParams[fieldname] = getDefaultValueSelected(Field?.type, fieldname);
         return (
-          <>
-            <Text whiteSpace="nowrap" fontSize="md">
+          <div className="field">
+            <Text whiteSpace="nowrap" fontSize="md" as="label">
               {toDisplayName(fieldname)}
               {Field?.isRequired ? (
-                <span style={{ color: 'red' }}> *</span>
+                <span style={{ color: 'red' }}> * </span>
               ) : (
                 ''
               )}
@@ -166,6 +166,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
                   ? `${fieldname} is Required`
                   : false,
                 onChange: (e) => handleChangeValue(e, fieldname),
+                value: `${formParams[fieldname]}`,
               })}
             />
             <ErrorMessage
@@ -175,16 +176,16 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
                 <span style={{ color: 'red' }}>{message}</span>
               )}
             />
-          </>
+          </div>
         );
       case 'Text':
         formParams[fieldname] = formParams[fieldname] ?? '';
         return (
-          <>
-            <Text whiteSpace="nowrap" fontSize="md">
+          <div className="field">
+            <Text whiteSpace="nowrap" fontSize="md" as="label">
               {toDisplayName(fieldname)}
               {Field?.isRequired ? (
-                <span style={{ color: 'red' }}> *</span>
+                <span style={{ color: 'red' }}> * </span>
               ) : (
                 ''
               )}
@@ -208,16 +209,16 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
                 <span style={{ color: 'red' }}>{message}</span>
               )}
             />
-          </>
+          </div>
         );
       case 'RichText':
         formParams[fieldname] = formParams[fieldname] ?? '';
         return (
-          <>
-            <Text whiteSpace="nowrap" fontSize="md">
+          <div className="field">
+            <Text whiteSpace="nowrap" fontSize="md" as="label">
               {toDisplayName(fieldname)}
               {Field?.isRequired ? (
-                <span style={{ color: 'red' }}> *</span>
+                <span style={{ color: 'red' }}> * </span>
               ) : (
                 ''
               )}
@@ -238,17 +239,17 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
                 <span style={{ color: 'red' }}>{message}</span>
               )}
             />
-          </>
+          </div>
         );
       case 'DateTime':
         formParams[fieldname] = formParams[fieldname] ?? '';
         if (fieldname != 'Dates')
           return (
-            <>
-              <Text whiteSpace="nowrap" fontSize="md">
+            <div className="field">
+              <Text whiteSpace="nowrap" fontSize="md" as="label">
                 {toDisplayName(fieldname)}
                 {Field?.isRequired ? (
-                  <span style={{ color: 'red' }}> *</span>
+                  <span style={{ color: 'red' }}> * </span>
                 ) : (
                   ''
                 )}
@@ -280,15 +281,15 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
                   <span style={{ color: 'red' }}>{message}</span>
                 )}
               />
-            </>
+            </div>
           );
         else
           return (
-            <>
-              <Text whiteSpace="nowrap" fontSize="md">
+            <div className="field">
+              <Text whiteSpace="nowrap" fontSize="md" as="label">
                 {toDisplayName(fieldname)}
                 {Field?.isRequired ? (
-                  <span style={{ color: 'red' }}> *</span>
+                  <span style={{ color: 'red' }}> * </span>
                 ) : (
                   ''
                 )}
@@ -327,7 +328,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
                   <span style={{ color: 'red' }}>{message}</span>
                 )}
               />
-            </>
+            </div>
           );
     }
   };
