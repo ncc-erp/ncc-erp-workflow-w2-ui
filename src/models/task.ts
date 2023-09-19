@@ -8,6 +8,10 @@ export interface ITask {
   reason?: string;
   status: number;
   workflowInstanceId: string;
+  description?: string;
+  approveSignal?: string;
+  rejectSignal?: string;
+  otherActionSignal?: string;
   creationTime?: string;
   id: string;
 }

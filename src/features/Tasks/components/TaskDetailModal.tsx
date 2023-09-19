@@ -10,6 +10,7 @@ import {
   ModalHeader,
   ModalOverlay,
   Divider,
+  Select,
 } from '@chakra-ui/react';
 import { useGetTaskDetail } from 'api/apiHooks/taskHooks';
 import Logo from 'assets/images/ncc_logo.svg';
@@ -45,11 +46,11 @@ export const TaskDetailModal = ({
           <HStack>
             <Image h="40px" src={Logo} />
             <Heading ml={1}>
-              <Text color="primary" fontSize={18}>
+              <Text color="primary" fontSize={20}>
                 {taskDetail?.name}
               </Text>
-              <Text fontSize={16} fontWeight={600} mt={1}>
-                Details
+              <Text fontSize={14} fontWeight={600} mt={1}>
+                {taskDetail?.description}
               </Text>
             </Heading>
           </HStack>
@@ -96,12 +97,11 @@ export const TaskDetailModal = ({
             </div>
           </div>
           <Divider mt={2} mb={5}></Divider>
-          <Text mb="15px" fontWeight={600} fontStyle="italic" color="primary">
-            Task detail
-          </Text>
+
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
             <div style={{ width: '50%' }}>
-              <TextGroup label="Task name" content={taskDetail?.name} />
+              <TextGroup label="Name" content={taskDetail?.name} />
+              <TextGroup label="Detail" content={taskDetail?.description} />
               <TextGroup
                 label="Status"
                 content={getStatusByIndex(taskDetail?.status).status}
@@ -118,6 +118,15 @@ export const TaskDetailModal = ({
                     : ''
                 }
               />
+
+              {taskDetail?.otherActionSignal && (
+                <Select>
+                  <option value="all">Normal</option>
+                  <option value="otherActionSignal">
+                    {taskDetail?.otherActionSignal}
+                  </option>
+                </Select>
+              )}
             </div>
           </div>
         </ModalBody>

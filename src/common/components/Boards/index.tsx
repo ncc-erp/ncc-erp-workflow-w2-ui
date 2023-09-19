@@ -6,18 +6,18 @@ import {
 } from '@hello-pangea/dnd';
 import { useEffect, useState } from 'react';
 
+import { Box, useDisclosure } from '@chakra-ui/react';
 import { useQueryClient } from '@tanstack/react-query';
+import { useApproveTask, useRejectTask } from 'api/apiHooks/taskHooks';
 import classNames from 'classnames';
 import { toast } from 'common/components/StandaloneToast';
 import { BoardColumnStatus, QueryKeys, TaskStatus } from 'common/constants';
-import './style.css';
-import useBoard from './useBoard';
-import { Box, useDisclosure } from '@chakra-ui/react';
-import { ITask } from 'models/task';
-import { useApproveTask, useRejectTask } from 'api/apiHooks/taskHooks';
-import ModalBoard from './ModalBoard';
 import { ETaskStatus } from 'common/enums';
 import { TaskDetailModal } from 'features/Tasks/components/TaskDetailModal';
+import { ITask } from 'models/task';
+import ModalBoard from './ModalBoard';
+import './style.css';
+import useBoard from './useBoard';
 
 interface BoardsProps {
   data: ITask[];
@@ -70,6 +70,7 @@ const Boards = ({ data }: BoardsProps): JSX.Element => {
   const handleClose = () => {
     onClose();
     setIsRejected(false);
+    setIsLoading(false);
     setReason('');
   };
 
@@ -139,8 +140,6 @@ const Boards = ({ data }: BoardsProps): JSX.Element => {
       handleClose();
     } catch (error) {
       console.error(error);
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -208,12 +207,14 @@ const Boards = ({ data }: BoardsProps): JSX.Element => {
                             >
                               <div>
                                 <div className="content">
-                                  ID: {item.id.slice(-5).toUpperCase()}
+                                  ID: {item.id.slice(0, 8).toUpperCase()}
                                 </div>
                                 <div className="title">{item.name}</div>
+                                <div className="description">
+                                  {item?.description}
+                                </div>
                               </div>
-
-                              <div className="person">{item.email}</div>
+                              <div className="person">User: {item.email}</div>
 
                               <div className="stateWrapper">
                                 <div className="state">State:</div>

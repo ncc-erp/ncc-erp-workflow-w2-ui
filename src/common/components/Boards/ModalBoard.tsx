@@ -68,7 +68,7 @@ const ModalBoard = (props: ModalBoardProps): JSX.Element => {
             <AlertDialogFooter>
               <Button onClick={onClose}>Cancel</Button>
               <Button
-                colorScheme="red"
+                color="primary"
                 onClick={onConfirm}
                 ml={3}
                 isDisabled={isDisabled || isLoading}
