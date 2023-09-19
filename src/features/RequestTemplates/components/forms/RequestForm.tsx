@@ -67,9 +67,13 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
   const { mutateAsync: createMutate } = useNewRequestWorkflow();
   const formatDate = (date: FormParamsValue) => {
     if (date instanceof Date) {
-      return format(date, 'yyyy/MM/dd');
+      return format(date, 'dd/MM/yyyy');
     } else {
-      return date?.toString();
+      let datesFormatted = '';
+      datesFormatted += (date as Array<DateObject>)?.map((item: DateObject) => {
+        return item.format('DD/MM/YYYY');
+      });
+      return datesFormatted;
     }
   };
 
