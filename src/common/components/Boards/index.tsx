@@ -221,7 +221,7 @@ const Boards = ({ data }: BoardsProps): JSX.Element => {
 
                               <div className="timestamp">
                                 Email:
-                                <Text wordBreak={'break-all'}>
+                                <Text className="ellipsis-text">
                                   {item?.email}
                                 </Text>
                               </div>

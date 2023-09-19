@@ -13,7 +13,9 @@ const unitToMilliseconds = {
 const defaultUnit = Object.keys(unitToMilliseconds);
 
 export function subtractTime(unit: string, amount: number) {
-  const findUnit = defaultUnit.find((e) => e.includes(unit));
+  const findUnit = defaultUnit.find((e) =>
+    e.toLowerCase().includes(unit.toLowerCase())
+  );
   if (!findUnit) {
     throw new Error(`Invalid unit: ${unit}`);
   }

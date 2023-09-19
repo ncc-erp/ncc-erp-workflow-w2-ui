@@ -95,6 +95,14 @@
   color: var(--chakra-colors-blackButton-400);;
   display: flex;
   gap: 8px;
+  width: 100%;
+}
+
+.ellipsis-text {
+  width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  word-wrap: initial;
 }
 
 .columnLabel {
