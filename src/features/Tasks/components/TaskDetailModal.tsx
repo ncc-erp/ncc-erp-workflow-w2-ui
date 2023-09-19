@@ -14,11 +14,10 @@ import {
 import { useGetTaskDetail } from 'api/apiHooks/taskHooks';
 import Logo from 'assets/images/ncc_logo.svg';
 import { TextGroup } from 'common/components/TextGroup/TextGroup';
-import { dateFormat, requestTemplateWorkflow } from 'common/constants';
-import { extractContent } from 'utils/extractContent';
+import { dateFormat } from 'common/constants';
 import { format } from 'date-fns';
 import { getStatusByIndex } from 'utils/getStatusByIndex';
-import { getOfficeNameByCode } from 'utils/getOfficeByCode';
+import { RequestDetail } from './RequestDetail';
 
 interface IDetailModalProps {
   isOpen: boolean;
@@ -72,13 +71,11 @@ export const TaskDetailModal = ({
                 fontStyle="italic"
                 color="primary"
               >
-                Request user
+                Request input
               </Text>
-              <TextGroup label="User name" content={inputRequestUser?.name} />
-              <TextGroup label="User email" content={inputRequestUser?.email} />
-              <TextGroup
-                label="Branch name"
-                content={inputRequestUser?.branchName}
+              <RequestDetail
+                type={taskDetail?.name}
+                inputRequestDetail={inputRequestDetail}
               />
             </div>
             <div style={{ width: '50%' }}>
@@ -88,101 +85,14 @@ export const TaskDetailModal = ({
                 fontStyle="italic"
                 color="primary"
               >
-                Request input
+                Request user
               </Text>
-              {taskDetail?.name === requestTemplateWorkflow.WFH_REQUEST && (
-                <>
-                  <TextGroup
-                    label="Current office"
-                    content={getOfficeNameByCode(
-                      inputRequestDetail?.CurrentOffice
-                    )}
-                  />
-                  <TextGroup
-                    label="Project"
-                    content={inputRequestDetail?.Project}
-                  />
-                  <TextGroup
-                    label="Reason"
-                    content={extractContent(inputRequestDetail?.Reason)}
-                  />
-                  <TextGroup
-                    label="Dates"
-                    dates={
-                      inputRequestDetail?.Dates
-                        ? inputRequestDetail?.Dates.split(',')
-                        : []
-                    }
-                  />
-                </>
-              )}
-              {taskDetail?.name ===
-                requestTemplateWorkflow.OFFICE_EQUIPMENT && (
-                <>
-                  <TextGroup
-                    label="Current office"
-                    content={getOfficeNameByCode(
-                      inputRequestDetail?.CurrentOffice
-                    )}
-                  />
-                  <TextGroup
-                    label="Equipment"
-                    content={inputRequestDetail?.Equipment}
-                  />
-                  <TextGroup
-                    label="Reason"
-                    content={extractContent(inputRequestDetail?.Reason)}
-                  />
-                </>
-              )}
-              {taskDetail?.name === requestTemplateWorkflow.CHANGE_OFFICE && (
-                <>
-                  <TextGroup
-                    label="Current office"
-                    content={getOfficeNameByCode(
-                      inputRequestDetail?.CurrentOffice
-                    )}
-                  />
-                  <TextGroup
-                    label="Destination Office"
-                    content={inputRequestDetail?.DestinationOffice}
-                  />
-                  <TextGroup
-                    label="Content"
-                    content={extractContent(inputRequestDetail?.Content)}
-                  />
-                  <TextGroup
-                    label="Start date"
-                    content={inputRequestDetail?.StartDate}
-                  />
-                  <TextGroup
-                    label="End date"
-                    content={inputRequestDetail?.EndDate}
-                  />
-                </>
-              )}
-              {taskDetail?.name === requestTemplateWorkflow.DEVICE_REQUEST && (
-                <>
-                  <TextGroup
-                    label="Current office"
-                    content={getOfficeNameByCode(
-                      inputRequestDetail?.CurrentOffice
-                    )}
-                  />
-                  <TextGroup
-                    label="Project"
-                    content={inputRequestDetail?.Project}
-                  />
-                  <TextGroup
-                    label="Device"
-                    content={inputRequestDetail?.Device}
-                  />
-                  <TextGroup
-                    label="Reason"
-                    content={extractContent(inputRequestDetail?.Reason)}
-                  />
-                </>
-              )}
+              <TextGroup label="User name" content={inputRequestUser?.name} />
+              <TextGroup label="User email" content={inputRequestUser?.email} />
+              <TextGroup
+                label="Branch name"
+                content={inputRequestUser?.branchName}
+              />
             </div>
           </div>
           <Divider mt={2} mb={5}></Divider>

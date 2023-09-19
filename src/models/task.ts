@@ -1,4 +1,3 @@
-import { OfficeCode } from 'common/types';
 import { ListResult } from './request';
 
 export type TaskResult = ListResult<ITask>;
@@ -27,7 +26,7 @@ export interface IRequestUser {
 }
 
 export interface IRequest {
-  CurrentOffice: OfficeCode;
+  CurrentOffice: string;
   Project?: string;
   Device?: string;
   Reason?: string;

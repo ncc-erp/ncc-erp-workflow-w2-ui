@@ -131,17 +131,6 @@ export const QueryKeys = {
   GET_USER_CURRENT_PROJECT: 'getUserCurrentProject',
 };
 
-export const CurrentOffice = {
-  ĐN: 'Đà Nẵng',
-  HN1: 'Hà Nội 1',
-  HN2: 'Hà Nội 2',
-  HN3: 'Hà Nội 3',
-  V: 'Vinh',
-  SG1: 'Sài Gòn 1',
-  SG2: 'Sài Gòn 2',
-  QN: 'Quy Nhơn',
-};
-
 export const TaskStatusesIndex = [0, 1, 2, 4];
 export const TaskStatuses = ['Pending', 'Approved', 'Rejected', 'Canceled'];
 export const TaskColors = ['blue', 'green', 'red', 'yellow'];
