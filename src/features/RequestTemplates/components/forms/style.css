@@ -13,10 +13,3 @@
 .rmdp-container {
   width: 100% !important;
 }
-
-.field {
-  width: 100%;
-  display: flex;
-  gap: 3px;
-  flex-direction: column;
-}

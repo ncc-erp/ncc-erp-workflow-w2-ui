@@ -1,4 +1,10 @@
-import { Button, Text, VStack } from '@chakra-ui/react';
+import {
+  Button,
+  VStack,
+  FormLabel,
+  FormControl,
+  FormHelperText,
+} from '@chakra-ui/react';
 import {
   useOffices,
   useUserProjects,
@@ -151,15 +157,18 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
       case 'MyProject':
         formParams[fieldname] = getDefaultValueSelected(Field?.type, fieldname);
         return (
-          <div className="field">
-            <Text whiteSpace="nowrap" fontSize="md" as="label">
+          <FormControl>
+            <FormLabel fontSize={16} my={1} fontWeight="medium">
               {toDisplayName(fieldname)}
               {Field?.isRequired ? (
-                <span style={{ color: 'red' }}> * </span>
+                <FormHelperText my={1} style={{ color: 'red' }} as="span">
+                  {' '}
+                  *
+                </FormHelperText>
               ) : (
                 ''
               )}
-            </Text>
+            </FormLabel>
             <SelectField
               size="sm"
               rounded="md"
@@ -177,23 +186,33 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
               errors={errors}
               name={fieldname}
               render={({ message }) => (
-                <span style={{ color: 'red' }}>{message}</span>
+                <FormHelperText
+                  fontSize={15}
+                  my={1}
+                  style={{ color: 'red' }}
+                  as="span"
+                >
+                  {message}
+                </FormHelperText>
               )}
             />
-          </div>
+          </FormControl>
         );
       case 'Text':
         formParams[fieldname] = formParams[fieldname] ?? '';
         return (
-          <div className="field">
-            <Text whiteSpace="nowrap" fontSize="md" as="label">
+          <FormControl>
+            <FormLabel fontSize={16} my={1} fontWeight="medium">
               {toDisplayName(fieldname)}
               {Field?.isRequired ? (
-                <span style={{ color: 'red' }}> * </span>
+                <FormHelperText my={1} style={{ color: 'red' }} as="span">
+                  {' '}
+                  *
+                </FormHelperText>
               ) : (
                 ''
               )}
-            </Text>
+            </FormLabel>
             <TextField
               h="50px"
               placeholder={fieldname}
@@ -210,23 +229,33 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
               errors={errors}
               name={fieldname}
               render={({ message }) => (
-                <span style={{ color: 'red' }}>{message}</span>
+                <FormHelperText
+                  fontSize={15}
+                  my={1}
+                  style={{ color: 'red' }}
+                  as="span"
+                >
+                  {message}
+                </FormHelperText>
               )}
             />
-          </div>
+          </FormControl>
         );
       case 'RichText':
         formParams[fieldname] = formParams[fieldname] ?? '';
         return (
-          <div className="field">
-            <Text whiteSpace="nowrap" fontSize="md" as="label">
+          <FormControl>
+            <FormLabel fontSize={16} my={1} fontWeight="medium">
               {toDisplayName(fieldname)}
               {Field?.isRequired ? (
-                <span style={{ color: 'red' }}> * </span>
+                <FormHelperText my={1} style={{ color: 'red' }} as="span">
+                  {' '}
+                  *
+                </FormHelperText>
               ) : (
                 ''
               )}
-            </Text>
+            </FormLabel>
             <TextareaField
               value={formParams[fieldname] as string}
               {...register(fieldname, {
@@ -240,24 +269,34 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
               errors={errors}
               name={fieldname}
               render={({ message }) => (
-                <span style={{ color: 'red' }}>{message}</span>
+                <FormHelperText
+                  fontSize={15}
+                  my={1}
+                  style={{ color: 'red' }}
+                  as="span"
+                >
+                  {message}
+                </FormHelperText>
               )}
             />
-          </div>
+          </FormControl>
         );
       case 'DateTime':
         formParams[fieldname] = formParams[fieldname] ?? '';
         if (fieldname != 'Dates')
           return (
-            <div className="field">
-              <Text whiteSpace="nowrap" fontSize="md" as="label">
+            <FormControl>
+              <FormLabel fontSize={16} my={1} fontWeight="medium">
                 {toDisplayName(fieldname)}
                 {Field?.isRequired ? (
-                  <span style={{ color: 'red' }}> * </span>
+                  <FormHelperText my={1} style={{ color: 'red' }} as="span">
+                    {' '}
+                    *
+                  </FormHelperText>
                 ) : (
                   ''
                 )}
-              </Text>
+              </FormLabel>
               <Controller
                 control={control}
                 rules={{
@@ -273,7 +312,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
                       className="datePicker"
                       onChange={field.onChange}
                       selected={field.value as Date}
-                      dateFormat="dd-MM-yyyy"
+                      dateFormat="dd/MM/yyyy"
                     />
                   );
                 }}
@@ -282,22 +321,32 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
                 errors={errors}
                 name={fieldname}
                 render={({ message }) => (
-                  <span style={{ color: 'red' }}>{message}</span>
+                  <FormHelperText
+                    fontSize={15}
+                    my={1}
+                    style={{ color: 'red' }}
+                    as="span"
+                  >
+                    {message}
+                  </FormHelperText>
                 )}
               />
-            </div>
+            </FormControl>
           );
         else
           return (
-            <div className="field">
-              <Text whiteSpace="nowrap" fontSize="md" as="label">
+            <FormControl>
+              <FormLabel my={1} fontSize={16} fontWeight="medium">
                 {toDisplayName(fieldname)}
                 {Field?.isRequired ? (
-                  <span style={{ color: 'red' }}> * </span>
+                  <FormHelperText my={1} style={{ color: 'red' }} as="span">
+                    {' '}
+                    *
+                  </FormHelperText>
                 ) : (
                   ''
                 )}
-              </Text>
+              </FormLabel>
               <Controller
                 control={control}
                 rules={{
@@ -314,6 +363,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
                       onChange={field.onChange}
                       value={field.value}
                       plugins={[<Toolbar position="bottom" sort={['close']} />]}
+                      format="DD/MM/YYYY"
                       style={{
                         width: '100%',
                         height: '40px',
@@ -329,10 +379,17 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
                 errors={errors}
                 name={fieldname}
                 render={({ message }) => (
-                  <span style={{ color: 'red' }}>{message}</span>
+                  <FormHelperText
+                    fontSize={15}
+                    my={1}
+                    style={{ color: 'red' }}
+                    as="span"
+                  >
+                    {message}
+                  </FormHelperText>
                 )}
               />
-            </div>
+            </FormControl>
           );
     }
   };
