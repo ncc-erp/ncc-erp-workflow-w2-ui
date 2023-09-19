@@ -1,9 +1,10 @@
 import { UnitTime } from 'common/constants';
-import { format } from 'date-fns';
+import { add } from 'date-fns';
+import { formatDate } from './formatDate';
 
-const millisecondsInWeek = 7 * 24 * 60 * 60 * 1000;
-const millisecondsInMonth = 30 * 24 * 60 * 60 * 1000;
-const millisecondsInYear = 365 * 24 * 60 * 60 * 1000;
+const millisecondsInWeek = add(new Date(0), { weeks: 1 }).getTime();
+const millisecondsInMonth = add(new Date(0), { months: 1 }).getTime();
+const millisecondsInYear = add(new Date(0), { years: 1 }).getTime();
 
 const unitToMilliseconds = {
   [UnitTime.WEEK]: millisecondsInWeek,
@@ -19,11 +20,11 @@ export function subtractTime(unit: string, amount: number) {
   if (!findUnit) {
     throw new Error(`Invalid unit: ${unit}`);
   }
-
+  const formatDateToGetApi = 'MM/dd/yyyy';
   const currentDate = new Date();
-  const previousDate = format(
+  const previousDate = formatDate(
     new Date(currentDate.getTime() - amount * unitToMilliseconds[findUnit]),
-    'MM/dd/yyyy'
+    formatDateToGetApi
   );
 
   return previousDate;

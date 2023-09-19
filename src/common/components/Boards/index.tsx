@@ -18,8 +18,8 @@ import { useApproveTask, useRejectTask } from 'api/apiHooks/taskHooks';
 import ModalBoard from './ModalBoard';
 import { ETaskStatus } from 'common/enums';
 import { TaskDetailModal } from 'features/Tasks/components/TaskDetailModal';
-import { format } from 'date-fns';
-import { getDataFromToken } from 'utils/getDataFromToken';
+import { useCurrentUser } from 'hooks/useCurrentUser';
+import { formatDate } from 'utils/formatDate';
 
 interface BoardsProps {
   data: ITask[];
@@ -53,7 +53,7 @@ const Boards = ({ data }: BoardsProps): JSX.Element => {
   const approveTaskMutation = useApproveTask();
   const rejectTaskMutation = useRejectTask();
   const { reorder, move, getItemStyle, getListStyle } = useBoard();
-  const decodedToken = getDataFromToken();
+  const currentUser = useCurrentUser();
 
   const openModal = (taskId: string) => {
     setModalState({
@@ -185,7 +185,7 @@ const Boards = ({ data }: BoardsProps): JSX.Element => {
                         index={index}
                         isDragDisabled={
                           +item.status !== +TaskStatus.Pending ||
-                          item?.email !== decodedToken?.email
+                          item?.email !== currentUser?.email
                         }
                       >
                         {(provided, snapshot) => (
@@ -208,8 +208,6 @@ const Boards = ({ data }: BoardsProps): JSX.Element => {
                                   ind === BoardColumnStatus.Approved,
                                 itemRejected:
                                   ind === BoardColumnStatus.Rejected,
-                                itemCanceled:
-                                  ind === BoardColumnStatus.Canceled,
                               })}
                             >
                               <div>
@@ -236,8 +234,6 @@ const Boards = ({ data }: BoardsProps): JSX.Element => {
                                         ind === BoardColumnStatus.Approved,
                                       statusRejected:
                                         ind === BoardColumnStatus.Rejected,
-                                      statusCanceled:
-                                        ind === BoardColumnStatus.Canceled,
                                     })}
                                   />
                                   {Object.keys(BoardColumnStatus)[ind]}
@@ -247,10 +243,7 @@ const Boards = ({ data }: BoardsProps): JSX.Element => {
                               <div className="timestamp">
                                 Date:
                                 <Text>
-                                  {format(
-                                    new Date(item.createdAt),
-                                    'dd-MM-yyyy HH:mm'
-                                  )}
+                                  {formatDate(new Date(item.createdAt))}
                                 </Text>
                               </div>
                             </div>

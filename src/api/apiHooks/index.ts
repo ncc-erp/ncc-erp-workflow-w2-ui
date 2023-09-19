@@ -48,8 +48,10 @@ export const useGetList = <T, D = object | string>(
   key: QueryKey,
   url: string,
   params?: D,
-  config?: AxiosRequestConfig,
-  options?: object
+  options?: {
+    enabled: boolean;
+  },
+  config?: AxiosRequestConfig
 ) => {
   const axios = useAxios();
 

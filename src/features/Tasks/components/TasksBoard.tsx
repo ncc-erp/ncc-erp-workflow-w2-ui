@@ -35,7 +35,7 @@ export const TasksBoard = () => {
   const [filter, setFilter] = useState<FilterTasks>(initialFilter);
 
   const isAdmin = useIsAdmin();
-  const { data: listUser } = useUserIdentity(initialFilterUser, isAdmin);
+  const { data: listUser } = useUserIdentity(initialFilterUser);
   const { data: listTask, isLoading } = useGetAllTask(filter);
   const { data: requestTemplateData } = useRequestTemplates();
   const requestTemplates = useMemo(() => {

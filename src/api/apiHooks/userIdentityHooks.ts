@@ -7,20 +7,18 @@ import {
 import { useGetList, useGetOne, useUpdate } from '.';
 import { RolesList } from 'models/roles';
 import { QueryKeys } from 'common/constants';
+import { useIsAdmin } from 'hooks/useIsAdmin';
 
 export const useRoles = () => {
   return useGetOne<RolesList>([QueryKeys.GET_ALL_ROLES], '/identity/roles/all');
 };
 
-export const useUserIdentity = (
-  filter: FilterUserParams,
-  isAdmin?: boolean
-) => {
+export const useUserIdentity = (filter: FilterUserParams) => {
+  const isAdmin = useIsAdmin();
   return useGetList<FilterUserResult>(
     [QueryKeys.FILTER_USER, filter],
     '/identity/users',
     filter,
-    undefined,
     { enabled: isAdmin }
   );
 };

@@ -92,15 +92,12 @@ export const BoardColumnStatus = {
   Pending: 0,
   Approved: 1,
   Rejected: 2,
-  Canceled: 3,
 };
 
 export const TaskStatus = {
   Pending: 0,
   Approved: 1,
   Rejected: 2,
-  // Failed: 3,
-  Canceled: 4,
 };
 
 export const FilterDate = {
@@ -157,3 +154,5 @@ export const QueryKeys = {
 export const TaskStatusesIndex = [0, 1, 2, 4];
 export const TaskStatuses = ['Pending', 'Approved', 'Rejected', 'Canceled'];
 export const TaskColors = ['blue', 'green', 'red', 'yellow'];
+
+export const DEFAULT_FORMAT_DATE = 'dd-MM-yyyy HH:mm';
