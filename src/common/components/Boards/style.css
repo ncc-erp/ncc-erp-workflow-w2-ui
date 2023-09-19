@@ -93,6 +93,8 @@
 
 .timestamp {
   color: var(--chakra-colors-blackButton-400);;
+  display: flex;
+  gap: 8px;
 }
 
 .columnLabel {

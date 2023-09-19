@@ -10,6 +10,7 @@ export interface ITask {
   workflowInstanceId: string;
   creationTime?: string;
   id: string;
+  createdAt: string;
 }
 
 export interface FilterTasks {
@@ -17,6 +18,8 @@ export interface FilterTasks {
   workflowDefinitionId?: string;
   maxResultCount: number;
   skipCount: number;
+  email?: string;
+  dates?: string;
 }
 
 export interface IRequestUser {

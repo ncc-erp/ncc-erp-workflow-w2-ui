@@ -103,6 +103,29 @@ export const TaskStatus = {
   Canceled: 4,
 };
 
+export const FilterDate = {
+  W1: '1 weeks',
+  W2: '2 weeks',
+  W3: '3 weeks',
+  M1: '1 months',
+  M2: '2 months',
+  M3: '3 months',
+  Y1: '1 years',
+};
+
+export const UnitTime = {
+  YEAR: 'years',
+  MONTH: 'months',
+  WEEK: 'weeks',
+};
+
+export const FilterAll = {
+  USER: 'All users',
+  DATE: 'All date',
+  TYPE: 'All types',
+  STATUS: 'All status',
+};
+
 export const UserRoles = {
   ADMIN: 'admin',
   DEFAULT_USER: 'DefaultUser',

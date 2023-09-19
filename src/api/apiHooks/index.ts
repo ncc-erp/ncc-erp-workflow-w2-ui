@@ -48,7 +48,8 @@ export const useGetList = <T, D = object | string>(
   key: QueryKey,
   url: string,
   params?: D,
-  config?: AxiosRequestConfig
+  config?: AxiosRequestConfig,
+  options?: object
 ) => {
   const axios = useAxios();
 
@@ -57,14 +58,15 @@ export const useGetList = <T, D = object | string>(
     return data;
   };
 
-  return useQuery(key, getData);
+  return useQuery(key, getData, options);
 };
 
 export const useGetListByPost = <T, D = object>(
   key: QueryKey,
   url: string,
   filter?: D,
-  config?: AxiosRequestConfig
+  config?: AxiosRequestConfig,
+  options?: object
 ) => {
   const axios = useAxios();
 
@@ -73,7 +75,7 @@ export const useGetListByPost = <T, D = object>(
     return data;
   };
 
-  return useQuery(key, () => getData());
+  return useQuery(key, () => getData(), options);
 };
 
 export const useDelete = (url: string) => {

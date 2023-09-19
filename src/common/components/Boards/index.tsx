@@ -12,12 +12,14 @@ import { toast } from 'common/components/StandaloneToast';
 import { BoardColumnStatus, QueryKeys, TaskStatus } from 'common/constants';
 import './style.css';
 import useBoard from './useBoard';
-import { Box, useDisclosure } from '@chakra-ui/react';
+import { Box, Text, useDisclosure } from '@chakra-ui/react';
 import { ITask } from 'models/task';
 import { useApproveTask, useRejectTask } from 'api/apiHooks/taskHooks';
 import ModalBoard from './ModalBoard';
 import { ETaskStatus } from 'common/enums';
 import { TaskDetailModal } from 'features/Tasks/components/TaskDetailModal';
+import { format } from 'date-fns';
+import { getDataFromToken } from 'utils/getDataFromToken';
 
 interface BoardsProps {
   data: ITask[];
@@ -51,6 +53,7 @@ const Boards = ({ data }: BoardsProps): JSX.Element => {
   const approveTaskMutation = useApproveTask();
   const rejectTaskMutation = useRejectTask();
   const { reorder, move, getItemStyle, getListStyle } = useBoard();
+  const decodedToken = getDataFromToken();
 
   const openModal = (taskId: string) => {
     setModalState({
@@ -180,7 +183,10 @@ const Boards = ({ data }: BoardsProps): JSX.Element => {
                         key={item.id}
                         draggableId={item.id}
                         index={index}
-                        isDragDisabled={+item.status !== +TaskStatus.Pending}
+                        isDragDisabled={
+                          +item.status !== +TaskStatus.Pending ||
+                          item?.email !== decodedToken?.email
+                        }
                       >
                         {(provided, snapshot) => (
                           <div
@@ -213,8 +219,12 @@ const Boards = ({ data }: BoardsProps): JSX.Element => {
                                 <div className="title">{item.name}</div>
                               </div>
 
-                              <div className="person">{item.email}</div>
-
+                              <div className="timestamp">
+                                Email:
+                                <Text wordBreak={'break-all'}>
+                                  {item?.email}
+                                </Text>
+                              </div>
                               <div className="stateWrapper">
                                 <div className="state">State:</div>
                                 <div className="statusWrapper">
@@ -234,13 +244,15 @@ const Boards = ({ data }: BoardsProps): JSX.Element => {
                                 </div>
                               </div>
 
-                              {/* <div className="timestamp">
-                                Date:{' '}
-                                {format(
-                                  new Date(item.createdAt),
-                                  'dd-MM-yyyy HH:mm'
-                                )}
-                              </div> */}
+                              <div className="timestamp">
+                                Date:
+                                <Text>
+                                  {format(
+                                    new Date(item.createdAt),
+                                    'dd-MM-yyyy HH:mm'
+                                  )}
+                                </Text>
+                              </div>
                             </div>
                           </div>
                         )}

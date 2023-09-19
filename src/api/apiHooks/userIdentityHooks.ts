@@ -12,11 +12,16 @@ export const useRoles = () => {
   return useGetOne<RolesList>([QueryKeys.GET_ALL_ROLES], '/identity/roles/all');
 };
 
-export const useUserIdentity = (filter: FilterUserParams) => {
+export const useUserIdentity = (
+  filter: FilterUserParams,
+  isAdmin?: boolean
+) => {
   return useGetList<FilterUserResult>(
     [QueryKeys.FILTER_USER, filter],
     '/identity/users',
-    filter
+    filter,
+    undefined,
+    { enabled: isAdmin }
   );
 };
 
