@@ -50,7 +50,7 @@ export const SideBarContent = () => {
     },
     {
       to: '/my-requests',
-      text: 'My requests',
+      text: isAdmin ? 'Requests' : 'My requests',
       icon: TbArticleFilledFilled,
     },
     {
@@ -104,7 +104,14 @@ export const SideBarContent = () => {
 
   return (
     <VStack bgColor="gray.50" h="100vh" alignItems="stretch" spacing={0}>
-      <HStack cursor="pointer" alignItems="center" py="20px" px="16px" spacing="12px" onClick={onNavigate("/")}>
+      <HStack
+        cursor="pointer"
+        alignItems="center"
+        py="20px"
+        px="16px"
+        spacing="12px"
+        onClick={onNavigate('/')}
+      >
         <Image h="40px" src={Logo} />
         <Heading fontSize="18px">NCC Workflow</Heading>
       </HStack>

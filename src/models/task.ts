@@ -1,6 +1,7 @@
 import { ListResult } from './request';
 
 export type TaskResult = ListResult<ITask>;
+export type StakeHolderResult = ListResult<IStakeHolder>;
 
 export interface ITask {
   name: string;
@@ -10,6 +11,11 @@ export interface ITask {
   workflowInstanceId: string;
   creationTime?: string;
   id: string;
+}
+
+export interface IStakeHolder {
+  name: string;
+  email: string;
 }
 
 export interface FilterTasks {

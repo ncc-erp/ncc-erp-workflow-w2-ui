@@ -1,4 +1,8 @@
-import { FilterTasks, ITaskResult } from './../../models/task';
+import {
+  FilterTasks,
+  ITaskResult,
+  StakeHolderResult,
+} from './../../models/task';
 import {
   useGetList,
   useGetListByPost,
@@ -12,6 +16,14 @@ export const useGetAllTask = (filter: FilterTasks) => {
   return useGetListByPost<TaskResult>(
     [QueryKeys.GET_ALL_TASK, filter],
     '/app/task/list',
+    filter
+  );
+};
+
+export const useGetAllStakeHolders = (filter: FilterTasks) => {
+  return useGetListByPost<StakeHolderResult>(
+    [QueryKeys.GET_STAKE_HOLDERS_FOR_FILTER, filter],
+    '/app/task/stake-holders',
     filter
   );
 };

@@ -1,12 +1,14 @@
 import Page from 'common/components/Page';
 import { MyRequestTable } from './MyRequestTable';
+import { useIsAdmin } from 'hooks/useIsAdmin';
 
 const MyRequests = () => {
+  const isAdmin = useIsAdmin();
   return (
     <Page>
       <Page.Header>
         <Page.HeaderLeft>
-          <Page.Heading>My requests</Page.Heading>
+          <Page.Heading>{isAdmin ? 'Requests' : 'My requests'}</Page.Heading>
         </Page.HeaderLeft>
       </Page.Header>
       <Page.Body>
