@@ -69,7 +69,6 @@ const ModalBoard = (props: ModalBoardProps): JSX.Element => {
               <Button onClick={onClose}>Cancel</Button>
               <Button
                 colorScheme="red"
-                background={'var(--chakra-colors-red)'}
                 onClick={onConfirm}
                 ml={3}
                 isDisabled={isDisabled || isLoading}

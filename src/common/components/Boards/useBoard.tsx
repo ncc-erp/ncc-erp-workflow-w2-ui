@@ -63,7 +63,7 @@ const useBoard = () => {
     minWidth: 250,
     width: '100%',
     height: 725,
-    borderRadius: 8,
+    // overflowY: 'auto',
   });
 
   return {

@@ -12,28 +12,31 @@ import { toast } from 'common/components/StandaloneToast';
 import { BoardColumnStatus, QueryKeys, TaskStatus } from 'common/constants';
 import './style.css';
 import useBoard from './useBoard';
-import { Box, Text, useDisclosure } from '@chakra-ui/react';
+import { Box, Flex, Text, useDisclosure } from '@chakra-ui/react';
+import { ModalConfirm } from '../ModalConfirm';
 import { ITask } from 'models/task';
 import { useApproveTask, useRejectTask } from 'api/apiHooks/taskHooks';
 import ModalBoard from './ModalBoard';
 import { ETaskStatus } from 'common/enums';
-import { TaskDetailModal } from 'features/Tasks/components/TaskDetailModal';
 import { useCurrentUser } from 'hooks/useCurrentUser';
 import { formatDate } from 'utils/formatDate';
+import { getDayAgo } from 'utils/getDayAgo';
 
 interface BoardsProps {
   data: ITask[];
   totalCount: number;
 }
 
-interface ModalDetail {
+interface ModalStatus {
   isOpen: boolean;
-  taskId: string;
+  title: string;
+  description: string;
 }
 
-const initialModalStatus: ModalDetail = {
+const initialModalStatus: ModalStatus = {
   isOpen: false,
-  taskId: '',
+  title: 'Modal Title',
+  description: 'Modal Description',
 };
 
 const Boards = ({ data }: BoardsProps): JSX.Element => {
@@ -55,11 +58,12 @@ const Boards = ({ data }: BoardsProps): JSX.Element => {
   const { reorder, move, getItemStyle, getListStyle } = useBoard();
   const currentUser = useCurrentUser();
 
-  const openModal = (taskId: string) => {
+  const openModal = (title: string, description: string) => {
     setModalState({
       ...modalState,
       isOpen: true,
-      taskId: taskId,
+      title,
+      description,
     });
   };
 
@@ -189,10 +193,16 @@ const Boards = ({ data }: BoardsProps): JSX.Element => {
                         }
                       >
                         {(provided, snapshot) => (
-                          <div
-                            onClick={() => {
-                              item.id !== null && openModal(item.id);
-                            }}
+                          <Box
+                            cursor="pointer"
+                            onClick={() =>
+                              openModal(
+                                `${item.name} no: ${item.id
+                                  .slice(-5)
+                                  .toUpperCase()}`,
+                                'Content to Something'
+                              )
+                            }
                             ref={provided.innerRef}
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
@@ -210,12 +220,13 @@ const Boards = ({ data }: BoardsProps): JSX.Element => {
                                   ind === BoardColumnStatus.Rejected,
                               })}
                             >
-                              <div>
+                              <Flex justifyContent={'space-between'} w={'100%'}>
                                 <div className="content">
                                   ID: {item.id.slice(-5).toUpperCase()}
                                 </div>
-                                <div className="title">{item.name}</div>
-                              </div>
+                                {getDayAgo(item.creationTime)}
+                              </Flex>
+                              <div className="title">{item.name}</div>
 
                               <div className="timestamp">
                                 Email:
@@ -243,11 +254,11 @@ const Boards = ({ data }: BoardsProps): JSX.Element => {
                               <div className="timestamp">
                                 Date:
                                 <Text>
-                                  {formatDate(new Date(item.createdAt))}
+                                  {formatDate(new Date(item?.creationTime))}
                                 </Text>
                               </div>
                             </div>
-                          </div>
+                          </Box>
                         )}
                       </Draggable>
                     ))}
@@ -260,13 +271,13 @@ const Boards = ({ data }: BoardsProps): JSX.Element => {
         </div>
       </DragDropContext>
 
-      {modalState.taskId.length > 0 && (
-        <TaskDetailModal
-          isOpen={modalState.isOpen}
-          onClose={closeModal}
-          taskId={modalState.taskId}
-        />
-      )}
+      <ModalConfirm
+        isOpen={modalState.isOpen}
+        onClose={closeModal}
+        onConfirm={closeModal}
+        title={modalState.title}
+        description={modalState.description}
+      />
       <ModalBoard
         isOpen={isOpen}
         onClose={handleClose}

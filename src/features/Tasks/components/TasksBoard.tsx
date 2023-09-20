@@ -3,11 +3,10 @@ import { useRequestTemplates } from 'api/apiHooks/requestHooks';
 import { useGetAllTask } from 'api/apiHooks/taskHooks';
 import Boards from 'common/components/Boards';
 import { SelectField } from 'common/components/SelectField';
-import { FilterAll, FilterDate, TaskStatus } from 'common/constants';
+import { FilterAll, TaskStatus } from 'common/constants';
 import { FilterTasks } from 'models/task';
 import { useMemo, useState } from 'react';
 import { AiOutlineReload } from 'react-icons/ai';
-import { subtractTime } from 'utils/subtractTime';
 import Select from 'react-select';
 import { useUserIdentity } from 'api/apiHooks/userIdentityHooks';
 import { FilterUserParams } from 'models/userIdentity';
@@ -20,7 +19,7 @@ const initialFilter: FilterTasks = {
   maxResultCount: 1000, //FIXME: Currently getting 1000 tasks
   workflowDefinitionId: '',
   status: -1,
-  dates: '',
+  // dates: '',
   email: '',
 };
 
@@ -89,19 +88,20 @@ export const TasksBoard = () => {
     return [defaultOptions, ...options];
   }, [listUser]);
 
-  const dateOptions = useMemo(() => {
-    const defaultOptions = {
-      value: '',
-      label: FilterAll.DATE,
-    };
+  // const dateOptions = useMemo(() => {
+  //   const defaultOptions = {
+  //     value: '',
+  //     label: FilterAll.DATE,
+  //   };
 
-    const options = Object.values(FilterDate).map((value) => ({
-      value: subtractTime(value.split(' ')[1], +value.split(' ')[0]),
-      label: value,
-    }));
+  //   const options = Object.values(FilterDate).map((value) => ({
+  //     value: subtractTime(value.split(' ')[1], +value.split(' ')[0]),
+  //     label: value,
+  //   }));
 
-    return [defaultOptions, ...options];
-  }, []);
+  //   return [defaultOptions, ...options];
+  // }, []);
+
   const onTemplateStatusChange = (key: TFilterTask, value?: string) => {
     setFilter({ ...filter, [key]: value });
   };
@@ -141,14 +141,14 @@ export const TasksBoard = () => {
             />
           </Box>
           <Box>
-            <SelectField
+            {/* <SelectField
               value={filter.dates}
               size="sm"
               rounded="md"
               cursor="pointer"
               onChange={(e) => onTemplateStatusChange('dates', e.target.value)}
               options={dateOptions}
-            />
+            /> */}
           </Box>
           {isAdmin && (
             <Box w={'300px'}>
