@@ -28,7 +28,7 @@ export const RequestTemplateModal = ({
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
-      <ModalContent className={customStyle['chakra-modal__content']}>
+      <ModalContent className={customStyle['custom-modal']}>
         <ModalHeader fontSize="md">{displayName}</ModalHeader>
         <Divider></Divider>
         <ModalCloseButton />

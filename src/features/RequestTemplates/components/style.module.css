@@ -1,4 +1,4 @@
-.chakra-modal__content {
+.custom-modal {
     max-width: 600px !important;
     margin: 10px;
 }
