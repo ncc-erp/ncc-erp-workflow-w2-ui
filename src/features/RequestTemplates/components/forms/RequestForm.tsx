@@ -35,6 +35,7 @@ import { format } from 'date-fns/esm';
 import { useCurrentUser } from 'hooks/useCurrentUser';
 import { toast } from 'common/components/StandaloneToast';
 import { ErrorMessage } from '@hookform/error-message';
+import { ErrorDisplay } from 'common/components/ErrorDisplay';
 
 interface RequestFormProps {
   inputDefinition?: InputDefinition;
@@ -158,7 +159,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
         formParams[fieldname] = getDefaultValueSelected(Field?.type, fieldname);
         return (
           <FormControl>
-            <FormLabel fontSize={16} my={1} fontWeight="medium">
+            <FormLabel fontSize={16} my={1} fontWeight="normal">
               {toDisplayName(fieldname)}
               {Field?.isRequired ? (
                 <FormHelperText my={1} style={{ color: 'red' }} as="span">
@@ -185,16 +186,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
             <ErrorMessage
               errors={errors}
               name={fieldname}
-              render={({ message }) => (
-                <FormHelperText
-                  fontSize={15}
-                  my={1}
-                  style={{ color: 'red' }}
-                  as="span"
-                >
-                  {message}
-                </FormHelperText>
-              )}
+              render={({ message }) => <ErrorDisplay message={message} />}
             />
           </FormControl>
         );
@@ -202,7 +194,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
         formParams[fieldname] = formParams[fieldname] ?? '';
         return (
           <FormControl>
-            <FormLabel fontSize={16} my={1} fontWeight="medium">
+            <FormLabel fontSize={16} my={1} fontWeight="normal">
               {toDisplayName(fieldname)}
               {Field?.isRequired ? (
                 <FormHelperText my={1} style={{ color: 'red' }} as="span">
@@ -228,16 +220,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
             <ErrorMessage
               errors={errors}
               name={fieldname}
-              render={({ message }) => (
-                <FormHelperText
-                  fontSize={15}
-                  my={1}
-                  style={{ color: 'red' }}
-                  as="span"
-                >
-                  {message}
-                </FormHelperText>
-              )}
+              render={({ message }) => <ErrorDisplay message={message} />}
             />
           </FormControl>
         );
@@ -245,7 +228,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
         formParams[fieldname] = formParams[fieldname] ?? '';
         return (
           <FormControl>
-            <FormLabel fontSize={16} my={1} fontWeight="medium">
+            <FormLabel fontSize={16} my={1} fontWeight="normal">
               {toDisplayName(fieldname)}
               {Field?.isRequired ? (
                 <FormHelperText my={1} style={{ color: 'red' }} as="span">
@@ -268,16 +251,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
             <ErrorMessage
               errors={errors}
               name={fieldname}
-              render={({ message }) => (
-                <FormHelperText
-                  fontSize={15}
-                  my={1}
-                  style={{ color: 'red' }}
-                  as="span"
-                >
-                  {message}
-                </FormHelperText>
-              )}
+              render={({ message }) => <ErrorDisplay message={message} />}
             />
           </FormControl>
         );
@@ -286,7 +260,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
         if (fieldname != 'Dates')
           return (
             <FormControl>
-              <FormLabel fontSize={16} my={1} fontWeight="medium">
+              <FormLabel fontSize={16} my={1} fontWeight="normal">
                 {toDisplayName(fieldname)}
                 {Field?.isRequired ? (
                   <FormHelperText my={1} style={{ color: 'red' }} as="span">
@@ -320,23 +294,14 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
               <ErrorMessage
                 errors={errors}
                 name={fieldname}
-                render={({ message }) => (
-                  <FormHelperText
-                    fontSize={15}
-                    my={1}
-                    style={{ color: 'red' }}
-                    as="span"
-                  >
-                    {message}
-                  </FormHelperText>
-                )}
+                render={({ message }) => <ErrorDisplay message={message} />}
               />
             </FormControl>
           );
         else
           return (
             <FormControl>
-              <FormLabel my={1} fontSize={16} fontWeight="medium">
+              <FormLabel my={1} fontSize={16} fontWeight="normal">
                 {toDisplayName(fieldname)}
                 {Field?.isRequired ? (
                   <FormHelperText my={1} style={{ color: 'red' }} as="span">
@@ -378,16 +343,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
               <ErrorMessage
                 errors={errors}
                 name={fieldname}
-                render={({ message }) => (
-                  <FormHelperText
-                    fontSize={15}
-                    my={1}
-                    style={{ color: 'red' }}
-                    as="span"
-                  >
-                    {message}
-                  </FormHelperText>
-                )}
+                render={({ message }) => <ErrorDisplay message={message} />}
               />
             </FormControl>
           );
