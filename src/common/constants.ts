@@ -21,8 +21,8 @@ export const noOfRows: option[] = [
   },
 ];
 
-export const requestTemplateWorkflow = {
-  CHANGE_OFFICE: 'Change Office Request',
+export const RequestTemplateWorkflow = {
+  CHANGE_OFFICE: 'ChangeOfficeRequestWorkflow',
   DEVICE_REQUEST: 'Device Request',
   OFFICE_EQUIPMENT: 'Office Equipment Request',
   WFH_REQUEST: 'WFH Request',
@@ -125,12 +125,7 @@ export const QueryKeys = {
   GET_PROJECT_USER: 'getProjectsUser',
   GET_USER_INFO_WITH_BRANCH: 'getUserInfoWithBranch',
   GET_ALL_TASK: 'getAllTask',
-  GET_TASK: 'getTask',
   FILTER_TASK: 'filterTask',
   GET_WFH_LIST: 'getWfhList',
   GET_USER_CURRENT_PROJECT: 'getUserCurrentProject',
 };
-
-export const TaskStatusesIndex = [0, 1, 2, 4];
-export const TaskStatuses = ['Pending', 'Approved', 'Rejected', 'Canceled'];
-export const TaskColors = ['blue', 'green', 'red', 'yellow'];
