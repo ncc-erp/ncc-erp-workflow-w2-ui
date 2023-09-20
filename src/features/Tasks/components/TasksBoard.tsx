@@ -3,9 +3,9 @@ import { useRequestTemplates } from 'api/apiHooks/requestHooks';
 import { useGetAllTask } from 'api/apiHooks/taskHooks';
 import Boards from 'common/components/Boards';
 import { SelectField } from 'common/components/SelectField';
-import { FilterAll, TaskStatus } from 'common/constants';
+import { DEFAULT_TASK_PER_PAGE, FilterAll, TaskStatus } from 'common/constants';
 import { FilterTasks } from 'models/task';
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { AiOutlineReload } from 'react-icons/ai';
 import Select from 'react-select';
 import { useUserIdentity } from 'api/apiHooks/userIdentityHooks';
@@ -13,10 +13,11 @@ import { FilterUserParams } from 'models/userIdentity';
 import { UserSortField } from 'common/enums';
 import { TFilterTask } from 'common/types';
 import { useIsAdmin } from 'hooks/useIsAdmin';
+import { getAllTaskPagination } from 'utils/getAllTaskPagination';
 
 const initialFilter: FilterTasks = {
   skipCount: 0,
-  maxResultCount: 1000, //FIXME: Currently getting 1000 tasks
+  maxResultCount: DEFAULT_TASK_PER_PAGE,
   workflowDefinitionId: '',
   status: -1,
   // dates: '',
@@ -35,7 +36,42 @@ export const TasksBoard = () => {
 
   const isAdmin = useIsAdmin();
   const { data: listUser } = useUserIdentity(initialFilterUser);
-  const { data: listTask, isLoading } = useGetAllTask(filter);
+
+  const getStatus = useCallback(
+    (specStatus: number) => {
+      const { status } = filter;
+      if (status) {
+        return status >= 0 ? status : specStatus;
+      }
+    },
+    [filter]
+  );
+
+  const {
+    data: listPending,
+    isLoading: loadPending,
+    fetchNextPage: fetchNextPagePending,
+  } = useGetAllTask({
+    ...filter,
+    status: getStatus(TaskStatus.Pending),
+  });
+  const {
+    data: listApproved,
+    isLoading: loadApproved,
+    fetchNextPage: fetchNextPageApproved,
+  } = useGetAllTask({
+    ...filter,
+    status: getStatus(TaskStatus.Approved),
+  });
+  const {
+    data: listRejected,
+    isLoading: loadRejected,
+    fetchNextPage: fetchNextPageRejected,
+  } = useGetAllTask({
+    ...filter,
+    status: getStatus(TaskStatus.Rejected),
+  });
+
   const { data: requestTemplateData } = useRequestTemplates();
   const requestTemplates = useMemo(() => {
     if (requestTemplateData?.items) {
@@ -106,7 +142,14 @@ export const TasksBoard = () => {
     setFilter({ ...filter, [key]: value });
   };
 
-  if (isLoading || !listTask) {
+  if (
+    loadApproved ||
+    loadPending ||
+    loadRejected ||
+    !listPending ||
+    !listApproved ||
+    !listRejected
+  ) {
     return (
       <Center h="200px">
         <Spinner mx="auto" speed="0.65s" thickness="3px" size="xl" />
@@ -140,16 +183,16 @@ export const TasksBoard = () => {
               options={statusOptions}
             />
           </Box>
-          <Box>
-            {/* <SelectField
+          {/* <Box>
+            <SelectField
               value={filter.dates}
               size="sm"
               rounded="md"
               cursor="pointer"
               onChange={(e) => onTemplateStatusChange('dates', e.target.value)}
               options={dateOptions}
-            /> */}
-          </Box>
+            />
+          </Box> */}
           {isAdmin && (
             <Box w={'300px'}>
               <Select
@@ -182,8 +225,18 @@ export const TasksBoard = () => {
         />
       </Flex>
 
-      {!isLoading && (
-        <Boards data={listTask.items} totalCount={listTask.totalCount} />
+      {!(loadApproved || loadPending || loadRejected) && (
+        <Boards
+          fetchNextPagePending={fetchNextPagePending}
+          fetchNextPageApproved={fetchNextPageApproved}
+          fetchNextPageRejected={fetchNextPageRejected}
+          data={{
+            listPending: getAllTaskPagination(listPending?.pages),
+            listApproved: getAllTaskPagination(listApproved?.pages),
+            listRejected: getAllTaskPagination(listRejected?.pages),
+          }}
+          status={filter?.status || -1}
+        />
       )}
     </Box>
   );

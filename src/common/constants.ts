@@ -151,3 +151,4 @@ export const QueryKeys = {
 };
 
 export const DEFAULT_FORMAT_DATE = 'dd-MM-yyyy HH:mm';
+export const DEFAULT_TASK_PER_PAGE = 10;

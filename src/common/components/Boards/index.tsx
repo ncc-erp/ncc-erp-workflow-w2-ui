@@ -12,25 +12,33 @@ import { toast } from 'common/components/StandaloneToast';
 import { BoardColumnStatus, QueryKeys, TaskStatus } from 'common/constants';
 import './style.css';
 import useBoard from './useBoard';
-import { Box, Flex, Text, useDisclosure } from '@chakra-ui/react';
+import { Box, Flex, IconButton, Text, useDisclosure } from '@chakra-ui/react';
 import { ModalConfirm } from '../ModalConfirm';
-import { ITask } from 'models/task';
+import { FetchNextPageFunction, ITask, TaskResult } from 'models/task';
 import { useApproveTask, useRejectTask } from 'api/apiHooks/taskHooks';
 import ModalBoard from './ModalBoard';
 import { ETaskStatus } from 'common/enums';
 import { useCurrentUser } from 'hooks/useCurrentUser';
 import { formatDate } from 'utils/formatDate';
 import { getDayAgo } from 'utils/getDayAgo';
-
-interface BoardsProps {
-  data: ITask[];
-  totalCount: number;
-}
+import { HiArrowDown } from 'react-icons/hi';
 
 interface ModalStatus {
   isOpen: boolean;
   title: string;
   description: string;
+}
+
+export interface BoardsProps {
+  data: {
+    listPending: TaskResult;
+    listApproved: TaskResult;
+    listRejected: TaskResult;
+  };
+  fetchNextPagePending: FetchNextPageFunction;
+  fetchNextPageApproved: FetchNextPageFunction;
+  fetchNextPageRejected: FetchNextPageFunction;
+  status: number;
 }
 
 const initialModalStatus: ModalStatus = {
@@ -39,7 +47,13 @@ const initialModalStatus: ModalStatus = {
   description: 'Modal Description',
 };
 
-const Boards = ({ data }: BoardsProps): JSX.Element => {
+const Boards = ({
+  data,
+  fetchNextPageApproved,
+  fetchNextPagePending,
+  fetchNextPageRejected,
+  status,
+}: BoardsProps): JSX.Element => {
   const [modalState, setModalState] = useState(initialModalStatus);
   const [result, setResult] = useState<DropResult>();
   const [isRejected, setIsRejected] = useState<boolean>(false);
@@ -153,17 +167,40 @@ const Boards = ({ data }: BoardsProps): JSX.Element => {
 
   useEffect(() => {
     setState({
-      [ETaskStatus.Pending]: data.filter(
+      [ETaskStatus.Pending]: data.listPending.items.filter(
         (x) => x.status === TaskStatus.Pending
       ),
-      [ETaskStatus.Approved]: data.filter(
+      [ETaskStatus.Approved]: data.listApproved.items.filter(
         (x) => x.status === TaskStatus.Approved
       ),
-      [ETaskStatus.Rejected]: data.filter(
+      [ETaskStatus.Rejected]: data.listRejected.items.filter(
         (x) => x.status === TaskStatus.Rejected
       ),
     });
   }, [data]);
+
+  const showMoreItems = (
+    fetchNextPage: FetchNextPageFunction,
+    listLength: number,
+    totalCount: number
+  ) => {
+    if (listLength < totalCount) {
+      return (
+        <Flex w={'100%'} justifyContent={'center'} my={2}>
+          <IconButton
+            variant="solid"
+            aria-label="Call Sage"
+            fontSize="20px"
+            icon={<HiArrowDown />}
+            isRound={true}
+            colorScheme="teal"
+            onClick={() => fetchNextPage()}
+          />
+        </Flex>
+      );
+    }
+    return null;
+  };
 
   return (
     <>
@@ -180,7 +217,6 @@ const Boards = ({ data }: BoardsProps): JSX.Element => {
                   <div className="columnLabel">
                     {Object.keys(BoardColumnStatus)[ind]}
                   </div>
-
                   <Box className="columnContent">
                     {el.map((item, index) => (
                       <Draggable
@@ -262,6 +298,28 @@ const Boards = ({ data }: BoardsProps): JSX.Element => {
                         )}
                       </Draggable>
                     ))}
+
+                    {ind === BoardColumnStatus.Pending &&
+                      (+status === -1 || +status === TaskStatus.Pending) &&
+                      showMoreItems(
+                        fetchNextPagePending,
+                        data?.listPending?.items?.length,
+                        data?.listPending?.totalCount
+                      )}
+                    {ind === BoardColumnStatus.Approved &&
+                      (+status === -1 || +status === TaskStatus.Approved) &&
+                      showMoreItems(
+                        fetchNextPageApproved,
+                        data?.listApproved?.items?.length,
+                        data.listApproved?.totalCount
+                      )}
+                    {ind === BoardColumnStatus.Rejected &&
+                      (+status === -1 || +status === TaskStatus.Rejected) &&
+                      showMoreItems(
+                        fetchNextPageRejected,
+                        data?.listRejected?.items?.length,
+                        data?.listRejected?.totalCount
+                      )}
                   </Box>
                   {provided.placeholder}
                 </div>

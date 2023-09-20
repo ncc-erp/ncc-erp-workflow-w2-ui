@@ -1,6 +1,7 @@
-import { useAxios } from 'api/axiosInstant';
+import axios, { useAxios } from 'api/axiosInstant';
 import { AxiosRequestConfig } from 'axios';
 import { QueryKey, useMutation, useQuery } from '@tanstack/react-query';
+import { FilterTasks, ITaskResponse } from 'models/task';
 
 export const useCreate = <T, U>(url: string, config?: AxiosRequestConfig) => {
   const axios = useAxios();
@@ -118,4 +119,9 @@ export const useRejectedTask = (url: string) => {
   };
 
   return useMutation(mutate);
+};
+
+export const getAllTask = async (filter: FilterTasks) => {
+  const result: ITaskResponse = await axios.post('app/task/list', filter);
+  return result;
 };

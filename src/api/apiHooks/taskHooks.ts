@@ -1,14 +1,20 @@
 import { FilterTasks } from './../../models/task';
-import { useGetListByPost, useRejectedTask, useUpdateStatus } from '.';
-import { QueryKeys } from 'common/constants';
-import { TaskResult } from 'models/task';
+import { getAllTask, useRejectedTask, useUpdateStatus } from '.';
+import { DEFAULT_TASK_PER_PAGE, QueryKeys } from 'common/constants';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import { getAllTaskPagination } from 'utils/getAllTaskPagination';
 
 export const useGetAllTask = (filter: FilterTasks) => {
-  return useGetListByPost<TaskResult>(
-    [QueryKeys.GET_ALL_TASK, filter],
-    '/app/task/list',
-    filter
-  );
+  return useInfiniteQuery({
+    queryKey: [QueryKeys.GET_ALL_TASK, filter],
+    queryFn: ({ pageParam = 0 }) =>
+      getAllTask({ ...filter, skipCount: pageParam }),
+    getNextPageParam: (lastPage, allPage) => {
+      return lastPage?.items?.length === DEFAULT_TASK_PER_PAGE
+        ? getAllTaskPagination(allPage)?.items?.length
+        : undefined;
+    },
+  });
 };
 
 export const useApproveTask = () => {

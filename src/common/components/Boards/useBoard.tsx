@@ -62,8 +62,8 @@ const useBoard = () => {
     padding: grid,
     minWidth: 250,
     width: '100%',
-    height: 725,
-    // overflowY: 'auto',
+    height: 750,
+    borderRadius: 8,
   });
 
   return {
