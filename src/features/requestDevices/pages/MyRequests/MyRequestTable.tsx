@@ -240,7 +240,7 @@ export const MyRequestTable = () => {
     key: 'Status' | 'WorkflowDefinitionId' | 'RequestUser' | 'StakeHolder',
     value?: string
   ) => {
-    setFilter({ ...filter, [key]: value });
+    setFilter({ ...filter, [key]: value, skipCount: 0 });
   };
 
   const onAction = (requestId: string, type: 'delete' | 'cancel') => () => {
