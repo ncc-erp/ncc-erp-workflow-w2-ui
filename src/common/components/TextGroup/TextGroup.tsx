@@ -1,4 +1,5 @@
-import './style.css';
+import { useOffices } from 'api/apiHooks/requestHooks';
+import styles from './style.module.scss';
 
 interface ITextGroup {
   label: string;
@@ -8,14 +9,24 @@ interface ITextGroup {
 }
 
 export const TextGroup = ({ label, content, color, dates }: ITextGroup) => {
+  const { data: offices } = useOffices();
+  const currentOffice = offices?.find((office) => office.code === content)
+    ?.displayName;
+
   return (
-    <div className="textGroup">
-      <label className="label">{label}</label>
+    <div className={styles.textGroup}>
+      <label className={styles.label}>{label}</label>
       {!dates ? (
-        <p className={color ? `content-${color}` : 'content'}>{content}</p>
+        <p
+          className={`${styles.content} ${
+            color ? styles[`content-${color}`] : ''
+          }`}
+        >
+          {currentOffice ? currentOffice : content}
+        </p>
       ) : (
-        <div className="dates">
-          {dates && dates.map((date) => <p className={'date'}>{date}</p>)}
+        <div className={styles.dates}>
+          {dates && dates.map((date) => <p className={styles.date}>{date}</p>)}
         </div>
       )}
     </div>

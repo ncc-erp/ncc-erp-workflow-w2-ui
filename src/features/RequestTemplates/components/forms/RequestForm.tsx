@@ -15,7 +15,7 @@ import Toolbar from 'react-multi-date-picker/plugins/toolbar';
 
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import './style.css';
+import styles from './style.module.scss';
 
 import {
   InputDefinition,
@@ -29,6 +29,7 @@ import { format } from 'date-fns/esm';
 import { useCurrentUser } from 'hooks/useCurrentUser';
 import { toast } from 'common/components/StandaloneToast';
 import { ErrorMessage } from '@hookform/error-message';
+import { dateFormat } from 'common/constants';
 
 interface RequestFormProps {
   inputDefinition?: InputDefinition;
@@ -67,7 +68,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
   const { mutateAsync: createMutate } = useNewRequestWorkflow();
   const formatDate = (date: FormParamsValue) => {
     if (date instanceof Date) {
-      return format(date, 'dd/MM/yyyy');
+      return format(date, dateFormat.ddMMyyyy);
     } else {
       return date?.toString();
     }
@@ -265,10 +266,11 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
                   formParams[fieldname] = field.value;
                   return (
                     <DatePicker
-                      className="datePicker"
+                      className={styles.datePicker}
                       onChange={field.onChange}
                       selected={field.value as Date}
-                      dateFormat="dd/MM/yyyy"
+                      dateFormat={dateFormat.ddMMyyyy}
+                      wrapperClassName={styles.wrapperCustom}
                     />
                   );
                 }}
@@ -308,15 +310,10 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
                       multiple
                       onChange={field.onChange}
                       value={field.value}
-                      format='DD/MM/YYYY'
+                      format={dateFormat.DDMMYYYY}
                       plugins={[<Toolbar position="bottom" sort={['close']} />]}
-                      style={{
-                        width: '100%',
-                        height: '40px',
-                        borderRadius: '5px',
-                        fontSize: '16px',
-                        padding: '3px 10px',
-                      }}
+                      inputClass={styles.multiDatePicker}
+                      containerStyle={{ width: '100%' }}
                     />
                   );
                 }}

@@ -17,7 +17,8 @@ import { TextGroup } from 'common/components/TextGroup/TextGroup';
 import { dateFormat } from 'common/constants';
 import { format } from 'date-fns';
 import { getStatusByIndex } from 'utils/getStatusByIndex';
-import { RequestDetail } from './RequestDetail';
+import { RequestInput } from './RequestInput';
+import styles from './style.module.scss';
 
 interface IDetailModalProps {
   isOpen: boolean;
@@ -43,12 +44,12 @@ export const TaskDetailModal = ({
       <ModalContent p="10px" maxW="700px">
         <ModalHeader>
           <HStack>
-            <Image h="40px" src={Logo} />
+            <Image h="45px" src={Logo} />
             <Heading ml={1}>
               <Text color="primary" fontSize={18}>
                 {taskDetail?.name}
               </Text>
-              <Text fontSize={16} fontWeight={600} mt={1}>
+              <Text fontSize={16} fontWeight={600} mt={1.5}>
                 Details
               </Text>
             </Heading>
@@ -57,14 +58,8 @@ export const TaskDetailModal = ({
         <ModalCloseButton mt="15px" mr="10px" />
         <ModalBody>
           <Divider mb={5}></Divider>
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              marginTop: '10px',
-            }}
-          >
-            <div style={{ width: '50%' }}>
+          <div className={styles.container}>
+            <div className={styles.left}>
               <Text
                 mb="10px"
                 fontWeight={600}
@@ -73,12 +68,11 @@ export const TaskDetailModal = ({
               >
                 Request input
               </Text>
-              <RequestDetail
-                type={taskDetail?.name}
-                inputRequestDetail={inputRequestDetail}
-              />
+              {inputRequestDetail && (
+                <RequestInput inputRequestDetail={inputRequestDetail} />
+              )}
             </div>
-            <div style={{ width: '50%' }}>
+            <div className={styles.right}>
               <Text
                 mb="10px"
                 fontWeight={600}
@@ -99,8 +93,8 @@ export const TaskDetailModal = ({
           <Text mb="15px" fontWeight={600} fontStyle="italic" color="primary">
             Task detail
           </Text>
-          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <div style={{ width: '50%' }}>
+          <div className={styles.container}>
+            <div className={styles.left}>
               <TextGroup label="Task name" content={taskDetail?.name} />
               <TextGroup
                 label="Status"
@@ -108,13 +102,16 @@ export const TaskDetailModal = ({
                 color={getStatusByIndex(taskDetail?.status).color}
               />
             </div>
-            <div style={{ width: '50%' }}>
+            <div className={styles.right}>
               <TextGroup label="Email assignment" content={taskDetail?.email} />
               <TextGroup
                 label="Creation time"
                 content={
                   taskDetail?.creationTime
-                    ? format(new Date(taskDetail?.creationTime), dateFormat)
+                    ? format(
+                        new Date(taskDetail?.creationTime),
+                        dateFormat.ddMMyyyyp
+                      )
                     : ''
                 }
               />

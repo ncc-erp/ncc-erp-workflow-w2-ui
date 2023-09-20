@@ -1,6 +1,11 @@
 import { option } from 'common/types';
 
-export const dateFormat = 'dd/MM/yyyy p';
+export const dateFormat = {
+  ddMMyyyyp: 'dd/MM/yyyy p',
+  ddMMyyyy: 'dd/MM/yyyy',
+  DDMMYYYY: 'DD/MM/YYYY',
+  yyyyMMdd: 'yyyy/MM/dd',
+};
 
 export const noOfRows: option[] = [
   {
@@ -131,6 +136,8 @@ export const QueryKeys = {
   GET_USER_CURRENT_PROJECT: 'getUserCurrentProject',
 };
 
-export const TaskStatusesIndex = [0, 1, 2, 4];
-export const TaskStatuses = ['Pending', 'Approved', 'Rejected', 'Canceled'];
-export const TaskColors = ['blue', 'green', 'red', 'yellow'];
+export const TaskStatusesData = [
+  { status: 'Pending', color: 'blue' },
+  { status: 'Approved', color: 'green' },
+  { status: 'Rejected', color: 'red' },
+];

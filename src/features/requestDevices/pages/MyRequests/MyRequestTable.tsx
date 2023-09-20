@@ -122,13 +122,15 @@ export const MyRequestTable = () => {
         columnHelper.accessor('createdAt', {
           id: 'createdAt',
           header: 'Created at',
-          cell: (info) => format(new Date(info.getValue()), dateFormat),
+          cell: (info) =>
+            format(new Date(info.getValue()), dateFormat.ddMMyyyyp),
           sortDescFirst: true,
         }),
         columnHelper.accessor('lastExecutedAt', {
           id: 'lastExecutedAt',
           header: 'Last executed at',
-          cell: (info) => format(new Date(info.getValue()), dateFormat),
+          cell: (info) =>
+            format(new Date(info.getValue()), dateFormat.ddMMyyyyp),
           sortDescFirst: true,
         }),
         columnHelper.accessor('status', {
@@ -256,7 +258,7 @@ export const MyRequestTable = () => {
             message={'No requests found!'}
           >
             <Box
-              p = "20px 30px 0px 30px"
+              p="20px 30px 0px 30px"
               overflowX="auto"
               w={{ base: `calc(100vw - ${sideBarWidth}px)`, lg: 'auto' }}
             >
@@ -270,7 +272,7 @@ export const MyRequestTable = () => {
           </EmptyWrapper>
         )}
         <HStack
-          p = "20px 30px 20px 30px"
+          p="20px 30px 20px 30px"
           justifyContent="space-between"
           borderBottom="1px"
           borderColor="gray.200"
