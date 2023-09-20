@@ -1,10 +1,8 @@
 import {
   FilterTasks,
-  ITaskResult,
   StakeHolderResult,
 } from './../../models/task';
 import {
-  useGetList,
   useGetListByPost,
   useRejectedTask,
   useUpdateStatus,
@@ -34,11 +32,4 @@ export const useApproveTask = () => {
 
 export const useRejectTask = () => {
   return useRejectedTask('/app/task');
-};
-
-export const useGetTaskDetail = (id: string) => {
-  return useGetList<ITaskResult>(
-    [QueryKeys.GET_TASK, id],
-    `/app/task/${id}/detail-by-id`
-  );
 };

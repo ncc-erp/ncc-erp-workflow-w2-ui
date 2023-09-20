@@ -24,33 +24,29 @@
 }
 
 .itemPending {
-  border-left: 4px solid var(--chakra-colors-blue);
+  border-left: 4px solid #279EFF;
 }
 .itemApproved {
-  border-left: 4px solid var(--chakra-colors-green);
+  border-left: 4px solid #00B894;
 }
 .itemRejected {
-  border-left: 4px solid var(--chakra-colors-red);
+  border-left: 4px solid #FF7675;
 }
 .itemCanceled {
-  border-left: 4px solid var(--chakra-colors-yellow);
+  border-left: 4px solid #FFBB5C;
 }
 
 .content {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--chakra-colors-blackButton-400);
+  font-weight: bold;
 }
 
 .title {
-  color: var(--chakra-colors-blue);
+  color: #007bff;
   font-size: 14px;
-  margin-top: 3px;
 }
 
 .person {
-  color: var(--chakra-colors-blackButton-500);
-  font-size: 13px;
+  color: #555;
 }
 
 .stateWrapper {
@@ -74,31 +70,31 @@
 }
 
 .statusPending {
-  background-color: var(--chakra-colors-blue);
+  background-color: #279EFF;
 }
 
 .statusApproved {
-  background-color: var(--chakra-colors-green);
+  background-color: #00B894;
 }
 .statusRejected {
-  background-color: var(--chakra-colors-red);
+  background-color: #FF7675;
 }
 .statusCanceled {
-  background-color: var(--chakra-colors-yellow);
+  background-color: #FFBB5C;
 }
 
 .state {
-  color: var(--chakra-colors-blackButton-500);
+  color: #0000008C;
 }
 
 .timestamp {
-  color: var(--chakra-colors-blackButton-400);;
+  color: #888;
 }
 
 .columnLabel {
   margin-bottom: 10px;
   padding: 8px;
-  background-color: var(--chakra-colors-white);
+  background-color: #fff;
   border-radius: 5px;
   font-weight: bold;
 }
