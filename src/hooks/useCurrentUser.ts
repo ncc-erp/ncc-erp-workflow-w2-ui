@@ -1,6 +1,6 @@
 import { LocalStorageKeys } from 'common/enums';
 import { useMemo } from 'react';
-import { parseJwt } from 'utils/parseJwt';
+import { parseJwt } from 'utils';
 
 export function useCurrentUser() {
   const token = localStorage.getItem(LocalStorageKeys.accessToken);

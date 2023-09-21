@@ -34,6 +34,7 @@
     "formik": "^2.4.4",
     "framer-motion": "^10.16.4",
     "js-cookie": "^3.0.5",
+    "node-sass": "^9.0.0",
     "oidc-client": "^1.11.5",
     "oidc-client-ts": "^2.2.5",
     "pnpm": "^8.7.5",
@@ -50,6 +51,7 @@
     "react-router-dom": "^6.16.0",
     "react-select": "^5.7.4",
     "recoil": "^0.7.7",
+    "sass": "^1.67.0",
     "yup": "^1.2.0"
   },
   "devDependencies": {

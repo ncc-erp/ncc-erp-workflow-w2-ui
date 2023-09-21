@@ -14,11 +14,10 @@ import {
 import { SelectField } from 'common/components/SelectField';
 import { Table } from 'common/components/Table/Table';
 import { RequestSortField, RequestStatus, SortDirection } from 'common/enums';
-import { format } from 'date-fns';
 import { FilterRequestParams, Request } from 'models/request';
 import { ChangeEvent, useEffect, useMemo, useState } from 'react';
 import { Pagination } from 'common/components/Pagination';
-import { QueryKeys, dateFormat, noOfRows } from 'common/constants';
+import { QueryKeys, noOfRows } from 'common/constants';
 import { PageSize } from 'common/components/Table/PageSize';
 import { ShowingItemText } from 'common/components/Table/ShowingItemText';
 import { RowAction } from 'features/requestDevices/pages/MyRequests/RowAction';
@@ -27,6 +26,7 @@ import { useRecoilValue } from 'recoil';
 import { appConfigState } from 'stores/appConfig';
 import { toast } from 'common/components/StandaloneToast';
 import { ModalConfirm } from 'common/components/ModalConfirm';
+import { formatDate } from 'utils';
 
 const initialFilter: FilterRequestParams = {
   Status: '',
@@ -122,13 +122,13 @@ export const MyRequestTable = () => {
         columnHelper.accessor('createdAt', {
           id: 'createdAt',
           header: 'Created at',
-          cell: (info) => format(new Date(info.getValue()), dateFormat),
+          cell: (info) => formatDate(new Date(info.getValue())),
           sortDescFirst: true,
         }),
         columnHelper.accessor('lastExecutedAt', {
           id: 'lastExecutedAt',
           header: 'Last executed at',
-          cell: (info) => format(new Date(info.getValue()), dateFormat),
+          cell: (info) => formatDate(new Date(info.getValue())),
           sortDescFirst: true,
         }),
         columnHelper.accessor('status', {
@@ -256,7 +256,7 @@ export const MyRequestTable = () => {
             message={'No requests found!'}
           >
             <Box
-              p = "20px 30px 0px 30px"
+              p="20px 30px 0px 30px"
               overflowX="auto"
               w={{ base: `calc(100vw - ${sideBarWidth}px)`, lg: 'auto' }}
             >
@@ -270,7 +270,7 @@ export const MyRequestTable = () => {
           </EmptyWrapper>
         )}
         <HStack
-          p = "20px 30px 20px 30px"
+          p="20px 30px 20px 30px"
           justifyContent="space-between"
           borderBottom="1px"
           borderColor="gray.200"

@@ -1,6 +1,6 @@
 import { option } from 'common/types';
 
-export const dateFormat = 'dd/MM/yyyy p';
+export const DEFAULT_FORMAT_DATE = 'dd-MM-yyyy HH:mm';
 
 export const noOfRows: option[] = [
   {
@@ -21,8 +21,8 @@ export const noOfRows: option[] = [
   },
 ];
 
-export const RequestTemplateWorkflow = {
-  CHANGE_OFFICE: 'ChangeOfficeRequestWorkflow',
+export const requestTemplateWorkflow = {
+  CHANGE_OFFICE: 'Change Office Request',
   DEVICE_REQUEST: 'Device Request',
   OFFICE_EQUIPMENT: 'Office Equipment Request',
   WFH_REQUEST: 'WFH Request',
@@ -145,9 +145,14 @@ export const QueryKeys = {
   GET_PROJECT_USER: 'getProjectsUser',
   GET_USER_INFO_WITH_BRANCH: 'getUserInfoWithBranch',
   GET_ALL_TASK: 'getAllTask',
+  GET_TASK: 'getTask',
   FILTER_TASK: 'filterTask',
   GET_WFH_LIST: 'getWfhList',
   GET_USER_CURRENT_PROJECT: 'getUserCurrentProject',
 };
 
-export const DEFAULT_FORMAT_DATE = 'dd-MM-yyyy HH:mm';
+export const TaskStatusesData = [
+  { status: 'Pending', color: 'blue' },
+  { status: 'Approved', color: 'green' },
+  { status: 'Rejected', color: 'red' },
+];
