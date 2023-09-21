@@ -1,4 +1,10 @@
-import { Button, Text, VStack } from '@chakra-ui/react';
+import {
+  Button,
+  VStack,
+  FormLabel,
+  FormControl,
+  FormHelperText,
+} from '@chakra-ui/react';
 import {
   useOffices,
   useUserProjects,
@@ -28,6 +34,7 @@ import { ChangeEvent, useState } from 'react';
 import { useCurrentUser } from 'hooks/useCurrentUser';
 import { toast } from 'common/components/StandaloneToast';
 import { ErrorMessage } from '@hookform/error-message';
+import { ErrorDisplay } from 'common/components/ErrorDisplay';
 import { formatDate } from 'utils';
 
 interface RequestFormProps {
@@ -69,7 +76,11 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
     if (date instanceof Date) {
       return formatDate(date, 'dd/MM/yyyy');
     } else {
-      return date?.toString();
+      let datesFormatted = '';
+      datesFormatted += (date as Array<DateObject>)?.map((item: DateObject) => {
+        return item.format('DD/MM/YYYY');
+      });
+      return datesFormatted;
     }
   };
 
@@ -147,15 +158,18 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
       case 'MyProject':
         formParams[fieldname] = getDefaultValueSelected(Field?.type, fieldname);
         return (
-          <>
-            <Text whiteSpace="nowrap" fontSize="md">
+          <FormControl>
+            <FormLabel fontSize={16} my={1} fontWeight="normal">
               {toDisplayName(fieldname)}
               {Field?.isRequired ? (
-                <span style={{ color: 'red' }}> *</span>
+                <FormHelperText my={1} style={{ color: 'red' }} as="span">
+                  {' '}
+                  *
+                </FormHelperText>
               ) : (
                 ''
               )}
-            </Text>
+            </FormLabel>
             <SelectField
               size="sm"
               rounded="md"
@@ -166,29 +180,31 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
                   ? `${fieldname} is Required`
                   : false,
                 onChange: (e) => handleChangeValue(e, fieldname),
+                value: `${formParams[fieldname]}`,
               })}
             />
             <ErrorMessage
               errors={errors}
               name={fieldname}
-              render={({ message }) => (
-                <span style={{ color: 'red' }}>{message}</span>
-              )}
+              render={({ message }) => <ErrorDisplay message={message} />}
             />
-          </>
+          </FormControl>
         );
       case 'Text':
         formParams[fieldname] = formParams[fieldname] ?? '';
         return (
-          <>
-            <Text whiteSpace="nowrap" fontSize="md">
+          <FormControl>
+            <FormLabel fontSize={16} my={1} fontWeight="normal">
               {toDisplayName(fieldname)}
               {Field?.isRequired ? (
-                <span style={{ color: 'red' }}> *</span>
+                <FormHelperText my={1} style={{ color: 'red' }} as="span">
+                  {' '}
+                  *
+                </FormHelperText>
               ) : (
                 ''
               )}
-            </Text>
+            </FormLabel>
             <TextField
               h="50px"
               placeholder={fieldname}
@@ -204,24 +220,25 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
             <ErrorMessage
               errors={errors}
               name={fieldname}
-              render={({ message }) => (
-                <span style={{ color: 'red' }}>{message}</span>
-              )}
+              render={({ message }) => <ErrorDisplay message={message} />}
             />
-          </>
+          </FormControl>
         );
       case 'RichText':
         formParams[fieldname] = formParams[fieldname] ?? '';
         return (
-          <>
-            <Text whiteSpace="nowrap" fontSize="md">
+          <FormControl>
+            <FormLabel fontSize={16} my={1} fontWeight="normal">
               {toDisplayName(fieldname)}
               {Field?.isRequired ? (
-                <span style={{ color: 'red' }}> *</span>
+                <FormHelperText my={1} style={{ color: 'red' }} as="span">
+                  {' '}
+                  *
+                </FormHelperText>
               ) : (
                 ''
               )}
-            </Text>
+            </FormLabel>
             <TextareaField
               value={formParams[fieldname] as string}
               {...register(fieldname, {
@@ -234,25 +251,26 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
             <ErrorMessage
               errors={errors}
               name={fieldname}
-              render={({ message }) => (
-                <span style={{ color: 'red' }}>{message}</span>
-              )}
+              render={({ message }) => <ErrorDisplay message={message} />}
             />
-          </>
+          </FormControl>
         );
       case 'DateTime':
         formParams[fieldname] = formParams[fieldname] ?? '';
         if (fieldname != 'Dates')
           return (
-            <>
-              <Text whiteSpace="nowrap" fontSize="md">
+            <FormControl>
+              <FormLabel fontSize={16} my={1} fontWeight="normal">
                 {toDisplayName(fieldname)}
                 {Field?.isRequired ? (
-                  <span style={{ color: 'red' }}> *</span>
+                  <FormHelperText my={1} style={{ color: 'red' }} as="span">
+                    {' '}
+                    *
+                  </FormHelperText>
                 ) : (
                   ''
                 )}
-              </Text>
+              </FormLabel>
               <Controller
                 control={control}
                 rules={{
@@ -277,23 +295,24 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
               <ErrorMessage
                 errors={errors}
                 name={fieldname}
-                render={({ message }) => (
-                  <span style={{ color: 'red' }}>{message}</span>
-                )}
+                render={({ message }) => <ErrorDisplay message={message} />}
               />
-            </>
+            </FormControl>
           );
         else
           return (
-            <>
-              <Text whiteSpace="nowrap" fontSize="md">
+            <FormControl>
+              <FormLabel my={1} fontSize={16} fontWeight="normal">
                 {toDisplayName(fieldname)}
                 {Field?.isRequired ? (
-                  <span style={{ color: 'red' }}> *</span>
+                  <FormHelperText my={1} style={{ color: 'red' }} as="span">
+                    {' '}
+                    *
+                  </FormHelperText>
                 ) : (
                   ''
                 )}
-              </Text>
+              </FormLabel>
               <Controller
                 control={control}
                 rules={{
@@ -320,11 +339,9 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
               <ErrorMessage
                 errors={errors}
                 name={fieldname}
-                render={({ message }) => (
-                  <span style={{ color: 'red' }}>{message}</span>
-                )}
+                render={({ message }) => <ErrorDisplay message={message} />}
               />
-            </>
+            </FormControl>
           );
     }
   };
