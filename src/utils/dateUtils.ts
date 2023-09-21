@@ -12,7 +12,7 @@ export const parseDateStrings = (dateStrings: string) => {
   const validDates: string[] = [];
   const invalidDates: string[] = [];
 
-  dateStrings.split(',').forEach((dateString) => {
+  dateStrings?.split(',').forEach((dateString) => {
     const trimmedDate = dateString.trim();
     if (isValidDate(trimmedDate, 'dd/MM/yyyy')) {
       validDates.push(trimmedDate);
