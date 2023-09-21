@@ -79,8 +79,8 @@ export const TaskDetailModal = ({
               >
                 Request user
               </Text>
-              <TextGroup label="User name" content={inputRequestUser?.name} />
-              <TextGroup label="User email" content={inputRequestUser?.email} />
+              <TextGroup label="Name" content={inputRequestUser?.name} />
+              <TextGroup label="Email" content={inputRequestUser?.email} />
               <TextGroup
                 label="Branch name"
                 content={inputRequestUser?.branchName}
