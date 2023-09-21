@@ -12,8 +12,9 @@ export interface ITask {
   reason?: string;
   status: number;
   workflowInstanceId: string;
-  id: string;
   creationTime: string;
+  id: string;
+  authorName?: string;
 }
 
 export interface FilterTasks {
@@ -45,7 +46,7 @@ export interface IRequest {
 }
 
 export interface IInputRequest {
-  Request: IRequest;
+  Request: Record<string, Record<string, string> | string>;
   RequestUser: IRequestUser;
 }
 

@@ -1,7 +1,6 @@
 import DatePicker from 'react-datepicker';
-
 import 'react-datepicker/dist/react-datepicker.css';
-import './style.css';
+import styles from './style.module.scss';
 
 interface CustomDatePickerProps {
   inputDate: Date;
@@ -14,7 +13,7 @@ export const CustomDatePicker = ({
 }: CustomDatePickerProps) => {
   return (
     <DatePicker
-      className="datePicker"
+      className={styles.datePicker}
       selected={inputDate}
       onChange={(date: Date) => onChange(date)}
     />
