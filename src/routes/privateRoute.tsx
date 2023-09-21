@@ -1,7 +1,7 @@
 import { LocalStorageKeys } from 'common/enums';
 import { RouteProps } from 'react-router';
 import { Navigate } from 'react-router-dom';
-import { getItem } from 'utils/localStorage';
+import { getItem } from 'utils';
 
 const PrivateRoute = ({ children }: RouteProps) => {
   const accessToken: string | null = getItem(LocalStorageKeys.accessToken);

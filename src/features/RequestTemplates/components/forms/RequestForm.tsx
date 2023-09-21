@@ -25,11 +25,10 @@ import {
 import { IOffices } from 'models/office';
 import { IProjects } from 'models/project';
 import { ChangeEvent, useState } from 'react';
-import { format } from 'date-fns/esm';
 import { useCurrentUser } from 'hooks/useCurrentUser';
 import { toast } from 'common/components/StandaloneToast';
 import { ErrorMessage } from '@hookform/error-message';
-import { dateFormat } from 'common/constants';
+import { formatDate } from 'utils';
 
 interface RequestFormProps {
   inputDefinition?: InputDefinition;
@@ -52,7 +51,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
   const { data: offices } = useOffices();
   const { data: projects } = useUserProjects();
   const currentUser = useCurrentUser();
-  const { data: userInfo } = useUserInfoWithBranch(currentUser.email);
+  const { data: userInfo } = useUserInfoWithBranch(currentUser?.email);
   const { data: userCurrentProject } = useUserCurrentProject();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -66,9 +65,9 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
     criteriaMode: 'all',
   });
   const { mutateAsync: createMutate } = useNewRequestWorkflow();
-  const formatDate = (date: FormParamsValue) => {
+  const formatDateForm = (date: FormParamsValue) => {
     if (date instanceof Date) {
-      return format(date, dateFormat.ddMMyyyy);
+      return formatDate(date, 'dd/MM/yyyy');
     } else {
       return date?.toString();
     }
@@ -84,7 +83,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
         formParamsFormatted[key] instanceof DateObject ||
         Array.isArray(formParamsFormatted[key])
       ) {
-        formParamsFormatted[key] = formatDate(formParamsFormatted[key]);
+        formParamsFormatted[key] = formatDateForm(formParamsFormatted[key]);
       }
     });
 
@@ -269,7 +268,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
                       className={styles.datePicker}
                       onChange={field.onChange}
                       selected={field.value as Date}
-                      dateFormat={dateFormat.ddMMyyyy}
+                      dateFormat="dd/MM/yyyy"
                       wrapperClassName={styles.wrapperCustom}
                     />
                   );
@@ -310,7 +309,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
                       multiple
                       onChange={field.onChange}
                       value={field.value}
-                      format={dateFormat.DDMMYYYY}
+                      format="DD/MM/YYYY"
                       plugins={[<Toolbar position="bottom" sort={['close']} />]}
                       inputClass={styles.multiDatePicker}
                       containerStyle={{ width: '100%' }}

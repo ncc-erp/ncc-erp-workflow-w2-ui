@@ -38,6 +38,8 @@ import { useSetAppConfig } from 'stores/appConfig';
 import { useNavigate } from 'react-router-dom';
 import { useIsAdmin } from 'hooks/useIsAdmin';
 import Logo from 'assets/images/ncc_logo.svg';
+import { removeItem } from 'utils';
+import { LocalStorageKeys } from 'common/enums';
 
 export const SideBarContent = () => {
   const isAdmin = useIsAdmin();
@@ -96,6 +98,7 @@ export const SideBarContent = () => {
   const { onCloseSideBar } = useSetAppConfig();
 
   const onNavigate = (to: string, logout?: boolean) => () => {
+    removeItem(LocalStorageKeys.accessToken);
     logout;
     navigate(to);
   };

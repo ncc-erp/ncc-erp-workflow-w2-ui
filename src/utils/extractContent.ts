@@ -1,15 +1,12 @@
-export const extractContent = (
-  htmlString: string | undefined
-): string | null => {
-  const parser = new DOMParser();
-  const doc = htmlString
-    ? parser.parseFromString(htmlString, 'text/html')
-    : null;
+const pTagRegex = /<p\b[^>]*>[\s\S]*?<\/p>/i;
 
-  const pElement = doc?.querySelector('p');
-  if (pElement) {
-    return pElement.textContent || null;
-  } else {
-    return null;
+export const extractContent = (strInput: string | undefined): string | null => {
+  if (!strInput || !pTagRegex.test(strInput)) {
+    return strInput || null;
   }
+
+  const pElement = new DOMParser()
+    .parseFromString(strInput, 'text/html')
+    .querySelector('p');
+  return pElement?.textContent || null;
 };

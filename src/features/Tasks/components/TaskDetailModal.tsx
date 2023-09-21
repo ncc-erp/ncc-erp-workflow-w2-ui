@@ -14,9 +14,7 @@ import {
 import { useGetTaskDetail } from 'api/apiHooks/taskHooks';
 import Logo from 'assets/images/ncc_logo.svg';
 import { TextGroup } from 'common/components/TextGroup/TextGroup';
-import { dateFormat } from 'common/constants';
-import { format } from 'date-fns';
-import { getStatusByIndex } from 'utils/getStatusByIndex';
+import { formatDate, getStatusByIndex } from 'utils';
 import { RequestInput } from './RequestInput';
 import styles from './style.module.scss';
 
@@ -108,10 +106,7 @@ export const TaskDetailModal = ({
                 label="Creation time"
                 content={
                   taskDetail?.creationTime
-                    ? format(
-                        new Date(taskDetail?.creationTime),
-                        dateFormat.ddMMyyyyp
-                      )
+                    ? formatDate(new Date(taskDetail?.creationTime))
                     : ''
                 }
               />

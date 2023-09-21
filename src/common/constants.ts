@@ -1,11 +1,6 @@
 import { option } from 'common/types';
 
-export const dateFormat = {
-  ddMMyyyyp: 'dd/MM/yyyy p',
-  ddMMyyyy: 'dd/MM/yyyy',
-  DDMMYYYY: 'DD/MM/YYYY',
-  yyyyMMdd: 'yyyy/MM/dd',
-};
+export const DEFAULT_FORMAT_DATE = 'dd-MM-yyyy HH:mm';
 
 export const noOfRows: option[] = [
   {
