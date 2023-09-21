@@ -5,7 +5,7 @@ import Boards from 'common/components/Boards';
 import { SelectField } from 'common/components/SelectField';
 import { DEFAULT_TASK_PER_PAGE, FilterAll, TaskStatus } from 'common/constants';
 import { FilterTasks } from 'models/task';
-import { useCallback, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { AiOutlineReload } from 'react-icons/ai';
 import Select from 'react-select';
 import { useUserIdentity } from 'api/apiHooks/userIdentityHooks';
@@ -37,40 +37,21 @@ export const TasksBoard = () => {
   const isAdmin = useIsAdmin();
   const { data: listUser } = useUserIdentity(initialFilterUser);
 
-  const getStatus = useCallback(
-    (specStatus: number) => {
-      const { status } = filter;
-      if (status) {
-        return status >= 0 ? status : specStatus;
-      }
-    },
-    [filter]
-  );
-
   const {
     data: listPending,
     isLoading: loadPending,
     fetchNextPage: fetchNextPagePending,
-  } = useGetAllTask({
-    ...filter,
-    status: getStatus(TaskStatus.Pending),
-  });
+  } = useGetAllTask({ ...filter }, TaskStatus.Pending);
   const {
     data: listApproved,
     isLoading: loadApproved,
     fetchNextPage: fetchNextPageApproved,
-  } = useGetAllTask({
-    ...filter,
-    status: getStatus(TaskStatus.Approved),
-  });
+  } = useGetAllTask({ ...filter }, TaskStatus.Approved);
   const {
     data: listRejected,
     isLoading: loadRejected,
     fetchNextPage: fetchNextPageRejected,
-  } = useGetAllTask({
-    ...filter,
-    status: getStatus(TaskStatus.Rejected),
-  });
+  } = useGetAllTask({ ...filter }, TaskStatus.Rejected);
 
   const { data: requestTemplateData } = useRequestTemplates();
   const requestTemplates = useMemo(() => {
