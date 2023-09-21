@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import './style.css';
+
 import {
   AlertDialog,
   AlertDialogBody,
@@ -44,17 +44,28 @@ const ModalBoard = (props: ModalBoardProps): JSX.Element => {
       >
         <AlertDialogOverlay>
           <AlertDialogContent>
-            <AlertDialogHeader fontSize="lg" fontWeight="bold">
+            <AlertDialogHeader fontSize="lg" fontWeight="bold" pb={1}>
               Update status
             </AlertDialogHeader>
 
             <AlertDialogBody>
-              <Text whiteSpace="nowrap" fontSize="md" fontWeight="bold">
+              <Text
+                whiteSpace="nowrap"
+                fontSize="md"
+                fontWeight="medium"
+                pb={0}
+              >
                 Do you want to update status ?
               </Text>
               {showReason && (
                 <Box mt={5}>
-                  <Text whiteSpace="nowrap" fontSize="md">
+                  <Text
+                    whiteSpace="nowrap"
+                    fontSize="md"
+                    fontWeight="medium"
+                    pb={2}
+                    pt={0}
+                  >
                     Reason *
                   </Text>
                   <Input

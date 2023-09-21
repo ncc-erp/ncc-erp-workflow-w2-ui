@@ -5,12 +5,10 @@ import {
   Droppable,
 } from '@hello-pangea/dnd';
 import { useEffect, useState } from 'react';
-
+import styles from './style.module.scss';
 import { useQueryClient } from '@tanstack/react-query';
-import classNames from 'classnames';
 import { toast } from 'common/components/StandaloneToast';
 import { BoardColumnStatus, QueryKeys, TaskStatus } from 'common/constants';
-import './style.css';
 import useBoard from './useBoard';
 import { Box, useDisclosure } from '@chakra-ui/react';
 import { ITask } from 'models/task';
@@ -161,7 +159,7 @@ const Boards = ({ data }: BoardsProps): JSX.Element => {
   return (
     <>
       <DragDropContext onDragEnd={onDragEnd}>
-        <div className="container">
+        <div className={styles.container}>
           {Object.values(state).map((el, ind) => (
             <Droppable key={ind} droppableId={`${ind}`}>
               {(provided, snapshot) => (
@@ -170,11 +168,11 @@ const Boards = ({ data }: BoardsProps): JSX.Element => {
                   style={getListStyle(snapshot.isDraggingOver)}
                   {...provided.droppableProps}
                 >
-                  <div className="columnLabel">
+                  <div className={styles.columnLabel}>
                     {Object.keys(BoardColumnStatus)[ind]}
                   </div>
 
-                  <Box className="columnContent">
+                  <Box className={styles.columnContent}>
                     {el.map((item, index) => (
                       <Draggable
                         key={item.id}
@@ -196,51 +194,46 @@ const Boards = ({ data }: BoardsProps): JSX.Element => {
                             )}
                           >
                             <div
-                              className={classNames('item', {
-                                itemPending: ind === BoardColumnStatus.Pending,
-                                itemApproved:
-                                  ind === BoardColumnStatus.Approved,
-                                itemRejected:
-                                  ind === BoardColumnStatus.Rejected,
-                                itemCanceled:
-                                  ind === BoardColumnStatus.Canceled,
-                              })}
+                              className={`${styles.item} ${
+                                ind === BoardColumnStatus.Pending
+                                  ? styles.itemPending
+                                  : ind === BoardColumnStatus.Approved
+                                  ? styles.itemApproved
+                                  : ind === BoardColumnStatus.Rejected
+                                  ? styles.itemRejected
+                                  : ind === BoardColumnStatus.Canceled
+                                  ? styles.itemCanceled
+                                  : ''
+                              }`}
                             >
                               <div>
-                                <div className="content">
+                                <div className={styles.content}>
                                   ID: {item.id.slice(-5).toUpperCase()}
                                 </div>
-                                <div className="title">{item.name}</div>
+                                <div className={styles.title}>{item.name}</div>
                               </div>
 
-                              <div className="person">{item.email}</div>
+                              <div className={styles.person}>{item.email}</div>
 
-                              <div className="stateWrapper">
-                                <div className="state">State:</div>
-                                <div className="statusWrapper">
+                              <div className={styles.stateWrapper}>
+                                <div className={styles.state}>State:</div>
+                                <div className={styles.statusWrapper}>
                                   <div
-                                    className={classNames('status', {
-                                      statusPending:
-                                        ind === BoardColumnStatus.Pending,
-                                      statusApproved:
-                                        ind === BoardColumnStatus.Approved,
-                                      statusRejected:
-                                        ind === BoardColumnStatus.Rejected,
-                                      statusCanceled:
-                                        ind === BoardColumnStatus.Canceled,
-                                    })}
+                                    className={`${styles.status} ${
+                                      ind === BoardColumnStatus.Pending
+                                        ? styles.statusPending
+                                        : ind === BoardColumnStatus.Approved
+                                        ? styles.statusApproved
+                                        : ind === BoardColumnStatus.Rejected
+                                        ? styles.statusRejected
+                                        : ind === BoardColumnStatus.Canceled
+                                        ? styles.statusCanceled
+                                        : ''
+                                    }`}
                                   />
                                   {Object.keys(BoardColumnStatus)[ind]}
                                 </div>
                               </div>
-
-                              {/* <div className="timestamp">
-                                Date:{' '}
-                                {format(
-                                  new Date(item.createdAt),
-                                  'dd-MM-yyyy HH:mm'
-                                )}
-                              </div> */}
                             </div>
                           </div>
                         )}

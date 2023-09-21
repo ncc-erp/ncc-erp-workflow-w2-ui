@@ -1,5 +1,4 @@
 import {
-  Avatar,
   HStack,
   Heading,
   Image,
@@ -39,6 +38,8 @@ import { useSetAppConfig } from 'stores/appConfig';
 import { useNavigate } from 'react-router-dom';
 import { useIsAdmin } from 'hooks/useIsAdmin';
 import Logo from 'assets/images/ncc_logo.svg';
+import { removeItem } from 'utils';
+import { LocalStorageKeys } from 'common/enums';
 
 export const SideBarContent = () => {
   const isAdmin = useIsAdmin();
@@ -95,16 +96,23 @@ export const SideBarContent = () => {
   const user = useRecoilValue(userState);
   const navigate = useNavigate();
   const { onCloseSideBar } = useSetAppConfig();
-  const userName = [user.name, user.surname].join(' ');
 
   const onNavigate = (to: string, logout?: boolean) => () => {
+    removeItem(LocalStorageKeys.accessToken);
     logout;
     navigate(to);
   };
 
   return (
     <VStack bgColor="gray.50" h="100vh" alignItems="stretch" spacing={0}>
-      <HStack cursor="pointer" alignItems="center" py="20px" px="16px" spacing="12px" onClick={onNavigate("/")}>
+      <HStack
+        cursor="pointer"
+        alignItems="center"
+        py="20px"
+        px="16px"
+        spacing="12px"
+        onClick={onNavigate('/')}
+      >
         <Image h="40px" src={Logo} />
         <Heading fontSize="18px">NCC Workflow</Heading>
       </HStack>
@@ -188,7 +196,6 @@ export const SideBarContent = () => {
         py="16px"
         spacing="12px"
       >
-        <Avatar size="sm" name={userName} />
         <Text fontSize="sm" fontWeight={600} noOfLines={1}>
           {user.email}
         </Text>

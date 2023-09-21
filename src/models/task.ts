@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ListResult } from './request';
 
 export type TaskResult = ListResult<ITask>;
@@ -25,21 +26,8 @@ export interface IRequestUser {
   branchName: string;
 }
 
-export interface IRequest {
-  CurrentOffice: string;
-  Project?: string;
-  Device?: string;
-  Reason?: string;
-  Dates?: string;
-  Equipment?: string;
-  DestinationOffice?: string;
-  Content?: string;
-  StartDate?: string;
-  EndDate?: string;
-}
-
 export interface IInputRequest {
-  Request: IRequest;
+  Request: Record<string, Record<string, string> | string>;
   RequestUser: IRequestUser;
 }
 
