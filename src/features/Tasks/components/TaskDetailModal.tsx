@@ -99,6 +99,9 @@ export const TaskDetailModal = ({
                 content={getStatusByIndex(taskDetail?.status).status}
                 color={getStatusByIndex(taskDetail?.status).color}
               />
+              {taskDetail?.reason && (
+                <TextGroup label="Reason" content={taskDetail.reason} />
+              )}
             </div>
             <div className={styles.right}>
               <TextGroup label="Email assignment" content={taskDetail?.email} />
