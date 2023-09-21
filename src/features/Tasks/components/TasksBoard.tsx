@@ -7,13 +7,10 @@ import { DEFAULT_TASK_PER_PAGE, FilterAll, TaskStatus } from 'common/constants';
 import { FilterTasks } from 'models/task';
 import { useMemo, useState } from 'react';
 import { AiOutlineReload } from 'react-icons/ai';
-import Select from 'react-select';
-import { useUserIdentity } from 'api/apiHooks/userIdentityHooks';
-import { FilterUserParams } from 'models/userIdentity';
-import { UserSortField } from 'common/enums';
 import { TFilterTask } from 'common/types';
 import { useIsAdmin } from 'hooks/useIsAdmin';
 import { getAllTaskPagination } from 'utils/getAllTaskPagination';
+import { MenuUser } from './MenuUser';
 
 const initialFilter: FilterTasks = {
   skipCount: 0,
@@ -24,18 +21,9 @@ const initialFilter: FilterTasks = {
   email: '',
 };
 
-const initialFilterUser: FilterUserParams = {
-  filter: '',
-  maxResultCount: 1000, //FIXME: Currently getting 1000 users
-  skipCount: 0,
-  sorting: [UserSortField.userName, 'asc'].join(' '),
-};
-
 export const TasksBoard = () => {
   const [filter, setFilter] = useState<FilterTasks>(initialFilter);
-
   const isAdmin = useIsAdmin();
-  const { data: listUser } = useUserIdentity(initialFilterUser);
 
   const {
     data: listPending,
@@ -89,21 +77,6 @@ export const TasksBoard = () => {
 
     return [defaultOptions, ...options];
   }, [requestTemplates]);
-
-  const userOptions = useMemo(() => {
-    const defaultOptions = {
-      value: '',
-      label: FilterAll.USER,
-    };
-
-    const options =
-      listUser?.items?.map(({ email }) => ({
-        value: email,
-        label: email,
-      })) ?? [];
-
-    return [defaultOptions, ...options];
-  }, [listUser]);
 
   // const dateOptions = useMemo(() => {
   //   const defaultOptions = {
@@ -175,25 +148,10 @@ export const TasksBoard = () => {
             />
           </Box> */}
           {isAdmin && (
-            <Box w={'300px'}>
-              <Select
-                styles={{
-                  control: (baseStyles) => ({
-                    ...baseStyles,
-                    borderRadius: '0.375rem',
-                    borderColor: 'inherit',
-                    paddingBottom: 1,
-                    fontSize: 14,
-                  }),
-                }}
-                value={{
-                  value: filter.email,
-                  label: filter.email || FilterAll.USER,
-                }}
-                options={userOptions}
-                onChange={(e) => onTemplateStatusChange('email', e?.value)}
-              />
-            </Box>
+            <MenuUser
+              filter={filter}
+              onChange={(e) => onTemplateStatusChange('email', e?.value)}
+            />
           )}
         </Flex>
         <IconButton
