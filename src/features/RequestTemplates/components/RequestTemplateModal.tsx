@@ -9,7 +9,7 @@ import {
 } from '@chakra-ui/react';
 import { InputDefinition } from 'models/request';
 import RequestForm from './forms/RequestForm';
-import customStyle from './style.module.css';
+import styles from './style.module.scss';
 interface RequestTemplateModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -28,7 +28,7 @@ export const RequestTemplateModal = ({
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
-      <ModalContent className={customStyle['custom-modal']}>
+      <ModalContent className={styles.customModal}>
         <ModalHeader fontSize="md">{displayName}</ModalHeader>
         <Divider></Divider>
         <ModalCloseButton />
