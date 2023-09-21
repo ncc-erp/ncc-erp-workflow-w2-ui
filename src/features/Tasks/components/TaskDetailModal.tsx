@@ -43,7 +43,7 @@ export const TaskDetailModal = ({
         <ModalHeader>
           <HStack>
             <Image h="45px" src={Logo} />
-            <Heading ml={1}>
+            <Heading ml={1} w="550px">
               <Text color="primary" fontSize={18}>
                 {taskDetail?.name}
               </Text>
@@ -79,8 +79,8 @@ export const TaskDetailModal = ({
               >
                 Request user
               </Text>
-              <TextGroup label="User name" content={inputRequestUser?.name} />
-              <TextGroup label="User email" content={inputRequestUser?.email} />
+              <TextGroup label="Name" content={inputRequestUser?.name} />
+              <TextGroup label="Email" content={inputRequestUser?.email} />
               <TextGroup
                 label="Branch name"
                 content={inputRequestUser?.branchName}
