@@ -15,11 +15,10 @@ import {
 import { SelectField } from 'common/components/SelectField';
 import { Table } from 'common/components/Table/Table';
 import { RequestSortField, RequestStatus, SortDirection } from 'common/enums';
-import { format } from 'date-fns';
 import { FilterRequestParams, Request } from 'models/request';
 import { useEffect, useMemo, useState } from 'react';
 import { Pagination } from 'common/components/Pagination';
-import { QueryKeys, dateFormat, noOfRows } from 'common/constants';
+import { QueryKeys, noOfRows } from 'common/constants';
 import { PageSize } from 'common/components/Table/PageSize';
 import { ShowingItemText } from 'common/components/Table/ShowingItemText';
 import { RowAction } from 'features/requestDevices/pages/MyRequests/RowAction';
@@ -34,6 +33,7 @@ import { useIsAdmin } from 'hooks/useIsAdmin';
 import { FilterUserParams } from 'models/userIdentity';
 import { FilterTasks } from 'models/task';
 import { useGetAllStakeHolders } from 'api/apiHooks/taskHooks';
+import { formatDate } from 'utils';
 
 const initialUserFilter: FilterUserParams = {
   filter: ' ',
@@ -178,13 +178,13 @@ export const MyRequestTable = () => {
         columnHelper.accessor('createdAt', {
           id: 'createdAt',
           header: 'Created at',
-          cell: (info) => format(new Date(info.getValue()), dateFormat),
+          cell: (info) => formatDate(new Date(info.getValue())),
           sortDescFirst: true,
         }),
         columnHelper.accessor('lastExecutedAt', {
           id: 'lastExecutedAt',
           header: 'Last executed at',
-          cell: (info) => format(new Date(info.getValue()), dateFormat),
+          cell: (info) => formatDate(new Date(info.getValue())),
           sortDescFirst: true,
         }),
         columnHelper.accessor('status', {

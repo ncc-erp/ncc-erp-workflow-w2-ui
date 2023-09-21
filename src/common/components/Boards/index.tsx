@@ -5,35 +5,31 @@ import {
   Droppable,
 } from '@hello-pangea/dnd';
 import { useEffect, useState } from 'react';
-
+import styles from './style.module.scss';
 import { useQueryClient } from '@tanstack/react-query';
-import classNames from 'classnames';
 import { toast } from 'common/components/StandaloneToast';
 import { BoardColumnStatus, QueryKeys, TaskStatus } from 'common/constants';
-import './style.css';
 import useBoard from './useBoard';
-import { ModalConfirm } from '../ModalConfirm';
 import { Box, useDisclosure } from '@chakra-ui/react';
 import { ITask } from 'models/task';
 import { useApproveTask, useRejectTask } from 'api/apiHooks/taskHooks';
 import ModalBoard from './ModalBoard';
 import { ETaskStatus } from 'common/enums';
+import { TaskDetailModal } from 'features/Tasks/components/TaskDetailModal';
 
 interface BoardsProps {
   data: ITask[];
   totalCount: number;
 }
 
-interface ModalStatus {
+interface ModalDetail {
   isOpen: boolean;
-  title: string;
-  description: string;
+  taskId: string;
 }
 
-const initialModalStatus: ModalStatus = {
+const initialModalStatus: ModalDetail = {
   isOpen: false,
-  title: 'Modal Title',
-  description: 'Modal Description',
+  taskId: '',
 };
 
 const Boards = ({ data }: BoardsProps): JSX.Element => {
@@ -54,12 +50,11 @@ const Boards = ({ data }: BoardsProps): JSX.Element => {
   const rejectTaskMutation = useRejectTask();
   const { reorder, move, getItemStyle, getListStyle } = useBoard();
 
-  const openModal = (title: string, description: string) => {
+  const openModal = (taskId: string) => {
     setModalState({
       ...modalState,
       isOpen: true,
-      title,
-      description,
+      taskId: taskId,
     });
   };
 
@@ -164,7 +159,7 @@ const Boards = ({ data }: BoardsProps): JSX.Element => {
   return (
     <>
       <DragDropContext onDragEnd={onDragEnd}>
-        <div className="container">
+        <div className={styles.container}>
           {Object.values(state).map((el, ind) => (
             <Droppable key={ind} droppableId={`${ind}`}>
               {(provided, snapshot) => (
@@ -173,11 +168,11 @@ const Boards = ({ data }: BoardsProps): JSX.Element => {
                   style={getListStyle(snapshot.isDraggingOver)}
                   {...provided.droppableProps}
                 >
-                  <div className="columnLabel">
+                  <div className={styles.columnLabel}>
                     {Object.keys(BoardColumnStatus)[ind]}
                   </div>
 
-                  <Box className="columnContent">
+                  <Box className={styles.columnContent}>
                     {el.map((item, index) => (
                       <Draggable
                         key={item.id}
@@ -187,14 +182,9 @@ const Boards = ({ data }: BoardsProps): JSX.Element => {
                       >
                         {(provided, snapshot) => (
                           <div
-                            onClick={() =>
-                              openModal(
-                                `${item.name} no: ${item.id
-                                  .slice(-5)
-                                  .toUpperCase()}`,
-                                'Content to Something'
-                              )
-                            }
+                            onClick={() => {
+                              item.id !== null && openModal(item.id);
+                            }}
                             ref={provided.innerRef}
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
@@ -204,51 +194,46 @@ const Boards = ({ data }: BoardsProps): JSX.Element => {
                             )}
                           >
                             <div
-                              className={classNames('item', {
-                                itemPending: ind === BoardColumnStatus.Pending,
-                                itemApproved:
-                                  ind === BoardColumnStatus.Approved,
-                                itemRejected:
-                                  ind === BoardColumnStatus.Rejected,
-                                itemCanceled:
-                                  ind === BoardColumnStatus.Canceled,
-                              })}
+                              className={`${styles.item} ${
+                                ind === BoardColumnStatus.Pending
+                                  ? styles.itemPending
+                                  : ind === BoardColumnStatus.Approved
+                                  ? styles.itemApproved
+                                  : ind === BoardColumnStatus.Rejected
+                                  ? styles.itemRejected
+                                  : ind === BoardColumnStatus.Canceled
+                                  ? styles.itemCanceled
+                                  : ''
+                              }`}
                             >
                               <div>
-                                <div className="content">
+                                <div className={styles.content}>
                                   ID: {item.id.slice(-5).toUpperCase()}
                                 </div>
-                                <div className="title">{item.name}</div>
+                                <div className={styles.title}>{item.name}</div>
                               </div>
 
-                              <div className="person">{item.email}</div>
+                              <div className={styles.person}>{item.email}</div>
 
-                              <div className="stateWrapper">
-                                <div className="state">State:</div>
-                                <div className="statusWrapper">
+                              <div className={styles.stateWrapper}>
+                                <div className={styles.state}>State:</div>
+                                <div className={styles.statusWrapper}>
                                   <div
-                                    className={classNames('status', {
-                                      statusPending:
-                                        ind === BoardColumnStatus.Pending,
-                                      statusApproved:
-                                        ind === BoardColumnStatus.Approved,
-                                      statusRejected:
-                                        ind === BoardColumnStatus.Rejected,
-                                      statusCanceled:
-                                        ind === BoardColumnStatus.Canceled,
-                                    })}
+                                    className={`${styles.status} ${
+                                      ind === BoardColumnStatus.Pending
+                                        ? styles.statusPending
+                                        : ind === BoardColumnStatus.Approved
+                                        ? styles.statusApproved
+                                        : ind === BoardColumnStatus.Rejected
+                                        ? styles.statusRejected
+                                        : ind === BoardColumnStatus.Canceled
+                                        ? styles.statusCanceled
+                                        : ''
+                                    }`}
                                   />
                                   {Object.keys(BoardColumnStatus)[ind]}
                                 </div>
                               </div>
-
-                              {/* <div className="timestamp">
-                                Date:{' '}
-                                {format(
-                                  new Date(item.createdAt),
-                                  'dd-MM-yyyy HH:mm'
-                                )}
-                              </div> */}
                             </div>
                           </div>
                         )}
@@ -263,13 +248,13 @@ const Boards = ({ data }: BoardsProps): JSX.Element => {
         </div>
       </DragDropContext>
 
-      <ModalConfirm
-        isOpen={modalState.isOpen}
-        onClose={closeModal}
-        onConfirm={closeModal}
-        title={modalState.title}
-        description={modalState.description}
-      />
+      {modalState.taskId.length > 0 && (
+        <TaskDetailModal
+          isOpen={modalState.isOpen}
+          onClose={closeModal}
+          taskId={modalState.taskId}
+        />
+      )}
       <ModalBoard
         isOpen={isOpen}
         onClose={handleClose}
