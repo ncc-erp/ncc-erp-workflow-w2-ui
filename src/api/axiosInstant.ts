@@ -7,7 +7,7 @@ import Axios, {
 } from 'axios';
 import { useContext } from 'react';
 import { toast } from 'common/components/StandaloneToast';
-import { getItem } from 'utils/localStorage';
+import { getItem } from 'utils';
 import { LocalStorageKeys } from 'common/enums';
 
 const { VITE_API_BASE_URL } = import.meta.env;

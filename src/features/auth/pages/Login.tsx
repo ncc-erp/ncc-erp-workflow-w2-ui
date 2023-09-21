@@ -19,7 +19,7 @@ import { LocalStorageKeys, LoginStatus } from 'common/enums';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'common/components/StandaloneToast';
 import { userManager } from 'services/authService';
-import { setItem } from 'utils/localStorage';
+import { setItem } from 'utils';
 
 const initialLoginParams: LoginParams = {
   userNameOrEmailAddress: '',

@@ -1,7 +1,7 @@
 import { UserRoles } from 'common/constants';
 import { LocalStorageKeys } from 'common/enums';
 import { useMemo } from 'react';
-import { parseJwt } from 'utils/parseJwt';
+import { parseJwt } from 'utils';
 
 export function useIsAdmin() {
   const token = localStorage.getItem(LocalStorageKeys.accessToken);

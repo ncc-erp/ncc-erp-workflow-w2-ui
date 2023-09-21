@@ -18,7 +18,7 @@ import { QueryKeys, UserRoles } from 'common/constants';
 import { useFormik } from 'formik';
 import { ModalUserParams } from 'models/userIdentity';
 import { ChangeEvent, useEffect, useState } from 'react';
-import { validationSchema } from 'utils/validationSchema';
+import { validationSchema } from 'utils';
 
 interface UserFormProps {
   initialValues: ModalUserParams;
