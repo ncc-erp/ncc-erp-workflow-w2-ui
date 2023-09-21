@@ -106,6 +106,16 @@ export const useUpdateStatus = (url: string, status: string) => {
   return useMutation(mutate);
 };
 
+export const useTaskActions = (url: string = '/app/task') => {
+  const axios = useAxios();
+
+  const mutate = async (params: { id: string; action: string }) => {
+    await axios.post(`${url}/action`, params);
+  };
+
+  return useMutation(mutate);
+};
+
 export const useRejectedTask = (url: string) => {
   const axios = useAxios();
 

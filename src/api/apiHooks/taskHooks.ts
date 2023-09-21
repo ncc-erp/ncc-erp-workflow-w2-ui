@@ -3,6 +3,7 @@ import {
   useGetList,
   useGetListByPost,
   useRejectedTask,
+  useTaskActions,
   useUpdateStatus,
 } from '.';
 import { QueryKeys } from 'common/constants';
@@ -22,6 +23,10 @@ export const useApproveTask = () => {
 
 export const useRejectTask = () => {
   return useRejectedTask('/app/task');
+};
+
+export const useActionTask = () => {
+  return useTaskActions();
 };
 
 export const useGetTaskDetail = (id: string) => {
