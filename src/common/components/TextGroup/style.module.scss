@@ -1,13 +1,15 @@
 .textGroup {
-    margin-bottom: 15px;
+    margin-bottom: 20px;
     label.label {
       font-weight: 600;
       font-size: 15px;
     }
     p.content {
       font-weight: 400;
-      margin-top: 5px;
+      margin-top: 2px;
       font-size: 15px;
+      text-align: justify;
+      word-spacing: 2px;
     }
     p.content-red,
     p.content-green,
