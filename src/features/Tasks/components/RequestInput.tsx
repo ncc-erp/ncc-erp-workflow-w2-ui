@@ -16,8 +16,11 @@ export const RequestInput = ({ inputRequestDetail }: IRequestProps) => {
     <>
       {Object.keys(inputRequestDetail).map((key) => {
         const value = inputRequestDetail[key];
+        if (!value) {
+          return null;
+        }
 
-        if (typeof value === 'object' && value !== null) {
+        if (typeof value === 'object') {
           const { displayName } = value as { displayName?: string };
           if (displayName) {
             return (

@@ -154,7 +154,7 @@ export const TaskDetailModal = ({
             <div className={styles.left}>
               <TextGroup label="Task name" content={tasks?.name} />
               <TextGroup
-                label="Status"
+                label="State"
                 content={getStatusByIndex(tasks?.status).status}
                 color={getStatusByIndex(tasks?.status).color}
               />
