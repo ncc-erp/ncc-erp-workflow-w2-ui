@@ -32,15 +32,35 @@ export const BoardColumnStatus = {
   Pending: 0,
   Approved: 1,
   Rejected: 2,
-  Canceled: 3,
 };
 
 export const TaskStatus = {
   Pending: 0,
   Approved: 1,
   Rejected: 2,
-  // Failed: 3,
-  Canceled: 4,
+};
+
+export const FilterDate = {
+  W1: '1 weeks',
+  W2: '2 weeks',
+  W3: '3 weeks',
+  M1: '1 months',
+  M2: '2 months',
+  M3: '3 months',
+  Y1: '1 years',
+};
+
+export const UnitTime = {
+  YEAR: 'years',
+  MONTH: 'months',
+  WEEK: 'weeks',
+};
+
+export const FilterAll = {
+  USER: 'All users',
+  DATE: 'All date',
+  TYPE: 'All types',
+  STATUS: 'All status',
 };
 
 export const UserRoles = {
@@ -72,6 +92,7 @@ export const QueryKeys = {
   GET_STAKE_HOLDERS_FOR_FILTER: 'getStakeHoldersForFilter',
 };
 
+export const DEFAULT_TASK_PER_PAGE = 10;
 export const TaskStatusesData = [
   { status: 'Pending', color: 'blue' },
   { status: 'Approved', color: 'green' },
