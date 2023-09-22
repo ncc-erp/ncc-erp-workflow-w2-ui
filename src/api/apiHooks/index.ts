@@ -1,6 +1,7 @@
-import { useAxios } from 'api/axiosInstant';
+import axios, { useAxios } from 'api/axiosInstant';
 import { AxiosRequestConfig } from 'axios';
 import { QueryKey, useMutation, useQuery } from '@tanstack/react-query';
+import { FilterTasks, ITaskResponse } from 'models/task';
 
 export const useCreate = <T, U>(url: string, config?: AxiosRequestConfig) => {
   const axios = useAxios();
@@ -48,6 +49,9 @@ export const useGetList = <T, D = object | string>(
   key: QueryKey,
   url: string,
   params?: D,
+  options?: {
+    enabled: boolean;
+  },
   config?: AxiosRequestConfig
 ) => {
   const axios = useAxios();
@@ -57,14 +61,15 @@ export const useGetList = <T, D = object | string>(
     return data;
   };
 
-  return useQuery(key, getData);
+  return useQuery(key, getData, options);
 };
 
 export const useGetListByPost = <T, D = object>(
   key: QueryKey,
   url: string,
   filter?: D,
-  config?: AxiosRequestConfig
+  config?: AxiosRequestConfig,
+  options?: object
 ) => {
   const axios = useAxios();
 
@@ -73,7 +78,7 @@ export const useGetListByPost = <T, D = object>(
     return data;
   };
 
-  return useQuery(key, () => getData());
+  return useQuery(key, () => getData(), options);
 };
 
 export const useDelete = (url: string) => {
@@ -124,4 +129,9 @@ export const useRejectedTask = (url: string) => {
   };
 
   return useMutation(mutate);
+};
+
+export const getAllTask = async (filter: FilterTasks) => {
+  const result: ITaskResponse = await axios.post('app/task/list', filter);
+  return result;
 };

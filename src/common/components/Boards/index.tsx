@@ -10,21 +10,32 @@ import { useQueryClient } from '@tanstack/react-query';
 import { toast } from 'common/components/StandaloneToast';
 import { BoardColumnStatus, QueryKeys, TaskStatus } from 'common/constants';
 import useBoard from './useBoard';
-import { Box, useDisclosure } from '@chakra-ui/react';
-import { ITask } from 'models/task';
+import { Box, Flex, IconButton, Text, useDisclosure } from '@chakra-ui/react';
+import { FetchNextPageFunction, ITask, TaskResult } from 'models/task';
 import { useApproveTask, useRejectTask } from 'api/apiHooks/taskHooks';
 import ModalBoard from './ModalBoard';
 import { ETaskStatus } from 'common/enums';
+import { useCurrentUser } from 'hooks/useCurrentUser';
+import { formatDate } from 'utils/formatDate';
+import { getDayAgo } from 'utils/getDayAgo';
+import { HiArrowDown } from 'react-icons/hi';
 import { TaskDetailModal } from 'features/Tasks/components/TaskDetailModal';
-
-interface BoardsProps {
-  data: ITask[];
-  totalCount: number;
-}
 
 interface ModalDetail {
   isOpen: boolean;
   taskId: string;
+}
+
+export interface BoardsProps {
+  data: {
+    listPending: TaskResult;
+    listApproved: TaskResult;
+    listRejected: TaskResult;
+  };
+  fetchNextPagePending: FetchNextPageFunction;
+  fetchNextPageApproved: FetchNextPageFunction;
+  fetchNextPageRejected: FetchNextPageFunction;
+  status: number;
 }
 
 const initialModalStatus: ModalDetail = {
@@ -32,7 +43,13 @@ const initialModalStatus: ModalDetail = {
   taskId: '',
 };
 
-const Boards = ({ data }: BoardsProps): JSX.Element => {
+const Boards = ({
+  data,
+  fetchNextPageApproved,
+  fetchNextPagePending,
+  fetchNextPageRejected,
+  status,
+}: BoardsProps): JSX.Element => {
   const [modalState, setModalState] = useState(initialModalStatus);
   const [result, setResult] = useState<DropResult>();
   const [isRejected, setIsRejected] = useState<boolean>(false);
@@ -49,6 +66,7 @@ const Boards = ({ data }: BoardsProps): JSX.Element => {
   const approveTaskMutation = useApproveTask();
   const rejectTaskMutation = useRejectTask();
   const { reorder, move, getItemStyle, getListStyle } = useBoard();
+  const currentUser = useCurrentUser();
 
   const openModal = (taskId: string) => {
     setModalState({
@@ -144,17 +162,40 @@ const Boards = ({ data }: BoardsProps): JSX.Element => {
 
   useEffect(() => {
     setState({
-      [ETaskStatus.Pending]: data.filter(
+      [ETaskStatus.Pending]: data.listPending.items.filter(
         (x) => x.status === TaskStatus.Pending
       ),
-      [ETaskStatus.Approved]: data.filter(
+      [ETaskStatus.Approved]: data.listApproved.items.filter(
         (x) => x.status === TaskStatus.Approved
       ),
-      [ETaskStatus.Rejected]: data.filter(
+      [ETaskStatus.Rejected]: data.listRejected.items.filter(
         (x) => x.status === TaskStatus.Rejected
       ),
     });
   }, [data]);
+
+  const showMoreItems = (
+    fetchNextPage: FetchNextPageFunction,
+    listLength: number,
+    totalCount: number
+  ) => {
+    if (listLength < totalCount) {
+      return (
+        <Flex w={'100%'} justifyContent={'center'} my={2}>
+          <IconButton
+            variant="solid"
+            aria-label="Call Sage"
+            fontSize="20px"
+            icon={<HiArrowDown />}
+            isRound={true}
+            colorScheme="teal"
+            onClick={() => fetchNextPage()}
+          />
+        </Flex>
+      );
+    }
+    return null;
+  };
 
   return (
     <>
@@ -178,10 +219,13 @@ const Boards = ({ data }: BoardsProps): JSX.Element => {
                         key={item.id}
                         draggableId={item.id}
                         index={index}
-                        isDragDisabled={+item.status !== +TaskStatus.Pending}
+                        isDragDisabled={
+                          +item.status !== +TaskStatus.Pending ||
+                          item?.email !== currentUser?.email
+                        }
                       >
                         {(provided, snapshot) => (
-                          <div
+                          <Box
                             onClick={() => {
                               item.id !== null && openModal(item.id);
                             }}
@@ -201,19 +245,20 @@ const Boards = ({ data }: BoardsProps): JSX.Element => {
                                   ? styles.itemApproved
                                   : ind === BoardColumnStatus.Rejected
                                   ? styles.itemRejected
-                                  : ind === BoardColumnStatus.Canceled
-                                  ? styles.itemCanceled
                                   : ''
                               }`}
                             >
-                              <div>
-                                <div className={styles.content}>
+                              <Flex justifyContent={'space-between'} w={'100%'}>
+                                <Text fontWeight={'bold'}>
                                   ID: {item.id.slice(-5).toUpperCase()}
-                                </div>
-                                <div className={styles.title}>{item.name}</div>
-                              </div>
+                                </Text>
+                                {getDayAgo(item?.creationTime)}
+                              </Flex>
+                              <div className={styles.title}>{item.name}</div>
 
-                              <div className={styles.person}>{item.email}</div>
+                              <Flex gap={2}>
+                                <Text>Name:</Text> {item.authorName}
+                              </Flex>
 
                               <div className={styles.stateWrapper}>
                                 <div className={styles.state}>State:</div>
@@ -226,19 +271,43 @@ const Boards = ({ data }: BoardsProps): JSX.Element => {
                                         ? styles.statusApproved
                                         : ind === BoardColumnStatus.Rejected
                                         ? styles.statusRejected
-                                        : ind === BoardColumnStatus.Canceled
-                                        ? styles.statusCanceled
                                         : ''
                                     }`}
                                   />
                                   {Object.keys(BoardColumnStatus)[ind]}
                                 </div>
                               </div>
+                              <Flex gap={2}>
+                                <Text>Date:</Text>
+                                {formatDate(new Date(item?.creationTime))}
+                              </Flex>
                             </div>
-                          </div>
+                          </Box>
                         )}
                       </Draggable>
                     ))}
+
+                    {ind === BoardColumnStatus.Pending &&
+                      (+status === -1 || +status === TaskStatus.Pending) &&
+                      showMoreItems(
+                        fetchNextPagePending,
+                        data?.listPending?.items?.length,
+                        data?.listPending?.totalCount
+                      )}
+                    {ind === BoardColumnStatus.Approved &&
+                      (+status === -1 || +status === TaskStatus.Approved) &&
+                      showMoreItems(
+                        fetchNextPageApproved,
+                        data?.listApproved?.items?.length,
+                        data.listApproved?.totalCount
+                      )}
+                    {ind === BoardColumnStatus.Rejected &&
+                      (+status === -1 || +status === TaskStatus.Rejected) &&
+                      showMoreItems(
+                        fetchNextPageRejected,
+                        data?.listRejected?.items?.length,
+                        data?.listRejected?.totalCount
+                      )}
                   </Box>
                   {provided.placeholder}
                 </div>

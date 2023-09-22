@@ -1,20 +1,37 @@
-import { FilterTasks, ITaskResult } from './../../models/task';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import { DEFAULT_TASK_PER_PAGE, QueryKeys } from 'common/constants';
+import { useCallback } from 'react';
+import { getAllTaskPagination } from 'utils/getAllTaskPagination';
 import {
+  getAllTask,
   useGetList,
-  useGetListByPost,
   useRejectedTask,
   useTaskActions,
   useUpdateStatus,
 } from '.';
-import { QueryKeys } from 'common/constants';
-import { TaskResult } from 'models/task';
+import { FilterTasks, ITaskResult } from './../../models/task';
 
-export const useGetAllTask = (filter: FilterTasks) => {
-  return useGetListByPost<TaskResult>(
-    [QueryKeys.GET_ALL_TASK, filter],
-    '/app/task/list',
-    filter
+export const useGetAllTask = (filter: FilterTasks, status: number) => {
+  const getStatus = useCallback(
+    (specStatus: number) => {
+      const { status } = filter;
+      if (status) {
+        return status >= 0 ? status : specStatus;
+      }
+    },
+    [filter]
   );
+  const filterTask = { ...filter, status: getStatus(status) };
+  return useInfiniteQuery({
+    queryKey: [QueryKeys.GET_ALL_TASK, filterTask],
+    queryFn: ({ pageParam = 0 }) =>
+      getAllTask({ ...filterTask, skipCount: pageParam }),
+    getNextPageParam: (lastPage, allPage) => {
+      return lastPage?.items?.length === DEFAULT_TASK_PER_PAGE
+        ? getAllTaskPagination(allPage)?.items?.length
+        : undefined;
+    },
+  });
 };
 
 export const useApproveTask = () => {

@@ -148,7 +148,7 @@ export const TaskDetailModal = ({
           </div>
           <Divider mt={2} mb={5}></Divider>
           <Text mb="15px" fontWeight={600} fontStyle="italic" color="primary">
-            Task detail
+            Detail
           </Text>
           <div className={styles.container}>
             <div className={styles.left}>
@@ -158,6 +158,9 @@ export const TaskDetailModal = ({
                 content={getStatusByIndex(tasks?.status).status}
                 color={getStatusByIndex(tasks?.status).color}
               />
+              {tasks?.reason && (
+                <TextGroup label="Reason" content={tasks.reason} />
+              )}
             </div>
             <div className={styles.right}>
               <TextGroup label="Email assignment" content={tasks?.email} />
