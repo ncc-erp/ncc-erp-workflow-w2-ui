@@ -1,9 +1,15 @@
-import { DEFAULT_TASK_PER_PAGE, QueryKeys } from 'common/constants';
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { getAllTaskPagination } from 'utils/getAllTaskPagination';
-import { FilterTasks, ITaskResult } from './../../models/task';
-import { useGetList, useRejectedTask, useUpdateStatus, getAllTask } from '.';
+import { DEFAULT_TASK_PER_PAGE, QueryKeys } from 'common/constants';
 import { useCallback } from 'react';
+import { getAllTaskPagination } from 'utils/getAllTaskPagination';
+import {
+  getAllTask,
+  useGetList,
+  useRejectedTask,
+  useTaskActions,
+  useUpdateStatus,
+} from '.';
+import { FilterTasks, ITaskResult } from './../../models/task';
 
 export const useGetAllTask = (filter: FilterTasks, status: number) => {
   const getStatus = useCallback(
@@ -34,6 +40,10 @@ export const useApproveTask = () => {
 
 export const useRejectTask = () => {
   return useRejectedTask('/app/task');
+};
+
+export const useActionTask = () => {
+  return useTaskActions();
 };
 
 export const useGetTaskDetail = (id: string) => {

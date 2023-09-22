@@ -14,6 +14,8 @@ export interface ITask {
   workflowInstanceId: string;
   creationTime: string;
   id: string;
+  otherActionSignals?: string[];
+  description?: string;
   authorName?: string;
 }
 
