@@ -214,78 +214,84 @@ const Boards = ({
                   </div>
 
                   <Box className={styles.columnContent}>
-                    {el.map((item, index) => (
-                      <Draggable
-                        key={item.id}
-                        draggableId={item.id}
-                        index={index}
-                        isDragDisabled={
-                          +item.status !== +TaskStatus.Pending ||
-                          item?.email !== currentUser?.email
-                        }
-                      >
-                        {(provided, snapshot) => (
-                          <Box
-                            onClick={() => {
-                              item.id !== null && openModal(item.id);
-                            }}
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                            style={getItemStyle(
-                              snapshot.isDragging,
-                              provided.draggableProps.style
-                            )}
-                          >
-                            <div
-                              className={`${styles.item} ${
-                                ind === BoardColumnStatus.Pending
-                                  ? styles.itemPending
-                                  : ind === BoardColumnStatus.Approved
-                                  ? styles.itemApproved
-                                  : ind === BoardColumnStatus.Rejected
-                                  ? styles.itemRejected
-                                  : ''
-                              }`}
+                    {el.map((item, index) => {
+                      const isDisabled =
+                        +item.status !== +TaskStatus.Pending ||
+                        item?.email !== currentUser?.email;
+                      return (
+                        <Draggable
+                          key={item.id}
+                          draggableId={item.id}
+                          index={index}
+                          isDragDisabled={isDisabled}
+                        >
+                          {(provided, snapshot) => (
+                            <Box
+                              cursor={isDisabled ? 'pointer' : 'grab'}
+                              onClick={() => {
+                                item.id !== null && openModal(item.id);
+                              }}
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                              style={getItemStyle(
+                                snapshot.isDragging,
+                                provided.draggableProps.style
+                              )}
                             >
-                              <Flex justifyContent={'space-between'} w={'100%'}>
-                                <Text fontWeight={'bold'}>
-                                  ID: {item.id.slice(-5).toUpperCase()}
-                                </Text>
-                                {getDayAgo(item?.creationTime)}
-                              </Flex>
-                              <div className={styles.title}>{item.name}</div>
+                              <div
+                                className={`${styles.item} ${
+                                  ind === BoardColumnStatus.Pending
+                                    ? styles.itemPending
+                                    : ind === BoardColumnStatus.Approved
+                                    ? styles.itemApproved
+                                    : ind === BoardColumnStatus.Rejected
+                                    ? styles.itemRejected
+                                    : ''
+                                }`}
+                              >
+                                <Flex
+                                  justifyContent={'space-between'}
+                                  w={'100%'}
+                                >
+                                  <Text fontWeight={'bold'}>
+                                    ID: {item.id.slice(-5).toUpperCase()}
+                                  </Text>
+                                  {getDayAgo(item?.creationTime)}
+                                </Flex>
+                                <div className={styles.title}>{item.name}</div>
 
-                              <Flex gap={2}>
-                                <Text>Name:</Text> {item.authorName}
-                              </Flex>
+                                <Flex gap={2}>
+                                  <Text>Name:</Text> {item.authorName}
+                                </Flex>
 
-                              <div className={styles.stateWrapper}>
-                                <div className={styles.state}>State:</div>
-                                <div className={styles.statusWrapper}>
-                                  <div
-                                    className={`${styles.status} ${
-                                      ind === BoardColumnStatus.Pending
-                                        ? styles.statusPending
-                                        : ind === BoardColumnStatus.Approved
-                                        ? styles.statusApproved
-                                        : ind === BoardColumnStatus.Rejected
-                                        ? styles.statusRejected
-                                        : ''
-                                    }`}
-                                  />
-                                  {Object.keys(BoardColumnStatus)[ind]}
+                                <div className={styles.stateWrapper}>
+                                  <div className={styles.state}>State:</div>
+                                  <div className={styles.statusWrapper}>
+                                    <div
+                                      className={`${styles.status} ${
+                                        ind === BoardColumnStatus.Pending
+                                          ? styles.statusPending
+                                          : ind === BoardColumnStatus.Approved
+                                          ? styles.statusApproved
+                                          : ind === BoardColumnStatus.Rejected
+                                          ? styles.statusRejected
+                                          : ''
+                                      }`}
+                                    />
+                                    {Object.keys(BoardColumnStatus)[ind]}
+                                  </div>
                                 </div>
+                                <Flex gap={2}>
+                                  <Text>Date:</Text>
+                                  {formatDate(new Date(item?.creationTime))}
+                                </Flex>
                               </div>
-                              <Flex gap={2}>
-                                <Text>Date:</Text>
-                                {formatDate(new Date(item?.creationTime))}
-                              </Flex>
-                            </div>
-                          </Box>
-                        )}
-                      </Draggable>
-                    ))}
+                            </Box>
+                          )}
+                        </Draggable>
+                      );
+                    })}
 
                     {ind === BoardColumnStatus.Pending &&
                       (+status === -1 || +status === TaskStatus.Pending) &&

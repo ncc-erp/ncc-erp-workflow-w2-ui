@@ -3,4 +3,8 @@ export interface option {
   label: string | number;
 }
 
-export type TFilterTask = 'status' | 'workflowDefinitionId' | 'dates' | 'email';
+export type TFilterTask =
+  | 'status'
+  | 'workflowDefinitionId'
+  | 'dates'
+  | 'keySearch';
