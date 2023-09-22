@@ -1,16 +1,26 @@
-import { Box, Center, Flex, IconButton, Spinner } from '@chakra-ui/react';
+import {
+  Box,
+  Center,
+  Flex,
+  IconButton,
+  Input,
+  InputGroup,
+  InputRightElement,
+  Spinner,
+} from '@chakra-ui/react';
 import { useRequestTemplates } from 'api/apiHooks/requestHooks';
 import { useGetAllTask } from 'api/apiHooks/taskHooks';
 import Boards from 'common/components/Boards';
 import { SelectField } from 'common/components/SelectField';
 import { DEFAULT_TASK_PER_PAGE, FilterAll, TaskStatus } from 'common/constants';
 import { FilterTasks } from 'models/task';
-import { useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { AiOutlineReload } from 'react-icons/ai';
 import { TFilterTask } from 'common/types';
 import { useIsAdmin } from 'hooks/useIsAdmin';
 import { getAllTaskPagination } from 'utils/getAllTaskPagination';
-import { MenuUser } from './MenuUser';
+import { TbSearch } from 'react-icons/tb';
+import useDebounced from 'hooks/useDebounced';
 
 const initialFilter: FilterTasks = {
   skipCount: 0,
@@ -18,11 +28,14 @@ const initialFilter: FilterTasks = {
   workflowDefinitionId: '',
   status: -1,
   // dates: '',
-  email: '',
+  keySearch: '',
 };
 
 export const TasksBoard = () => {
   const [filter, setFilter] = useState<FilterTasks>(initialFilter);
+  const [txtSearch, setTxtSearch] = useState<string>('');
+
+  const txtSearchDebounced = useDebounced(txtSearch, 500);
   const isAdmin = useIsAdmin();
 
   const {
@@ -92,9 +105,16 @@ export const TasksBoard = () => {
   //   return [defaultOptions, ...options];
   // }, []);
 
-  const onTemplateStatusChange = (key: TFilterTask, value?: string) => {
-    setFilter({ ...filter, [key]: value });
-  };
+  const onTemplateStatusChange = useCallback(
+    (key: TFilterTask, value?: string) => {
+      setFilter((filter) => ({ ...filter, [key]: value }));
+    },
+    []
+  );
+
+  useEffect(() => {
+    onTemplateStatusChange('keySearch', txtSearchDebounced);
+  }, [onTemplateStatusChange, txtSearchDebounced]);
 
   if (
     loadApproved ||
@@ -148,10 +168,22 @@ export const TasksBoard = () => {
             />
           </Box> */}
           {isAdmin && (
-            <MenuUser
-              filter={filter}
-              onChange={(e) => onTemplateStatusChange('email', e?.value)}
-            />
+            <Box w={'300px'}>
+              <InputGroup>
+                <Input
+                  autoFocus
+                  value={txtSearch}
+                  type="text"
+                  placeholder="Enter email"
+                  fontSize="14px"
+                  mb={2}
+                  onChange={(e) => setTxtSearch(e.target.value)}
+                />
+                <InputRightElement width="40px">
+                  <TbSearch />
+                </InputRightElement>
+              </InputGroup>
+            </Box>
           )}
         </Flex>
         <IconButton
@@ -160,7 +192,10 @@ export const TasksBoard = () => {
           aria-label="Done"
           fontSize="20px"
           icon={<AiOutlineReload />}
-          onClick={() => setFilter(initialFilter)}
+          onClick={() => {
+            setFilter(initialFilter);
+            setTxtSearch('');
+          }}
         />
       </Flex>
 
