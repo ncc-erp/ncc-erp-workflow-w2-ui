@@ -4,7 +4,8 @@ import {
   useGetListByPost,
   useRejectedTask,
   useUpdateStatus,
-  getAllTask
+  getAllTask,
+  useTaskActions
 } from '.';
 import { QueryKeys } from 'common/constants';
 import { TaskResult } from 'models/task';
@@ -12,7 +13,6 @@ import { useCallback } from 'react';
 import { DEFAULT_TASK_PER_PAGE, QueryKeys } from 'common/constants';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { getAllTaskPagination } from 'utils/getAllTaskPagination';
-
 
 export const useGetAllTask = (filter: FilterTasks, status: number) => {
   const getStatus = useCallback(
@@ -51,6 +51,10 @@ export const useApproveTask = () => {
 
 export const useRejectTask = () => {
   return useRejectedTask('/app/task');
+};
+
+export const useActionTask = () => {
+  return useTaskActions();
 };
 
 export const useGetTaskDetail = (id: string) => {
