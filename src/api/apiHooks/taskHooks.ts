@@ -1,14 +1,16 @@
-import { FilterTasks, ITaskResult, StakeHolderResult } from './../../models/task';
+import {
+  FilterTasks,
+  ITaskResult,
+  StakeHolderResult,
+} from './../../models/task';
 import {
   useGetList,
   useGetListByPost,
   useRejectedTask,
   useUpdateStatus,
   getAllTask,
-  useTaskActions
+  useTaskActions,
 } from '.';
-import { QueryKeys } from 'common/constants';
-import { TaskResult } from 'models/task';
 import { useCallback } from 'react';
 import { DEFAULT_TASK_PER_PAGE, QueryKeys } from 'common/constants';
 import { useInfiniteQuery } from '@tanstack/react-query';
