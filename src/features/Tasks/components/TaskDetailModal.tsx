@@ -10,6 +10,7 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
+  Spinner,
   Text,
 } from '@chakra-ui/react';
 import { useActionTask, useGetTaskDetail } from 'api/apiHooks/taskHooks';
@@ -20,7 +21,7 @@ import { RequestInput } from './RequestInput';
 import styles from './style.module.scss';
 import { toast } from 'common/components/StandaloneToast';
 import { TaskStatus } from 'common/constants';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import isObjectEmpty from 'utils/isObjectEmpty';
 
 interface IDetailModalProps {
@@ -36,6 +37,7 @@ export const TaskDetailModal = ({
 }: IDetailModalProps) => {
   const actionTaskMutation = useActionTask();
   const { data } = useGetTaskDetail(taskId);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { tasks, inputRequestUser, inputRequestDetail } = useMemo(() => {
     const { input, tasks } = data || {};
@@ -65,10 +67,13 @@ export const TaskDetailModal = ({
 
   const onActionClick = async (id: string, action: string) => {
     try {
+      setIsLoading(true);
       await actionTaskMutation.mutateAsync({ id, action });
-      toast({ title: 'Approved successfully!', status: 'success' });
+      toast({ title: 'Send action successfully!', status: 'success' });
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -88,13 +93,17 @@ export const TaskDetailModal = ({
               </Text>
             </Heading>
           </HStack>
-
           <div className={styles.actions}>
+            <div className={styles.spinner}>
+              {isLoading && <Spinner color="red.500" />}
+            </div>
+
             {hasTaskAction &&
               data?.tasks?.otherActionSignals?.map((x, ind) => {
                 return (
                   <Button
                     key={ind}
+                    isDisabled={isLoading}
                     onClick={() => onActionClick(data?.tasks.id, x)}
                   >
                     {x}

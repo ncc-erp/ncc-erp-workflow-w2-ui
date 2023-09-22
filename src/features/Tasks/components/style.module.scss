@@ -15,4 +15,9 @@
     flex-wrap: wrap;
     gap: 5px;
     margin-top: 15px;
+
+    .spinner {
+        min-width: 24px;
+        margin-right: 5px;
+    }
 }
