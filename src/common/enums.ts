@@ -6,11 +6,7 @@ export enum LoginStatus {
 export enum RequestStatus {
   Approved = 'Approved',
   Rejected = 'Rejected',
-  Idle = 'Idle',
-  Running = 'Running',
   Pending = 'Suspended',
-  Finished = 'Finished',
-  Faulted = 'Faulted',
   Canceled = 'Cancelled',
 }
 

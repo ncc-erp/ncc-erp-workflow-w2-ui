@@ -51,7 +51,7 @@ export const SideBarContent = () => {
     },
     {
       to: '/my-requests',
-      text: 'My requests',
+      text: isAdmin ? 'Requests' : 'My requests',
       icon: TbArticleFilledFilled,
     },
     {

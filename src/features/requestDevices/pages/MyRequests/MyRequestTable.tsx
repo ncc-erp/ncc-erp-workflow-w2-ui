@@ -5,6 +5,7 @@ import {
 } from '@tanstack/react-table';
 import { useQueryClient } from '@tanstack/react-query';
 import { Box, Center, HStack, Spacer, Spinner } from '@chakra-ui/react';
+import Select from 'react-select';
 import {
   useCancelRequest,
   useDeleteRequest,
@@ -15,7 +16,7 @@ import { SelectField } from 'common/components/SelectField';
 import { Table } from 'common/components/Table/Table';
 import { RequestSortField, RequestStatus, SortDirection } from 'common/enums';
 import { FilterRequestParams, Request } from 'models/request';
-import { ChangeEvent, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Pagination } from 'common/components/Pagination';
 import { QueryKeys, noOfRows } from 'common/constants';
 import { PageSize } from 'common/components/Table/PageSize';
@@ -26,14 +27,24 @@ import { useRecoilValue } from 'recoil';
 import { appConfigState } from 'stores/appConfig';
 import { toast } from 'common/components/StandaloneToast';
 import { ModalConfirm } from 'common/components/ModalConfirm';
+import { useUserIdentity } from 'api/apiHooks/userIdentityHooks';
+import { useCurrentUser } from 'hooks/useCurrentUser';
+import { useIsAdmin } from 'hooks/useIsAdmin';
+import { FilterUserParams } from 'models/userIdentity';
+import { FilterTasks } from 'models/task';
+import { useGetAllStakeHolders } from 'api/apiHooks/taskHooks';
 import { formatDate } from 'utils';
 
-const initialFilter: FilterRequestParams = {
-  Status: '',
-  WorkflowDefinitionId: '',
-  sorting: [RequestSortField.createdAt, 'desc'].join(' '),
+const initialUserFilter: FilterUserParams = {
+  filter: ' ',
+  maxResultCount: 1000,
   skipCount: 0,
-  maxResultCount: +noOfRows[0].value,
+  sorting: ' ',
+};
+
+const initialStakeHoldersFilter: FilterTasks = {
+  maxResultCount: 1000,
+  skipCount: 0,
 };
 
 const initialSorting: SortingState = [
@@ -44,13 +55,30 @@ const initialSorting: SortingState = [
 ];
 
 export const MyRequestTable = () => {
+  const currentUser = useCurrentUser();
+  const isAdmin = useIsAdmin();
+  const initialFilter: FilterRequestParams = {
+    Status: '',
+    WorkflowDefinitionId: '',
+    sorting: [RequestSortField.createdAt, 'desc'].join(' '),
+    skipCount: 0,
+    maxResultCount: +noOfRows[0].value,
+    RequestUser: currentUser?.sub[0],
+    StakeHolder: '',
+  };
   const { sideBarWidth } = useRecoilValue(appConfigState);
   const [filter, setFilter] = useState<FilterRequestParams>(initialFilter);
   const [sorting, setSorting] = useState<SortingState>(initialSorting);
   const { data, isLoading } = useMyRequests(filter);
   const { data: requestTemplateData } = useRequestTemplates();
+  const { data: userForFilterData } = useUserIdentity(initialUserFilter);
+  const { data: stakeHoldersForFilterData } = useGetAllStakeHolders(
+    initialStakeHoldersFilter
+  );
   const { items: requests = [], totalCount = 0 } = data ?? {};
   const { items: requestTemplates = [] } = requestTemplateData ?? {};
+  const { items: userForFilter = [] } = userForFilterData ?? {};
+  const { items: stakeHolderForFilter = [] } = stakeHoldersForFilterData ?? {};
   const { skipCount, maxResultCount } = filter;
   const currentPage = (maxResultCount + skipCount) / maxResultCount;
   const columnHelper = createColumnHelper<Request>();
@@ -64,6 +92,34 @@ export const MyRequestTable = () => {
   const [actionType, setActionType] = useState('');
   const [requestId, setRequestId] = useState('');
 
+  const usersOptions = useMemo(() => {
+    const defaultOptions = {
+      value: '',
+      label: 'All Request Users',
+    };
+
+    const options = userForFilter.map(({ id, name }) => ({
+      value: id,
+      label: name,
+    }));
+
+    return [defaultOptions, ...options];
+  }, [userForFilter]);
+
+  const stakeHoldersOptions = useMemo(() => {
+    const defaultOptions = {
+      value: '',
+      label: 'All Stake Holder',
+    };
+
+    const options = stakeHolderForFilter.map(({ email, name }) => ({
+      value: email,
+      label: name,
+    }));
+
+    return [defaultOptions, ...options];
+  }, [stakeHolderForFilter]);
+
   const statusOptions = useMemo(() => {
     const defaultOptions = {
       value: '',
@@ -72,7 +128,7 @@ export const MyRequestTable = () => {
 
     const options = Object.values(RequestStatus).map((value) => ({
       value,
-      label: value,
+      label: value == RequestStatus.Pending ? 'Pending' : value,
     }));
 
     return [defaultOptions, ...options];
@@ -180,12 +236,12 @@ export const MyRequestTable = () => {
     }));
   };
 
-  const onTemplateStatusChange =
-    (key: 'Status' | 'WorkflowDefinitionId') =>
-    (event: ChangeEvent<HTMLSelectElement>) => {
-      const value = event.target.value;
-      setFilter({ ...filter, [key]: value });
-    };
+  const onTemplateStatusChange = (
+    key: 'Status' | 'WorkflowDefinitionId' | 'RequestUser' | 'StakeHolder',
+    value?: string
+  ) => {
+    setFilter({ ...filter, [key]: value, skipCount: 0 });
+  };
 
   const onAction = (requestId: string, type: 'delete' | 'cancel') => () => {
     setRequestId(requestId);
@@ -231,7 +287,9 @@ export const MyRequestTable = () => {
             <SelectField
               size="sm"
               rounded="md"
-              onChange={onTemplateStatusChange('WorkflowDefinitionId')}
+              onChange={(e) =>
+                onTemplateStatusChange('WorkflowDefinitionId', e.target.value)
+              }
               options={requestTemplateOtions}
             />
           </Box>
@@ -239,10 +297,58 @@ export const MyRequestTable = () => {
             <SelectField
               size="sm"
               rounded="md"
-              onChange={onTemplateStatusChange('Status')}
+              onChange={(e) => onTemplateStatusChange('Status', e.target.value)}
               options={statusOptions}
             />
           </Box>
+          {isAdmin ? (
+            <>
+              <Box w="220px">
+                <Select
+                  styles={{
+                    control: (baseStyles) => ({
+                      ...baseStyles,
+                      borderRadius: '0.375rem',
+                      borderColor: 'inherit',
+                      paddingBottom: 1,
+                      fontSize: 14,
+                    }),
+                  }}
+                  defaultValue={{
+                    value: currentUser?.sub[0],
+                    label: currentUser?.given_name[0],
+                  }}
+                  options={usersOptions}
+                  onChange={(e) =>
+                    onTemplateStatusChange('RequestUser', e?.value)
+                  }
+                />
+              </Box>
+              <Box w="220px">
+                <Select
+                  styles={{
+                    control: (baseStyles) => ({
+                      ...baseStyles,
+                      borderRadius: '0.375rem',
+                      borderColor: 'inherit',
+                      paddingBottom: 1,
+                      fontSize: 14,
+                    }),
+                  }}
+                  defaultValue={{
+                    value: '',
+                    label: 'All Stake Holder',
+                  }}
+                  options={stakeHoldersOptions}
+                  onChange={(e) =>
+                    onTemplateStatusChange('StakeHolder', e?.value)
+                  }
+                />
+              </Box>
+            </>
+          ) : (
+            ''
+          )}
         </HStack>
         {isLoading ? (
           <Center h="200px">

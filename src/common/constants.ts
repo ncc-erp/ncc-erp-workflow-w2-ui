@@ -89,6 +89,7 @@ export const QueryKeys = {
   FILTER_TASK: 'filterTask',
   GET_WFH_LIST: 'getWfhList',
   GET_USER_CURRENT_PROJECT: 'getUserCurrentProject',
+  GET_STAKE_HOLDERS_FOR_FILTER: 'getStakeHoldersForFilter',
 };
 
 export const DEFAULT_TASK_PER_PAGE = 10;

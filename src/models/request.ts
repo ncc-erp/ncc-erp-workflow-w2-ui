@@ -24,6 +24,8 @@ export interface FilterRequestParams {
   maxResultCount: number;
   skipCount: number;
   sorting: string;
+  RequestUser?: string;
+  StakeHolder?: string;
 }
 
 export interface ListResult<T> {

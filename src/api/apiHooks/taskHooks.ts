@@ -1,15 +1,20 @@
-import { useInfiniteQuery } from '@tanstack/react-query';
-import { DEFAULT_TASK_PER_PAGE, QueryKeys } from 'common/constants';
-import { useCallback } from 'react';
-import { getAllTaskPagination } from 'utils/getAllTaskPagination';
 import {
-  getAllTask,
+  FilterTasks,
+  ITaskResult,
+  StakeHolderResult,
+} from './../../models/task';
+import {
   useGetList,
+  useGetListByPost,
   useRejectedTask,
-  useTaskActions,
   useUpdateStatus,
+  getAllTask,
+  useTaskActions,
 } from '.';
-import { FilterTasks, ITaskResult } from './../../models/task';
+import { useCallback } from 'react';
+import { DEFAULT_TASK_PER_PAGE, QueryKeys } from 'common/constants';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import { getAllTaskPagination } from 'utils/getAllTaskPagination';
 
 export const useGetAllTask = (filter: FilterTasks, status: number) => {
   const getStatus = useCallback(
@@ -32,6 +37,14 @@ export const useGetAllTask = (filter: FilterTasks, status: number) => {
         : undefined;
     },
   });
+};
+
+export const useGetAllStakeHolders = (filter: FilterTasks) => {
+  return useGetListByPost<StakeHolderResult>(
+    [QueryKeys.GET_STAKE_HOLDERS_FOR_FILTER, filter],
+    '/app/task/stake-holders',
+    filter
+  );
 };
 
 export const useApproveTask = () => {
