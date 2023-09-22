@@ -11,7 +11,7 @@ import { toast } from 'common/components/StandaloneToast';
 import { BoardColumnStatus, QueryKeys, TaskStatus } from 'common/constants';
 import useBoard from './useBoard';
 import { Box, Flex, IconButton, Text, useDisclosure } from '@chakra-ui/react';
-import { FetchNextPageFunction, ITask, TaskResult } from 'models/task';
+import { FetchNextPageFunction, ITask, Refetch, TaskResult } from 'models/task';
 import { useApproveTask, useRejectTask } from 'api/apiHooks/taskHooks';
 import ModalBoard from './ModalBoard';
 import { ETaskStatus } from 'common/enums';
@@ -35,6 +35,12 @@ export interface BoardsProps {
   fetchNextPagePending: FetchNextPageFunction;
   fetchNextPageApproved: FetchNextPageFunction;
   fetchNextPageRejected: FetchNextPageFunction;
+  refetchPending: Refetch;
+  refetchApproved: Refetch;
+  refetchRejected: Refetch;
+  loadingPending: boolean;
+  loadingApproved: boolean;
+  loadingRejected: boolean;
   status: number;
 }
 
@@ -48,6 +54,8 @@ const Boards = ({
   fetchNextPageApproved,
   fetchNextPagePending,
   fetchNextPageRejected,
+  refetchApproved,
+  refetchRejected,
   status,
 }: BoardsProps): JSX.Element => {
   const [modalState, setModalState] = useState(initialModalStatus);
@@ -129,6 +137,7 @@ const Boards = ({
             queryKey: [QueryKeys.FILTER_TASK],
           });
           state[ETaskStatus.Pending][source.index].status = TaskStatus.Approved;
+          refetchApproved();
           toast({ title: 'Approved successfully!', status: 'success' });
           break;
         case BoardColumnStatus.Rejected:
@@ -141,6 +150,7 @@ const Boards = ({
             queryKey: [QueryKeys.FILTER_TASK],
           });
           state[ETaskStatus.Pending][source.index].status = TaskStatus.Rejected;
+          refetchRejected();
           toast({ title: 'Rejected successfully!', status: 'success' });
           break;
         default:

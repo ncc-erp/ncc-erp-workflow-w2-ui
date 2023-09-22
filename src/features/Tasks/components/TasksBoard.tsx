@@ -21,6 +21,7 @@ import { useIsAdmin } from 'hooks/useIsAdmin';
 import { getAllTaskPagination } from 'utils/getAllTaskPagination';
 import { TbSearch } from 'react-icons/tb';
 import useDebounced from 'hooks/useDebounced';
+import debounce from 'lodash.debounce';
 
 const initialFilter: FilterTasks = {
   skipCount: 0,
@@ -42,16 +43,19 @@ export const TasksBoard = () => {
     data: listPending,
     isLoading: loadPending,
     fetchNextPage: fetchNextPagePending,
+    refetch: refetchPending,
   } = useGetAllTask({ ...filter }, TaskStatus.Pending);
   const {
     data: listApproved,
     isLoading: loadApproved,
     fetchNextPage: fetchNextPageApproved,
+    refetch: refetchApproved,
   } = useGetAllTask({ ...filter }, TaskStatus.Approved);
   const {
     data: listRejected,
     isLoading: loadRejected,
     fetchNextPage: fetchNextPageRejected,
+    refetch: refetchRejected,
   } = useGetAllTask({ ...filter }, TaskStatus.Rejected);
 
   const { data: requestTemplateData } = useRequestTemplates();
@@ -192,15 +196,22 @@ export const TasksBoard = () => {
           aria-label="Done"
           fontSize="20px"
           icon={<AiOutlineReload />}
-          onClick={() => {
-            setFilter(initialFilter);
-            setTxtSearch('');
-          }}
+          onClick={debounce(() => {
+            refetchPending();
+            refetchApproved();
+            refetchRejected();
+          }, 500)}
         />
       </Flex>
 
       {!(loadApproved || loadPending || loadRejected) && (
         <Boards
+          loadingPending={loadPending}
+          loadingApproved={loadApproved}
+          loadingRejected={loadRejected}
+          refetchPending={refetchPending}
+          refetchApproved={refetchApproved}
+          refetchRejected={refetchRejected}
           fetchNextPagePending={fetchNextPagePending}
           fetchNextPageApproved={fetchNextPageApproved}
           fetchNextPageRejected={fetchNextPageRejected}
