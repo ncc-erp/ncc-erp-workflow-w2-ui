@@ -111,13 +111,13 @@ export const MyRequestTable = () => {
           id: 'currentStates',
           header: 'Current states',
           enableSorting: false,
-          cell: (info) => <pre>{info.getValue().join('\n')}</pre>,
+          cell: (info) => info.getValue().join('\n'),
         }),
         columnHelper.accessor('stakeHolders', {
           id: 'stakeHolders',
           header: 'Stake holders',
           enableSorting: false,
-          cell: (info) => <pre>{info.getValue().join('\n')}</pre>,
+          cell: (info) => info.getValue().join('\n'),
         }),
         columnHelper.accessor('createdAt', {
           id: 'createdAt',
@@ -258,6 +258,7 @@ export const MyRequestTable = () => {
             message={'No requests found!'}
           >
             <Box
+              p="20px 30px 0px 30px"
               overflowX="auto"
               w={{ base: `calc(100vw - ${sideBarWidth}px)`, lg: 'auto' }}
             >

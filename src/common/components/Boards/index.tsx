@@ -38,9 +38,6 @@ export interface BoardsProps {
   refetchPending: Refetch;
   refetchApproved: Refetch;
   refetchRejected: Refetch;
-  loadingPending: boolean;
-  loadingApproved: boolean;
-  loadingRejected: boolean;
   status: number;
 }
 
@@ -274,7 +271,9 @@ const Boards = ({
                                 <Flex gap={2}>
                                   <Text>Name:</Text> {item.authorName}
                                 </Flex>
-
+                                <Flex gap={2}>
+                                  <Text>Assign:</Text> {item.email}
+                                </Flex>
                                 <div className={styles.stateWrapper}>
                                   <div className={styles.state}>State:</div>
                                   <div className={styles.statusWrapper}>
