@@ -34,6 +34,7 @@ import { FilterUserParams } from 'models/userIdentity';
 import { FilterTasks } from 'models/task';
 import { useGetAllStakeHolders } from 'api/apiHooks/taskHooks';
 import { formatDate } from 'utils';
+import { useInvalidateQuery } from 'hooks/useInvalidateQuery';
 
 const initialUserFilter: FilterUserParams = {
   filter: ' ',
@@ -91,6 +92,8 @@ export const MyRequestTable = () => {
   const [modalDescription, setModalDescription] = useState('');
   const [actionType, setActionType] = useState('');
   const [requestId, setRequestId] = useState('');
+
+  useInvalidateQuery({ data: data, queryKeys: QueryKeys.FILTER_REQUEST });
 
   const usersOptions = useMemo(() => {
     const defaultOptions = {

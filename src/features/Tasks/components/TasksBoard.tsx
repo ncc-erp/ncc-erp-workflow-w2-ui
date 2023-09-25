@@ -12,7 +12,12 @@ import { useRequestTemplates } from 'api/apiHooks/requestHooks';
 import { useGetAllTask } from 'api/apiHooks/taskHooks';
 import Boards from 'common/components/Boards';
 import { SelectField } from 'common/components/SelectField';
-import { DEFAULT_TASK_PER_PAGE, FilterAll, TaskStatus } from 'common/constants';
+import {
+  DEFAULT_TASK_PER_PAGE,
+  FilterAll,
+  QueryKeys,
+  TaskStatus,
+} from 'common/constants';
 import { FilterTasks } from 'models/task';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { AiOutlineReload } from 'react-icons/ai';
@@ -21,6 +26,7 @@ import { useIsAdmin } from 'hooks/useIsAdmin';
 import { getAllTaskPagination } from 'utils/getAllTaskPagination';
 import { TbSearch } from 'react-icons/tb';
 import useDebounced from 'hooks/useDebounced';
+import { useInvalidateQuery } from 'hooks/useInvalidateQuery';
 
 const initialFilter: FilterTasks = {
   skipCount: 0,
@@ -34,10 +40,8 @@ const initialFilter: FilterTasks = {
 export const TasksBoard = () => {
   const [filter, setFilter] = useState<FilterTasks>(initialFilter);
   const [txtSearch, setTxtSearch] = useState<string>('');
-
   const txtSearchDebounced = useDebounced(txtSearch, 500);
   const isAdmin = useIsAdmin();
-
   const {
     data: listPending,
     isLoading: loadPending,
@@ -53,6 +57,8 @@ export const TasksBoard = () => {
     isLoading: loadRejected,
     fetchNextPage: fetchNextPageRejected,
   } = useGetAllTask({ ...filter }, TaskStatus.Rejected);
+
+  useInvalidateQuery({ data: listPending, queryKeys: QueryKeys.GET_ALL_TASK });
 
   const { data: requestTemplateData } = useRequestTemplates();
   const requestTemplates = useMemo(() => {
