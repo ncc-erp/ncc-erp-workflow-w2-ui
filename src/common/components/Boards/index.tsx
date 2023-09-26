@@ -5,9 +5,8 @@ import {
   Droppable,
 } from '@hello-pangea/dnd';
 import { useEffect, useState } from 'react';
-
+import styles from './style.module.scss';
 import { useQueryClient } from '@tanstack/react-query';
-import classNames from 'classnames';
 import { toast } from 'common/components/StandaloneToast';
 import {
   BoardColumnStatus,
@@ -15,37 +14,54 @@ import {
   QueryKeys,
   TaskStatus,
 } from 'common/constants';
-import './style.css';
 import useBoard from './useBoard';
-import { ModalConfirm } from '../ModalConfirm';
-import { Box, useColorModeValue, useDisclosure } from '@chakra-ui/react';
-import { ITask } from 'models/task';
 import {
-  useApproveTask,
-  useCancelTask,
-  useRejectTask,
-} from 'api/apiHooks/taskHooks';
+  Box,
+  Flex,
+  IconButton,
+  Text,
+  useColorModeValue,
+  useDisclosure,
+} from '@chakra-ui/react';
+import { FetchNextPageFunction, ITask, TaskResult } from 'models/task';
+import { useApproveTask, useRejectTask } from 'api/apiHooks/taskHooks';
 import ModalBoard from './ModalBoard';
 import { ETaskStatus } from 'common/enums';
+import { useCurrentUser } from 'hooks/useCurrentUser';
+import { formatDate } from 'utils/formatDate';
+import { getDayAgo } from 'utils/getDayAgo';
+import { HiArrowDown } from 'react-icons/hi';
+import { TaskDetailModal } from 'features/Tasks/components/TaskDetailModal';
 
-interface BoardsProps {
-  data: ITask[];
-  totalCount: number;
-}
-
-interface ModalStatus {
+interface ModalDetail {
   isOpen: boolean;
-  title: string;
-  description: string;
+  taskId: string;
 }
 
-const initialModalStatus: ModalStatus = {
+export interface BoardsProps {
+  data: {
+    listPending: TaskResult;
+    listApproved: TaskResult;
+    listRejected: TaskResult;
+  };
+  fetchNextPagePending: FetchNextPageFunction;
+  fetchNextPageApproved: FetchNextPageFunction;
+  fetchNextPageRejected: FetchNextPageFunction;
+  status: number;
+}
+
+const initialModalStatus: ModalDetail = {
   isOpen: false,
-  title: 'Modal Title',
-  description: 'Modal Description',
+  taskId: '',
 };
 
-const Boards = ({ data }: BoardsProps): JSX.Element => {
+const Boards = ({
+  data,
+  fetchNextPageApproved,
+  fetchNextPagePending,
+  fetchNextPageRejected,
+  status,
+}: BoardsProps): JSX.Element => {
   const color = useColorModeValue(ColorThemeMode.DARK, ColorThemeMode.LIGHT);
   const [modalState, setModalState] = useState(initialModalStatus);
   const [result, setResult] = useState<DropResult>();
@@ -55,23 +71,21 @@ const Boards = ({ data }: BoardsProps): JSX.Element => {
     [ETaskStatus.Pending]: [],
     [ETaskStatus.Approved]: [],
     [ETaskStatus.Rejected]: [],
-    [ETaskStatus.Canceled]: [],
   });
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const queryClient = useQueryClient();
-  const cancelTaskMutation = useCancelTask();
   const approveTaskMutation = useApproveTask();
   const rejectTaskMutation = useRejectTask();
   const { reorder, move, getItemStyle, getListStyle } = useBoard();
+  const currentUser = useCurrentUser();
 
-  const openModal = (title: string, description: string) => {
+  const openModal = (taskId: string) => {
     setModalState({
       ...modalState,
       isOpen: true,
-      title,
-      description,
+      taskId: taskId,
     });
   };
 
@@ -120,15 +134,6 @@ const Boards = ({ data }: BoardsProps): JSX.Element => {
     try {
       setIsLoading(true);
       switch (Number(destination.droppableId)) {
-        case BoardColumnStatus.Canceled:
-          await cancelTaskMutation.mutateAsync(
-            state[ETaskStatus.Pending][source.index].id
-          );
-          queryClient.invalidateQueries({
-            queryKey: [QueryKeys.FILTER_TASK],
-          });
-          toast({ title: 'Cancelled successfully!', status: 'success' });
-          break;
         case BoardColumnStatus.Approved:
           await approveTaskMutation.mutateAsync(
             state[ETaskStatus.Pending][source.index].id
@@ -136,6 +141,7 @@ const Boards = ({ data }: BoardsProps): JSX.Element => {
           queryClient.invalidateQueries({
             queryKey: [QueryKeys.FILTER_TASK],
           });
+          state[ETaskStatus.Pending][source.index].status = TaskStatus.Approved;
           toast({ title: 'Approved successfully!', status: 'success' });
           break;
         case BoardColumnStatus.Rejected:
@@ -147,6 +153,7 @@ const Boards = ({ data }: BoardsProps): JSX.Element => {
           queryClient.invalidateQueries({
             queryKey: [QueryKeys.FILTER_TASK],
           });
+          state[ETaskStatus.Pending][source.index].status = TaskStatus.Rejected;
           toast({ title: 'Rejected successfully!', status: 'success' });
           break;
         default:
@@ -168,25 +175,45 @@ const Boards = ({ data }: BoardsProps): JSX.Element => {
 
   useEffect(() => {
     setState({
-      [ETaskStatus.Pending]: data.filter(
+      [ETaskStatus.Pending]: data.listPending.items.filter(
         (x) => x.status === TaskStatus.Pending
       ),
-      [ETaskStatus.Approved]: data.filter(
+      [ETaskStatus.Approved]: data.listApproved.items.filter(
         (x) => x.status === TaskStatus.Approved
       ),
-      [ETaskStatus.Rejected]: data.filter(
+      [ETaskStatus.Rejected]: data.listRejected.items.filter(
         (x) => x.status === TaskStatus.Rejected
-      ),
-      [ETaskStatus.Canceled]: data.filter(
-        (x) => x.status === TaskStatus.Canceled
       ),
     });
   }, [data]);
 
+  const showMoreItems = (
+    fetchNextPage: FetchNextPageFunction,
+    listLength: number,
+    totalCount: number
+  ) => {
+    if (listLength < totalCount) {
+      return (
+        <Flex w={'100%'} justifyContent={'center'} my={2}>
+          <IconButton
+            variant="solid"
+            aria-label="Call Sage"
+            fontSize="20px"
+            icon={<HiArrowDown />}
+            isRound={true}
+            colorScheme="teal"
+            onClick={() => fetchNextPage()}
+          />
+        </Flex>
+      );
+    }
+    return null;
+  };
+
   return (
     <>
       <DragDropContext onDragEnd={onDragEnd}>
-        <div className="container">
+        <div className={styles.container}>
           {Object.values(state).map((el, ind) => (
             <Droppable key={ind} droppableId={`${ind}`}>
               {(provided, snapshot) => (
@@ -195,87 +222,111 @@ const Boards = ({ data }: BoardsProps): JSX.Element => {
                   style={getListStyle(snapshot.isDraggingOver)}
                   {...provided.droppableProps}
                 >
-                  <div className="columnLabel" style={{ color: color }}>
+                  <div className={styles.columnLabel} style={{ color: color }}>
                     {Object.keys(BoardColumnStatus)[ind]}
                   </div>
 
-                  <Box className="columnContent">
-                    {el.map((item, index) => (
-                      <Draggable
-                        key={item.id}
-                        draggableId={item.id}
-                        index={index}
-                        isDragDisabled={+item.status !== +TaskStatus.Pending}
-                      >
-                        {(provided, snapshot) => (
-                          <div
-                            onClick={() =>
-                              openModal(
-                                `${item.name} no: ${item.id
-                                  .slice(-5)
-                                  .toUpperCase()}`,
-                                'Content to Something'
-                              )
-                            }
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                            style={getItemStyle(
-                              snapshot.isDragging,
-                              provided.draggableProps.style
-                            )}
-                          >
-                            <div
-                              className={classNames('item', {
-                                itemPending: ind === BoardColumnStatus.Pending,
-                                itemApproved:
-                                  ind === BoardColumnStatus.Approved,
-                                itemRejected:
-                                  ind === BoardColumnStatus.Rejected,
-                                itemCanceled:
-                                  ind === BoardColumnStatus.Canceled,
-                              })}
+                  <Box className={styles.columnContent}>
+                    {el.map((item, index) => {
+                      const isDisabled =
+                        +item.status !== +TaskStatus.Pending ||
+                        item?.email !== currentUser?.email;
+                      return (
+                        <Draggable
+                          key={item.id}
+                          draggableId={item.id}
+                          index={index}
+                          isDragDisabled={isDisabled}
+                        >
+                          {(provided, snapshot) => (
+                            <Box
+                              cursor={isDisabled ? 'pointer' : 'grab'}
+                              onClick={() => {
+                                item.id !== null && openModal(item.id);
+                              }}
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                              style={getItemStyle(
+                                snapshot.isDragging,
+                                provided.draggableProps.style
+                              )}
                             >
-                              <div>
-                                <div className="content">
-                                  ID: {item.id.slice(-5).toUpperCase()}
+                              <div
+                                className={`${styles.item} ${
+                                  ind === BoardColumnStatus.Pending
+                                    ? styles.itemPending
+                                    : ind === BoardColumnStatus.Approved
+                                    ? styles.itemApproved
+                                    : ind === BoardColumnStatus.Rejected
+                                    ? styles.itemRejected
+                                    : ''
+                                }`}
+                              >
+                                <Flex
+                                  justifyContent={'space-between'}
+                                  w={'100%'}
+                                >
+                                  <Text fontWeight={'bold'}>
+                                    ID: {item.id.slice(-5).toUpperCase()}
+                                  </Text>
+                                  {getDayAgo(item?.creationTime)}
+                                </Flex>
+                                <div className={styles.title}>{item.name}</div>
+
+                                <Flex gap={2}>
+                                  <Text>Name:</Text> {item.authorName}
+                                </Flex>
+
+                                <div className={styles.stateWrapper}>
+                                  <div className={styles.state}>State:</div>
+                                  <div className={styles.statusWrapper}>
+                                    <div
+                                      className={`${styles.status} ${
+                                        ind === BoardColumnStatus.Pending
+                                          ? styles.statusPending
+                                          : ind === BoardColumnStatus.Approved
+                                          ? styles.statusApproved
+                                          : ind === BoardColumnStatus.Rejected
+                                          ? styles.statusRejected
+                                          : ''
+                                      }`}
+                                    />
+                                    {Object.keys(BoardColumnStatus)[ind]}
+                                  </div>
                                 </div>
-                                <div className="title">{item.name}</div>
+                                <Flex gap={2}>
+                                  <Text>Date:</Text>
+                                  {formatDate(new Date(item?.creationTime))}
+                                </Flex>
                               </div>
+                            </Box>
+                          )}
+                        </Draggable>
+                      );
+                    })}
 
-                              <div className="person">{item.email}</div>
-
-                              <div className="stateWrapper">
-                                <div className="state">State:</div>
-                                <div className="statusWrapper">
-                                  <div
-                                    className={classNames('status', {
-                                      statusPending:
-                                        ind === BoardColumnStatus.Pending,
-                                      statusApproved:
-                                        ind === BoardColumnStatus.Approved,
-                                      statusRejected:
-                                        ind === BoardColumnStatus.Rejected,
-                                      statusCanceled:
-                                        ind === BoardColumnStatus.Canceled,
-                                    })}
-                                  />
-                                  {Object.keys(BoardColumnStatus)[ind]}
-                                </div>
-                              </div>
-
-                              {/* <div className="timestamp">
-                                Date:{' '}
-                                {format(
-                                  new Date(item.createdAt),
-                                  'dd-MM-yyyy HH:mm'
-                                )}
-                              </div> */}
-                            </div>
-                          </div>
-                        )}
-                      </Draggable>
-                    ))}
+                    {ind === BoardColumnStatus.Pending &&
+                      (+status === -1 || +status === TaskStatus.Pending) &&
+                      showMoreItems(
+                        fetchNextPagePending,
+                        data?.listPending?.items?.length,
+                        data?.listPending?.totalCount
+                      )}
+                    {ind === BoardColumnStatus.Approved &&
+                      (+status === -1 || +status === TaskStatus.Approved) &&
+                      showMoreItems(
+                        fetchNextPageApproved,
+                        data?.listApproved?.items?.length,
+                        data.listApproved?.totalCount
+                      )}
+                    {ind === BoardColumnStatus.Rejected &&
+                      (+status === -1 || +status === TaskStatus.Rejected) &&
+                      showMoreItems(
+                        fetchNextPageRejected,
+                        data?.listRejected?.items?.length,
+                        data?.listRejected?.totalCount
+                      )}
                   </Box>
                   {provided.placeholder}
                 </div>
@@ -285,13 +336,13 @@ const Boards = ({ data }: BoardsProps): JSX.Element => {
         </div>
       </DragDropContext>
 
-      <ModalConfirm
-        isOpen={modalState.isOpen}
-        onClose={closeModal}
-        onConfirm={closeModal}
-        title={modalState.title}
-        description={modalState.description}
-      />
+      {modalState.taskId.length > 0 && (
+        <TaskDetailModal
+          isOpen={modalState.isOpen}
+          onClose={closeModal}
+          taskId={modalState.taskId}
+        />
+      )}
       <ModalBoard
         isOpen={isOpen}
         onClose={handleClose}

@@ -1,17 +1,15 @@
-import { UserRoles } from 'common/constants';
 import { LocalStorageKeys } from 'common/enums';
 import { useMemo } from 'react';
 import { parseJwt } from 'utils';
 
-export function useIsAdmin() {
+export function useCurrentUser() {
   const token = localStorage.getItem(LocalStorageKeys.accessToken);
-  const decodedToken = useMemo(() => {
+  const currentUser = useMemo(() => {
     if (token) {
       return parseJwt(token);
     }
     return null;
   }, [token]);
-  const isAdmin = decodedToken ? decodedToken.role === UserRoles.ADMIN : false;
 
-  return isAdmin;
+  return currentUser;
 }

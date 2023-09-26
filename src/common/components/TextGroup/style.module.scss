@@ -1,0 +1,57 @@
+.textGroup {
+    margin-bottom: 20px;
+    label.label {
+      font-weight: 600;
+      font-size: 15px;
+    }
+    p.content {
+      font-weight: 400;
+      margin-top: 2px;
+      font-size: 15px;
+      text-align: justify;
+      word-spacing: 2px;
+    }
+    p.content-red,
+    p.content-green,
+    p.content-blue,
+    p.content-yellow {
+      font-weight: 400;
+      margin-top: 5px;
+      width: 100px;
+      text-align: center;
+      color: var(--chakra-colors-white);
+      font-weight: 500;
+      font-size: 15px;
+      border-radius: 15px;
+      padding: 3px;
+    }
+    p.content-red {
+      background: var(--chakra-colors-red-700);
+    }
+    p.content-green {
+      background: var(--chakra-colors-green-700);
+    }
+    p.content-yellow {
+      background: var(--chakra-colors-yellow-700);
+    }
+    p.content-blue {
+      background: var(--chakra-colors-blue-700);
+    }
+    .dates {
+      display: flex;
+      flex-wrap: wrap;
+      .date {
+        background: var(--chakra-colors-tertiary);
+        color: var(--chakra-colors-blackButton-300);
+        margin-top: 5px;
+        margin-right: 5px;
+        width: 100px;
+        border-radius: 5px;
+        text-align: center;
+        font-size: 15px;
+        font-weight: 500;
+        padding: 5px;
+      }
+    }
+  }
+  

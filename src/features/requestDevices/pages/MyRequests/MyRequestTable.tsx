@@ -18,7 +18,7 @@ import { format } from 'date-fns';
 import { FilterRequestParams, Request } from 'models/request';
 import { ChangeEvent, useEffect, useMemo, useState } from 'react';
 import { Pagination } from 'common/components/Pagination';
-import { QueryKeys, dateFormat, noOfRows } from 'common/constants';
+import { QueryKeys, DEFAULT_FORMAT_DATE, noOfRows } from 'common/constants';
 import { PageSize } from 'common/components/Table/PageSize';
 import { ShowingItemText } from 'common/components/Table/ShowingItemText';
 import { RowAction } from 'features/requestDevices/pages/MyRequests/RowAction';
@@ -103,32 +103,34 @@ export const MyRequestTable = () => {
         }),
         columnHelper.accessor('userRequestName', {
           id: 'userRequestName',
-          header: () => <Box pl="16px">Request user</Box>,
+          header: 'Request user',
           enableSorting: false,
           cell: (info) => info.getValue(),
         }),
         columnHelper.accessor('currentStates', {
           id: 'currentStates',
-          header: () => <Box textAlign="center">Current states</Box>,
+          header: 'Current states',
           enableSorting: false,
-          cell: (info) => info.getValue().join('\n'),
+          cell: (info) => <pre>{info.getValue().join('\n')}</pre>,
         }),
         columnHelper.accessor('stakeHolders', {
           id: 'stakeHolders',
           header: 'Stake holders',
           enableSorting: false,
-          cell: (info) => info.getValue().join('\n'),
+          cell: (info) => <pre>{info.getValue().join('\n')}</pre>,
         }),
         columnHelper.accessor('createdAt', {
           id: 'createdAt',
           header: 'Created at',
-          cell: (info) => format(new Date(info.getValue()), dateFormat),
+          cell: (info) =>
+            format(new Date(info.getValue()), DEFAULT_FORMAT_DATE),
           sortDescFirst: true,
         }),
         columnHelper.accessor('lastExecutedAt', {
           id: 'lastExecutedAt',
           header: 'Last executed at',
-          cell: (info) => format(new Date(info.getValue()), dateFormat),
+          cell: (info) =>
+            format(new Date(info.getValue()), DEFAULT_FORMAT_DATE),
           sortDescFirst: true,
         }),
         columnHelper.accessor('status', {
@@ -256,7 +258,6 @@ export const MyRequestTable = () => {
             message={'No requests found!'}
           >
             <Box
-              p = "20px 30px 0px 30px"
               overflowX="auto"
               w={{ base: `calc(100vw - ${sideBarWidth}px)`, lg: 'auto' }}
             >
@@ -270,7 +271,8 @@ export const MyRequestTable = () => {
           </EmptyWrapper>
         )}
         <HStack
-          p = "20px 30px 20px 30px"
+          py="20px"
+          px="24px"
           justifyContent="space-between"
           borderBottom="1px"
           borderColor="gray.200"

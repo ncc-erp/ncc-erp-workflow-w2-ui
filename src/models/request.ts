@@ -24,6 +24,8 @@ export interface FilterRequestParams {
   maxResultCount: number;
   skipCount: number;
   sorting: string;
+  RequestUser?: string;
+  StakeHolder?: string;
 }
 
 export interface ListResult<T> {
@@ -85,4 +87,9 @@ export interface DeviceRequestFormParams {
   currentProject: string;
   device: string;
   reason: string;
+}
+
+export interface IRequestFormParams {
+  workflowDefinitionId?: string;
+  input: object;
 }

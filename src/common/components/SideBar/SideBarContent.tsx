@@ -40,6 +40,8 @@ import { useNavigate } from 'react-router-dom';
 import { useIsAdmin } from 'hooks/useIsAdmin';
 import Logo from 'assets/images/ncc_logo.svg';
 import { ColorThemeMode } from 'common/constants';
+import { removeItem } from 'utils';
+import { LocalStorageKeys } from 'common/enums';
 
 export const SideBarContent = () => {
   const bg = useColorModeValue(ColorThemeMode.LIGHT, ColorThemeMode.DARK);
@@ -54,7 +56,7 @@ export const SideBarContent = () => {
     },
     {
       to: '/my-requests',
-      text: 'My requests',
+      text: isAdmin ? 'Requests' : 'My requests',
       icon: TbArticleFilledFilled,
     },
     {
@@ -101,6 +103,7 @@ export const SideBarContent = () => {
   const { onCloseSideBar } = useSetAppConfig();
 
   const onNavigate = (to: string, logout?: boolean) => () => {
+    removeItem(LocalStorageKeys.accessToken);
     logout;
     navigate(to);
   };

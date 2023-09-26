@@ -7,14 +7,13 @@ import Axios, {
 } from 'axios';
 import { useContext } from 'react';
 import { toast } from 'common/components/StandaloneToast';
-import { getItem } from 'utils/localStorage';
+import { getItem } from 'utils';
 import { LocalStorageKeys } from 'common/enums';
 
 const { VITE_API_BASE_URL } = import.meta.env;
 
 const axios = Axios.create({
   baseURL: VITE_API_BASE_URL,
-  timeout: 10000,
   withCredentials: true,
   headers: {
     'Content-Type': 'application/json',

@@ -6,11 +6,7 @@ export enum LoginStatus {
 export enum RequestStatus {
   Approved = 'Approved',
   Rejected = 'Rejected',
-  Idle = 'Idle',
-  Running = 'Running',
   Pending = 'Suspended',
-  Finished = 'Finished',
-  Faulted = 'Faulted',
   Canceled = 'Cancelled',
 }
 
@@ -18,7 +14,6 @@ export enum ETaskStatus {
   Pending = 0,
   Approved = 1,
   Rejected = 2,
-  Canceled = 3,
 }
 
 export enum RequestSortField {

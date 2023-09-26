@@ -29,3 +29,9 @@ export interface LoginResult {
   description: string;
   token?: string;
 }
+
+export interface UserInfo {
+  email: string;
+  fullName: string;
+  branch: string;
+}
