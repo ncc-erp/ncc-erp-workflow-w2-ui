@@ -62,7 +62,7 @@ const useBoard = () => {
     padding: grid,
     minWidth: 250,
     width: '100%',
-    height: 750,
+    height: 720,
     borderRadius: 8,
   });
 

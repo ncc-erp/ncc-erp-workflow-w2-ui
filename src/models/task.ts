@@ -1,6 +1,10 @@
 import {
   FetchNextPageOptions,
+  InfiniteData,
   InfiniteQueryObserverResult,
+  QueryObserverResult,
+  RefetchOptions,
+  RefetchQueryFilters,
 } from '@tanstack/react-query';
 import { ListResult } from './request';
 
@@ -66,6 +70,10 @@ export interface ITaskResult {
 export type FetchNextPageFunction = (
   options?: FetchNextPageOptions | undefined
 ) => Promise<InfiniteQueryObserverResult<ITaskResponse, unknown>>;
+
+export type Refetch = <TPageData>(
+  options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined
+) => Promise<QueryObserverResult<InfiniteData<ITaskResponse>, unknown>>;
 
 export interface ICountTask {
   countPending: number;

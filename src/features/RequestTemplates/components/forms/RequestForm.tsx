@@ -36,6 +36,7 @@ import { toast } from 'common/components/StandaloneToast';
 import { ErrorMessage } from '@hookform/error-message';
 import { ErrorDisplay } from 'common/components/ErrorDisplay';
 import { formatDate } from 'utils';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface RequestFormProps {
   inputDefinition?: InputDefinition;
@@ -60,6 +61,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
   const currentUser = useCurrentUser();
   const { data: userInfo } = useUserInfoWithBranch(currentUser?.email);
   const { data: userCurrentProject } = useUserCurrentProject();
+  const queryClient = useQueryClient();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [formParams, setFormParams] = useState<FormParams>({});
@@ -104,7 +106,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
     };
 
     await createMutate(RequestFormParams);
-
+    queryClient.clear();
     setIsLoading(false);
     toast({
       description: 'Create Request Successfully',

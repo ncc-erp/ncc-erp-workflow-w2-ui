@@ -28,7 +28,6 @@ import { toast } from 'common/components/StandaloneToast';
 import { ModalConfirm } from 'common/components/ModalConfirm';
 import { useCurrentUser } from 'hooks/useCurrentUser';
 import { formatDate } from 'utils';
-import { useInvalidateQuery } from 'hooks/useInvalidateQuery';
 
 const initialSorting: SortingState = [
   {
@@ -67,8 +66,6 @@ export const MyRequestTable = () => {
   const [modalDescription, setModalDescription] = useState('');
   const [actionType, setActionType] = useState('');
   const [requestId, setRequestId] = useState('');
-
-  useInvalidateQuery({ data: data, queryKeys: QueryKeys.FILTER_REQUEST });
 
   const statusOptions = useMemo(() => {
     const defaultOptions = {
@@ -123,7 +120,7 @@ export const MyRequestTable = () => {
           id: 'stakeHolders',
           header: 'Stake holders',
           enableSorting: false,
-          cell: (info) => info.getValue().join('\n'),
+          cell: (info) => info.getValue().join(', '),
         }),
         columnHelper.accessor('createdAt', {
           id: 'createdAt',
