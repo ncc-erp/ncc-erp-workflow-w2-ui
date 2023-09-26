@@ -38,12 +38,11 @@ const initialFilter: FilterTasks = {
   maxResultCount: DEFAULT_TASK_PER_PAGE,
   workflowDefinitionId: '',
   status: -1,
-  // dates: '',
+  dates: subtractTime('months', 3),
   keySearch: '',
 };
 
 export const TasksBoard = () => {
-  const isAdmin = useIsAdmin();
   const user = useCurrentUser();
 
   const [filter, setFilter] = useState<FilterTasks>({
@@ -52,9 +51,8 @@ export const TasksBoard = () => {
   });
   const [txtSearch, setTxtSearch] = useState<string>('');
   const [isMyTask, setIsMyTask] = useState<boolean>(true);
-
   const txtSearchDebounced = useDebounced(txtSearch, 500);
-
+  const isAdmin = useIsAdmin();
   const {
     data: listPending,
     isLoading: loadPending,

@@ -14,11 +14,10 @@ import {
 import { SelectField } from 'common/components/SelectField';
 import { Table } from 'common/components/Table/Table';
 import { RequestSortField, RequestStatus, SortDirection } from 'common/enums';
-import { format } from 'date-fns';
 import { FilterRequestParams, Request } from 'models/request';
-import { ChangeEvent, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Pagination } from 'common/components/Pagination';
-import { QueryKeys, DEFAULT_FORMAT_DATE, noOfRows } from 'common/constants';
+import { QueryKeys, noOfRows } from 'common/constants';
 import { PageSize } from 'common/components/Table/PageSize';
 import { ShowingItemText } from 'common/components/Table/ShowingItemText';
 import { RowAction } from 'features/requestDevices/pages/MyRequests/RowAction';
@@ -27,14 +26,8 @@ import { useRecoilValue } from 'recoil';
 import { appConfigState } from 'stores/appConfig';
 import { toast } from 'common/components/StandaloneToast';
 import { ModalConfirm } from 'common/components/ModalConfirm';
-
-const initialFilter: FilterRequestParams = {
-  Status: '',
-  WorkflowDefinitionId: '',
-  sorting: [RequestSortField.createdAt, 'desc'].join(' '),
-  skipCount: 0,
-  maxResultCount: +noOfRows[0].value,
-};
+import { useCurrentUser } from 'hooks/useCurrentUser';
+import { formatDate } from 'utils';
 
 const initialSorting: SortingState = [
   {
@@ -44,6 +37,16 @@ const initialSorting: SortingState = [
 ];
 
 export const MyRequestTable = () => {
+  const currentUser = useCurrentUser();
+  const initialFilter: FilterRequestParams = {
+    Status: '',
+    WorkflowDefinitionId: '',
+    sorting: [RequestSortField.createdAt, 'desc'].join(' '),
+    skipCount: 0,
+    maxResultCount: +noOfRows[0].value,
+    RequestUser: currentUser?.sub[0],
+    StakeHolder: '',
+  };
   const { sideBarWidth } = useRecoilValue(appConfigState);
   const [filter, setFilter] = useState<FilterRequestParams>(initialFilter);
   const [sorting, setSorting] = useState<SortingState>(initialSorting);
@@ -72,7 +75,7 @@ export const MyRequestTable = () => {
 
     const options = Object.values(RequestStatus).map((value) => ({
       value,
-      label: value,
+      label: value == RequestStatus.Pending ? 'Pending' : value,
     }));
 
     return [defaultOptions, ...options];
@@ -103,13 +106,13 @@ export const MyRequestTable = () => {
         }),
         columnHelper.accessor('userRequestName', {
           id: 'userRequestName',
-          header: 'Request user',
+          header: () => <Box pl="16px">Request user</Box>,
           enableSorting: false,
           cell: (info) => info.getValue(),
         }),
         columnHelper.accessor('currentStates', {
           id: 'currentStates',
-          header: 'Current states',
+          header: () => <Box textAlign="center">Current states</Box>,
           enableSorting: false,
           cell: (info) => info.getValue().join('\n'),
         }),
@@ -117,20 +120,18 @@ export const MyRequestTable = () => {
           id: 'stakeHolders',
           header: 'Stake holders',
           enableSorting: false,
-          cell: (info) => info.getValue().join('\n'),
+          cell: (info) => info.getValue().join(', '),
         }),
         columnHelper.accessor('createdAt', {
           id: 'createdAt',
           header: 'Created at',
-          cell: (info) =>
-            format(new Date(info.getValue()), DEFAULT_FORMAT_DATE),
+          cell: (info) => formatDate(new Date(info.getValue())),
           sortDescFirst: true,
         }),
         columnHelper.accessor('lastExecutedAt', {
           id: 'lastExecutedAt',
           header: 'Last executed at',
-          cell: (info) =>
-            format(new Date(info.getValue()), DEFAULT_FORMAT_DATE),
+          cell: (info) => formatDate(new Date(info.getValue())),
           sortDescFirst: true,
         }),
         columnHelper.accessor('status', {
@@ -182,12 +183,12 @@ export const MyRequestTable = () => {
     }));
   };
 
-  const onTemplateStatusChange =
-    (key: 'Status' | 'WorkflowDefinitionId') =>
-    (event: ChangeEvent<HTMLSelectElement>) => {
-      const value = event.target.value;
-      setFilter({ ...filter, [key]: value });
-    };
+  const onTemplateStatusChange = (
+    key: 'Status' | 'WorkflowDefinitionId' | 'RequestUser' | 'StakeHolder',
+    value?: string
+  ) => {
+    setFilter({ ...filter, [key]: value, skipCount: 0 });
+  };
 
   const onAction = (requestId: string, type: 'delete' | 'cancel') => () => {
     setRequestId(requestId);
@@ -233,7 +234,9 @@ export const MyRequestTable = () => {
             <SelectField
               size="sm"
               rounded="md"
-              onChange={onTemplateStatusChange('WorkflowDefinitionId')}
+              onChange={(e) =>
+                onTemplateStatusChange('WorkflowDefinitionId', e.target.value)
+              }
               options={requestTemplateOtions}
             />
           </Box>
@@ -241,7 +244,7 @@ export const MyRequestTable = () => {
             <SelectField
               size="sm"
               rounded="md"
-              onChange={onTemplateStatusChange('Status')}
+              onChange={(e) => onTemplateStatusChange('Status', e.target.value)}
               options={statusOptions}
             />
           </Box>
@@ -272,8 +275,7 @@ export const MyRequestTable = () => {
           </EmptyWrapper>
         )}
         <HStack
-          py="20px"
-          px="24px"
+          p="20px 30px 20px 30px"
           justifyContent="space-between"
           borderBottom="1px"
           borderColor="gray.200"

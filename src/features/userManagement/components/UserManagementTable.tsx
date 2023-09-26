@@ -17,7 +17,7 @@ import { Table } from 'common/components/Table/Table';
 import { SortDirection, UserSortField } from 'common/enums';
 import { useEffect, useMemo, useState } from 'react';
 import { Pagination } from 'common/components/Pagination';
-import { noOfRows } from 'common/constants';
+import { QueryKeys, noOfRows } from 'common/constants';
 import { PageSize } from 'common/components/Table/PageSize';
 import { ShowingItemText } from 'common/components/Table/ShowingItemText';
 import { EmptyWrapper } from 'common/components/EmptyWrapper';
@@ -29,6 +29,7 @@ import { RowAction } from './RowAction';
 import { UserModal } from './UserModal';
 import useDebounced from 'hooks/useDebounced';
 import { TbSearch } from 'react-icons/tb';
+import { useInvalidateQuery } from 'hooks/useInvalidateQuery';
 
 const initialFilter: FilterUserParams = {
   filter: '',
@@ -56,6 +57,8 @@ export const UserManagementTable = () => {
   const [user, setUser] = useState<UserIdentity>();
   const [txtSearch, setTxtSearch] = useState('');
   const txtSearchDebounced = useDebounced(txtSearch, 500);
+
+  useInvalidateQuery({ data: data, queryKeys: QueryKeys.FILTER_USER });
 
   const userColumns = useMemo(
     () =>
