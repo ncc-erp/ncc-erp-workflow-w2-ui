@@ -1,37 +1,36 @@
 import {
   Box,
   Button,
-  Center,
   Flex,
-  IconButton,
   Input,
   InputGroup,
   InputRightElement,
-  Spinner,
   Wrap,
   WrapItem,
 } from '@chakra-ui/react';
 import { useRequestTemplates } from 'api/apiHooks/requestHooks';
-import { useGetAllTask } from 'api/apiHooks/taskHooks';
 import Boards from 'common/components/Boards';
 import { SelectField } from 'common/components/SelectField';
 import {
   DEFAULT_TASK_PER_PAGE,
+  DislayValue,
   FilterAll,
   FilterDate,
+  OptionsDisplay,
+  QueryKeys,
   TaskStatus,
 } from 'common/constants';
 import { FilterTasks } from 'models/task';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { AiOutlineReload } from 'react-icons/ai';
 import { TFilterTask } from 'common/types';
 import { useIsAdmin } from 'hooks/useIsAdmin';
-import { getAllTaskPagination } from 'utils/getAllTaskPagination';
 import { TbSearch } from 'react-icons/tb';
 import useDebounced from 'hooks/useDebounced';
-import debounce from 'lodash.debounce';
 import { useCurrentUser } from 'hooks/useCurrentUser';
 import { subtractTime } from 'utils/subtractTime';
+import { ListTask } from '../../../common/components/Boards/ListTask';
+import { TaskDetailModal } from './TaskDetailModal';
+import { useQueryClient } from '@tanstack/react-query';
 
 const initialFilter: FilterTasks = {
   skipCount: 0,
@@ -42,38 +41,29 @@ const initialFilter: FilterTasks = {
   keySearch: '',
 };
 
+interface ModalDetail {
+  isOpen: boolean;
+  taskId: string;
+}
+
+const initialModalStatus: ModalDetail = {
+  isOpen: false,
+  taskId: '',
+};
+
 export const TasksBoard = () => {
   const user = useCurrentUser();
-
+  const [modalState, setModalState] = useState(initialModalStatus);
   const [filter, setFilter] = useState<FilterTasks>({
     ...initialFilter,
     keySearch: user.email,
   });
   const [txtSearch, setTxtSearch] = useState<string>('');
   const [isMyTask, setIsMyTask] = useState<boolean>(true);
+  const [display, setDisplay] = useState<number>(0);
   const txtSearchDebounced = useDebounced(txtSearch, 500);
   const isAdmin = useIsAdmin();
-  const {
-    data: listPending,
-    isLoading: loadPending,
-    fetchNextPage: fetchNextPagePending,
-    refetch: refetchPending,
-    isRefetching: isRefetchingPending,
-  } = useGetAllTask({ ...filter }, TaskStatus.Pending);
-  const {
-    data: listApproved,
-    isLoading: loadApproved,
-    fetchNextPage: fetchNextPageApproved,
-    refetch: refetchApproved,
-    isRefetching: isRefetchingApproved,
-  } = useGetAllTask({ ...filter }, TaskStatus.Approved);
-  const {
-    data: listRejected,
-    isLoading: loadRejected,
-    fetchNextPage: fetchNextPageRejected,
-    refetch: refetchRejected,
-    isRefetching: isRefetchingRejected,
-  } = useGetAllTask({ ...filter }, TaskStatus.Rejected);
+  const queryClient = useQueryClient();
 
   const { data: requestTemplateData } = useRequestTemplates();
   const requestTemplates = useMemo(() => {
@@ -133,6 +123,24 @@ export const TasksBoard = () => {
     []
   );
 
+  const openModal = useCallback(
+    (taskId: string) => {
+      setModalState({
+        ...modalState,
+        isOpen: true,
+        taskId: taskId,
+      });
+    },
+    [modalState]
+  );
+
+  const closeModal = useCallback(() => {
+    setModalState({
+      ...modalState,
+      isOpen: false,
+    });
+  }, [modalState]);
+
   useEffect(() => {
     if (isMyTask) {
       onTemplateStatusChange('keySearch', user.email);
@@ -177,6 +185,22 @@ export const TasksBoard = () => {
               options={dateOptions}
             />
           </Box>
+          <Box>
+            <SelectField
+              value={display}
+              size="sm"
+              rounded="md"
+              cursor="pointer"
+              onChange={(e) => {
+                queryClient.invalidateQueries([
+                  QueryKeys.GET_ALL_TASK_FILTERED,
+                  filter,
+                ]);
+                setDisplay(+e.target.value);
+              }}
+              options={OptionsDisplay}
+            />
+          </Box>
           {isAdmin && (
             <Box w={'300px'}>
               <InputGroup>
@@ -196,32 +220,6 @@ export const TasksBoard = () => {
             </Box>
           )}
         </Flex>
-        <IconButton
-          isRound={true}
-          variant="solid"
-          aria-label="Done"
-          fontSize="20px"
-          icon={<AiOutlineReload />}
-          onClick={debounce(() => {
-            if (!filter.status) return;
-            switch (+filter?.status) {
-              case TaskStatus.Pending:
-                refetchPending();
-                break;
-              case TaskStatus.Approved:
-                refetchApproved();
-                break;
-              case TaskStatus.Rejected:
-                refetchRejected();
-                break;
-              default:
-                refetchPending();
-                refetchApproved();
-                refetchRejected();
-                break;
-            }
-          }, 200)}
-        />
       </Flex>
       {isAdmin && (
         <Wrap spacing={2} px="20px">
@@ -237,38 +235,22 @@ export const TasksBoard = () => {
         </Wrap>
       )}
 
-      {!(
-        loadApproved ||
-        loadPending ||
-        loadRejected ||
-        isRefetchingPending ||
-        isRefetchingApproved ||
-        isRefetchingRejected
-      ) ? (
+      {display === DislayValue.LIST && (
+        <ListTask filters={filter} openDetailModal={openModal} />
+      )}
+      {display === DislayValue.BOARD && (
         <Boards
-          refetchPending={refetchPending}
-          refetchApproved={refetchApproved}
-          refetchRejected={refetchRejected}
-          fetchNextPagePending={fetchNextPagePending}
-          fetchNextPageApproved={fetchNextPageApproved}
-          fetchNextPageRejected={fetchNextPageRejected}
-          data={{
-            listPending: getAllTaskPagination(
-              listPending ? listPending?.pages : []
-            ),
-            listApproved: getAllTaskPagination(
-              listApproved ? listApproved?.pages : []
-            ),
-            listRejected: getAllTaskPagination(
-              listRejected ? listRejected?.pages : []
-            ),
-          }}
+          filters={filter}
+          openDetailModal={openModal}
           status={filter?.status || -1}
         />
-      ) : (
-        <Center h="200px">
-          <Spinner mx="auto" speed="0.65s" thickness="3px" size="xl" />
-        </Center>
+      )}
+      {modalState.taskId.length > 0 && (
+        <TaskDetailModal
+          isOpen={modalState.isOpen}
+          onClose={closeModal}
+          taskId={modalState.taskId}
+        />
       )}
     </Flex>
   );

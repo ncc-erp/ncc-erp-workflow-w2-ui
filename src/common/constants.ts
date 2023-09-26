@@ -50,6 +50,16 @@ export const FilterDate = {
   // Y1: '1 years',
 };
 
+export const DislayValue = {
+  BOARD: 0,
+  LIST: 1,
+};
+
+export const OptionsDisplay = [
+  { value: DislayValue.BOARD, label: 'Board Items' },
+  { value: DislayValue.LIST, label: 'List Items' },
+];
+
 export const UnitTime = {
   YEAR: 'years',
   MONTH: 'months',
@@ -85,6 +95,7 @@ export const QueryKeys = {
   GET_PROJECT_USER: 'getProjectsUser',
   GET_USER_INFO_WITH_BRANCH: 'getUserInfoWithBranch',
   GET_ALL_TASK: 'getAllTask',
+  GET_ALL_TASK_FILTERED: 'getAllTaskFiltered',
   GET_TASK: 'getTask',
   FILTER_TASK: 'filterTask',
   GET_WFH_LIST: 'getWfhList',

@@ -2,6 +2,7 @@ import {
   FilterTasks,
   ITaskResult,
   StakeHolderResult,
+  TaskResult,
 } from './../../models/task';
 import {
   useGetList,
@@ -28,7 +29,7 @@ export const useGetAllTask = (filter: FilterTasks, status: number) => {
   );
   const filterTask = { ...filter, status: getStatus(status) };
   return useInfiniteQuery({
-    queryKey: [QueryKeys.GET_ALL_TASK, filterTask],
+    queryKey: [QueryKeys.GET_ALL_TASK_FILTERED, filterTask],
     queryFn: ({ pageParam = 0 }) =>
       getAllTask({ ...filterTask, skipCount: pageParam }),
     getNextPageParam: (lastPage, allPage) => {
@@ -37,6 +38,14 @@ export const useGetAllTask = (filter: FilterTasks, status: number) => {
         : undefined;
     },
   });
+};
+
+export const useGetTasks = (filter: FilterTasks) => {
+  return useGetListByPost<TaskResult>(
+    [QueryKeys.GET_ALL_TASK, filter],
+    '/app/task/list',
+    filter
+  );
 };
 
 export const useGetAllStakeHolders = (filter: FilterTasks) => {
