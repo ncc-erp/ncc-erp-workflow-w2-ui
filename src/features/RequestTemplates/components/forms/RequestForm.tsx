@@ -366,9 +366,8 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
           h="50px"
           type="submit"
           isLoading={isLoading}
-          colorScheme="blackButton"
           w="full"
-          textColor="white"
+          colorScheme="gray"
         >
           Save
         </Button>

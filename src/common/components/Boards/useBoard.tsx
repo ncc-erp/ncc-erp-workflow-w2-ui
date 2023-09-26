@@ -5,9 +5,10 @@ import {
   NotDraggingStyle,
 } from '@hello-pangea/dnd';
 import { ITask } from 'models/task';
+import theme from 'themes/theme';
 
 const useBoard = () => {
-  const bg = useColorModeValue('#f7fafc', '#10151f');
+  const bg = useColorModeValue(theme.colors.tertiary, theme.colors.dark);
 
   // reordering the result in the same list
   const reorder = (
@@ -45,16 +46,12 @@ const useBoard = () => {
   const grid = 8;
 
   const getItemStyle = (
-    isDragging: boolean,
     draggableStyle: DraggingStyle | NotDraggingStyle | undefined
   ): React.CSSProperties => ({
     // basic styles to items
     userSelect: 'none',
     padding: 0,
     margin: 0,
-
-    // change background color if dragging
-    background: isDragging ? 'lightgreen' : 'white',
 
     // styles apply on draggable
     ...draggableStyle,

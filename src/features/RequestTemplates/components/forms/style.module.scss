@@ -1,9 +1,11 @@
 .datePicker {
-  border: 1px var(--chakra-colors-gray-300) solid;
+  border: 1px solid;
   border-radius: 5px;
   width: 100%;
   padding: 8px 10px;
   font-size: 15px;
+  background: inherit;
+  border-color: inherit;
 }
 
 .multiDatePicker {
@@ -13,6 +15,8 @@
   border-radius: 5px;
   font-size: 15px;
   padding: 3px 10px;
+  background: inherit;
+  border-color: inherit;
 }
 
 .wrapperCustom {

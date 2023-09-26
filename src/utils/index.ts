@@ -5,6 +5,7 @@ import { getStatusByIndex } from './getStatusByIndex';
 import { getItem, setItem, removeItem, clearStorage } from './localStorage';
 import { parseJwt } from './parseJwt';
 import { validationSchema } from './validationSchema';
+import { subtractTime } from './subtractTime';
 
 export {
   convertToCase,
@@ -19,4 +20,5 @@ export {
   clearStorage,
   parseJwt,
   validationSchema,
+  subtractTime,
 };

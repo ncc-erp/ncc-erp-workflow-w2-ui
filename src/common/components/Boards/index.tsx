@@ -32,6 +32,7 @@ import { formatDate } from 'utils/formatDate';
 import { getDayAgo } from 'utils/getDayAgo';
 import { HiArrowDown } from 'react-icons/hi';
 import { TaskDetailModal } from 'features/Tasks/components/TaskDetailModal';
+import theme from 'themes/theme';
 
 interface ModalDetail {
   isOpen: boolean;
@@ -68,6 +69,12 @@ const Boards = ({
   status,
 }: BoardsProps): JSX.Element => {
   const color = useColorModeValue(ColorThemeMode.DARK, ColorThemeMode.LIGHT);
+  const bg = useColorModeValue(theme.colors.white, theme.colors.quarty);
+  const borderColor = useColorModeValue(
+    theme.colors.blackBorder[500],
+    theme.colors.blackBorder[600]
+  );
+
   const [modalState, setModalState] = useState(initialModalStatus);
   const [result, setResult] = useState<DropResult>();
   const [isRejected, setIsRejected] = useState<boolean>(false);
@@ -229,7 +236,10 @@ const Boards = ({
                   style={getListStyle(snapshot.isDraggingOver)}
                   {...provided.droppableProps}
                 >
-                  <div className={styles.columnLabel} style={{ color: color }}>
+                  <div
+                    className={styles.columnLabel}
+                    style={{ color: color, backgroundColor: bg }}
+                  >
                     {Object.keys(BoardColumnStatus)[ind]}
                   </div>
 
@@ -245,7 +255,7 @@ const Boards = ({
                           index={index}
                           isDragDisabled={isDisabled}
                         >
-                          {(provided, snapshot) => (
+                          {(provided) => (
                             <Box
                               cursor={isDisabled ? 'pointer' : 'grab'}
                               onClick={() => {
@@ -255,7 +265,6 @@ const Boards = ({
                               {...provided.draggableProps}
                               {...provided.dragHandleProps}
                               style={getItemStyle(
-                                snapshot.isDragging,
                                 provided.draggableProps.style
                               )}
                             >
@@ -269,6 +278,10 @@ const Boards = ({
                                     ? styles.itemRejected
                                     : ''
                                 }`}
+                                style={{
+                                  background: bg,
+                                  border: `1px solid ${borderColor}`,
+                                }}
                               >
                                 <Flex
                                   justifyContent={'space-between'}
@@ -288,7 +301,7 @@ const Boards = ({
                                   <Text>Assign:</Text> {item.email}
                                 </Flex>
                                 <div className={styles.stateWrapper}>
-                                  <div className={styles.state}>State:</div>
+                                  <Text>State:</Text>
                                   <div className={styles.statusWrapper}>
                                     <div
                                       className={`${styles.status} ${

@@ -6,6 +6,7 @@ import {
   Button,
   Grid,
   Icon,
+  useColorModeValue,
 } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 import LoginBackground from 'assets/images/login_background.jpg';
@@ -20,6 +21,7 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'common/components/StandaloneToast';
 import { userManager } from 'services/authService';
 import { setItem } from 'utils';
+import { ColorThemeMode } from 'common/constants';
 
 const initialLoginParams: LoginParams = {
   userNameOrEmailAddress: '',
@@ -28,6 +30,8 @@ const initialLoginParams: LoginParams = {
 };
 
 const Login = () => {
+  const bg = useColorModeValue(ColorThemeMode.LIGHT, ColorThemeMode.DARK);
+
   const navigate = useNavigate();
   const { mutateAsync: loginMutate, isLoading: isLoginLoading } = useLogin();
   const {
@@ -95,7 +99,7 @@ const Login = () => {
       <VStack
         p={{ base: '14px', md: '38px 44px' }}
         h="100vh"
-        backgroundColor="white"
+        backgroundColor={bg}
         alignItems="left"
       >
         <Box width="full">
@@ -143,9 +147,8 @@ const Login = () => {
                 h="50px"
                 type="submit"
                 isLoading={isLoginLoading}
-                colorScheme="blackButton"
+                colorScheme="gray"
                 w="full"
-                textColor="white"
               >
                 Sign in
               </Button>
@@ -156,6 +159,7 @@ const Login = () => {
             onClick={handleLogin}
             w="full"
             h="50px"
+            colorScheme="gray"
           >
             <Icon as={FcGoogle} mr="16px" filter="" fontSize="24px" />
             Sign in with Google
