@@ -42,12 +42,12 @@ export const TaskStatus = {
 
 export const FilterDate = {
   W1: '1 weeks',
-  W2: '2 weeks',
-  W3: '3 weeks',
+  // W2: '2 weeks',
+  // W3: '3 weeks',
   M1: '1 months',
-  M2: '2 months',
+  // M2: '2 months',
   M3: '3 months',
-  Y1: '1 years',
+  // Y1: '1 years',
 };
 
 export const UnitTime = {

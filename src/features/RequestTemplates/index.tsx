@@ -1,9 +1,12 @@
 import { useRequestTemplates } from 'api/apiHooks/requestHooks';
 import Page from 'common/components/Page';
 import { RequestTemplateTable } from './components/RequestTemplateTable';
+import { useInvalidateQuery } from 'hooks/useInvalidateQuery';
+import { QueryKeys } from 'common/constants';
 
 const RequestTemplates = () => {
   const { data, isLoading } = useRequestTemplates();
+  useInvalidateQuery({ data: data, queryKeys: QueryKeys.REQUEST_TEMPLATES });
 
   return (
     <Page>
