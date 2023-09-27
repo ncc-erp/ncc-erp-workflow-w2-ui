@@ -55,11 +55,6 @@ export const DislayValue = {
   LIST: 1,
 };
 
-export const OptionsDisplay = [
-  { value: DislayValue.BOARD, label: 'Board Items' },
-  { value: DislayValue.LIST, label: 'List Items' },
-];
-
 export const UnitTime = {
   YEAR: 'years',
   MONTH: 'months',

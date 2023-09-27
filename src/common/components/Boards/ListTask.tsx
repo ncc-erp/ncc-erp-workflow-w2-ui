@@ -37,7 +37,6 @@ import { Pagination } from 'common/components/Pagination';
 import styles from './style.module.scss';
 import ModalBoard from './ModalBoard';
 import { toast } from '../StandaloneToast';
-import { useQueryClient } from '@tanstack/react-query';
 
 interface Props {
   filters: FilterTasks;
@@ -63,7 +62,6 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
     initDataForm
   );
   const [loadStatus, setLoadStatus] = useState<boolean>(false);
-  const queryClient = useQueryClient();
 
   const taskColumns = useMemo(
     () =>
@@ -152,7 +150,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
                       gap="12px"
                       onClick={() => openDetailModal(info.row.original.id)}
                     >
-                      <Icon color="gray.500" as={RiEyeFill} />
+                      <Icon color="blue.500" as={RiEyeFill} />
                       View
                     </MenuItem>
                     {info.row.original.status === TaskStatus.Pending &&
@@ -169,7 +167,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
                               onOpen();
                             }}
                           >
-                            <Icon color="gray.500" as={AiFillCheckCircle} />
+                            <Icon color="green.500" as={AiFillCheckCircle} />
                             Approve
                           </MenuItem>
                           <MenuItem
@@ -183,7 +181,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
                               onOpen();
                             }}
                           >
-                            <Icon color="gray.500" as={MdCancel} />
+                            <Icon color="red.500" as={MdCancel} />
                             Reject
                           </MenuItem>
                         </>
@@ -210,7 +208,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
       switch (dataForm.status) {
         case TaskStatus.Approved:
           await approveTaskMutation.mutateAsync(dataForm.taskId);
-          queryClient.clear();
+          refetch();
           toast({ title: 'Approved successfully!', status: 'success' });
           break;
         case TaskStatus.Rejected:
@@ -219,7 +217,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
             id: dataForm.taskId,
             reason,
           });
-          queryClient.clear();
+          refetch();
           toast({ title: 'Rejected successfully!', status: 'success' });
           break;
         default:
@@ -236,8 +234,8 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
     dataForm.status,
     dataForm.taskId,
     handleClose,
-    queryClient,
     reason,
+    refetch,
     rejectTaskMutation,
   ]);
 
@@ -280,8 +278,8 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
           aria-label="Done"
           fontSize="20px"
           position={'absolute'}
-          right={30}
-          top={-30}
+          right={25}
+          top={'-40px'}
           icon={<AiOutlineReload />}
           onClick={() => refetch()}
         />
@@ -290,46 +288,47 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
             <Spinner mx="auto" speed="0.65s" thickness="3px" size="xl" />
           </Center>
         ) : (
-          <EmptyWrapper
-            isEmpty={false}
-            h="200px"
-            fontSize="xs"
-            message={'No requests found!'}
-          >
-            <Box
-              p="20px 30px 20px 30px"
-              overflowX="auto"
-              w={{ base: `calc(100vw - ${sideBarWidth}px)`, lg: 'auto' }}
+          <>
+            <EmptyWrapper
+              isEmpty={false}
+              h="200px"
+              fontSize="xs"
+              message={'No requests found!'}
             >
-              <Table columns={taskColumns} data={data?.items ?? []} />
-            </Box>
-          </EmptyWrapper>
+              <Box
+                p="10px 20px"
+                overflowX="auto"
+                w={{ base: `calc(100vw - ${sideBarWidth}px)`, lg: 'auto' }}
+              >
+                <Table columns={taskColumns} data={data?.items ?? []} />
+              </Box>
+            </EmptyWrapper>
+            <HStack
+              p="0px 30px 20px 30px"
+              justifyContent="space-between"
+              borderBottom="1px"
+              borderColor="gray.200"
+              flexWrap="wrap"
+            >
+              <HStack alignItems="center" spacing="6px" flexWrap="wrap">
+                <PageSize noOfRows={noOfRows} onChange={onPageSizeChange} />
+                <Spacer w="12px" />
+                <ShowingItemText
+                  skipCount={filter.skipCount}
+                  maxResultCount={filter.maxResultCount}
+                  totalCount={data?.totalCount ?? 0}
+                />
+              </HStack>
+              <Pagination
+                total={data?.totalCount ?? 0}
+                pageSize={filter.maxResultCount}
+                current={currentPage}
+                onChange={onPageChange}
+                hideOnSinglePage
+              />
+            </HStack>
+          </>
         )}
-
-        <HStack
-          p="0px 30px 20px 30px"
-          justifyContent="space-between"
-          borderBottom="1px"
-          borderColor="gray.200"
-          flexWrap="wrap"
-        >
-          <HStack alignItems="center" spacing="6px" flexWrap="wrap">
-            <PageSize noOfRows={noOfRows} onChange={onPageSizeChange} />
-            <Spacer w="12px" />
-            <ShowingItemText
-              skipCount={filter.skipCount}
-              maxResultCount={filter.maxResultCount}
-              totalCount={data?.totalCount ?? 0}
-            />
-          </HStack>
-          <Pagination
-            total={data?.totalCount ?? 0}
-            pageSize={filter.maxResultCount}
-            current={currentPage}
-            onChange={onPageChange}
-            hideOnSinglePage
-          />
-        </HStack>
       </Box>
       <ModalBoard
         isOpen={isOpen}

@@ -1,7 +1,7 @@
 .container {
   display: flex;
   gap: 5px;
-  margin: 10px 20px; 
+  padding: 10px 20px;
   .columnLabel {
     margin-bottom: 10px;
     padding: 8px;
@@ -9,7 +9,7 @@
     border-radius: 5px;
     font-weight: bold;
   }
-  .columnContent{
+  .columnContent {
     height: 94%;
     overflow-y: auto;
     padding-right: 5px;
@@ -23,7 +23,7 @@
       border-radius: 4px;
       padding: 10px;
       background-color: var(--chakra-colors-blackButton-900);
-      box-shadow: 0px 2px 4px  var(--chakra-colors-blackButton-800);
+      box-shadow: 0px 2px 4px var(--chakra-colors-blackButton-800);
       padding: 8px;
       font-size: 12px;
       margin-bottom: 5px;

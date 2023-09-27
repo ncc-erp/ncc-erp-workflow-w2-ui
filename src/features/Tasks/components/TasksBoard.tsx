@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   Flex,
+  IconButton,
   Input,
   InputGroup,
   InputRightElement,
@@ -16,7 +17,6 @@ import {
   DislayValue,
   FilterAll,
   FilterDate,
-  OptionsDisplay,
   QueryKeys,
   TaskStatus,
 } from 'common/constants';
@@ -31,6 +31,8 @@ import { subtractTime } from 'utils/subtractTime';
 import { ListTask } from '../../../common/components/Boards/ListTask';
 import { TaskDetailModal } from './TaskDetailModal';
 import { useQueryClient } from '@tanstack/react-query';
+import { FaTable } from 'react-icons/fa';
+import { BsCardText } from 'react-icons/bs';
 
 const initialFilter: FilterTasks = {
   skipCount: 0,
@@ -50,6 +52,19 @@ const initialModalStatus: ModalDetail = {
   isOpen: false,
   taskId: '',
 };
+
+export const OptionsDisplay = [
+  {
+    value: DislayValue.BOARD,
+    label: 'Board Items',
+    icon: <BsCardText />,
+  },
+  {
+    value: DislayValue.LIST,
+    label: 'List Items',
+    icon: <FaTable />,
+  },
+];
 
 export const TasksBoard = () => {
   const user = useCurrentUser();
@@ -149,6 +164,11 @@ export const TasksBoard = () => {
     }
   }, [isMyTask, onTemplateStatusChange, txtSearchDebounced, user.email]);
 
+  useEffect(() => {
+    queryClient.invalidateQueries([QueryKeys.GET_ALL_TASK_FILTERED]);
+    queryClient.invalidateQueries([QueryKeys.GET_ALL_TASK]);
+  }, [display, queryClient]);
+
   return (
     <Flex flexDirection={'column'} gap={2}>
       <Flex px="20px" justifyContent="space-between">
@@ -185,22 +205,6 @@ export const TasksBoard = () => {
               options={dateOptions}
             />
           </Box>
-          <Box>
-            <SelectField
-              value={display}
-              size="sm"
-              rounded="md"
-              cursor="pointer"
-              onChange={(e) => {
-                queryClient.invalidateQueries([
-                  QueryKeys.GET_ALL_TASK_FILTERED,
-                  filter,
-                ]);
-                setDisplay(+e.target.value);
-              }}
-              options={OptionsDisplay}
-            />
-          </Box>
           {isAdmin && (
             <Box w={'300px'}>
               <InputGroup>
@@ -235,16 +239,34 @@ export const TasksBoard = () => {
         </Wrap>
       )}
 
-      {display === DislayValue.LIST && (
-        <ListTask filters={filter} openDetailModal={openModal} />
-      )}
-      {display === DislayValue.BOARD && (
-        <Boards
-          filters={filter}
-          openDetailModal={openModal}
-          status={filter?.status || -1}
-        />
-      )}
+      <Box position={'relative'}>
+        <Wrap spacing={2} px="20px" position={'absolute'} right={55} top={-10}>
+          {OptionsDisplay.map((item) => (
+            <WrapItem key={item.value}>
+              <IconButton
+                value={item.value}
+                colorScheme={item.value === display ? 'green' : 'gray'}
+                aria-label="Call Sage"
+                fontSize="20px"
+                icon={item.icon}
+                onClick={(e) => {
+                  setDisplay(+e.currentTarget.value);
+                }}
+              />
+            </WrapItem>
+          ))}
+        </Wrap>
+        {display === DislayValue.LIST && (
+          <ListTask filters={filter} openDetailModal={openModal} />
+        )}
+        {display === DislayValue.BOARD && (
+          <Boards
+            filters={filter}
+            openDetailModal={openModal}
+            status={filter?.status || -1}
+          />
+        )}
+      </Box>
       {modalState.taskId.length > 0 && (
         <TaskDetailModal
           isOpen={modalState.isOpen}
