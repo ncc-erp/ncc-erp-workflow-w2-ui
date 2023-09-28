@@ -10,9 +10,9 @@ import {
 import { ColorThemeMode } from 'common/constants';
 import {
   RiSettings4Fill,
-  RiDeleteBin6Fill,
+  // RiDeleteBin6Fill,
   RiEdit2Fill,
-  RiUser2Fill,
+  // RiUser2Fill,
 } from 'react-icons/ri';
 
 interface RowActionProps {
@@ -22,10 +22,9 @@ interface RowActionProps {
 }
 
 export const RowAction = ({
-  onEdit,
-  onPermissions,
-  onDelete,
-}: RowActionProps) => {
+  onEdit, // onPermissions,
+} // onDelete,
+: RowActionProps) => {
   const bg = useColorModeValue(ColorThemeMode.LIGHT, ColorThemeMode.DARK);
   const color = useColorModeValue(ColorThemeMode.DARK, ColorThemeMode.LIGHT);
 
@@ -45,7 +44,7 @@ export const RowAction = ({
           <Icon color="gray.500" as={RiEdit2Fill} />
           Edit
         </MenuItem>
-        <MenuItem
+        {/* <MenuItem
           color={color}
           display="flex"
           gap="12px"
@@ -57,7 +56,7 @@ export const RowAction = ({
         <MenuItem color={color} display="flex" gap="12px" onClick={onDelete}>
           <Icon color="gray.500" as={RiDeleteBin6Fill} />
           Delete
-        </MenuItem>
+        </MenuItem> */}
       </MenuList>
     </Menu>
   );
