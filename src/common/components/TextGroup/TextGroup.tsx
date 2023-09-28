@@ -26,7 +26,12 @@ export const TextGroup = ({ label, content, color, dates }: ITextGroup) => {
         </p>
       ) : (
         <div className={styles.dates}>
-          {dates && dates.map((date) => <p className={styles.date}>{date}</p>)}
+          {dates &&
+            dates.map((date, index) => (
+              <p className={styles.date} key={index}>
+                {date}
+              </p>
+            ))}
         </div>
       )}
     </div>
