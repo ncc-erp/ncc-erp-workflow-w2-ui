@@ -17,6 +17,8 @@ import {
   Tr,
 } from '@chakra-ui/react';
 import { IoMdArrowDropdown, IoMdArrowDropup } from 'react-icons/io';
+import { ColorThemeMode } from 'common/constants';
+import theme from 'themes/theme';
 
 interface TableProps<D> {
   columns: ColumnDef<D, unknown>[];
@@ -46,10 +48,10 @@ export const Table = <D,>({
   });
 
   return (
-    <TableComponent borderTop="1px" borderColor="gray.200">
+    <TableComponent border={`1px solid ${theme.colors.secondary}`}>
       <Thead>
         {table.getHeaderGroups().map((headerGroup) => (
-          <Tr key={headerGroup.id}>
+          <Tr key={headerGroup.id} bg={theme.colors.secondary}>
             {headerGroup.headers.map((header) => {
               return (
                 <Th
@@ -58,9 +60,8 @@ export const Table = <D,>({
                   textTransform="none"
                   fontWeight={600}
                   fontSize="sm"
-                  borderRight="1px"
-                  borderColor="gray.200"
-                  color="blackAlpha.900"
+                  border={`1px solid ${theme.colors.blackBorder[500]}`}
+                  color={ColorThemeMode.DARK}
                   px="8px"
                   background="secondaryColor"
                   textAlign="center"

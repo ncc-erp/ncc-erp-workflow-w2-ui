@@ -98,6 +98,11 @@ export const QueryKeys = {
   GET_STAKE_HOLDERS_FOR_FILTER: 'getStakeHoldersForFilter',
 };
 
+export const ColorThemeMode = {
+  LIGHT: 'light',
+  DARK: 'dark',
+};
+
 export const DEFAULT_TASK_PER_PAGE = 10;
 export const TaskStatusesData = [
   { status: 'Pending', color: 'blue' },

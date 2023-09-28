@@ -1,10 +1,10 @@
 import { StackItem } from '@chakra-ui/react';
-import { ReactNode } from 'react';
+import { Toggle } from '../Toogle';
 
-interface PageHeaderRightProps {
-  children: ReactNode;
-}
-
-export const PageHeaderRight = ({ children }: PageHeaderRightProps) => {
-  return <StackItem justifySelf="flex-end">{children}</StackItem>;
+export const PageHeaderRight = () => {
+  return (
+    <StackItem justifySelf="flex-end">
+      <Toggle />
+    </StackItem>
+  );
 };

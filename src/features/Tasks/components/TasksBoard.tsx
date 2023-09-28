@@ -225,19 +225,24 @@ export const TasksBoard = () => {
           )}
         </Flex>
       </Flex>
-      {isAdmin && (
-        <Wrap spacing={2} px="20px">
-          <WrapItem>
-            <Button
-              size={'sm'}
-              colorScheme={isMyTask ? 'whatsapp' : 'gray'}
-              onClick={() => setIsMyTask(!isMyTask)}
-            >
-              Only My Task
-            </Button>
-          </WrapItem>
-        </Wrap>
-      )}
+      <Flex gap={1} px="20px">
+        {isAdmin && (
+          <Wrap>
+            <WrapItem>
+              <Button
+                size={'md'}
+                colorScheme={isMyTask ? 'green' : 'gray'}
+                onClick={() => setIsMyTask(!isMyTask)}
+                fontSize="sm"
+                fontWeight="medium"
+                mr={2}
+              >
+                Only my task
+              </Button>
+            </WrapItem>
+          </Wrap>
+        )}
+      </Flex>
 
       <Box position={'relative'}>
         <Wrap spacing={2} px="20px" position={'absolute'} right={55} top={-10}>

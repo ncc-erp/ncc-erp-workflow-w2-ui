@@ -1,11 +1,15 @@
+import { useColorModeValue } from '@chakra-ui/react';
 import {
   DraggableLocation,
   DraggingStyle,
   NotDraggingStyle,
 } from '@hello-pangea/dnd';
 import { ITask } from 'models/task';
+import theme from 'themes/theme';
 
 const useBoard = () => {
+  const bg = useColorModeValue(theme.colors.tertiary, theme.colors.dark);
+
   // reordering the result in the same list
   const reorder = (
     list: ITask[],
@@ -42,7 +46,6 @@ const useBoard = () => {
   const grid = 8;
 
   const getItemStyle = (
-    isDragging: boolean,
     draggableStyle: DraggingStyle | NotDraggingStyle | undefined
   ): React.CSSProperties => ({
     // basic styles to items
@@ -50,15 +53,12 @@ const useBoard = () => {
     padding: 0,
     margin: 0,
 
-    // change background color if dragging
-    background: isDragging ? 'lightgreen' : 'white',
-
     // styles apply on draggable
     ...draggableStyle,
   });
 
   const getListStyle = (isDraggingOver: boolean): React.CSSProperties => ({
-    background: isDraggingOver ? 'lightblue' : '#eee',
+    background: isDraggingOver ? 'lightblue' : bg,
     padding: grid,
     minWidth: 250,
     width: '100%',
