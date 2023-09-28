@@ -20,7 +20,7 @@ import { formatDate, getStatusByIndex } from 'utils';
 import { RequestInput } from './RequestInput';
 import styles from './style.module.scss';
 import { toast } from 'common/components/StandaloneToast';
-import { TaskStatus } from 'common/constants';
+import { OtherActionSignalStatus, TaskStatus } from 'common/constants';
 import { useMemo, useState } from 'react';
 import isObjectEmpty from 'utils/isObjectEmpty';
 
@@ -36,7 +36,7 @@ export const TaskDetailModal = ({
   taskId,
 }: IDetailModalProps) => {
   const actionTaskMutation = useActionTask();
-  const { data } = useGetTaskDetail(taskId);
+  const { data, refetch } = useGetTaskDetail(taskId);
   const [isLoading, setIsLoading] = useState(false);
 
   const { tasks, inputRequestUser, inputRequestDetail } = useMemo(() => {
@@ -57,7 +57,7 @@ export const TaskDetailModal = ({
 
     return (
       data.tasks.status === TaskStatus.Pending &&
-      !!data.tasks.otherActionSignals?.length
+      !!data.otherActionSignals?.length
     );
   }, [data]);
 
@@ -70,6 +70,7 @@ export const TaskDetailModal = ({
       setIsLoading(true);
       await actionTaskMutation.mutateAsync({ id, action });
       toast({ title: 'Send action successfully!', status: 'success' });
+      refetch();
     } catch (error) {
       console.error(error);
     } finally {
@@ -99,17 +100,26 @@ export const TaskDetailModal = ({
             </div>
 
             {hasTaskAction &&
-              data?.tasks?.otherActionSignals?.map((x, ind) => {
-                return (
-                  <Button
-                    key={ind}
-                    isDisabled={isLoading}
-                    onClick={() => onActionClick(data?.tasks.id, x)}
-                  >
-                    {x}
-                  </Button>
-                );
-              })}
+              data?.otherActionSignals
+                ?.sort((a, b) => {
+                  return a.otherActionSignal.localeCompare(b.otherActionSignal);
+                })
+                .map((x, ind) => {
+                  return (
+                    <Button
+                      key={ind}
+                      isDisabled={
+                        isLoading ||
+                        x.status !== OtherActionSignalStatus.PENDING
+                      }
+                      onClick={() =>
+                        onActionClick(data?.tasks.id, x.otherActionSignal)
+                      }
+                    >
+                      {x.otherActionSignal}
+                    </Button>
+                  );
+                })}
           </div>
         </ModalHeader>
         <ModalCloseButton mt="15px" mr="10px" />

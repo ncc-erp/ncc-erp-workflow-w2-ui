@@ -109,3 +109,11 @@ export const TaskStatusesData = [
   { status: 'Approved', color: 'green' },
   { status: 'Rejected', color: 'red' },
 ];
+
+export const OtherActionSignalStatus = {
+  PENDING: 0,
+  APPROVE: 1,
+  REJECT: 2,
+  FAILED: 3,
+  CANCEL: 4,
+};
