@@ -7,7 +7,11 @@ import { extendTheme } from '@chakra-ui/react';
 import { menuTheme } from 'themes/menuTheme';
 import { drawerTheme } from 'themes/drawerTheme';
 
-const theme = extendTheme({
+export const theme = extendTheme({
+  config: {
+    initialColorMode: 'light',
+    useSystemColorMode: false,
+  },
   fonts: {
     body: `'Montserrat'`,
     heading: `'Montserrat'`,
@@ -26,7 +30,10 @@ const theme = extendTheme({
     },
     primary: '#f16471',
     secondary: '#e2e8f0',
-    tertiary: '#f2f0f0',
+    tertiary: '#eff2f5',
+    quarty: '#1a202c',
+    light: '#f7fafc',
+    dark: '#10151f',
     blue: {
       700: '#57a1da',
     },
@@ -40,6 +47,10 @@ const theme = extendTheme({
       700: '#edc172',
     },
     white: '#ffffff',
+    blackBorder: {
+      500: '#d2d2d2',
+      600: '#585858',
+    },
   },
   components: {
     Menu: menuTheme,

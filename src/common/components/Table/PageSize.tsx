@@ -1,5 +1,6 @@
-import { HStack, Text } from '@chakra-ui/react';
+import { HStack, Text, useColorModeValue } from '@chakra-ui/react';
 import { SelectField } from 'common/components/SelectField';
+import { ColorThemeMode } from 'common/constants';
 import { option } from 'common/types';
 import { ChangeEvent } from 'react';
 
@@ -9,6 +10,9 @@ interface PageSizeProps {
 }
 
 export const PageSize = ({ noOfRows, onChange }: PageSizeProps) => {
+  const color = useColorModeValue(ColorThemeMode.DARK, ColorThemeMode.LIGHT);
+  const bg = useColorModeValue(ColorThemeMode.LIGHT, ColorThemeMode.DARK);
+
   const handleChange = (event: ChangeEvent<HTMLSelectElement>) => {
     onChange(+event?.target.value);
   };
@@ -23,8 +27,11 @@ export const PageSize = ({ noOfRows, onChange }: PageSizeProps) => {
         variant="ghost"
         size="xs"
         mt="-3px"
+        ml="10px"
         fontSize="sm"
         onChange={handleChange}
+        background={bg}
+        color={color}
       />
     </HStack>
   );

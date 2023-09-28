@@ -11,7 +11,7 @@ import {
   Stack,
 } from '@chakra-ui/react';
 import { useRecoilValue } from 'recoil';
-import { QueryKeys, noOfRows } from 'common/constants';
+import { noOfRows } from 'common/constants';
 import { FilterWfhParams, IPostAndWFH } from 'models/report';
 import { appConfigState } from 'stores/appConfig';
 import { Table } from 'common/components/Table/Table';
@@ -29,7 +29,6 @@ import {
 import { EmptyWrapper } from 'common/components/EmptyWrapper';
 import { TbSearch } from 'react-icons/tb';
 import useDebounced from 'hooks/useDebounced';
-import { useInvalidateQuery } from 'hooks/useInvalidateQuery';
 
 const initialFilter: FilterWfhParams = {
   maxResultCount: +noOfRows[0].value,
@@ -55,8 +54,6 @@ export const TablePostAndWFH = () => {
   const [txtSearch, setTxtSearch] = useState('');
   const txtSearchDebounced = useDebounced(txtSearch, 500);
 
-  useInvalidateQuery({ data: data, queryKeys: QueryKeys.GET_WFH_LIST });
-
   const getPercentPostWFH = (numOfPosts: number, numOfRequestWFH: number) => {
     return (numOfPosts / numOfRequestWFH) * 100;
   };
@@ -66,10 +63,10 @@ export const TablePostAndWFH = () => {
       [
         columnHelper.accessor('userRequestName', {
           id: 'userRequestName',
-          header: () => <Box pl="16px">Email address</Box>,
+          header: () => <Box>Email address</Box>,
           enableSorting: true,
           sortDescFirst: true,
-          cell: (info) => <Box pl="16px">{info.getValue()}</Box>,
+          cell: (info) => <Box>{info.getValue()}</Box>,
         }),
         columnHelper.accessor('totalposts', {
           id: 'totalposts',
@@ -197,8 +194,6 @@ export const TablePostAndWFH = () => {
         <HStack
           p="0px 30px 20px 30px"
           justifyContent="space-between"
-          borderBottom="1px"
-          borderColor="gray.200"
           flexWrap="wrap"
         >
           <HStack alignItems="center" spacing="6px" flexWrap="wrap">

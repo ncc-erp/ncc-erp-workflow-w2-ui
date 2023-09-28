@@ -17,7 +17,7 @@ import { Table } from 'common/components/Table/Table';
 import { SortDirection, UserSortField } from 'common/enums';
 import { useEffect, useMemo, useState } from 'react';
 import { Pagination } from 'common/components/Pagination';
-import { QueryKeys, noOfRows } from 'common/constants';
+import { noOfRows } from 'common/constants';
 import { PageSize } from 'common/components/Table/PageSize';
 import { ShowingItemText } from 'common/components/Table/ShowingItemText';
 import { EmptyWrapper } from 'common/components/EmptyWrapper';
@@ -29,7 +29,6 @@ import { RowAction } from './RowAction';
 import { UserModal } from './UserModal';
 import useDebounced from 'hooks/useDebounced';
 import { TbSearch } from 'react-icons/tb';
-import { useInvalidateQuery } from 'hooks/useInvalidateQuery';
 
 const initialFilter: FilterUserParams = {
   filter: '',
@@ -58,17 +57,15 @@ export const UserManagementTable = () => {
   const [txtSearch, setTxtSearch] = useState('');
   const txtSearchDebounced = useDebounced(txtSearch, 500);
 
-  useInvalidateQuery({ data: data, queryKeys: QueryKeys.FILTER_USER });
-
   const userColumns = useMemo(
     () =>
       [
         columnHelper.accessor('userName', {
           id: 'userName',
-          header: () => <Box pl="16px">User name</Box>,
+          header: () => <Box>User name</Box>,
           enableSorting: true,
           sortDescFirst: true,
-          cell: (info) => <Box pl="16px">{info.getValue()}</Box>,
+          cell: (info) => <Box>{info.getValue()}</Box>,
         }),
         columnHelper.accessor('email', {
           id: 'email',
@@ -202,8 +199,6 @@ export const UserManagementTable = () => {
         <HStack
           p="0px 30px 20px 30px"
           justifyContent="space-between"
-          borderBottom="1px"
-          borderColor="gray.200"
           flexWrap="wrap"
         >
           <HStack alignItems="center" spacing="6px" flexWrap="wrap">

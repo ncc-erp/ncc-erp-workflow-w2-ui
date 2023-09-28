@@ -17,6 +17,7 @@ import {
   AccordionItem,
   AccordionPanel,
   Box,
+  useColorModeValue,
 } from '@chakra-ui/react';
 import { NavLink } from 'common/components/SideBar/NavLink';
 import {
@@ -38,10 +39,14 @@ import { useSetAppConfig } from 'stores/appConfig';
 import { useNavigate } from 'react-router-dom';
 import { useIsAdmin } from 'hooks/useIsAdmin';
 import Logo from 'assets/images/ncc_logo.svg';
+import { ColorThemeMode } from 'common/constants';
 import { removeItem } from 'utils';
 import { LocalStorageKeys } from 'common/enums';
 
 export const SideBarContent = () => {
+  const bg = useColorModeValue(ColorThemeMode.LIGHT, ColorThemeMode.DARK);
+  const color = useColorModeValue(ColorThemeMode.DARK, ColorThemeMode.LIGHT);
+
   const isAdmin = useIsAdmin();
   const NavList = [
     {
@@ -104,7 +109,7 @@ export const SideBarContent = () => {
   };
 
   return (
-    <VStack bgColor="gray.50" h="100vh" alignItems="stretch" spacing={0}>
+    <VStack bg={bg} h="100vh" alignItems="stretch" spacing={0}>
       <HStack
         cursor="pointer"
         alignItems="center"
@@ -147,9 +152,11 @@ export const SideBarContent = () => {
                       p={0}
                       _hover={{
                         backgroundColor: 'gray.200',
+                        color: 'gray.700',
                       }}
                       _activeLink={{
                         backgroundColor: 'gray.200',
+                        color: 'gray.700',
                       }}
                     >
                       <Link
@@ -207,8 +214,9 @@ export const SideBarContent = () => {
             size="sm"
             icon={<Icon as={VscKebabVertical} />}
           />
-          <MenuList minW="140px">
+          <MenuList bg={bg} minW="140px">
             <MenuItem
+              color={color}
               display="flex"
               gap="12px"
               onClick={onNavigate('/my-profile')}
@@ -217,6 +225,7 @@ export const SideBarContent = () => {
               <Text fontSize="sm">My profile</Text>
             </MenuItem>
             <MenuItem
+              color={color}
               display="flex"
               gap="12px"
               onClick={onNavigate('/login', true)}

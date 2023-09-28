@@ -31,7 +31,7 @@ import { TbSearch } from 'react-icons/tb';
 import useDebounced from 'hooks/useDebounced';
 import debounce from 'lodash.debounce';
 import { useCurrentUser } from 'hooks/useCurrentUser';
-import { subtractTime } from 'utils/subtractTime';
+import { subtractTime } from 'utils';
 
 const initialFilter: FilterTasks = {
   skipCount: 0,
@@ -196,46 +196,51 @@ export const TasksBoard = () => {
             </Box>
           )}
         </Flex>
-        <IconButton
-          isRound={true}
-          variant="solid"
-          aria-label="Done"
-          fontSize="20px"
-          icon={<AiOutlineReload />}
-          onClick={debounce(() => {
-            if (!filter.status) return;
-            switch (+filter?.status) {
-              case TaskStatus.Pending:
-                refetchPending();
-                break;
-              case TaskStatus.Approved:
-                refetchApproved();
-                break;
-              case TaskStatus.Rejected:
-                refetchRejected();
-                break;
-              default:
-                refetchPending();
-                refetchApproved();
-                refetchRejected();
-                break;
-            }
-          }, 200)}
-        />
+        <Flex gap={1}>
+          {isAdmin && (
+            <Wrap>
+              <WrapItem>
+                <Button
+                  size={'md'}
+                  colorScheme={isMyTask ? 'red' : 'gray'}
+                  onClick={() => setIsMyTask(!isMyTask)}
+                  fontSize="sm"
+                  fontWeight="medium"
+                  mr={2}
+                >
+                  Only my task
+                </Button>
+              </WrapItem>
+            </Wrap>
+          )}
+          <IconButton
+            isRound={true}
+            variant="solid"
+            aria-label="Done"
+            fontSize="20px"
+            icon={<AiOutlineReload />}
+            onClick={debounce(() => {
+              if (!filter.status) return;
+              switch (+filter?.status) {
+                case TaskStatus.Pending:
+                  refetchPending();
+                  break;
+                case TaskStatus.Approved:
+                  refetchApproved();
+                  break;
+                case TaskStatus.Rejected:
+                  refetchRejected();
+                  break;
+                default:
+                  refetchPending();
+                  refetchApproved();
+                  refetchRejected();
+                  break;
+              }
+            }, 200)}
+          />
+        </Flex>
       </Flex>
-      {isAdmin && (
-        <Wrap spacing={2} px="20px">
-          <WrapItem>
-            <Button
-              size={'sm'}
-              colorScheme={isMyTask ? 'whatsapp' : 'gray'}
-              onClick={() => setIsMyTask(!isMyTask)}
-            >
-              Only My Task
-            </Button>
-          </WrapItem>
-        </Wrap>
-      )}
 
       {!(
         loadApproved ||

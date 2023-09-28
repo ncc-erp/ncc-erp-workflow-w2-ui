@@ -100,13 +100,13 @@ export const MyRequestTable = () => {
       [
         columnHelper.accessor('workflowDefinitionDisplayName', {
           id: 'workflowDefinitionDisplayName',
-          header: () => <Box pl="16px">Request template</Box>,
+          header: () => <Box>Request template</Box>,
           enableSorting: false,
-          cell: (info) => <Box pl="16px">{info.getValue()}</Box>,
+          cell: (info) => <Box>{info.getValue()}</Box>,
         }),
         columnHelper.accessor('userRequestName', {
           id: 'userRequestName',
-          header: () => <Box pl="16px">Request user</Box>,
+          header: () => <Box>Request user</Box>,
           enableSorting: false,
           cell: (info) => info.getValue(),
         }),
@@ -277,8 +277,6 @@ export const MyRequestTable = () => {
         <HStack
           p="20px 30px 20px 30px"
           justifyContent="space-between"
-          borderBottom="1px"
-          borderColor="gray.200"
           flexWrap="wrap"
         >
           <HStack alignItems="center" spacing="6px" flexWrap="wrap">
