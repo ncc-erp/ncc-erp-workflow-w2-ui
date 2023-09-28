@@ -14,12 +14,13 @@ export type StakeHolderResult = ListResult<IStakeHolder>;
 export interface ITask {
   name: string;
   email: string;
+  emailTo: string[];
   reason?: string;
   status: number;
   workflowInstanceId: string;
   creationTime: string;
   id: string;
-  otherActionSignals?: string[];
+  otherActionSignals?: IOtherActionSignals[];
   description?: string;
   authorName?: string;
 }
@@ -27,6 +28,11 @@ export interface ITask {
 export interface IStakeHolder {
   name: string;
   email: string;
+}
+
+export interface IOtherActionSignals {
+  otherActionSignal: string;
+  status: number;
 }
 
 export interface FilterTasks {
@@ -65,6 +71,7 @@ export interface IInputRequest {
 export interface ITaskResult {
   input: IInputRequest;
   tasks: ITask;
+  otherActionSignals: IOtherActionSignals[];
 }
 
 export type FetchNextPageFunction = (

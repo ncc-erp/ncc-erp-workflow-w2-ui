@@ -247,7 +247,7 @@ const Boards = ({
                     {el.map((item, index) => {
                       const isDisabled =
                         +item.status !== +TaskStatus.Pending ||
-                        item?.email !== currentUser?.email;
+                        !item?.emailTo.includes(currentUser?.email);
                       return (
                         <Draggable
                           key={item.id}
