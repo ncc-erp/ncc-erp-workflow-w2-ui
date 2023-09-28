@@ -2,16 +2,10 @@ import { TextGroup } from 'common/components/TextGroup/TextGroup';
 import { convertToCase, extractContent, parseDateStrings } from 'utils';
 
 interface IRequestProps {
-  inputRequestDetail:
-    | Record<string, Record<string, string> | string>
-    | undefined;
+  inputRequestDetail: Record<string, Record<string, string> | string>;
 }
 
 export const RequestInput = ({ inputRequestDetail }: IRequestProps) => {
-  if (!inputRequestDetail) {
-    return <></>;
-  }
-
   return (
     <>
       {Object.keys(inputRequestDetail).map((key) => {

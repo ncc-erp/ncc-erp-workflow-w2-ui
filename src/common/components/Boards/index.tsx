@@ -1,46 +1,52 @@
 import {
+  Box,
+  Center,
+  Flex,
+  IconButton,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Spinner,
+  Text,
+  useColorModeValue,
+  useDisclosure,
+} from '@chakra-ui/react';
+import {
   DragDropContext,
   Draggable,
   DropResult,
   Droppable,
 } from '@hello-pangea/dnd';
-import { useEffect, useState } from 'react';
-import styles from './style.module.scss';
 import { useQueryClient } from '@tanstack/react-query';
-import { toast } from 'common/components/StandaloneToast';
 import {
-  BoardColumnStatus,
-  ColorThemeMode,
-  QueryKeys,
-  TaskStatus,
-} from 'common/constants';
-import useBoard from './useBoard';
-import {
-  Box,
-  Center,
-  Flex,
-  IconButton,
-  Spinner,
-  Text,
-  useDisclosure,
-  useColorModeValue,
-} from '@chakra-ui/react';
-import { FetchNextPageFunction, FilterTasks, ITask } from 'models/task';
-import {
+  useActionTask,
   useApproveTask,
   useGetAllTask,
   useRejectTask,
 } from 'api/apiHooks/taskHooks';
-import ModalBoard from './ModalBoard';
+import { toast } from 'common/components/StandaloneToast';
+import {
+  BoardColumnStatus,
+  ColorThemeMode,
+  OtherActionSignalStatus,
+  QueryKeys,
+  TaskStatus,
+} from 'common/constants';
 import { ETaskStatus } from 'common/enums';
 import { useCurrentUser } from 'hooks/useCurrentUser';
-import { formatDate } from 'utils/formatDate';
-import { getDayAgo } from 'utils/getDayAgo';
-import { HiArrowDown } from 'react-icons/hi';
-import { getAllTaskPagination } from 'utils/getAllTaskPagination';
-import { AiOutlineReload } from 'react-icons/ai';
 import debounce from 'lodash.debounce';
+import { FetchNextPageFunction, FilterTasks, ITask } from 'models/task';
+import { useEffect, useMemo, useState } from 'react';
+import { AiOutlineMenu, AiOutlineReload } from 'react-icons/ai';
+import { HiArrowDown } from 'react-icons/hi';
 import theme from 'themes/theme';
+import { formatDate } from 'utils/formatDate';
+import { getAllTaskPagination } from 'utils/getAllTaskPagination';
+import { getDayAgo } from 'utils/getDayAgo';
+import ModalBoard from './ModalBoard';
+import styles from './style.module.scss';
+import useBoard from './useBoard';
 
 export interface BoardsProps {
   filters: FilterTasks;
@@ -54,6 +60,7 @@ const Boards = ({
   status,
 }: BoardsProps): JSX.Element => {
   const [filter, setFilter] = useState<FilterTasks>(filters);
+  const actionTaskMutation = useActionTask();
   const {
     data: listPending,
     isLoading: loadPending,
@@ -94,6 +101,10 @@ const Boards = ({
     [ETaskStatus.Rejected]: [],
   });
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isActionLoading, setIsActionLoading] = useState({
+    isLoading: false,
+    id: '',
+  });
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const queryClient = useQueryClient();
@@ -199,6 +210,40 @@ const Boards = ({
     setFilter(filters);
   }, [filters]);
 
+  const onActionClick = async (id: string, action: string) => {
+    try {
+      setIsActionLoading({
+        isLoading: true,
+        id,
+      });
+      await actionTaskMutation.mutateAsync({ id, action });
+      toast({ title: 'Send action successfully!', status: 'success' });
+      refetchPending();
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsActionLoading({
+        isLoading: false,
+        id: '',
+      });
+    }
+  };
+
+  const loadingStates = useMemo(() => {
+    return [
+      { name: 'loadPending', value: loadPending || isRefetchingPending },
+      { name: 'loadApproved', value: loadApproved || isRefetchingApproved },
+      { name: 'loadRejected', value: loadRejected || isRefetchingRejected },
+    ];
+  }, [
+    loadApproved,
+    loadPending,
+    loadRejected,
+    isRefetchingPending,
+    isRefetchingApproved,
+    isRefetchingRejected,
+  ]);
+
   const showMoreItems = (
     fetchNextPage: FetchNextPageFunction,
     hasNextPage?: boolean
@@ -253,33 +298,27 @@ const Boards = ({
             }
           }, 200)}
         />
-        {!(
-          loadApproved ||
-          loadPending ||
-          loadRejected ||
-          isRefetchingPending ||
-          isRefetchingApproved ||
-          isRefetchingRejected
-        ) ? (
-          <DragDropContext onDragEnd={onDragEnd}>
-            <div className={styles.container}>
-              {Object.values(state).map((el, ind) => (
-                <Droppable key={ind} droppableId={`${ind}`}>
-                  {(provided, snapshot) => (
-                    <div
-                      ref={provided.innerRef}
-                      style={getListStyle(snapshot.isDraggingOver)}
-                      {...provided.droppableProps}
-                    >
-                      <div
-                        className={styles.columnLabel}
-                        style={{ color: color, backgroundColor: bg }}
-                      >
-                        {Object.keys(BoardColumnStatus)[ind]}
-                      </div>
 
-                      <Box className={styles.columnContent}>
-                        {el.map((item, index) => {
+        <DragDropContext onDragEnd={onDragEnd}>
+          <div className={styles.container}>
+            {Object.values(state).map((el, ind) => (
+              <Droppable key={ind} droppableId={`${ind}`}>
+                {(provided, snapshot) => (
+                  <div
+                    ref={provided.innerRef}
+                    style={getListStyle(snapshot.isDraggingOver)}
+                    {...provided.droppableProps}
+                  >
+                    <div
+                      className={styles.columnLabel}
+                      style={{ color: color, backgroundColor: bg }}
+                    >
+                      {Object.keys(BoardColumnStatus)[ind]}
+                    </div>
+
+                    <Box className={styles.columnContent}>
+                      {!loadingStates[ind].value ? (
+                        el.map((item, index) => {
                           const isDisabled =
                             +item.status !== +TaskStatus.Pending ||
                             !item?.emailTo.includes(currentUser?.email);
@@ -321,12 +360,80 @@ const Boards = ({
                                   >
                                     <Flex
                                       justifyContent={'space-between'}
+                                      alignItems={'center'}
                                       w={'100%'}
                                     >
-                                      <Text fontWeight={'bold'}>
-                                        ID: {item.id.slice(-5).toUpperCase()}
-                                      </Text>
-                                      {getDayAgo(item?.creationTime)}
+                                      <Flex>
+                                        <Text fontWeight={'bold'} mr={1}>
+                                          ID: {item.id.slice(-5).toUpperCase()}
+                                        </Text>
+                                        <div>
+                                          ({getDayAgo(item?.creationTime)})
+                                        </div>
+                                      </Flex>
+
+                                      {item.status === TaskStatus.Pending && (
+                                        <div className={styles.menuButton}>
+                                          {isActionLoading.isLoading &&
+                                            isActionLoading.id === item.id && (
+                                              <Spinner size="xs" />
+                                            )}
+                                          <Menu>
+                                            <MenuButton
+                                              className={styles.menuButton}
+                                              maxH="20px"
+                                              maxW="20px"
+                                              fontSize={16}
+                                              as={IconButton}
+                                              aria-label="Options"
+                                              icon={<AiOutlineMenu />}
+                                              variant="outline"
+                                              onClick={(e) => {
+                                                e.stopPropagation();
+                                              }}
+                                            >
+                                              Actions
+                                            </MenuButton>
+                                            <MenuList>
+                                              {item.otherActionSignals &&
+                                              item?.otherActionSignals?.length >
+                                                0 ? (
+                                                item.otherActionSignals.map(
+                                                  (el, index) => {
+                                                    return (
+                                                      <MenuItem
+                                                        isDisabled={
+                                                          el.status !==
+                                                          OtherActionSignalStatus.PENDING
+                                                        }
+                                                        key={index}
+                                                        onClick={(e) => {
+                                                          e.stopPropagation();
+                                                          onActionClick(
+                                                            item.id,
+                                                            el.otherActionSignal
+                                                          );
+                                                        }}
+                                                      >
+                                                        {el.otherActionSignal}
+                                                      </MenuItem>
+                                                    );
+                                                  }
+                                                )
+                                              ) : (
+                                                <MenuItem
+                                                  isDisabled={true}
+                                                  onClick={(e) => {
+                                                    e.stopPropagation();
+                                                  }}
+                                                >
+                                                  No action
+                                                </MenuItem>
+                                              )}
+                                            </MenuList>
+                                          </Menu>
+                                        </div>
+                                      )}
                                     </Flex>
                                     <div className={styles.title}>
                                       {item.name}
@@ -369,39 +476,41 @@ const Boards = ({
                               )}
                             </Draggable>
                           );
-                        })}
+                        })
+                      ) : (
+                        <Center h="200px">
+                          <Spinner
+                            mx="auto"
+                            speed="0.65s"
+                            thickness="3px"
+                            size="xl"
+                          />
+                        </Center>
+                      )}
 
-                        {ind === BoardColumnStatus.Pending &&
-                          (+status === -1 || +status === TaskStatus.Pending) &&
-                          showMoreItems(
-                            fetchNextPagePending,
-                            hasNextPagePending
-                          )}
-                        {ind === BoardColumnStatus.Approved &&
-                          (+status === -1 || +status === TaskStatus.Approved) &&
-                          showMoreItems(
-                            fetchNextPageApproved,
-                            hasNextPageApproved
-                          )}
-                        {ind === BoardColumnStatus.Rejected &&
-                          (+status === -1 || +status === TaskStatus.Rejected) &&
-                          showMoreItems(
-                            fetchNextPageRejected,
-                            hasNextPageRejected
-                          )}
-                      </Box>
-                      {provided.placeholder}
-                    </div>
-                  )}
-                </Droppable>
-              ))}
-            </div>
-          </DragDropContext>
-        ) : (
-          <Center h="200px">
-            <Spinner mx="auto" speed="0.65s" thickness="3px" size="xl" />
-          </Center>
-        )}
+                      {ind === BoardColumnStatus.Pending &&
+                        (+status === -1 || +status === TaskStatus.Pending) &&
+                        showMoreItems(fetchNextPagePending, hasNextPagePending)}
+                      {ind === BoardColumnStatus.Approved &&
+                        (+status === -1 || +status === TaskStatus.Approved) &&
+                        showMoreItems(
+                          fetchNextPageApproved,
+                          hasNextPageApproved
+                        )}
+                      {ind === BoardColumnStatus.Rejected &&
+                        (+status === -1 || +status === TaskStatus.Rejected) &&
+                        showMoreItems(
+                          fetchNextPageRejected,
+                          hasNextPageRejected
+                        )}
+                    </Box>
+                    {provided.placeholder}
+                  </div>
+                )}
+              </Droppable>
+            ))}
+          </div>
+        </DragDropContext>
       </Box>
       <ModalBoard
         isOpen={isOpen}
