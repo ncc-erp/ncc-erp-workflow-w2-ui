@@ -37,7 +37,7 @@ import { ETaskStatus } from 'common/enums';
 import { useCurrentUser } from 'hooks/useCurrentUser';
 import debounce from 'lodash.debounce';
 import { FetchNextPageFunction, FilterTasks, ITask } from 'models/task';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { AiOutlineMenu, AiOutlineReload } from 'react-icons/ai';
 import { HiArrowDown } from 'react-icons/hi';
 import theme from 'themes/theme';
@@ -229,6 +229,21 @@ const Boards = ({
     }
   };
 
+  const loadingStates = useMemo(() => {
+    return [
+      { name: 'loadPending', value: loadPending || isRefetchingPending },
+      { name: 'loadApproved', value: loadApproved || isRefetchingApproved },
+      { name: 'loadRejected', value: loadRejected || isRefetchingRejected },
+    ];
+  }, [
+    loadApproved,
+    loadPending,
+    loadRejected,
+    isRefetchingPending,
+    isRefetchingApproved,
+    isRefetchingRejected,
+  ]);
+
   const showMoreItems = (
     fetchNextPage: FetchNextPageFunction,
     hasNextPage?: boolean
@@ -283,33 +298,27 @@ const Boards = ({
             }
           }, 200)}
         />
-        {!(
-          loadApproved ||
-          loadPending ||
-          loadRejected ||
-          isRefetchingPending ||
-          isRefetchingApproved ||
-          isRefetchingRejected
-        ) ? (
-          <DragDropContext onDragEnd={onDragEnd}>
-            <div className={styles.container}>
-              {Object.values(state).map((el, ind) => (
-                <Droppable key={ind} droppableId={`${ind}`}>
-                  {(provided, snapshot) => (
-                    <div
-                      ref={provided.innerRef}
-                      style={getListStyle(snapshot.isDraggingOver)}
-                      {...provided.droppableProps}
-                    >
-                      <div
-                        className={styles.columnLabel}
-                        style={{ color: color, backgroundColor: bg }}
-                      >
-                        {Object.keys(BoardColumnStatus)[ind]}
-                      </div>
 
-                      <Box className={styles.columnContent}>
-                        {el.map((item, index) => {
+        <DragDropContext onDragEnd={onDragEnd}>
+          <div className={styles.container}>
+            {Object.values(state).map((el, ind) => (
+              <Droppable key={ind} droppableId={`${ind}`}>
+                {(provided, snapshot) => (
+                  <div
+                    ref={provided.innerRef}
+                    style={getListStyle(snapshot.isDraggingOver)}
+                    {...provided.droppableProps}
+                  >
+                    <div
+                      className={styles.columnLabel}
+                      style={{ color: color, backgroundColor: bg }}
+                    >
+                      {Object.keys(BoardColumnStatus)[ind]}
+                    </div>
+
+                    <Box className={styles.columnContent}>
+                      {!loadingStates[ind].value ? (
+                        el.map((item, index) => {
                           const isDisabled =
                             +item.status !== +TaskStatus.Pending ||
                             !item?.emailTo.includes(currentUser?.email);
@@ -467,39 +476,41 @@ const Boards = ({
                               )}
                             </Draggable>
                           );
-                        })}
+                        })
+                      ) : (
+                        <Center h="200px">
+                          <Spinner
+                            mx="auto"
+                            speed="0.65s"
+                            thickness="3px"
+                            size="xl"
+                          />
+                        </Center>
+                      )}
 
-                        {ind === BoardColumnStatus.Pending &&
-                          (+status === -1 || +status === TaskStatus.Pending) &&
-                          showMoreItems(
-                            fetchNextPagePending,
-                            hasNextPagePending
-                          )}
-                        {ind === BoardColumnStatus.Approved &&
-                          (+status === -1 || +status === TaskStatus.Approved) &&
-                          showMoreItems(
-                            fetchNextPageApproved,
-                            hasNextPageApproved
-                          )}
-                        {ind === BoardColumnStatus.Rejected &&
-                          (+status === -1 || +status === TaskStatus.Rejected) &&
-                          showMoreItems(
-                            fetchNextPageRejected,
-                            hasNextPageRejected
-                          )}
-                      </Box>
-                      {provided.placeholder}
-                    </div>
-                  )}
-                </Droppable>
-              ))}
-            </div>
-          </DragDropContext>
-        ) : (
-          <Center h="200px">
-            <Spinner mx="auto" speed="0.65s" thickness="3px" size="xl" />
-          </Center>
-        )}
+                      {ind === BoardColumnStatus.Pending &&
+                        (+status === -1 || +status === TaskStatus.Pending) &&
+                        showMoreItems(fetchNextPagePending, hasNextPagePending)}
+                      {ind === BoardColumnStatus.Approved &&
+                        (+status === -1 || +status === TaskStatus.Approved) &&
+                        showMoreItems(
+                          fetchNextPageApproved,
+                          hasNextPageApproved
+                        )}
+                      {ind === BoardColumnStatus.Rejected &&
+                        (+status === -1 || +status === TaskStatus.Rejected) &&
+                        showMoreItems(
+                          fetchNextPageRejected,
+                          hasNextPageRejected
+                        )}
+                    </Box>
+                    {provided.placeholder}
+                  </div>
+                )}
+              </Droppable>
+            ))}
+          </div>
+        </DragDropContext>
       </Box>
       <ModalBoard
         isOpen={isOpen}
