@@ -101,6 +101,10 @@ const Boards = ({
     [ETaskStatus.Rejected]: [],
   });
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isActionLoading, setIsActionLoading] = useState({
+    isLoading: false,
+    id: '',
+  });
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const queryClient = useQueryClient();
@@ -208,11 +212,20 @@ const Boards = ({
 
   const onActionClick = async (id: string, action: string) => {
     try {
+      setIsActionLoading({
+        isLoading: true,
+        id,
+      });
       await actionTaskMutation.mutateAsync({ id, action });
       toast({ title: 'Send action successfully!', status: 'success' });
       refetchPending();
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsActionLoading({
+        isLoading: false,
+        id: '',
+      });
     }
   };
 
@@ -350,33 +363,37 @@ const Boards = ({
                                         </div>
                                       </Flex>
 
-                                      {item.status === TaskStatus.Pending &&
-                                        item.otherActionSignals &&
-                                        item?.otherActionSignals?.length >
-                                          0 && (
-                                          <div className={styles.menuButton}>
-                                            <Menu>
-                                              <MenuButton
-                                                className={styles.menuButton}
-                                                maxH="20px"
-                                                maxW="20px"
-                                                fontSize={12}
-                                                as={IconButton}
-                                                aria-label="Options"
-                                                icon={<AiOutlineMenu />}
-                                                variant="outline"
-                                                onClick={(e) => {
-                                                  e.stopPropagation();
-                                                }}
-                                              >
-                                                Actions
-                                              </MenuButton>
-                                              <MenuList>
-                                                {item.otherActionSignals.map(
+                                      {item.status === TaskStatus.Pending && (
+                                        <div className={styles.menuButton}>
+                                          {isActionLoading.isLoading &&
+                                            isActionLoading.id === item.id && (
+                                              <Spinner size="xs" />
+                                            )}
+                                          <Menu>
+                                            <MenuButton
+                                              className={styles.menuButton}
+                                              maxH="20px"
+                                              maxW="20px"
+                                              fontSize={16}
+                                              as={IconButton}
+                                              aria-label="Options"
+                                              icon={<AiOutlineMenu />}
+                                              variant="outline"
+                                              onClick={(e) => {
+                                                e.stopPropagation();
+                                              }}
+                                            >
+                                              Actions
+                                            </MenuButton>
+                                            <MenuList>
+                                              {item.otherActionSignals &&
+                                              item?.otherActionSignals?.length >
+                                                0 ? (
+                                                item.otherActionSignals.map(
                                                   (el, index) => {
                                                     return (
                                                       <MenuItem
-                                                        disabled={
+                                                        isDisabled={
                                                           el.status !==
                                                           OtherActionSignalStatus.PENDING
                                                         }
@@ -393,11 +410,21 @@ const Boards = ({
                                                       </MenuItem>
                                                     );
                                                   }
-                                                )}
-                                              </MenuList>
-                                            </Menu>
-                                          </div>
-                                        )}
+                                                )
+                                              ) : (
+                                                <MenuItem
+                                                  isDisabled={true}
+                                                  onClick={(e) => {
+                                                    e.stopPropagation();
+                                                  }}
+                                                >
+                                                  No action
+                                                </MenuItem>
+                                              )}
+                                            </MenuList>
+                                          </Menu>
+                                        </div>
+                                      )}
                                     </Flex>
                                     <div className={styles.title}>
                                       {item.name}
