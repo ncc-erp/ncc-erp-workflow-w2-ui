@@ -1,46 +1,52 @@
 import {
+  Box,
+  Center,
+  Flex,
+  IconButton,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Spinner,
+  Text,
+  useColorModeValue,
+  useDisclosure,
+} from '@chakra-ui/react';
+import {
   DragDropContext,
   Draggable,
   DropResult,
   Droppable,
 } from '@hello-pangea/dnd';
-import { useEffect, useState } from 'react';
-import styles from './style.module.scss';
 import { useQueryClient } from '@tanstack/react-query';
-import { toast } from 'common/components/StandaloneToast';
 import {
-  BoardColumnStatus,
-  ColorThemeMode,
-  QueryKeys,
-  TaskStatus,
-} from 'common/constants';
-import useBoard from './useBoard';
-import {
-  Box,
-  Center,
-  Flex,
-  IconButton,
-  Spinner,
-  Text,
-  useDisclosure,
-  useColorModeValue,
-} from '@chakra-ui/react';
-import { FetchNextPageFunction, FilterTasks, ITask } from 'models/task';
-import {
+  useActionTask,
   useApproveTask,
   useGetAllTask,
   useRejectTask,
 } from 'api/apiHooks/taskHooks';
-import ModalBoard from './ModalBoard';
+import { toast } from 'common/components/StandaloneToast';
+import {
+  BoardColumnStatus,
+  ColorThemeMode,
+  OtherActionSignalStatus,
+  QueryKeys,
+  TaskStatus,
+} from 'common/constants';
 import { ETaskStatus } from 'common/enums';
 import { useCurrentUser } from 'hooks/useCurrentUser';
-import { formatDate } from 'utils/formatDate';
-import { getDayAgo } from 'utils/getDayAgo';
-import { HiArrowDown } from 'react-icons/hi';
-import { getAllTaskPagination } from 'utils/getAllTaskPagination';
-import { AiOutlineReload } from 'react-icons/ai';
 import debounce from 'lodash.debounce';
+import { FetchNextPageFunction, FilterTasks, ITask } from 'models/task';
+import { useEffect, useState } from 'react';
+import { AiOutlineMenu, AiOutlineReload } from 'react-icons/ai';
+import { HiArrowDown } from 'react-icons/hi';
 import theme from 'themes/theme';
+import { formatDate } from 'utils/formatDate';
+import { getAllTaskPagination } from 'utils/getAllTaskPagination';
+import { getDayAgo } from 'utils/getDayAgo';
+import ModalBoard from './ModalBoard';
+import styles from './style.module.scss';
+import useBoard from './useBoard';
 
 export interface BoardsProps {
   filters: FilterTasks;
@@ -54,6 +60,7 @@ const Boards = ({
   status,
 }: BoardsProps): JSX.Element => {
   const [filter, setFilter] = useState<FilterTasks>(filters);
+  const actionTaskMutation = useActionTask();
   const {
     data: listPending,
     isLoading: loadPending,
@@ -199,6 +206,16 @@ const Boards = ({
     setFilter(filters);
   }, [filters]);
 
+  const onActionClick = async (id: string, action: string) => {
+    try {
+      await actionTaskMutation.mutateAsync({ id, action });
+      toast({ title: 'Send action successfully!', status: 'success' });
+      refetchPending();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const showMoreItems = (
     fetchNextPage: FetchNextPageFunction,
     hasNextPage?: boolean
@@ -321,12 +338,66 @@ const Boards = ({
                                   >
                                     <Flex
                                       justifyContent={'space-between'}
+                                      alignItems={'center'}
                                       w={'100%'}
                                     >
-                                      <Text fontWeight={'bold'}>
-                                        ID: {item.id.slice(-5).toUpperCase()}
-                                      </Text>
-                                      {getDayAgo(item?.creationTime)}
+                                      <Flex>
+                                        <Text fontWeight={'bold'} mr={1}>
+                                          ID: {item.id.slice(-5).toUpperCase()}
+                                        </Text>
+                                        <div>
+                                          ({getDayAgo(item?.creationTime)})
+                                        </div>
+                                      </Flex>
+
+                                      {item.status === TaskStatus.Pending &&
+                                        item.otherActionSignals &&
+                                        item?.otherActionSignals?.length >
+                                          0 && (
+                                          <div className={styles.menuButton}>
+                                            <Menu>
+                                              <MenuButton
+                                                className={styles.menuButton}
+                                                maxH="20px"
+                                                maxW="20px"
+                                                fontSize={12}
+                                                as={IconButton}
+                                                aria-label="Options"
+                                                icon={<AiOutlineMenu />}
+                                                variant="outline"
+                                                onClick={(e) => {
+                                                  e.stopPropagation();
+                                                }}
+                                              >
+                                                Actions
+                                              </MenuButton>
+                                              <MenuList>
+                                                {item.otherActionSignals.map(
+                                                  (el, index) => {
+                                                    return (
+                                                      <MenuItem
+                                                        disabled={
+                                                          el.status !==
+                                                          OtherActionSignalStatus.PENDING
+                                                        }
+                                                        key={index}
+                                                        onClick={(e) => {
+                                                          e.stopPropagation();
+                                                          onActionClick(
+                                                            item.id,
+                                                            el.otherActionSignal
+                                                          );
+                                                        }}
+                                                      >
+                                                        {el.otherActionSignal}
+                                                      </MenuItem>
+                                                    );
+                                                  }
+                                                )}
+                                              </MenuList>
+                                            </Menu>
+                                          </div>
+                                        )}
                                     </Flex>
                                     <div className={styles.title}>
                                       {item.name}

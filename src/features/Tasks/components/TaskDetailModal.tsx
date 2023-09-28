@@ -135,7 +135,7 @@ export const TaskDetailModal = ({
               >
                 Request input
               </Text>
-              {hasInputRequestData && (
+              {hasInputRequestData && inputRequestDetail && (
                 <RequestInput inputRequestDetail={inputRequestDetail} />
               )}
             </div>
