@@ -87,11 +87,15 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
           enableSorting: true,
           cell: (info) => info.getValue(),
         }),
-        columnHelper.accessor('email', {
-          id: 'email',
+        columnHelper.accessor('emailTo', {
+          id: 'emailTo',
           header: 'Assigned To',
           enableSorting: true,
-          cell: (info) => info.getValue(),
+          cell: (info) =>
+            info
+              .getValue()
+              .map((email) => email.split('@')[0])
+              .join(', '),
         }),
         columnHelper.accessor('status', {
           id: 'status',
@@ -154,7 +158,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
                       View
                     </MenuItem>
                     {info.row.original.status === TaskStatus.Pending &&
-                      user.email === info.row.original.email && (
+                      info.row.original.emailTo.includes(user.email) && (
                         <>
                           <MenuItem
                             display="flex"
