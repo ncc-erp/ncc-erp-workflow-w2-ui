@@ -24,7 +24,7 @@ import { RiEyeFill, RiSettings4Fill } from 'react-icons/ri';
 import { MdCancel } from 'react-icons/md';
 import { AiFillCheckCircle, AiOutlineReload } from 'react-icons/ai';
 import { formatDate } from 'utils';
-import { TaskStatus, noOfRows } from 'common/constants';
+import { QueryKeys, TaskStatus, noOfRows } from 'common/constants';
 import { useCurrentUser } from 'hooks/useCurrentUser';
 import {
   useApproveTask,
@@ -37,6 +37,7 @@ import { Pagination } from 'common/components/Pagination';
 import styles from './style.module.scss';
 import ModalBoard from './ModalBoard';
 import { toast } from '../StandaloneToast';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface Props {
   filters: FilterTasks;
@@ -62,6 +63,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
     initDataForm
   );
   const [loadStatus, setLoadStatus] = useState<boolean>(false);
+  const queryClient = useQueryClient();
 
   const taskColumns = useMemo(
     () =>
@@ -213,6 +215,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
         case TaskStatus.Approved:
           await approveTaskMutation.mutateAsync(dataForm.taskId);
           refetch();
+          queryClient.removeQueries([QueryKeys.GET_ALL_TASK_FILTERED]);
           toast({ title: 'Approved successfully!', status: 'success' });
           break;
         case TaskStatus.Rejected:
@@ -222,6 +225,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
             reason,
           });
           refetch();
+          queryClient.removeQueries([QueryKeys.GET_ALL_TASK_FILTERED]);
           toast({ title: 'Rejected successfully!', status: 'success' });
           break;
         default:
@@ -238,6 +242,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
     dataForm.status,
     dataForm.taskId,
     handleClose,
+    queryClient,
     reason,
     refetch,
     rejectTaskMutation,

@@ -87,8 +87,8 @@ const Boards = ({
   } = useGetAllTask({ ...filter }, TaskStatus.Rejected);
   const color = useColorModeValue(ColorThemeMode.DARK, ColorThemeMode.LIGHT);
   const bg = useColorModeValue(theme.colors.white, theme.colors.quarty);
-  const borderColor = useColorModeValue(
-    theme.colors.blackBorder[500],
+  const bgDisabled = useColorModeValue(
+    'var(--chakra-colors-blackAlpha-100)',
     theme.colors.blackBorder[600]
   );
 
@@ -147,18 +147,23 @@ const Boards = ({
     const dInd = +destination.droppableId as ETaskStatus;
 
     const results = move(state[sInd], state[dInd], source, destination);
-
+    const statusDrop = Number(destination.droppableId);
     try {
       setIsLoading(true);
-      switch (Number(destination.droppableId)) {
+      state[ETaskStatus.Pending][source.index].status = statusDrop;
+      const newState = { ...state };
+      newState[sInd] = results[sInd];
+      newState[dInd] = results[dInd];
+      setState(newState);
+      handleClose();
+      switch (statusDrop) {
         case BoardColumnStatus.Approved:
           await approveTaskMutation.mutateAsync(
             state[ETaskStatus.Pending][source.index].id
           );
-          queryClient.invalidateQueries({
-            queryKey: [QueryKeys.FILTER_TASK],
+          queryClient.removeQueries({
+            queryKey: [QueryKeys.GET_ALL_TASK],
           });
-          state[ETaskStatus.Pending][source.index].status = TaskStatus.Approved;
           refetchApproved();
           toast({ title: 'Approved successfully!', status: 'success' });
           break;
@@ -168,24 +173,19 @@ const Boards = ({
             id: state[ETaskStatus.Pending][source.index].id,
             reason,
           });
-          queryClient.invalidateQueries({
-            queryKey: [QueryKeys.FILTER_TASK],
+          queryClient.removeQueries({
+            queryKey: [QueryKeys.GET_ALL_TASK],
           });
-          state[ETaskStatus.Pending][source.index].status = TaskStatus.Rejected;
           refetchRejected();
           toast({ title: 'Rejected successfully!', status: 'success' });
           break;
         default:
           break;
       }
-
-      const newState = { ...state };
-      newState[sInd] = results[sInd];
-      newState[dInd] = results[dInd];
-
-      setState(newState);
-      handleClose();
     } catch (error) {
+      refetchPending();
+      refetchApproved();
+      refetchRejected();
       console.error(error);
     } finally {
       setIsLoading(false);
@@ -342,8 +342,14 @@ const Boards = ({
                                   style={getItemStyle(
                                     provided.draggableProps.style
                                   )}
+                                  borderRadius={4}
+                                  transition={'all ease-in-out 0.1s'}
+                                  _hover={{
+                                    boxShadow:
+                                      'rgba(0, 0, 0, 0.15) 3px 3px 4px',
+                                  }}
                                 >
-                                  <div
+                                  <Box
                                     className={`${styles.item} ${
                                       ind === BoardColumnStatus.Pending
                                         ? styles.itemPending
@@ -354,8 +360,7 @@ const Boards = ({
                                         : ''
                                     }`}
                                     style={{
-                                      background: bg,
-                                      border: `1px solid ${borderColor}`,
+                                      background: isDisabled ? bgDisabled : bg,
                                     }}
                                   >
                                     <Flex
@@ -471,7 +476,7 @@ const Boards = ({
                                       <Text>Date:</Text>
                                       {formatDate(new Date(item?.creationTime))}
                                     </Flex>
-                                  </div>
+                                  </Box>
                                 </Box>
                               )}
                             </Draggable>

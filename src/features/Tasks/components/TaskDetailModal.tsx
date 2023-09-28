@@ -39,16 +39,18 @@ export const TaskDetailModal = ({
   const { data, refetch } = useGetTaskDetail(taskId);
   const [isLoading, setIsLoading] = useState(false);
 
-  const { tasks, inputRequestUser, inputRequestDetail } = useMemo(() => {
-    const { input, tasks } = data || {};
-    const { RequestUser, Request } = input || {};
+  const { tasks, inputRequestUser, inputRequestDetail, emailTo } =
+    useMemo(() => {
+      const { input, tasks, emailTo } = data || {};
+      const { RequestUser, Request } = input || {};
 
-    return {
-      tasks,
-      inputRequestUser: RequestUser,
-      inputRequestDetail: Request,
-    };
-  }, [data]);
+      return {
+        tasks,
+        emailTo,
+        inputRequestUser: RequestUser,
+        inputRequestDetail: Request,
+      };
+    }, [data]);
 
   const hasTaskAction: boolean = useMemo(() => {
     if (!data?.tasks || typeof data.tasks.status !== 'number') {
@@ -173,7 +175,10 @@ export const TaskDetailModal = ({
               )}
             </div>
             <div className={styles.right}>
-              <TextGroup label="Email assignment" content={tasks?.email} />
+              <TextGroup
+                label="Email assignment"
+                content={emailTo?.join(', ')}
+              />
               <TextGroup
                 label="Creation time"
                 content={

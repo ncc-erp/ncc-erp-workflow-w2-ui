@@ -22,9 +22,8 @@ interface RowActionProps {
 }
 
 export const RowAction = ({
-  onEdit,
-} // onPermissions,
-// onDelete,
+  onEdit, // onPermissions,
+} // onDelete,
 : RowActionProps) => {
   const bg = useColorModeValue(ColorThemeMode.LIGHT, ColorThemeMode.DARK);
   const color = useColorModeValue(ColorThemeMode.DARK, ColorThemeMode.LIGHT);

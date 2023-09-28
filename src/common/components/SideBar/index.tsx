@@ -39,7 +39,6 @@ export const SideNav = () => {
       <Box
         ref={sideBarRef}
         w={isLargeSceen ? '240px' : 'auto'}
-        borderRightWidth="1px"
         borderRightColor="gray.200"
         bgColor="gray.50"
         h="100vh"

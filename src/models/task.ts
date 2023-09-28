@@ -71,6 +71,7 @@ export interface IInputRequest {
 export interface ITaskResult {
   input: IInputRequest;
   tasks: ITask;
+  emailTo: Array<string>;
   otherActionSignals: IOtherActionSignals[];
 }
 
