@@ -196,13 +196,7 @@ export const SideBarContent = () => {
           </>
         )}
       </VStack>
-      <HStack
-        borderTopWidth="1px"
-        borderTopColor="gray.200"
-        px="12px"
-        py="16px"
-        spacing="12px"
-      >
+      <HStack borderTopColor="gray.200" px="12px" py="16px" spacing="12px">
         <Text fontSize="sm" fontWeight={600} noOfLines={1}>
           {user.email}
         </Text>

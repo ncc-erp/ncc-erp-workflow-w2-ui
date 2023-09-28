@@ -17,7 +17,6 @@ import {
   DislayValue,
   FilterAll,
   FilterDate,
-  QueryKeys,
   TaskStatus,
 } from 'common/constants';
 import { FilterTasks } from 'models/task';
@@ -30,7 +29,6 @@ import { useCurrentUser } from 'hooks/useCurrentUser';
 import { subtractTime } from 'utils/subtractTime';
 import { ListTask } from '../../../common/components/Boards/ListTask';
 import { TaskDetailModal } from './TaskDetailModal';
-import { useQueryClient } from '@tanstack/react-query';
 import { FaTable } from 'react-icons/fa';
 import { BsCardText } from 'react-icons/bs';
 
@@ -78,7 +76,6 @@ export const TasksBoard = () => {
   const [display, setDisplay] = useState<number>(0);
   const txtSearchDebounced = useDebounced(txtSearch, 500);
   const isAdmin = useIsAdmin();
-  const queryClient = useQueryClient();
 
   const { data: requestTemplateData } = useRequestTemplates();
   const requestTemplates = useMemo(() => {
@@ -163,11 +160,6 @@ export const TasksBoard = () => {
       onTemplateStatusChange('keySearch', txtSearchDebounced);
     }
   }, [isMyTask, onTemplateStatusChange, txtSearchDebounced, user.email]);
-
-  useEffect(() => {
-    queryClient.invalidateQueries([QueryKeys.GET_ALL_TASK_FILTERED]);
-    queryClient.invalidateQueries([QueryKeys.GET_ALL_TASK]);
-  }, [display, queryClient]);
 
   return (
     <Flex flexDirection={'column'} gap={2}>

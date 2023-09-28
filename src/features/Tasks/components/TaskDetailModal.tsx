@@ -163,7 +163,10 @@ export const TaskDetailModal = ({
               )}
             </div>
             <div className={styles.right}>
-              <TextGroup label="Email assignment" content={tasks?.email} />
+              <TextGroup
+                label="Email assignment"
+                content={tasks?.emailTo.join(', ')}
+              />
               <TextGroup
                 label="Creation time"
                 content={
