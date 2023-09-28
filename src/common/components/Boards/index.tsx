@@ -282,7 +282,7 @@ const Boards = ({
                         {el.map((item, index) => {
                           const isDisabled =
                             +item.status !== +TaskStatus.Pending ||
-                            item?.email !== currentUser?.email;
+                            !item?.emailTo.includes(currentUser?.email);
                           return (
                             <Draggable
                               key={item.id}
@@ -336,7 +336,10 @@ const Boards = ({
                                       <Text>Name:</Text> {item.authorName}
                                     </Flex>
                                     <Flex gap={2}>
-                                      <Text>Assign:</Text> {item.email}
+                                      <Text>Assign:</Text>
+                                      {item.emailTo
+                                        .map((email) => email.split('@')[0])
+                                        .join(', ')}
                                     </Flex>
                                     <div className={styles.stateWrapper}>
                                       <div className={styles.state}>State:</div>
