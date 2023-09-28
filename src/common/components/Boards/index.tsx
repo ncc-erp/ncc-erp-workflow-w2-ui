@@ -303,6 +303,12 @@ const Boards = ({
                                   style={getItemStyle(
                                     provided.draggableProps.style
                                   )}
+                                  borderRadius={4}
+                                  transition={'all ease-in-out 0.1s'}
+                                  _hover={{
+                                    boxShadow:
+                                      'rgba(0, 0, 0, 0.15) 3px 3px 4px',
+                                  }}
                                 >
                                   <Box
                                     className={`${styles.item} ${
