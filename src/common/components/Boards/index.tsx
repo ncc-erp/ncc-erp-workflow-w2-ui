@@ -17,57 +17,67 @@ import {
 import useBoard from './useBoard';
 import {
   Box,
+  Center,
   Flex,
   IconButton,
+  Spinner,
   Text,
-  useColorModeValue,
   useDisclosure,
+  useColorModeValue,
 } from '@chakra-ui/react';
-import { FetchNextPageFunction, ITask, Refetch, TaskResult } from 'models/task';
-import { useApproveTask, useRejectTask } from 'api/apiHooks/taskHooks';
+import { FetchNextPageFunction, FilterTasks, ITask } from 'models/task';
+import {
+  useApproveTask,
+  useGetAllTask,
+  useRejectTask,
+} from 'api/apiHooks/taskHooks';
 import ModalBoard from './ModalBoard';
 import { ETaskStatus } from 'common/enums';
 import { useCurrentUser } from 'hooks/useCurrentUser';
 import { formatDate } from 'utils/formatDate';
 import { getDayAgo } from 'utils/getDayAgo';
 import { HiArrowDown } from 'react-icons/hi';
-import { TaskDetailModal } from 'features/Tasks/components/TaskDetailModal';
+import { getAllTaskPagination } from 'utils/getAllTaskPagination';
+import { AiOutlineReload } from 'react-icons/ai';
+import debounce from 'lodash.debounce';
 import theme from 'themes/theme';
 
-interface ModalDetail {
-  isOpen: boolean;
-  taskId: string;
-}
-
 export interface BoardsProps {
-  data: {
-    listPending: TaskResult;
-    listApproved: TaskResult;
-    listRejected: TaskResult;
-  };
-  fetchNextPagePending: FetchNextPageFunction;
-  fetchNextPageApproved: FetchNextPageFunction;
-  fetchNextPageRejected: FetchNextPageFunction;
-  refetchPending: Refetch;
-  refetchApproved: Refetch;
-  refetchRejected: Refetch;
+  filters: FilterTasks;
+  openDetailModal: (id: string) => void;
   status: number;
 }
 
-const initialModalStatus: ModalDetail = {
-  isOpen: false,
-  taskId: '',
-};
-
 const Boards = ({
-  data,
-  fetchNextPageApproved,
-  fetchNextPagePending,
-  fetchNextPageRejected,
-  refetchApproved,
-  refetchRejected,
+  filters,
+  openDetailModal,
   status,
 }: BoardsProps): JSX.Element => {
+  const [filter, setFilter] = useState<FilterTasks>(filters);
+  const {
+    data: listPending,
+    isLoading: loadPending,
+    fetchNextPage: fetchNextPagePending,
+    refetch: refetchPending,
+    isRefetching: isRefetchingPending,
+    hasNextPage: hasNextPagePending,
+  } = useGetAllTask({ ...filter }, TaskStatus.Pending);
+  const {
+    data: listApproved,
+    isLoading: loadApproved,
+    fetchNextPage: fetchNextPageApproved,
+    refetch: refetchApproved,
+    isRefetching: isRefetchingApproved,
+    hasNextPage: hasNextPageApproved,
+  } = useGetAllTask({ ...filter }, TaskStatus.Approved);
+  const {
+    data: listRejected,
+    isLoading: loadRejected,
+    fetchNextPage: fetchNextPageRejected,
+    refetch: refetchRejected,
+    isRefetching: isRefetchingRejected,
+    hasNextPage: hasNextPageRejected,
+  } = useGetAllTask({ ...filter }, TaskStatus.Rejected);
   const color = useColorModeValue(ColorThemeMode.DARK, ColorThemeMode.LIGHT);
   const bg = useColorModeValue(theme.colors.white, theme.colors.quarty);
   const borderColor = useColorModeValue(
@@ -75,7 +85,6 @@ const Boards = ({
     theme.colors.blackBorder[600]
   );
 
-  const [modalState, setModalState] = useState(initialModalStatus);
   const [result, setResult] = useState<DropResult>();
   const [isRejected, setIsRejected] = useState<boolean>(false);
   const [reason, setReason] = useState<string>('');
@@ -92,21 +101,6 @@ const Boards = ({
   const rejectTaskMutation = useRejectTask();
   const { reorder, move, getItemStyle, getListStyle } = useBoard();
   const currentUser = useCurrentUser();
-
-  const openModal = (taskId: string) => {
-    setModalState({
-      ...modalState,
-      isOpen: true,
-      taskId: taskId,
-    });
-  };
-
-  const closeModal = () => {
-    setModalState({
-      ...modalState,
-      isOpen: false,
-    });
-  };
 
   const handleClose = () => {
     onClose();
@@ -189,24 +183,27 @@ const Boards = ({
 
   useEffect(() => {
     setState({
-      [ETaskStatus.Pending]: data.listPending.items.filter(
-        (x) => x.status === TaskStatus.Pending
-      ),
-      [ETaskStatus.Approved]: data.listApproved.items.filter(
-        (x) => x.status === TaskStatus.Approved
-      ),
-      [ETaskStatus.Rejected]: data.listRejected.items.filter(
-        (x) => x.status === TaskStatus.Rejected
-      ),
+      [ETaskStatus.Pending]: getAllTaskPagination(
+        listPending ? listPending?.pages : []
+      ).items.filter((x) => x.status === TaskStatus.Pending),
+      [ETaskStatus.Approved]: getAllTaskPagination(
+        listApproved ? listApproved?.pages : []
+      ).items.filter((x) => x.status === TaskStatus.Approved),
+      [ETaskStatus.Rejected]: getAllTaskPagination(
+        listRejected ? listRejected?.pages : []
+      ).items.filter((x) => x.status === TaskStatus.Rejected),
     });
-  }, [data]);
+  }, [listApproved, listPending, listRejected]);
+
+  useEffect(() => {
+    setFilter(filters);
+  }, [filters]);
 
   const showMoreItems = (
     fetchNextPage: FetchNextPageFunction,
-    listLength: number,
-    totalCount: number
+    hasNextPage?: boolean
   ) => {
-    if (listLength < totalCount) {
+    if (hasNextPage) {
       return (
         <Flex w={'100%'} justifyContent={'center'} my={2}>
           <IconButton
@@ -226,145 +223,183 @@ const Boards = ({
 
   return (
     <>
-      <DragDropContext onDragEnd={onDragEnd}>
-        <div className={styles.container}>
-          {Object.values(state).map((el, ind) => (
-            <Droppable key={ind} droppableId={`${ind}`}>
-              {(provided, snapshot) => (
-                <div
-                  ref={provided.innerRef}
-                  style={getListStyle(snapshot.isDraggingOver)}
-                  {...provided.droppableProps}
-                >
-                  <div
-                    className={styles.columnLabel}
-                    style={{ color: color, backgroundColor: bg }}
-                  >
-                    {Object.keys(BoardColumnStatus)[ind]}
-                  </div>
-
-                  <Box className={styles.columnContent}>
-                    {el.map((item, index) => {
-                      const isDisabled =
-                        +item.status !== +TaskStatus.Pending ||
-                        item?.email !== currentUser?.email;
-                      return (
-                        <Draggable
-                          key={item.id}
-                          draggableId={item.id}
-                          index={index}
-                          isDragDisabled={isDisabled}
-                        >
-                          {(provided) => (
-                            <Box
-                              cursor={isDisabled ? 'pointer' : 'grab'}
-                              onClick={() => {
-                                item.id !== null && openModal(item.id);
-                              }}
-                              ref={provided.innerRef}
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
-                              style={getItemStyle(
-                                provided.draggableProps.style
-                              )}
-                            >
-                              <div
-                                className={`${styles.item} ${
-                                  ind === BoardColumnStatus.Pending
-                                    ? styles.itemPending
-                                    : ind === BoardColumnStatus.Approved
-                                    ? styles.itemApproved
-                                    : ind === BoardColumnStatus.Rejected
-                                    ? styles.itemRejected
-                                    : ''
-                                }`}
-                                style={{
-                                  background: bg,
-                                  border: `1px solid ${borderColor}`,
-                                }}
-                              >
-                                <Flex
-                                  justifyContent={'space-between'}
-                                  w={'100%'}
-                                >
-                                  <Text fontWeight={'bold'}>
-                                    ID: {item.id.slice(-5).toUpperCase()}
-                                  </Text>
-                                  {getDayAgo(item?.creationTime)}
-                                </Flex>
-                                <div className={styles.title}>{item.name}</div>
-
-                                <Flex gap={2}>
-                                  <Text>Name:</Text> {item.authorName}
-                                </Flex>
-                                <Flex gap={2}>
-                                  <Text>Assign:</Text> {item.email}
-                                </Flex>
-                                <div className={styles.stateWrapper}>
-                                  <Text>State:</Text>
-                                  <div className={styles.statusWrapper}>
-                                    <div
-                                      className={`${styles.status} ${
-                                        ind === BoardColumnStatus.Pending
-                                          ? styles.statusPending
-                                          : ind === BoardColumnStatus.Approved
-                                          ? styles.statusApproved
-                                          : ind === BoardColumnStatus.Rejected
-                                          ? styles.statusRejected
-                                          : ''
-                                      }`}
-                                    />
-                                    {Object.keys(BoardColumnStatus)[ind]}
-                                  </div>
-                                </div>
-                                <Flex gap={2}>
-                                  <Text>Date:</Text>
-                                  {formatDate(new Date(item?.creationTime))}
-                                </Flex>
-                              </div>
-                            </Box>
-                          )}
-                        </Draggable>
-                      );
-                    })}
-
-                    {ind === BoardColumnStatus.Pending &&
-                      (+status === -1 || +status === TaskStatus.Pending) &&
-                      showMoreItems(
-                        fetchNextPagePending,
-                        data?.listPending?.items?.length,
-                        data?.listPending?.totalCount
-                      )}
-                    {ind === BoardColumnStatus.Approved &&
-                      (+status === -1 || +status === TaskStatus.Approved) &&
-                      showMoreItems(
-                        fetchNextPageApproved,
-                        data?.listApproved?.items?.length,
-                        data.listApproved?.totalCount
-                      )}
-                    {ind === BoardColumnStatus.Rejected &&
-                      (+status === -1 || +status === TaskStatus.Rejected) &&
-                      showMoreItems(
-                        fetchNextPageRejected,
-                        data?.listRejected?.items?.length,
-                        data?.listRejected?.totalCount
-                      )}
-                  </Box>
-                  {provided.placeholder}
-                </div>
-              )}
-            </Droppable>
-          ))}
-        </div>
-      </DragDropContext>
-
-      {modalState.taskId.length > 0 && (
-        <TaskDetailModal
-          isOpen={modalState.isOpen}
-          onClose={closeModal}
-          taskId={modalState.taskId}
+      <Box position={'relative'}>
+        <IconButton
+          isRound={true}
+          variant="solid"
+          aria-label="Done"
+          fontSize="20px"
+          position={'absolute'}
+          right={25}
+          top={'-40px'}
+          icon={<AiOutlineReload />}
+          onClick={debounce(() => {
+            if (!filter.status) return;
+            switch (+filter?.status) {
+              case TaskStatus.Pending:
+                refetchPending();
+                break;
+              case TaskStatus.Approved:
+                refetchApproved();
+                break;
+              case TaskStatus.Rejected:
+                refetchRejected();
+                break;
+              default:
+                refetchPending();
+                refetchApproved();
+                refetchRejected();
+                break;
+            }
+          }, 200)}
         />
-      )}
+        {!(
+          loadApproved ||
+          loadPending ||
+          loadRejected ||
+          isRefetchingPending ||
+          isRefetchingApproved ||
+          isRefetchingRejected
+        ) ? (
+          <DragDropContext onDragEnd={onDragEnd}>
+            <div className={styles.container}>
+              {Object.values(state).map((el, ind) => (
+                <Droppable key={ind} droppableId={`${ind}`}>
+                  {(provided, snapshot) => (
+                    <div
+                      ref={provided.innerRef}
+                      style={getListStyle(snapshot.isDraggingOver)}
+                      {...provided.droppableProps}
+                    >
+                      <div
+                        className={styles.columnLabel}
+                        style={{ color: color, backgroundColor: bg }}
+                      >
+                        {Object.keys(BoardColumnStatus)[ind]}
+                      </div>
+
+                      <Box className={styles.columnContent}>
+                        {el.map((item, index) => {
+                          const isDisabled =
+                            +item.status !== +TaskStatus.Pending ||
+                            item?.email !== currentUser?.email;
+                          return (
+                            <Draggable
+                              key={item.id}
+                              draggableId={item.id}
+                              index={index}
+                              isDragDisabled={isDisabled}
+                            >
+                              {(provided) => (
+                                <Box
+                                  cursor={isDisabled ? 'pointer' : 'grab'}
+                                  onClick={() => {
+                                    item.id !== null &&
+                                      openDetailModal(item.id);
+                                  }}
+                                  ref={provided.innerRef}
+                                  {...provided.draggableProps}
+                                  {...provided.dragHandleProps}
+                                  style={getItemStyle(
+                                    provided.draggableProps.style
+                                  )}
+                                >
+                                  <div
+                                    className={`${styles.item} ${
+                                      ind === BoardColumnStatus.Pending
+                                        ? styles.itemPending
+                                        : ind === BoardColumnStatus.Approved
+                                        ? styles.itemApproved
+                                        : ind === BoardColumnStatus.Rejected
+                                        ? styles.itemRejected
+                                        : ''
+                                    }`}
+                                    style={{
+                                      background: bg,
+                                      border: `1px solid ${borderColor}`,
+                                    }}
+                                  >
+                                    <Flex
+                                      justifyContent={'space-between'}
+                                      w={'100%'}
+                                    >
+                                      <Text fontWeight={'bold'}>
+                                        ID: {item.id.slice(-5).toUpperCase()}
+                                      </Text>
+                                      {getDayAgo(item?.creationTime)}
+                                    </Flex>
+                                    <div className={styles.title}>
+                                      {item.name}
+                                    </div>
+
+                                    <Flex gap={2}>
+                                      <Text>Name:</Text> {item.authorName}
+                                    </Flex>
+                                    <Flex gap={2}>
+                                      <Text>Assign:</Text> {item.email}
+                                    </Flex>
+                                    <div className={styles.stateWrapper}>
+                                      <div className={styles.state}>State:</div>
+                                      <div className={styles.statusWrapper}>
+                                        <div
+                                          className={`${styles.status} ${
+                                            ind === BoardColumnStatus.Pending
+                                              ? styles.statusPending
+                                              : ind ===
+                                                BoardColumnStatus.Approved
+                                              ? styles.statusApproved
+                                              : ind ===
+                                                BoardColumnStatus.Rejected
+                                              ? styles.statusRejected
+                                              : ''
+                                          }`}
+                                        />
+                                        {Object.keys(BoardColumnStatus)[ind]}
+                                      </div>
+                                    </div>
+                                    <Flex gap={2}>
+                                      <Text>Date:</Text>
+                                      {formatDate(new Date(item?.creationTime))}
+                                    </Flex>
+                                  </div>
+                                </Box>
+                              )}
+                            </Draggable>
+                          );
+                        })}
+
+                        {ind === BoardColumnStatus.Pending &&
+                          (+status === -1 || +status === TaskStatus.Pending) &&
+                          showMoreItems(
+                            fetchNextPagePending,
+                            hasNextPagePending
+                          )}
+                        {ind === BoardColumnStatus.Approved &&
+                          (+status === -1 || +status === TaskStatus.Approved) &&
+                          showMoreItems(
+                            fetchNextPageApproved,
+                            hasNextPageApproved
+                          )}
+                        {ind === BoardColumnStatus.Rejected &&
+                          (+status === -1 || +status === TaskStatus.Rejected) &&
+                          showMoreItems(
+                            fetchNextPageRejected,
+                            hasNextPageRejected
+                          )}
+                      </Box>
+                      {provided.placeholder}
+                    </div>
+                  )}
+                </Droppable>
+              ))}
+            </div>
+          </DragDropContext>
+        ) : (
+          <Center h="200px">
+            <Spinner mx="auto" speed="0.65s" thickness="3px" size="xl" />
+          </Center>
+        )}
+      </Box>
       <ModalBoard
         isOpen={isOpen}
         onClose={handleClose}
