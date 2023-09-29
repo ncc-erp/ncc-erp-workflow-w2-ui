@@ -1,26 +1,27 @@
 import {
   Box,
+  Button,
   Center,
   HStack,
   Input,
   InputGroup,
   InputRightElement,
-  Progress,
   Spacer,
   Spinner,
-  Stack,
+  Text,
 } from '@chakra-ui/react';
 import { useRecoilValue } from 'recoil';
 import { noOfRows } from 'common/constants';
 import { FilterWfhParams, IPostAndWFH } from 'models/report';
 import { appConfigState } from 'stores/appConfig';
 import { Table } from 'common/components/Table/Table';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Pagination } from 'common/components/Pagination';
 import { PageSize } from 'common/components/Table/PageSize';
 import { ShowingItemText } from 'common/components/Table/ShowingItemText';
 import { SortDirection, WfhSortField } from 'common/enums';
 import { useWfhList } from 'api/apiHooks/reportHooks';
+
 import {
   ColumnDef,
   SortingState,
@@ -28,13 +29,23 @@ import {
 } from '@tanstack/react-table';
 import { EmptyWrapper } from 'common/components/EmptyWrapper';
 import { TbSearch } from 'react-icons/tb';
+import { FaDownload } from 'react-icons/fa';
 import useDebounced from 'hooks/useDebounced';
+import DateRangePicker from 'common/components/DateRangePicker';
+import { formatDate } from 'utils';
+import ReactDatePicker from 'react-datepicker';
+import { RowAction } from './RowAction';
+import { DetailModal } from './DetailModal';
+import { handleExportExcelFile } from 'utils/handleExportExcelFile';
+import styles from './styles.module.scss';
 
 const initialFilter: FilterWfhParams = {
   maxResultCount: +noOfRows[0].value,
   skipCount: 0,
   sorting: [WfhSortField.email, 'desc'].join(' '),
   keySearch: '',
+  startDate: null,
+  endDate: null,
 };
 
 const initialSorting: SortingState = [
@@ -53,53 +64,96 @@ export const TablePostAndWFH = () => {
   const { items: wfhList = [], totalCount = 0 } = data ?? {};
   const [txtSearch, setTxtSearch] = useState('');
   const txtSearchDebounced = useDebounced(txtSearch, 500);
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [endDate, setEndDate] = useState<Date | null>(null);
+  const endDatePicker = useRef<ReactDatePicker | null>(null);
+  const [isOpenModal, setOpenModal] = useState(false);
+  const [reportDetail, setReportDetail] = useState<IPostAndWFH>();
 
-  const getPercentPostWFH = (numOfPosts: number, numOfRequestWFH: number) => {
-    return (numOfPosts / numOfRequestWFH) * 100;
+  const handleStartDateChange = (date: Date) => {
+    setStartDate(date);
+    if (!date) {
+      setEndDate(null);
+    } else {
+      if (endDatePicker.current) {
+        endDatePicker.current.setFocus();
+      }
+      if (endDate && date >= endDate) {
+        setEndDate(null);
+      }
+    }
+  };
+
+  const handleEndDateChange = (date: Date) => {
+    if (date && startDate && date >= startDate) {
+      setEndDate(date);
+    }
+  };
+
+  useEffect(() => {
+    if (startDate && endDate && startDate !== endDate) {
+      setFilter((filter) => ({
+        ...filter,
+        startDate: formatDate(startDate, 'MM/dd/yyyy'),
+        endDate: formatDate(endDate, 'MM/dd/yyyy'),
+      }));
+    }
+  }, [startDate, endDate]);
+
+  const onAction = (report: IPostAndWFH) => () => {
+    setReportDetail(report);
+    setOpenModal(true);
+  };
+
+  const onCloseModal = () => {
+    setOpenModal(false);
   };
 
   const wfhColumns = useMemo(
     () =>
       [
-        columnHelper.accessor('userRequestName', {
-          id: 'userRequestName',
+        columnHelper.accessor('email', {
+          id: 'email',
           header: () => <Box>Email address</Box>,
           enableSorting: true,
           sortDescFirst: true,
           cell: (info) => <Box>{info.getValue()}</Box>,
         }),
-        columnHelper.accessor('totalposts', {
-          id: 'totalposts',
-          header: 'Number of posts',
-          enableSorting: true,
-          cell: (info) => info.getValue(),
-        }),
-        columnHelper.accessor('totaldays', {
-          id: 'totaldays',
+        columnHelper.accessor('totalDays', {
+          id: 'totalDays',
           header: 'Number of requests for WFH',
-          enableSorting: true,
           cell: (info) => info.getValue(),
         }),
-        columnHelper.display({
-          id: 'status',
-          enableSorting: false,
-          header: () => <Box pr="16px">Status</Box>,
+        columnHelper.accessor('totalPosts', {
+          id: 'totalPosts',
+          header: 'Number of posts',
+          cell: (info) => info.getValue(),
+        }),
+        columnHelper.accessor('totalMissingPosts', {
+          id: 'totalMissingPosts',
+          header: 'Number of missing posts',
           cell: (info) => {
-            const percent = getPercentPostWFH(
-              info.row.original.totalposts,
-              info.row.original.totaldays
-            );
+            const count = info.getValue();
             return (
-              <Stack minW={200} pr="16px">
-                <Progress
-                  w={'100%'}
-                  colorScheme={percent >= 100 ? 'green' : 'blue'}
-                  size="sm"
-                  value={percent}
-                />
-              </Stack>
+              <Text
+                color={count && count > 0 ? 'red' : ''}
+                size="sm"
+                fontWeight={count && count > 0 ? 'medium' : 'normal'}
+              >
+                {count}
+              </Text>
             );
           },
+        }),
+        columnHelper.display({
+          id: 'actions',
+          enableSorting: false,
+          header: () => <Center w="full">Actions</Center>,
+          cell: (info) => (
+            <Center>
+              <RowAction onViewDetails={onAction(info.row.original)} />
+            </Center>
+          ),
         }),
       ] as ColumnDef<IPostAndWFH>[],
     [columnHelper]
@@ -143,15 +197,25 @@ export const TablePostAndWFH = () => {
     }));
   }, [txtSearchDebounced]);
 
+  const exportData = wfhList
+    .filter((item) => item.totalMissingPosts !== 0)
+    .map((item) => ({
+      email: item.email,
+      totalDays: item.totalDays,
+      totalPosts: item.totalPosts,
+      totalMissingPosts: item.totalMissingPosts,
+    }));
+
   return (
     <>
       <Box>
         <HStack
           w="full"
           pl="24px"
+          pr="24px"
           pb="3px"
-          alignItems="flex-end"
-          flexWrap="wrap"
+          display="flex"
+          justifyContent="space-between"
         >
           <InputGroup w={'20%'}>
             <Input
@@ -165,7 +229,25 @@ export const TablePostAndWFH = () => {
               <TbSearch />
             </InputRightElement>
           </InputGroup>
+          <Box>
+            <DateRangePicker
+              startDate={startDate}
+              endDate={endDate}
+              handleStartDateChange={handleStartDateChange}
+              handleEndDateChange={handleEndDateChange}
+              endDatePicker={endDatePicker}
+            />
+          </Box>
         </HStack>
+        <div className={styles.btnExport}>
+          <Button
+            onClick={() =>
+              handleExportExcelFile({ exportData: exportData, type: 'WFH' })
+            }
+          >
+            <FaDownload />
+          </Button>
+        </div>
         {isLoading ? (
           <Center h="200px">
             <Spinner mx="auto" speed="0.65s" thickness="3px" size="xl" />
@@ -184,7 +266,7 @@ export const TablePostAndWFH = () => {
             >
               <Table
                 columns={wfhColumns}
-                data={wfhList}
+                data={wfhList.filter((item) => item.totalMissingPosts !== 0)}
                 onSortingChange={setSorting}
                 sorting={sorting}
               />
@@ -213,6 +295,15 @@ export const TablePostAndWFH = () => {
             hideOnSinglePage
           />
         </HStack>
+        {reportDetail && (
+          <DetailModal
+            isOpen={isOpenModal}
+            onClose={onCloseModal}
+            reportDetail={reportDetail}
+            startDate={startDate}
+            endDate={endDate}
+          />
+        )}
       </Box>
     </>
   );
