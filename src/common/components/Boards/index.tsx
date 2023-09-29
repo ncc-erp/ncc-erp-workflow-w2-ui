@@ -1,6 +1,5 @@
 import {
   Box,
-  Center,
   Flex,
   IconButton,
   Menu,
@@ -49,6 +48,7 @@ import { getDayAgo } from 'utils/getDayAgo';
 import ModalBoard from './ModalBoard';
 import styles from './style.module.scss';
 import useBoard from './useBoard';
+import TaskSkeleton from './TaskSkeleton';
 
 const fadeIn = keyframes`
   from { opacity: 0; }
@@ -480,14 +480,11 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
                           );
                         })
                       ) : (
-                        <Center h="200px">
-                          <Spinner
-                            mx="auto"
-                            speed="0.65s"
-                            thickness="3px"
-                            size="xl"
-                          />
-                        </Center>
+                        <>
+                          <TaskSkeleton />
+                          <TaskSkeleton />
+                          <TaskSkeleton />
+                        </>
                       )}
                       {ind === BoardColumnStatus.Pending &&
                         !loadingStates[ind].value &&
