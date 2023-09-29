@@ -379,33 +379,34 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
                                         </div>
                                       </Flex>
 
-                                      {item.status === TaskStatus.Pending && (
-                                        <div className={styles.menuButton}>
-                                          {isActionLoading.isLoading &&
-                                            isActionLoading.id === item.id && (
-                                              <Spinner size="xs" />
-                                            )}
-                                          <Menu>
-                                            <MenuButton
-                                              className={styles.menuButton}
-                                              maxH="20px"
-                                              maxW="20px"
-                                              fontSize={16}
-                                              as={IconButton}
-                                              aria-label="Options"
-                                              icon={<AiOutlineMenu />}
-                                              variant="outline"
-                                              onClick={(e) => {
-                                                e.stopPropagation();
-                                              }}
-                                            >
-                                              Actions
-                                            </MenuButton>
-                                            <MenuList>
-                                              {item.otherActionSignals &&
-                                              item?.otherActionSignals?.length >
-                                                0 ? (
-                                                item.otherActionSignals.map(
+                                      {item.status === TaskStatus.Pending &&
+                                        item.otherActionSignals &&
+                                        item?.otherActionSignals?.length >
+                                          0 && (
+                                          <div className={styles.menuButton}>
+                                            {isActionLoading.isLoading &&
+                                              isActionLoading.id ===
+                                                item.id && (
+                                                <Spinner size="xs" />
+                                              )}
+                                            <Menu>
+                                              <MenuButton
+                                                className={styles.menuButton}
+                                                maxH="20px"
+                                                maxW="20px"
+                                                fontSize={16}
+                                                as={IconButton}
+                                                aria-label="Options"
+                                                icon={<AiOutlineMenu />}
+                                                variant="outline"
+                                                onClick={(e) => {
+                                                  e.stopPropagation();
+                                                }}
+                                              >
+                                                Actions
+                                              </MenuButton>
+                                              <MenuList>
+                                                {item.otherActionSignals.map(
                                                   (el, index) => {
                                                     return (
                                                       <MenuItem
@@ -426,21 +427,11 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
                                                       </MenuItem>
                                                     );
                                                   }
-                                                )
-                                              ) : (
-                                                <MenuItem
-                                                  isDisabled={true}
-                                                  onClick={(e) => {
-                                                    e.stopPropagation();
-                                                  }}
-                                                >
-                                                  No action
-                                                </MenuItem>
-                                              )}
-                                            </MenuList>
-                                          </Menu>
-                                        </div>
-                                      )}
+                                                )}
+                                              </MenuList>
+                                            </Menu>
+                                          </div>
+                                        )}
                                     </Flex>
                                     <div className={styles.title}>
                                       {item.name}

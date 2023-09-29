@@ -23,7 +23,6 @@ import { NavLink } from 'common/components/SideBar/NavLink';
 import {
   TbAppsFilled,
   TbArticleFilledFilled,
-  TbSettingsBolt,
   TbLayoutBoard,
   TbBrandMastercard,
   TbSpeakerphone,
@@ -31,7 +30,6 @@ import {
   TbHomeEdit,
 } from 'react-icons/tb';
 import { BiLogOutCircle } from 'react-icons/bi';
-import { HiUser } from 'react-icons/hi2';
 import { VscKebabVertical } from 'react-icons/vsc';
 import { useRecoilValue } from 'recoil';
 import { userState } from 'stores/user';
@@ -77,11 +75,11 @@ export const SideBarContent = () => {
           text: 'User management',
           icon: TbBrandMastercard,
         },
-        {
-          to: '/settings',
-          text: 'Settings',
-          icon: TbSettingsBolt,
-        },
+        // {
+        //   to: '/settings',
+        //   text: 'Settings',
+        //   icon: TbSettingsBolt,
+        // },
       ],
     },
     {
@@ -209,7 +207,7 @@ export const SideBarContent = () => {
             icon={<Icon as={VscKebabVertical} />}
           />
           <MenuList bg={bg} minW="140px">
-            <MenuItem
+            {/* <MenuItem
               color={color}
               display="flex"
               gap="12px"
@@ -217,7 +215,7 @@ export const SideBarContent = () => {
             >
               <Icon as={HiUser} fontSize="xl" color="gray.500" />
               <Text fontSize="sm">My profile</Text>
-            </MenuItem>
+            </MenuItem> */}
             <MenuItem
               color={color}
               display="flex"
