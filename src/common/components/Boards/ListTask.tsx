@@ -24,9 +24,15 @@ import { RiEyeFill, RiSettings4Fill } from 'react-icons/ri';
 import { MdCancel } from 'react-icons/md';
 import { AiFillCheckCircle, AiOutlineReload } from 'react-icons/ai';
 import { formatDate } from 'utils';
-import { QueryKeys, TaskStatus, noOfRows } from 'common/constants';
+import {
+  OtherActionSignalStatus,
+  QueryKeys,
+  TaskStatus,
+  noOfRows,
+} from 'common/constants';
 import { useCurrentUser } from 'hooks/useCurrentUser';
 import {
+  useActionTask,
   useApproveTask,
   useGetTasks,
   useRejectTask,
@@ -38,6 +44,7 @@ import styles from './style.module.scss';
 import ModalBoard from './ModalBoard';
 import { toast } from '../StandaloneToast';
 import { useQueryClient } from '@tanstack/react-query';
+import { BsFillFilterCircleFill } from 'react-icons/bs';
 
 interface Props {
   filters: FilterTasks;
@@ -64,143 +71,205 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
   );
   const [loadStatus, setLoadStatus] = useState<boolean>(false);
   const queryClient = useQueryClient();
+  const actionTaskMutation = useActionTask();
+  const [isActionLoading, setIsActionLoading] = useState({
+    isLoading: false,
+    id: '',
+  });
 
-  const taskColumns = useMemo(
-    () =>
-      [
-        columnHelper.accessor('id', {
-          id: 'id',
-          header: () => <Box pl="16px">ID</Box>,
-          enableSorting: true,
-          sortDescFirst: true,
-          cell: (info) => (
-            <Center>{info.getValue().slice(-5).toUpperCase()}</Center>
-          ),
-        }),
-        columnHelper.accessor('name', {
-          id: 'name',
-          header: 'Types',
-          enableSorting: true,
-          cell: (info) => info.getValue(),
-        }),
-        columnHelper.accessor('authorName', {
-          id: 'authorName',
-          header: 'Name',
-          enableSorting: true,
-          cell: (info) => info.getValue(),
-        }),
-        columnHelper.accessor('emailTo', {
-          id: 'emailTo',
-          header: 'Assigned To',
-          enableSorting: true,
-          cell: (info) =>
-            info
-              .getValue()
-              .map((email) => email.split('@')[0])
-              .join(', '),
-        }),
-        columnHelper.accessor('status', {
-          id: 'status',
-          header: 'State',
-          enableSorting: true,
-          cell: (info) => {
-            const status = info.row.original.status;
-            return (
-              <Flex alignItems={'center'} gap={1}>
-                <div
-                  className={`${styles.status} ${
-                    status === TaskStatus.Pending
-                      ? styles.statusPending
-                      : status === TaskStatus.Approved
-                      ? styles.statusApproved
-                      : status === TaskStatus.Rejected
-                      ? styles.statusRejected
-                      : ''
-                  }`}
+  const taskColumns = useMemo(() => {
+    const onActionClick = async (id: string, action: string) => {
+      try {
+        setIsActionLoading({
+          isLoading: true,
+          id,
+        });
+        await actionTaskMutation.mutateAsync({ id, action });
+        toast({ title: 'Send action successfully!', status: 'success' });
+        refetch();
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setIsActionLoading({
+          isLoading: false,
+          id: '',
+        });
+      }
+    };
+
+    return [
+      columnHelper.accessor('id', {
+        id: 'id',
+        header: () => <Box pl="16px">ID</Box>,
+        enableSorting: true,
+        sortDescFirst: true,
+        cell: (info) => (
+          <Center>{info.getValue().slice(-5).toUpperCase()}</Center>
+        ),
+      }),
+      columnHelper.accessor('name', {
+        id: 'name',
+        header: 'Types',
+        enableSorting: true,
+        cell: (info) => info.getValue(),
+      }),
+      columnHelper.accessor('authorName', {
+        id: 'authorName',
+        header: 'Name',
+        enableSorting: true,
+        cell: (info) => info.getValue(),
+      }),
+      columnHelper.accessor('emailTo', {
+        id: 'emailTo',
+        header: 'Assigned To',
+        enableSorting: true,
+        cell: (info) =>
+          info
+            .getValue()
+            .map((email) => email.split('@')[0])
+            .join(', '),
+      }),
+      columnHelper.accessor('status', {
+        id: 'status',
+        header: 'State',
+        enableSorting: true,
+        cell: (info) => {
+          const status = info.row.original.status;
+          return (
+            <Flex alignItems={'center'} gap={1}>
+              <div
+                className={`${styles.status} ${
+                  status === TaskStatus.Pending
+                    ? styles.statusPending
+                    : status === TaskStatus.Approved
+                    ? styles.statusApproved
+                    : status === TaskStatus.Rejected
+                    ? styles.statusRejected
+                    : ''
+                }`}
+              />
+              {Object.keys(TaskStatus)[info.getValue()]}
+            </Flex>
+          );
+        },
+      }),
+      columnHelper.accessor('creationTime', {
+        id: 'creationTime',
+        header: 'Created At',
+        enableSorting: true,
+        cell: (info) => formatDate(info.getValue()),
+      }),
+      columnHelper.display({
+        id: 'actions',
+        enableSorting: false,
+        header: () => <Center w="full">Actions</Center>,
+        cell: (info) => {
+          return (
+            <Center mr={1}>
+              <div className={styles.tableActionLoading}>
+                {isActionLoading.isLoading &&
+                  isActionLoading.id === info.row.original.id && (
+                    <Spinner size="xs" />
+                  )}
+              </div>
+              <Menu>
+                <MenuButton
+                  as={IconButton}
+                  aria-label=""
+                  variant="ghost"
+                  size="sm"
+                  icon={
+                    <Icon color="gray.500" fontSize="lg" as={RiSettings4Fill} />
+                  }
                 />
-                {Object.keys(TaskStatus)[info.getValue()]}
-              </Flex>
-            );
-          },
-        }),
-        columnHelper.accessor('creationTime', {
-          id: 'creationTime',
-          header: 'Created At',
-          enableSorting: true,
-          cell: (info) => formatDate(info.getValue()),
-        }),
-        columnHelper.display({
-          id: 'actions',
-          enableSorting: false,
-          header: () => <Center w="full">Actions</Center>,
-          cell: (info) => {
-            return (
-              <Center>
-                <Menu>
-                  <MenuButton
-                    as={IconButton}
-                    aria-label=""
-                    variant="ghost"
-                    size="sm"
-                    icon={
-                      <Icon
-                        color="gray.500"
-                        fontSize="lg"
-                        as={RiSettings4Fill}
-                      />
-                    }
-                  />
-                  <MenuList minW={'100px'}>
-                    <MenuItem
-                      display="flex"
-                      gap="12px"
-                      onClick={() => openDetailModal(info.row.original.id)}
-                    >
-                      <Icon color="blue.500" as={RiEyeFill} />
-                      View
-                    </MenuItem>
-                    {info.row.original.status === TaskStatus.Pending &&
-                      info.row.original.emailTo.includes(user.email) && (
-                        <>
-                          <MenuItem
-                            display="flex"
-                            gap="12px"
-                            onClick={() => {
-                              setDataForm({
-                                status: TaskStatus.Approved,
-                                taskId: info.row.original.id,
-                              });
-                              onOpen();
-                            }}
-                          >
-                            <Icon color="green.500" as={AiFillCheckCircle} />
-                            Approve
-                          </MenuItem>
-                          <MenuItem
-                            display="flex"
-                            gap="12px"
-                            onClick={() => {
-                              setDataForm({
-                                status: TaskStatus.Rejected,
-                                taskId: info.row.original.id,
-                              });
-                              onOpen();
-                            }}
-                          >
-                            <Icon color="red.500" as={MdCancel} />
-                            Reject
-                          </MenuItem>
-                        </>
-                      )}
-                  </MenuList>
-                </Menu>
-              </Center>
-            );
-          },
-        }),
-      ] as ColumnDef<ITask>[],
-    [columnHelper, onOpen, openDetailModal, user.email]
-  );
+                <MenuList minW={'100px'}>
+                  <MenuItem
+                    display="flex"
+                    gap="12px"
+                    onClick={() => openDetailModal(info.row.original.id)}
+                  >
+                    <Icon color="blue.500" as={RiEyeFill} />
+                    View
+                  </MenuItem>
+                  {info.row.original.status === TaskStatus.Pending &&
+                    info.row.original.emailTo.includes(user.email) && (
+                      <>
+                        <MenuItem
+                          display="flex"
+                          gap="12px"
+                          onClick={() => {
+                            setDataForm({
+                              status: TaskStatus.Approved,
+                              taskId: info.row.original.id,
+                            });
+                            onOpen();
+                          }}
+                        >
+                          <Icon color="green.500" as={AiFillCheckCircle} />
+                          Approve
+                        </MenuItem>
+                        <MenuItem
+                          display="flex"
+                          gap="12px"
+                          onClick={() => {
+                            setDataForm({
+                              status: TaskStatus.Rejected,
+                              taskId: info.row.original.id,
+                            });
+                            onOpen();
+                          }}
+                        >
+                          <Icon color="red.500" as={MdCancel} />
+                          Reject
+                        </MenuItem>
+                        {info.row.original.otherActionSignals &&
+                          info.row.original?.otherActionSignals?.length > 0 &&
+                          info.row.original.otherActionSignals.map(
+                            (el, index) => {
+                              return (
+                                <MenuItem
+                                  display="flex"
+                                  gap="12px"
+                                  isDisabled={
+                                    el.status !==
+                                    OtherActionSignalStatus.PENDING
+                                  }
+                                  key={index}
+                                  onClick={() => {
+                                    onActionClick(
+                                      info.row.original.id,
+                                      el.otherActionSignal
+                                    );
+                                  }}
+                                >
+                                  <Icon
+                                    color="gray.500"
+                                    as={BsFillFilterCircleFill}
+                                  />
+                                  {el.otherActionSignal}
+                                </MenuItem>
+                              );
+                            }
+                          )}
+                      </>
+                    )}
+                </MenuList>
+              </Menu>
+            </Center>
+          );
+        },
+      }),
+    ] as ColumnDef<ITask>[];
+  }, [
+    actionTaskMutation,
+    columnHelper,
+    isActionLoading.id,
+    isActionLoading.isLoading,
+    onOpen,
+    openDetailModal,
+    refetch,
+    user.email,
+  ]);
 
   const handleClose = useCallback(() => {
     onClose();
