@@ -39,7 +39,8 @@ import { useCurrentUser } from 'hooks/useCurrentUser';
 import debounce from 'lodash.debounce';
 import { FetchNextPageFunction, FilterTasks, ITask } from 'models/task';
 import { useEffect, useMemo, useState } from 'react';
-import { AiOutlineMenu, AiOutlineReload } from 'react-icons/ai';
+import { AiOutlineReload } from 'react-icons/ai';
+import { FiMoreHorizontal } from 'react-icons/fi';
 import { HiArrowDown } from 'react-icons/hi';
 import theme from 'themes/theme';
 import { formatDate } from 'utils/formatDate';
@@ -351,7 +352,7 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
                                   }}
                                 >
                                   <Box
-                                    animation={`${fadeIn} 1s cubic-bezier(0.390, 0.575, 0.565, 1.000) both`}
+                                    animation={`${fadeIn} 1s cubic-bezier(0.390, 0.575, 0.565, 1.000)`}
                                     className={`${styles.item} ${
                                       ind === BoardColumnStatus.Pending
                                         ? styles.itemPending
@@ -370,68 +371,12 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
                                       alignItems={'center'}
                                       w={'100%'}
                                     >
-                                      <Flex>
-                                        <Text fontWeight={'bold'} mr={1}>
-                                          ID: {item.id.slice(-5).toUpperCase()}
-                                        </Text>
-                                        <div>
-                                          ({getDayAgo(item?.creationTime)})
-                                        </div>
-                                      </Flex>
-
-                                      {item.status === TaskStatus.Pending &&
-                                        item.otherActionSignals &&
-                                        item?.otherActionSignals?.length >
-                                          0 && (
-                                          <div className={styles.menuButton}>
-                                            {isActionLoading.isLoading &&
-                                              isActionLoading.id ===
-                                                item.id && (
-                                                <Spinner size="xs" />
-                                              )}
-                                            <Menu>
-                                              <MenuButton
-                                                className={styles.menuButton}
-                                                maxH="20px"
-                                                maxW="20px"
-                                                fontSize={16}
-                                                as={IconButton}
-                                                aria-label="Options"
-                                                icon={<AiOutlineMenu />}
-                                                variant="outline"
-                                                onClick={(e) => {
-                                                  e.stopPropagation();
-                                                }}
-                                              >
-                                                Actions
-                                              </MenuButton>
-                                              <MenuList>
-                                                {item.otherActionSignals.map(
-                                                  (el, index) => {
-                                                    return (
-                                                      <MenuItem
-                                                        isDisabled={
-                                                          el.status !==
-                                                          OtherActionSignalStatus.PENDING
-                                                        }
-                                                        key={index}
-                                                        onClick={(e) => {
-                                                          e.stopPropagation();
-                                                          onActionClick(
-                                                            item.id,
-                                                            el.otherActionSignal
-                                                          );
-                                                        }}
-                                                      >
-                                                        {el.otherActionSignal}
-                                                      </MenuItem>
-                                                    );
-                                                  }
-                                                )}
-                                              </MenuList>
-                                            </Menu>
-                                          </div>
-                                        )}
+                                      <Text fontWeight={'bold'} mr={1}>
+                                        ID: {item.id.slice(-5).toUpperCase()}
+                                      </Text>
+                                      <div>
+                                        ({getDayAgo(item?.creationTime)})
+                                      </div>
                                     </Flex>
                                     <div className={styles.title}>
                                       {item.name}
@@ -465,9 +410,68 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
                                         {Object.keys(BoardColumnStatus)[ind]}
                                       </div>
                                     </div>
-                                    <Flex gap={2}>
-                                      <Text>Date:</Text>
-                                      {formatDate(new Date(item?.creationTime))}
+                                    <Flex
+                                      justifyContent={'space-between'}
+                                      w={'100%'}
+                                    >
+                                      <Flex gap={2}>
+                                        <Text>Date:</Text>
+                                        {formatDate(
+                                          new Date(item?.creationTime)
+                                        )}
+                                      </Flex>
+                                      {item.status === TaskStatus.Pending &&
+                                        item.otherActionSignals &&
+                                        item?.otherActionSignals?.length >
+                                          0 && (
+                                          <div className={styles.menuButton}>
+                                            {isActionLoading.isLoading &&
+                                              isActionLoading.id ===
+                                                item.id && (
+                                                <Spinner size="xs" />
+                                              )}
+                                            <Menu>
+                                              <MenuButton
+                                                className={styles.menuButton}
+                                                maxH="20px"
+                                                maxW="20px"
+                                                fontSize={16}
+                                                as={IconButton}
+                                                aria-label="Options"
+                                                icon={<FiMoreHorizontal />}
+                                                onClick={(e) => {
+                                                  e.stopPropagation();
+                                                }}
+                                              >
+                                                Actions
+                                              </MenuButton>
+                                              <MenuList>
+                                                {item.otherActionSignals.map(
+                                                  (el, index) => {
+                                                    return (
+                                                      <MenuItem
+                                                        isDisabled={
+                                                          el.status !==
+                                                          OtherActionSignalStatus.PENDING
+                                                        }
+                                                        key={index}
+                                                        onClick={(e) => {
+                                                          e.stopPropagation();
+                                                          onActionClick(
+                                                            item.id,
+                                                            el.otherActionSignal
+                                                          );
+                                                        }}
+                                                      >
+                                                        {el.otherActionSignal}
+                                                      </MenuItem>
+                                                    );
+                                                  }
+                                                )}
+                                              </MenuList>
+                                            </Menu>
+                                          </div>
+                                        )}
                                     </Flex>
                                   </Box>
                                 </Box>
