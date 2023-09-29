@@ -6,10 +6,13 @@ import '@fontsource/montserrat/400.css';
 import { extendTheme } from '@chakra-ui/react';
 import { menuTheme } from 'themes/menuTheme';
 import { drawerTheme } from 'themes/drawerTheme';
+import { getItem } from 'utils';
+
+const themeLocal = getItem('chakra-ui-color-mode');
 
 export const theme = extendTheme({
   config: {
-    initialColorMode: 'light',
+    initialColorMode: themeLocal ?? 'light',
     useSystemColorMode: false,
   },
   fonts: {
@@ -51,6 +54,7 @@ export const theme = extendTheme({
       500: '#d2d2d2',
       600: '#585858',
     },
+    borderColor: 'var(--chakra-colors-chakra-border-color)',
   },
   components: {
     Menu: menuTheme,

@@ -33,8 +33,10 @@ export const useGetAllTask = (filter: FilterTasks, status: number) => {
     queryFn: ({ pageParam = 0 }) =>
       getAllTask({ ...filterTask, skipCount: pageParam }),
     getNextPageParam: (lastPage, allPage) => {
-      return lastPage?.items?.length === DEFAULT_TASK_PER_PAGE
-        ? getAllTaskPagination(allPage)?.items?.length
+      const allPageLength = getAllTaskPagination(allPage)?.items?.length;
+      return lastPage?.items?.length === DEFAULT_TASK_PER_PAGE &&
+        allPageLength < lastPage.totalCount
+        ? allPageLength
         : undefined;
     },
   });

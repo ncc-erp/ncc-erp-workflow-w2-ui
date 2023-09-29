@@ -15,6 +15,7 @@ import {
   Th,
   Thead,
   Tr,
+  useColorModeValue,
 } from '@chakra-ui/react';
 import { IoMdArrowDropdown, IoMdArrowDropup } from 'react-icons/io';
 import { ColorThemeMode } from 'common/constants';
@@ -46,12 +47,13 @@ export const Table = <D,>({
     onSortingChange,
     getCoreRowModel: getCoreRowModel(),
   });
+  const color = useColorModeValue(ColorThemeMode.DARK, ColorThemeMode.LIGHT);
 
   return (
-    <TableComponent border={`1px solid ${theme.colors.secondary}`}>
+    <TableComponent border={`1px solid ${theme.colors.borderColor}`}>
       <Thead>
         {table.getHeaderGroups().map((headerGroup) => (
-          <Tr key={headerGroup.id} bg={theme.colors.secondary}>
+          <Tr key={headerGroup.id} bg={theme.colors.borderColor}>
             {headerGroup.headers.map((header) => {
               return (
                 <Th
@@ -60,8 +62,8 @@ export const Table = <D,>({
                   textTransform="none"
                   fontWeight={600}
                   fontSize="sm"
-                  border={`1px solid ${theme.colors.blackBorder[500]}`}
-                  color={ColorThemeMode.DARK}
+                  border={`1px solid ${theme.colors.borderColor}`}
+                  color={color}
                   px="8px"
                   background="secondaryColor"
                   textAlign="center"
@@ -102,7 +104,7 @@ export const Table = <D,>({
                     key={cell.id}
                     fontSize="14px"
                     borderRight="1px"
-                    borderColor="gray.200"
+                    borderColor={theme.colors.borderColor}
                     px="8px"
                   >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}

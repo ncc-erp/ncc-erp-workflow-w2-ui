@@ -9,6 +9,7 @@ import {
   MenuList,
   Spinner,
   Text,
+  keyframes,
   useColorModeValue,
   useDisclosure,
 } from '@chakra-ui/react';
@@ -48,17 +49,17 @@ import ModalBoard from './ModalBoard';
 import styles from './style.module.scss';
 import useBoard from './useBoard';
 
+const fadeIn = keyframes`
+  from { opacity: 0; }
+  to { opacity: 1; }
+`;
 export interface BoardsProps {
   filters: FilterTasks;
   openDetailModal: (id: string) => void;
   status: number;
 }
 
-const Boards = ({
-  filters,
-  openDetailModal,
-  status,
-}: BoardsProps): JSX.Element => {
+const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
   const [filter, setFilter] = useState<FilterTasks>(filters);
   const actionTaskMutation = useActionTask();
   const {
@@ -66,24 +67,24 @@ const Boards = ({
     isLoading: loadPending,
     fetchNextPage: fetchNextPagePending,
     refetch: refetchPending,
-    isRefetching: isRefetchingPending,
     hasNextPage: hasNextPagePending,
+    isFetchingNextPage: isFetchingNextPagePending,
   } = useGetAllTask({ ...filter }, TaskStatus.Pending);
   const {
     data: listApproved,
     isLoading: loadApproved,
     fetchNextPage: fetchNextPageApproved,
     refetch: refetchApproved,
-    isRefetching: isRefetchingApproved,
     hasNextPage: hasNextPageApproved,
+    isFetchingNextPage: isFetchingNextPageApproved,
   } = useGetAllTask({ ...filter }, TaskStatus.Approved);
   const {
     data: listRejected,
     isLoading: loadRejected,
     fetchNextPage: fetchNextPageRejected,
     refetch: refetchRejected,
-    isRefetching: isRefetchingRejected,
     hasNextPage: hasNextPageRejected,
+    isFetchingNextPage: isFetchingNextPageRejected,
   } = useGetAllTask({ ...filter }, TaskStatus.Rejected);
   const color = useColorModeValue(ColorThemeMode.DARK, ColorThemeMode.LIGHT);
   const bg = useColorModeValue(theme.colors.white, theme.colors.quarty);
@@ -149,7 +150,6 @@ const Boards = ({
     const results = move(state[sInd], state[dInd], source, destination);
     const statusDrop = Number(destination.droppableId);
     try {
-      setIsLoading(true);
       state[ETaskStatus.Pending][source.index].status = statusDrop;
       const newState = { ...state };
       newState[sInd] = results[sInd];
@@ -164,8 +164,7 @@ const Boards = ({
           queryClient.removeQueries({
             queryKey: [QueryKeys.GET_ALL_TASK],
           });
-          refetchApproved();
-          toast({ title: 'Approved successfully!', status: 'success' });
+          await refetchApproved();
           break;
         case BoardColumnStatus.Rejected:
           if (!reason) return;
@@ -176,8 +175,7 @@ const Boards = ({
           queryClient.removeQueries({
             queryKey: [QueryKeys.GET_ALL_TASK],
           });
-          refetchRejected();
-          toast({ title: 'Rejected successfully!', status: 'success' });
+          await refetchRejected();
           break;
         default:
           break;
@@ -187,8 +185,6 @@ const Boards = ({
       refetchApproved();
       refetchRejected();
       console.error(error);
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -231,27 +227,22 @@ const Boards = ({
 
   const loadingStates = useMemo(() => {
     return [
-      { name: 'loadPending', value: loadPending || isRefetchingPending },
-      { name: 'loadApproved', value: loadApproved || isRefetchingApproved },
-      { name: 'loadRejected', value: loadRejected || isRefetchingRejected },
+      { name: 'loadPending', value: loadPending || isLoading },
+      { name: 'loadApproved', value: loadApproved || isLoading },
+      { name: 'loadRejected', value: loadRejected || isLoading },
     ];
-  }, [
-    loadApproved,
-    loadPending,
-    loadRejected,
-    isRefetchingPending,
-    isRefetchingApproved,
-    isRefetchingRejected,
-  ]);
+  }, [loadPending, isLoading, loadApproved, loadRejected]);
 
   const showMoreItems = (
     fetchNextPage: FetchNextPageFunction,
-    hasNextPage?: boolean
+    hasNextPage?: boolean,
+    isLoading?: boolean
   ) => {
     if (hasNextPage) {
       return (
         <Flex w={'100%'} justifyContent={'center'} my={2}>
           <IconButton
+            isLoading={isLoading}
             variant="solid"
             aria-label="Call Sage"
             fontSize="20px"
@@ -278,23 +269,32 @@ const Boards = ({
           right={25}
           top={'-40px'}
           icon={<AiOutlineReload />}
-          onClick={debounce(() => {
+          onClick={debounce(async () => {
             if (!filter.status) return;
-            switch (+filter?.status) {
-              case TaskStatus.Pending:
-                refetchPending();
-                break;
-              case TaskStatus.Approved:
-                refetchApproved();
-                break;
-              case TaskStatus.Rejected:
-                refetchRejected();
-                break;
-              default:
-                refetchPending();
-                refetchApproved();
-                refetchRejected();
-                break;
+            setIsLoading(true);
+            try {
+              switch (+filter?.status) {
+                case TaskStatus.Pending:
+                  await refetchPending();
+                  break;
+                case TaskStatus.Approved:
+                  await refetchApproved();
+                  break;
+                case TaskStatus.Rejected:
+                  await refetchRejected();
+                  break;
+                default:
+                  await Promise.all([
+                    refetchPending(),
+                    refetchApproved(),
+                    refetchRejected(),
+                  ]);
+                  break;
+              }
+            } catch (error) {
+              console.log(error);
+            } finally {
+              setIsLoading(false);
             }
           }, 200)}
         />
@@ -331,6 +331,7 @@ const Boards = ({
                             >
                               {(provided) => (
                                 <Box
+                                  position={'relative'}
                                   cursor={isDisabled ? 'pointer' : 'grab'}
                                   onClick={() => {
                                     item.id !== null &&
@@ -350,6 +351,7 @@ const Boards = ({
                                   }}
                                 >
                                   <Box
+                                    animation={`${fadeIn} 1s cubic-bezier(0.390, 0.575, 0.565, 1.000) both`}
                                     className={`${styles.item} ${
                                       ind === BoardColumnStatus.Pending
                                         ? styles.itemPending
@@ -492,21 +494,29 @@ const Boards = ({
                           />
                         </Center>
                       )}
-
                       {ind === BoardColumnStatus.Pending &&
-                        (+status === -1 || +status === TaskStatus.Pending) &&
-                        showMoreItems(fetchNextPagePending, hasNextPagePending)}
+                        !loadingStates[ind].value &&
+                        state[ETaskStatus.Pending].length > 0 &&
+                        showMoreItems(
+                          fetchNextPagePending,
+                          hasNextPagePending,
+                          isFetchingNextPagePending
+                        )}
                       {ind === BoardColumnStatus.Approved &&
-                        (+status === -1 || +status === TaskStatus.Approved) &&
+                        !loadingStates[ind].value &&
+                        state[ETaskStatus.Approved].length > 0 &&
                         showMoreItems(
                           fetchNextPageApproved,
-                          hasNextPageApproved
+                          hasNextPageApproved,
+                          isFetchingNextPageApproved
                         )}
                       {ind === BoardColumnStatus.Rejected &&
-                        (+status === -1 || +status === TaskStatus.Rejected) &&
+                        !loadingStates[ind].value &&
+                        state[ETaskStatus.Rejected].length > 0 &&
                         showMoreItems(
                           fetchNextPageRejected,
-                          hasNextPageRejected
+                          hasNextPageRejected,
+                          isFetchingNextPageRejected
                         )}
                     </Box>
                     {provided.placeholder}

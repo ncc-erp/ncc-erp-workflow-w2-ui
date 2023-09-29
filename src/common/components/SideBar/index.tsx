@@ -6,9 +6,9 @@ import {
   Icon,
   IconButton,
   Portal,
-  useMediaQuery,
 } from '@chakra-ui/react';
 import { SideBarContent } from 'common/components/SideBar/SideBarContent';
+import { useMediaQuery } from 'hooks/useMediaQuery';
 import { ReactNode, useEffect, useRef } from 'react';
 import { HiMenuAlt2 } from 'react-icons/hi';
 import { IoCloseOutline } from 'react-icons/io5';
@@ -25,10 +25,7 @@ export const SideNav = () => {
   const { openSideBar } = useRecoilValue(appConfigState);
   const { setSideBarWidth } = useSetAppConfig();
   const { onCloseSideBar, onOpenSideBar } = useSetAppConfig();
-  const [isSmallScreen, isLargeSceen] = useMediaQuery([
-    '(max-width: 47em)',
-    '(min-width: 62em)',
-  ]); // https://chakra-ui.com/docs/styled-system/theme
+  const isLargeSceen = useMediaQuery('(min-width: 768px)');
 
   useEffect(() => {
     sideBarRef.current && setSideBarWidth(sideBarRef.current.offsetWidth);
@@ -50,7 +47,7 @@ export const SideNav = () => {
         {isLargeSceen ? (
           <SideBarContent />
         ) : (
-          <PortalWrapper shouldRenderInPortal={isSmallScreen}>
+          <PortalWrapper shouldRenderInPortal={!isLargeSceen}>
             <IconButton
               size={{ base: 'md', md: 'sm' }}
               aria-label=""
