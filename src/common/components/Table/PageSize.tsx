@@ -7,9 +7,16 @@ import { ChangeEvent } from 'react';
 interface PageSizeProps {
   noOfRows: option[];
   onChange: (value: number) => void;
+  defaultValue?: number;
+  value?: number;
 }
 
-export const PageSize = ({ noOfRows, onChange }: PageSizeProps) => {
+export const PageSize = ({
+  noOfRows,
+  onChange,
+  defaultValue,
+  value,
+}: PageSizeProps) => {
   const color = useColorModeValue(ColorThemeMode.DARK, ColorThemeMode.LIGHT);
   const bg = useColorModeValue(ColorThemeMode.LIGHT, ColorThemeMode.DARK);
 
@@ -23,6 +30,8 @@ export const PageSize = ({ noOfRows, onChange }: PageSizeProps) => {
         No of rows
       </Text>
       <SelectField
+        defaultValue={defaultValue}
+        value={value}
         options={noOfRows}
         variant="ghost"
         size="xs"

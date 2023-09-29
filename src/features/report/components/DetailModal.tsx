@@ -10,6 +10,7 @@ import {
   ModalHeader,
   ModalOverlay,
   Text,
+  useColorModeValue,
 } from '@chakra-ui/react';
 import { IPostAndWFH } from 'models/report';
 import Logo from 'assets/images/ncc_logo.svg';
@@ -18,6 +19,7 @@ import { CardDetails } from 'common/components/CardDetails';
 import { parseDateStrings } from 'utils';
 import { useState } from 'react';
 import moment from 'moment';
+import { ColorThemeMode } from 'common/constants';
 
 interface IDetailModal {
   isOpen: boolean;
@@ -36,6 +38,9 @@ export const DetailModal = ({
   startDate,
   endDate,
 }: IDetailModal) => {
+  const bg = useColorModeValue(ColorThemeMode.LIGHT, ColorThemeMode.DARK);
+  const color = useColorModeValue(ColorThemeMode.DARK, ColorThemeMode.LIGHT);
+
   const [visibleCount, setVisibleCount] = useState(itemsPerPage);
   const posts = reportDetail?.posts;
   const requests = reportDetail?.requests;
@@ -137,7 +142,9 @@ export const DetailModal = ({
                           return true;
                         })
                         .map((filteredDate) => (
-                          <p className={styles.date}>{filteredDate}</p>
+                          <Text className={styles.date} bg={bg} color={color}>
+                            {filteredDate}
+                          </Text>
                         ))}
                     </div>
                   );

@@ -16,9 +16,7 @@ import { LoginExternalParams, LoginParams } from 'models/user';
 import { FcGoogle } from 'react-icons/fc';
 import { TextField } from 'common/components/TextField';
 import { useLogin, useLoginExternal } from 'api/apiHooks/userHooks';
-import { LocalStorageKeys, LoginStatus } from 'common/enums';
-import { useNavigate } from 'react-router-dom';
-import { toast } from 'common/components/StandaloneToast';
+import { LocalStorageKeys } from 'common/enums';
 import { userManager } from 'services/authService';
 import { setItem } from 'utils';
 import { ColorThemeMode } from 'common/constants';
@@ -32,7 +30,6 @@ const initialLoginParams: LoginParams = {
 const Login = () => {
   const bg = useColorModeValue(ColorThemeMode.LIGHT, ColorThemeMode.DARK);
 
-  const navigate = useNavigate();
   const { mutateAsync: loginMutate, isLoading: isLoginLoading } = useLogin();
   const {
     mutateAsync: loginExternalMutate,
@@ -50,22 +47,16 @@ const Login = () => {
     password,
     rememberMe,
   }: LoginParams) => {
-    const { result } = await loginMutate({
+    const { token } = await loginMutate({
       rememberMe,
       userNameOrEmailAddress: userNameOrEmailAddress.trim(),
       password: password.trim(),
     });
 
-    if (result === LoginStatus.success) {
-      navigate('/');
-      return;
+    if (token) {
+      setItem(LocalStorageKeys.accessToken, token);
+      window.location.href = '/';
     }
-
-    toast({
-      title: 'Login Failed!',
-      description: 'Invalid username or password!',
-      status: 'error',
-    });
   };
 
   const onLoginExternal = async ({
