@@ -1,0 +1,24 @@
+.datePicker {
+    border: 1px var(--chakra-colors-gray-300) solid;
+    border-radius: 5px;
+    width: 140px;
+    padding: 8px 15px;
+    font-size: 15px;
+    margin-right: 5px;
+}
+
+.disabled {
+    background: var(--chakra-colors-gray-200);
+    pointer-events: none;
+}
+
+.icon {
+    color: var(--chakra-colors-gray-500);
+}
+
+.btnClear {
+    margin-right: 10px;
+    &::after {
+        background-color: var(--chakra-colors-gray-400);
+    }
+}

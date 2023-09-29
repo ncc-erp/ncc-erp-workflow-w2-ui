@@ -1,9 +1,38 @@
+export interface ITitleByPost {
+  rendered: string;
+}
+
+export interface IPost {
+  id: number;
+  title: ITitleByPost;
+  status: string;
+  date: string;
+  link: string;
+}
+
+export interface IInputByRequest {
+  CurrentOffice: string;
+  Project: string;
+  Reason: string;
+  Dates: string;
+}
+
+export interface IRequest {
+  workflowInstanceId: string;
+  input: IInputByRequest;
+  tenantId?: string;
+  creationTime: string;
+  creatorId: string;
+  id: string;
+}
+
 export interface IPostAndWFH {
-  userRequestName: string;
-  totaldays: number;
-  totalposts: number;
-  posts: [];
-  requests: [];
+  email: string;
+  totalDays: number;
+  totalPosts: number;
+  totalMissingPosts: number;
+  posts?: IPost[];
+  requests?: IRequest[];
 }
 
 export interface IRender {
@@ -95,6 +124,8 @@ export interface FilterWfhParams {
   skipCount: number;
   sorting: string;
   keySearch: string;
+  startDate?: string | null;
+  endDate?: string | null;
 }
 
 export interface ListResult<T> {

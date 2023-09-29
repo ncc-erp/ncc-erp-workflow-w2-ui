@@ -1,0 +1,41 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+
+  .btnShowMore {
+    font-size: 14px;
+  }
+
+  .left,
+  .right {
+    width: 48%;
+  }
+
+  .dates {
+    display: flex;
+    flex-wrap: wrap;
+
+    .date {
+      background: var(--chakra-colors-tertiary);
+      color: var(--chakra-colors-blackButton-300);
+      margin-right: 5px;
+      margin-bottom: 10px;
+      width: 100px;
+      border-radius: 5px;
+      text-align: center;
+      font-size: 15px;
+      font-weight: 500;
+      padding: 5px;
+    }
+  }
+}
+
+.btnExport {
+  text-align: right;
+  margin-right: 30px;
+  margin-top: 10px;
+  svg {
+    color: var(--chakra-colors-gray-500);
+  }
+}
