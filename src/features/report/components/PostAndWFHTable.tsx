@@ -40,7 +40,7 @@ import { handleExportExcelFile } from 'utils/handleExportExcelFile';
 import styles from './styles.module.scss';
 
 const initialFilter: FilterWfhParams = {
-  maxResultCount: +noOfRows[0].value,
+  maxResultCount: +noOfRows[2].value,
   skipCount: 0,
   sorting: [WfhSortField.email, 'desc'].join(' '),
   keySearch: '',
@@ -279,7 +279,11 @@ export const TablePostAndWFH = () => {
           flexWrap="wrap"
         >
           <HStack alignItems="center" spacing="6px" flexWrap="wrap">
-            <PageSize noOfRows={noOfRows} onChange={onPageSizeChange} />
+            <PageSize
+              noOfRows={noOfRows}
+              onChange={onPageSizeChange}
+              defaultValue={+noOfRows[2].value}
+            />
             <Spacer w="12px" />
             <ShowingItemText
               skipCount={filter.skipCount}

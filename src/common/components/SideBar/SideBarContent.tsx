@@ -101,8 +101,9 @@ export const SideBarContent = () => {
   const { onCloseSideBar } = useSetAppConfig();
 
   const onNavigate = (to: string, logout?: boolean) => () => {
-    removeItem(LocalStorageKeys.accessToken);
-    logout;
+    if (logout) {
+      removeItem(LocalStorageKeys.accessToken);
+    }
     navigate(to);
   };
 

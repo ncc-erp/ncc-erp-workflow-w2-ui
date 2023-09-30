@@ -389,7 +389,11 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
               flexWrap="wrap"
             >
               <HStack alignItems="center" spacing="6px" flexWrap="wrap">
-                <PageSize noOfRows={noOfRows} onChange={onPageSizeChange} />
+                <PageSize
+                  noOfRows={noOfRows}
+                  onChange={onPageSizeChange}
+                  value={filter.maxResultCount}
+                />
                 <Spacer w="12px" />
                 <ShowingItemText
                   skipCount={filter.skipCount}

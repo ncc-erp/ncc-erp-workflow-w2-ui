@@ -1,5 +1,3 @@
-import { LoginStatus } from 'common/enums';
-
 export interface User {
   userName: string;
   name: string;
@@ -25,9 +23,7 @@ export interface LoginExternalParams {
 }
 
 export interface LoginResult {
-  result: LoginStatus;
-  description: string;
-  token?: string;
+  token: string;
 }
 
 export interface UserInfo {

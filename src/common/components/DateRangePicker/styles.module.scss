@@ -1,15 +1,20 @@
 .datePicker {
-    border: 1px var(--chakra-colors-gray-300) solid;
+    border: 1px solid;
     border-radius: 5px;
     width: 140px;
     padding: 8px 15px;
     font-size: 15px;
     margin-right: 5px;
+    background-color: inherit;
+    border-color: inherit;
+    &:hover {
+        border-color: var(--chakra-colors-gray-300);
+    }
 }
 
 .disabled {
-    background: var(--chakra-colors-gray-200);
     pointer-events: none;
+    border-color: inherit;
 }
 
 .icon {
