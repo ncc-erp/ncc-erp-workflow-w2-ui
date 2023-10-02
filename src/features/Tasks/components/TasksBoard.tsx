@@ -155,10 +155,8 @@ export const TasksBoard = () => {
   }, [modalState]);
 
   useEffect(() => {
-    if (isAdmin) {
-      onTemplateStatusChange('emailRequest', txtSearchDebounced);
-    }
-  }, [isAdmin, onTemplateStatusChange, txtSearchDebounced]);
+    onTemplateStatusChange('emailRequest', txtSearchDebounced);
+  }, [onTemplateStatusChange, txtSearchDebounced]);
 
   useEffect(() => {
     if (isMyTask) {
@@ -204,24 +202,22 @@ export const TasksBoard = () => {
               options={dateOptions}
             />
           </Box>
-          {isAdmin && (
-            <Box w={'300px'}>
-              <InputGroup>
-                <Input
-                  autoFocus
-                  value={txtSearch}
-                  type="text"
-                  placeholder="Enter email"
-                  fontSize="14px"
-                  mb={2}
-                  onChange={(e) => setTxtSearch(e.target.value)}
-                />
-                <InputRightElement width="40px">
-                  <TbSearch />
-                </InputRightElement>
-              </InputGroup>
-            </Box>
-          )}
+          <Box w={'300px'}>
+            <InputGroup>
+              <Input
+                autoFocus
+                value={txtSearch}
+                type="text"
+                placeholder="Enter email"
+                fontSize="14px"
+                mb={2}
+                onChange={(e) => setTxtSearch(e.target.value)}
+              />
+              <InputRightElement width="40px">
+                <TbSearch />
+              </InputRightElement>
+            </InputGroup>
+          </Box>
         </Flex>
       </Flex>
       <Flex gap={1} px="20px">
