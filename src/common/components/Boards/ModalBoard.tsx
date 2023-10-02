@@ -84,8 +84,7 @@ const ModalBoard = (props: ModalBoardProps): JSX.Element => {
             {toDisplayName(element.name)}
             {element.isRequired ? (
               <FormHelperText my={1} style={{ color: 'red' }} as="span">
-                {' '}
-                *
+                &nbsp;*
               </FormHelperText>
             ) : (
               ''
