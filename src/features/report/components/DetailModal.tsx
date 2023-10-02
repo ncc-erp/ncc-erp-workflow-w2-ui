@@ -16,7 +16,6 @@ import { IPostAndWFH } from 'models/report';
 import Logo from 'assets/images/ncc_logo.svg';
 import styles from './styles.module.scss';
 import { CardDetails } from 'common/components/CardDetails';
-import { parseDateStrings } from 'utils';
 import { useState } from 'react';
 import moment from 'moment';
 import { ColorThemeMode } from 'common/constants';
@@ -43,7 +42,7 @@ export const DetailModal = ({
 
   const [visibleCount, setVisibleCount] = useState(itemsPerPage);
   const posts = reportDetail?.posts;
-  const requests = reportDetail?.requests;
+  const requestDates = reportDetail?.requestDates;
 
   const showMore = () => {
     setVisibleCount(visibleCount + itemsPerPage);
@@ -123,32 +122,24 @@ export const DetailModal = ({
               >
                 Request Details
               </Text>
-              {requests && requests.length > 0 ? (
-                requests.map((request) => {
-                  const dates = parseDateStrings(request.input.Dates);
-                  return (
-                    <div className={styles.dates}>
-                      {dates
-                        ?.filter((date) => {
-                          const currentDate = moment(
-                            date,
-                            'DD/MM/YYYY'
-                          ).toDate();
-                          if (startDate && endDate) {
-                            return (
-                              currentDate >= startDate && currentDate <= endDate
-                            );
-                          }
-                          return true;
-                        })
-                        .map((filteredDate) => (
-                          <Text className={styles.date} bg={bg} color={color}>
-                            {filteredDate}
-                          </Text>
-                        ))}
-                    </div>
-                  );
-                })
+              {requestDates && requestDates.length > 0 ? (
+                <div className={styles.dates}>
+                  {requestDates
+                    ?.filter((date) => {
+                      const currentDate = moment(date, 'DD/MM/YYYY').toDate();
+                      if (startDate && endDate) {
+                        return (
+                          currentDate >= startDate && currentDate <= endDate
+                        );
+                      }
+                      return true;
+                    })
+                    .map((filteredDate) => (
+                      <Text className={styles.date} bg={bg} color={color}>
+                        {filteredDate}
+                      </Text>
+                    ))}
+                </div>
               ) : (
                 <Text>No dates found!</Text>
               )}

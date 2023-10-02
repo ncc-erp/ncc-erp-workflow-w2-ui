@@ -33,6 +33,7 @@ export interface IPostAndWFH {
   totalMissingPosts: number;
   posts?: IPost[];
   requests?: IRequest[];
+  requestDates?: string[];
 }
 
 export interface IRender {
