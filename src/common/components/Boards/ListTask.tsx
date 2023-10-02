@@ -282,7 +282,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
       setLoadStatus(true);
       switch (dataForm.status) {
         case TaskStatus.Approved:
-          await approveTaskMutation.mutateAsync(dataForm.taskId);
+          await approveTaskMutation.mutateAsync({ id: dataForm.taskId });
           refetch();
           queryClient.removeQueries([QueryKeys.GET_ALL_TASK_FILTERED]);
           toast({ title: 'Approved successfully!', status: 'success' });

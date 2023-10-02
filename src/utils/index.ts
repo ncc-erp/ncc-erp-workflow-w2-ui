@@ -6,6 +6,7 @@ import { getItem, setItem, removeItem, clearStorage } from './localStorage';
 import { parseJwt } from './parseJwt';
 import { validationSchema } from './validationSchema';
 import { subtractTime } from './subtractTime';
+import { isValidJSON } from './isValidJson';
 
 export {
   convertToCase,
@@ -21,4 +22,5 @@ export {
   parseJwt,
   validationSchema,
   subtractTime,
+  isValidJSON,
 };
