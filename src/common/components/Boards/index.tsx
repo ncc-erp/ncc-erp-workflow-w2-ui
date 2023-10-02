@@ -49,6 +49,7 @@ import ModalBoard from './ModalBoard';
 import styles from './style.module.scss';
 import useBoard from './useBoard';
 import TaskSkeleton from './TaskSkeleton';
+import { isValidJSON } from 'utils';
 
 const fadeIn = keyframes`
   from { opacity: 0; }
@@ -96,6 +97,10 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
 
   const [result, setResult] = useState<DropResult>();
   const [isRejected, setIsRejected] = useState<boolean>(false);
+  const [dynamicForm, setDynamicForm] = useState({
+    hasDynamicForm: false,
+    dynamicForm: '',
+  });
   const [reason, setReason] = useState<string>('');
   const [state, setState] = useState<Record<ETaskStatus, ITask[]>>({
     [ETaskStatus.Pending]: [],
@@ -119,6 +124,10 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
     onClose();
     setIsRejected(false);
     setReason('');
+    setDynamicForm({
+      hasDynamicForm: false,
+      dynamicForm: '',
+    });
   };
 
   const onDragEnd = async (result: DropResult) => {
@@ -134,6 +143,16 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
       setState(newState);
       return;
     }
+    if (
+      +destination.droppableId === BoardColumnStatus.Approved &&
+      isValidJSON(state[sInd][source.index].dynamicActionData)
+    ) {
+      setDynamicForm({
+        hasDynamicForm: true,
+        dynamicForm: state[sInd][source.index].dynamicActionData || '',
+      });
+    }
+
     if (+destination.droppableId === BoardColumnStatus.Rejected) {
       setIsRejected(true);
     }
@@ -141,7 +160,7 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
     setResult(result);
   };
 
-  const handleDrop = async () => {
+  const handleDrop = async (approvedData?: string) => {
     const { source, destination } = result as DropResult;
     if (!destination) return;
 
@@ -152,6 +171,7 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
     const statusDrop = Number(destination.droppableId);
     try {
       state[ETaskStatus.Pending][source.index].status = statusDrop;
+      const dynamicData = state[sInd][source.index].dynamicActionData;
       const newState = { ...state };
       newState[sInd] = results[sInd];
       newState[dInd] = results[dInd];
@@ -159,9 +179,12 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
       handleClose();
       switch (statusDrop) {
         case BoardColumnStatus.Approved:
-          await approveTaskMutation.mutateAsync(
-            state[ETaskStatus.Pending][source.index].id
-          );
+          await approveTaskMutation.mutateAsync({
+            id: state[ETaskStatus.Pending][source.index].id,
+            dynamicActionData: isValidJSON(dynamicData)
+              ? approvedData
+              : dynamicData,
+          });
           queryClient.removeQueries({
             queryKey: [QueryKeys.GET_ALL_TASK],
           });
@@ -525,6 +548,8 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
         onConfirm={handleDrop}
         showReason={isRejected}
         setReason={setReason}
+        showDynamicForm={dynamicForm.hasDynamicForm}
+        dynamicForm={dynamicForm.dynamicForm}
         isDisabled={isRejected && !reason}
         isLoading={isLoading}
       />

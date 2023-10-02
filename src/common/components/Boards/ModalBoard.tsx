@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 
 import {
   AlertDialog,
@@ -9,19 +9,33 @@ import {
   AlertDialogOverlay,
   Box,
   Button,
+  FormControl,
+  FormHelperText,
+  FormLabel,
   Input,
   Spinner,
   Text,
+  VStack,
 } from '@chakra-ui/react';
+import { useForm } from 'react-hook-form';
+import { TextareaField } from '../TextareaField';
+import { ErrorMessage } from '@hookform/error-message';
+import { ErrorDisplay } from '../ErrorDisplay';
 
 interface ModalBoardProps {
   isOpen: boolean;
   onClose: () => void;
-  onConfirm: () => void;
+  onConfirm: (data?: string) => void;
   showReason: boolean;
+  showDynamicForm?: boolean;
+  dynamicForm?: string;
   isDisabled?: boolean;
   isLoading?: boolean;
-  setReason: React.Dispatch<React.SetStateAction<string>>;
+  setReason: (data: string) => void;
+}
+
+interface IDynamicFormProps {
+  [key: string]: string;
 }
 
 const ModalBoard = (props: ModalBoardProps): JSX.Element => {
@@ -33,8 +47,81 @@ const ModalBoard = (props: ModalBoardProps): JSX.Element => {
     onClose,
     onConfirm,
     showReason = false,
+    showDynamicForm = false,
+    dynamicForm = '',
     setReason,
   } = props;
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
+    criteriaMode: 'all',
+  });
+
+  useEffect(() => {
+    reset();
+  }, [reset, showDynamicForm]);
+
+  const dynamicFormParse = useMemo(() => {
+    if (showDynamicForm) {
+      return JSON.parse(dynamicForm);
+    }
+    return {};
+  }, [dynamicForm, showDynamicForm]);
+
+  const toDisplayName = (inputName: string) => {
+    return inputName.replace(/([a-z])([A-Z])/g, '$1 $2');
+  };
+
+  const renderFormContent = (data: IDynamicFormProps[] | undefined) => {
+    return data?.map(function (element, ind) {
+      return (
+        <FormControl key={ind}>
+          <FormLabel fontSize={16} my={1} fontWeight="normal">
+            {toDisplayName(element.name)}
+            {element.isRequired ? (
+              <FormHelperText my={1} style={{ color: 'red' }} as="span">
+                *
+              </FormHelperText>
+            ) : (
+              ''
+            )}
+          </FormLabel>
+          <TextareaField
+            {...register(element.name, {
+              required:
+                element?.isRequired === 'true'
+                  ? `${element.name} is Required`
+                  : false,
+            })}
+          />
+          <ErrorMessage
+            errors={errors}
+            name={element.name}
+            render={({ message }) => <ErrorDisplay message={message} />}
+          />
+        </FormControl>
+      );
+    });
+  };
+
+  const onSubmit = async (data: IDynamicFormProps) => {
+    if (showDynamicForm) {
+      for (const item of dynamicFormParse) {
+        if (Object.prototype.hasOwnProperty.call(data, item.name)) {
+          item.data = data[item.name];
+        }
+      }
+      onConfirm(JSON.stringify(dynamicFormParse));
+      return;
+    }
+
+    onConfirm();
+  };
+
   return (
     <>
       <AlertDialog
@@ -57,6 +144,16 @@ const ModalBoard = (props: ModalBoardProps): JSX.Element => {
               >
                 Do you want to update status ?
               </Text>
+              {showDynamicForm && (
+                <form
+                  style={{ width: '100%', margin: '10px 0' }}
+                  onSubmit={handleSubmit(onSubmit)}
+                >
+                  <VStack spacing="14px" alignItems="flex-start">
+                    {renderFormContent(dynamicFormParse)}
+                  </VStack>
+                </form>
+              )}
               {showReason && (
                 <Box mt={5}>
                   <Text
@@ -80,7 +177,7 @@ const ModalBoard = (props: ModalBoardProps): JSX.Element => {
               <Button onClick={onClose}>Cancel</Button>
               <Button
                 colorScheme="red"
-                onClick={onConfirm}
+                onClick={handleSubmit(onSubmit)}
                 ml={3}
                 isDisabled={isDisabled || isLoading}
               >

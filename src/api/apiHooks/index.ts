@@ -104,8 +104,11 @@ export const useCancelByPost = (url: string) => {
 export const useUpdateStatus = (url: string, status: string) => {
   const axios = useAxios();
 
-  const mutate = async (params: string) => {
-    await axios.post(`${url}/${params}/${status}`);
+  const mutate = async (params: {
+    id: string;
+    dynamicActionData?: string | null | undefined;
+  }) => {
+    await axios.post(`${url}/${status}`, params);
   };
 
   return useMutation(mutate);
