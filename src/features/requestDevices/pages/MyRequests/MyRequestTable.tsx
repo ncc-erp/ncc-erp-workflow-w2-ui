@@ -4,7 +4,16 @@ import {
   createColumnHelper,
 } from '@tanstack/react-table';
 import { useQueryClient } from '@tanstack/react-query';
-import { Box, Center, HStack, Spacer, Spinner } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  Center,
+  HStack,
+  Spacer,
+  Spinner,
+  Wrap,
+  WrapItem,
+} from '@chakra-ui/react';
 import {
   useCancelRequest,
   useDeleteRequest,
@@ -28,6 +37,7 @@ import { toast } from 'common/components/StandaloneToast';
 import { ModalConfirm } from 'common/components/ModalConfirm';
 import { useCurrentUser } from 'hooks/useCurrentUser';
 import { formatDate } from 'utils';
+import { useIsAdmin } from 'hooks/useIsAdmin';
 
 const initialSorting: SortingState = [
   {
@@ -57,6 +67,7 @@ export const MyRequestTable = () => {
   const { skipCount, maxResultCount } = filter;
   const currentPage = (maxResultCount + skipCount) / maxResultCount;
   const columnHelper = createColumnHelper<Request>();
+  const isAdmin = useIsAdmin();
 
   const queryClient = useQueryClient();
   const deleteRequestMutation = useDeleteRequest();
@@ -249,6 +260,28 @@ export const MyRequestTable = () => {
             />
           </Box>
         </HStack>
+        {isAdmin && (
+          <Wrap pl="24px" pt="8px">
+            <WrapItem>
+              <Button
+                size={'md'}
+                colorScheme={filter.RequestUser ? 'green' : 'gray'}
+                onClick={() => {
+                  if (filter.RequestUser) {
+                    setFilter({ ...filter, RequestUser: '' });
+                  } else {
+                    setFilter({ ...filter, RequestUser: currentUser?.sub[0] });
+                  }
+                }}
+                fontSize="sm"
+                fontWeight="medium"
+                mr={2}
+              >
+                Only my request
+              </Button>
+            </WrapItem>
+          </Wrap>
+        )}
         {isLoading ? (
           <Center h="200px">
             <Spinner mx="auto" speed="0.65s" thickness="3px" size="xl" />
@@ -261,7 +294,7 @@ export const MyRequestTable = () => {
             message={'No requests found!'}
           >
             <Box
-              p="20px 30px 0px 30px"
+              p="20px 30px 0px 24px"
               overflowX="auto"
               w={{ base: `calc(100vw - ${sideBarWidth}px)`, lg: 'auto' }}
             >
