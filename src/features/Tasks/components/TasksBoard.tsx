@@ -38,7 +38,8 @@ const initialFilter: FilterTasks = {
   workflowDefinitionId: '',
   status: -1,
   dates: subtractTime('months', 3),
-  keySearch: '',
+  emailRequest: '',
+  emailAssign: '',
 };
 
 interface ModalDetail {
@@ -69,7 +70,7 @@ export const TasksBoard = () => {
   const [modalState, setModalState] = useState(initialModalStatus);
   const [filter, setFilter] = useState<FilterTasks>({
     ...initialFilter,
-    keySearch: user.email,
+    emailAssign: user.email,
   });
   const [txtSearch, setTxtSearch] = useState<string>('');
   const [isMyTask, setIsMyTask] = useState<boolean>(true);
@@ -154,12 +155,16 @@ export const TasksBoard = () => {
   }, [modalState]);
 
   useEffect(() => {
+    onTemplateStatusChange('emailRequest', txtSearchDebounced);
+  }, [onTemplateStatusChange, txtSearchDebounced]);
+
+  useEffect(() => {
     if (isMyTask) {
-      onTemplateStatusChange('keySearch', user.email);
+      onTemplateStatusChange('emailAssign', user.email);
     } else {
-      onTemplateStatusChange('keySearch', txtSearchDebounced);
+      onTemplateStatusChange('emailAssign', '');
     }
-  }, [isMyTask, onTemplateStatusChange, txtSearchDebounced, user.email]);
+  }, [isMyTask, onTemplateStatusChange, user.email]);
 
   return (
     <Flex flexDirection={'column'} gap={2}>
@@ -197,24 +202,22 @@ export const TasksBoard = () => {
               options={dateOptions}
             />
           </Box>
-          {isAdmin && (
-            <Box w={'300px'}>
-              <InputGroup>
-                <Input
-                  autoFocus
-                  value={txtSearch}
-                  type="text"
-                  placeholder="Enter email"
-                  fontSize="14px"
-                  mb={2}
-                  onChange={(e) => setTxtSearch(e.target.value)}
-                />
-                <InputRightElement width="40px">
-                  <TbSearch />
-                </InputRightElement>
-              </InputGroup>
-            </Box>
-          )}
+          <Box w={'300px'}>
+            <InputGroup>
+              <Input
+                autoFocus
+                value={txtSearch}
+                type="text"
+                placeholder="Enter email"
+                fontSize="14px"
+                mb={2}
+                onChange={(e) => setTxtSearch(e.target.value)}
+              />
+              <InputRightElement width="40px">
+                <TbSearch />
+              </InputRightElement>
+            </InputGroup>
+          </Box>
         </Flex>
       </Flex>
       <Flex gap={1} px="20px">

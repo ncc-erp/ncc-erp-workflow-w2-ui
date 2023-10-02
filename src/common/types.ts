@@ -7,4 +7,5 @@ export type TFilterTask =
   | 'status'
   | 'workflowDefinitionId'
   | 'dates'
-  | 'keySearch';
+  | 'emailRequest'
+  | 'emailAssign';

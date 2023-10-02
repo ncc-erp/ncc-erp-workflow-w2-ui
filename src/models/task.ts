@@ -40,7 +40,8 @@ export interface FilterTasks {
   workflowDefinitionId?: string;
   maxResultCount: number;
   skipCount: number;
-  keySearch?: string;
+  emailRequest?: string;
+  emailAssign?: string;
   dates?: string;
 }
 
