@@ -38,7 +38,8 @@ const initialFilter: FilterTasks = {
   workflowDefinitionId: '',
   status: -1,
   dates: subtractTime('months', 3),
-  keySearch: '',
+  emailRequest: '',
+  emailAssign: '',
 };
 
 interface ModalDetail {
@@ -69,7 +70,7 @@ export const TasksBoard = () => {
   const [modalState, setModalState] = useState(initialModalStatus);
   const [filter, setFilter] = useState<FilterTasks>({
     ...initialFilter,
-    keySearch: user.email,
+    emailAssign: user.email,
   });
   const [txtSearch, setTxtSearch] = useState<string>('');
   const [isMyTask, setIsMyTask] = useState<boolean>(true);
@@ -154,12 +155,18 @@ export const TasksBoard = () => {
   }, [modalState]);
 
   useEffect(() => {
-    if (isMyTask) {
-      onTemplateStatusChange('keySearch', user.email);
-    } else {
-      onTemplateStatusChange('keySearch', txtSearchDebounced);
+    if (isAdmin) {
+      onTemplateStatusChange('emailRequest', txtSearchDebounced);
     }
-  }, [isMyTask, onTemplateStatusChange, txtSearchDebounced, user.email]);
+  }, [isAdmin, onTemplateStatusChange, txtSearchDebounced]);
+
+  useEffect(() => {
+    if (isMyTask) {
+      onTemplateStatusChange('emailAssign', user.email);
+    } else {
+      onTemplateStatusChange('emailAssign', '');
+    }
+  }, [isMyTask, onTemplateStatusChange, user.email]);
 
   return (
     <Flex flexDirection={'column'} gap={2}>
