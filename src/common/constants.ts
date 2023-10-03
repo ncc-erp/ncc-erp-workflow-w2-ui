@@ -46,7 +46,7 @@ export const FilterDate = {
   // W3: '3 weeks',
   M1: '1 month',
   // M2: '2 months',
-  M3: '3 month',
+  M3: '3 months',
   // Y1: '1 years',
 };
 
