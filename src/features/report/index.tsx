@@ -12,7 +12,7 @@ const PostAndWFH = () => {
     <Page>
       <Page.Header>
         <Page.HeaderLeft>
-          <Page.Heading>My requests</Page.Heading>
+          <Page.Heading>Report WFH</Page.Heading>
         </Page.HeaderLeft>
         <Page.HeaderRight />
       </Page.Header>

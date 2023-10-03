@@ -42,7 +42,7 @@ import styles from './styles.module.scss';
 const initialFilter: FilterWfhParams = {
   maxResultCount: +noOfRows[2].value,
   skipCount: 0,
-  sorting: [WfhSortField.email, 'desc'].join(' '),
+  sorting: [WfhSortField.totalMissingPosts, 'desc'].join(' '),
   keySearch: '',
   startDate: null,
   endDate: null,
@@ -50,7 +50,7 @@ const initialFilter: FilterWfhParams = {
 
 const initialSorting: SortingState = [
   {
-    id: WfhSortField.email,
+    id: WfhSortField.totalMissingPosts,
     desc: true,
   },
 ];
@@ -96,6 +96,12 @@ export const TablePostAndWFH = () => {
         ...filter,
         startDate: formatDate(startDate, 'MM/dd/yyyy'),
         endDate: formatDate(endDate, 'MM/dd/yyyy'),
+      }));
+    } else {
+      setFilter((filter) => ({
+        ...filter,
+        startDate: null,
+        endDate: null,
       }));
     }
   }, [startDate, endDate]);

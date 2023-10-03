@@ -84,7 +84,7 @@ const ModalBoard = (props: ModalBoardProps): JSX.Element => {
             {toDisplayName(element.name)}
             {element.isRequired ? (
               <FormHelperText my={1} style={{ color: 'red' }} as="span">
-                *
+                &nbsp;*
               </FormHelperText>
             ) : (
               ''
@@ -92,10 +92,9 @@ const ModalBoard = (props: ModalBoardProps): JSX.Element => {
           </FormLabel>
           <TextareaField
             {...register(element.name, {
-              required:
-                element?.isRequired === 'true'
-                  ? `${element.name} is Required`
-                  : false,
+              required: element.isRequired
+                ? `${toDisplayName(element.name)} is Required`
+                : false,
             })}
           />
           <ErrorMessage

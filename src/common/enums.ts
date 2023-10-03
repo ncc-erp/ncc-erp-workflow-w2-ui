@@ -29,6 +29,7 @@ export enum UserSortField {
 
 export enum WfhSortField {
   email = 'Email',
+  totalMissingPosts = 'totalMissingPosts',
 }
 
 export enum SortDirection {
