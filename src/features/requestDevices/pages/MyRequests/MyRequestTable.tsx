@@ -158,8 +158,8 @@ export const MyRequestTable = () => {
           cell: (info) => (
             <Center>
               <RowAction
-                onCancel={onAction(info.row.original.id, 'cancel')}
-                onDelete={onAction(info.row.original.id, 'delete')}
+                onCancel={onAction(info.row.original.id, 'canceled')}
+                onDelete={onAction(info.row.original.id, 'deleted')}
               />
             </Center>
           ),
@@ -201,11 +201,11 @@ export const MyRequestTable = () => {
     setFilter({ ...filter, [key]: value, skipCount: 0 });
   };
 
-  const onAction = (requestId: string, type: 'delete' | 'cancel') => () => {
+  const onAction = (requestId: string, type: 'deleted' | 'canceled') => () => {
     setRequestId(requestId);
     setActionType(type);
     setModalTitle(`Confirm ${type} request`);
-    setModalDescription(`Request will be ${type}ed. Do you confirm that?`);
+    setModalDescription(`Request will be ${type}. Do you confirm that?`);
     setIsOpen(true);
   };
 

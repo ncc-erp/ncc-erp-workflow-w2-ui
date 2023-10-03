@@ -51,7 +51,7 @@ const initialFilter: FilterWfhParams = {
 const initialSorting: SortingState = [
   {
     id: WfhSortField.email,
-    desc: false,
+    desc: true,
   },
 ];
 

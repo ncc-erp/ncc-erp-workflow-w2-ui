@@ -41,12 +41,12 @@ export const TaskStatus = {
 };
 
 export const FilterDate = {
-  W1: '1 weeks',
+  W1: '1 week',
   // W2: '2 weeks',
   // W3: '3 weeks',
-  M1: '1 months',
+  M1: '1 month',
   // M2: '2 months',
-  M3: '3 months',
+  M3: '3 month',
   // Y1: '1 years',
 };
 
