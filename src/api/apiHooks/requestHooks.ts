@@ -19,7 +19,7 @@ import {
 import { QueryKeys } from 'common/constants';
 import { officeList } from 'models/office';
 import { ICurrentProject, projectList } from 'models/project';
-import { UserInfo } from 'models/user';
+import { IUser, UserInfo } from 'models/user';
 
 export const useMyRequests = (filter: FilterRequestParams) => {
   return useGetListByPost<FilterRequestResult>(
@@ -71,6 +71,13 @@ export const useUserProjects = () => {
   return useGetOne<typeof projectList>(
     [QueryKeys.GET_PROJECT_USER],
     '/app/external-resource/current-user-projects'
+  );
+};
+
+export const useUserList = () => {
+  return useGetOne<IUser[]>(
+    [QueryKeys.GET_USER_LIST],
+    '/app/external-resource/users-info'
   );
 };
 
