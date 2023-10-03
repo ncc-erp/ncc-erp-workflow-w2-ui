@@ -35,6 +35,7 @@ const DateRangePicker = ({
         dateFormat="dd/MM/yyyy"
         isClearable
         clearButtonClassName={styles.btnClear}
+        onChangeRaw={(e) => e.preventDefault()}
       />
       <Text mr={2} fontSize="sm">
         To
@@ -50,6 +51,7 @@ const DateRangePicker = ({
         className={`${styles.datePicker} ${!startDate ? styles.disabled : ''}`}
         dateFormat="dd/MM/yyyy"
         ref={endDatePicker}
+        onChangeRaw={(e) => e.preventDefault()}
       />
     </Box>
   );

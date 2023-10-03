@@ -16,13 +16,12 @@ import {
 import { useActionTask, useGetTaskDetail } from 'api/apiHooks/taskHooks';
 import Logo from 'assets/images/ncc_logo.svg';
 import { TextGroup } from 'common/components/TextGroup/TextGroup';
-import { formatDate, getStatusByIndex } from 'utils';
+import { formatDate, getStatusByIndex, isObjectEmpty } from 'utils';
 import { RequestInput } from './RequestInput';
 import styles from './style.module.scss';
 import { toast } from 'common/components/StandaloneToast';
 import { OtherActionSignalStatus, TaskStatus } from 'common/constants';
 import { useMemo, useState } from 'react';
-import isObjectEmpty from 'utils/isObjectEmpty';
 
 interface IDetailModalProps {
   isOpen: boolean;

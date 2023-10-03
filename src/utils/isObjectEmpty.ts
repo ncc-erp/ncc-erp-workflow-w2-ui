@@ -1,4 +1,4 @@
-const isObjectEmpty = (
+export const isObjectEmpty = (
   obj: Record<string, unknown> | null | undefined
 ): boolean => {
   if (typeof obj !== 'object' || !obj) {
@@ -7,5 +7,3 @@ const isObjectEmpty = (
 
   return Object.entries(obj).length === 0;
 };
-
-export default isObjectEmpty;
