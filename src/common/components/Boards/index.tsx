@@ -18,7 +18,6 @@ import {
   DropResult,
   Droppable,
 } from '@hello-pangea/dnd';
-import { useQueryClient } from '@tanstack/react-query';
 import {
   useActionTask,
   useApproveTask,
@@ -30,7 +29,6 @@ import {
   BoardColumnStatus,
   ColorThemeMode,
   OtherActionSignalStatus,
-  QueryKeys,
   TaskStatus,
 } from 'common/constants';
 import { ETaskStatus } from 'common/enums';
@@ -50,6 +48,7 @@ import styles from './style.module.scss';
 import useBoard from './useBoard';
 import TaskSkeleton from './TaskSkeleton';
 import { isValidJSON } from 'utils';
+import { useClearCacheTask } from './useClearCacheTask';
 
 const fadeIn = keyframes`
   from { opacity: 0; }
@@ -114,12 +113,11 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
   });
 
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const queryClient = useQueryClient();
   const approveTaskMutation = useApproveTask();
   const rejectTaskMutation = useRejectTask();
   const { reorder, move, getItemStyle, getListStyle } = useBoard();
   const currentUser = useCurrentUser();
-
+  const { clear } = useClearCacheTask();
   const handleClose = () => {
     onClose();
     setIsRejected(false);
@@ -185,10 +183,9 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
               ? approvedData
               : dynamicData,
           });
-          queryClient.removeQueries({
-            queryKey: [QueryKeys.GET_ALL_TASK],
-          });
-          await refetchApproved();
+          clear();
+          refetchApproved();
+          refetchPending();
           break;
         case BoardColumnStatus.Rejected:
           if (!reason) return;
@@ -196,10 +193,9 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
             id: state[ETaskStatus.Pending][source.index].id,
             reason,
           });
-          queryClient.removeQueries({
-            queryKey: [QueryKeys.GET_ALL_TASK],
-          });
-          await refetchRejected();
+          clear();
+          refetchRejected();
+          refetchPending();
           break;
         default:
           break;

@@ -26,7 +26,6 @@ import { AiFillCheckCircle, AiOutlineReload } from 'react-icons/ai';
 import { formatDate } from 'utils';
 import {
   OtherActionSignalStatus,
-  QueryKeys,
   TaskStatus,
   noOfRows,
 } from 'common/constants';
@@ -43,8 +42,8 @@ import { Pagination } from 'common/components/Pagination';
 import styles from './style.module.scss';
 import ModalBoard from './ModalBoard';
 import { toast } from '../StandaloneToast';
-import { useQueryClient } from '@tanstack/react-query';
 import { BsFillFilterCircleFill } from 'react-icons/bs';
+import { useClearCacheTask } from './useClearCacheTask';
 
 interface Props {
   filters: FilterTasks;
@@ -70,12 +69,12 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
     initDataForm
   );
   const [loadStatus, setLoadStatus] = useState<boolean>(false);
-  const queryClient = useQueryClient();
   const actionTaskMutation = useActionTask();
   const [isActionLoading, setIsActionLoading] = useState({
     isLoading: false,
     id: '',
   });
+  const { clear } = useClearCacheTask();
 
   const taskColumns = useMemo(() => {
     const onActionClick = async (id: string, action: string) => {
@@ -284,7 +283,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
         case TaskStatus.Approved:
           await approveTaskMutation.mutateAsync({ id: dataForm.taskId });
           refetch();
-          queryClient.removeQueries([QueryKeys.GET_ALL_TASK_FILTERED]);
+          clear();
           toast({ title: 'Approved successfully!', status: 'success' });
           break;
         case TaskStatus.Rejected:
@@ -294,7 +293,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
             reason,
           });
           refetch();
-          queryClient.removeQueries([QueryKeys.GET_ALL_TASK_FILTERED]);
+          clear();
           toast({ title: 'Rejected successfully!', status: 'success' });
           break;
         default:
@@ -308,10 +307,10 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
     }
   }, [
     approveTaskMutation,
+    clear,
     dataForm.status,
     dataForm.taskId,
     handleClose,
-    queryClient,
     reason,
     refetch,
     rejectTaskMutation,
