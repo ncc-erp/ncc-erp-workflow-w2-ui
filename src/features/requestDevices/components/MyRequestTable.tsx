@@ -29,7 +29,7 @@ import { Pagination } from 'common/components/Pagination';
 import { QueryKeys, noOfRows } from 'common/constants';
 import { PageSize } from 'common/components/Table/PageSize';
 import { ShowingItemText } from 'common/components/Table/ShowingItemText';
-import { RowAction } from 'features/requestDevices/pages/MyRequests/RowAction';
+import { RowAction } from 'features/requestDevices/components/RowAction';
 import { EmptyWrapper } from 'common/components/EmptyWrapper';
 import { useRecoilValue } from 'recoil';
 import { appConfigState } from 'stores/appConfig';
@@ -38,6 +38,7 @@ import { ModalConfirm } from 'common/components/ModalConfirm';
 import { useCurrentUser } from 'hooks/useCurrentUser';
 import { formatDate } from 'utils';
 import { useIsAdmin } from 'hooks/useIsAdmin';
+import { RequestDetailModal } from './DetailModal';
 
 const initialSorting: SortingState = [
   {
@@ -73,10 +74,12 @@ export const MyRequestTable = () => {
   const deleteRequestMutation = useDeleteRequest();
   const cancelRequestMutation = useCancelRequest();
   const [isOpen, setIsOpen] = useState(false);
+  const [isOpenDetails, setOpenDetails] = useState(false);
   const [modalTitle, setModalTitle] = useState('');
   const [modalDescription, setModalDescription] = useState('');
   const [actionType, setActionType] = useState('');
   const [requestId, setRequestId] = useState('');
+  const [requestDetails, setRequestDetails] = useState<Request>();
 
   const statusOptions = useMemo(() => {
     const defaultOptions = {
@@ -158,6 +161,7 @@ export const MyRequestTable = () => {
           cell: (info) => (
             <Center>
               <RowAction
+                onViewDetails={onActionViewDetails(info.row.original)}
                 onCancel={onAction(info.row.original.id, 'cancel')}
                 onDelete={onAction(info.row.original.id, 'delete')}
               />
@@ -199,6 +203,11 @@ export const MyRequestTable = () => {
     value?: string
   ) => {
     setFilter({ ...filter, [key]: value, skipCount: 0 });
+  };
+
+  const onActionViewDetails = (request: Request) => () => {
+    setRequestDetails(request);
+    setOpenDetails(true);
   };
 
   const onAction = (requestId: string, type: 'delete' | 'cancel') => () => {
@@ -337,6 +346,13 @@ export const MyRequestTable = () => {
         title={modalTitle}
         description={modalDescription}
       />
+      {requestDetails && (
+        <RequestDetailModal
+          isOpen={isOpenDetails}
+          onClose={() => setOpenDetails(false)}
+          requestDetail={requestDetails}
+        />
+      )}
     </>
   );
 };

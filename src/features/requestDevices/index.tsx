@@ -1,6 +1,6 @@
 import Page from 'common/components/Page';
-import { MyRequestTable } from './MyRequestTable';
 import { useIsAdmin } from 'hooks/useIsAdmin';
+import { MyRequestTable } from './components/MyRequestTable';
 
 const MyRequests = () => {
   const isAdmin = useIsAdmin();

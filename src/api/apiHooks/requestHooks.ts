@@ -8,6 +8,7 @@ import {
   IRequestFormParams,
   RequestTemplateResult,
   WfhRequestFormParams,
+  IRequestResult,
 } from 'models/request';
 import {
   useCancelByPost,
@@ -15,6 +16,7 @@ import {
   useGetListByPost,
   useCreate,
   useGetOne,
+  useGetList,
 } from 'api/apiHooks';
 import { QueryKeys } from 'common/constants';
 import { officeList } from 'models/office';
@@ -26,6 +28,13 @@ export const useMyRequests = (filter: FilterRequestParams) => {
     [QueryKeys.FILTER_REQUEST, filter],
     '/app/workflow-instance/list',
     filter
+  );
+};
+
+export const useGetRequestDetail = (id: string) => {
+  return useGetList<IRequestResult>(
+    [QueryKeys.GET_REQUEST, id],
+    `/app/workflow-instance/${id}/detail-by-id`
   );
 };
 

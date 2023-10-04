@@ -93,3 +93,41 @@ export interface IRequestFormParams {
   workflowDefinitionId?: string;
   input: object;
 }
+
+export interface IRequestUser {
+  email: string;
+  name: string;
+  branchName: string;
+}
+
+export interface IInputRequest {
+  Request: Record<string, Record<string, string> | string>;
+  RequestUser: IRequestUser;
+}
+
+export interface IOtherActionSignals {
+  otherActionSignal: string;
+  status: number;
+}
+
+export interface ITask {
+  name: string;
+  email: string;
+  emailTo: string[];
+  reason?: string;
+  status: number;
+  workflowInstanceId: string;
+  dynamicActionData?: string;
+  creationTime: string;
+  id: string;
+  otherActionSignals?: IOtherActionSignals[];
+  description?: string;
+  authorName?: string;
+}
+
+export interface IRequestResult {
+  typeRequest: string;
+  input: IInputRequest;
+  tasks: ITask;
+  workInstanceId: string;
+}

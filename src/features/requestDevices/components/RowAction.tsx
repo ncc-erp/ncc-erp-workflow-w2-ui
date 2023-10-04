@@ -9,14 +9,20 @@ import {
 } from '@chakra-ui/react';
 import { RiSettings4Fill, RiDeleteBin6Fill } from 'react-icons/ri';
 import { MdCancel } from 'react-icons/md';
+import { FaEye } from 'react-icons/fa';
 import { ColorThemeMode } from 'common/constants';
 
 interface RowActionProps {
+  onViewDetails: () => void;
   onCancel: () => void;
   onDelete: () => void;
 }
 
-export const RowAction = ({ onCancel, onDelete }: RowActionProps) => {
+export const RowAction = ({
+  onCancel,
+  onDelete,
+  onViewDetails,
+}: RowActionProps) => {
   const bg = useColorModeValue(ColorThemeMode.LIGHT, ColorThemeMode.DARK);
   const color = useColorModeValue(ColorThemeMode.DARK, ColorThemeMode.LIGHT);
 
@@ -30,6 +36,15 @@ export const RowAction = ({ onCancel, onDelete }: RowActionProps) => {
         icon={<Icon color="gray.500" fontSize="lg" as={RiSettings4Fill} />}
       />
       <MenuList minW="100px" bg={bg}>
+        <MenuItem
+          color={color}
+          display="flex"
+          gap="12px"
+          onClick={onViewDetails}
+        >
+          <Icon color="gray.500" as={FaEye} />
+          View
+        </MenuItem>
         <MenuItem color={color} display="flex" gap="12px" onClick={onDelete}>
           <Icon color="gray.500" as={RiDeleteBin6Fill} />
           Delete
