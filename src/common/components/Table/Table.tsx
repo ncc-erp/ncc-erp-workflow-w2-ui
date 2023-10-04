@@ -1,12 +1,4 @@
 import {
-  ColumnDef,
-  OnChangeFn,
-  SortingState,
-  flexRender,
-  getCoreRowModel,
-  useReactTable,
-} from '@tanstack/react-table';
-import {
   Box,
   Icon,
   Table as TableComponent,
@@ -17,21 +9,19 @@ import {
   Tr,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { IoMdArrowDropdown, IoMdArrowDropup } from 'react-icons/io';
+import {
+  ColumnDef,
+  OnChangeFn,
+  SortingState,
+  flexRender,
+  getCoreRowModel,
+  useReactTable,
+} from '@tanstack/react-table';
 import { ColorThemeMode } from 'common/constants';
+import { IoMdArrowDropdown, IoMdArrowDropup } from 'react-icons/io';
 import theme from 'themes/theme';
-import { ITask, Request } from 'models/request';
-import { IPostAndWFH } from 'models/report';
 
-export type IRowActionProps = (
-  data: Request | string | IPostAndWFH
-) => () => void;
-
-export enum ActionType {
-  ViewDetails = 'viewDetails',
-  OpenTaskDetailModal = 'openTaskDetailModal',
-  OpenWfhReportModal = 'openWfhReportModal',
-}
+export type IRowActionProps<D> = (data: D) => () => void;
 
 interface TableProps<D> {
   columns: ColumnDef<D, unknown>[];
@@ -39,8 +29,7 @@ interface TableProps<D> {
   data: D[];
   sorting?: SortingState;
   onSortingChange?: OnChangeFn<SortingState>;
-  actionType?: ActionType;
-  onActionClick?: IRowActionProps;
+  onActionClick?: IRowActionProps<D>;
 }
 
 export const Table = <D,>({
@@ -49,7 +38,6 @@ export const Table = <D,>({
   sorting,
   onSortingChange,
   onActionClick,
-  actionType,
 }: TableProps<D>) => {
   const table = useReactTable({
     data,
@@ -116,18 +104,8 @@ export const Table = <D,>({
             <Tr
               key={row.id}
               onClick={() => {
-                if (onActionClick && actionType) {
-                  switch (actionType) {
-                    case ActionType.ViewDetails:
-                      onActionClick(row.original as Request)();
-                      break;
-                    case ActionType.OpenTaskDetailModal:
-                      onActionClick((row.original as ITask).id)();
-                      break;
-                    case ActionType.OpenWfhReportModal:
-                      onActionClick(row.original as IPostAndWFH)();
-                      break;
-                  }
+                if (onActionClick) {
+                  onActionClick(row.original as D)();
                 }
               }}
             >

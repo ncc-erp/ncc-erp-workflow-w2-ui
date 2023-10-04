@@ -31,6 +31,7 @@ import { ListTask } from '../../../common/components/Boards/ListTask';
 import { TaskDetailModal } from './TaskDetailModal';
 import { FaTable } from 'react-icons/fa';
 import { BsCardText } from 'react-icons/bs';
+import { ITask } from 'models/request';
 
 const initialFilter: FilterTasks = {
   skipCount: 0,
@@ -137,11 +138,11 @@ export const TasksBoard = () => {
   );
 
   const openModal = useCallback(
-    (taskId: string) => () => {
+    (task: ITask) => () => {
       setModalState({
         ...modalState,
         isOpen: true,
-        taskId: taskId,
+        taskId: task.id,
       });
     },
     [modalState]
