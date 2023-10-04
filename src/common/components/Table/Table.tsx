@@ -23,15 +23,24 @@ import theme from 'themes/theme';
 import { ITask, Request } from 'models/request';
 import { IPostAndWFH } from 'models/report';
 
+export type IRowActionProps = (
+  data: Request | string | IPostAndWFH
+) => () => void;
+
+export enum ActionType {
+  ViewDetails = 'viewDetails',
+  OpenTaskDetailModal = 'openTaskDetailModal',
+  OpenWfhReportModal = 'openWfhReportModal',
+}
+
 interface TableProps<D> {
   columns: ColumnDef<D, unknown>[];
   manualSorting?: boolean;
   data: D[];
   sorting?: SortingState;
   onSortingChange?: OnChangeFn<SortingState>;
-  onViewDetails?: (request: Request) => () => void;
-  openTaskDetailModal?: (id: string) => void;
-  openWfhReportModal?: (data: IPostAndWFH) => () => void;
+  actionType?: ActionType;
+  onActionClick?: IRowActionProps;
 }
 
 export const Table = <D,>({
@@ -39,9 +48,8 @@ export const Table = <D,>({
   data,
   sorting,
   onSortingChange,
-  onViewDetails,
-  openTaskDetailModal,
-  openWfhReportModal,
+  onActionClick,
+  actionType,
 }: TableProps<D>) => {
   const table = useReactTable({
     data,
@@ -108,16 +116,18 @@ export const Table = <D,>({
             <Tr
               key={row.id}
               onClick={() => {
-                if (onViewDetails) {
-                  onViewDetails(row.original as Request)();
-                }
-
-                if (openTaskDetailModal) {
-                  openTaskDetailModal((row.original as ITask).id);
-                }
-
-                if (openWfhReportModal) {
-                  openWfhReportModal(row.original as IPostAndWFH)();
+                if (onActionClick && actionType) {
+                  switch (actionType) {
+                    case ActionType.ViewDetails:
+                      onActionClick(row.original as Request)();
+                      break;
+                    case ActionType.OpenTaskDetailModal:
+                      onActionClick((row.original as ITask).id)();
+                      break;
+                    case ActionType.OpenWfhReportModal:
+                      onActionClick(row.original as IPostAndWFH)();
+                      break;
+                  }
                 }
               }}
             >

@@ -14,7 +14,11 @@ import { useRecoilValue } from 'recoil';
 import { noOfRows } from 'common/constants';
 import { FilterWfhParams, IPostAndWFH } from 'models/report';
 import { appConfigState } from 'stores/appConfig';
-import { Table } from 'common/components/Table/Table';
+import {
+  ActionType,
+  IRowActionProps,
+  Table,
+} from 'common/components/Table/Table';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Pagination } from 'common/components/Pagination';
 import { PageSize } from 'common/components/Table/PageSize';
@@ -272,7 +276,8 @@ export const TablePostAndWFH = () => {
             >
               <Table
                 columns={wfhColumns}
-                openWfhReportModal={onAction}
+                onActionClick={onAction as IRowActionProps}
+                actionType={ActionType.OpenWfhReportModal}
                 data={wfhList.filter((item) => item.totalMissingPosts !== 0)}
                 onSortingChange={setSorting}
                 sorting={sorting}

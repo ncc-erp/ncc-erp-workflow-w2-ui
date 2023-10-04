@@ -21,7 +21,11 @@ import {
   useRequestTemplates,
 } from 'api/apiHooks/requestHooks';
 import { SelectField } from 'common/components/SelectField';
-import { Table } from 'common/components/Table/Table';
+import {
+  ActionType,
+  IRowActionProps,
+  Table,
+} from 'common/components/Table/Table';
 import { RequestSortField, RequestStatus, SortDirection } from 'common/enums';
 import { FilterRequestParams, Request } from 'models/request';
 import { useEffect, useMemo, useState } from 'react';
@@ -312,7 +316,8 @@ export const MyRequestTable = () => {
                 data={requests}
                 sorting={sorting}
                 onSortingChange={setSorting}
-                onViewDetails={onActionViewDetails}
+                onActionClick={onActionViewDetails as IRowActionProps}
+                actionType={ActionType.ViewDetails}
               />
             </Box>
           </EmptyWrapper>

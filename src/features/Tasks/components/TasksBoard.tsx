@@ -137,7 +137,7 @@ export const TasksBoard = () => {
   );
 
   const openModal = useCallback(
-    (taskId: string) => {
+    (taskId: string) => () => {
       setModalState({
         ...modalState,
         isOpen: true,

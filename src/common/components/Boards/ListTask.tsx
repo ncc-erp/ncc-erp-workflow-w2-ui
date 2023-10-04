@@ -15,7 +15,11 @@ import {
 } from '@chakra-ui/react';
 import { useRecoilValue } from 'recoil';
 import { appConfigState } from 'stores/appConfig';
-import { Table } from 'common/components/Table/Table';
+import {
+  ActionType,
+  IRowActionProps,
+  Table,
+} from 'common/components/Table/Table';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
 import { EmptyWrapper } from 'common/components/EmptyWrapper';
@@ -47,7 +51,7 @@ import { useClearCacheTask } from './useClearCacheTask';
 
 interface Props {
   filters: FilterTasks;
-  openDetailModal: (id: string) => void;
+  openDetailModal: (id: string) => () => void;
 }
 
 const initDataForm = {
@@ -185,7 +189,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
                   <MenuItem
                     display="flex"
                     gap="12px"
-                    onClick={() => openDetailModal(info.row.original.id)}
+                    onClick={() => openDetailModal(info.row.original.id)()}
                   >
                     <Icon color="blue.500" as={RiEyeFill} />
                     View
@@ -378,7 +382,8 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
                 w={{ base: `calc(100vw - ${sideBarWidth}px)`, lg: 'auto' }}
               >
                 <Table
-                  openTaskDetailModal={openDetailModal}
+                  onActionClick={openDetailModal as IRowActionProps}
+                  actionType={ActionType.OpenTaskDetailModal}
                   columns={taskColumns}
                   data={data?.items ?? []}
                 />
