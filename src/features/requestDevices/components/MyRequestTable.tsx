@@ -9,6 +9,9 @@ import {
   Button,
   Center,
   HStack,
+  Input,
+  InputGroup,
+  InputRightElement,
   Spacer,
   Spinner,
   Wrap,
@@ -24,7 +27,7 @@ import { SelectField } from 'common/components/SelectField';
 import { Table } from 'common/components/Table/Table';
 import { RequestSortField, RequestStatus, SortDirection } from 'common/enums';
 import { FilterRequestParams, Request } from 'models/request';
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Pagination } from 'common/components/Pagination';
 import { QueryKeys, noOfRows } from 'common/constants';
 import { PageSize } from 'common/components/Table/PageSize';
@@ -39,6 +42,8 @@ import { useCurrentUser } from 'hooks/useCurrentUser';
 import { formatDate } from 'utils';
 import { useIsAdmin } from 'hooks/useIsAdmin';
 import { RequestDetailModal } from './DetailModal';
+import { TbSearch } from 'react-icons/tb';
+import useDebounced from 'hooks/useDebounced';
 
 const initialSorting: SortingState = [
   {
@@ -80,6 +85,8 @@ export const MyRequestTable = () => {
   const [actionType, setActionType] = useState('');
   const [requestId, setRequestId] = useState('');
   const [requestDetails, setRequestDetails] = useState<Request>();
+  const [txtSearch, setTxtSearch] = useState<string>('');
+  const txtSearchDebounced = useDebounced(txtSearch, 500);
 
   const statusOptions = useMemo(() => {
     const defaultOptions = {
@@ -198,12 +205,24 @@ export const MyRequestTable = () => {
     }));
   };
 
-  const onTemplateStatusChange = (
-    key: 'Status' | 'WorkflowDefinitionId' | 'RequestUser' | 'StakeHolder',
-    value?: string
-  ) => {
-    setFilter({ ...filter, [key]: value, skipCount: 0 });
-  };
+  const onTemplateStatusChange = useCallback(
+    (
+      key:
+        | 'Status'
+        | 'WorkflowDefinitionId'
+        | 'RequestUser'
+        | 'StakeHolder'
+        | 'EmailRequest',
+      value?: string
+    ) => {
+      setFilter({ ...filter, [key]: value, skipCount: 0 });
+    },
+    [filter]
+  );
+
+  useEffect(() => {
+    onTemplateStatusChange('EmailRequest', txtSearchDebounced);
+  }, [onTemplateStatusChange, txtSearchDebounced]);
 
   const onActionViewDetails = (request: Request) => () => {
     setRequestDetails(request);
@@ -268,6 +287,23 @@ export const MyRequestTable = () => {
               options={statusOptions}
             />
           </Box>
+          {isAdmin && (
+            <Box w={'300px'}>
+              <InputGroup>
+                <Input
+                  autoFocus
+                  value={txtSearch}
+                  type="text"
+                  placeholder="Enter email"
+                  fontSize="14px"
+                  onChange={(e) => setTxtSearch(e.target.value)}
+                />
+                <InputRightElement width="40px">
+                  <TbSearch />
+                </InputRightElement>
+              </InputGroup>
+            </Box>
+          )}
         </HStack>
         {isAdmin && (
           <Wrap pl="24px" pt="8px">
