@@ -164,7 +164,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
         header: () => <Center w="full">Actions</Center>,
         cell: (info) => {
           return (
-            <Center mr={1}>
+            <Center mr={1} onClick={(e) => e.stopPropagation()}>
               <div className={styles.tableActionLoading}>
                 {isActionLoading.isLoading &&
                   isActionLoading.id === info.row.original.id && (
@@ -377,7 +377,11 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
                 overflowX="auto"
                 w={{ base: `calc(100vw - ${sideBarWidth}px)`, lg: 'auto' }}
               >
-                <Table columns={taskColumns} data={data?.items ?? []} />
+                <Table
+                  openTaskDetailModal={openDetailModal}
+                  columns={taskColumns}
+                  data={data?.items ?? []}
+                />
               </Box>
             </EmptyWrapper>
             <HStack

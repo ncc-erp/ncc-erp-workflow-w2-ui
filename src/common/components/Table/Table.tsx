@@ -20,6 +20,7 @@ import {
 import { IoMdArrowDropdown, IoMdArrowDropup } from 'react-icons/io';
 import { ColorThemeMode } from 'common/constants';
 import theme from 'themes/theme';
+import { ITask, Request } from 'models/request';
 
 interface TableProps<D> {
   columns: ColumnDef<D, unknown>[];
@@ -27,6 +28,8 @@ interface TableProps<D> {
   data: D[];
   sorting?: SortingState;
   onSortingChange?: OnChangeFn<SortingState>;
+  onViewDetails?: (request: Request) => () => void;
+  openTaskDetailModal?: (id: string) => void;
 }
 
 export const Table = <D,>({
@@ -34,6 +37,8 @@ export const Table = <D,>({
   data,
   sorting,
   onSortingChange,
+  onViewDetails,
+  openTaskDetailModal,
 }: TableProps<D>) => {
   const table = useReactTable({
     data,
@@ -97,7 +102,18 @@ export const Table = <D,>({
       <Tbody>
         {table.getRowModel().rows.map((row) => {
           return (
-            <Tr key={row.id}>
+            <Tr
+              key={row.id}
+              onClick={() => {
+                if (onViewDetails) {
+                  onViewDetails(row.original as Request)();
+                }
+
+                if (openTaskDetailModal) {
+                  openTaskDetailModal((row.original as ITask).id);
+                }
+              }}
+            >
               {row.getVisibleCells().map((cell) => {
                 return (
                   <Td

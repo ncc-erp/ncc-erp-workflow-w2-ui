@@ -9,6 +9,7 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
+  Spinner,
   Text,
 } from '@chakra-ui/react';
 import Logo from 'assets/images/ncc_logo.svg';
@@ -31,7 +32,7 @@ export const RequestDetailModal = ({
   onClose,
   requestDetail,
 }: IDetailModalProps) => {
-  const { data } = useGetRequestDetail(requestDetail.id);
+  const { data, isLoading } = useGetRequestDetail(requestDetail.id);
 
   const { inputRequestDetail, inputRequestUser } = useMemo(() => {
     const { typeRequest, input, tasks, workInstanceId } = data || {};
@@ -49,6 +50,21 @@ export const RequestDetailModal = ({
   const hasInputRequestData: boolean = useMemo(() => {
     return !isObjectEmpty(inputRequestDetail);
   }, [inputRequestDetail]);
+
+  if (isLoading) {
+    return (
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent p="10px" maxW="700px">
+          <ModalBody>
+            <div className={styles.containerSpinner}>
+              <Spinner color="red.500" size="xl" />
+            </div>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+    );
+  }
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>

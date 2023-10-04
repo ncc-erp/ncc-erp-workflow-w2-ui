@@ -159,7 +159,7 @@ export const MyRequestTable = () => {
           enableSorting: false,
           header: () => <Center w="full">Actions</Center>,
           cell: (info) => (
-            <Center>
+            <Center onClick={(e) => e.stopPropagation()}>
               <RowAction
                 onCancel={onAction(info.row.original.id, 'canceled')}
                 onDelete={onAction(info.row.original.id, 'deleted')}
@@ -312,6 +312,7 @@ export const MyRequestTable = () => {
                 data={requests}
                 sorting={sorting}
                 onSortingChange={setSorting}
+                onViewDetails={onActionViewDetails}
               />
             </Box>
           </EmptyWrapper>
