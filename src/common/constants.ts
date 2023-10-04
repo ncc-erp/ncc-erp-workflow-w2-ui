@@ -85,6 +85,7 @@ export const QueryKeys = {
   GET_ROLE_BY_USER: 'getRoleByUserId',
   FILTER_USER: 'filterUser',
   FILTER_REQUEST: 'filterRequest',
+  GET_REQUEST: 'getRequest',
   REQUEST_TEMPLATES: 'requestTemplates',
   GET_OFFICES: 'getOffices',
   GET_PROJECT_USER: 'getProjectsUser',
@@ -108,6 +109,7 @@ export const TaskStatusesData = [
   { status: 'Pending', color: 'blue' },
   { status: 'Approved', color: 'green' },
   { status: 'Rejected', color: 'red' },
+  { status: 'Faulted', color: 'yellow' },
 ];
 
 export const OtherActionSignalStatus = {

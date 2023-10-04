@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom';
 import WrapperRouteComponent from 'routes/WrapperRoute';
 import Layout from 'common/components/Layout';
-import MyRequests from 'features/requestDevices/pages/MyRequests';
+import MyRequests from 'features/requestDevices';
 import Login from 'features/auth/pages/Login';
 import LoginCallback from 'features/auth/pages/LoginCallback';
 import RequestTemplates from 'features/RequestTemplates';
