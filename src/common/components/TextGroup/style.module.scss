@@ -13,7 +13,8 @@
     p.content-red,
     p.content-green,
     p.content-blue,
-    p.content-yellow {
+    p.content-yellow,
+    p.content-gray {
       font-weight: 400;
       margin-top: 5px;
       width: 100px;
@@ -35,6 +36,9 @@
     }
     p.content-blue {
       background: var(--chakra-colors-blue-700);
+    }
+    p.content-gray {
+      background: var(--chakra-colors-blackButton-300);
     }
     .dates {
       display: flex;
