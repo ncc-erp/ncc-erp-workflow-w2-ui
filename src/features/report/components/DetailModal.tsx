@@ -135,7 +135,12 @@ export const DetailModal = ({
                       return true;
                     })
                     .map((filteredDate) => (
-                      <Text className={styles.date} bg={bg} color={color}>
+                      <Text
+                        key={filteredDate}
+                        className={styles.date}
+                        bg={bg}
+                        color={color}
+                      >
                         {filteredDate}
                       </Text>
                     ))}

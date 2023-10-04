@@ -21,6 +21,7 @@ import { IoMdArrowDropdown, IoMdArrowDropup } from 'react-icons/io';
 import { ColorThemeMode } from 'common/constants';
 import theme from 'themes/theme';
 import { ITask, Request } from 'models/request';
+import { IPostAndWFH } from 'models/report';
 
 interface TableProps<D> {
   columns: ColumnDef<D, unknown>[];
@@ -30,6 +31,7 @@ interface TableProps<D> {
   onSortingChange?: OnChangeFn<SortingState>;
   onViewDetails?: (request: Request) => () => void;
   openTaskDetailModal?: (id: string) => void;
+  openWfhReportModal?: (data: IPostAndWFH) => () => void;
 }
 
 export const Table = <D,>({
@@ -39,6 +41,7 @@ export const Table = <D,>({
   onSortingChange,
   onViewDetails,
   openTaskDetailModal,
+  openWfhReportModal,
 }: TableProps<D>) => {
   const table = useReactTable({
     data,
@@ -111,6 +114,10 @@ export const Table = <D,>({
 
                 if (openTaskDetailModal) {
                   openTaskDetailModal((row.original as ITask).id);
+                }
+
+                if (openWfhReportModal) {
+                  openWfhReportModal(row.original as IPostAndWFH)();
                 }
               }}
             >

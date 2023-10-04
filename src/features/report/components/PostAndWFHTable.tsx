@@ -156,7 +156,7 @@ export const TablePostAndWFH = () => {
           enableSorting: false,
           header: () => <Center w="full">Actions</Center>,
           cell: (info) => (
-            <Center>
+            <Center onClick={(e) => e.stopPropagation()}>
               <RowAction onViewDetails={onAction(info.row.original)} />
             </Center>
           ),
@@ -272,6 +272,7 @@ export const TablePostAndWFH = () => {
             >
               <Table
                 columns={wfhColumns}
+                openWfhReportModal={onAction}
                 data={wfhList.filter((item) => item.totalMissingPosts !== 0)}
                 onSortingChange={setSorting}
                 sorting={sorting}
