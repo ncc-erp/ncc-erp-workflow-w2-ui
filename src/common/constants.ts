@@ -111,6 +111,7 @@ export const TaskStatusesData = [
   { status: 'Approved', color: 'green' },
   { status: 'Rejected', color: 'red' },
   { status: 'Faulted', color: 'yellow' },
+  { status: 'Cancelled', color: 'gray' },
 ];
 
 export const OtherActionSignalStatus = {
