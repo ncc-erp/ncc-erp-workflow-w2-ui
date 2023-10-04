@@ -97,6 +97,7 @@ export const QueryKeys = {
   GET_WFH_LIST: 'getWfhList',
   GET_USER_CURRENT_PROJECT: 'getUserCurrentProject',
   GET_STAKE_HOLDERS_FOR_FILTER: 'getStakeHoldersForFilter',
+  GET_USER_LIST: 'getUserList',
 };
 
 export const ColorThemeMode = {

@@ -11,6 +11,7 @@ import {
   useUserInfoWithBranch,
   useNewRequestWorkflow,
   useUserCurrentProject,
+  useUserList,
 } from 'api/apiHooks/requestHooks';
 import { SelectField } from 'common/components/SelectField';
 import { TextareaField } from 'common/components/TextareaField';
@@ -37,6 +38,7 @@ import { ErrorMessage } from '@hookform/error-message';
 import { ErrorDisplay } from 'common/components/ErrorDisplay';
 import { formatDate } from 'utils';
 import { useQueryClient } from '@tanstack/react-query';
+import { IUser } from 'models/user';
 
 interface RequestFormProps {
   inputDefinition?: InputDefinition;
@@ -58,6 +60,8 @@ type FormParamsValue =
 const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
   const { data: offices } = useOffices();
   const { data: projects } = useUserProjects();
+  const { data: users } = useUserList();
+
   const currentUser = useCurrentUser();
   const { data: userInfo } = useUserInfoWithBranch(currentUser?.email);
   const { data: userCurrentProject } = useUserCurrentProject();
@@ -141,6 +145,12 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
           value: project?.code,
           label: project?.name,
         }));
+
+      case 'UserList':
+        return users?.map((user: IUser) => ({
+          value: user?.email,
+          label: `${user?.name} (${user?.email})`,
+        }));
     }
   };
 
@@ -148,8 +158,12 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
     switch (type) {
       case 'OfficeList':
         return formParams[fieldname] ?? userInfo?.branch;
+
       case 'MyProject':
         return formParams[fieldname] ?? userCurrentProject?.code;
+
+      case 'UserList':
+        return formParams[fieldname] ?? users?.[0]?.email;
     }
   };
 
@@ -158,6 +172,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
     switch (Field?.type) {
       case 'OfficeList':
       case 'MyProject':
+      case 'UserList':
         formParams[fieldname] = getDefaultValueSelected(Field?.type, fieldname);
         return (
           <FormControl>

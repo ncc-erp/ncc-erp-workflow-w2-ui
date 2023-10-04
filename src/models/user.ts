@@ -31,3 +31,8 @@ export interface UserInfo {
   fullName: string;
   branch: string;
 }
+
+export interface IUser {
+  name: string;
+  email: string;
+}
