@@ -276,6 +276,7 @@ export const TablePostAndWFH = () => {
                 data={wfhList}
                 onSortingChange={setSorting}
                 sorting={sorting}
+                onRowHover={true}
               />
             </Box>
           </EmptyWrapper>
