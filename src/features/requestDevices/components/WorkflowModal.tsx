@@ -13,6 +13,7 @@ import {
   AspectRatio,
 } from '@chakra-ui/react';
 import Logo from 'assets/images/ncc_logo.svg';
+const { VITE_PROXY_SERVER_URL } = import.meta.env;
 
 interface IWorkflowModalProps {
   isOpen: boolean;
@@ -45,7 +46,7 @@ export const WorkflowModal = ({
           <AspectRatio maxW="100%" ratio={1}>
             <iframe
               title="Workflow Details"
-              src={'http://localhost:4433/ViewDesigner' + '?id=' + workflowId}
+              src={VITE_PROXY_SERVER_URL + '/ViewDesigner?id=' + workflowId}
             />
           </AspectRatio>
         </ModalBody>
