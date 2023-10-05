@@ -50,6 +50,7 @@ import useBoard from './useBoard';
 import TaskSkeleton from './TaskSkeleton';
 import { isValidJSON } from 'utils';
 import { useClearCacheTask } from './useClearCacheTask';
+import { useNavigate } from 'react-router';
 
 const fadeIn = keyframes`
   from { opacity: 0; }
@@ -298,6 +299,7 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
   const id = searchParams.get('id');
   const action = searchParams.get('action');
   const dynamicInput = searchParams.get('input');
+  const navigate = useNavigate();
 
   const handleConfirmExternal = (approvedData?: string) => {
     try {
@@ -322,8 +324,18 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
   };
 
   useEffect(() => {
-    if (!id || !action) {
+    const checkPermissionConfirmTask = (taskId: string) => {
+      return listPending?.pages?.[0]?.items?.find(function (item: ITask) {
+        return item?.id === taskId;
+      });
+    };
+
+    if (!id || !action || loadPending) {
       return;
+    }
+
+    if (!checkPermissionConfirmTask(id)) {
+      return navigate('/request-templates');
     }
 
     switch (action) {
@@ -343,7 +355,32 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
 
     setIsExternal(true);
     onOpen();
-  }, [id, action, dynamicInput, onOpen]);
+  }, [id, action, dynamicInput, onOpen, loadPending, listPending, navigate]);
+
+  const getQuantityTasks = (ind: number) => {
+    let result = '';
+
+    if (
+      BoardColumnStatus.Pending === ind &&
+      (listPending?.pages?.[0]?.totalCount as number) > 0
+    ) {
+      result = ` (${listPending?.pages?.[0]?.totalCount})`;
+    }
+    if (
+      BoardColumnStatus.Approved === ind &&
+      (listApproved?.pages?.[0]?.totalCount as number) > 0
+    ) {
+      result = ` (${listApproved?.pages?.[0]?.totalCount})`;
+    }
+    if (
+      BoardColumnStatus.Rejected === ind &&
+      (listRejected?.pages?.[0]?.totalCount as number) > 0
+    ) {
+      result = ` (${listRejected?.pages?.[0]?.totalCount})`;
+    }
+
+    return result;
+  };
 
   return (
     <>
@@ -402,6 +439,7 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
                       style={{ color: color, backgroundColor: bg }}
                     >
                       {Object.keys(BoardColumnStatus)[ind]}
+                      {getQuantityTasks(ind)}
                     </div>
 
                     <Box className={styles.columnContent}>
