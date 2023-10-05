@@ -276,6 +276,7 @@ export const TablePostAndWFH = () => {
                 data={wfhList.filter((item) => item.totalMissingPosts !== 0)}
                 onSortingChange={setSorting}
                 sorting={sorting}
+                onRowHover={true}
               />
             </Box>
           </EmptyWrapper>

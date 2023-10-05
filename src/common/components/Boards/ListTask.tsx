@@ -381,6 +381,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
                   onRowClick={openDetailModal}
                   columns={taskColumns}
                   data={data?.items ?? []}
+                  onRowHover={true}
                 />
               </Box>
             </EmptyWrapper>

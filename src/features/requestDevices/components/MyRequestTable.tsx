@@ -359,6 +359,7 @@ export const MyRequestTable = () => {
                 sorting={sorting}
                 onSortingChange={setSorting}
                 onRowClick={onActionViewDetails}
+                onRowHover={true}
               />
             </Box>
           </EmptyWrapper>

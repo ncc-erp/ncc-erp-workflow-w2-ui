@@ -30,6 +30,7 @@ interface TableProps<D> {
   sorting?: SortingState;
   onSortingChange?: OnChangeFn<SortingState>;
   onRowClick?: IRowActionProps<D>;
+  onRowHover?: boolean;
 }
 
 export const Table = <D,>({
@@ -38,6 +39,7 @@ export const Table = <D,>({
   sorting,
   onSortingChange,
   onRowClick,
+  onRowHover,
 }: TableProps<D>) => {
   const table = useReactTable({
     data,
@@ -103,6 +105,7 @@ export const Table = <D,>({
           return (
             <Tr
               key={row.id}
+              cursor={onRowHover ? 'pointer' : 'initial'}
               onClick={() => {
                 if (onRowClick) {
                   onRowClick(row.original)();
