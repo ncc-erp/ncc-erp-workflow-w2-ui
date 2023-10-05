@@ -39,6 +39,7 @@ import { useCurrentUser } from 'hooks/useCurrentUser';
 import { formatDate } from 'utils';
 import { useIsAdmin } from 'hooks/useIsAdmin';
 import { RequestDetailModal } from './DetailModal';
+import { WorkflowModal } from './WorkflowModal';
 
 const initialSorting: SortingState = [
   {
@@ -75,11 +76,13 @@ export const MyRequestTable = () => {
   const cancelRequestMutation = useCancelRequest();
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenDetails, setOpenDetails] = useState(false);
+  const [isOpenWorkflow, setOpenWorkflow] = useState(false);
   const [modalTitle, setModalTitle] = useState('');
   const [modalDescription, setModalDescription] = useState('');
   const [actionType, setActionType] = useState('');
   const [requestId, setRequestId] = useState('');
   const [requestDetails, setRequestDetails] = useState<Request>();
+  const [requestWorkflow, setRequestWorkflow] = useState<string>('');
 
   const statusOptions = useMemo(() => {
     const defaultOptions = {
@@ -164,6 +167,7 @@ export const MyRequestTable = () => {
                 onCancel={onAction(info.row.original.id, 'canceled')}
                 onDelete={onAction(info.row.original.id, 'deleted')}
                 onViewDetails={onActionViewDetails(info.row.original)}
+                onViewWorkflow={onActionViewWorkflow(info.row.original.id)}
               />
             </Center>
           ),
@@ -208,6 +212,11 @@ export const MyRequestTable = () => {
   const onActionViewDetails = (request: Request) => () => {
     setRequestDetails(request);
     setOpenDetails(true);
+  };
+
+  const onActionViewWorkflow = (workflowId: string) => () => {
+    setRequestWorkflow(workflowId);
+    setOpenWorkflow(true);
   };
 
   const onAction = (requestId: string, type: 'deleted' | 'canceled') => () => {
@@ -351,6 +360,13 @@ export const MyRequestTable = () => {
           isOpen={isOpenDetails}
           onClose={() => setOpenDetails(false)}
           requestDetail={requestDetails}
+        />
+      )}
+      {requestWorkflow && (
+        <WorkflowModal
+          isOpen={isOpenWorkflow}
+          onClose={() => setOpenWorkflow(false)}
+          workflowId={requestWorkflow}
         />
       )}
     </>
