@@ -50,6 +50,7 @@ import useBoard from './useBoard';
 import TaskSkeleton from './TaskSkeleton';
 import { isValidJSON } from 'utils';
 import { useClearCacheTask } from './useClearCacheTask';
+import { useNavigate } from 'react-router';
 
 const fadeIn = keyframes`
   from { opacity: 0; }
@@ -298,6 +299,7 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
   const id = searchParams.get('id');
   const action = searchParams.get('action');
   const dynamicInput = searchParams.get('input');
+  const navigate = useNavigate();
 
   const handleConfirmExternal = (approvedData?: string) => {
     try {
@@ -333,8 +335,7 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
     }
 
     if (!checkPermissionConfirmTask(id)) {
-      window.location.href = '/';
-      return;
+      return navigate('/request-templates');
     }
 
     switch (action) {
@@ -354,7 +355,7 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
 
     setIsExternal(true);
     onOpen();
-  }, [id, action, dynamicInput, onOpen, loadPending, listPending]);
+  }, [id, action, dynamicInput, onOpen, loadPending, listPending, navigate]);
 
   const getQuantityTasks = (ind: number) => {
     let result = '';
