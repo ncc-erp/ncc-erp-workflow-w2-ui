@@ -175,7 +175,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
       case 'UserList':
         formParams[fieldname] = getDefaultValueSelected(Field?.type, fieldname);
         return (
-          <FormControl>
+          <FormControl key={Field?.name}>
             <FormLabel fontSize={16} my={1} fontWeight="normal">
               {toDisplayName(fieldname)}
               {Field?.isRequired ? (
@@ -211,7 +211,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
       case 'Text':
         formParams[fieldname] = formParams[fieldname] ?? '';
         return (
-          <FormControl>
+          <FormControl key={Field?.name}>
             <FormLabel fontSize={16} my={1} fontWeight="normal">
               {toDisplayName(fieldname)}
               {Field?.isRequired ? (
@@ -246,7 +246,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
       case 'RichText':
         formParams[fieldname] = formParams[fieldname] ?? '';
         return (
-          <FormControl>
+          <FormControl key={Field?.name}>
             <FormLabel fontSize={16} my={1} fontWeight="normal">
               {toDisplayName(fieldname)}
               {Field?.isRequired ? (
@@ -278,7 +278,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
       case 'DateTime':
         formParams[fieldname] = formParams[fieldname] ?? '';
         return (
-          <FormControl>
+          <FormControl key={Field?.name}>
             <FormLabel fontSize={16} my={1} fontWeight="normal">
               {toDisplayName(fieldname)}
               {Field?.isRequired ? (
@@ -322,7 +322,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
       case 'MultiDatetime':
         formParams[fieldname] = formParams[fieldname] ?? '';
         return (
-          <FormControl>
+          <FormControl key={Field?.name}>
             <FormLabel my={1} fontSize={16} fontWeight="normal">
               {toDisplayName(fieldname)}
               {Field?.isRequired ? (

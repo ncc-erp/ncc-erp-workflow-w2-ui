@@ -13,41 +13,41 @@ import {
   Spinner,
   useDisclosure,
 } from '@chakra-ui/react';
-import { useRecoilValue } from 'recoil';
-import { appConfigState } from 'stores/appConfig';
-import { Table } from 'common/components/Table/Table';
-import { useCallback, useEffect, useMemo, useState } from 'react';
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
-import { EmptyWrapper } from 'common/components/EmptyWrapper';
-import { FilterTasks, ITask } from 'models/task';
-import { RiEyeFill, RiSettings4Fill } from 'react-icons/ri';
-import { MdCancel } from 'react-icons/md';
-import { AiFillCheckCircle, AiOutlineReload } from 'react-icons/ai';
-import { formatDate } from 'utils';
-import {
-  OtherActionSignalStatus,
-  TaskStatus,
-  noOfRows,
-} from 'common/constants';
-import { useCurrentUser } from 'hooks/useCurrentUser';
 import {
   useActionTask,
   useApproveTask,
   useGetTasks,
   useRejectTask,
 } from 'api/apiHooks/taskHooks';
+import { EmptyWrapper } from 'common/components/EmptyWrapper';
+import { Pagination } from 'common/components/Pagination';
 import { PageSize } from 'common/components/Table/PageSize';
 import { ShowingItemText } from 'common/components/Table/ShowingItemText';
-import { Pagination } from 'common/components/Pagination';
-import styles from './style.module.scss';
-import ModalBoard from './ModalBoard';
-import { toast } from '../StandaloneToast';
+import { Table } from 'common/components/Table/Table';
+import {
+  OtherActionSignalStatus,
+  TaskStatus,
+  noOfRows,
+} from 'common/constants';
+import { useCurrentUser } from 'hooks/useCurrentUser';
+import { FilterTasks, ITask } from 'models/task';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { AiFillCheckCircle, AiOutlineReload } from 'react-icons/ai';
 import { BsFillFilterCircleFill } from 'react-icons/bs';
+import { MdCancel } from 'react-icons/md';
+import { RiEyeFill, RiSettings4Fill } from 'react-icons/ri';
+import { useRecoilValue } from 'recoil';
+import { appConfigState } from 'stores/appConfig';
+import { formatDate } from 'utils';
+import { toast } from '../StandaloneToast';
+import ModalBoard from './ModalBoard';
+import styles from './style.module.scss';
 import { useClearCacheTask } from './useClearCacheTask';
 
 interface Props {
   filters: FilterTasks;
-  openDetailModal: (id: string) => void;
+  openDetailModal: (data: ITask) => () => void;
 }
 
 const initDataForm = {
@@ -164,7 +164,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
         header: () => <Center w="full">Actions</Center>,
         cell: (info) => {
           return (
-            <Center mr={1}>
+            <Center mr={1} onClick={(e) => e.stopPropagation()}>
               <div className={styles.tableActionLoading}>
                 {isActionLoading.isLoading &&
                   isActionLoading.id === info.row.original.id && (
@@ -185,7 +185,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
                   <MenuItem
                     display="flex"
                     gap="12px"
-                    onClick={() => openDetailModal(info.row.original.id)}
+                    onClick={() => openDetailModal(info.row.original)()}
                   >
                     <Icon color="blue.500" as={RiEyeFill} />
                     View
@@ -377,7 +377,11 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
                 overflowX="auto"
                 w={{ base: `calc(100vw - ${sideBarWidth}px)`, lg: 'auto' }}
               >
-                <Table columns={taskColumns} data={data?.items ?? []} />
+                <Table
+                  onRowClick={openDetailModal}
+                  columns={taskColumns}
+                  data={data?.items ?? []}
+                />
               </Box>
             </EmptyWrapper>
             <HStack

@@ -1,10 +1,4 @@
 import {
-  ColumnDef,
-  SortingState,
-  createColumnHelper,
-} from '@tanstack/react-table';
-import { useQueryClient } from '@tanstack/react-query';
-import {
   Box,
   Button,
   Center,
@@ -17,33 +11,40 @@ import {
   Wrap,
   WrapItem,
 } from '@chakra-ui/react';
+import { useQueryClient } from '@tanstack/react-query';
+import {
+  ColumnDef,
+  SortingState,
+  createColumnHelper,
+} from '@tanstack/react-table';
 import {
   useCancelRequest,
   useDeleteRequest,
   useMyRequests,
   useRequestTemplates,
 } from 'api/apiHooks/requestHooks';
-import { SelectField } from 'common/components/SelectField';
-import { Table } from 'common/components/Table/Table';
-import { RequestSortField, RequestStatus, SortDirection } from 'common/enums';
-import { FilterRequestParams, Request } from 'models/request';
-import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Pagination } from 'common/components/Pagination';
-import { QueryKeys, noOfRows } from 'common/constants';
+import { SelectField } from 'common/components/SelectField';
+import { toast } from 'common/components/StandaloneToast';
 import { PageSize } from 'common/components/Table/PageSize';
 import { ShowingItemText } from 'common/components/Table/ShowingItemText';
+import { Table } from 'common/components/Table/Table';
+import { QueryKeys, noOfRows } from 'common/constants';
+import { RequestSortField, RequestStatus, SortDirection } from 'common/enums';
 import { RowAction } from 'features/requestDevices/components/RowAction';
-import { EmptyWrapper } from 'common/components/EmptyWrapper';
+import { useCurrentUser } from 'hooks/useCurrentUser';
+import { useIsAdmin } from 'hooks/useIsAdmin';
+import { FilterRequestParams, Request } from 'models/request';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { appConfigState } from 'stores/appConfig';
-import { toast } from 'common/components/StandaloneToast';
-import { ModalConfirm } from 'common/components/ModalConfirm';
-import { useCurrentUser } from 'hooks/useCurrentUser';
 import { formatDate } from 'utils';
-import { useIsAdmin } from 'hooks/useIsAdmin';
 import { RequestDetailModal } from './DetailModal';
 import { TbSearch } from 'react-icons/tb';
 import useDebounced from 'hooks/useDebounced';
+
+import { EmptyWrapper } from 'common/components/EmptyWrapper';
+import { ModalConfirm } from 'common/components/ModalConfirm';
 
 const initialSorting: SortingState = [
   {
@@ -166,7 +167,7 @@ export const MyRequestTable = () => {
           enableSorting: false,
           header: () => <Center w="full">Actions</Center>,
           cell: (info) => (
-            <Center>
+            <Center onClick={(e) => e.stopPropagation()}>
               <RowAction
                 onCancel={onAction(info.row.original.id, 'canceled')}
                 onDelete={onAction(info.row.original.id, 'deleted')}
@@ -215,9 +216,9 @@ export const MyRequestTable = () => {
         | 'EmailRequest',
       value?: string
     ) => {
-      setFilter({ ...filter, [key]: value, skipCount: 0 });
+      setFilter((filter) => ({ ...filter, [key]: value, skipCount: 0 }));
     },
-    [filter]
+    []
   );
 
   useEffect(() => {
@@ -348,6 +349,7 @@ export const MyRequestTable = () => {
                 data={requests}
                 sorting={sorting}
                 onSortingChange={setSorting}
+                onRowClick={onActionViewDetails}
               />
             </Box>
           </EmptyWrapper>
