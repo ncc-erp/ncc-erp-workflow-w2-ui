@@ -216,9 +216,9 @@ export const MyRequestTable = () => {
         | 'EmailRequest',
       value?: string
     ) => {
-      setFilter({ ...filter, [key]: value, skipCount: 0 });
+      setFilter((filter) => ({ ...filter, [key]: value, skipCount: 0 }));
     },
-    [filter]
+    []
   );
 
   useEffect(() => {
@@ -349,7 +349,7 @@ export const MyRequestTable = () => {
                 data={requests}
                 sorting={sorting}
                 onSortingChange={setSorting}
-                onActionClick={onActionViewDetails}
+                onRowClick={onActionViewDetails}
               />
             </Box>
           </EmptyWrapper>

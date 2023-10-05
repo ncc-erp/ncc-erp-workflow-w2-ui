@@ -378,7 +378,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
                 w={{ base: `calc(100vw - ${sideBarWidth}px)`, lg: 'auto' }}
               >
                 <Table
-                  onActionClick={openDetailModal}
+                  onRowClick={openDetailModal}
                   columns={taskColumns}
                   data={data?.items ?? []}
                 />

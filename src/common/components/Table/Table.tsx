@@ -29,7 +29,7 @@ interface TableProps<D> {
   data: D[];
   sorting?: SortingState;
   onSortingChange?: OnChangeFn<SortingState>;
-  onActionClick?: IRowActionProps<D>;
+  onRowClick?: IRowActionProps<D>;
 }
 
 export const Table = <D,>({
@@ -37,7 +37,7 @@ export const Table = <D,>({
   data,
   sorting,
   onSortingChange,
-  onActionClick,
+  onRowClick,
 }: TableProps<D>) => {
   const table = useReactTable({
     data,
@@ -104,8 +104,8 @@ export const Table = <D,>({
             <Tr
               key={row.id}
               onClick={() => {
-                if (onActionClick) {
-                  onActionClick(row.original as D)();
+                if (onRowClick) {
+                  onRowClick(row.original)();
                 }
               }}
             >
