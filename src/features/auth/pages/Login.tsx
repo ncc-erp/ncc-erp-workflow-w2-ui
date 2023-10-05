@@ -18,8 +18,9 @@ import { TextField } from 'common/components/TextField';
 import { useLogin, useLoginExternal } from 'api/apiHooks/userHooks';
 import { LocalStorageKeys } from 'common/enums';
 import { userManager } from 'services/authService';
-import { setItem } from 'utils';
+import { getItem, setItem } from 'utils';
 import { ColorThemeMode } from 'common/constants';
+import { useEffect } from 'react';
 
 const initialLoginParams: LoginParams = {
   userNameOrEmailAddress: '',
@@ -29,6 +30,17 @@ const initialLoginParams: LoginParams = {
 
 const Login = () => {
   const bg = useColorModeValue(ColorThemeMode.LIGHT, ColorThemeMode.DARK);
+  const redirectURL = getItem(LocalStorageKeys.prevURL)
+    ? getItem(LocalStorageKeys.prevURL)
+    : '/';
+
+  useEffect(() => {
+    const accessToken = getItem(LocalStorageKeys.accessToken);
+
+    if (accessToken) {
+      window.location.href = '/';
+    }
+  }, []);
 
   const { mutateAsync: loginMutate, isLoading: isLoginLoading } = useLogin();
   const {
@@ -55,7 +67,8 @@ const Login = () => {
 
     if (token) {
       setItem(LocalStorageKeys.accessToken, token);
-      window.location.href = '/';
+      setItem(LocalStorageKeys.prevURL, '');
+      window.location.href = redirectURL ?? '/';
     }
   };
 
@@ -78,7 +91,8 @@ const Login = () => {
       provider: 'Google',
       idToken: currentUser.id_token,
     });
-    window.location.href = '/';
+    setItem(LocalStorageKeys.prevURL, '');
+    window.location.href = redirectURL ?? '/';
   };
 
   return (
