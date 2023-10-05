@@ -273,7 +273,7 @@ export const TablePostAndWFH = () => {
               <Table
                 columns={wfhColumns}
                 onRowClick={onAction}
-                data={wfhList.filter((item) => item.totalMissingPosts !== 0)}
+                data={wfhList}
                 onSortingChange={setSorting}
                 sorting={sorting}
               />
