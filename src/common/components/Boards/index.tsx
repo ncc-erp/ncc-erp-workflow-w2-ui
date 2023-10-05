@@ -322,25 +322,27 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
   };
 
   useEffect(() => {
-    if (id && action) {
-      switch (action) {
-        case ExternalAction.APPROVED:
-          if (dynamicInput && isValidJSON(dynamicInput)) {
-            setDynamicForm({
-              hasDynamicForm: true,
-              dynamicForm: dynamicInput ?? '',
-            });
-          }
-          break;
-
-        case ExternalAction.REJECTED:
-          setIsRejected(true);
-          break;
-      }
-
-      setIsExternal(true);
-      onOpen();
+    if (!id || !action) {
+      return;
     }
+
+    switch (action) {
+      case ExternalAction.APPROVED:
+        if (dynamicInput && isValidJSON(dynamicInput)) {
+          setDynamicForm({
+            hasDynamicForm: true,
+            dynamicForm: dynamicInput ?? '',
+          });
+        }
+        break;
+
+      case ExternalAction.REJECTED:
+        setIsRejected(true);
+        break;
+    }
+
+    setIsExternal(true);
+    onOpen();
   }, [id, action, dynamicInput, onOpen]);
 
   return (
