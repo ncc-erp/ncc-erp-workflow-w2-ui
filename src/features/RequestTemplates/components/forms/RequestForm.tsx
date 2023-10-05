@@ -175,7 +175,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
       case 'UserList':
         formParams[fieldname] = getDefaultValueSelected(Field?.type, fieldname);
         return (
-          <FormControl>
+          <FormControl key={Field?.name}>
             <FormLabel fontSize={16} my={1} fontWeight="normal">
               {toDisplayName(fieldname)}
               {Field?.isRequired ? (
@@ -207,10 +207,11 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
             />
           </FormControl>
         );
+
       case 'Text':
         formParams[fieldname] = formParams[fieldname] ?? '';
         return (
-          <FormControl>
+          <FormControl key={Field?.name}>
             <FormLabel fontSize={16} my={1} fontWeight="normal">
               {toDisplayName(fieldname)}
               {Field?.isRequired ? (
@@ -241,10 +242,11 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
             />
           </FormControl>
         );
+
       case 'RichText':
         formParams[fieldname] = formParams[fieldname] ?? '';
         return (
-          <FormControl>
+          <FormControl key={Field?.name}>
             <FormLabel fontSize={16} my={1} fontWeight="normal">
               {toDisplayName(fieldname)}
               {Field?.isRequired ? (
@@ -272,94 +274,96 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
             />
           </FormControl>
         );
+
       case 'DateTime':
         formParams[fieldname] = formParams[fieldname] ?? '';
-        if (fieldname != 'Dates')
-          return (
-            <FormControl>
-              <FormLabel fontSize={16} my={1} fontWeight="normal">
-                {toDisplayName(fieldname)}
-                {Field?.isRequired ? (
-                  <FormHelperText my={1} style={{ color: 'red' }} as="span">
-                    {' '}
-                    *
-                  </FormHelperText>
-                ) : (
-                  ''
-                )}
-              </FormLabel>
-              <Controller
-                control={control}
-                rules={{
-                  required: Field?.isRequired
-                    ? `${fieldname} is Required`
-                    : false,
-                }}
-                name={fieldname}
-                render={({ field }) => {
-                  formParams[fieldname] = field.value;
-                  return (
-                    <DatePicker
-                      className={styles.datePicker}
-                      onChange={field.onChange}
-                      selected={field.value as Date}
-                      dateFormat="dd/MM/yyyy"
-                      wrapperClassName={styles.wrapperCustom}
-                    />
-                  );
-                }}
-              />
-              <ErrorMessage
-                errors={errors}
-                name={fieldname}
-                render={({ message }) => <ErrorDisplay message={message} />}
-              />
-            </FormControl>
-          );
-        else
-          return (
-            <FormControl>
-              <FormLabel my={1} fontSize={16} fontWeight="normal">
-                {toDisplayName(fieldname)}
-                {Field?.isRequired ? (
-                  <FormHelperText my={1} style={{ color: 'red' }} as="span">
-                    {' '}
-                    *
-                  </FormHelperText>
-                ) : (
-                  ''
-                )}
-              </FormLabel>
-              <Controller
-                control={control}
-                rules={{
-                  required: Field?.isRequired
-                    ? `${fieldname} is Required`
-                    : false,
-                }}
-                name={fieldname}
-                render={({ field }) => {
-                  formParams[fieldname] = field.value;
-                  return (
-                    <MultiDatePicker
-                      multiple
-                      onChange={field.onChange}
-                      value={field.value}
-                      format="DD/MM/YYYY"
-                      plugins={[<Toolbar position="bottom" sort={['close']} />]}
-                      inputClass={styles.multiDatePicker}
-                      containerStyle={{ width: '100%' }}
-                    />
-                  );
-                }}
-              />
-              <ErrorMessage
-                errors={errors}
-                name={fieldname}
-                render={({ message }) => <ErrorDisplay message={message} />}
-              />
-            </FormControl>
-          );
+        return (
+          <FormControl key={Field?.name}>
+            <FormLabel fontSize={16} my={1} fontWeight="normal">
+              {toDisplayName(fieldname)}
+              {Field?.isRequired ? (
+                <FormHelperText my={1} style={{ color: 'red' }} as="span">
+                  {' '}
+                  *
+                </FormHelperText>
+              ) : (
+                ''
+              )}
+            </FormLabel>
+            <Controller
+              control={control}
+              rules={{
+                required: Field?.isRequired
+                  ? `${fieldname} is Required`
+                  : false,
+              }}
+              name={fieldname}
+              render={({ field }) => {
+                formParams[fieldname] = field.value;
+                return (
+                  <DatePicker
+                    className={styles.datePicker}
+                    onChange={field.onChange}
+                    selected={field.value as Date}
+                    dateFormat="dd/MM/yyyy"
+                    wrapperClassName={styles.wrapperCustom}
+                  />
+                );
+              }}
+            />
+            <ErrorMessage
+              errors={errors}
+              name={fieldname}
+              render={({ message }) => <ErrorDisplay message={message} />}
+            />
+          </FormControl>
+        );
+
+      case 'MultiDatetime':
+        formParams[fieldname] = formParams[fieldname] ?? '';
+        return (
+          <FormControl key={Field?.name}>
+            <FormLabel my={1} fontSize={16} fontWeight="normal">
+              {toDisplayName(fieldname)}
+              {Field?.isRequired ? (
+                <FormHelperText my={1} style={{ color: 'red' }} as="span">
+                  {' '}
+                  *
+                </FormHelperText>
+              ) : (
+                ''
+              )}
+            </FormLabel>
+            <Controller
+              control={control}
+              rules={{
+                required: Field?.isRequired
+                  ? `${fieldname} is Required`
+                  : false,
+              }}
+              name={fieldname}
+              render={({ field }) => {
+                formParams[fieldname] = field.value;
+                return (
+                  <MultiDatePicker
+                    multiple
+                    onChange={field.onChange}
+                    value={field.value}
+                    format="DD/MM/YYYY"
+                    plugins={[<Toolbar position="bottom" sort={['close']} />]}
+                    inputClass={styles.multiDatePicker}
+                    containerStyle={{ width: '100%' }}
+                  />
+                );
+              }}
+            />
+            <ErrorMessage
+              errors={errors}
+              name={fieldname}
+              render={({ message }) => <ErrorDisplay message={message} />}
+            />
+          </FormControl>
+        );
     }
   };
 

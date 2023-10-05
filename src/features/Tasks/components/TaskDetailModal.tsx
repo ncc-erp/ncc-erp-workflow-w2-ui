@@ -35,7 +35,11 @@ export const TaskDetailModal = ({
   taskId,
 }: IDetailModalProps) => {
   const actionTaskMutation = useActionTask();
-  const { data, refetch } = useGetTaskDetail(taskId);
+  const {
+    data,
+    refetch,
+    isLoading: hasGetTaskLoading,
+  } = useGetTaskDetail(taskId);
   const [isLoading, setIsLoading] = useState(false);
 
   const { tasks, inputRequestUser, inputRequestDetail, emailTo } =
@@ -78,6 +82,21 @@ export const TaskDetailModal = ({
       setIsLoading(false);
     }
   };
+
+  if (hasGetTaskLoading) {
+    return (
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent p="10px" maxW="700px">
+          <ModalBody>
+            <div className={styles.containerSpinner}>
+              <Spinner color="red.500" size="xl" />
+            </div>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+    );
+  }
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>

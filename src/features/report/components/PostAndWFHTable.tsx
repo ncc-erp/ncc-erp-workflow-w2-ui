@@ -10,33 +10,33 @@ import {
   Spinner,
   Text,
 } from '@chakra-ui/react';
-import { useRecoilValue } from 'recoil';
-import { noOfRows } from 'common/constants';
-import { FilterWfhParams, IPostAndWFH } from 'models/report';
-import { appConfigState } from 'stores/appConfig';
-import { Table } from 'common/components/Table/Table';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useWfhList } from 'api/apiHooks/reportHooks';
 import { Pagination } from 'common/components/Pagination';
 import { PageSize } from 'common/components/Table/PageSize';
 import { ShowingItemText } from 'common/components/Table/ShowingItemText';
+import { Table } from 'common/components/Table/Table';
+import { noOfRows } from 'common/constants';
 import { SortDirection, WfhSortField } from 'common/enums';
-import { useWfhList } from 'api/apiHooks/reportHooks';
+import { FilterWfhParams, IPostAndWFH } from 'models/report';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { useRecoilValue } from 'recoil';
+import { appConfigState } from 'stores/appConfig';
 
 import {
   ColumnDef,
   SortingState,
   createColumnHelper,
 } from '@tanstack/react-table';
-import { EmptyWrapper } from 'common/components/EmptyWrapper';
-import { TbSearch } from 'react-icons/tb';
-import { FaDownload } from 'react-icons/fa';
-import useDebounced from 'hooks/useDebounced';
 import DateRangePicker from 'common/components/DateRangePicker';
-import { formatDate } from 'utils';
+import { EmptyWrapper } from 'common/components/EmptyWrapper';
+import useDebounced from 'hooks/useDebounced';
 import ReactDatePicker from 'react-datepicker';
-import { RowAction } from './RowAction';
-import { DetailModal } from './DetailModal';
+import { FaDownload } from 'react-icons/fa';
+import { TbSearch } from 'react-icons/tb';
+import { formatDate } from 'utils';
 import { handleExportExcelFile } from 'utils/handleExportExcelFile';
+import { DetailModal } from './DetailModal';
+import { RowAction } from './RowAction';
 import styles from './styles.module.scss';
 
 const initialFilter: FilterWfhParams = {
@@ -156,7 +156,7 @@ export const TablePostAndWFH = () => {
           enableSorting: false,
           header: () => <Center w="full">Actions</Center>,
           cell: (info) => (
-            <Center>
+            <Center onClick={(e) => e.stopPropagation()}>
               <RowAction onViewDetails={onAction(info.row.original)} />
             </Center>
           ),
@@ -272,6 +272,7 @@ export const TablePostAndWFH = () => {
             >
               <Table
                 columns={wfhColumns}
+                onRowClick={onAction}
                 data={wfhList.filter((item) => item.totalMissingPosts !== 0)}
                 onSortingChange={setSorting}
                 sorting={sorting}

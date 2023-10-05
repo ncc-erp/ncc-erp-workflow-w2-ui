@@ -1,45 +1,51 @@
 import {
-  ColumnDef,
-  SortingState,
-  createColumnHelper,
-} from '@tanstack/react-table';
-import { useQueryClient } from '@tanstack/react-query';
-import {
   Box,
   Button,
   Center,
   HStack,
+  Input,
+  InputGroup,
+  InputRightElement,
   Spacer,
   Spinner,
   Wrap,
   WrapItem,
 } from '@chakra-ui/react';
+import { useQueryClient } from '@tanstack/react-query';
+import {
+  ColumnDef,
+  SortingState,
+  createColumnHelper,
+} from '@tanstack/react-table';
 import {
   useCancelRequest,
   useDeleteRequest,
   useMyRequests,
   useRequestTemplates,
 } from 'api/apiHooks/requestHooks';
-import { SelectField } from 'common/components/SelectField';
-import { Table } from 'common/components/Table/Table';
-import { RequestSortField, RequestStatus, SortDirection } from 'common/enums';
-import { FilterRequestParams, Request } from 'models/request';
-import { useEffect, useMemo, useState } from 'react';
 import { Pagination } from 'common/components/Pagination';
-import { QueryKeys, noOfRows } from 'common/constants';
+import { SelectField } from 'common/components/SelectField';
+import { toast } from 'common/components/StandaloneToast';
 import { PageSize } from 'common/components/Table/PageSize';
 import { ShowingItemText } from 'common/components/Table/ShowingItemText';
+import { Table } from 'common/components/Table/Table';
+import { QueryKeys, noOfRows } from 'common/constants';
+import { RequestSortField, RequestStatus, SortDirection } from 'common/enums';
 import { RowAction } from 'features/requestDevices/components/RowAction';
-import { EmptyWrapper } from 'common/components/EmptyWrapper';
+import { useCurrentUser } from 'hooks/useCurrentUser';
+import { useIsAdmin } from 'hooks/useIsAdmin';
+import { FilterRequestParams, Request } from 'models/request';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { appConfigState } from 'stores/appConfig';
-import { toast } from 'common/components/StandaloneToast';
-import { ModalConfirm } from 'common/components/ModalConfirm';
-import { useCurrentUser } from 'hooks/useCurrentUser';
 import { formatDate } from 'utils';
-import { useIsAdmin } from 'hooks/useIsAdmin';
 import { RequestDetailModal } from './DetailModal';
 import { WorkflowModal } from './WorkflowModal';
+import { TbSearch } from 'react-icons/tb';
+import useDebounced from 'hooks/useDebounced';
+
+import { EmptyWrapper } from 'common/components/EmptyWrapper';
+import { ModalConfirm } from 'common/components/ModalConfirm';
 
 const initialSorting: SortingState = [
   {
@@ -83,6 +89,8 @@ export const MyRequestTable = () => {
   const [requestId, setRequestId] = useState('');
   const [requestDetails, setRequestDetails] = useState<Request>();
   const [requestWorkflow, setRequestWorkflow] = useState<string>('');
+  const [txtSearch, setTxtSearch] = useState<string>('');
+  const txtSearchDebounced = useDebounced(txtSearch, 500);
 
   const statusOptions = useMemo(() => {
     const defaultOptions = {
@@ -162,7 +170,7 @@ export const MyRequestTable = () => {
           enableSorting: false,
           header: () => <Center w="full">Actions</Center>,
           cell: (info) => (
-            <Center>
+            <Center onClick={(e) => e.stopPropagation()}>
               <RowAction
                 onCancel={onAction(info.row.original.id, 'canceled')}
                 onDelete={onAction(info.row.original.id, 'deleted')}
@@ -202,12 +210,24 @@ export const MyRequestTable = () => {
     }));
   };
 
-  const onTemplateStatusChange = (
-    key: 'Status' | 'WorkflowDefinitionId' | 'RequestUser' | 'StakeHolder',
-    value?: string
-  ) => {
-    setFilter({ ...filter, [key]: value, skipCount: 0 });
-  };
+  const onTemplateStatusChange = useCallback(
+    (
+      key:
+        | 'Status'
+        | 'WorkflowDefinitionId'
+        | 'RequestUser'
+        | 'StakeHolder'
+        | 'EmailRequest',
+      value?: string
+    ) => {
+      setFilter((filter) => ({ ...filter, [key]: value, skipCount: 0 }));
+    },
+    []
+  );
+
+  useEffect(() => {
+    onTemplateStatusChange('EmailRequest', txtSearchDebounced);
+  }, [onTemplateStatusChange, txtSearchDebounced]);
 
   const onActionViewDetails = (request: Request) => () => {
     setRequestDetails(request);
@@ -277,6 +297,23 @@ export const MyRequestTable = () => {
               options={statusOptions}
             />
           </Box>
+          {isAdmin && (
+            <Box w={'300px'}>
+              <InputGroup>
+                <Input
+                  autoFocus
+                  value={txtSearch}
+                  type="text"
+                  placeholder="Enter email"
+                  fontSize="14px"
+                  onChange={(e) => setTxtSearch(e.target.value)}
+                />
+                <InputRightElement width="40px">
+                  <TbSearch />
+                </InputRightElement>
+              </InputGroup>
+            </Box>
+          )}
         </HStack>
         {isAdmin && (
           <Wrap pl="24px" pt="8px">
@@ -321,6 +358,7 @@ export const MyRequestTable = () => {
                 data={requests}
                 sorting={sorting}
                 onSortingChange={setSorting}
+                onRowClick={onActionViewDetails}
               />
             </Box>
           </EmptyWrapper>

@@ -56,7 +56,7 @@ const fadeIn = keyframes`
 `;
 export interface BoardsProps {
   filters: FilterTasks;
-  openDetailModal: (id: string) => void;
+  openDetailModal: (task: ITask) => void;
   status: number;
 }
 
@@ -354,8 +354,7 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
                                   position={'relative'}
                                   cursor={isDisabled ? 'pointer' : 'grab'}
                                   onClick={() => {
-                                    item.id !== null &&
-                                      openDetailModal(item.id);
+                                    item.id !== null && openDetailModal(item);
                                   }}
                                   ref={provided.innerRef}
                                   {...provided.draggableProps}

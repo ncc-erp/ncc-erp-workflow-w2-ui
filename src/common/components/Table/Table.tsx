@@ -1,12 +1,4 @@
 import {
-  ColumnDef,
-  OnChangeFn,
-  SortingState,
-  flexRender,
-  getCoreRowModel,
-  useReactTable,
-} from '@tanstack/react-table';
-import {
   Box,
   Icon,
   Table as TableComponent,
@@ -17,9 +9,19 @@ import {
   Tr,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { IoMdArrowDropdown, IoMdArrowDropup } from 'react-icons/io';
+import {
+  ColumnDef,
+  OnChangeFn,
+  SortingState,
+  flexRender,
+  getCoreRowModel,
+  useReactTable,
+} from '@tanstack/react-table';
 import { ColorThemeMode } from 'common/constants';
+import { IoMdArrowDropdown, IoMdArrowDropup } from 'react-icons/io';
 import theme from 'themes/theme';
+
+export type IRowActionProps<D> = (data: D) => () => void;
 
 interface TableProps<D> {
   columns: ColumnDef<D, unknown>[];
@@ -27,6 +29,7 @@ interface TableProps<D> {
   data: D[];
   sorting?: SortingState;
   onSortingChange?: OnChangeFn<SortingState>;
+  onRowClick?: IRowActionProps<D>;
 }
 
 export const Table = <D,>({
@@ -34,6 +37,7 @@ export const Table = <D,>({
   data,
   sorting,
   onSortingChange,
+  onRowClick,
 }: TableProps<D>) => {
   const table = useReactTable({
     data,
@@ -97,7 +101,14 @@ export const Table = <D,>({
       <Tbody>
         {table.getRowModel().rows.map((row) => {
           return (
-            <Tr key={row.id}>
+            <Tr
+              key={row.id}
+              onClick={() => {
+                if (onRowClick) {
+                  onRowClick(row.original)();
+                }
+              }}
+            >
               {row.getVisibleCells().map((cell) => {
                 return (
                   <Td

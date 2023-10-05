@@ -21,3 +21,12 @@
         margin-right: 5px;
     }
 }
+
+.containerSpinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    min-width: 30vw;
+    min-height: 50vh;
+}
