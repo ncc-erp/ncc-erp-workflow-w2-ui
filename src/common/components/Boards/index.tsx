@@ -28,6 +28,7 @@ import { toast } from 'common/components/StandaloneToast';
 import {
   BoardColumnStatus,
   ColorThemeMode,
+  ExternalAction,
   OtherActionSignalStatus,
   TaskStatus,
 } from 'common/constants';
@@ -126,6 +127,7 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
       hasDynamicForm: false,
       dynamicForm: '',
     });
+    history.pushState({}, '', window.location.href.split('?')[0]);
   };
 
   const onDragEnd = async (result: DropResult) => {
@@ -177,25 +179,14 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
       handleClose();
       switch (statusDrop) {
         case BoardColumnStatus.Approved:
-          await approveTaskMutation.mutateAsync({
-            id: state[ETaskStatus.Pending][source.index].id,
-            dynamicActionData: isValidJSON(dynamicData)
-              ? approvedData
-              : dynamicData,
-          });
-          clear();
-          refetchApproved();
-          refetchPending();
+          approveTask(
+            state[ETaskStatus.Pending][source.index].id,
+            approvedData ?? dynamicData
+          );
           break;
         case BoardColumnStatus.Rejected:
           if (!reason) return;
-          await rejectTaskMutation.mutateAsync({
-            id: state[ETaskStatus.Pending][source.index].id,
-            reason,
-          });
-          clear();
-          refetchRejected();
-          refetchPending();
+          rejectTask(state[ETaskStatus.Pending][source.index].id);
           break;
         default:
           break;
@@ -276,6 +267,83 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
     }
     return null;
   };
+
+  const [isExternal, setIsExternal] = useState<boolean>(false);
+
+  const rejectTask = async (id: string | null) => {
+    if (!reason) return;
+    await rejectTaskMutation.mutateAsync({
+      id: id as string,
+      reason,
+    });
+    clear();
+    refetchRejected();
+    refetchPending();
+  };
+
+  const approveTask = async (
+    id: string | null,
+    approvedData?: string | null
+  ) => {
+    await approveTaskMutation.mutateAsync({
+      id: id as string,
+      dynamicActionData: approvedData,
+    });
+    clear();
+    refetchApproved();
+    refetchPending();
+  };
+
+  const searchParams = new URLSearchParams(window.location.search);
+  const id = searchParams.get('id');
+  const action = searchParams.get('action');
+  const dynamicInput = searchParams.get('input');
+
+  const handleConfirmExternal = (approvedData?: string) => {
+    try {
+      switch (action) {
+        case ExternalAction.APPROVED:
+          approveTask(id, approvedData ?? dynamicInput);
+          break;
+
+        case ExternalAction.REJECTED:
+          rejectTask(id);
+          break;
+      }
+      toast({ title: 'Update Status Task Successfully!', status: 'success' });
+      handleClose();
+    } catch (error) {
+      handleClose();
+      refetchPending();
+      refetchApproved();
+      refetchRejected();
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    if (!id || !action) {
+      return;
+    }
+
+    switch (action) {
+      case ExternalAction.APPROVED:
+        if (dynamicInput && isValidJSON(dynamicInput)) {
+          setDynamicForm({
+            hasDynamicForm: true,
+            dynamicForm: dynamicInput ?? '',
+          });
+        }
+        break;
+
+      case ExternalAction.REJECTED:
+        setIsRejected(true);
+        break;
+    }
+
+    setIsExternal(true);
+    onOpen();
+  }, [id, action, dynamicInput, onOpen]);
 
   return (
     <>
@@ -540,7 +608,7 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
       <ModalBoard
         isOpen={isOpen}
         onClose={handleClose}
-        onConfirm={handleDrop}
+        onConfirm={isExternal ? handleConfirmExternal : handleDrop}
         showReason={isRejected}
         setReason={setReason}
         showDynamicForm={dynamicForm.hasDynamicForm}
