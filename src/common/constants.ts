@@ -121,3 +121,8 @@ export const OtherActionSignalStatus = {
   FAILED: 3,
   CANCEL: 4,
 };
+
+export const ExternalAction = {
+  APPROVED: 'approve',
+  REJECTED: 'reject',
+};
