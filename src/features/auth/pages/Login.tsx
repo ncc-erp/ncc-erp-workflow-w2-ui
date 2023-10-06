@@ -18,7 +18,7 @@ import { TextField } from 'common/components/TextField';
 import { useLogin, useLoginExternal } from 'api/apiHooks/userHooks';
 import { LocalStorageKeys } from 'common/enums';
 import { userManager } from 'services/authService';
-import { getItem, setItem } from 'utils';
+import { getItem, setItem } from 'utils/localStorage';
 import { ColorThemeMode } from 'common/constants';
 import { useEffect } from 'react';
 
@@ -120,7 +120,11 @@ const Login = () => {
           <Heading as="h1" size="md" textAlign="left" w="full" fontWeight={700}>
             Sign In
           </Heading>
-          <form style={{ width: '100%' }} onSubmit={handleSubmit(onLogin)}>
+          <form
+            style={{ width: '100%' }}
+            onSubmit={handleSubmit(onLogin)}
+            data-testid="login-form"
+          >
             <VStack spacing="14px">
               <TextField
                 h="50px"

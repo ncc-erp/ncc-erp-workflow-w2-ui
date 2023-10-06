@@ -1,11 +1,10 @@
-import { createContext } from 'react';
+import { createContext, useContext } from 'react';
 import Axios, {
   AxiosError,
   AxiosInstance,
   AxiosResponse,
   isAxiosError,
 } from 'axios';
-import { useContext } from 'react';
 import { toast } from 'common/components/StandaloneToast';
 import { getItem } from 'utils';
 import { LocalStorageKeys } from 'common/enums';

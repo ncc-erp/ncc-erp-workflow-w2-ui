@@ -1,0 +1,36 @@
+export default {
+  roots: ['<rootDir>/src'],
+  transform: {
+    '^.+\\.tsx?$': ['ts-jest'],
+  },
+  testEnvironment: 'jsdom',
+  setupFilesAfterEnv: ['<rootDir>/src/setupTest.ts'],
+  testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.tsx?$',
+  moduleFileExtensions: [
+    'tsx',
+    'ts',
+    'web.js',
+    'js',
+    'web.ts',
+    'web.tsx',
+    'json',
+    'web.jsx',
+    'jsx',
+    'node',
+  ],
+  moduleNameMapper: {
+    '\\.(jpg|ico|jpeg|png|gif|webp|svg)$':
+      '<rootDir>/__mocks__/fileMockImage.js',
+    '\\.(css|scss)$': '<rootDir>/__mocks__/fileMockStyle.js',
+    '^common/(.*)$': '<rootDir>/src/common/$1',
+    '^common/components/(.*)$': '<rootDir>/src/common/components/$1',
+    '^api/(.*)$': '<rootDir>/src/api/$1',
+    '^api/apiHooks/(.*)$': '<rootDir>/src/api/apiHooks/$1',
+    '^services/(.*)$': '<rootDir>/src/services/$1',
+    '^utils/(.*)$': '<rootDir>/src/utils/$1',
+    '^hooks/(.*)$': '<rootDir>/src/hooks/$1',
+    '^models/(.*)$': '<rootDir>/src/models/$1',
+  },
+  coverageReporters: ['html', ['text', { file: 'coverage.txt' }]],
+  coverageDirectory: '<rootDir>/src/tests/coverage',
+};
