@@ -77,7 +77,7 @@ export const RequestTemplateTable = ({
       [
         columnHelper.accessor('displayName', {
           id: 'displayName',
-          header: 'Display Name',
+          header: 'Requests Template',
           enableSorting: false,
           cell: (info) => info.getValue(),
         }),

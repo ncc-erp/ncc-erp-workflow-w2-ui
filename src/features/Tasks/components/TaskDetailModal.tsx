@@ -182,7 +182,7 @@ export const TaskDetailModal = ({
           </Text>
           <div className={styles.container}>
             <div className={styles.left}>
-              <TextGroup label="Task name" content={tasks?.name} />
+              <TextGroup label="Request template" content={tasks?.name} />
               <TextGroup
                 label="State"
                 content={getStatusByIndex(tasks?.status).status}

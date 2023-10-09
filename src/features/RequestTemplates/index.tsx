@@ -9,7 +9,7 @@ const RequestTemplates = () => {
     <Page>
       <Page.Header>
         <Page.HeaderLeft>
-          <Page.Heading>Requests Template</Page.Heading>
+          <Page.Heading>Requests Templates</Page.Heading>
         </Page.HeaderLeft>
         <Page.HeaderRight />
       </Page.Header>

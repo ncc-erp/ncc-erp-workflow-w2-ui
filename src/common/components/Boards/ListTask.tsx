@@ -108,13 +108,13 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
       }),
       columnHelper.accessor('name', {
         id: 'name',
-        header: 'Types',
+        header: 'Request template',
         enableSorting: true,
         cell: (info) => info.getValue(),
       }),
       columnHelper.accessor('authorName', {
         id: 'authorName',
-        header: 'Name',
+        header: 'Request user',
         enableSorting: true,
         cell: (info) => info.getValue(),
       }),

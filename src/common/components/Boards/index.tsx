@@ -507,7 +507,8 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
                                     </div>
 
                                     <Flex gap={2}>
-                                      <Text>Name:</Text> {item.authorName}
+                                      <Text>Request user:</Text>{' '}
+                                      {item.authorName}
                                     </Flex>
                                     <Flex gap={2}>
                                       <Text>Assign:</Text>
