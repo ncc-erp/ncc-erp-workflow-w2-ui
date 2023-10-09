@@ -132,6 +132,12 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
     return inputName.replace(/([a-z])([A-Z])/g, '$1 $2');
   };
 
+  const handleSelectChangeValue = (value: string, variable: string) => {
+    const updatedFormParams = { ...formParams };
+    updatedFormParams[variable] = value;
+    setFormParams(updatedFormParams);
+  };
+
   const getOptions = (type: string) => {
     switch (type) {
       case 'OfficeList':
@@ -192,6 +198,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
               control={control}
               options={getOptions(Field?.type) ?? [{ value: '', label: '' }]}
               value={formParams[fieldname] as string}
+              handleChange={handleSelectChangeValue}
             />
 
             <ErrorMessage
