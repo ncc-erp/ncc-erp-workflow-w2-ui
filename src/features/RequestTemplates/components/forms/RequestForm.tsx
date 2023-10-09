@@ -1,22 +1,21 @@
 import {
   Button,
-  VStack,
-  FormLabel,
   FormControl,
   FormHelperText,
+  FormLabel,
+  VStack,
 } from '@chakra-ui/react';
 import {
-  useOffices,
-  useUserProjects,
-  useUserInfoWithBranch,
   useNewRequestWorkflow,
+  useOffices,
   useUserCurrentProject,
+  useUserInfoWithBranch,
   useUserList,
+  useUserProjects,
 } from 'api/apiHooks/requestHooks';
-import { SelectField } from 'common/components/SelectField';
 import { TextareaField } from 'common/components/TextareaField';
 import { TextField } from 'common/components/TextField';
-import { useForm, Controller } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import MultiDatePicker, { DateObject } from 'react-multi-date-picker';
 import Toolbar from 'react-multi-date-picker/plugins/toolbar';
 
@@ -24,27 +23,28 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import styles from './style.module.scss';
 
-import {
-  InputDefinition,
-  PropertyDefinition,
-  IRequestFormParams,
-} from 'models/request';
+import { ErrorMessage } from '@hookform/error-message';
+import { useQueryClient } from '@tanstack/react-query';
+import { ErrorDisplay } from 'common/components/ErrorDisplay';
+import { SearchableSelectField } from 'common/components/SearchableSelectField';
+import { toast } from 'common/components/StandaloneToast';
+import { useCurrentUser } from 'hooks/useCurrentUser';
 import { IOffices } from 'models/office';
 import { IProjects } from 'models/project';
-import { ChangeEvent, useState } from 'react';
-import { useCurrentUser } from 'hooks/useCurrentUser';
-import { toast } from 'common/components/StandaloneToast';
-import { ErrorMessage } from '@hookform/error-message';
-import { ErrorDisplay } from 'common/components/ErrorDisplay';
-import { formatDate } from 'utils';
-import { useQueryClient } from '@tanstack/react-query';
+import {
+  InputDefinition,
+  IRequestFormParams,
+  PropertyDefinition,
+} from 'models/request';
 import { IUser } from 'models/user';
+import { ChangeEvent, useState } from 'react';
+import { formatDate } from 'utils';
 
 interface RequestFormProps {
   inputDefinition?: InputDefinition;
   onCloseModal: () => void;
 }
-type FormParams = Record<
+export type FormParams = Record<
   string,
   string | DateObject | DateObject[] | null | Date | undefined
 >;
@@ -132,6 +132,12 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
     return inputName.replace(/([a-z])([A-Z])/g, '$1 $2');
   };
 
+  const handleSelectChangeValue = (value: string, variable: string) => {
+    const updatedFormParams = { ...formParams };
+    updatedFormParams[variable] = value;
+    setFormParams(updatedFormParams);
+  };
+
   const getOptions = (type: string) => {
     switch (type) {
       case 'OfficeList':
@@ -187,19 +193,14 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
                 ''
               )}
             </FormLabel>
-            <SelectField
-              size="sm"
-              rounded="md"
+            <SearchableSelectField
+              name={fieldname}
+              control={control}
               options={getOptions(Field?.type) ?? [{ value: '', label: '' }]}
               value={formParams[fieldname] as string}
-              {...register(fieldname, {
-                required: Field?.isRequired
-                  ? `${fieldname} is Required`
-                  : false,
-                onChange: (e) => handleChangeValue(e, fieldname),
-                value: `${formParams[fieldname]}`,
-              })}
+              handleChange={handleSelectChangeValue}
             />
+
             <ErrorMessage
               errors={errors}
               name={fieldname}
