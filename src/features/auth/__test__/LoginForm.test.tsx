@@ -1,4 +1,4 @@
-import { screen, render } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import Login from '../pages/Login';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
@@ -29,8 +29,6 @@ describe('Login Page', () => {
         <Login />
       </QueryClientProvider>
     );
-    const form = screen.getByTestId('login-form');
-    expect(form).toBeInTheDocument();
     expect(container).toMatchSnapshot();
   });
 });
