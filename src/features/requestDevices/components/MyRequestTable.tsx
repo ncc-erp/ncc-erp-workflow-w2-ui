@@ -252,13 +252,13 @@ export const MyRequestTable = () => {
     if (requestId.length === 0) return;
 
     const mutation =
-      actionType === 'delete' ? deleteRequestMutation : cancelRequestMutation;
+      actionType === 'deleted' ? deleteRequestMutation : cancelRequestMutation;
     const successMessage =
-      actionType === 'delete'
+      actionType === 'deleted'
         ? 'Deleted successfully!'
         : 'Cancelled successfully!';
     const errorMessage =
-      actionType === 'delete' ? 'Delete failed!' : 'Cancel failed!';
+      actionType === 'deleted' ? 'Delete failed!' : 'Cancel failed!';
 
     try {
       await mutation.mutateAsync(requestId);
