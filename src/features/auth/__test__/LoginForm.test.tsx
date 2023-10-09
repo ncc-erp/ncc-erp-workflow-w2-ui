@@ -24,12 +24,13 @@ describe('Login Page', () => {
   });
 
   test('Check Display form Log in', async () => {
-    render(
+    const { container } = render(
       <QueryClientProvider client={queryClient}>
         <Login />
       </QueryClientProvider>
     );
     const form = screen.getByTestId('login-form');
     expect(form).toBeInTheDocument();
+    expect(container).toMatchSnapshot();
   });
 });
