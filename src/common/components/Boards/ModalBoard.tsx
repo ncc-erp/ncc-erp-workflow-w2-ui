@@ -162,7 +162,8 @@ const ModalBoard = (props: ModalBoardProps): JSX.Element => {
                     pb={2}
                     pt={0}
                   >
-                    Reason *
+                    Reason
+                    <span style={{ color: 'red' }}> *</span>
                   </Text>
                   <Input
                     type="text"

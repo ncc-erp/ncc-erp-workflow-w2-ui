@@ -88,6 +88,15 @@ export const Table = <D,>({
                         asc: <Icon fontSize="md" as={IoMdArrowDropup} />,
                         desc: <Icon fontSize="md" as={IoMdArrowDropdown} />,
                       }[header.column.getIsSorted() as string] ?? null}
+
+                      {header.column.getCanSort() &&
+                      !header.column.getIsSorted() &&
+                      sorting ? (
+                        <Icon fontSize="md" as={IoMdArrowDropup} />
+                      ) : (
+                        ''
+                      )}
+
                       {flexRender(
                         header.column.columnDef.header,
                         header.getContext()

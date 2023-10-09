@@ -130,7 +130,7 @@ export const RequestDetailModal = ({
           <div className={styles.container}>
             <div className={styles.left}>
               <TextGroup
-                label="Request name"
+                label="Request template"
                 content={requestDetail?.workflowDefinitionDisplayName}
               />
               <TextGroup

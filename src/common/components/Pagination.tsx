@@ -27,6 +27,14 @@ export const Pagination = ({
   const bg = useColorModeValue(ColorThemeMode.DARK, ColorThemeMode.LIGHT);
   const color = useColorModeValue(ColorThemeMode.LIGHT, ColorThemeMode.DARK);
 
+  const isLastPage = (activePage: number) => {
+    return (
+      Math.ceil(
+        (paginationProps.total as number) / (paginationProps.pageSize as number)
+      ) === activePage
+    );
+  };
+
   const ItemRender: ItemRenderFn =
     (activePage, buttonProps) => (current, type) => {
       switch (type) {
@@ -65,6 +73,7 @@ export const Pagination = ({
               size="sm"
               aspectRatio="1/1"
               {...buttonProps}
+              isDisabled={activePage === 1}
             >
               <FaChevronLeft />
             </Button>
@@ -78,6 +87,7 @@ export const Pagination = ({
               size="sm"
               aspectRatio="1/1"
               {...buttonProps}
+              isDisabled={isLastPage(activePage as number)}
             >
               <FaChevronRight />
             </Button>
