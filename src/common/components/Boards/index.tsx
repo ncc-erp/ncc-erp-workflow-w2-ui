@@ -225,7 +225,10 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
         id,
       });
       await actionTaskMutation.mutateAsync({ id, action });
-      toast({ title: 'Send action successfully!', status: 'success' });
+      toast({
+        title: `Send action: ${action} successfully!`,
+        status: 'success',
+      });
       refetchPending();
     } catch (error) {
       console.error(error);
@@ -277,6 +280,7 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
       id: id as string,
       reason,
     });
+    toast({ title: 'Reject Task Successfully!', status: 'success' });
     clear();
     refetchRejected();
     refetchPending();
@@ -290,6 +294,7 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
       id: id as string,
       dynamicActionData: approvedData,
     });
+    toast({ title: 'Approve Task Successfully!', status: 'success' });
     clear();
     refetchApproved();
     refetchPending();
@@ -311,8 +316,12 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
         case ExternalAction.REJECTED:
           rejectTask(id);
           break;
+
+        case ExternalAction.OTHER:
+          if (!id || !dynamicInput) return;
+          onActionClick(id, dynamicInput);
+          break;
       }
-      toast({ title: 'Update Status Task Successfully!', status: 'success' });
       handleClose();
     } catch (error) {
       handleClose();

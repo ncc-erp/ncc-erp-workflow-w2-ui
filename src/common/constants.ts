@@ -125,4 +125,5 @@ export const OtherActionSignalStatus = {
 export const ExternalAction = {
   APPROVED: 'approve',
   REJECTED: 'reject',
+  OTHER: 'other',
 };
