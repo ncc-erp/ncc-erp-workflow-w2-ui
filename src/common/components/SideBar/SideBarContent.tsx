@@ -36,7 +36,7 @@ import { userState } from 'stores/user';
 import { useSetAppConfig } from 'stores/appConfig';
 import { useNavigate } from 'react-router-dom';
 import { useIsAdmin } from 'hooks/useIsAdmin';
-import Logo from 'assets/images/ncc_logo.svg';
+import Logo from 'assets/images/ncc_logo.png';
 import { ColorThemeMode } from 'common/constants';
 import { removeItem } from 'utils';
 import { LocalStorageKeys } from 'common/enums';
