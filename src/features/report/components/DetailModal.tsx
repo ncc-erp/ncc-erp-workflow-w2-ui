@@ -13,7 +13,7 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import { IPostAndWFH } from 'models/report';
-import Logo from 'assets/images/ncc_logo.svg';
+import Logo from 'assets/images/ncc_logo.png';
 import styles from './styles.module.scss';
 import { CardDetails } from 'common/components/CardDetails';
 import { useState } from 'react';

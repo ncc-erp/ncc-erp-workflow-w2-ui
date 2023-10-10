@@ -12,7 +12,7 @@ import {
   Spinner,
   Text,
 } from '@chakra-ui/react';
-import Logo from 'assets/images/ncc_logo.svg';
+import Logo from 'assets/images/ncc_logo.png';
 import styles from './style.module.scss';
 import { Request } from 'models/request';
 import { useGetRequestDetail } from 'api/apiHooks/requestHooks';

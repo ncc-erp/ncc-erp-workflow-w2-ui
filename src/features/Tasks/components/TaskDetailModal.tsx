@@ -14,7 +14,7 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { useActionTask, useGetTaskDetail } from 'api/apiHooks/taskHooks';
-import Logo from 'assets/images/ncc_logo.svg';
+import Logo from 'assets/images/ncc_logo.png';
 import { TextGroup } from 'common/components/TextGroup/TextGroup';
 import { formatDate, getStatusByIndex, isObjectEmpty } from 'utils';
 import { RequestInput } from './RequestInput';

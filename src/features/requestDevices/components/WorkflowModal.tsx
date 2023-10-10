@@ -12,7 +12,7 @@ import {
   Text,
   AspectRatio,
 } from '@chakra-ui/react';
-import Logo from 'assets/images/ncc_logo.svg';
+import Logo from 'assets/images/ncc_logo.png';
 const { VITE_PROXY_SERVER_URL } = import.meta.env;
 
 interface IWorkflowModalProps {
