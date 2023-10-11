@@ -9,11 +9,11 @@ exports[`Request Template Form 1`] = `
       class="chakra-stack css-z8oacn"
     >
       <div
-        class="chakra-form-control css-0"
+        class="chakra-form-control css-dynqen"
         role="group"
       >
         <label
-          class="chakra-form__label css-c5n4e2"
+          class="chakra-form__label css-8sede8"
           for="field-:r0:"
           id="field-:r0:-label"
         >
@@ -106,11 +106,11 @@ exports[`Request Template Form 1`] = `
         </div>
       </div>
       <div
-        class="chakra-form-control css-0"
+        class="chakra-form-control css-dynqen"
         role="group"
       >
         <label
-          class="chakra-form__label css-c5n4e2"
+          class="chakra-form__label css-8sede8"
           for="field-:r1:"
           id="field-:r1:-label"
         >

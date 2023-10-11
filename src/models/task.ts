@@ -44,6 +44,7 @@ export interface FilterTasks {
   emailRequest?: string;
   emailAssign?: string;
   dates?: string;
+  isTaskListPage?: boolean;
 }
 
 export interface IRequestUser {
