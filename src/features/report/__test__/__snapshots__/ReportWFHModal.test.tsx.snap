@@ -109,7 +109,9 @@ exports[`WFH Modal Detail 1`] = `
                         >
                           24-08-2023 17:30
                         </p>
-                        <div>
+                        <div
+                          class="undefined"
+                        >
                           <div>
                             →
                           </div>
@@ -140,7 +142,9 @@ exports[`WFH Modal Detail 1`] = `
                         >
                           24-08-2023 17:30
                         </p>
-                        <div>
+                        <div
+                          class="undefined"
+                        >
                           <div>
                             →
                           </div>
@@ -161,22 +165,22 @@ exports[`WFH Modal Detail 1`] = `
                 </p>
                 <div>
                   <p
-                    class="chakra-text css-71gjlu"
+                    class="chakra-text undefined css-71gjlu"
                   >
                     03/08/2023
                   </p>
                   <p
-                    class="chakra-text css-71gjlu"
+                    class="chakra-text undefined css-71gjlu"
                   >
                     10/08/2023
                   </p>
                   <p
-                    class="chakra-text css-71gjlu"
+                    class="chakra-text undefined css-71gjlu"
                   >
                     14/08/2023
                   </p>
                   <p
-                    class="chakra-text css-71gjlu"
+                    class="chakra-text undefined css-71gjlu"
                   >
                     20/08/2023
                   </p>

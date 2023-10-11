@@ -7,7 +7,6 @@ test('WFH Modal Detail', () => {
   const reportDetail: IPostAndWFH = {
     email: 'bob@example.com',
     totalDays: 7,
-    totalPosts: 5,
     totalMissingPosts: 3,
     posts: [
       {
