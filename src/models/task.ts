@@ -58,6 +58,7 @@ export interface IRequest {
   Device?: string;
   Reason?: string;
   Dates?: string;
+  Staff?: string;
   Equipment?: string;
   DestinationOffice?: string;
   Content?: string;
