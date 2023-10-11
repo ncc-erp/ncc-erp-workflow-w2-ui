@@ -16,9 +16,11 @@ import { IPostAndWFH } from 'models/report';
 import Logo from 'assets/images/ncc_logo.png';
 import styles from './styles.module.scss';
 import { CardDetails } from 'common/components/CardDetails';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import moment from 'moment';
 import { ColorThemeMode } from 'common/constants';
+import { validateWFHDates } from 'utils';
+import classNames from 'classnames';
 
 interface IDetailModal {
   isOpen: boolean;
@@ -41,14 +43,27 @@ export const DetailModal = ({
   const color = useColorModeValue(ColorThemeMode.DARK, ColorThemeMode.LIGHT);
 
   const [visibleCount, setVisibleCount] = useState(itemsPerPage);
-  const posts = reportDetail?.posts;
-  const requestDates = reportDetail?.requestDates;
 
   const showMore = () => {
     setVisibleCount(visibleCount + itemsPerPage);
   };
 
-  const shouldEnableScroll = posts && posts.length >= itemsPerPage * 2;
+  const { posts, requestDates } = useMemo(() => {
+    if (!reportDetail.posts || !reportDetail?.requestDates) {
+      return {
+        posts: reportDetail?.posts,
+        requestDates: reportDetail?.requestDates,
+      };
+    }
+
+    const { posts, requestDates } = reportDetail;
+
+    return validateWFHDates(posts, requestDates);
+  }, [reportDetail]);
+
+  const shouldEnableScroll = useMemo(() => {
+    return posts && posts.length >= itemsPerPage * 2;
+  }, [posts]);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false}>
@@ -94,14 +109,17 @@ export const DetailModal = ({
                           new Date(a.date).valueOf()
                       )
                       .slice(0, visibleCount)
-                      .map((item, index) => (
-                        <CardDetails
-                          key={index}
-                          title={item.title.rendered}
-                          date={item.date}
-                          link={item.link}
-                        />
-                      ))}
+                      .map((item, index) => {
+                        return (
+                          <CardDetails
+                            key={index}
+                            title={item.title.rendered}
+                            date={item.date}
+                            link={item.link}
+                            isUsed={!!item?.isUsed}
+                          />
+                        );
+                      })}
                     {visibleCount < posts.length ? (
                       <button className={styles.btnShowMore} onClick={showMore}>
                         Show more...
@@ -125,7 +143,9 @@ export const DetailModal = ({
               {requestDates && requestDates.length > 0 ? (
                 <div className={styles.dates}>
                   {requestDates
-                    ?.filter((date) => {
+                    ?.filter((element) => {
+                      const date =
+                        typeof element === 'string' ? element : element.date;
                       const currentDate = moment(date, 'DD/MM/YYYY').toDate();
                       if (startDate && endDate) {
                         return (
@@ -134,16 +154,26 @@ export const DetailModal = ({
                       }
                       return true;
                     })
-                    .map((filteredDate) => (
-                      <Text
-                        key={filteredDate}
-                        className={styles.date}
-                        bg={bg}
-                        color={color}
-                      >
-                        {filteredDate}
-                      </Text>
-                    ))}
+                    .map((filtered) => {
+                      const date =
+                        typeof filtered === 'string' ? filtered : filtered.date;
+                      const isCounted =
+                        typeof filtered === 'string'
+                          ? false
+                          : filtered.isCounted;
+                      return (
+                        <Text
+                          key={date}
+                          className={classNames(styles.date, {
+                            [styles.countedDate]: isCounted,
+                          })}
+                          bg={bg}
+                          color={color}
+                        >
+                          {date}
+                        </Text>
+                      );
+                    })}
                 </div>
               ) : (
                 <Text>No dates found!</Text>
