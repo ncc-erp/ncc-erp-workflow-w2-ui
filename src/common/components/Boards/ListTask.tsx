@@ -322,7 +322,6 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
         ...filters,
         skipCount: filter.maxResultCount * (page - 1),
         maxResultCount: filter.maxResultCount,
-        isTaskListPage: true,
       });
     },
     [filter.maxResultCount, filters]
@@ -334,7 +333,6 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
         ...filters,
         maxResultCount: pageSize,
         skipCount: 0,
-        isTaskListPage: true,
       });
     },
     [filters]
@@ -343,7 +341,6 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
   useEffect(() => {
     setFilter({
       ...filters,
-      isTaskListPage: true,
     });
   }, [filters]);
 

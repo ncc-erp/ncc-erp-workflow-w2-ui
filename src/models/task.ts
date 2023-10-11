@@ -37,14 +37,13 @@ export interface IOtherActionSignals {
 }
 
 export interface FilterTasks {
-  status?: number;
+  status?: number | Array<number>;
   workflowDefinitionId?: string;
   maxResultCount: number;
   skipCount: number;
   emailRequest?: string;
   emailAssign?: string;
   dates?: string;
-  isTaskListPage?: boolean;
 }
 
 export interface IRequestUser {
