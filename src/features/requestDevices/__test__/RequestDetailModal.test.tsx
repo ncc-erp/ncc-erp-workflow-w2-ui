@@ -1,0 +1,93 @@
+import { render } from '@testing-library/react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { RequestDetailModal } from '../components/DetailModal';
+import { RequestStatus } from 'common/enums';
+
+jest.mock('../../../api/apiHooks/index', () => ({
+  useAxios: jest.fn(),
+}));
+
+jest.mock('../../../api/axiosInstant', () => ({
+  VITE_API_BASE_URL: '/api',
+}));
+
+jest.mock('api/apiHooks/requestHooks', () => ({
+  useGetRequestDetail: jest.fn().mockReturnValue({
+    isLoading: false,
+    data: {
+      typeRequest: 'Office Equipment Request',
+      input: {
+        Request: {
+          CurrentOffice: 'ĐN',
+          Equipment: 'test current state',
+          Reason: 'test',
+        },
+        EmailTemplate:
+          '\n<style>\n    p {\n        margin: 0;\n    }\n</style>\n<div style="margin: 13px 0">\n    <b>Văn phòng đang làm việc</b>: Đà Nẵng\n</div>\n<div style="margin: 13px 0">\n    <b>Thiết bị cần request</b>: test current state\n</div>\n<div style="display: flex; margin: 13px 0;">\n    <b>Lý do:</b>&#160;test\n</div>\n',
+        RequestUser: {
+          email: 'nhan.huynhba@ncc.asia',
+          name: 'Nhan Huynh Ba',
+          project: null,
+          pm: 'thien.dang@ncc.asia',
+          headOfOfficeEmail: 'thien.dang@ncc.asia',
+          projectCode: 'asm',
+          branchName: 'Đà Nẵng',
+          branchCode: 'ĐN',
+          id: '3a0d3270-71a8-69d7-265b-ed35f5cc9960',
+        },
+      },
+      workInstanceId: '3a0e24f1-b739-1627-f78a-cb2bdd068279',
+      tasks: {
+        id: '3a0e24f1-b9a4-732f-65f2-836b6d9b6af9',
+        workflowInstanceId: '3a0e24f1-b739-1627-f78a-cb2bdd068279',
+        workflowDefinitionId: '3a0b89d4-93b5-232f-964d-ffa129064cc6',
+        email: null,
+        status: 0,
+        name: 'Office Equipment Request',
+        description: 'Branch Manager Makes Decision',
+        dynamicActionData: null,
+        reason: null,
+        creationTime: '2023-10-09T04:49:34.630211Z',
+        otherActionSignals: [],
+        emailTo: null,
+        author: '3a0d3270-71a8-69d7-265b-ed35f5cc9960',
+        authorName: null,
+      },
+    },
+  }),
+  useOffices: jest.fn().mockReturnValue({
+    data: [
+      {
+        displayName: 'Đà Nẵng',
+        code: 'ĐN',
+        headOfOfficeEmail: 'thien.dang@ncc.asia',
+      },
+    ],
+  }),
+}));
+
+const requestDetails = {
+  id: '3a0e24f1-b739-1627-f78a-cb2bdd068279',
+  workflowDefinitionId: '3a0b89d4-93b5-232f-964d-ffa129064cc6',
+  workflowDefinitionDisplayName: 'Office Equipment Request',
+  userRequestName: 'Nhan Huynh Ba',
+  createdAt: '2023-10-09T04:49:34.009027Z',
+  lastExecutedAt: '2023-10-09T04:49:38.214996Z',
+  status: RequestStatus.Approved,
+  stakeHolders: ['Nhan Huynh Ba'],
+  currentStates: ['Branch Manager makes decision'],
+};
+
+test('Request Detail Modal', async () => {
+  const queryClient: QueryClient = new QueryClient();
+  const { baseElement } = render(
+    <QueryClientProvider client={queryClient}>
+      <RequestDetailModal
+        isOpen={true}
+        onClose={() => jest.fn()}
+        requestDetail={requestDetails}
+      />
+    </QueryClientProvider>
+  );
+  expect(baseElement).toMatchSnapshot();
+});
