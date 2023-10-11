@@ -139,7 +139,7 @@ export const MyRequestTable = () => {
           id: 'currentStates',
           header: () => <Box textAlign="center">Current states</Box>,
           enableSorting: false,
-          cell: (info) => info.getValue().join('\n'),
+          cell: (info) => info.getValue().join(', '),
         }),
         columnHelper.accessor('stakeHolders', {
           id: 'stakeHolders',

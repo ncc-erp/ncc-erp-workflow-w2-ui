@@ -18,6 +18,7 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 import { ColorThemeMode } from 'common/constants';
+import { useState } from 'react';
 import { IoMdArrowDropdown, IoMdArrowDropup } from 'react-icons/io';
 import theme from 'themes/theme';
 
@@ -55,12 +56,25 @@ export const Table = <D,>({
   });
   const color = useColorModeValue(ColorThemeMode.DARK, ColorThemeMode.LIGHT);
 
+  const [columnHovered, setColumnHovered] = useState<Array<boolean>>([]);
+  const handleMouseEnter = (index: number) => {
+    const newColumnHovered = [...columnHovered];
+    newColumnHovered[index] = true;
+    setColumnHovered(newColumnHovered);
+  };
+
+  const handleMouseLeave = (index: number) => {
+    const newColumnHovered = [...columnHovered];
+    newColumnHovered[index] = false;
+    setColumnHovered(newColumnHovered);
+  };
+
   return (
     <TableComponent border={`1px solid ${theme.colors.borderColor}`}>
       <Thead>
         {table.getHeaderGroups().map((headerGroup) => (
           <Tr key={headerGroup.id} bg={theme.colors.borderColor}>
-            {headerGroup.headers.map((header) => {
+            {headerGroup.headers.map((header, index) => {
               return (
                 <Th
                   key={header.id}
@@ -76,12 +90,25 @@ export const Table = <D,>({
                 >
                   {header.isPlaceholder ? null : (
                     <Box
+                      key={index}
                       display="flex"
                       alignItems="center"
                       gap="12px"
                       onClick={header.column.getToggleSortingHandler()}
                       cursor={
                         header.column.getCanSort() ? 'pointer' : 'initial'
+                      }
+                      onMouseEnter={() =>
+                        header.column.getCanSort() &&
+                        !header.column.getIsSorted()
+                          ? handleMouseEnter(index)
+                          : null
+                      }
+                      onMouseLeave={() =>
+                        header.column.getCanSort() &&
+                        !header.column.getIsSorted()
+                          ? handleMouseLeave(index)
+                          : null
                       }
                     >
                       {{
@@ -91,7 +118,7 @@ export const Table = <D,>({
 
                       {header.column.getCanSort() &&
                       !header.column.getIsSorted() &&
-                      sorting ? (
+                      columnHovered[index] ? (
                         <Icon fontSize="md" as={IoMdArrowDropup} />
                       ) : (
                         ''

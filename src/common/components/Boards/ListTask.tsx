@@ -100,7 +100,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
       columnHelper.accessor('id', {
         id: 'id',
         header: () => <Box pl="16px">ID</Box>,
-        enableSorting: true,
+        enableSorting: false,
         sortDescFirst: true,
         cell: (info) => (
           <Center>{info.getValue().slice(-5).toUpperCase()}</Center>
@@ -109,19 +109,19 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
       columnHelper.accessor('name', {
         id: 'name',
         header: 'Request template',
-        enableSorting: true,
+        enableSorting: false,
         cell: (info) => info.getValue(),
       }),
       columnHelper.accessor('authorName', {
         id: 'authorName',
         header: 'Request user',
-        enableSorting: true,
+        enableSorting: false,
         cell: (info) => info.getValue(),
       }),
       columnHelper.accessor('emailTo', {
         id: 'emailTo',
         header: 'Assigned To',
-        enableSorting: true,
+        enableSorting: false,
         cell: (info) =>
           info
             .getValue()
@@ -131,7 +131,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
       columnHelper.accessor('status', {
         id: 'status',
         header: 'State',
-        enableSorting: true,
+        enableSorting: false,
         cell: (info) => {
           const status = info.row.original.status;
           return (
@@ -155,7 +155,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
       columnHelper.accessor('creationTime', {
         id: 'creationTime',
         header: 'Created At',
-        enableSorting: true,
+        enableSorting: false,
         cell: (info) => formatDate(info.getValue()),
       }),
       columnHelper.display({
@@ -321,6 +321,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
       setFilter({
         ...filters,
         skipCount: filter.maxResultCount * (page - 1),
+        maxResultCount: filter.maxResultCount,
       });
     },
     [filter.maxResultCount, filters]
