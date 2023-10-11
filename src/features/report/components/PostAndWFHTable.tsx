@@ -203,7 +203,6 @@ export const TablePostAndWFH = () => {
     .map((item) => ({
       email: item.email,
       totalDays: item.totalDays,
-      totalPosts: item.totalPosts,
       totalMissingPosts: item.totalMissingPosts,
     }));
 

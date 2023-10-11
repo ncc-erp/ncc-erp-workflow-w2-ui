@@ -30,7 +30,6 @@ export interface IRequest {
 export interface IPostAndWFH {
   email: string;
   totalDays: number;
-  totalPosts: number;
   totalMissingPosts: number;
   posts?: IPost[];
   requests?: IRequest[];
