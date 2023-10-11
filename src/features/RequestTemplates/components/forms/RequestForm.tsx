@@ -3,6 +3,7 @@ import {
   FormControl,
   FormHelperText,
   FormLabel,
+  useColorModeValue,
   VStack,
 } from '@chakra-ui/react';
 import {
@@ -39,6 +40,7 @@ import {
 import { IUser } from 'models/user';
 import { ChangeEvent, useState } from 'react';
 import { formatDate } from 'utils';
+import { ColorThemeMode } from 'common/constants';
 
 interface RequestFormProps {
   inputDefinition?: InputDefinition;
@@ -173,6 +175,8 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
     }
   };
 
+  const color = useColorModeValue(ColorThemeMode.DARK, ColorThemeMode.LIGHT);
+
   const getField = (Field: PropertyDefinition) => {
     const fieldname = Field?.name ? Field.name : '';
     switch (Field?.type) {
@@ -181,8 +185,13 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
       case 'UserList':
         formParams[fieldname] = getDefaultValueSelected(Field?.type, fieldname);
         return (
-          <FormControl key={Field?.name}>
-            <FormLabel fontSize={16} my={1} fontWeight="normal">
+          <FormControl key={Field?.name} color={'dark'}>
+            <FormLabel
+              fontSize={16}
+              my={1}
+              fontWeight="normal"
+              textColor={color}
+            >
               {toDisplayName(fieldname)}
               {Field?.isRequired ? (
                 <FormHelperText my={1} style={{ color: 'red' }} as="span">
