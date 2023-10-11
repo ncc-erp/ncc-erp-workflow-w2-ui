@@ -1,6 +1,7 @@
 import { option } from 'common/types';
 
 export const DEFAULT_FORMAT_DATE = 'dd-MM-yyyy HH:mm';
+export const WFH_FORMAT_DATE = 'DD/MM/YYYY';
 
 export const noOfRows: option[] = [
   {

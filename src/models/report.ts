@@ -8,6 +8,7 @@ export interface IPost {
   status: string;
   date: string;
   link: string;
+  isUsed?: boolean;
 }
 
 export interface IInputByRequest {

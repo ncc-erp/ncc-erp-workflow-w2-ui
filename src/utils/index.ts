@@ -8,6 +8,7 @@ import { validationSchema } from './validationSchema';
 import { subtractTime } from './subtractTime';
 import { isValidJSON } from './isValidJson';
 import { isObjectEmpty } from './isObjectEmpty';
+import { validateWFHDates } from './validateWFHDates';
 
 export {
   convertToCase,
@@ -26,4 +27,5 @@ export {
   subtractTime,
   isValidJSON,
   isObjectEmpty,
+  validateWFHDates,
 };

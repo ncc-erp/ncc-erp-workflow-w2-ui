@@ -1,7 +1,7 @@
 import { Spinner } from '@chakra-ui/react';
 import { InputWrapperProps } from 'common/components/InputWrapper';
 import { option } from 'common/types';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { Control, Controller } from 'react-hook-form';
 import Select from 'react-select';
 
@@ -11,6 +11,11 @@ type SelectFieldFieldProps = Omit<InputWrapperProps, 'children'> & {
   control: Control;
   handleChange: (value: string, variable: string) => void;
   options: option[];
+};
+
+const EmptyValue: option = {
+  value: '',
+  label: '',
 };
 
 export const SearchableSelectField = ({
@@ -23,6 +28,10 @@ export const SearchableSelectField = ({
   const initValue = useMemo(() => {
     return options.find((el) => el.value === value);
   }, [options, value]);
+  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+  const displayValue = useMemo(() => {
+    return isMenuOpen ? EmptyValue : initValue;
+  }, [isMenuOpen, initValue]);
 
   if (!initValue) {
     return <Spinner color="red.500" size="md" />;
@@ -38,8 +47,15 @@ export const SearchableSelectField = ({
           {...field}
           onChange={(e) => {
             field.onChange(e);
-            handleChange(e.value, name);
+            handleChange(e?.value as string, name);
           }}
+          onMenuOpen={() => {
+            setIsMenuOpen(true);
+          }}
+          onMenuClose={() => {
+            setIsMenuOpen(false);
+          }}
+          value={displayValue}
           options={options}
         />
       )}
