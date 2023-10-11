@@ -284,7 +284,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
           await approveTaskMutation.mutateAsync({ id: dataForm.taskId });
           refetch();
           clear();
-          toast({ title: 'Approved successfully!', status: 'success' });
+          toast({ title: 'Approved Task Successfully!', status: 'success' });
           break;
         case TaskStatus.Rejected:
           if (!reason) return;
@@ -294,7 +294,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
           });
           refetch();
           clear();
-          toast({ title: 'Rejected successfully!', status: 'success' });
+          toast({ title: 'Rejected Task Successfully!', status: 'success' });
           break;
         default:
           break;
