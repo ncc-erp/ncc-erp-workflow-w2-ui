@@ -130,11 +130,6 @@ export const TablePostAndWFH = () => {
           header: 'Number of requests for WFH',
           cell: (info) => info.getValue(),
         }),
-        columnHelper.accessor('totalPosts', {
-          id: 'totalPosts',
-          header: 'Number of posts',
-          cell: (info) => info.getValue(),
-        }),
         columnHelper.accessor('totalMissingPosts', {
           id: 'totalMissingPosts',
           header: 'Number of missing posts',
