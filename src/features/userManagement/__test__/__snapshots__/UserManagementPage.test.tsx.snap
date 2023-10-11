@@ -147,21 +147,6 @@ exports[`Request My Requests Page 1`] = `
                   <div
                     class="css-13mxke4"
                   >
-                    <svg
-                      class="chakra-icon css-1pr7mfq"
-                      fill="currentColor"
-                      focusable="false"
-                      height="1em"
-                      stroke="currentColor"
-                      stroke-width="0"
-                      viewBox="0 0 512 512"
-                      width="1em"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M128 320l128-128 128 128z"
-                      />
-                    </svg>
                     Email address
                   </div>
                 </th>
@@ -172,21 +157,6 @@ exports[`Request My Requests Page 1`] = `
                   <div
                     class="css-13mxke4"
                   >
-                    <svg
-                      class="chakra-icon css-1pr7mfq"
-                      fill="currentColor"
-                      focusable="false"
-                      height="1em"
-                      stroke="currentColor"
-                      stroke-width="0"
-                      viewBox="0 0 512 512"
-                      width="1em"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M128 320l128-128 128 128z"
-                      />
-                    </svg>
                     Phone number
                   </div>
                 </th>

@@ -226,7 +226,7 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
       });
       await actionTaskMutation.mutateAsync({ id, action });
       toast({
-        title: `Send action: ${action} successfully!`,
+        title: `Send action successfully!`,
         status: 'success',
       });
       refetchPending();
@@ -280,7 +280,7 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
       id: id as string,
       reason,
     });
-    toast({ title: 'Reject Task Successfully!', status: 'success' });
+    toast({ title: 'Rejected Task Successfully!', status: 'success' });
     clear();
     refetchRejected();
     refetchPending();
@@ -294,7 +294,7 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
       id: id as string,
       dynamicActionData: approvedData,
     });
-    toast({ title: 'Approve Task Successfully!', status: 'success' });
+    toast({ title: 'Approved Task Successfully!', status: 'success' });
     clear();
     refetchApproved();
     refetchPending();
