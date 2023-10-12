@@ -173,12 +173,12 @@ exports[`Request My Requests Page 1`] = `
               >
                 <div />
                 <button
-                  aria-controls="menu-list-:r7:"
+                  aria-controls="menu-list-:r8:"
                   aria-expanded="false"
                   aria-haspopup="menu"
                   aria-label=""
                   class="chakra-button chakra-menu__menu-button css-p7mkev"
-                  id="menu-button-:r7:"
+                  id="menu-button-:r8:"
                   type="button"
                 >
                   <svg
@@ -205,7 +205,7 @@ exports[`Request My Requests Page 1`] = `
                   <div
                     aria-orientation="vertical"
                     class="chakra-menu__menu-list css-2vme5"
-                    id="menu-list-:r7:"
+                    id="menu-list-:r8:"
                     role="menu"
                     style="transform-origin: var(--popper-transform-origin); opacity: 0; visibility: hidden; transform: scale(0.8) translateZ(0);"
                     tabindex="-1"
@@ -213,7 +213,7 @@ exports[`Request My Requests Page 1`] = `
                     <button
                       class="chakra-menu__menuitem css-z08cet"
                       data-index="0"
-                      id="menu-list-:r7:-menuitem-:r8:"
+                      id="menu-list-:r8:-menuitem-:r9:"
                       role="menuitem"
                       tabindex="-1"
                       type="button"
@@ -234,6 +234,31 @@ exports[`Request My Requests Page 1`] = `
                         />
                       </svg>
                       View
+                    </button>
+                    <button
+                      class="chakra-menu__menuitem css-z08cet"
+                      data-index="1"
+                      id="menu-list-:r8:-menuitem-:ra:"
+                      role="menuitem"
+                      tabindex="-1"
+                      type="button"
+                    >
+                      <svg
+                        class="chakra-icon css-zvw1k8"
+                        fill="currentColor"
+                        focusable="false"
+                        height="1em"
+                        stroke="currentColor"
+                        stroke-width="0"
+                        viewBox="0 0 24 24"
+                        width="1em"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M2 5L9 2L15 5L21.303 2.2987C21.5569 2.18992 21.8508 2.30749 21.9596 2.56131C21.9862 2.62355 22 2.69056 22 2.75827V19L15 22L9 19L2.69696 21.7013C2.44314 21.8101 2.14921 21.6925 2.04043 21.4387C2.01375 21.3765 2 21.3094 2 21.2417V5Z"
+                        />
+                      </svg>
+                      Workflow
                     </button>
                   </div>
                 </div>
@@ -266,7 +291,7 @@ exports[`Request My Requests Page 1`] = `
             >
               <select
                 class="chakra-select css-1y1ernp"
-                id="field-:r4:"
+                id="field-:r5:"
               >
                 <option
                   value="10"
