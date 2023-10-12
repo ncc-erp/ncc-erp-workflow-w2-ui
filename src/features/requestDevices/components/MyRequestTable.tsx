@@ -40,7 +40,7 @@ import { useRecoilValue } from 'recoil';
 import { appConfigState } from 'stores/appConfig';
 import { formatDate } from 'utils';
 import { RequestDetailModal } from './DetailModal';
-import { WorkflowModal } from './WorkflowModal';
+import { WorkflowModal } from 'common/components/WorkflowModal';
 import { TbSearch } from 'react-icons/tb';
 import useDebounced from 'hooks/useDebounced';
 

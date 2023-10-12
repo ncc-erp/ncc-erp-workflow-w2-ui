@@ -36,7 +36,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { AiFillCheckCircle, AiOutlineReload } from 'react-icons/ai';
 import { BsFillFilterCircleFill } from 'react-icons/bs';
 import { MdCancel } from 'react-icons/md';
-import { RiEyeFill, RiSettings4Fill } from 'react-icons/ri';
+import { RiEyeFill, RiSettings4Fill, RiMapFill } from 'react-icons/ri';
 import { useRecoilValue } from 'recoil';
 import { appConfigState } from 'stores/appConfig';
 import { formatDate } from 'utils';
@@ -44,6 +44,7 @@ import { toast } from '../StandaloneToast';
 import ModalBoard from './ModalBoard';
 import styles from './style.module.scss';
 import { useClearCacheTask } from './useClearCacheTask';
+import { WorkflowModal } from 'common/components/WorkflowModal';
 
 interface Props {
   filters: FilterTasks;
@@ -80,6 +81,14 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
   });
 
   const { clear } = useClearCacheTask();
+
+  const [requestWorkflow, setRequestWorkflow] = useState<string>('');
+  const [isOpenWorkflow, setOpenWorkflow] = useState(false);
+
+  const onActionViewWorkflow = (workflowId: string) => () => {
+    setRequestWorkflow(workflowId);
+    setOpenWorkflow(true);
+  };
 
   const taskColumns = useMemo(() => {
     const onActionClick = async (id: string, action: string) => {
@@ -195,6 +204,19 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
                     <Icon color="blue.500" as={RiEyeFill} />
                     View
                   </MenuItem>
+                  <MenuItem
+                    display="flex"
+                    gap="12px"
+                    onClick={() =>
+                      onActionViewWorkflow(
+                        info.row.original.workflowInstanceId
+                      )()
+                    }
+                  >
+                    <Icon color="gray.500" as={RiMapFill} />
+                    Workflow
+                  </MenuItem>
+
                   {info.row.original.status === TaskStatus.Pending &&
                     info.row.original.emailTo.includes(user.email) && (
                       <>
@@ -447,6 +469,13 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
         showDynamicForm={dynamicForm.hasDynamicForm}
         dynamicForm={dynamicForm.dynamicForm}
       />
+      {requestWorkflow && (
+        <WorkflowModal
+          isOpen={isOpenWorkflow}
+          onClose={() => setOpenWorkflow(false)}
+          workflowId={requestWorkflow}
+        />
+      )}
     </>
   );
 };

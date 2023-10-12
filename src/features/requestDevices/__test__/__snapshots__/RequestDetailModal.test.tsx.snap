@@ -65,6 +65,12 @@ exports[`Request Detail Modal 1`] = `
                 </p>
               </h2>
             </div>
+            <button
+              class="chakra-button css-12eh3jv"
+              type="button"
+            >
+              View Workflow Detail
+            </button>
           </header>
           <button
             aria-label="Close"

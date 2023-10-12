@@ -11,6 +11,10 @@ jest.mock('../../../api/axiosInstant', () => ({
   VITE_API_BASE_URL: '/api',
 }));
 
+jest.mock('common/components/WorkflowModal', () => ({
+  VITE_PROXY_SERVER_URL: 'http://localhost:4433',
+}));
+
 jest.mock('api/apiHooks/requestHooks', () => ({
   useGetRequestDetail: jest.fn().mockReturnValue({
     isLoading: false,
