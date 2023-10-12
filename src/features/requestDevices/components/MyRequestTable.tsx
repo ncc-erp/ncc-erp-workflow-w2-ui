@@ -143,7 +143,7 @@ export const MyRequestTable = () => {
         }),
         columnHelper.accessor('stakeHolders', {
           id: 'stakeHolders',
-          header: 'Stake holders',
+          header: 'Stakeholders',
           enableSorting: false,
           cell: (info) => info.getValue().join(', '),
         }),
