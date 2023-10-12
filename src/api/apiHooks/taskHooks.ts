@@ -13,7 +13,7 @@ import {
   useTaskActions,
 } from '.';
 import { useCallback } from 'react';
-import { DEFAULT_TASK_PER_PAGE, QueryKeys } from 'common/constants';
+import { DEFAULT_TASK_PER_PAGE, QueryKeys, TaskStatus } from 'common/constants';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { getAllTaskPagination } from 'utils/getAllTaskPagination';
 
@@ -22,7 +22,9 @@ export const useGetAllTask = (filter: FilterTasks, status: number) => {
     (specStatus: number) => {
       const { status } = filter;
       if (status) {
-        return status >= 0 ? status : specStatus;
+        return Number(status) >= 0
+          ? ([Number(status)] as Array<number>)
+          : ([specStatus] as Array<number>);
       }
     },
     [filter]
@@ -46,7 +48,13 @@ export const useGetTasks = (filter: FilterTasks) => {
   return useGetListByPost<TaskResult>(
     [QueryKeys.GET_ALL_TASK, filter],
     '/app/task/list',
-    filter
+    {
+      ...filter,
+      status:
+        Number(filter?.status) !== -1
+          ? [filter.status]
+          : Object.values(TaskStatus),
+    }
   );
 };
 

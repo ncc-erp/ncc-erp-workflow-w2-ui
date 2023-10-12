@@ -339,7 +339,9 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
   );
 
   useEffect(() => {
-    setFilter(filters);
+    setFilter({
+      ...filters,
+    });
   }, [filters]);
 
   const currentPage = useMemo(() => {

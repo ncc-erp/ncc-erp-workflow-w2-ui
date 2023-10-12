@@ -185,7 +185,7 @@ export const TasksBoard = () => {
           </Box>
           <Box>
             <SelectField
-              value={filter.status}
+              value={filter?.status as number}
               size="sm"
               rounded="md"
               cursor="pointer"
