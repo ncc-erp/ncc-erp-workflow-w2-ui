@@ -74,6 +74,11 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
     isLoading: false,
     id: '',
   });
+  const [dynamicForm, setDynamicForm] = useState({
+    hasDynamicForm: false,
+    dynamicForm: '',
+  });
+
   const { clear } = useClearCacheTask();
 
   const taskColumns = useMemo(() => {
@@ -201,6 +206,14 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
                               status: TaskStatus.Approved,
                               taskId: info.row.original.id,
                             });
+
+                            if (info.row.original?.dynamicActionData) {
+                              setDynamicForm({
+                                hasDynamicForm: true,
+                                dynamicForm:
+                                  info.row.original.dynamicActionData || '',
+                              });
+                            }
                             onOpen();
                           }}
                         >
@@ -274,6 +287,10 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
     onClose();
     setDataForm(initDataForm);
     setReason('');
+    setDynamicForm({
+      hasDynamicForm: false,
+      dynamicForm: '',
+    });
   }, [onClose]);
 
   const handleConfirm = useCallback(async () => {
@@ -427,6 +444,8 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
         setReason={setReason}
         isDisabled={dataForm.status === TaskStatus.Rejected && !reason}
         isLoading={loadStatus}
+        showDynamicForm={dynamicForm.hasDynamicForm}
+        dynamicForm={dynamicForm.dynamicForm}
       />
     </>
   );
