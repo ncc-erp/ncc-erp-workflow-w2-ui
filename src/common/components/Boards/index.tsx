@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Flex,
   IconButton,
   Menu,
@@ -38,7 +39,7 @@ import debounce from 'lodash.debounce';
 import { FetchNextPageFunction, FilterTasks, ITask } from 'models/task';
 import { useEffect, useMemo, useState } from 'react';
 import { AiOutlineReload } from 'react-icons/ai';
-import { FiMoreHorizontal } from 'react-icons/fi';
+import { FaAngleDown } from 'react-icons/fa';
 import { HiArrowDown } from 'react-icons/hi';
 import theme from 'themes/theme';
 import { formatDate } from 'utils/formatDate';
@@ -95,6 +96,7 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
     'var(--chakra-colors-blackAlpha-100)',
     theme.colors.blackBorder[600]
   );
+  const buttonHover = useColorModeValue('gray.200', theme.colors.white);
 
   const [result, setResult] = useState<DropResult>();
   const [isRejected, setIsRejected] = useState<boolean>(false);
@@ -570,17 +572,21 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
                                             <Menu>
                                               <MenuButton
                                                 className={styles.menuButton}
-                                                maxH="20px"
-                                                maxW="20px"
-                                                fontSize={16}
-                                                as={IconButton}
+                                                fontSize={12}
+                                                as={Button}
                                                 aria-label="Options"
-                                                icon={<FiMoreHorizontal />}
+                                                color="blue.300"
+                                                padding={1}
+                                                height="fit-content"
+                                                bgColor={bg}
                                                 onClick={(e) => {
                                                   e.stopPropagation();
                                                 }}
+                                                rightIcon={<FaAngleDown />}
+                                                _hover={{ bg: buttonHover }}
+                                                iconSpacing={1}
                                               >
-                                                Actions
+                                                More Actions
                                               </MenuButton>
                                               <MenuList>
                                                 {item.otherActionSignals.map(

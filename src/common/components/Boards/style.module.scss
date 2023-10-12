@@ -111,10 +111,7 @@
 
 .menuButton {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-left: 5px;
-  min-width: 20px !important;
+  width: fit-content;
 }
 
 .tableActionLoading {
