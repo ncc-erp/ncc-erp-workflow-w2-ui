@@ -22,7 +22,7 @@ export const validateWFHDates = (posts: IPost[], requestDates: string[]) => {
     const hasPostIndex = formatPosts.findIndex((post) => {
       const postDate = moment(post.formatDate, WFH_FORMAT_DATE);
       const targetDate = moment(element.date, WFH_FORMAT_DATE);
-      return !post.isUsed && postDate.isAfter(targetDate);
+      return !post.isUsed && postDate.isSameOrAfter(targetDate);
     });
 
     if (hasPostIndex < 0) {
