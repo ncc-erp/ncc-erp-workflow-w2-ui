@@ -148,7 +148,7 @@ export const RequestDetailModal = ({
               )}
               {requestDetail?.stakeHolders.length > 0 && (
                 <TextGroup
-                  label="Stake holders"
+                  label="Stakeholders"
                   content={requestDetail?.stakeHolders.join(', ')}
                 />
               )}
