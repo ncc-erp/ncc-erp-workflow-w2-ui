@@ -59,7 +59,7 @@ const fadeIn = keyframes`
 export interface BoardsProps {
   filters: FilterTasks;
   openDetailModal: (task: ITask) => () => void;
-  status: number;
+  status: number | Array<number>;
 }
 
 const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
@@ -371,19 +371,22 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
 
     if (
       BoardColumnStatus.Pending === ind &&
-      (listPending?.pages?.[0]?.totalCount as number) > 0
+      (listPending?.pages?.[0]?.totalCount as number) > 0 &&
+      (filters.status == -1 || filters.status == TaskStatus.Pending)
     ) {
       result = ` (${listPending?.pages?.[0]?.totalCount})`;
     }
     if (
       BoardColumnStatus.Approved === ind &&
-      (listApproved?.pages?.[0]?.totalCount as number) > 0
+      (listApproved?.pages?.[0]?.totalCount as number) > 0 &&
+      (filters.status == -1 || filters.status == TaskStatus.Approved)
     ) {
       result = ` (${listApproved?.pages?.[0]?.totalCount})`;
     }
     if (
       BoardColumnStatus.Rejected === ind &&
-      (listRejected?.pages?.[0]?.totalCount as number) > 0
+      (listRejected?.pages?.[0]?.totalCount as number) > 0 &&
+      (filters.status == -1 || filters.status == TaskStatus.Rejected)
     ) {
       result = ` (${listRejected?.pages?.[0]?.totalCount})`;
     }

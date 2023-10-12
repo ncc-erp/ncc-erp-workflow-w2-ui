@@ -37,7 +37,7 @@ export interface IOtherActionSignals {
 }
 
 export interface FilterTasks {
-  status?: number;
+  status?: number | Array<number>;
   workflowDefinitionId?: string;
   maxResultCount: number;
   skipCount: number;
