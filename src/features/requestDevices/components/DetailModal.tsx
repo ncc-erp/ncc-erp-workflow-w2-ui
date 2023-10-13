@@ -44,7 +44,7 @@ export const RequestDetailModal = ({
     setOpenWorkflow(true);
   };
 
-  const { inputRequestDetail, inputRequestUser } = useMemo(() => {
+  const { inputRequestDetail, inputRequestUser, tasks } = useMemo(() => {
     const { typeRequest, input, tasks, workInstanceId } = data || {};
     const { RequestUser, Request } = input || {};
 
@@ -98,31 +98,34 @@ export const RequestDetailModal = ({
             </Button>
           </ModalHeader>
           <ModalCloseButton mt="15px" mr="10px" />
-          <ModalBody>
-            <Divider mb={5}></Divider>
+
+          <ModalBody className={styles.modalBody} pr={2}>
+            <Divider mt={2} mb={3} />
             <div className={styles.container}>
-              <div className={styles.left}>
-                <Text
-                  mb="10px"
-                  fontWeight={600}
-                  fontStyle="italic"
-                  color="primary"
-                >
-                  Request input
-                </Text>
+              <Text
+                mb="10px"
+                fontWeight={600}
+                fontStyle="italic"
+                color="primary"
+              >
+                Request input
+              </Text>
+              <div className={styles.wrapper}>
                 {hasInputRequestData && inputRequestDetail && (
                   <RequestInput inputRequestDetail={inputRequestDetail} />
                 )}
               </div>
-              <div className={styles.right}>
-                <Text
-                  mb="10px"
-                  fontWeight={600}
-                  fontStyle="italic"
-                  color="primary"
-                >
-                  Request user
-                </Text>
+
+              <Divider mt={2} mb={3} />
+              <Text
+                mb="10px"
+                fontWeight={600}
+                fontStyle="italic"
+                color="primary"
+              >
+                Request user
+              </Text>
+              <div className={styles.wrapper}>
                 {inputRequestUser ? (
                   <>
                     <TextGroup label="Name" content={inputRequestUser?.name} />
@@ -139,13 +142,18 @@ export const RequestDetailModal = ({
                   <Text fontSize="15px">Not found!</Text>
                 )}
               </div>
-            </div>
-            <Divider mt={2} mb={5}></Divider>
-            <Text mb="15px" fontWeight={600} fontStyle="italic" color="primary">
-              Detail
-            </Text>
-            <div className={styles.container}>
-              <div className={styles.left}>
+
+              <Divider mt={2} mb={3} />
+              <Text
+                mb="15px"
+                fontWeight={600}
+                fontStyle="italic"
+                color="primary"
+              >
+                Detail
+              </Text>
+
+              <div className={styles.wrapper}>
                 <TextGroup
                   label="Request template"
                   content={requestDetail?.workflowDefinitionDisplayName}
@@ -155,8 +163,7 @@ export const RequestDetailModal = ({
                   content={getColorByStatus(requestDetail?.status).status}
                   color={getColorByStatus(requestDetail?.status).color}
                 />
-              </div>
-              <div className={styles.right}>
+
                 {requestDetail?.currentStates.length > 0 && (
                   <TextGroup
                     label="Current state"
@@ -177,6 +184,10 @@ export const RequestDetailModal = ({
                       : ''
                   }
                 />
+
+                {tasks?.reason && (
+                  <TextGroup label="Reason" content={tasks.reason} />
+                )}
               </div>
             </div>
           </ModalBody>

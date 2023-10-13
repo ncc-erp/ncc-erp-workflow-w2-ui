@@ -300,8 +300,7 @@ export const TaskDetailModal = ({
                 {tasks?.reason && (
                   <TextGroup label="Reason" content={tasks.reason} />
                 )}
-              </div>
-              <div className={styles.wrapper}>
+
                 <TextGroup
                   label="Email assignment"
                   content={emailTo?.join(', ')}
