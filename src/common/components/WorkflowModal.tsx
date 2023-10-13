@@ -46,7 +46,7 @@ export const WorkflowModal = ({
           <AspectRatio maxW="100%" ratio={1}>
             <iframe
               title="Workflow Details"
-              src={VITE_PROXY_SERVER_URL + '/ViewDesigner?id=' + workflowId}
+              src={VITE_PROXY_SERVER_URL + '/CompOnly?id=' + workflowId}
             />
           </AspectRatio>
         </ModalBody>
