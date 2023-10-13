@@ -219,8 +219,6 @@ exports[`Task Detail Modal 1`] = `
                     Pending
                   </p>
                 </div>
-              </div>
-              <div>
                 <div>
                   <label>
                     Email assignment
