@@ -118,7 +118,8 @@ export const useGetDynamicDataTask = (url: string, status: string) => {
   const axios = useAxios();
 
   const mutate = async (params: { id: string; workflowInstanceId: string }) => {
-    await axios.post(`${url}/${status}`, params);
+    const result = await axios.post(`${url}/${status}`, params);
+    return result;
   };
 
   return useMutation(mutate);

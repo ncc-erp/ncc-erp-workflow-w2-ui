@@ -39,12 +39,14 @@ import {
   isObjectEmpty,
 } from 'utils';
 import { RequestInput } from './RequestInput';
+import { IOtherTasks } from './TasksBoard';
 import styles from './style.module.scss';
 
 interface IDetailModalProps {
   isOpen: boolean;
   onClose: () => void;
   taskId: string;
+  otherTasks?: IOtherTasks;
 }
 
 interface IDynamicDataProps {
@@ -55,6 +57,7 @@ export const TaskDetailModal = ({
   isOpen,
   onClose,
   taskId,
+  otherTasks,
 }: IDetailModalProps) => {
   const actionTaskMutation = useActionTask();
   const {
@@ -113,20 +116,27 @@ export const TaskDetailModal = ({
     }
   };
 
+  const convertToDynamicArray = (payload: string | null | undefined) => {
+    if (!payload) return [];
+
+    try {
+      const data = JSON.parse(payload) as IDynamicDataProps[];
+      return data.map((element) => ({
+        data: (element.data || '').split('\n'),
+        name: element.name || 'No Name',
+        isFinalApprove: element.isFinalApprove || false,
+      })) as unknown as IDynamicDataProps[];
+    } catch (error) {
+      return [];
+    }
+  };
+
   const dynamicDataParse: IDynamicDataProps[] = useMemo(() => {
     if (!tasks || !tasks.dynamicActionData) {
       return [];
     }
 
-    try {
-      const data = JSON.parse(tasks.dynamicActionData) as IDynamicDataProps[];
-      return data.map((element) => ({
-        data: (element.data || '').split('\n'),
-        name: element.name || 'No Name',
-      })) as unknown as IDynamicDataProps[];
-    } catch (error) {
-      return [];
-    }
+    return convertToDynamicArray(tasks.dynamicActionData);
   }, [tasks]);
 
   const getListIcon = (elementName: string) => {
@@ -141,11 +151,38 @@ export const TaskDetailModal = ({
   };
 
   const renderDynamicDataContent = (data: IDynamicDataProps[] | undefined) => {
-    if (!data) return null;
+    if (!data || !tasks) return null;
+    let convertData = [...data];
+
+    const isFinalApproveTask = data.some((element) => element.isFinalApprove);
+    if (isFinalApproveTask && otherTasks) {
+      const filterOtherTask = otherTasks.items.map((x) =>
+        convertToDynamicArray(x.dynamicActionData)
+      );
+
+      const combinedData = filterOtherTask.reduce((result, dataRow) => {
+        dataRow.forEach((dataItem) => {
+          const { name, data, isFinalApprove } = dataItem;
+          const existingItem = result.find((item) => item.name === name);
+
+          if (existingItem) {
+            existingItem.data = existingItem.data.concat(data);
+          } else {
+            result.push({ name, data, isFinalApprove });
+          }
+        });
+
+        return result;
+      }, []);
+
+      if (combinedData.length > 0) {
+        convertData = [...combinedData];
+      }
+    }
 
     return (
       <>
-        {data.map((element, ind) => {
+        {convertData.map((element, ind) => {
           if (!Array.isArray(element.data)) return null;
 
           const filteredData = element.data.filter(

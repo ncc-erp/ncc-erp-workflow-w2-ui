@@ -172,6 +172,10 @@ jest.mock('api/apiHooks/taskHooks', () => ({
     mutateAsync: jest.fn(),
   })),
 
+  useDynamicDataTask: jest.fn(() => ({
+    mutateAsync: jest.fn(),
+  })),
+
   useRejectTask: jest.fn(() => ({
     mutateAsync: jest.fn(),
   })),
