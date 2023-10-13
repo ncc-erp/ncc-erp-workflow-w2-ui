@@ -128,3 +128,8 @@ export const ExternalAction = {
   REJECTED: 'reject',
   OTHER: 'other',
 };
+
+export const DynamicData = {
+  STRENGTH_POINT: 'StrengthPoints',
+  WEAKNESS_POINT: 'WeaknessPoints',
+};

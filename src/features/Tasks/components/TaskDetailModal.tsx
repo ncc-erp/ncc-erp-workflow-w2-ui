@@ -4,6 +4,9 @@ import {
   HStack,
   Heading,
   Image,
+  List,
+  ListIcon,
+  ListItem,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -15,19 +18,37 @@ import {
 } from '@chakra-ui/react';
 import { useActionTask, useGetTaskDetail } from 'api/apiHooks/taskHooks';
 import Logo from 'assets/images/ncc_logo.png';
+import { toast } from 'common/components/StandaloneToast';
 import { TextGroup } from 'common/components/TextGroup/TextGroup';
-import { formatDate, getStatusByIndex, isObjectEmpty } from 'utils';
+import { WorkflowModal } from 'common/components/WorkflowModal';
+import {
+  DynamicData,
+  OtherActionSignalStatus,
+  TaskStatus,
+} from 'common/constants';
+import { useMemo, useState } from 'react';
+import {
+  MdCheckCircle,
+  MdOutlineAddCircle,
+  MdRemoveCircle,
+} from 'react-icons/md';
+import {
+  convertToCase,
+  formatDate,
+  getStatusByIndex,
+  isObjectEmpty,
+} from 'utils';
 import { RequestInput } from './RequestInput';
 import styles from './style.module.scss';
-import { toast } from 'common/components/StandaloneToast';
-import { OtherActionSignalStatus, TaskStatus } from 'common/constants';
-import { useMemo, useState } from 'react';
-import { WorkflowModal } from 'common/components/WorkflowModal';
 
 interface IDetailModalProps {
   isOpen: boolean;
   onClose: () => void;
   taskId: string;
+}
+
+interface IDynamicDataProps {
+  [key: string]: string;
 }
 
 export const TaskDetailModal = ({
@@ -90,6 +111,67 @@ export const TaskDetailModal = ({
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const dynamicDataParse: IDynamicDataProps[] = useMemo(() => {
+    if (!tasks || !tasks.dynamicActionData) {
+      return [];
+    }
+
+    try {
+      const data = JSON.parse(tasks.dynamicActionData) as IDynamicDataProps[];
+      return data.map((element) => ({
+        data: (element.data || '').split('\n'),
+        name: element.name || 'No Name',
+      })) as unknown as IDynamicDataProps[];
+    } catch (error) {
+      return [];
+    }
+  }, [tasks]);
+
+  const getListIcon = (elementName: string) => {
+    switch (elementName) {
+      case DynamicData.STRENGTH_POINT:
+        return <ListIcon as={MdCheckCircle} color="green.500" />;
+      case DynamicData.WEAKNESS_POINT:
+        return <ListIcon as={MdRemoveCircle} color="red.500" />;
+      default:
+        return <ListIcon as={MdOutlineAddCircle} color="gray.500" />;
+    }
+  };
+
+  const renderDynamicDataContent = (data: IDynamicDataProps[] | undefined) => {
+    if (!data) return null;
+
+    return (
+      <>
+        {data.map((element, ind) => {
+          if (!Array.isArray(element.data)) return null;
+
+          const filteredData = element.data.filter(
+            (item) => item.trim() !== ''
+          );
+
+          if (filteredData.length === 0) return null;
+
+          const listIcon = getListIcon(element.name);
+
+          return (
+            <List key={ind} mt={1} spacing={2}>
+              <Text fontSize={15} fontWeight={600}>
+                {convertToCase(element.name)}
+              </Text>
+              {filteredData.map((x) => (
+                <ListItem key={x} className={styles.listItem}>
+                  {listIcon}
+                  {x}
+                </ListItem>
+              ))}
+            </List>
+          );
+        })}
+      </>
+    );
   };
 
   if (hasGetTaskLoading) {
@@ -162,31 +244,35 @@ export const TaskDetailModal = ({
             </div>
           </ModalHeader>
           <ModalCloseButton mt="15px" mr="10px" />
-          <ModalBody>
-            <Divider mb={5}></Divider>
+          <ModalBody className={styles.modalBody} pr={2}>
+            <Divider mt={2} mb={3} />
             <div className={styles.container}>
-              <div className={styles.left}>
-                <Text
-                  mb="10px"
-                  fontWeight={600}
-                  fontStyle="italic"
-                  color="primary"
-                >
-                  Request input
-                </Text>
+              <Text
+                mb="10px"
+                fontWeight={600}
+                fontStyle="italic"
+                color="primary"
+              >
+                Request input
+              </Text>
+
+              <div className={styles.wrapper}>
                 {hasInputRequestData && inputRequestDetail && (
                   <RequestInput inputRequestDetail={inputRequestDetail} />
                 )}
               </div>
-              <div className={styles.right}>
-                <Text
-                  mb="10px"
-                  fontWeight={600}
-                  fontStyle="italic"
-                  color="primary"
-                >
-                  Request user
-                </Text>
+
+              <Divider mt={2} mb={3} />
+              <Text
+                mb="10px"
+                fontWeight={600}
+                fontStyle="italic"
+                color="primary"
+              >
+                Request user
+              </Text>
+
+              <div className={styles.wrapper}>
                 <TextGroup label="Name" content={inputRequestUser?.name} />
                 <TextGroup label="Email" content={inputRequestUser?.email} />
                 <TextGroup
@@ -194,13 +280,17 @@ export const TaskDetailModal = ({
                   content={inputRequestUser?.branchName}
                 />
               </div>
-            </div>
-            <Divider mt={2} mb={5}></Divider>
-            <Text mb="15px" fontWeight={600} fontStyle="italic" color="primary">
-              Detail
-            </Text>
-            <div className={styles.container}>
-              <div className={styles.left}>
+
+              <Divider mt={2} mb={3} />
+              <Text
+                mb="15px"
+                fontWeight={600}
+                fontStyle="italic"
+                color="primary"
+              >
+                Detail
+              </Text>
+              <div className={styles.wrapper}>
                 <TextGroup label="Request template" content={tasks?.name} />
                 <TextGroup
                   label="State"
@@ -211,7 +301,7 @@ export const TaskDetailModal = ({
                   <TextGroup label="Reason" content={tasks.reason} />
                 )}
               </div>
-              <div className={styles.right}>
+              <div className={styles.wrapper}>
                 <TextGroup
                   label="Email assignment"
                   content={emailTo?.join(', ')}
@@ -225,6 +315,9 @@ export const TaskDetailModal = ({
                   }
                 />
               </div>
+
+              {dynamicDataParse.length > 0 &&
+                renderDynamicDataContent(dynamicDataParse)}
             </div>
           </ModalBody>
         </ModalContent>

@@ -1,21 +1,22 @@
+import { useInfiniteQuery } from '@tanstack/react-query';
+import { DEFAULT_TASK_PER_PAGE, QueryKeys, TaskStatus } from 'common/constants';
+import { useCallback } from 'react';
+import { getAllTaskPagination } from 'utils/getAllTaskPagination';
+import {
+  getAllTask,
+  useGetDynamicDataTask,
+  useGetList,
+  useGetListByPost,
+  useRejectedTask,
+  useTaskActions,
+  useUpdateStatus,
+} from '.';
 import {
   FilterTasks,
   ITaskResult,
   StakeHolderResult,
   TaskResult,
 } from './../../models/task';
-import {
-  useGetList,
-  useGetListByPost,
-  useRejectedTask,
-  useUpdateStatus,
-  getAllTask,
-  useTaskActions,
-} from '.';
-import { useCallback } from 'react';
-import { DEFAULT_TASK_PER_PAGE, QueryKeys, TaskStatus } from 'common/constants';
-import { useInfiniteQuery } from '@tanstack/react-query';
-import { getAllTaskPagination } from 'utils/getAllTaskPagination';
 
 export const useGetAllTask = (filter: FilterTasks, status: number) => {
   const getStatus = useCallback(
@@ -68,6 +69,10 @@ export const useGetAllStakeHolders = (filter: FilterTasks) => {
 
 export const useApproveTask = () => {
   return useUpdateStatus('/app/task', 'approve');
+};
+
+export const useDynamicDataTask = () => {
+  return useGetDynamicDataTask('/app/task', 'dynamic-data-by-id');
 };
 
 export const useRejectTask = () => {
