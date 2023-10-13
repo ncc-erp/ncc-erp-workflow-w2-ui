@@ -14,7 +14,11 @@ export const validationSchema = yup.object().shape({
       'Passwords must have at least one non alphanumeric character'
     )
     .matches(/[0-9]/, 'Passwords must have at least one digit')
-    .matches(/[^a-zA-Z0-9]/, 'Passwords must have at least one uppercase'),
+    .matches(/[A-Z]/, 'Passwords must have at least one uppercase')
+    .matches(
+      /[^a-zA-Z0-9]/,
+      'Passwords must include at least one special character'
+    ),
   email: yup
     .string()
     .required('Email address field is required!')

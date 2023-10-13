@@ -42,7 +42,7 @@ const UserForm = ({ initialValues, userId, onClose }: UserFormProps) => {
   const queryClient = useQueryClient();
 
   const handleSubmit = async (values: ModalUserParams) => {
-    if (passwordConfirm && values.password !== passwordConfirm) {
+    if (values.password !== undefined && values.password !== passwordConfirm) {
       setPasswordError('Passwords do not match');
       return;
     } else {
