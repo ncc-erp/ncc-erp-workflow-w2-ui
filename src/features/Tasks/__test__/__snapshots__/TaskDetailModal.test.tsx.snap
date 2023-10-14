@@ -93,20 +93,20 @@ exports[`Task Detail Modal 1`] = `
             </svg>
           </button>
           <div
-            class="chakra-modal__body css-0"
+            class="chakra-modal__body css-1qou8as"
             id="chakra-modal--body-:r0:"
           >
             <hr
               aria-orientation="horizontal"
-              class="chakra-divider css-vrx5g4"
+              class="chakra-divider css-1urc9z9"
             />
             <div>
+              <p
+                class="chakra-text css-10g9qth"
+              >
+                Request input
+              </p>
               <div>
-                <p
-                  class="chakra-text css-10g9qth"
-                >
-                  Request input
-                </p>
                 <div>
                   <label>
                     Content
@@ -148,12 +148,16 @@ exports[`Task Detail Modal 1`] = `
                   </div>
                 </div>
               </div>
+              <hr
+                aria-orientation="horizontal"
+                class="chakra-divider css-1urc9z9"
+              />
+              <p
+                class="chakra-text css-10g9qth"
+              >
+                Request user
+              </p>
               <div>
-                <p
-                  class="chakra-text css-10g9qth"
-                >
-                  Request user
-                </p>
                 <div>
                   <label>
                     Name
@@ -185,17 +189,15 @@ exports[`Task Detail Modal 1`] = `
                   </p>
                 </div>
               </div>
-            </div>
-            <hr
-              aria-orientation="horizontal"
-              class="chakra-divider css-1az34xm"
-            />
-            <p
-              class="chakra-text css-yb4mb5"
-            >
-              Detail
-            </p>
-            <div>
+              <hr
+                aria-orientation="horizontal"
+                class="chakra-divider css-1urc9z9"
+              />
+              <p
+                class="chakra-text css-yb4mb5"
+              >
+                Detail
+              </p>
               <div>
                 <div>
                   <label>
@@ -217,8 +219,6 @@ exports[`Task Detail Modal 1`] = `
                     Pending
                   </p>
                 </div>
-              </div>
-              <div>
                 <div>
                   <label>
                     Email assignment

@@ -114,6 +114,17 @@ export const useUpdateStatus = (url: string, status: string) => {
   return useMutation(mutate);
 };
 
+export const useGetDynamicDataTask = (url: string, status: string) => {
+  const axios = useAxios();
+
+  const mutate = async (params: { id: string; workflowInstanceId: string }) => {
+    const result = await axios.post(`${url}/${status}`, params);
+    return result;
+  };
+
+  return useMutation(mutate);
+};
+
 export const useTaskActions = (url: string = '/app/task') => {
   const axios = useAxios();
 

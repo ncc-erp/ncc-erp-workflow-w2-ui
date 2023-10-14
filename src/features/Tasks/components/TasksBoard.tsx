@@ -32,6 +32,7 @@ import { TaskDetailModal } from './TaskDetailModal';
 import { FaTable } from 'react-icons/fa';
 import { BsCardText } from 'react-icons/bs';
 import { ITask } from 'models/request';
+import { useDynamicDataTask } from 'api/apiHooks/taskHooks';
 
 const initialFilter: FilterTasks = {
   skipCount: 0,
@@ -43,14 +44,24 @@ const initialFilter: FilterTasks = {
   emailAssign: '',
 };
 
+export type IOtherTasks = {
+  totalCount: number;
+  items: ITask[];
+};
+
 interface ModalDetail {
   isOpen: boolean;
   taskId: string;
+  otherTasks: IOtherTasks;
 }
 
 const initialModalStatus: ModalDetail = {
   isOpen: false,
   taskId: '',
+  otherTasks: {
+    totalCount: 0,
+    items: [],
+  },
 };
 
 export const OptionsDisplay = [
@@ -78,6 +89,7 @@ export const TasksBoard = () => {
   const [display, setDisplay] = useState<number>(0);
   const txtSearchDebounced = useDebounced(txtSearch, 500);
   const isAdmin = useIsAdmin();
+  const dynamicDataTaskMutation = useDynamicDataTask();
 
   const { data: requestTemplateData } = useRequestTemplates();
   const requestTemplates = useMemo(() => {
@@ -87,7 +99,6 @@ export const TasksBoard = () => {
 
     return [];
   }, [requestTemplateData]);
-
   const statusOptions = useMemo(() => {
     const defaultOptions = {
       value: -1,
@@ -138,14 +149,20 @@ export const TasksBoard = () => {
   );
 
   const openModal = useCallback(
-    (task: ITask) => () => {
+    (task: ITask) => async () => {
+      const result = await dynamicDataTaskMutation.mutateAsync({
+        id: task.id,
+        workflowInstanceId: task.workflowInstanceId,
+      });
+
       setModalState({
         ...modalState,
         isOpen: true,
         taskId: task.id,
+        otherTasks: result as unknown as IOtherTasks,
       });
     },
-    [modalState]
+    [dynamicDataTaskMutation, modalState]
   );
 
   const closeModal = useCallback(() => {
@@ -273,6 +290,7 @@ export const TasksBoard = () => {
           isOpen={modalState.isOpen}
           onClose={closeModal}
           taskId={modalState.taskId}
+          otherTasks={modalState.otherTasks}
         />
       )}
     </Flex>
