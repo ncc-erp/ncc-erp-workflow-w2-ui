@@ -315,45 +315,51 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
     });
   }, [onClose]);
 
-  const handleConfirm = useCallback(async () => {
-    try {
-      setLoadStatus(true);
-      switch (dataForm.status) {
-        case TaskStatus.Approved:
-          await approveTaskMutation.mutateAsync({ id: dataForm.taskId });
-          refetch();
-          clear();
-          toast({ title: 'Approved Task Successfully!', status: 'success' });
-          break;
-        case TaskStatus.Rejected:
-          if (!reason) return;
-          await rejectTaskMutation.mutateAsync({
-            id: dataForm.taskId,
-            reason,
-          });
-          refetch();
-          clear();
-          toast({ title: 'Rejected Task Successfully!', status: 'success' });
-          break;
-        default:
-          break;
+  const handleConfirm = useCallback(
+    async (approvedData?: string) => {
+      try {
+        setLoadStatus(true);
+        switch (dataForm.status) {
+          case TaskStatus.Approved:
+            await approveTaskMutation.mutateAsync({
+              id: dataForm.taskId,
+              dynamicActionData: approvedData,
+            });
+            refetch();
+            clear();
+            toast({ title: 'Approved Task Successfully!', status: 'success' });
+            break;
+          case TaskStatus.Rejected:
+            if (!reason) return;
+            await rejectTaskMutation.mutateAsync({
+              id: dataForm.taskId,
+              reason,
+            });
+            refetch();
+            clear();
+            toast({ title: 'Rejected Task Successfully!', status: 'success' });
+            break;
+          default:
+            break;
+        }
+        handleClose();
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoadStatus(false);
       }
-      handleClose();
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoadStatus(false);
-    }
-  }, [
-    approveTaskMutation,
-    clear,
-    dataForm.status,
-    dataForm.taskId,
-    handleClose,
-    reason,
-    refetch,
-    rejectTaskMutation,
-  ]);
+    },
+    [
+      approveTaskMutation,
+      clear,
+      dataForm.status,
+      dataForm.taskId,
+      handleClose,
+      reason,
+      refetch,
+      rejectTaskMutation,
+    ]
+  );
 
   const onPageChange = useCallback(
     (page: number) => {
