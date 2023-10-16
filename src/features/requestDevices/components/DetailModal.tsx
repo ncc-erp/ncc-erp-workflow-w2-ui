@@ -22,6 +22,7 @@ import { RequestInput } from 'features/Tasks/components/RequestInput';
 import { TextGroup } from 'common/components/TextGroup/TextGroup';
 import { isObjectEmpty, formatDate, getColorByStatus } from 'utils';
 import { WorkflowModal } from 'common/components/WorkflowModal';
+import { RequestStatus } from 'common/enums';
 
 interface IDetailModalProps {
   isOpen: boolean;
@@ -56,6 +57,14 @@ export const RequestDetailModal = ({
       workInstanceId,
     };
   }, [data]);
+
+  const rejectReason = useMemo(() => {
+    if (!tasks || requestDetail?.status !== RequestStatus.Rejected) {
+      return null;
+    }
+
+    return tasks?.find((task) => task.reason)?.reason;
+  }, [requestDetail?.status, tasks]);
 
   const hasInputRequestData: boolean = useMemo(() => {
     return !isObjectEmpty(inputRequestDetail);
@@ -185,8 +194,8 @@ export const RequestDetailModal = ({
                   }
                 />
 
-                {tasks?.reason && (
-                  <TextGroup label="Reason" content={tasks.reason} />
+                {rejectReason && (
+                  <TextGroup label="Reason" content={rejectReason} />
                 )}
               </div>
             </div>
