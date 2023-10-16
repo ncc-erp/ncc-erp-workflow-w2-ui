@@ -41,7 +41,10 @@ export const SearchableSelectField = ({
     <Controller
       name={name}
       control={control}
-      defaultValue={initValue}
+      defaultValue={name !== 'Staff' ? initValue : undefined}
+      rules={{
+        required: `${name} is Required`,
+      }}
       render={({ field }) => (
         <Select
           {...field}

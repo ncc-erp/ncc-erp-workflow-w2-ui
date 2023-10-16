@@ -41,6 +41,7 @@ import { IUser } from 'models/user';
 import { ChangeEvent, useState } from 'react';
 import { formatDate } from 'utils';
 import { ColorThemeMode } from 'common/constants';
+import { option } from 'common/types';
 
 interface RequestFormProps {
   inputDefinition?: InputDefinition;
@@ -154,11 +155,14 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
           label: project?.name,
         }));
 
-      case 'UserList':
-        return users?.map((user: IUser) => ({
-          value: user?.email,
-          label: `${user?.name} (${user?.email})`,
+      case 'UserList': {
+        const transformedUsers = (users ?? []).map((user: IUser) => ({
+          value: user?.email ?? '',
+          label: `${user?.name ?? ''} (${user?.email ?? ''})`,
         }));
+        transformedUsers.push({ value: '', label: '' });
+        return transformedUsers;
+      }
     }
   };
 
@@ -171,7 +175,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
         return formParams[fieldname] ?? userCurrentProject?.code;
 
       case 'UserList':
-        return formParams[fieldname] ?? users?.[0]?.email;
+        return formParams[fieldname] ?? '';
     }
   };
 
@@ -205,7 +209,11 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
             <SearchableSelectField
               name={fieldname}
               control={control}
-              options={getOptions(Field?.type) ?? [{ value: '', label: '' }]}
+              options={
+                (getOptions(Field?.type) as Array<option>) ?? [
+                  { value: '', label: '' },
+                ]
+              }
               value={formParams[fieldname] as string}
               handleChange={handleSelectChangeValue}
             />
