@@ -78,6 +78,10 @@ const ModalBoard = (props: ModalBoardProps): JSX.Element => {
 
   const renderFormContent = (data: IDynamicFormProps[] | undefined) => {
     return data?.map(function (element, ind) {
+      if (element?.isFinalApprove) {
+        return;
+      }
+
       return (
         <FormControl key={ind}>
           <FormLabel fontSize={16} my={1} fontWeight="normal">
