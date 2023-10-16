@@ -177,6 +177,27 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
 
   const color = useColorModeValue(ColorThemeMode.DARK, ColorThemeMode.LIGHT);
 
+  const validateMultiDatePicker = (
+    value: string | DateObject | Date | DateObject[] | null | undefined
+  ) => {
+    if (value && Array.isArray(value)) {
+      for (const dateObject of value) {
+        const day = dateObject.day;
+        const month = dateObject.month.number;
+        const year = dateObject.year;
+        if (day === undefined || month === undefined || year === undefined) {
+          return 'Invalid Date';
+        }
+
+        const dateStr = `${day}/${month}/${year}`;
+        if (!/^\d{2}\/\d{2}\/\d{4}$/.test(dateStr)) {
+          return 'Invalid date format (DD/MM/YYYY)';
+        }
+      }
+    }
+    return true;
+  };
+
   const getField = (Field: PropertyDefinition) => {
     const fieldname = Field?.name ? Field.name : '';
     switch (Field?.type) {
@@ -350,6 +371,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
                 required: Field?.isRequired
                   ? `${fieldname} is Required`
                   : false,
+                validate: validateMultiDatePicker,
               }}
               name={fieldname}
               render={({ field }) => {
