@@ -216,6 +216,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
               }
               value={formParams[fieldname] as string}
               handleChange={handleSelectChangeValue}
+              defaultValueEmpty={['Staff']}
             />
 
             <ErrorMessage
