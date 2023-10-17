@@ -105,7 +105,8 @@ describe('Request Template Page', () => {
     it("Test select rows page", async() => {
       const options:string[] = ['10','25','50','100']
       for(const option of options){
-        userEvent.selectOptions(screen.getByTestId('select-row'),option)
+        const valueOption = screen.getByText(option)
+        userEvent.click(valueOption)
         await screen.findByText(option);
       }
     })

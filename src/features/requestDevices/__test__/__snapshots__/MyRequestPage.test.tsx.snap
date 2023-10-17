@@ -68,7 +68,6 @@ exports[`Request My Requests Page 1`] = `
               >
                 <select
                   class="chakra-select css-lcm62o"
-                  data-testid="select-row"
                   id="field-:r0:"
                 >
                   <option
@@ -124,7 +123,6 @@ exports[`Request My Requests Page 1`] = `
               >
                 <select
                   class="chakra-select css-lcm62o"
-                  data-testid="select-row"
                   id="field-:r1:"
                 >
                   <option
@@ -779,7 +777,6 @@ exports[`Request My Requests Page 1`] = `
                 >
                   <select
                     class="chakra-select css-1y1ernp"
-                    data-testid="select-row"
                     id="field-:re:"
                   >
                     <option

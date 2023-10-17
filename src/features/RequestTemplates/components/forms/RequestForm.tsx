@@ -234,7 +234,6 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
               )}
             </FormLabel>
             <TextField
-              data-testid={fieldname}
               h="50px"
               placeholder={fieldname}
               fontSize="sm"
@@ -270,7 +269,6 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
               )}
             </FormLabel>
             <TextareaField
-              data-testid={fieldname}
               value={formParams[fieldname] as string}
               {...register(fieldname, {
                 required: Field?.isRequired

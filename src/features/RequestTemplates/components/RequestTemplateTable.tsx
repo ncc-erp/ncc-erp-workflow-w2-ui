@@ -97,7 +97,6 @@ export const RequestTemplateTable = ({
                     name,
                     inputDefinition
                   )}
-                  data-testid={displayName}
                   aria-label="Popup modal"
                   icon={<RiAddFill />}
                 />

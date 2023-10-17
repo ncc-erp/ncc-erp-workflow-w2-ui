@@ -227,7 +227,6 @@ exports[`Request Template Form Components Check snapshot 1`] = `
         >
           <textarea
             class="chakra-textarea css-0"
-            data-testid="Content"
             id="field-:r3:"
             name="Content"
             placeholder="Content"

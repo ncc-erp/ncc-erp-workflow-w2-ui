@@ -3,6 +3,8 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter as Router } from 'react-router-dom';
 import Tasks from '..';
 
+
+
 jest.mock('../../../api/apiHooks/index', () => ({
   useAxios: jest.fn(),
 }));
@@ -15,12 +17,21 @@ jest.mock('common/components/WorkflowModal', () => ({
   VITE_PROXY_SERVER_URL: 'http://localhost:4433',
 }));
 
+
+
 jest.mock('hooks/useIsAdmin', () => ({
   useIsAdmin: jest.fn().mockReturnValue(true),
 }));
 
 jest.mock('hooks/useCurrentUser', () => ({
   useCurrentUser: jest.fn().mockReturnValue({ email: 'bob@example.com' }),
+}));
+
+
+jest.mock('utils/subtractTime.ts', () => ({
+  subtractTime: jest.fn().mockReturnValue(
+    '15/9/2023'
+  ),
 }));
 
 jest.mock('api/apiHooks/requestHooks', () => ({
@@ -254,7 +265,7 @@ test('Request My Requests Page', () => {
   const { container } = render(
     <QueryClientProvider client={queryClient}>
       <Router>
-        <Tasks />
+        <Tasks/>
       </Router>
     </QueryClientProvider>
   );

@@ -192,10 +192,12 @@ describe('Request Template Form Components', () => {
 
     describe('Content Input', () => {
       it('There is a Content', () => {
-        expect(screen.getByTestId('Content')).toBeInTheDocument();
+        expect(screen.getByPlaceholderText('Content')).toBeInTheDocument();
       });
       it('not enter in the input Content', async () => {
-        const submitButton = screen.getByTestId('submit');
+        const submitButton = screen.getByRole('button',{
+          name:'Save'
+        });
         userEvent.click(submitButton);
         const result = await screen.findByText(/Content is Required/i);
         expect(result).toBeInTheDocument();
@@ -204,10 +206,12 @@ describe('Request Template Form Components', () => {
 
     describe('Start Date Input', () => {
       it('There is a Start Date.', () => {
-        expect(screen.getByTestId('StartDate')).toBeInTheDocument();
+        expect(screen.getByLabelText(/Start Date/i)).toBeInTheDocument();
       });
       it('not enter in the input StartDate', async () => {
-        const submitButton = screen.getByTestId('submit');
+        const submitButton = screen.getByRole('button',{
+          name:'Save'
+        });
         userEvent.click(submitButton);
         const result = await screen.findByText(/StartDate is Required/i);
         expect(result).toBeInTheDocument();
@@ -216,16 +220,16 @@ describe('Request Template Form Components', () => {
 
     describe('End Date Input', () => {
       it('There is a End Date.', () => {
-        expect(screen.getByTestId('EndDate')).toBeInTheDocument();
+        expect(screen.getByLabelText(/End Date/i)).toBeInTheDocument();
       });
     });
 
     describe('When chose full options end submit', () => {
       it('screen', async () => {
         
-        userEvent.type(screen.getByTestId('Content'), 'Is the Content');
+        userEvent.type(screen.getByPlaceholderText('Content'), 'Is the Content');
         // Select the start date
-        const startPicker = screen.getByTestId('StartDate');
+        const startPicker = screen.getByLabelText(/Start Date/i);
         userEvent.click(startPicker);
         const startDateToSelect = new Date(2023, 9, 18);
         const startDay = startDateToSelect.getDate();
@@ -236,7 +240,7 @@ describe('Request Template Form Components', () => {
         );
 
         // Select the end date
-        const endPicker = screen.getByTestId('EndDate');
+        const endPicker = screen.getByLabelText(/End Date/i);
         userEvent.click(endPicker);
 
         // Wait for the end date to appear and select it
@@ -246,7 +250,10 @@ describe('Request Template Form Components', () => {
         userEvent.click(screen.getByText(startDay.toString()));
 
         // Click the "submit" button
-        userEvent.click(screen.getByTestId('submit'));
+        const submitButton = screen.getByRole('button',{
+          name:'Save'
+        });
+        userEvent.click(submitButton);
       });
     });
   });
