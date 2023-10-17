@@ -41,6 +41,7 @@ import { IUser } from 'models/user';
 import { ChangeEvent, useState } from 'react';
 import { formatDate } from 'utils';
 import { ColorThemeMode } from 'common/constants';
+import { isWithinInterval, subWeeks } from 'date-fns';
 
 interface RequestFormProps {
   inputDefinition?: InputDefinition;
@@ -177,6 +178,14 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
 
   const color = useColorModeValue(ColorThemeMode.DARK, ColorThemeMode.LIGHT);
 
+  const createDateString = (value: number) => {
+    if (value < 10) {
+      return `0${value}`;
+    } else {
+      return value;
+    }
+  };
+
   const validateMultiDatePicker = (
     value: string | DateObject | Date | DateObject[] | null | undefined
   ) => {
@@ -189,9 +198,21 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
           return 'Invalid Date';
         }
 
-        const dateStr = `${day}/${month}/${year}`;
-        if (!/^\d{2}\/\d{2}\/\d{4}$/.test(dateStr)) {
+        const dateStr = `${year}-${createDateString(month)}-${createDateString(
+          day
+        )}`;
+        if (!/^\d{4}-\d{1,2}-\d{1,2}$/.test(dateStr)) {
           return 'Invalid date format (DD/MM/YYYY)';
+        }
+        const dateToCheck = new Date(dateStr);
+        const currentDate = new Date();
+        const lastWeek = subWeeks(currentDate, 1);
+
+        if (
+          dateToCheck <= currentDate &&
+          !isWithinInterval(dateToCheck, { start: lastWeek, end: currentDate })
+        ) {
+          return 'Choose a date one week from today';
         }
       }
     }
