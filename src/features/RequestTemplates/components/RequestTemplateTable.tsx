@@ -97,6 +97,7 @@ export const RequestTemplateTable = ({
                     name,
                     inputDefinition
                   )}
+                  data-testid={displayName}
                   aria-label="Popup modal"
                   icon={<RiAddFill />}
                 />
@@ -186,8 +187,8 @@ export const RequestTemplateTable = ({
         justifyContent="space-between"
         flexWrap="wrap"
       >
-        <HStack alignItems="center" spacing="6px" flexWrap="wrap">
-          <PageSize noOfRows={noOfRows} onChange={onPageSizeChange} />
+        <HStack alignItems="center"  spacing="6px" flexWrap="wrap">
+          <PageSize noOfRows={noOfRows}  onChange={onPageSizeChange} />
           <Spacer w="12px" />
           <ShowingItemText
             skipCount={filter.skipCount}

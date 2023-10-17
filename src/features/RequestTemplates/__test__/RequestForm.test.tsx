@@ -1,7 +1,8 @@
-import { render } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import RequestForm from '../components/forms/RequestForm';
 import { InputDefinition } from 'models/request';
+import userEvent from '@testing-library/user-event';
 
 jest.mock('../../../api/apiHooks/index', () => ({
   useAxios: jest.fn(),
@@ -160,15 +161,93 @@ const inputDefinition: InputDefinition = {
   id: '3a05ffba-3830-e0d4-e931-9381c70a3710',
 };
 
-test('Request Template Form', () => {
+
+
+describe('Request Template Form Components', () => {
   const queryClient: QueryClient = new QueryClient();
-  const { container } = render(
-    <QueryClientProvider client={queryClient}>
-      <RequestForm
-        inputDefinition={inputDefinition}
-        onCloseModal={() => jest.fn()}
-      />
-    </QueryClientProvider>
-  );
-  expect(container).toMatchSnapshot();
+
+  test('Check snapshot', () => {
+    const { container } = render(
+      <QueryClientProvider client={queryClient}>
+        <RequestForm
+          inputDefinition={inputDefinition}
+          onCloseModal={() => jest.fn()}
+        />
+      </QueryClientProvider>
+    );
+    expect(container).toMatchSnapshot();
+  });
+
+  describe('Request Form with inputDefinition', () => {
+    beforeEach(() => {
+      render(
+        <QueryClientProvider client={queryClient}>
+          <RequestForm
+            inputDefinition={inputDefinition}
+            onCloseModal={() => jest.fn()}
+          />
+        </QueryClientProvider>
+      );
+    });
+
+    describe('Content Input', () => {
+      it('There is a Content', () => {
+        expect(screen.getByTestId('Content')).toBeInTheDocument();
+      });
+      it('not enter in the input Content', async () => {
+        const submitButton = screen.getByTestId('submit');
+        userEvent.click(submitButton);
+        const result = await screen.findByText(/Content is Required/i);
+        expect(result).toBeInTheDocument();
+      });
+    });
+
+    describe('Start Date Input', () => {
+      it('There is a Start Date.', () => {
+        expect(screen.getByTestId('StartDate')).toBeInTheDocument();
+      });
+      it('not enter in the input StartDate', async () => {
+        const submitButton = screen.getByTestId('submit');
+        userEvent.click(submitButton);
+        const result = await screen.findByText(/StartDate is Required/i);
+        expect(result).toBeInTheDocument();
+      });
+    });
+
+    describe('End Date Input', () => {
+      it('There is a End Date.', () => {
+        expect(screen.getByTestId('EndDate')).toBeInTheDocument();
+      });
+    });
+
+    describe('When chose full options end submit', () => {
+      it('screen', async () => {
+        
+        userEvent.type(screen.getByTestId('Content'), 'Is the Content');
+        // Select the start date
+        const startPicker = screen.getByTestId('StartDate');
+        userEvent.click(startPicker);
+        const startDateToSelect = new Date(2023, 9, 18);
+        const startDay = startDateToSelect.getDate();
+
+        // Wait for the start date to appear and select it
+        await waitFor(() =>
+          userEvent.click(screen.getByText(startDay.toString()))
+        );
+
+        // Select the end date
+        const endPicker = screen.getByTestId('EndDate');
+        userEvent.click(endPicker);
+
+        // Wait for the end date to appear and select it
+        await waitFor(() => {
+          screen.getByText(startDay.toString());
+        });
+        userEvent.click(screen.getByText(startDay.toString()));
+
+        // Click the "submit" button
+        userEvent.click(screen.getByTestId('submit'));
+      });
+    });
+  });
 });

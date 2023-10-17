@@ -1,7 +1,8 @@
-import { render } from '@testing-library/react';
+import {  render, screen } from '@testing-library/react';
 import { RecoilRoot } from 'recoil';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import RequestTemplates from '..';
+import userEvent from '@testing-library/user-event'; 
 
 jest.mock('../../../api/apiHooks/index', () => ({
   useAxios: jest.fn(),
@@ -64,14 +65,50 @@ jest.mock('api/apiHooks/requestHooks', () => ({
   }),
 }));
 
-test('Request Template Page', () => {
-  const queryClient: QueryClient = new QueryClient();
-  const { container } = render(
-    <QueryClientProvider client={queryClient}>
-      <RecoilRoot>
-        <RequestTemplates />
-      </RecoilRoot>
-    </QueryClientProvider>
-  );
-  expect(container).toMatchSnapshot();
-});
+
+describe('Request Template Page', () => {
+  const totalCount = 1;
+  test('Check snapshot', () => {
+    const queryClient: QueryClient = new QueryClient();
+    const { container } = render(
+      <QueryClientProvider client={queryClient}>
+        <RecoilRoot>
+          <RequestTemplates />
+        </RecoilRoot>
+      </QueryClientProvider>
+    );
+    expect(container).toMatchSnapshot();
+  });
+
+  describe('test with total = 1, items = Change Office Request ', () => {
+    const queryClient: QueryClient = new QueryClient();
+    
+    beforeEach(() => {
+      render (
+        <QueryClientProvider client={queryClient}>
+        <RecoilRoot>
+          <RequestTemplates />
+        </RecoilRoot>
+      </QueryClientProvider>
+      )
+    })
+
+    it("check title Title Request Templates", () => {
+      expect(screen.getByText(/Request Templates/i)).toBeInTheDocument();
+    })
+
+    it("button on the screen", async() => {
+      const buttonList = await screen.findAllByRole("button");
+      expect(buttonList).toHaveLength(totalCount + 1);
+    })
+
+    it("Test select rows page", async() => {
+      const options:string[] = ['10','25','50','100']
+      for(const option of options){
+        userEvent.selectOptions(screen.getByTestId('select-row'),option)
+        await screen.findByText(option);
+      }
+    })
+  })
+})
+

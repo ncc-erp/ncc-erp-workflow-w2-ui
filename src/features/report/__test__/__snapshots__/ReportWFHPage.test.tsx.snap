@@ -379,6 +379,7 @@ exports[`WFH Page 1`] = `
                 >
                   <select
                     class="chakra-select css-1y1ernp"
+                    data-testid="select-row"
                     id="field-:r3:"
                   >
                     <option
