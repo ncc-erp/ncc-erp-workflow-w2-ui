@@ -289,7 +289,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
         formParams[fieldname] = formParams[fieldname] ?? '';
         return (
           <FormControl key={Field?.name}>                   
-            <FormLabel htmlFor={fieldname} data-testid={fieldname}  fontSize={16} my={1} fontWeight="normal">
+            <FormLabel htmlFor={fieldname} fontSize={16} my={1} fontWeight="normal">
               {toDisplayName(fieldname)}
               {Field?.isRequired ? (
                 <FormHelperText my={1} style={{ color: 'red' }} as="span">
@@ -348,7 +348,6 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
               )}
             </FormLabel>
             <Controller
-              data-testid={fieldname}
               control={control}
               rules={{
                 required: Field?.isRequired
@@ -401,7 +400,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
           isLoading={isLoading}
           w="full"
           colorScheme="gray"
-          data-testid="submit"
+  
 
         >
           Save
