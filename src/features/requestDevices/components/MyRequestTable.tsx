@@ -279,7 +279,7 @@ export const MyRequestTable = () => {
           alignItems="flex-end"
           flexWrap="wrap"
         >
-          <Box w="220px">
+          <Box w="240px">
             <SelectField
               size="sm"
               rounded="md"

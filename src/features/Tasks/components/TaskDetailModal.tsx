@@ -228,14 +228,17 @@ export const TaskDetailModal = ({
                 </Text>
               </Heading>
             </HStack>
+            <Button
+              onClick={onActionViewWorkflow(
+                data?.tasks.workflowInstanceId as string
+              )}
+              style={{ display: 'none' }}
+              isDisabled={true}
+            >
+              View Workflow Detail
+            </Button>
+
             <div className={styles.actions}>
-              <Button
-                onClick={onActionViewWorkflow(
-                  data?.tasks.workflowInstanceId as string
-                )}
-              >
-                View Workflow Detail
-              </Button>
               <div className={styles.spinner}>
                 {isLoading && <Spinner color="red.500" />}
               </div>
