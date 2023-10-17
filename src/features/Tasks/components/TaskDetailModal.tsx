@@ -5,7 +5,6 @@ import {
   Heading,
   Image,
   List,
-  ListIcon,
   ListItem,
   Modal,
   ModalBody,
@@ -21,17 +20,8 @@ import Logo from 'assets/images/ncc_logo.png';
 import { toast } from 'common/components/StandaloneToast';
 import { TextGroup } from 'common/components/TextGroup/TextGroup';
 import { WorkflowModal } from 'common/components/WorkflowModal';
-import {
-  DynamicData,
-  OtherActionSignalStatus,
-  TaskStatus,
-} from 'common/constants';
+import { OtherActionSignalStatus, TaskStatus } from 'common/constants';
 import { useCallback, useMemo, useState } from 'react';
-import {
-  MdCheckCircle,
-  MdOutlineAddCircle,
-  MdRemoveCircle,
-} from 'react-icons/md';
 import {
   convertToCase,
   formatDate,
@@ -130,17 +120,6 @@ export const TaskDetailModal = ({
     }
   };
 
-  const getListIcon = (elementName: string) => {
-    switch (elementName) {
-      case DynamicData.STRENGTH_POINT:
-        return <ListIcon as={MdCheckCircle} color="green.500" />;
-      case DynamicData.WEAKNESS_POINT:
-        return <ListIcon as={MdRemoveCircle} color="red.500" />;
-      default:
-        return <ListIcon as={MdOutlineAddCircle} color="gray.500" />;
-    }
-  };
-
   const renderDynamicDataContent = useCallback(() => {
     if (!otherTasks || otherTasks.items.length <= 0) return null;
 
@@ -176,18 +155,13 @@ export const TaskDetailModal = ({
 
           if (filteredData.length === 0) return null;
 
-          const listIcon = getListIcon(element.name);
-
           return (
             <List key={ind} mt={1} spacing={2}>
               <Text fontSize={15} fontWeight={600}>
                 {convertToCase(element.name)}
               </Text>
               {filteredData.map((x) => (
-                <ListItem key={x} className={styles.listItem}>
-                  {listIcon}
-                  {x}
-                </ListItem>
+                <ListItem key={x}>{x}</ListItem>
               ))}
             </List>
           );
