@@ -25,7 +25,7 @@ export const SearchableSelectField = ({
   control,
   value,
   handleChange,
-  defaultValueEmpty,
+  isRequired,
 }: SelectFieldFieldProps) => {
   const initValue = useMemo(() => {
     return options.find((el) => el.value === value);
@@ -39,21 +39,11 @@ export const SearchableSelectField = ({
     return <Spinner color="red.500" size="md" />;
   }
 
-  const handleDefaultEmpty = () => {
-    if (defaultValueEmpty?.includes(name)) {
-      return undefined;
-    }
-    return initValue;
-  };
-
   return (
     <Controller
       name={name}
       control={control}
-      defaultValue={handleDefaultEmpty}
-      rules={{
-        required: `${name} is Required`,
-      }}
+      defaultValue={initValue}
       render={({ field }) => (
         <Select
           {...field}
@@ -69,6 +59,7 @@ export const SearchableSelectField = ({
           }}
           value={displayValue}
           options={options}
+          required={isRequired}
         />
       )}
     />
