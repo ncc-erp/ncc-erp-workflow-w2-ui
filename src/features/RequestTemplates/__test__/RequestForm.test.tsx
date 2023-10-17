@@ -162,11 +162,10 @@ const inputDefinition: InputDefinition = {
 };
 
 
-
 describe('Request Template Form Components', () => {
   const queryClient: QueryClient = new QueryClient();
 
-  test('Check snapshot', () => {
+  test('should match snapshot when rendering', () => {
     const { container } = render(
       <QueryClientProvider client={queryClient}>
         <RequestForm
@@ -191,12 +190,13 @@ describe('Request Template Form Components', () => {
     });
 
     describe('Content Input', () => {
-      it('There is a Content', () => {
+      it('should have a Content input when the form is loaded', () => {
         expect(screen.getByPlaceholderText('Content')).toBeInTheDocument();
       });
-      it('not enter in the input Content', async () => {
-        const submitButton = screen.getByRole('button',{
-          name:'Save'
+
+      it('should show an error message when no content is entered', async () => {
+        const submitButton = screen.getByRole('button', {
+          name: 'Save'
         });
         userEvent.click(submitButton);
         const result = await screen.findByText(/Content is Required/i);
@@ -205,12 +205,13 @@ describe('Request Template Form Components', () => {
     });
 
     describe('Start Date Input', () => {
-      it('There is a Start Date.', () => {
+      it('should have a Start Date input when the form is loaded', () => {
         expect(screen.getByLabelText(/Start Date/i)).toBeInTheDocument();
       });
-      it('not enter in the input StartDate', async () => {
-        const submitButton = screen.getByRole('button',{
-          name:'Save'
+
+      it('should show an error message when no Start Date is entered', async () => {
+        const submitButton = screen.getByRole('button', {
+          name: 'Save'
         });
         userEvent.click(submitButton);
         const result = await screen.findByText(/StartDate is Required/i);
@@ -219,15 +220,15 @@ describe('Request Template Form Components', () => {
     });
 
     describe('End Date Input', () => {
-      it('There is a End Date.', () => {
+      it('should have an End Date input when the form is loaded', () => {
         expect(screen.getByLabelText(/End Date/i)).toBeInTheDocument();
       });
     });
 
-    describe('When chose full options end submit', () => {
-      it('screen', async () => {
-        
+    describe('When all options are chosen and submitted', () => {
+      it('should submit the form with the selected values', async () => {
         userEvent.type(screen.getByPlaceholderText('Content'), 'Is the Content');
+
         // Select the start date
         const startPicker = screen.getByLabelText(/Start Date/i);
         userEvent.click(startPicker);
@@ -250,8 +251,8 @@ describe('Request Template Form Components', () => {
         userEvent.click(screen.getByText(startDay.toString()));
 
         // Click the "submit" button
-        const submitButton = screen.getByRole('button',{
-          name:'Save'
+        const submitButton = screen.getByRole('button', {
+          name: 'Save'
         });
         userEvent.click(submitButton);
       });

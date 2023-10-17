@@ -68,7 +68,7 @@ jest.mock('api/apiHooks/requestHooks', () => ({
 
 describe('Request Template Page', () => {
   const totalCount = 1;
-  test('Check snapshot', () => {
+  test('should match snapshot when rendering', () => {
     const queryClient: QueryClient = new QueryClient();
     const { container } = render(
       <QueryClientProvider client={queryClient}>
@@ -80,7 +80,7 @@ describe('Request Template Page', () => {
     expect(container).toMatchSnapshot();
   });
 
-  describe('test with total = 1, items = Change Office Request ', () => {
+  describe('should behave as expected when total is 1 and items are "Change Office Request"', () => {
     const queryClient: QueryClient = new QueryClient();
     
     beforeEach(() => {
@@ -93,16 +93,16 @@ describe('Request Template Page', () => {
       )
     })
 
-    it("check title Title Request Templates", () => {
+    it("should display the title 'Request Templates'", () => {
       expect(screen.getByText(/Request Templates/i)).toBeInTheDocument();
     })
 
-    it("button on the screen", async() => {
+    it("should display the correct number of buttons on the screen", async() => {
       const buttonList = await screen.findAllByRole("button");
       expect(buttonList).toHaveLength(totalCount + 1);
     })
 
-    it("Test select rows page", async() => {
+    it("should handle selecting rows per page", async() => {
       const options:string[] = ['10','25','50','100']
       for(const option of options){
         const valueOption = screen.getByText(option)
@@ -112,4 +112,3 @@ describe('Request Template Page', () => {
     })
   })
 })
-
