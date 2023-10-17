@@ -26,7 +26,7 @@ import {
   OtherActionSignalStatus,
   TaskStatus,
 } from 'common/constants';
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import {
   MdCheckCircle,
   MdOutlineAddCircle,
@@ -124,20 +124,11 @@ export const TaskDetailModal = ({
       return data.map((element) => ({
         data: (element.data || '').split('\n'),
         name: element.name || 'No Name',
-        isFinalApprove: element.isFinalApprove || false,
       })) as unknown as IDynamicDataProps[];
     } catch (error) {
       return [];
     }
   };
-
-  const dynamicDataParse: IDynamicDataProps[] = useMemo(() => {
-    if (!tasks || !tasks.dynamicActionData) {
-      return [];
-    }
-
-    return convertToDynamicArray(tasks.dynamicActionData);
-  }, [tasks]);
 
   const getListIcon = (elementName: string) => {
     switch (elementName) {
@@ -150,35 +141,29 @@ export const TaskDetailModal = ({
     }
   };
 
-  const renderDynamicDataContent = (data: IDynamicDataProps[] | undefined) => {
-    if (!data || !tasks) return null;
-    let convertData = [...data];
+  const renderDynamicDataContent = useCallback(() => {
+    if (!otherTasks || otherTasks.items.length <= 0) return null;
 
-    const isFinalApproveTask = data.some((element) => element.isFinalApprove);
-    if (isFinalApproveTask && otherTasks) {
-      const filterOtherTask = otherTasks.items.map((x) =>
-        convertToDynamicArray(x.dynamicActionData)
-      );
+    const filterOtherTask = otherTasks.items.map((x) =>
+      convertToDynamicArray(x.dynamicActionData)
+    );
 
-      const combinedData = filterOtherTask.reduce((result, dataRow) => {
-        dataRow.forEach((dataItem) => {
-          const { name, data, isFinalApprove } = dataItem;
-          const existingItem = result.find((item) => item.name === name);
+    const combinedData = filterOtherTask.reduce((result, dataRow) => {
+      dataRow.forEach((dataItem) => {
+        const { name, data, isFinalApprove } = dataItem;
+        const existingItem = result.find((item) => item.name === name);
 
-          if (existingItem) {
-            existingItem.data = existingItem.data.concat(data);
-          } else {
-            result.push({ name, data, isFinalApprove });
-          }
-        });
+        if (existingItem) {
+          existingItem.data = existingItem.data.concat(data);
+        } else {
+          result.push({ name, data, isFinalApprove });
+        }
+      });
 
-        return result;
-      }, []);
+      return result;
+    }, []);
 
-      if (combinedData.length > 0) {
-        convertData = [...combinedData];
-      }
-    }
+    const convertData = [...combinedData];
 
     return (
       <>
@@ -209,7 +194,7 @@ export const TaskDetailModal = ({
         })}
       </>
     );
-  };
+  }, [otherTasks]);
 
   if (hasGetTaskLoading) {
     return (
@@ -352,8 +337,7 @@ export const TaskDetailModal = ({
                 />
               </div>
 
-              {dynamicDataParse.length > 0 &&
-                renderDynamicDataContent(dynamicDataParse)}
+              {renderDynamicDataContent()}
             </div>
           </ModalBody>
         </ModalContent>
