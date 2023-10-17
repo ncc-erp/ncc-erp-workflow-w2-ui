@@ -51,6 +51,7 @@ export const RowAction = ({
           color={color}
           display="flex"
           gap="12px"
+          style={{ display: 'none' }}
           onClick={onViewWorkflow}
         >
           <Icon color="gray.500" as={FaRegMap} />

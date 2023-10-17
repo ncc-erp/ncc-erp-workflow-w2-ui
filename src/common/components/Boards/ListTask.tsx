@@ -207,6 +207,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
                   <MenuItem
                     display="flex"
                     gap="12px"
+                    style={{ display: 'none' }}
                     onClick={() =>
                       onActionViewWorkflow(
                         info.row.original.workflowInstanceId
