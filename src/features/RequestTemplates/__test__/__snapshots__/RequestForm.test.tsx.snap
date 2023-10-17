@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Request Template Form Components Check snapshot 1`] = `
+exports[`Request Template Form Components should match snapshot when rendering 1`] = `
 <div>
   <form
     style="width: 100%; margin-bottom: 20px;"
@@ -239,7 +239,6 @@ exports[`Request Template Form Components Check snapshot 1`] = `
       >
         <label
           class="chakra-form__label css-c5n4e2"
-          data-testid="StartDate"
           for="StartDate"
           id="field-:r4:-label"
         >
@@ -274,7 +273,6 @@ exports[`Request Template Form Components Check snapshot 1`] = `
       >
         <label
           class="chakra-form__label css-c5n4e2"
-          data-testid="EndDate"
           for="EndDate"
           id="field-:r5:-label"
         >
@@ -297,7 +295,6 @@ exports[`Request Template Form Components Check snapshot 1`] = `
       </div>
       <button
         class="chakra-button css-1jntfhr"
-        data-testid="submit"
         type="submit"
       >
         Save
