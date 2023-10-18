@@ -186,7 +186,7 @@ export const TasksBoard = () => {
 
   return (
     <Flex flexDirection={'column'} gap={2}>
-      <Flex px="20px" justifyContent="space-between">
+      <Flex px="24px" justifyContent="space-between">
         <Flex gap={3}>
           <Box>
             <SelectField
@@ -238,7 +238,7 @@ export const TasksBoard = () => {
           </Box>
         </Flex>
       </Flex>
-      <Flex gap={1} px="20px">
+      <Flex gap={1} px="24px">
         {isAdmin && (
           <Wrap>
             <WrapItem>
@@ -258,7 +258,7 @@ export const TasksBoard = () => {
       </Flex>
 
       <Box position={'relative'}>
-        <Wrap spacing={2} px="20px" position={'absolute'} right={55} top={-10}>
+        <Wrap spacing={2} px="24px" position={'absolute'} right={55} top={-10}>
           {OptionsDisplay.map((item) => (
             <WrapItem key={item.value}>
               <IconButton

@@ -169,7 +169,7 @@ export const RequestTemplateTable = ({
           <Box
             overflowX="auto"
             w={{ base: `calc(100vw - ${sideBarWidth}px)`, lg: 'auto' }}
-            p="10px 30px 0px 30px"
+            p="10px 24px 0px"
           >
             <Table
               columns={myRequestColumns}
