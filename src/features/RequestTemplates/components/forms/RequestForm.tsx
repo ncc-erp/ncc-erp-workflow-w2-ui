@@ -41,6 +41,7 @@ import { IUser } from 'models/user';
 import { ChangeEvent, useState } from 'react';
 import { formatDate } from 'utils';
 import { ColorThemeMode } from 'common/constants';
+import { isWithinInterval, subWeeks } from 'date-fns';
 import { option } from 'common/types';
 
 interface RequestFormProps {
@@ -180,6 +181,47 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
   };
 
   const color = useColorModeValue(ColorThemeMode.DARK, ColorThemeMode.LIGHT);
+
+  const createDateString = (value: number) => {
+    if (value < 10) {
+      return `0${value}`;
+    } else {
+      return value;
+    }
+  };
+
+  const validateMultiDatePicker = (
+    value: string | DateObject | Date | DateObject[] | null | undefined
+  ) => {
+    if (value && Array.isArray(value)) {
+      for (const dateObject of value) {
+        const day = dateObject.day;
+        const month = dateObject.month.number;
+        const year = dateObject.year;
+        if (day === undefined || month === undefined || year === undefined) {
+          return 'Invalid Date';
+        }
+
+        const dateStr = `${year}-${createDateString(month)}-${createDateString(
+          day
+        )}`;
+        if (!/^\d{4}-\d{1,2}-\d{1,2}$/.test(dateStr)) {
+          return 'Invalid date format (DD/MM/YYYY)';
+        }
+        const dateToCheck = new Date(dateStr);
+        const currentDate = new Date();
+        const lastWeek = subWeeks(currentDate, 1);
+
+        if (
+          dateToCheck <= currentDate &&
+          !isWithinInterval(dateToCheck, { start: lastWeek, end: currentDate })
+        ) {
+          return 'Choose a date one week from today';
+        }
+      }
+    }
+    return true;
+  };
 
   const getField = (Field: PropertyDefinition) => {
     const fieldname = Field?.name ? Field.name : '';
@@ -359,6 +401,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
                 required: Field?.isRequired
                   ? `${fieldname} is Required`
                   : false,
+                validate: validateMultiDatePicker,
               }}
               name={fieldname}
               render={({ field }) => {

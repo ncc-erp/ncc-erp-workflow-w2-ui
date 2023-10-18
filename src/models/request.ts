@@ -128,6 +128,6 @@ export interface ITask {
 export interface IRequestResult {
   typeRequest: string;
   input: IInputRequest;
-  tasks: ITask;
+  tasks: ITask[];
   workInstanceId: string;
 }
