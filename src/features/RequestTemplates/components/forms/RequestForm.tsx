@@ -161,7 +161,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
           value: user?.email ?? '',
           label: `${user?.name ?? ''} (${user?.email ?? ''})`,
         }));
-        transformedUsers.push({ value: '', label: '' });
+        transformedUsers.unshift({ value: '', label: '' });
         return transformedUsers;
       }
     }
@@ -256,9 +256,9 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
                   { value: '', label: '' },
                 ]
               }
+              isRequired={Field?.isRequired}
               value={formParams[fieldname] as string}
               handleChange={handleSelectChangeValue}
-              isRequired={Field?.isRequired}
             />
 
             <ErrorMessage
