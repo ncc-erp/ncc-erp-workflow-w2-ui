@@ -5,7 +5,6 @@ import {
   Heading,
   Image,
   List,
-  ListIcon,
   ListItem,
   Modal,
   ModalBody,
@@ -21,17 +20,8 @@ import Logo from 'assets/images/ncc_logo.png';
 import { toast } from 'common/components/StandaloneToast';
 import { TextGroup } from 'common/components/TextGroup/TextGroup';
 import { WorkflowModal } from 'common/components/WorkflowModal';
-import {
-  DynamicData,
-  OtherActionSignalStatus,
-  TaskStatus,
-} from 'common/constants';
-import { useMemo, useState } from 'react';
-import {
-  MdCheckCircle,
-  MdOutlineAddCircle,
-  MdRemoveCircle,
-} from 'react-icons/md';
+import { OtherActionSignalStatus, TaskStatus } from 'common/constants';
+import { useCallback, useMemo, useState } from 'react';
 import {
   convertToCase,
   formatDate,
@@ -124,61 +114,35 @@ export const TaskDetailModal = ({
       return data.map((element) => ({
         data: (element.data || '').split('\n'),
         name: element.name || 'No Name',
-        isFinalApprove: element.isFinalApprove || false,
       })) as unknown as IDynamicDataProps[];
     } catch (error) {
       return [];
     }
   };
 
-  const dynamicDataParse: IDynamicDataProps[] = useMemo(() => {
-    if (!tasks || !tasks.dynamicActionData) {
-      return [];
-    }
+  const renderDynamicDataContent = useCallback(() => {
+    if (!otherTasks || otherTasks.items.length <= 0) return null;
 
-    return convertToDynamicArray(tasks.dynamicActionData);
-  }, [tasks]);
+    const filterOtherTask = otherTasks.items.map((x) =>
+      convertToDynamicArray(x.dynamicActionData)
+    );
 
-  const getListIcon = (elementName: string) => {
-    switch (elementName) {
-      case DynamicData.STRENGTH_POINT:
-        return <ListIcon as={MdCheckCircle} color="green.500" />;
-      case DynamicData.WEAKNESS_POINT:
-        return <ListIcon as={MdRemoveCircle} color="red.500" />;
-      default:
-        return <ListIcon as={MdOutlineAddCircle} color="gray.500" />;
-    }
-  };
+    const combinedData = filterOtherTask.reduce((result, dataRow) => {
+      dataRow.forEach((dataItem) => {
+        const { name, data, isFinalApprove } = dataItem;
+        const existingItem = result.find((item) => item.name === name);
 
-  const renderDynamicDataContent = (data: IDynamicDataProps[] | undefined) => {
-    if (!data || !tasks) return null;
-    let convertData = [...data];
+        if (existingItem) {
+          existingItem.data = existingItem.data.concat(data);
+        } else {
+          result.push({ name, data, isFinalApprove });
+        }
+      });
 
-    const isFinalApproveTask = data.some((element) => element.isFinalApprove);
-    if (isFinalApproveTask && otherTasks) {
-      const filterOtherTask = otherTasks.items.map((x) =>
-        convertToDynamicArray(x.dynamicActionData)
-      );
+      return result;
+    }, []);
 
-      const combinedData = filterOtherTask.reduce((result, dataRow) => {
-        dataRow.forEach((dataItem) => {
-          const { name, data, isFinalApprove } = dataItem;
-          const existingItem = result.find((item) => item.name === name);
-
-          if (existingItem) {
-            existingItem.data = existingItem.data.concat(data);
-          } else {
-            result.push({ name, data, isFinalApprove });
-          }
-        });
-
-        return result;
-      }, []);
-
-      if (combinedData.length > 0) {
-        convertData = [...combinedData];
-      }
-    }
+    const convertData = [...combinedData];
 
     return (
       <>
@@ -191,25 +155,20 @@ export const TaskDetailModal = ({
 
           if (filteredData.length === 0) return null;
 
-          const listIcon = getListIcon(element.name);
-
           return (
             <List key={ind} mt={1} spacing={2}>
               <Text fontSize={15} fontWeight={600}>
                 {convertToCase(element.name)}
               </Text>
               {filteredData.map((x) => (
-                <ListItem key={x} className={styles.listItem}>
-                  {listIcon}
-                  {x}
-                </ListItem>
+                <ListItem key={x}>{x}</ListItem>
               ))}
             </List>
           );
         })}
       </>
     );
-  };
+  }, [otherTasks]);
 
   if (hasGetTaskLoading) {
     return (
@@ -243,14 +202,17 @@ export const TaskDetailModal = ({
                 </Text>
               </Heading>
             </HStack>
+            <Button
+              onClick={onActionViewWorkflow(
+                data?.tasks.workflowInstanceId as string
+              )}
+              style={{ display: 'none' }}
+              isDisabled={true}
+            >
+              View Workflow Detail
+            </Button>
+
             <div className={styles.actions}>
-              <Button
-                onClick={onActionViewWorkflow(
-                  data?.tasks.workflowInstanceId as string
-                )}
-              >
-                View Workflow Detail
-              </Button>
               <div className={styles.spinner}>
                 {isLoading && <Spinner color="red.500" />}
               </div>
@@ -352,8 +314,7 @@ export const TaskDetailModal = ({
                 />
               </div>
 
-              {dynamicDataParse.length > 0 &&
-                renderDynamicDataContent(dynamicDataParse)}
+              {renderDynamicDataContent()}
             </div>
           </ModalBody>
         </ModalContent>

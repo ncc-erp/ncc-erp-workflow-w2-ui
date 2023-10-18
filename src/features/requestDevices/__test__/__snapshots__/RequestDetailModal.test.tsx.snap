@@ -67,6 +67,8 @@ exports[`Request Detail Modal 1`] = `
             </div>
             <button
               class="chakra-button css-12eh3jv"
+              disabled=""
+              style="display: none;"
               type="button"
             >
               View Workflow Detail
