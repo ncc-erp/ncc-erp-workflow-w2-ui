@@ -54,7 +54,7 @@ exports[`Request My Requests Page 1`] = `
         class="css-3a3hw0"
       >
         <div
-          class="css-n9ekrm"
+          class="css-11nvq8j"
         >
           <div
             class="css-blvggq"
@@ -189,17 +189,17 @@ exports[`Request My Requests Page 1`] = `
                       All date
                     </option>
                     <option
-                      value="10/10/2023"
+                      value="10/11/2023"
                     >
                       1 week
                     </option>
                     <option
-                      value="09/16/2023"
+                      value="09/17/2023"
                     >
                       1 month
                     </option>
                     <option
-                      value="07/16/2023"
+                      value="07/17/2023"
                     >
                       3 months
                     </option>
@@ -274,7 +274,7 @@ exports[`Request My Requests Page 1`] = `
           </div>
         </div>
         <div
-          class="css-1k02dt"
+          class="css-ydavzz"
         >
           <div
             class="chakra-wrap css-0"
@@ -299,7 +299,7 @@ exports[`Request My Requests Page 1`] = `
           class="css-79elbk"
         >
           <div
-            class="chakra-wrap css-1y1mw0r"
+            class="chakra-wrap css-5l7pf5"
           >
             <ul
               class="chakra-wrap__list css-lq08yq"
@@ -447,7 +447,7 @@ exports[`Request My Requests Page 1`] = `
                         </p>
                         <div>
                           (
-                          7 days ago
+                          8 days ago
                           )
                         </div>
                       </div>
@@ -474,17 +474,6 @@ exports[`Request My Requests Page 1`] = `
                           Assign:
                         </p>
                         nhan.huynhba
-                      </div>
-                      <div>
-                        <div>
-                          State:
-                        </div>
-                        <div>
-                          <div
-                            class="undefined undefined"
-                          />
-                          Rejected
-                        </div>
                       </div>
                       <div
                         class="css-z7mtfw"
