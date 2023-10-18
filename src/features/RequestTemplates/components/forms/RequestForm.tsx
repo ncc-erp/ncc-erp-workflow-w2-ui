@@ -330,8 +330,8 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
       case 'DateTime':
         formParams[fieldname] = formParams[fieldname] ?? '';
         return (
-          <FormControl key={Field?.name}>
-            <FormLabel fontSize={16} my={1} fontWeight="normal">
+          <FormControl key={Field?.name}>                   
+            <FormLabel htmlFor={fieldname} fontSize={16} my={1} fontWeight="normal">
               {toDisplayName(fieldname)}
               {Field?.isRequired ? (
                 <FormHelperText my={1} style={{ color: 'red' }} as="span">
@@ -343,6 +343,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
               )}
             </FormLabel>
             <Controller
+              
               control={control}
               rules={{
                 required: Field?.isRequired
@@ -351,9 +352,11 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
               }}
               name={fieldname}
               render={({ field }) => {
+                
                 formParams[fieldname] = field.value;
                 return (
                   <DatePicker
+                    id={fieldname}
                     className={styles.datePicker}
                     onChange={field.onChange}
                     selected={field.value as Date}
@@ -440,6 +443,8 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
           isLoading={isLoading}
           w="full"
           colorScheme="gray"
+  
+
         >
           Save
         </Button>

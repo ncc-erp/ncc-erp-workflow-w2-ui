@@ -22,6 +22,7 @@ export const SelectField = forwardRef(
           h = "40px"
           icon={<Icon as={RiArrowDropDownFill} />}
           {...inputProps}
+        
         >
           {options.map(({ value, label }) => (
             <option key={value} value={value}>
