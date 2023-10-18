@@ -199,11 +199,11 @@ exports[`Request My Requests Page 1`] = `
                       1 month
                     </option>
                     <option
-<<<<<<< HEAD
-                      value="07/17/2023"
-=======
                       value="15/9/2023"
+                    >
+                      3 months
                     </option>
+                  </select>
                   <div
                     class="chakra-select__icon-wrapper css-162mkon"
                   >
