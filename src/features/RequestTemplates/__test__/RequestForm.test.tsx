@@ -1,7 +1,8 @@
-import { render } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import RequestForm from '../components/forms/RequestForm';
 import { InputDefinition } from 'models/request';
+import userEvent from '@testing-library/user-event';
 
 jest.mock('../../../api/apiHooks/index', () => ({
   useAxios: jest.fn(),
@@ -160,15 +161,103 @@ const inputDefinition: InputDefinition = {
   id: '3a05ffba-3830-e0d4-e931-9381c70a3710',
 };
 
-test('Request Template Form', () => {
+describe('Request Template Form Components', () => {
   const queryClient: QueryClient = new QueryClient();
-  const { container } = render(
-    <QueryClientProvider client={queryClient}>
-      <RequestForm
-        inputDefinition={inputDefinition}
-        onCloseModal={() => jest.fn()}
-      />
-    </QueryClientProvider>
-  );
-  expect(container).toMatchSnapshot();
+
+  test('should match snapshot when rendering', () => {
+    const { container } = render(
+      <QueryClientProvider client={queryClient}>
+        <RequestForm
+          inputDefinition={inputDefinition}
+          onCloseModal={() => jest.fn()}
+        />
+      </QueryClientProvider>
+    );
+    expect(container).toMatchSnapshot();
+  });
+
+  describe('Request Form with inputDefinition', () => {
+    beforeEach(() => {
+      render(
+        <QueryClientProvider client={queryClient}>
+          <RequestForm
+            inputDefinition={inputDefinition}
+            onCloseModal={() => jest.fn()}
+          />
+        </QueryClientProvider>
+      );
+    });
+
+    describe('Content Input', () => {
+      it('should have a Content input when the form is loaded', () => {
+        expect(screen.getByPlaceholderText('Content')).toBeInTheDocument();
+      });
+
+      it('should show an error message when no content is entered', async () => {
+        const submitButton = screen.getByRole('button', {
+          name: 'Save',
+        });
+        userEvent.click(submitButton);
+        const result = await screen.findByText(/Content is Required/i);
+        expect(result).toBeInTheDocument();
+      });
+    });
+
+    describe('Start Date Input', () => {
+      it('should have a Start Date input when the form is loaded', () => {
+        expect(screen.getByLabelText(/Start Date/i)).toBeInTheDocument();
+      });
+
+      it('should show an error message when no Start Date is entered', async () => {
+        const submitButton = screen.getByRole('button', {
+          name: 'Save',
+        });
+        userEvent.click(submitButton);
+        const result = await screen.findByText(/StartDate is Required/i);
+        expect(result).toBeInTheDocument();
+      });
+    });
+
+    describe('End Date Input', () => {
+      it('should have an End Date input when the form is loaded', () => {
+        expect(screen.getByLabelText(/End Date/i)).toBeInTheDocument();
+      });
+    });
+
+    describe('When all options are chosen and submitted', () => {
+      it('should submit the form with the selected values', async () => {
+        userEvent.type(
+          screen.getByPlaceholderText('Content'),
+          'Is the Content'
+        );
+
+        // Select the start date
+        const startPicker = screen.getByLabelText(/Start Date/i);
+        userEvent.click(startPicker);
+        const startDateToSelect = new Date(2023, 9, 18);
+        const startDay = startDateToSelect.getDate();
+
+        // Wait for the start date to appear and select it
+        await waitFor(() =>
+          userEvent.click(screen.getByText(startDay.toString()))
+        );
+
+        // Select the end date
+        const endPicker = screen.getByLabelText(/End Date/i);
+        userEvent.click(endPicker);
+
+        // Wait for the end date to appear and select it
+        await waitFor(() => {
+          screen.getByText(startDay.toString());
+        });
+        userEvent.click(screen.getByText(startDay.toString()));
+
+        // Click the "submit" button
+        const submitButton = screen.getByRole('button', {
+          name: 'Save',
+        });
+        userEvent.click(submitButton);
+      });
+    });
+  });
 });

@@ -23,6 +23,10 @@ jest.mock('hooks/useCurrentUser', () => ({
   useCurrentUser: jest.fn().mockReturnValue({ email: 'bob@example.com' }),
 }));
 
+jest.mock('utils/subtractTime.ts', () => ({
+  subtractTime: jest.fn().mockReturnValue('15/9/2023'),
+}));
+
 jest.mock('api/apiHooks/requestHooks', () => ({
   useRequestTemplates: jest.fn().mockReturnValue({
     isLoading: false,

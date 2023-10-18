@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Request Template Form 1`] = `
+exports[`Request Template Form Components should match snapshot when rendering 1`] = `
 <div>
   <form
     style="width: 100%; margin-bottom: 20px;"
@@ -239,7 +239,7 @@ exports[`Request Template Form 1`] = `
       >
         <label
           class="chakra-form__label css-c5n4e2"
-          for="field-:r4:"
+          for="StartDate"
           id="field-:r4:-label"
         >
           Start Date
@@ -260,6 +260,7 @@ exports[`Request Template Form 1`] = `
           >
             <input
               class=""
+              id="StartDate"
               type="text"
               value=""
             />
@@ -272,7 +273,7 @@ exports[`Request Template Form 1`] = `
       >
         <label
           class="chakra-form__label css-c5n4e2"
-          for="field-:r5:"
+          for="EndDate"
           id="field-:r5:-label"
         >
           End Date
@@ -285,6 +286,7 @@ exports[`Request Template Form 1`] = `
           >
             <input
               class=""
+              id="EndDate"
               type="text"
               value=""
             />

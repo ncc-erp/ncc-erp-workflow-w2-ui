@@ -481,6 +481,7 @@ exports[`Request My Requests Page 1`] = `
                           data-index="1"
                           id="menu-list-:rh:-menuitem-:rj:"
                           role="menuitem"
+                          style="display: none;"
                           tabindex="-1"
                           type="button"
                         >
@@ -672,6 +673,7 @@ exports[`Request My Requests Page 1`] = `
                           data-index="1"
                           id="menu-list-:rn:-menuitem-:rp:"
                           role="menuitem"
+                          style="display: none;"
                           tabindex="-1"
                           type="button"
                         >

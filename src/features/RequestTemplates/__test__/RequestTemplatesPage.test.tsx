@@ -1,7 +1,8 @@
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { RecoilRoot } from 'recoil';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import RequestTemplates from '..';
+import userEvent from '@testing-library/user-event';
 
 jest.mock('../../../api/apiHooks/index', () => ({
   useAxios: jest.fn(),
@@ -64,14 +65,49 @@ jest.mock('api/apiHooks/requestHooks', () => ({
   }),
 }));
 
-test('Request Template Page', () => {
-  const queryClient: QueryClient = new QueryClient();
-  const { container } = render(
-    <QueryClientProvider client={queryClient}>
-      <RecoilRoot>
-        <RequestTemplates />
-      </RecoilRoot>
-    </QueryClientProvider>
-  );
-  expect(container).toMatchSnapshot();
+describe('Request Template Page', () => {
+  const totalCount = 1;
+  test('should match snapshot when rendering', () => {
+    const queryClient: QueryClient = new QueryClient();
+    const { container } = render(
+      <QueryClientProvider client={queryClient}>
+        <RecoilRoot>
+          <RequestTemplates />
+        </RecoilRoot>
+      </QueryClientProvider>
+    );
+    expect(container).toMatchSnapshot();
+  });
+
+  describe('should behave as expected when total is 1 and items are "Change Office Request"', () => {
+    const queryClient: QueryClient = new QueryClient();
+
+    beforeEach(() => {
+      render(
+        <QueryClientProvider client={queryClient}>
+          <RecoilRoot>
+            <RequestTemplates />
+          </RecoilRoot>
+        </QueryClientProvider>
+      );
+    });
+
+    it("should display the title 'Request Templates'", () => {
+      expect(screen.getByText(/Request Templates/i)).toBeInTheDocument();
+    });
+
+    it('should display the correct number of buttons on the screen', async () => {
+      const buttonList = await screen.findAllByRole('button');
+      expect(buttonList).toHaveLength(totalCount + 1);
+    });
+
+    it('should handle selecting rows per page', async () => {
+      const options: string[] = ['10', '25', '50', '100'];
+      for (const option of options) {
+        const valueOption = screen.getByText(option);
+        userEvent.click(valueOption);
+        await screen.findByText(option);
+      }
+    });
+  });
 });
