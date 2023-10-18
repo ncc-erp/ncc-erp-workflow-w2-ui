@@ -207,6 +207,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
               )}
             </FormLabel>
             <SearchableSelectField
+              name={fieldname}
               control={control}
               options={
                 (getOptions(Field?.type) as Array<option>) ?? [
@@ -215,10 +216,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
               }
               value={formParams[fieldname] as string}
               handleChange={handleSelectChangeValue}
-              {...register(fieldname, {
-                required:
-                  fieldname === 'Staff' ? `${fieldname} is Required` : false,
-              })}
+              isRequired={Field?.isRequired}
             />
 
             <ErrorMessage
