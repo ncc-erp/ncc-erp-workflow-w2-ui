@@ -256,6 +256,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
                   { value: '', label: '' },
                 ]
               }
+              isRequired={Field?.isRequired}
               value={formParams[fieldname] as string}
               handleChange={handleSelectChangeValue}
             />
