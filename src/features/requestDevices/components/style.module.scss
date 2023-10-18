@@ -4,12 +4,14 @@
     margin-top: 10px;
 }
 
-.wrapper{
+.wrapper {
     display: flex;
     width: 100%;
+    gap: 0; /* Không có khoảng cách theo trục Y */
     flex-direction: row;
     flex-wrap: wrap;
-}
+    column-gap: 2rem; /* Khoảng cách theo trục X là 2rem */
+  }
 
 .wrapper  > div {
     width: 46%;
