@@ -44,7 +44,15 @@ export const SearchableSelectField = ({
       name={name}
       control={control}
       defaultValue={initValue}
-      rules={{ required: isRequired ? `${name} is Required` : false }}
+      rules={{
+        validate: () => {
+          if (isRequired && displayValue?.value === '') {
+            return `${name} is Required`;
+          }
+
+          return true; // Giá trị hợp lệ
+        },
+      }}
       render={({ field }) => (
         <Select
           {...field}
