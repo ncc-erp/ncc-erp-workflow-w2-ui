@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Request Detail Modal 1`] = `
+exports[`My Request Detail should match snapshot when rendering 1`] = `
 <body>
   <div
     aria-hidden="true"

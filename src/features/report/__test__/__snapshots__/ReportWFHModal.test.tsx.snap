@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`WFH Modal Detail 1`] = `
+exports[`WFH Modal Detail should match snapshot when rendering 1`] = `
 <body>
   <div
     aria-hidden="true"
