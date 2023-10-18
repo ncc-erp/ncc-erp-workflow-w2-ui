@@ -11,7 +11,6 @@ type SelectFieldFieldProps = Omit<InputWrapperProps, 'children'> & {
   control: Control;
   handleChange: (value: string, variable: string) => void;
   options: option[];
-  isRequired: boolean;
 };
 
 const EmptyValue: option = {
@@ -25,7 +24,6 @@ export const SearchableSelectField = ({
   control,
   value,
   handleChange,
-  isRequired,
 }: SelectFieldFieldProps) => {
   const initValue = useMemo(() => {
     return options.find((el) => el.value === value);
@@ -43,9 +41,14 @@ export const SearchableSelectField = ({
     <Controller
       name={name}
       control={control}
-      defaultValue={value}
+      defaultValue={initValue}
       rules={{
-        required: isRequired ? `${name} is Required` : false,
+        validate: () => {
+          if (displayValue?.value === '') {
+            return `${name} is Required`;
+          }
+          return true; // Giá trị hợp lệ
+        },
       }}
       render={({ field }) => (
         <Select
