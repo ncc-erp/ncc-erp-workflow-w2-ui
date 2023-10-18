@@ -212,7 +212,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
           dateToCheck <= currentDate &&
           !isWithinInterval(dateToCheck, { start: lastWeek, end: currentDate })
         ) {
-          return 'Choose a date one week from today';
+          return 'Choose any dates in the past within last 7 days from today';
         }
       }
     }
