@@ -530,25 +530,6 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
                                         .map((email) => email.split('@')[0])
                                         .join(', ')}
                                     </Flex>
-                                    <div className={styles.stateWrapper}>
-                                      <div className={styles.state}>State:</div>
-                                      <div className={styles.statusWrapper}>
-                                        <div
-                                          className={`${styles.status} ${
-                                            ind === BoardColumnStatus.Pending
-                                              ? styles.statusPending
-                                              : ind ===
-                                                BoardColumnStatus.Approved
-                                              ? styles.statusApproved
-                                              : ind ===
-                                                BoardColumnStatus.Rejected
-                                              ? styles.statusRejected
-                                              : ''
-                                          }`}
-                                        />
-                                        {Object.keys(BoardColumnStatus)[ind]}
-                                      </div>
-                                    </div>
                                     <Flex
                                       justifyContent={'space-between'}
                                       w={'100%'}

@@ -169,7 +169,7 @@ export const RequestTemplateTable = ({
           <Box
             overflowX="auto"
             w={{ base: `calc(100vw - ${sideBarWidth}px)`, lg: 'auto' }}
-            p="10px 30px 0px 30px"
+            p="10px 24px 0px"
           >
             <Table
               columns={myRequestColumns}
@@ -186,8 +186,8 @@ export const RequestTemplateTable = ({
         justifyContent="space-between"
         flexWrap="wrap"
       >
-        <HStack alignItems="center"  spacing="6px" flexWrap="wrap">
-          <PageSize noOfRows={noOfRows}  onChange={onPageSizeChange} />
+        <HStack alignItems="center" spacing="6px" flexWrap="wrap">
+          <PageSize noOfRows={noOfRows} onChange={onPageSizeChange} />
           <Spacer w="12px" />
           <ShowingItemText
             skipCount={filter.skipCount}

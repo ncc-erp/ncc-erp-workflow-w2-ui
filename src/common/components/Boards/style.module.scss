@@ -1,7 +1,7 @@
 .container {
   display: flex;
   gap: 5px;
-  padding: 10px 20px;
+  padding: 10px 24px;
   .columnLabel {
     margin-bottom: 10px;
     padding: 8px;
@@ -47,23 +47,13 @@
     }
     .title {
       color: var(--chakra-colors-blue-700);
+      font-weight: bold;
       font-size: 14px;
       margin-top: 3px;
     }
     .person {
       color: var(--chakra-colors-blackButton-500);
       font-size: 13px;
-    }
-    .stateWrapper {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      width: 100%;
-      .statusWrapper {
-        display: flex;
-        align-items: center;
-        gap: 5px;
-      }
     }
   }
 }

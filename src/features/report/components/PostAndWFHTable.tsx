@@ -217,7 +217,7 @@ export const TablePostAndWFH = () => {
           display="flex"
           justifyContent="space-between"
         >
-          <InputGroup w={'20%'}>
+          <InputGroup w={'30%'}>
             <Input
               type="text"
               placeholder="Enter email"
@@ -260,7 +260,7 @@ export const TablePostAndWFH = () => {
             message={'No requests found!'}
           >
             <Box
-              p="20px 30px 20px 30px"
+              p="20px 24px"
               overflowX="auto"
               w={{ base: `calc(100vw - ${sideBarWidth}px)`, lg: 'auto' }}
             >

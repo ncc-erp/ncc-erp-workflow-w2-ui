@@ -57,7 +57,7 @@ exports[`WFH Page 1`] = `
           class="chakra-stack css-12o5821"
         >
           <div
-            class="chakra-input__group css-asnw16"
+            class="chakra-input__group css-9zj08m"
             data-group="true"
           >
             <input
@@ -174,7 +174,7 @@ exports[`WFH Page 1`] = `
           </button>
         </div>
         <div
-          class="css-1v1qzlz"
+          class="css-1pf2gbx"
         >
           <table
             class="chakra-table css-zy166a"

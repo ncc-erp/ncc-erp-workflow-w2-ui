@@ -161,7 +161,6 @@ const inputDefinition: InputDefinition = {
   id: '3a05ffba-3830-e0d4-e931-9381c70a3710',
 };
 
-
 describe('Request Template Form Components', () => {
   const queryClient: QueryClient = new QueryClient();
 
@@ -196,7 +195,7 @@ describe('Request Template Form Components', () => {
 
       it('should show an error message when no content is entered', async () => {
         const submitButton = screen.getByRole('button', {
-          name: 'Save'
+          name: 'Save',
         });
         userEvent.click(submitButton);
         const result = await screen.findByText(/Content is Required/i);
@@ -211,7 +210,7 @@ describe('Request Template Form Components', () => {
 
       it('should show an error message when no Start Date is entered', async () => {
         const submitButton = screen.getByRole('button', {
-          name: 'Save'
+          name: 'Save',
         });
         userEvent.click(submitButton);
         const result = await screen.findByText(/StartDate is Required/i);
@@ -227,7 +226,10 @@ describe('Request Template Form Components', () => {
 
     describe('When all options are chosen and submitted', () => {
       it('should submit the form with the selected values', async () => {
-        userEvent.type(screen.getByPlaceholderText('Content'), 'Is the Content');
+        userEvent.type(
+          screen.getByPlaceholderText('Content'),
+          'Is the Content'
+        );
 
         // Select the start date
         const startPicker = screen.getByLabelText(/Start Date/i);
@@ -252,7 +254,7 @@ describe('Request Template Form Components', () => {
 
         // Click the "submit" button
         const submitButton = screen.getByRole('button', {
-          name: 'Save'
+          name: 'Save',
         });
         userEvent.click(submitButton);
       });

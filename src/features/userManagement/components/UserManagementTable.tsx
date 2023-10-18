@@ -151,7 +151,7 @@ export const UserManagementTable = () => {
       <Box>
         <HStack
           w="full"
-          p="0px 30px 20px 0px"
+          p="0px 24px 20px 0px"
           justifyContent="space-between"
           display="flex"
         >
@@ -183,7 +183,7 @@ export const UserManagementTable = () => {
             message={'No requests found!'}
           >
             <Box
-              p="0px 30px 20px 30px"
+              p="0px 24px"
               overflowX="auto"
               w={{ base: `calc(100vw - ${sideBarWidth}px)`, lg: 'auto' }}
             >

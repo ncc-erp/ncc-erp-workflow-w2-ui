@@ -274,12 +274,13 @@ export const MyRequestTable = () => {
       <Box>
         <HStack
           w="full"
+          gap={3}
           pl="24px"
           pb="8px"
           alignItems="flex-end"
           flexWrap="wrap"
         >
-          <Box w="240px">
+          <Box>
             <SelectField
               size="sm"
               rounded="md"
@@ -289,7 +290,7 @@ export const MyRequestTable = () => {
               options={requestTemplateOtions}
             />
           </Box>
-          <Box w="112px">
+          <Box>
             <SelectField
               size="sm"
               rounded="md"
