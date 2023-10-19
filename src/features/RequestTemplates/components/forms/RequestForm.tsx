@@ -39,7 +39,7 @@ import {
 } from 'models/request';
 import { IUser } from 'models/user';
 import { ChangeEvent, useState } from 'react';
-import { formatDate } from 'utils';
+import { convertToCase, formatDate } from 'utils';
 import { ColorThemeMode, WFH_FORMAT_DATE } from 'common/constants';
 import { isWithinInterval, subWeeks } from 'date-fns';
 import { option } from 'common/types';
@@ -383,7 +383,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
                   );
 
                   if (!formatEndDate.isAfter(formatStartDate)) {
-                    return `${fieldname} is Not Valid`;
+                    return `${convertToCase(fieldname)} is Not Valid`;
                   }
 
                   return true;

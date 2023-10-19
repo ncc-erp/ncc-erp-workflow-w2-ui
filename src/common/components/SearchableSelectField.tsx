@@ -54,19 +54,17 @@ export const SearchableSelectField = ({
             return true;
           }
 
-          if (displayValue?.value === '') {
+          const selected = watch(name) as option;
+          if (!selected || (selected?.value as string).trim() === '') {
             return `${convertToCase(name)} is Required`;
           }
 
-          const currentOffice = watch('CurrentOffice') as option;
-          const destinationOffice = watch('DestinationOffice') as option;
+          if (name === 'DestinationOffice') {
+            const target = watch('CurrentOffice') as option;
 
-          if (!currentOffice || !destinationOffice) {
-            return true;
-          }
-
-          if (currentOffice?.value === destinationOffice?.value) {
-            return `${convertToCase(name)} is Not Valid!`;
+            if (!target || selected?.value === target?.value) {
+              return `${convertToCase(name)} is Not Valid!`;
+            }
           }
 
           return true;
