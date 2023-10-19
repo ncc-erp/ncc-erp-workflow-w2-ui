@@ -259,6 +259,7 @@ exports[`Request Template Form Components should match snapshot when rendering 1
             class="react-datepicker__input-container"
           >
             <input
+              autocomplete="off"
               class=""
               id="StartDate"
               type="text"
@@ -285,6 +286,7 @@ exports[`Request Template Form Components should match snapshot when rendering 1
             class="react-datepicker__input-container"
           >
             <input
+              autocomplete="off"
               class=""
               id="EndDate"
               type="text"
