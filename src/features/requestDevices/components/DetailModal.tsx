@@ -84,7 +84,7 @@ export const RequestDetailModal = ({
       </Modal>
     );
   }
-  
+
   return (
     <>
       <Modal isOpen={isOpen} onClose={onClose} blockScrollOnMount={false}>
@@ -126,7 +126,10 @@ export const RequestDetailModal = ({
               </Text>
               <div className={styles.wrapper}>
                 {hasInputRequestData && inputRequestDetail && (
-                  <RequestInput inputRequestDetail={inputRequestDetail} />
+                  <RequestInput
+                    inputRequestDetail={inputRequestDetail}
+                    requestUserEmail={inputRequestUser?.email}
+                  />
                 )}
               </div>
 
@@ -177,7 +180,7 @@ export const RequestDetailModal = ({
                   content={getColorByStatus(requestDetail?.status).status}
                   color={getColorByStatus(requestDetail?.status).color}
                 />
-                
+
                 {requestDetail?.currentStates.length > 0 && (
                   <TextGroup
                     label="Current state"

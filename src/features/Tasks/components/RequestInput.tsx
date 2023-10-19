@@ -3,9 +3,13 @@ import { convertToCase, extractContent, parseDateStrings } from 'utils';
 
 interface IRequestProps {
   inputRequestDetail: Record<string, Record<string, string> | string>;
+  requestUserEmail?: string;
 }
 
-export const RequestInput = ({ inputRequestDetail }: IRequestProps) => {
+export const RequestInput = ({
+  inputRequestDetail,
+  requestUserEmail,
+}: IRequestProps) => {
   return (
     <>
       {Object.keys(inputRequestDetail).map((key) => {
@@ -19,6 +23,7 @@ export const RequestInput = ({ inputRequestDetail }: IRequestProps) => {
           if (displayName) {
             return (
               <TextGroup
+                requestUserEmail={requestUserEmail}
                 key={key}
                 label={convertToCase(key)}
                 content={displayName}
@@ -29,6 +34,7 @@ export const RequestInput = ({ inputRequestDetail }: IRequestProps) => {
           const dates = parseDateStrings(value);
           return (
             <TextGroup
+              requestUserEmail={requestUserEmail ?? ''}
               key={key}
               label={convertToCase(key)}
               content={extractContent(value)}

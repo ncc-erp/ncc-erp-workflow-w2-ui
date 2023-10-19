@@ -82,6 +82,15 @@ jest.mock('api/apiHooks/taskHooks', () => ({
       },
     },
   }),
+  useGetUserProjectsByEmail: jest.fn().mockReturnValue({
+    data: [
+      {
+        displayName: 'Đà Nẵng',
+        code: 'ĐN',
+        headOfOfficeEmail: 'thien.dang@ncc.asia',
+      },
+    ],
+  }),
 }));
 
 test('Task Detail Modal', () => {
