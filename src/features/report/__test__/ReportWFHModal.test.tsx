@@ -1,9 +1,9 @@
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { DetailModal } from '../components/DetailModal';
 import { IPostAndWFH } from 'models/report';
 
-test('WFH Modal Detail', () => {
+describe('WFH Modal Detail', () => {
   const reportDetail: IPostAndWFH = {
     email: 'bob@example.com',
     totalDays: 7,
@@ -97,16 +97,56 @@ test('WFH Modal Detail', () => {
   };
 
   const queryClient: QueryClient = new QueryClient();
-  const { baseElement } = render(
-    <QueryClientProvider client={queryClient}>
-      <DetailModal
-        isOpen={true}
-        onClose={() => jest.fn()}
-        reportDetail={reportDetail}
-        startDate={null}
-        endDate={null}
-      />
-    </QueryClientProvider>
-  );
-  expect(baseElement).toMatchSnapshot();
+
+  test('should match snapshot when rendering', () => {
+    const { baseElement } = render(
+      <QueryClientProvider client={queryClient}>
+        <DetailModal
+          isOpen={true}
+          onClose={() => jest.fn()}
+          reportDetail={reportDetail}
+          startDate={null}
+          endDate={null}
+        />
+      </QueryClientProvider>
+    );
+    expect(baseElement).toMatchSnapshot();
+  })
+
+
+  describe('WFH Modal Detail with the data above', () => {
+    beforeEach(() => {
+      render(
+        <QueryClientProvider client={queryClient}>
+        <DetailModal
+          isOpen={true}
+          onClose={() => jest.fn()}
+          reportDetail={reportDetail}
+          startDate={null}
+          endDate={null}
+        />
+      </QueryClientProvider>
+      );
+    });
+
+    it('Should have a Title when Report Details loaded.',() => {
+      expect(screen.getAllByText(/Report Details/i)).toBeTruthy()
+    })
+
+    it('Should have a email when Report Details loaded.',() => {
+      expect(screen.getAllByText(/bob@example.com/i)).toBeTruthy()
+    })
+
+    describe('Post Details attributes',() => {
+      it('Should have a Post Details attributes when Report Detail loaded.', async() => {
+        screen.findByText(/Post Details/i)
+      })
+    })  
+
+    describe('Request Details attributes', () => {
+      it('Should have a Request Details attributes when Report Detail loaded.', async() => {
+        screen.findByText(/Request Details/i)
+      })
+    })
+  })
 });

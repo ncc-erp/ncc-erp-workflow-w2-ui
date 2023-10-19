@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Request My Requests Page 1`] = `
+exports[`My Request Page should match snapshot when rendering 1`] = `
 <div>
   <div
     class="css-0"
