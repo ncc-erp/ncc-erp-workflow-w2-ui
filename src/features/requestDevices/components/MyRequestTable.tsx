@@ -3,6 +3,7 @@ import {
   Button,
   Center,
   HStack,
+  IconButton,
   Input,
   InputGroup,
   InputRightElement,
@@ -46,6 +47,7 @@ import useDebounced from 'hooks/useDebounced';
 
 import { EmptyWrapper } from 'common/components/EmptyWrapper';
 import { ModalConfirm } from 'common/components/ModalConfirm';
+import { AiOutlineReload } from 'react-icons/ai';
 
 const initialSorting: SortingState = [
   {
@@ -68,7 +70,7 @@ export const MyRequestTable = () => {
   const { sideBarWidth } = useRecoilValue(appConfigState);
   const [filter, setFilter] = useState<FilterRequestParams>(initialFilter);
   const [sorting, setSorting] = useState<SortingState>(initialSorting);
-  const { data, isLoading } = useMyRequests(filter);
+  const { data, isLoading, isRefetching, refetch } = useMyRequests(filter);
   const { data: requestTemplateData } = useRequestTemplates();
   const { items: requests = [], totalCount = 0 } = data ?? {};
   const { items: requestTemplates = [] } = requestTemplateData ?? {};
@@ -316,29 +318,44 @@ export const MyRequestTable = () => {
             </Box>
           )}
         </HStack>
-        {isAdmin && (
-          <Wrap pl="24px" pt="8px">
-            <WrapItem>
-              <Button
-                size={'md'}
-                colorScheme={filter.RequestUser ? 'green' : 'gray'}
-                onClick={() => {
-                  if (filter.RequestUser) {
-                    setFilter({ ...filter, RequestUser: '' });
-                  } else {
-                    setFilter({ ...filter, RequestUser: currentUser?.sub[0] });
-                  }
-                }}
-                fontSize="sm"
-                fontWeight="medium"
-                mr={2}
-              >
-                Only my request
-              </Button>
-            </WrapItem>
-          </Wrap>
-        )}
-        {isLoading ? (
+        <Wrap px="24px" pt="8px" justify="space-between">
+          {isAdmin && (
+            <>
+              <WrapItem>
+                <Button
+                  size={'md'}
+                  colorScheme={filter.RequestUser ? 'green' : 'gray'}
+                  onClick={() => {
+                    if (filter.RequestUser) {
+                      setFilter({ ...filter, RequestUser: '' });
+                    } else {
+                      setFilter({
+                        ...filter,
+                        RequestUser: currentUser?.sub[0],
+                      });
+                    }
+                  }}
+                  fontSize="sm"
+                  fontWeight="medium"
+                  mr={2}
+                >
+                  Only my request
+                </Button>
+              </WrapItem>
+              <WrapItem>
+                <IconButton
+                  isRound={true}
+                  variant="solid"
+                  aria-label="Done"
+                  fontSize="20px"
+                  icon={<AiOutlineReload />}
+                  onClick={() => refetch()}
+                />
+              </WrapItem>
+            </>
+          )}
+        </Wrap>
+        {isLoading || isRefetching ? (
           <Center h="200px">
             <Spinner mx="auto" speed="0.65s" thickness="3px" size="xl" />
           </Center>
@@ -363,30 +380,31 @@ export const MyRequestTable = () => {
                 onRowHover={true}
               />
             </Box>
+
+            <HStack
+              p="20px 30px 20px 30px"
+              justifyContent="space-between"
+              flexWrap="wrap"
+            >
+              <HStack alignItems="center" spacing="6px" flexWrap="wrap">
+                <PageSize noOfRows={noOfRows} onChange={onPageSizeChange} />
+                <Spacer w="12px" />
+                <ShowingItemText
+                  skipCount={filter.skipCount}
+                  maxResultCount={filter.maxResultCount}
+                  totalCount={totalCount}
+                />
+              </HStack>
+              <Pagination
+                total={totalCount}
+                pageSize={filter.maxResultCount}
+                current={currentPage}
+                onChange={onPageChange}
+                hideOnSinglePage
+              />
+            </HStack>
           </EmptyWrapper>
         )}
-        <HStack
-          p="20px 30px 20px 30px"
-          justifyContent="space-between"
-          flexWrap="wrap"
-        >
-          <HStack alignItems="center" spacing="6px" flexWrap="wrap">
-            <PageSize noOfRows={noOfRows} onChange={onPageSizeChange} />
-            <Spacer w="12px" />
-            <ShowingItemText
-              skipCount={filter.skipCount}
-              maxResultCount={filter.maxResultCount}
-              totalCount={totalCount}
-            />
-          </HStack>
-          <Pagination
-            total={totalCount}
-            pageSize={filter.maxResultCount}
-            current={currentPage}
-            onChange={onPageChange}
-            hideOnSinglePage
-          />
-        </HStack>
       </Box>
       <ModalConfirm
         isOpen={isOpen}

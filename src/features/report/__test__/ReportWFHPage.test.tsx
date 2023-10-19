@@ -149,7 +149,6 @@ jest.mock('api/apiHooks/reportHooks', () => ({
   }),
 }));
 
-
 describe('WFH Page', () => {
   const totalCount: number = 1;
   test('should match snapshot when rendering', () => {
@@ -173,16 +172,18 @@ describe('WFH Page', () => {
             <PostAndWFH />
           </RecoilRoot>
         </QueryClientProvider>
-      )
+      );
     });
 
-    it("should display the title 'Report WFH'",() => {
-      expect(screen.getByRole('heading', {level: 1, name: /Report WFH/i })).toBeInTheDocument()
-    })
+    it("should display the title 'Report WFH'", () => {
+      expect(
+        screen.getByRole('heading', { level: 1, name: /Report WFH/i })
+      ).toBeInTheDocument();
+    });
 
     it('should display the correct number of buttons on the screen', async () => {
       const buttonList = await screen.findAllByRole('button');
-      expect(buttonList).toHaveLength(totalCount + 2);
+      expect(buttonList).toHaveLength(totalCount + 3);
     });
 
     it('should handle selecting rows per page', async () => {
@@ -194,16 +195,16 @@ describe('WFH Page', () => {
       }
     });
 
-    it('should display the search email', async() => {
-      await screen.findByPlaceholderText('Enter email')
-    })
+    it('should display the search email', async () => {
+      await screen.findByPlaceholderText('Enter email');
+    });
 
-    it('should display the input startDate', async() => {
-      await screen.findByPlaceholderText('Start Date')
-    })
+    it('should display the input startDate', async () => {
+      await screen.findByPlaceholderText('Start Date');
+    });
 
-    it('should display the input endDate', async() => {
-      await screen.findByPlaceholderText('End Date')
-    })
-  })
+    it('should display the input endDate', async () => {
+      await screen.findByPlaceholderText('End Date');
+    });
+  });
 });

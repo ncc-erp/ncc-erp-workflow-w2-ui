@@ -133,10 +133,8 @@ jest.mock('api/apiHooks/requestHooks', () => ({
   useCancelRequest: jest.fn(),
 }));
 
-
-
 describe('My Request Page', () => {
-  const totalCount:number = 2;
+  const totalCount: number = 2;
   test('should match snapshot when rendering', () => {
     const queryClient: QueryClient = new QueryClient();
     const { container } = render(
@@ -162,12 +160,14 @@ describe('My Request Page', () => {
     });
 
     it("should display the title 'Requests'", () => {
-      expect(screen.getByRole('heading', {level: 1, name:'Requests'})).toBeInTheDocument()
-    })
+      expect(
+        screen.getByRole('heading', { level: 1, name: 'Requests' })
+      ).toBeInTheDocument();
+    });
 
     it('should display the correct number of buttons on the screen', async () => {
       const buttonList = await screen.findAllByRole('button');
-      expect(buttonList).toHaveLength(totalCount + 2);
+      expect(buttonList).toHaveLength(totalCount + 3);
     });
 
     it('should handle selecting rows per page', async () => {
@@ -178,15 +178,13 @@ describe('My Request Page', () => {
         await screen.findByText(option);
       }
     });
-    it('should display the search email', async() => {
-      await screen.findByPlaceholderText('Enter email')
-    })
+    it('should display the search email', async () => {
+      await screen.findByPlaceholderText('Enter email');
+    });
 
-    it('should display the correct three number of selects on the screen', async() => {
+    it('should display the correct three number of selects on the screen', async () => {
       const selectList = await screen.findAllByRole('combobox');
       expect(selectList).toHaveLength(3);
-
-    })
-
-  })
-})
+    });
+  });
+});

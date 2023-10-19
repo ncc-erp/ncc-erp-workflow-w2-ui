@@ -3,12 +3,15 @@ import {
   Button,
   Center,
   HStack,
+  IconButton,
   Input,
   InputGroup,
   InputRightElement,
   Spacer,
   Spinner,
   Text,
+  Wrap,
+  WrapItem,
 } from '@chakra-ui/react';
 import { useWfhList } from 'api/apiHooks/reportHooks';
 import { Pagination } from 'common/components/Pagination';
@@ -38,6 +41,7 @@ import { handleExportExcelFile } from 'utils/handleExportExcelFile';
 import { DetailModal } from './DetailModal';
 import { RowAction } from './RowAction';
 import styles from './styles.module.scss';
+import { AiOutlineReload } from 'react-icons/ai';
 
 const initialFilter: FilterWfhParams = {
   maxResultCount: +noOfRows[2].value,
@@ -60,7 +64,7 @@ export const TablePostAndWFH = () => {
   const [sorting, setSorting] = useState<SortingState>(initialSorting);
   const columnHelper = createColumnHelper<IPostAndWFH>();
   const { sideBarWidth } = useRecoilValue(appConfigState);
-  const { data, isLoading } = useWfhList(filter);
+  const { data, isLoading, isFetching, refetch } = useWfhList(filter);
   const { items: wfhList = [], totalCount = 0 } = data ?? {};
   const [txtSearch, setTxtSearch] = useState('');
   const txtSearchDebounced = useDebounced(txtSearch, 500);
@@ -120,13 +124,13 @@ export const TablePostAndWFH = () => {
       [
         columnHelper.accessor('email', {
           id: 'email',
+          enableSorting: false,
           header: () => <Box>Email address</Box>,
-          enableSorting: true,
-          sortDescFirst: true,
           cell: (info) => <Box>{info.getValue()}</Box>,
         }),
         columnHelper.accessor('totalDays', {
           id: 'totalDays',
+          enableSorting: false,
           header: 'Number of requests for WFH',
           cell: (info) => info.getValue(),
         }),
@@ -239,16 +243,31 @@ export const TablePostAndWFH = () => {
             />
           </Box>
         </HStack>
-        <div className={styles.btnExport}>
-          <Button
-            onClick={() =>
-              handleExportExcelFile({ exportData: exportData, type: 'WFH' })
-            }
-          >
-            <FaDownload />
-          </Button>
-        </div>
-        {isLoading ? (
+        <Wrap px="24px" pt="10px" justify="flex-end">
+          <WrapItem>
+            <div className={styles.btnExport}>
+              <Button
+                onClick={() =>
+                  handleExportExcelFile({ exportData: exportData, type: 'WFH' })
+                }
+              >
+                <FaDownload />
+              </Button>
+            </div>
+          </WrapItem>
+          <WrapItem>
+            <IconButton
+              isRound={true}
+              variant="solid"
+              aria-label="Done"
+              fontSize="20px"
+              icon={<AiOutlineReload />}
+              onClick={() => refetch()}
+            />
+          </WrapItem>
+        </Wrap>
+
+        {isLoading || isFetching ? (
           <Center h="200px">
             <Spinner mx="auto" speed="0.65s" thickness="3px" size="xl" />
           </Center>
@@ -273,34 +292,36 @@ export const TablePostAndWFH = () => {
                 onRowHover={true}
               />
             </Box>
+
+            <HStack
+              p="0px 30px 20px 30px"
+              justifyContent="space-between"
+              flexWrap="wrap"
+            >
+              <HStack alignItems="center" spacing="6px" flexWrap="wrap">
+                <PageSize
+                  noOfRows={noOfRows}
+                  onChange={onPageSizeChange}
+                  defaultValue={+noOfRows[2].value}
+                />
+                <Spacer w="12px" />
+                <ShowingItemText
+                  skipCount={filter.skipCount}
+                  maxResultCount={filter.maxResultCount}
+                  totalCount={totalCount}
+                />
+              </HStack>
+              <Pagination
+                total={totalCount}
+                pageSize={filter.maxResultCount}
+                current={currentPage}
+                onChange={onPageChange}
+                hideOnSinglePage
+              />
+            </HStack>
           </EmptyWrapper>
         )}
-        <HStack
-          p="0px 30px 20px 30px"
-          justifyContent="space-between"
-          flexWrap="wrap"
-        >
-          <HStack alignItems="center" spacing="6px" flexWrap="wrap">
-            <PageSize
-              noOfRows={noOfRows}
-              onChange={onPageSizeChange}
-              defaultValue={+noOfRows[2].value}
-            />
-            <Spacer w="12px" />
-            <ShowingItemText
-              skipCount={filter.skipCount}
-              maxResultCount={filter.maxResultCount}
-              totalCount={totalCount}
-            />
-          </HStack>
-          <Pagination
-            total={totalCount}
-            pageSize={filter.maxResultCount}
-            current={currentPage}
-            onChange={onPageChange}
-            hideOnSinglePage
-          />
-        </HStack>
+
         {reportDetail && (
           <DetailModal
             isOpen={isOpenModal}
