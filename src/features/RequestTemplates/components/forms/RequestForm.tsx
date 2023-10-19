@@ -40,9 +40,10 @@ import {
 import { IUser } from 'models/user';
 import { ChangeEvent, useState } from 'react';
 import { formatDate } from 'utils';
-import { ColorThemeMode } from 'common/constants';
+import { ColorThemeMode, WFH_FORMAT_DATE } from 'common/constants';
 import { isWithinInterval, subWeeks } from 'date-fns';
 import { option } from 'common/types';
+import moment from 'moment';
 
 interface RequestFormProps {
   inputDefinition?: InputDefinition;
@@ -76,6 +77,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
   const {
     register,
     handleSubmit,
+    watch,
     control,
     formState: { errors },
   } = useForm<FormParams>({
@@ -362,6 +364,29 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
                 required: Field?.isRequired
                   ? `${fieldname} is Required`
                   : false,
+                validate: () => {
+                  const startDate = watch('StartDate');
+                  const endDate = watch('EndDate');
+
+                  if (!startDate || !endDate) {
+                    return true;
+                  }
+
+                  const formatStartDate = moment(
+                    startDate as string,
+                    WFH_FORMAT_DATE
+                  );
+                  const formatEndDate = moment(
+                    endDate as string,
+                    WFH_FORMAT_DATE
+                  );
+
+                  if (!formatEndDate.isAfter(formatStartDate)) {
+                    return `${fieldname} is Not Valid`;
+                  }
+
+                  return true;
+                },
               }}
               name={fieldname}
               render={({ field }) => {
@@ -369,6 +394,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
                 return (
                   <DatePicker
                     id={fieldname}
+                    autoComplete="off"
                     className={styles.datePicker}
                     onChange={field.onChange}
                     selected={field.value as Date}
