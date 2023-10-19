@@ -4,14 +4,16 @@ import { option } from 'common/types';
 import { useMemo, useState } from 'react';
 import { Control, Controller } from 'react-hook-form';
 import Select from 'react-select';
+import { convertToCase } from 'utils';
 
-type SelectFieldFieldProps = Omit<InputWrapperProps, 'children'> & {
+type SelectFieldProps = Omit<InputWrapperProps, 'children'> & {
   value: string;
   name: string;
   control: Control;
   handleChange: (value: string, variable: string) => void;
   options: option[];
   isRequired: boolean;
+  watch: (names?: string | string[]) => unknown;
 };
 
 const EmptyValue: option = {
@@ -26,7 +28,8 @@ export const SearchableSelectField = ({
   value,
   handleChange,
   isRequired,
-}: SelectFieldFieldProps) => {
+  watch,
+}: SelectFieldProps) => {
   const initValue = useMemo(() => {
     return options.find((el) => el.value === value);
   }, [options, value]);
@@ -45,12 +48,28 @@ export const SearchableSelectField = ({
       control={control}
       defaultValue={initValue}
       rules={{
+        required: isRequired ? `${convertToCase(name)} is Required` : false,
         validate: () => {
-          if (isRequired && displayValue?.value === '') {
-            return `${name} is Required`;
+          if (!isRequired) {
+            return true;
           }
 
-          return true; // Giá trị hợp lệ
+          if (displayValue?.value === '') {
+            return `${convertToCase(name)} is Required`;
+          }
+
+          const currentOffice = watch('CurrentOffice') as option;
+          const destinationOffice = watch('DestinationOffice') as option;
+
+          if (!currentOffice || !destinationOffice) {
+            return true;
+          }
+
+          if (currentOffice?.value === destinationOffice?.value) {
+            return `${convertToCase(name)} is Not Valid!`;
+          }
+
+          return true;
         },
       }}
       render={({ field }) => (

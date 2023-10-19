@@ -76,6 +76,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
   const {
     register,
     handleSubmit,
+    watch,
     control,
     formState: { errors },
   } = useForm<FormParams>({
@@ -251,6 +252,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
             <SearchableSelectField
               name={fieldname}
               control={control}
+              watch={watch}
               options={
                 (getOptions(Field?.type) as Array<option>) ?? [
                   { value: '', label: '' },
