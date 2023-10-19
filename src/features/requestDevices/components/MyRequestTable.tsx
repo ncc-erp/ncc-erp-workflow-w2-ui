@@ -323,6 +323,7 @@ export const MyRequestTable = () => {
             <>
               <WrapItem>
                 <Button
+                  isDisabled={isLoading || isRefetching}
                   size={'md'}
                   colorScheme={filter.RequestUser ? 'green' : 'gray'}
                   onClick={() => {
@@ -344,6 +345,7 @@ export const MyRequestTable = () => {
               </WrapItem>
               <WrapItem>
                 <IconButton
+                  isDisabled={isLoading || isRefetching}
                   isRound={true}
                   variant="solid"
                   aria-label="Done"

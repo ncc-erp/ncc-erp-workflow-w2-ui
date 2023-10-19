@@ -64,7 +64,7 @@ export const TablePostAndWFH = () => {
   const [sorting, setSorting] = useState<SortingState>(initialSorting);
   const columnHelper = createColumnHelper<IPostAndWFH>();
   const { sideBarWidth } = useRecoilValue(appConfigState);
-  const { data, isLoading, isFetching, refetch } = useWfhList(filter);
+  const { data, isLoading, isRefetching, refetch } = useWfhList(filter);
   const { items: wfhList = [], totalCount = 0 } = data ?? {};
   const [txtSearch, setTxtSearch] = useState('');
   const txtSearchDebounced = useDebounced(txtSearch, 500);
@@ -247,6 +247,7 @@ export const TablePostAndWFH = () => {
           <WrapItem>
             <div className={styles.btnExport}>
               <Button
+                isDisabled={isLoading || isRefetching}
                 onClick={() =>
                   handleExportExcelFile({ exportData: exportData, type: 'WFH' })
                 }
@@ -257,6 +258,7 @@ export const TablePostAndWFH = () => {
           </WrapItem>
           <WrapItem>
             <IconButton
+              isDisabled={isLoading || isRefetching}
               isRound={true}
               variant="solid"
               aria-label="Done"
@@ -267,7 +269,7 @@ export const TablePostAndWFH = () => {
           </WrapItem>
         </Wrap>
 
-        {isLoading || isFetching ? (
+        {isLoading || isRefetching ? (
           <Center h="200px">
             <Spinner mx="auto" speed="0.65s" thickness="3px" size="xl" />
           </Center>
