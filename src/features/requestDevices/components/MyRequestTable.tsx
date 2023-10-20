@@ -142,9 +142,9 @@ export const MyRequestTable = () => {
           header: () => <Box textAlign="center">Current states</Box>,
           enableSorting: false,
           cell: (info) => {
-            const stakeholders = info.getValue();
-            const formattedStakeholders = stakeholders.join(',').replace(/,/g, ',\n');
-            return <div dangerouslySetInnerHTML={{ __html: formattedStakeholders }} />;
+            const currentStates = info.getValue();
+            const formattedCurrentStates = currentStates.join(',\n');
+            return <div dangerouslySetInnerHTML={{ __html: formattedCurrentStates }} />;
           },
         }),
         columnHelper.accessor('stakeHolders', {
@@ -153,7 +153,7 @@ export const MyRequestTable = () => {
           enableSorting: false,
           cell: (info) => {
             const stakeholders = info.getValue();
-            const formattedStakeholders = stakeholders.join(',').replace(/,/g, ',\n');
+            const formattedStakeholders = stakeholders.join(',\n');
             return <div dangerouslySetInnerHTML={{ __html: formattedStakeholders }} />;
           },
         

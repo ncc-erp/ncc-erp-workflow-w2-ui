@@ -75,13 +75,10 @@ export const Table = <D,>({
         {table.getHeaderGroups().map((headerGroup) => (      
           <Tr key={headerGroup.id} bg={theme.colors.borderColor}>
             {headerGroup.headers.map((header, index) => {
-              // Check if the header corresponds to "Current states" or "Stakeholders"
-              const isCurrentStatesHeader = header.id === 'currentStates';
-              const isStakeHoldersHeader = header.id === 'stakeHolders';
+            
               const isWorkflowDefinitionDisplayName = header.id === 'workflowDefinitionDisplayName'
-              // Calculate the width for these headers (1/4 of the table's width)
-              const headerWidth = '13%';
-              const WorkflowDWidth = '20%';
+              const headerWidth = '20%';
+
               return (
                 <Th
                   key={header.id}
@@ -96,7 +93,7 @@ export const Table = <D,>({
                   textAlign="center"
                   style={{ 
                     whiteSpace: 'nowrap',
-                    width: isCurrentStatesHeader || isStakeHoldersHeader ? headerWidth : isWorkflowDefinitionDisplayName ? WorkflowDWidth :  'auto', 
+                    width:  isWorkflowDefinitionDisplayName ? headerWidth :  'auto', 
                   }}
                   cursor={
                     header.column.getCanSort() ? 'pointer' : 'initial'
