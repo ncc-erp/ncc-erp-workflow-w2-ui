@@ -18,7 +18,7 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 import { ColorThemeMode } from 'common/constants';
-import { useState } from 'react';
+import  {  useState } from 'react';
 import { IoMdArrowDropdown, IoMdArrowDropup } from 'react-icons/io';
 import theme from 'themes/theme';
 
@@ -72,9 +72,13 @@ export const Table = <D,>({
   return (
     <TableComponent border={`1px solid ${theme.colors.borderColor}`}>
       <Thead>
-        {table.getHeaderGroups().map((headerGroup) => (
+        {table.getHeaderGroups().map((headerGroup) => (      
           <Tr key={headerGroup.id} bg={theme.colors.borderColor}>
             {headerGroup.headers.map((header, index) => {
+            
+              const isWorkflowDefinitionDisplayName = header.id === 'workflowDefinitionDisplayName'
+              const headerWidth = '20%';
+
               return (
                 <Th
                   key={header.id}
@@ -87,6 +91,13 @@ export const Table = <D,>({
                   px="8px"
                   background="secondaryColor"
                   textAlign="center"
+                  style={{ 
+                    whiteSpace: 'nowrap',
+                    width:  isWorkflowDefinitionDisplayName ? headerWidth :  'auto', 
+                  }}
+                  cursor={
+                    header.column.getCanSort() ? 'pointer' : 'initial'
+                  }
                 >
                   {header.isPlaceholder ? null : (
                     <Box
@@ -148,14 +159,18 @@ export const Table = <D,>({
                 }
               }}
             >
-              {row.getVisibleCells().map((cell) => {
+              {row.getVisibleCells().map((cell) => {                
                 return (
                   <Td
                     key={cell.id}
                     fontSize="14px"
                     borderRight="1px"
                     borderColor={theme.colors.borderColor}
-                    px="8px"
+                    px="6px"
+                    style={{
+                      wordBreak: 'break-word',
+                      whiteSpace: 'pre-wrap',
+                    }}
                   >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </Td>

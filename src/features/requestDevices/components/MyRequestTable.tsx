@@ -141,13 +141,22 @@ export const MyRequestTable = () => {
           id: 'currentStates',
           header: () => <Box textAlign="center">Current states</Box>,
           enableSorting: false,
-          cell: (info) => info.getValue().join(', '),
+          cell: (info) => {
+            const currentStates = info.getValue();
+            const formattedCurrentStates = currentStates.join(',\n');
+            return <div dangerouslySetInnerHTML={{ __html: formattedCurrentStates }} />;
+          },
         }),
         columnHelper.accessor('stakeHolders', {
           id: 'stakeHolders',
           header: 'Stakeholders',
           enableSorting: false,
-          cell: (info) => info.getValue().join(', '),
+          cell: (info) => {
+            const stakeholders = info.getValue();
+            const formattedStakeholders = stakeholders.join(',\n');
+            return <div dangerouslySetInnerHTML={{ __html: formattedStakeholders }} />;
+          },
+        
         }),
         columnHelper.accessor('createdAt', {
           id: 'createdAt',
