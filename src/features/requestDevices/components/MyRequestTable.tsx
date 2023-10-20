@@ -143,7 +143,7 @@ export const MyRequestTable = () => {
           enableSorting: false,
           cell: (info) => {
             const stakeholders = info.getValue();
-            const formattedStakeholders = stakeholders.join(', ').replace(/,/g, ',\n');
+            const formattedStakeholders = stakeholders.join(',').replace(/,/g, ',\n');
             return <div dangerouslySetInnerHTML={{ __html: formattedStakeholders }} />;
           },
         }),
@@ -153,7 +153,7 @@ export const MyRequestTable = () => {
           enableSorting: false,
           cell: (info) => {
             const stakeholders = info.getValue();
-            const formattedStakeholders = stakeholders.join(', ').replace(/,/g, ',\n');
+            const formattedStakeholders = stakeholders.join(',').replace(/,/g, ',\n');
             return <div dangerouslySetInnerHTML={{ __html: formattedStakeholders }} />;
           },
         
