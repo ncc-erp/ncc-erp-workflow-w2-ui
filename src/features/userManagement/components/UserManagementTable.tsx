@@ -183,7 +183,7 @@ export const UserManagementTable = () => {
             message={'No requests found!'}
           >
             <Box
-              p="0px 24px"
+              p="20px 24px"
               overflowX="auto"
               w={{ base: `calc(100vw - ${sideBarWidth}px)`, lg: 'auto' }}
             >
