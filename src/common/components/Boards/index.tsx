@@ -397,14 +397,17 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
   };
 
   const arrColor: string[] = ['#009688','#000000']
+  const initialData: [string, string][] = [
+    ['Device Request', '#03A9F4'],
+    ['Change Office Request', '#db0000'],
+    ['Office Equipment Request', '#f27024'],
+    ['Probationary Confirmation Request', '#0c51a0'],
+    ['WFH Request', '#d000db']
+  ];
   let currenColor: number = 0;
-  const hashMap = new Map<string, string>();
-  hashMap.set('Device Request', '#03A9F4');
-  hashMap.set('Change Office Request', '#db0000');
-  hashMap.set('Office Equipment Request', '#f27024');
-  hashMap.set('Probationary Confirmation Request', '#0c51a0');
-  hashMap.set('WFH Request', '#d000db');
-  const rederColor = (key: string) => {
+  const hashMap = new Map<string, string>(initialData);
+
+  const renderColor = (key: string) => {
     if(hashMap.has(key)){
       return hashMap.get(key)
     }
@@ -537,7 +540,7 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
                                         ({getDayAgo(item?.creationTime)})
                                       </div>
                                     </Flex>
-                                    <div className={styles.title} style={{ backgroundColor: rederColor(item.name)}} >
+                                    <div className={styles.title} style={{ backgroundColor: renderColor(item.name)}} >
                                       {item.name}
                                     </div>
 
