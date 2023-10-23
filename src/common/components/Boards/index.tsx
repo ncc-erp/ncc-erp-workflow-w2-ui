@@ -396,6 +396,23 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
     return result;
   };
 
+  const arrColor: string[] = ['#000000','#FF0000','#33FF66','#FFCC00','#0099FF','#CC6633','#FF00CC','#660066']
+  let currenColor: number = 0;
+  const hashMap = new Map<string, string>();
+
+  const rederColor = (key: string) => {
+    if(hashMap.has(key)){
+      return hashMap.get(key)
+    }
+    if(currenColor > arrColor.length -1){
+      return '#3366CC'
+    }
+
+    hashMap.set(key, arrColor[currenColor])
+    currenColor ++;
+    return hashMap.get(key)
+  }
+
   return (
     <>
       <Box position={'relative'}>
@@ -516,7 +533,7 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
                                         ({getDayAgo(item?.creationTime)})
                                       </div>
                                     </Flex>
-                                    <div className={styles.title}>
+                                    <div className={styles.title} style={{ backgroundColor: rederColor(item.name)}} >
                                       {item.name}
                                     </div>
 
