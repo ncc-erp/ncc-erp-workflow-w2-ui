@@ -396,10 +396,14 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
     return result;
   };
 
-  const arrColor: string[] = ['#db0000','#f27024','#0c51a0','#d000db','#009688','#000000']
+  const arrColor: string[] = ['#009688','#000000']
   let currenColor: number = 0;
   const hashMap = new Map<string, string>();
   hashMap.set('Device Request', '#03A9F4');
+  hashMap.set('Change Office Request', '#db0000');
+  hashMap.set('Office Equipment Request', '#f27024');
+  hashMap.set('Probationary Confirmation Request', '#0c51a0');
+  hashMap.set('WFH Request', '#d000db');
   const rederColor = (key: string) => {
     if(hashMap.has(key)){
       return hashMap.get(key)
@@ -573,7 +577,7 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
                                                 fontSize={12}
                                                 as={Button}
                                                 aria-label="Options"
-                                                color="blue.300"
+                                                color={"#03A9F4"}
                                                 padding={1}
                                                 height="fit-content"
                                                 bgColor={bg}
