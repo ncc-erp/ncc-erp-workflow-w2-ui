@@ -404,19 +404,19 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
     ['Probationary Confirmation Request', '#0c51a0'],
     ['WFH Request', '#d000db']
   ];
-  let currenColor: number = 0;
+  let currentColor: number = 0;
   const hashMap = new Map<string, string>(initialData);
 
   const renderColor = (key: string) => {
     if(hashMap.has(key)){
       return hashMap.get(key)
     }
-    if(currenColor > arrColor.length -1){
+    if(currentColor > arrColor.length -1){
       return '#3366CC'
     }
 
     hashMap.set(key, arrColor[currenColor])
-    currenColor ++;
+    currentColor ++;
     return hashMap.get(key)
   }
 
