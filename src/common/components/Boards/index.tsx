@@ -396,10 +396,10 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
     return result;
   };
 
-  const arrColor: string[] = ['#000000','#FF0000','#33FF66','#FFCC00','#0099FF','#CC6633','#FF00CC','#660066']
+  const arrColor: string[] = ['#db0000','#f27024','#0c51a0','#d000db','#009688','#000000']
   let currenColor: number = 0;
   const hashMap = new Map<string, string>();
-
+  hashMap.set('Device Request', '#03A9F4');
   const rederColor = (key: string) => {
     if(hashMap.has(key)){
       return hashMap.get(key)
