@@ -213,7 +213,7 @@ describe('Request Template Form Components', () => {
           name: 'Save',
         });
         userEvent.click(submitButton);
-        const result = await screen.findByText(/StartDate is Required/i);
+        const result = await screen.findByText(/Start Date is Required/i);
         expect(result).toBeInTheDocument();
       });
     });
