@@ -415,7 +415,7 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
       return '#3366CC'
     }
 
-    hashMap.set(key, arrColor[currenColor])
+    hashMap.set(key, arrColor[currentColor])
     currentColor ++;
     return hashMap.get(key)
   }
