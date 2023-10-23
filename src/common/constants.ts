@@ -133,3 +133,10 @@ export const DynamicData = {
   STRENGTH_POINT: 'StrengthPoints',
   WEAKNESS_POINT: 'WeaknessPoints',
 };
+
+export const LinkDocRedirect = {
+  RELEASE_DOCS:
+    'https://docs.google.com/document/d/1Vemp4XltVPYSEVKTAKqcCRNPuQu3RX7Dxon7dtwOfMU/edit',
+  USER_GUIDE_DOCS:
+    'https://docs.google.com/document/d/1xJxLj8JiXc3yNJC2drjqxzGsk9bCSgHxRuTZBFOnUqw/edit',
+};
