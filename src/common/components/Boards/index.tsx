@@ -52,6 +52,7 @@ import TaskSkeleton from './TaskSkeleton';
 import { isValidJSON } from 'utils';
 import { useClearCacheTask } from './useClearCacheTask';
 import { useNavigate } from 'react-router';
+import { Color } from 'common/types';
 
 const fadeIn = keyframes`
   from { opacity: 0; }
@@ -396,16 +397,16 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
     return result;
   };
 
-  const arrColor: string[] = ['#009688','#000000']
-  const initialData: [string, string][] = [
+  const arrColor: Color[] = ['#009688','#000000']
+  const initialData: [string, Color][] = [
     ['Device Request', '#03A9F4'],
     ['Change Office Request', '#db0000'],
     ['Office Equipment Request', '#f27024'],
     ['Probationary Confirmation Request', '#0c51a0'],
-    ['WFH Request', '#d000db']
+    ['WFH Request', '#d000db'],
   ];
   let currentColor: number = 0;
-  const hashMap = new Map<string, string>(initialData);
+  const hashMap = new Map<string, Color>(initialData);
 
   const renderColor = (key: string) => {
     if(hashMap.has(key)){
