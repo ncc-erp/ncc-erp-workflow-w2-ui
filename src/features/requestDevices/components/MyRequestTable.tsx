@@ -144,7 +144,11 @@ export const MyRequestTable = () => {
           cell: (info) => {
             const currentStates = info.getValue();
             const formattedCurrentStates = currentStates.join(',\n');
-            return <div dangerouslySetInnerHTML={{ __html: formattedCurrentStates }} />;
+            return (
+              <div
+                dangerouslySetInnerHTML={{ __html: formattedCurrentStates }}
+              />
+            );
           },
         }),
         columnHelper.accessor('stakeHolders', {
@@ -154,9 +158,12 @@ export const MyRequestTable = () => {
           cell: (info) => {
             const stakeholders = info.getValue();
             const formattedStakeholders = stakeholders.join(',\n');
-            return <div dangerouslySetInnerHTML={{ __html: formattedStakeholders }} />;
+            return (
+              <div
+                dangerouslySetInnerHTML={{ __html: formattedStakeholders }}
+              />
+            );
           },
-        
         }),
         columnHelper.accessor('createdAt', {
           id: 'createdAt',
@@ -442,7 +449,7 @@ export const MyRequestTable = () => {
         <WorkflowModal
           isOpen={isOpenWorkflow}
           onClose={() => setOpenWorkflow(false)}
-          workflowId={requestWorkflow}
+          workflow={`CompOnly?id=${requestWorkflow}`}
         />
       )}
     </>

@@ -480,7 +480,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
         <WorkflowModal
           isOpen={isOpenWorkflow}
           onClose={() => setOpenWorkflow(false)}
-          workflowId={requestWorkflow}
+          workflow={`CompOnly?id=${requestWorkflow}`}
         />
       )}
     </>

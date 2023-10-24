@@ -29,6 +29,9 @@ import { useEffect, useMemo, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { appConfigState } from 'stores/appConfig';
 import { RequestTemplateModal } from './RequestTemplateModal';
+import { useIsAdmin } from 'hooks/useIsAdmin';
+import { WorkflowModal } from 'common/components/WorkflowModal';
+import { MdBrightnessLow } from 'react-icons/md';
 
 const initialFilter: FilterRequestParams = {
   Status: '',
@@ -56,6 +59,7 @@ export const RequestTemplateTable = ({
 }: RequestTemplateTableProps) => {
   const [filter, setFilter] = useState<FilterRequestParams>(initialFilter);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
   const [requestId, setRequestId] = useState<string>('');
   const [modalTitle, setModalTitle] = useState<string>('');
   const [modalWorkflow, setModalWorkflow] = useState<string>('');
@@ -63,8 +67,17 @@ export const RequestTemplateTable = ({
     useState<InputDefinition>();
   const [sorting, setSorting] = useState<SortingState>(initialSorting);
 
+  const [requestWorkflow, setRequestWorkflow] = useState<string>('');
+  const [isOpenWorkflow, setOpenWorkflow] = useState(false);
+  const isAdmin = useIsAdmin();
+
   const { sideBarWidth } = useRecoilValue(appConfigState);
   const columnHelper = createColumnHelper<RequestTemplate>();
+
+  const onActionViewWorkflow = (workflowId: string) => () => {
+    setRequestWorkflow(workflowId);
+    setOpenWorkflow(true);
+  };
 
   const currentPage = useMemo(() => {
     const { skipCount, maxResultCount } = filter;
@@ -72,41 +85,64 @@ export const RequestTemplateTable = ({
     return (maxResultCount + skipCount) / maxResultCount;
   }, [filter]);
 
-  const myRequestColumns = useMemo(
-    () =>
-      [
-        columnHelper.accessor('displayName', {
-          id: 'displayName',
-          header: 'Request Template',
-          enableSorting: false,
-          cell: (info) => info.getValue(),
-        }),
-        columnHelper.display({
-          id: 'actions',
-          enableSorting: false,
-          header: () => <Center w="full">Actions</Center>,
-          cell: (info) => {
-            const { definitionId, displayName, name, inputDefinition } =
-              info.row.original;
-            return (
-              <Center>
-                <IconButton
-                  onClick={onAction(
-                    definitionId,
-                    displayName,
-                    name,
-                    inputDefinition
-                  )}
-                  aria-label="Popup modal"
-                  icon={<RiAddFill />}
-                />
-              </Center>
-            );
-          },
-        }),
-      ] as ColumnDef<RequestTemplate>[],
-    [columnHelper]
-  );
+  const myRequestColumns = useMemo(() => {
+    const displayColumn = columnHelper.accessor('displayName', {
+      id: 'displayName',
+      header: 'Request Template',
+      enableSorting: false,
+      cell: (info) => info.getValue(),
+    });
+
+    const actionColumn = columnHelper.display({
+      id: 'actions',
+      enableSorting: false,
+      header: () => <Center w="full">Actions</Center>,
+      cell: (info) => {
+        const { definitionId, displayName, name, inputDefinition } =
+          info.row.original;
+        return (
+          <Center>
+            <IconButton
+              onClick={onAction(
+                definitionId,
+                displayName,
+                name,
+                inputDefinition
+              )}
+              aria-label="Popup modal"
+              icon={<RiAddFill />}
+            />
+          </Center>
+        );
+      },
+    });
+
+    const editorColumn = columnHelper.display({
+      id: 'designer',
+      enableSorting: false,
+      header: () => <Center w="full">Designer</Center>,
+      cell: (info) => {
+        const { definitionId } = info.row.original;
+        return (
+          <Center>
+            <IconButton
+              onClick={onActionViewWorkflow(definitionId)}
+              aria-label="Popup modal"
+              icon={<MdBrightnessLow />}
+            />
+          </Center>
+        );
+      },
+    });
+
+    const result = [
+      displayColumn,
+      ...(isAdmin ? [editorColumn] : []),
+      actionColumn,
+    ] as ColumnDef<RequestTemplate>[];
+
+    return result;
+  }, [columnHelper, isAdmin]);
 
   useEffect(() => {
     const { id, desc } = sorting?.[0] ?? {};
@@ -212,6 +248,14 @@ export const RequestTemplateTable = ({
         workflow={modalWorkflow}
         inputDefinition={inputDefinition}
       />
+
+      {requestWorkflow && (
+        <WorkflowModal
+          isOpen={isOpenWorkflow}
+          onClose={() => setOpenWorkflow(false)}
+          workflow={`CompOnly/Designer?id=${requestWorkflow}`}
+        />
+      )}
     </Box>
   );
 };
