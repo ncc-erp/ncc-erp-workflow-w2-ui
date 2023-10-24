@@ -45,7 +45,7 @@ const Iframe: React.FC<IframeProps> = (props) => {
   }, []);
 
   return (
-    <iframe style={{ maxHeight: '80vh' }} ref={iframe} title="react-iframe" />
+    <iframe style={{ maxHeight: '75vh' }} ref={iframe} title="react-iframe" />
   );
 };
 
