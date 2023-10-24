@@ -18,8 +18,6 @@ import { useMemo } from 'react';
 import { getItem } from 'utils';
 import IFrame from './IFrame';
 
-const { VITE_GOOGLE_LOGIN_REDIRECT } = import.meta.env;
-
 interface IWorkflowModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -54,7 +52,7 @@ export const WorkflowModal = ({
           <Divider mb={5}></Divider>
           <AspectRatio maxW="100%" ratio={1}>
             <IFrame
-              src={`${VITE_GOOGLE_LOGIN_REDIRECT}/${workflow}`}
+              src={`${window.location.origin}/${workflow}`}
               headers={{
                 Authorization: `Bearer ${token}`,
               }}

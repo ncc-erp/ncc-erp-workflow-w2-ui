@@ -16,10 +16,6 @@ jest.mock('hooks/useIsAdmin', () => ({
   useIsAdmin: jest.fn().mockReturnValue(true),
 }));
 
-jest.mock('common/components/WorkflowModal', () => ({
-  VITE_GOOGLE_LOGIN_REDIRECT: 'http://localhost:4200',
-}));
-
 jest.mock('api/apiHooks/requestHooks', () => ({
   useMyRequests: jest.fn().mockReturnValue({
     isLoading: false,
