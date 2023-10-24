@@ -164,7 +164,7 @@ export const RequestTemplateTable = ({
           isEmpty={!items.length}
           h="200px"
           fontSize="xs"
-          message={'No requests found!'}
+          message={'No request found!'}
         >
           <Box
             overflowX="auto"

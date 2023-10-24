@@ -279,7 +279,7 @@ export const TablePostAndWFH = () => {
             isEmpty={!wfhList.length}
             h="200px"
             fontSize="xs"
-            message={'No requests found!'}
+            message={'No request found!'}
           >
             <Box
               p="20px 24px"

@@ -419,7 +419,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
               isEmpty={false}
               h="200px"
               fontSize="xs"
-              message={'No requests found!'}
+              message={'No request found!'}
             >
               <Box
                 p="10px 20px"

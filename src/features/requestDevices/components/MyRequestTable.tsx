@@ -383,7 +383,7 @@ export const MyRequestTable = () => {
             isEmpty={!requests.length}
             h="200px"
             fontSize="xs"
-            message={'No requests found!'}
+            message={'No request found!'}
           >
             <Box
               p="20px 30px 0px 24px"
