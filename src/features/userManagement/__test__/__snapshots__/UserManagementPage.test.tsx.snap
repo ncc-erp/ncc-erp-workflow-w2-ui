@@ -112,8 +112,9 @@ exports[`Request My Requests Page 1`] = `
                 class="css-1y39i0r"
               >
                 <th
-                  class="css-cbljg4"
+                  class="css-j2saj0"
                   colspan="1"
+                  style="white-space: nowrap; width: auto;"
                 >
                   <div
                     class="css-13mxke4"
@@ -141,8 +142,9 @@ exports[`Request My Requests Page 1`] = `
                   </div>
                 </th>
                 <th
-                  class="css-cbljg4"
+                  class="css-j2saj0"
                   colspan="1"
+                  style="white-space: nowrap; width: auto;"
                 >
                   <div
                     class="css-13mxke4"
@@ -151,8 +153,9 @@ exports[`Request My Requests Page 1`] = `
                   </div>
                 </th>
                 <th
-                  class="css-cbljg4"
+                  class="css-j2saj0"
                   colspan="1"
+                  style="white-space: nowrap; width: auto;"
                 >
                   <div
                     class="css-13mxke4"
@@ -161,8 +164,9 @@ exports[`Request My Requests Page 1`] = `
                   </div>
                 </th>
                 <th
-                  class="css-cbljg4"
+                  class="css-yddv3x"
                   colspan="1"
+                  style="white-space: nowrap; width: auto;"
                 >
                   <div
                     class="css-u511cn"
@@ -183,7 +187,8 @@ exports[`Request My Requests Page 1`] = `
                 class="css-eg92qj"
               >
                 <td
-                  class="css-bhmk6k"
+                  class="css-jv3dxv"
+                  style="word-break: break-word; white-space: pre-wrap;"
                 >
                   <div
                     class="css-0"
@@ -192,15 +197,18 @@ exports[`Request My Requests Page 1`] = `
                   </div>
                 </td>
                 <td
-                  class="css-bhmk6k"
+                  class="css-jv3dxv"
+                  style="word-break: break-word; white-space: pre-wrap;"
                 >
                   admin@abp.io
                 </td>
                 <td
-                  class="css-bhmk6k"
+                  class="css-jv3dxv"
+                  style="word-break: break-word; white-space: pre-wrap;"
                 />
                 <td
-                  class="css-bhmk6k"
+                  class="css-jv3dxv"
+                  style="word-break: break-word; white-space: pre-wrap;"
                 >
                   <div
                     class="css-gmuwbf"

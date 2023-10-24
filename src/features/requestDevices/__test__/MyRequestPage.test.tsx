@@ -17,7 +17,7 @@ jest.mock('hooks/useIsAdmin', () => ({
 }));
 
 jest.mock('common/components/WorkflowModal', () => ({
-  VITE_PROXY_SERVER_URL: 'http://localhost:4433',
+  VITE_GOOGLE_LOGIN_REDIRECT: 'http://localhost:4200',
 }));
 
 jest.mock('api/apiHooks/requestHooks', () => ({
