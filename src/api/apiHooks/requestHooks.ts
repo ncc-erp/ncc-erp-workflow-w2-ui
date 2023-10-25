@@ -110,6 +110,10 @@ export const useCreateWorkflowDefinition = () => {
   );
 };
 
+export const useDeleteWorkflowDefinition = () => {
+  return useDelete(`/app/workflow-definition`);
+};
+
 export const useUserCurrentProject = () => {
   return useGetOne<ICurrentProject>(
     [QueryKeys.GET_USER_CURRENT_PROJECT],

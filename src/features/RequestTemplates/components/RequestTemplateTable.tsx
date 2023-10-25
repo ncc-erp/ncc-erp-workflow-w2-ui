@@ -34,6 +34,8 @@ import { appConfigState } from 'stores/appConfig';
 import { RowAction } from './RowAction';
 import { CreateTemplateModal } from './modals/CreateTemplateModal';
 import { RequestTemplateModal } from './modals/RequestTemplateModal';
+import { useDeleteWorkflowDefinition } from 'api/apiHooks/requestHooks';
+import { ModalConfirm } from 'common/components/ModalConfirm';
 
 const initialFilter: FilterRequestParams = {
   Status: '',
@@ -67,6 +69,7 @@ export const RequestTemplateTable = ({
 
   const [requestId, setRequestId] = useState<string>('');
   const [modalTitle, setModalTitle] = useState<string>('');
+  const [modalDescription, setModalDescription] = useState<string>('');
   const [modalWorkflow, setModalWorkflow] = useState<string>('');
   const [inputDefinition, setModalInputDefinition] =
     useState<InputDefinition>();
@@ -74,10 +77,24 @@ export const RequestTemplateTable = ({
 
   const [requestWorkflow, setRequestWorkflow] = useState<string>('');
   const [isOpenWorkflow, setOpenWorkflow] = useState(false);
+  const [isModalConfirmOpen, setIsModalConfirmOpen] = useState(false);
   const isAdmin = useIsAdmin();
 
   const { sideBarWidth } = useRecoilValue(appConfigState);
   const columnHelper = createColumnHelper<RequestTemplate>();
+  const deleteWorkflowDefinitionMutation = useDeleteWorkflowDefinition();
+  const onConfirmDeleteWorkflow = (workflowId: string) => () => {
+    setIsModalConfirmOpen(true);
+    setRequestId(workflowId);
+    setModalTitle('Delete workflow');
+    setModalDescription('Do you want to delete workflow?');
+  };
+
+  const onDeleteWorkflow = async () => {
+    await deleteWorkflowDefinitionMutation.mutateAsync(requestId);
+    setIsModalConfirmOpen(false);
+    refetch();
+  };
 
   const onActionViewWorkflow = (workflowId: string) => () => {
     setRequestWorkflow(workflowId);
@@ -150,7 +167,7 @@ export const RequestTemplateTable = ({
           return (
             <Center>
               <RowAction
-                onDelete={() => {}}
+                onDelete={onConfirmDeleteWorkflow(definitionId)}
                 onDefineInput={() => {}}
                 onViewWorkflow={onActionViewWorkflow(definitionId)}
               />
@@ -212,14 +229,12 @@ export const RequestTemplateTable = ({
 
   const onCloseModal = () => {
     setIsModalOpen(false);
+    setIsModalConfirmOpen(false);
+    setIsCreateModalOpen(false);
   };
 
   const onOpenCreateModal = () => {
     setIsCreateModalOpen(true);
-  };
-
-  const onCloseCreateModal = () => {
-    setIsCreateModalOpen(false);
   };
 
   return (
@@ -288,10 +303,7 @@ export const RequestTemplateTable = ({
         />
       </HStack>
 
-      <CreateTemplateModal
-        isOpen={isCreateModalOpen}
-        onClose={onCloseCreateModal}
-      />
+      <CreateTemplateModal isOpen={isCreateModalOpen} onClose={onCloseModal} />
 
       <RequestTemplateModal
         isOpen={isModalOpen}
@@ -300,6 +312,14 @@ export const RequestTemplateTable = ({
         displayName={modalTitle}
         workflow={modalWorkflow}
         inputDefinition={inputDefinition}
+      />
+
+      <ModalConfirm
+        isOpen={isModalConfirmOpen}
+        onClose={onCloseModal}
+        onConfirm={onDeleteWorkflow}
+        title={modalTitle}
+        description={modalDescription}
       />
 
       {requestWorkflow && (
