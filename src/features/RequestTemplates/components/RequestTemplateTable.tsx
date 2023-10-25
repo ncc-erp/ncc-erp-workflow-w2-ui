@@ -36,6 +36,7 @@ import { CreateTemplateModal } from './modals/CreateTemplateModal';
 import { RequestTemplateModal } from './modals/RequestTemplateModal';
 import { useDeleteWorkflowDefinition } from 'api/apiHooks/requestHooks';
 import { ModalConfirm } from 'common/components/ModalConfirm';
+import { DefineTemplateInputModal } from './modals/DefineTemplateInputModal';
 
 const initialFilter: FilterRequestParams = {
   Status: '',
@@ -77,6 +78,7 @@ export const RequestTemplateTable = ({
 
   const [requestWorkflow, setRequestWorkflow] = useState<string>('');
   const [isOpenWorkflow, setOpenWorkflow] = useState(false);
+  const [isModalDefineInputOpen, setIsModalDefineInputOpen] = useState(false);
   const [isModalConfirmOpen, setIsModalConfirmOpen] = useState(false);
   const isAdmin = useIsAdmin();
 
@@ -88,6 +90,11 @@ export const RequestTemplateTable = ({
     setRequestId(workflowId);
     setModalTitle('Delete workflow');
     setModalDescription('Do you want to delete workflow?');
+  };
+
+  const onDefineInputWorkflow = (inputDefinition: InputDefinition) => () => {
+    setIsModalDefineInputOpen(true);
+    setModalInputDefinition(inputDefinition);
   };
 
   const onDeleteWorkflow = async () => {
@@ -163,12 +170,12 @@ export const RequestTemplateTable = ({
         enableSorting: false,
         header: () => <Center w="full">Designer</Center>,
         cell: (info) => {
-          const { definitionId } = info.row.original;
+          const { definitionId, inputDefinition } = info.row.original;
           return (
             <Center>
               <RowAction
                 onDelete={onConfirmDeleteWorkflow(definitionId)}
-                onDefineInput={() => {}}
+                onDefineInput={onDefineInputWorkflow(inputDefinition)}
                 onViewWorkflow={onActionViewWorkflow(definitionId)}
               />
             </Center>
@@ -231,6 +238,7 @@ export const RequestTemplateTable = ({
     setIsModalOpen(false);
     setIsModalConfirmOpen(false);
     setIsCreateModalOpen(false);
+    setIsModalDefineInputOpen(false);
   };
 
   const onOpenCreateModal = () => {
@@ -304,6 +312,12 @@ export const RequestTemplateTable = ({
       </HStack>
 
       <CreateTemplateModal isOpen={isCreateModalOpen} onClose={onCloseModal} />
+
+      <DefineTemplateInputModal
+        inputDefinition={inputDefinition}
+        isOpen={isModalDefineInputOpen}
+        onClose={onCloseModal}
+      />
 
       <RequestTemplateModal
         isOpen={isModalOpen}

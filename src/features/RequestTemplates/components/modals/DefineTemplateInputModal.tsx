@@ -8,32 +8,28 @@ import {
   ModalOverlay,
 } from '@chakra-ui/react';
 import { InputDefinition } from 'models/request';
-import RequestForm from '../forms/RequestForm';
+import DefineInputForm from '../forms/DefineInputForm';
 import styles from '../style.module.scss';
-interface RequestTemplateModalProps {
+interface DefineTemplateInputModalProps {
   isOpen: boolean;
   onClose: () => void;
-  displayName?: string;
-  requestId: string;
-  workflow: string;
   inputDefinition?: InputDefinition;
 }
 
-export const RequestTemplateModal = ({
+export const DefineTemplateInputModal = ({
   isOpen,
   onClose,
-  displayName,
   inputDefinition,
-}: RequestTemplateModalProps) => {
+}: DefineTemplateInputModalProps) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={true}>
       <ModalOverlay />
       <ModalContent className={styles.customModal}>
-        <ModalHeader fontSize="md">{displayName}</ModalHeader>
+        <ModalHeader fontSize="md">Define Workflow Input</ModalHeader>
         <Divider></Divider>
         <ModalCloseButton />
         <ModalBody>
-          <RequestForm
+          <DefineInputForm
             inputDefinition={inputDefinition}
             onCloseModal={onClose}
           />

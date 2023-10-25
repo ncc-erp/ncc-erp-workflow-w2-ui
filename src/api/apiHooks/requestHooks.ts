@@ -77,6 +77,13 @@ export const useOffices = () => {
   );
 };
 
+export const useInputDefinition = () => {
+  return useGetOne(
+    [QueryKeys.GET_INPUT_DEFINITION],
+    '/app/external-resource/workflow-input-definition-property-types'
+  );
+};
+
 export const useUserProjects = () => {
   return useGetOne<typeof projectList>(
     [QueryKeys.GET_PROJECT_USER],

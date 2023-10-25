@@ -99,6 +99,7 @@ export const QueryKeys = {
   GET_USER_CURRENT_PROJECT: 'getUserCurrentProject',
   GET_STAKE_HOLDERS_FOR_FILTER: 'getStakeHoldersForFilter',
   GET_USER_LIST: 'getUserList',
+  GET_INPUT_DEFINITION: 'getInputDefinition',
 };
 
 export const ColorThemeMode = {
