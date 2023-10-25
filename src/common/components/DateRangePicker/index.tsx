@@ -20,7 +20,7 @@ const DateRangePicker = ({
 }: IDateRangePickerProps) => {
   return (
     <Box display="flex" alignItems="center">
-      <FaCalendar className={styles.icon} />
+      <div style={{ width: "16px", height:"16px"}} ><FaCalendar className={styles.icon} /></div>
       <Text ml={2} mr={2} fontSize="sm">
         From
       </Text>

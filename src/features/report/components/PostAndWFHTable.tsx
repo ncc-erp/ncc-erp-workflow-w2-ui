@@ -213,16 +213,17 @@ export const TablePostAndWFH = () => {
 
   return (
     <>
-      <Box>
+      <Box
+        width={"100%"}
+        overflowX={"hidden"}
+      >
         <HStack
-          w="full"
-          pl="24px"
-          pr="24px"
-          pb="3px"
+          w="100%"
           display="flex"
-          justifyContent="space-between"
+          flexDirection={["column","column","column","row","row"]}
+          justifyContent={["center","center","center","space-around","space-between","space-between"]}
         >
-          <InputGroup w={'30%'}>
+          <InputGroup  w={['90%', '80%','70%','40%','30%','30%']}>
             <Input
               type="text"
               placeholder="Enter email"
@@ -234,7 +235,7 @@ export const TablePostAndWFH = () => {
               <TbSearch />
             </InputRightElement>
           </InputGroup>
-          <Box>
+          <Box  w={['80%', '80%','70%','40%','30%','30%']} >
             <DateRangePicker
               startDate={startDate}
               endDate={endDate}
@@ -244,7 +245,7 @@ export const TablePostAndWFH = () => {
             />
           </Box>
         </HStack>
-        <Wrap px="24px" pt="10px" justify="flex-end">
+        <Wrap  p={"12px"} justify="flex-end">
           <WrapItem>
             <div className={styles.btnExport}>
               <Button
@@ -280,11 +281,13 @@ export const TablePostAndWFH = () => {
             h="200px"
             fontSize="xs"
             message={'No request found!'}
+            display={"flex"}
+            justifyContent={"center"}
+            alignItems={"center"}
           >
             <Box
-              p="20px 24px"
-              overflowX="auto"
-              w={{ base: `calc(100vw - ${sideBarWidth}px)`, lg: 'auto' }}
+              p={{base:"4px" , md:"20px 16px"}}
+              w={["100vw","100vw",`calc(100vw - ${sideBarWidth}px)`,`calc(100vw - ${sideBarWidth}px)`,`calc(100vw - ${sideBarWidth}px)`,`calc(100vw - ${sideBarWidth}px)`,`calc(100vw - ${sideBarWidth}px)`]}
             >
               <Table
                 columns={wfhColumns}
@@ -298,7 +301,7 @@ export const TablePostAndWFH = () => {
           </EmptyWrapper>
         )}
         <HStack
-          p="0px 30px 20px 30px"
+          p="20px 30px 20px 30px"
           justifyContent="space-between"
           flexWrap="wrap"
         >

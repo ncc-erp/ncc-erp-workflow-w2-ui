@@ -92,9 +92,9 @@ export const Table = <D,>({
                   background="secondaryColor"
                   textAlign="center"
                   style={{ 
-                    whiteSpace: 'nowrap',
                     width:  isWorkflowDefinitionDisplayName ? headerWidth :  'auto', 
                   }}
+                  whiteSpace={["normal","normal","normal","nowrap"]}
                   cursor={
                     header.column.getCanSort() ? 'pointer' : 'initial'
                   }
