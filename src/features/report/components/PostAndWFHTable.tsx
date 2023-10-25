@@ -223,7 +223,7 @@ export const TablePostAndWFH = () => {
           flexDirection={["column","column","column","row","row"]}
           justifyContent={["center","center","center","space-around","space-between","space-between"]}
         >
-          <InputGroup  w={['90%', '80%','70%','40%','30%','30%']}>
+          <InputGroup ml="16px" w={['90%', '80%','70%','40%','30%','30%']}>
             <Input
               type="text"
               placeholder="Enter email"
@@ -235,7 +235,7 @@ export const TablePostAndWFH = () => {
               <TbSearch />
             </InputRightElement>
           </InputGroup>
-          <Box  w={['80%', '80%','70%','40%','30%','30%']} >
+          <Box w={['80%', '80%','70%','40%','30%','30%']} >
             <DateRangePicker
               startDate={startDate}
               endDate={endDate}
@@ -245,7 +245,7 @@ export const TablePostAndWFH = () => {
             />
           </Box>
         </HStack>
-        <Wrap  p={"12px"} justify="flex-end">
+        <Wrap pt={"12px"}  pr={"16px"} justify="flex-end">
           <WrapItem>
             <div className={styles.btnExport}>
               <Button
@@ -286,7 +286,7 @@ export const TablePostAndWFH = () => {
             alignItems={"center"}
           >
             <Box
-              p={{base:"4px" , md:"20px 16px"}}
+              p={{base:"8px" , md:"20px 16px"}}
               w={["100vw","100vw",`calc(100vw - ${sideBarWidth}px)`,`calc(100vw - ${sideBarWidth}px)`,`calc(100vw - ${sideBarWidth}px)`,`calc(100vw - ${sideBarWidth}px)`,`calc(100vw - ${sideBarWidth}px)`]}
             >
               <Table
