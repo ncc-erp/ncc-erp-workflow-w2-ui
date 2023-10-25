@@ -1,11 +1,11 @@
 import {
   Box,
+  Button,
   Center,
   HStack,
+  IconButton,
   Spacer,
   Spinner,
-  IconButton,
-  Button,
 } from '@chakra-ui/react';
 import {
   ColumnDef,
@@ -17,9 +17,10 @@ import { Pagination } from 'common/components/Pagination';
 import { PageSize } from 'common/components/Table/PageSize';
 import { ShowingItemText } from 'common/components/Table/ShowingItemText';
 import { Table } from 'common/components/Table/Table';
+import { WorkflowModal } from 'common/components/WorkflowModal';
 import { noOfRows } from 'common/constants';
 import { RequestSortField, SortDirection } from 'common/enums';
-import { RiAddFill } from 'react-icons/ri';
+import { useIsAdmin } from 'hooks/useIsAdmin';
 import {
   FilterRequestParams,
   InputDefinition,
@@ -27,13 +28,12 @@ import {
   RequestTemplateResult,
 } from 'models/request';
 import { useEffect, useMemo, useState } from 'react';
+import { RiAddFill } from 'react-icons/ri';
 import { useRecoilValue } from 'recoil';
 import { appConfigState } from 'stores/appConfig';
-import { RequestTemplateModal } from './modals/RequestTemplateModal';
-import { useIsAdmin } from 'hooks/useIsAdmin';
-import { WorkflowModal } from 'common/components/WorkflowModal';
-import { MdBrightnessLow } from 'react-icons/md';
+import { RowAction } from './RowAction';
 import { CreateTemplateModal } from './modals/CreateTemplateModal';
+import { RequestTemplateModal } from './modals/RequestTemplateModal';
 
 const initialFilter: FilterRequestParams = {
   Status: '',
@@ -53,11 +53,13 @@ const initialSorting: SortingState = [
 interface RequestTemplateTableProps {
   data: RequestTemplateResult;
   isLoading: boolean;
+  refetch: () => void;
 }
 
 export const RequestTemplateTable = ({
   data: { items, totalCount },
   isLoading,
+  refetch,
 }: RequestTemplateTableProps) => {
   const [filter, setFilter] = useState<FilterRequestParams>(initialFilter);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -91,7 +93,7 @@ export const RequestTemplateTable = ({
   const myRequestColumns = useMemo(() => {
     const displayColumn = columnHelper.accessor('displayName', {
       id: 'displayName',
-      header: 'Request Template',
+      header: isAdmin ? 'Display Name' : 'Request Template',
       enableSorting: false,
       cell: (info) => info.getValue(),
     });
@@ -120,27 +122,47 @@ export const RequestTemplateTable = ({
       },
     });
 
-    const editorColumn = columnHelper.display({
-      id: 'designer',
-      enableSorting: false,
-      header: () => <Center w="full">Designer</Center>,
-      cell: (info) => {
-        const { definitionId } = info.row.original;
-        return (
-          <Center>
-            <IconButton
-              onClick={onActionViewWorkflow(definitionId)}
-              aria-label="Popup modal"
-              icon={<MdBrightnessLow />}
-            />
-          </Center>
-        );
-      },
-    });
+    const editorColumn = [
+      columnHelper.accessor('name', {
+        id: 'name',
+        header: 'Name',
+        enableSorting: false,
+        cell: (info) => info.getValue(),
+      }),
+      columnHelper.accessor('version', {
+        id: 'version',
+        header: 'Version',
+        enableSorting: false,
+        cell: (info) => info.getValue(),
+      }),
+      columnHelper.accessor('isPublished', {
+        id: 'isPublished',
+        header: 'Published',
+        enableSorting: false,
+        cell: (info) => info.getValue().toString(),
+      }),
+      columnHelper.display({
+        id: 'designer',
+        enableSorting: false,
+        header: () => <Center w="full">Designer</Center>,
+        cell: (info) => {
+          const { definitionId } = info.row.original;
+          return (
+            <Center>
+              <RowAction
+                onDelete={() => {}}
+                onDefineInput={() => {}}
+                onViewWorkflow={onActionViewWorkflow(definitionId)}
+              />
+            </Center>
+          );
+        },
+      }),
+    ];
 
     const result = [
       displayColumn,
-      ...(isAdmin ? [editorColumn] : []),
+      ...(isAdmin ? editorColumn : []),
       actionColumn,
     ] as ColumnDef<RequestTemplate>[];
 
@@ -203,7 +225,7 @@ export const RequestTemplateTable = ({
   return (
     <Box>
       {isAdmin && (
-        <Box px={6} mt={2}>
+        <Box px={6}>
           <Button
             isDisabled={isLoading}
             size="md"
@@ -283,7 +305,10 @@ export const RequestTemplateTable = ({
       {requestWorkflow && (
         <WorkflowModal
           isOpen={isOpenWorkflow}
-          onClose={() => setOpenWorkflow(false)}
+          onClose={() => {
+            setOpenWorkflow(false);
+            refetch();
+          }}
           workflow={`CompOnly/Designer?id=${requestWorkflow}`}
         />
       )}

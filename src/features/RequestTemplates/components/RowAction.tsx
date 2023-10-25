@@ -1,28 +1,25 @@
 import {
+  Icon,
+  IconButton,
   Menu,
   MenuButton,
-  IconButton,
-  MenuList,
   MenuItem,
-  Icon,
+  MenuList,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { RiSettings4Fill, RiDeleteBin6Fill } from 'react-icons/ri';
-import { MdCancel } from 'react-icons/md';
-import { FaEye, FaRegMap } from 'react-icons/fa';
 import { ColorThemeMode } from 'common/constants';
+import { FaEye, FaRegMap } from 'react-icons/fa';
+import { RiDeleteBin6Fill, RiSettings4Fill } from 'react-icons/ri';
 
 interface RowActionProps {
-  onViewDetails: () => void;
-  onCancel: () => void;
+  onDefineInput: () => void;
   onDelete: () => void;
   onViewWorkflow: () => void;
 }
 
 export const RowAction = ({
-  onCancel,
   onDelete,
-  onViewDetails,
+  onDefineInput,
   onViewWorkflow,
 }: RowActionProps) => {
   const bg = useColorModeValue(ColorThemeMode.LIGHT, ColorThemeMode.DARK);
@@ -42,10 +39,10 @@ export const RowAction = ({
           color={color}
           display="flex"
           gap="12px"
-          onClick={onViewDetails}
+          onClick={onDefineInput}
         >
           <Icon color="gray.500" as={FaEye} />
-          View
+          Define Input
         </MenuItem>
         <MenuItem
           color={color}
@@ -54,15 +51,11 @@ export const RowAction = ({
           onClick={onViewWorkflow}
         >
           <Icon color="gray.500" as={FaRegMap} />
-          Workflow
+          Edit Workflow
         </MenuItem>
         <MenuItem color={color} display="flex" gap="12px" onClick={onDelete}>
           <Icon color="gray.500" as={RiDeleteBin6Fill} />
           Delete
-        </MenuItem>
-        <MenuItem color={color} display="flex" gap="12px" onClick={onCancel}>
-          <Icon color="gray.500" as={MdCancel} />
-          Cancel
         </MenuItem>
       </MenuList>
     </Menu>

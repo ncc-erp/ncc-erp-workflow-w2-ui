@@ -206,8 +206,7 @@ export const TaskDetailModal = ({
               onClick={onActionViewWorkflow(
                 data?.tasks.workflowInstanceId as string
               )}
-              style={{ display: 'none' }}
-              isDisabled={true}
+              mt={2}
             >
               View Workflow Detail
             </Button>

@@ -4,7 +4,8 @@ import { RequestTemplateTable } from './components/RequestTemplateTable';
 import { useMemo } from 'react';
 
 const RequestTemplates = () => {
-  const { data, isLoading, isFetching, isRefetching } = useRequestTemplates();
+  const { data, isLoading, isFetching, isRefetching, refetch } =
+    useRequestTemplates();
 
   const temp = useMemo(() => {
     return data;
@@ -21,6 +22,7 @@ const RequestTemplates = () => {
         <RequestTemplateTable
           data={temp || { items: [], totalCount: 0 }}
           isLoading={isLoading || isFetching || isRefetching}
+          refetch={refetch}
         />
       </Page.Body>
     </Page>
