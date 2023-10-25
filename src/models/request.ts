@@ -62,6 +62,11 @@ export interface PropertyDefinition {
   isRequired: boolean;
 }
 
+export interface CreateWorkflowPropertyDefinition {
+  name: string;
+  isRequired: boolean;
+}
+
 export interface ChangeOfficeRequestFormParams {
   currentOffice: string;
   destinationOffice: string;
@@ -94,6 +99,11 @@ export interface IRequestFormParams {
   input: object;
 }
 
+export interface ICreateFormParams {
+  name: string;
+  displayName: string;
+  tag: string;
+}
 export interface IRequestUser {
   email: string;
   name: string;

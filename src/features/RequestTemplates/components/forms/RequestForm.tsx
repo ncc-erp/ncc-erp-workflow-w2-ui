@@ -39,7 +39,7 @@ import {
 } from 'models/request';
 import { IUser } from 'models/user';
 import { ChangeEvent, useState } from 'react';
-import { formatDate } from 'utils';
+import { convertToCase, formatDate } from 'utils';
 import { ColorThemeMode, WFH_FORMAT_DATE } from 'common/constants';
 import { isWithinInterval, subWeeks } from 'date-fns';
 import { option } from 'common/types';
@@ -132,10 +132,6 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
     const updatedFormParams = { ...formParams };
     updatedFormParams[variable] = e.target.value;
     setFormParams(updatedFormParams);
-  };
-
-  const toDisplayName = (inputName: string) => {
-    return inputName.replace(/([a-z])([A-Z])/g, '$1 $2');
   };
 
   const handleSelectChangeValue = (value: string, variable: string) => {
@@ -240,7 +236,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
               fontWeight="normal"
               textColor={color}
             >
-              {toDisplayName(fieldname)}
+              {convertToCase(fieldname)}
               {Field?.isRequired ? (
                 <FormHelperText my={1} style={{ color: 'red' }} as="span">
                   {' '}
@@ -276,7 +272,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
         return (
           <FormControl key={Field?.name}>
             <FormLabel fontSize={16} my={1} fontWeight="normal">
-              {toDisplayName(fieldname)}
+              {convertToCase(fieldname)}
               {Field?.isRequired ? (
                 <FormHelperText my={1} style={{ color: 'red' }} as="span">
                   {' '}
@@ -311,7 +307,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
         return (
           <FormControl key={Field?.name}>
             <FormLabel fontSize={16} my={1} fontWeight="normal">
-              {toDisplayName(fieldname)}
+              {convertToCase(fieldname)}
               {Field?.isRequired ? (
                 <FormHelperText my={1} style={{ color: 'red' }} as="span">
                   {' '}
@@ -348,7 +344,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
               my={1}
               fontWeight="normal"
             >
-              {toDisplayName(fieldname)}
+              {convertToCase(fieldname)}
               {Field?.isRequired ? (
                 <FormHelperText my={1} style={{ color: 'red' }} as="span">
                   {' '}
@@ -417,7 +413,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
         return (
           <FormControl key={Field?.name}>
             <FormLabel my={1} fontSize={16} fontWeight="normal">
-              {toDisplayName(fieldname)}
+              {convertToCase(fieldname)}
               {Field?.isRequired ? (
                 <FormHelperText my={1} style={{ color: 'red' }} as="span">
                   {' '}

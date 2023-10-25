@@ -5,6 +5,7 @@ import {
   Spacer,
   Spinner,
   IconButton,
+  Button,
 } from '@chakra-ui/react';
 import {
   ColumnDef,
@@ -28,10 +29,11 @@ import {
 import { useEffect, useMemo, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { appConfigState } from 'stores/appConfig';
-import { RequestTemplateModal } from './RequestTemplateModal';
+import { RequestTemplateModal } from './modals/RequestTemplateModal';
 import { useIsAdmin } from 'hooks/useIsAdmin';
 import { WorkflowModal } from 'common/components/WorkflowModal';
 import { MdBrightnessLow } from 'react-icons/md';
+import { CreateTemplateModal } from './modals/CreateTemplateModal';
 
 const initialFilter: FilterRequestParams = {
   Status: '',
@@ -59,6 +61,7 @@ export const RequestTemplateTable = ({
 }: RequestTemplateTableProps) => {
   const [filter, setFilter] = useState<FilterRequestParams>(initialFilter);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState<boolean>(false);
 
   const [requestId, setRequestId] = useState<string>('');
   const [modalTitle, setModalTitle] = useState<string>('');
@@ -189,8 +192,31 @@ export const RequestTemplateTable = ({
     setIsModalOpen(false);
   };
 
+  const onOpenCreateModal = () => {
+    setIsCreateModalOpen(true);
+  };
+
+  const onCloseCreateModal = () => {
+    setIsCreateModalOpen(false);
+  };
+
   return (
     <Box>
+      {isAdmin && (
+        <Box px={6} mt={2}>
+          <Button
+            isDisabled={isLoading}
+            size="md"
+            fontSize="sm"
+            fontWeight="medium"
+            colorScheme="green"
+            onClick={onOpenCreateModal}
+          >
+            Create
+          </Button>
+        </Box>
+      )}
+
       {isLoading ? (
         <Center h="200px">
           <Spinner mx="auto" speed="0.65s" thickness="3px" size="xl" />
@@ -239,6 +265,11 @@ export const RequestTemplateTable = ({
           hideOnSinglePage
         />
       </HStack>
+
+      <CreateTemplateModal
+        isOpen={isCreateModalOpen}
+        onClose={onCloseCreateModal}
+      />
 
       <RequestTemplateModal
         isOpen={isModalOpen}

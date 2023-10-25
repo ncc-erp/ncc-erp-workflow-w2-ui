@@ -9,6 +9,7 @@ import {
   RequestTemplateResult,
   WfhRequestFormParams,
   IRequestResult,
+  ICreateFormParams,
 } from 'models/request';
 import {
   useCancelByPost,
@@ -100,6 +101,12 @@ export const useUserInfoWithBranch = (userEmail: string) => {
 export const useNewRequestWorkflow = () => {
   return useCreate<IRequestFormParams, any>(
     '/app/workflow-instance/new-instance'
+  );
+};
+
+export const useCreateWorkflowDefinition = () => {
+  return useCreate<ICreateFormParams, any>(
+    '/app/workflow-definition/workflow-definition'
   );
 };
 
