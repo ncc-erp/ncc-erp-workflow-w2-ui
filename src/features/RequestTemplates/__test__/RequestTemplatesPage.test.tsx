@@ -12,6 +12,10 @@ jest.mock('../../../api/axiosInstant', () => ({
   VITE_API_BASE_URL: '/api',
 }));
 
+jest.mock('hooks/useMediaQuery', () => ({
+  useMediaQuery: jest.fn().mockReturnValue(true),
+}));
+
 jest.mock('api/apiHooks/requestHooks', () => ({
   useRequestTemplates: jest.fn().mockReturnValue({
     isLoading: false,
