@@ -161,6 +161,7 @@ const DefineInputForm = ({
             colorScheme="red"
             mb="20px"
             w="200px"
+            isDisabled={!(fields.length > 1)}
             onClick={() => remove(index)}
           >
             Remove
