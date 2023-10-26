@@ -52,6 +52,7 @@ import TaskSkeleton from './TaskSkeleton';
 import { isValidJSON } from 'utils';
 import { useClearCacheTask } from './useClearCacheTask';
 import { useNavigate } from 'react-router';
+import { Color } from 'common/types';
 
 const fadeIn = keyframes`
   from { opacity: 0; }
@@ -396,6 +397,30 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
     return result;
   };
 
+  const arrColor: Color[] = ['#009688','#000000']
+  const initialData: [string, Color][] = [
+    ['Device Request', '#03A9F4'],
+    ['Change Office Request', '#db0000'],
+    ['Office Equipment Request', '#f27024'],
+    ['Probationary Confirmation Request', '#0c51a0'],
+    ['WFH Request', '#d000db'],
+  ];
+  let currentColor: number = 0;
+  const hashMap = new Map<string, Color>(initialData);
+
+  const renderColor = (key: string) => {
+    if(hashMap.has(key)){
+      return hashMap.get(key)
+    }
+    if(currentColor > arrColor.length -1){
+      return '#3366CC'
+    }
+
+    hashMap.set(key, arrColor[currentColor])
+    currentColor ++;
+    return hashMap.get(key)
+  }
+
   return (
     <>
       <Box position={'relative'}>
@@ -516,7 +541,7 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
                                         ({getDayAgo(item?.creationTime)})
                                       </div>
                                     </Flex>
-                                    <div className={styles.title}>
+                                    <div className={styles.title} style={{ backgroundColor: renderColor(item.name)}} >
                                       {item.name}
                                     </div>
 
@@ -556,7 +581,7 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
                                                 fontSize={12}
                                                 as={Button}
                                                 aria-label="Options"
-                                                color="blue.300"
+                                                color={"#03A9F4"}
                                                 padding={1}
                                                 height="fit-content"
                                                 bgColor={bg}
