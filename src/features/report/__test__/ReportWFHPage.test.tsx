@@ -16,6 +16,10 @@ jest.mock('hooks/useIsAdmin', () => ({
   useIsAdmin: jest.fn().mockReturnValue(true),
 }));
 
+jest.mock('hooks/useMediaQuery', () => ({
+  useMediaQuery: jest.fn().mockReturnValue(true),
+}));
+
 jest.mock('api/apiHooks/reportHooks', () => ({
   useWfhList: jest.fn().mockReturnValue({
     isLoading: false,

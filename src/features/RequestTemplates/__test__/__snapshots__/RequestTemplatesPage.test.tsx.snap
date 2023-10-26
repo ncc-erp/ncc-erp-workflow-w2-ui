@@ -115,7 +115,7 @@ exports[`Request Template Page should match snapshot when rendering 1`] = `
                 <th
                   class="css-yddv3x"
                   colspan="1"
-                  style="white-space: nowrap; width: auto;"
+                  style="width: auto;"
                 >
                   <div
                     class="css-u511cn"
@@ -126,7 +126,7 @@ exports[`Request Template Page should match snapshot when rendering 1`] = `
                 <th
                   class="css-yddv3x"
                   colspan="1"
-                  style="white-space: nowrap; width: auto;"
+                  style="width: auto;"
                 >
                   <div
                     class="css-u511cn"

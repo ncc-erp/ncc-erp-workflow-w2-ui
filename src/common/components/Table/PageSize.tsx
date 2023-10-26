@@ -9,6 +9,7 @@ interface PageSizeProps {
   onChange: (value: number) => void;
   defaultValue?: number;
   value?: number;
+  isLoading?: boolean;
 }
 
 export const PageSize = ({
@@ -16,6 +17,7 @@ export const PageSize = ({
   onChange,
   defaultValue,
   value,
+  isLoading,
 }: PageSizeProps) => {
   const color = useColorModeValue(ColorThemeMode.DARK, ColorThemeMode.LIGHT);
   const bg = useColorModeValue(ColorThemeMode.LIGHT, ColorThemeMode.DARK);
@@ -30,6 +32,7 @@ export const PageSize = ({
         Rows per page
       </Text>
       <SelectField
+        isDisabled={isLoading}
         defaultValue={defaultValue}
         value={value}
         options={noOfRows}

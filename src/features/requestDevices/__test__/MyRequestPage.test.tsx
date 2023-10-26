@@ -20,6 +20,10 @@ jest.mock('common/components/WorkflowModal', () => ({
   VITE_PROXY_SERVER_URL: 'http://localhost:4433',
 }));
 
+jest.mock('hooks/useMediaQuery', () => ({
+  useMediaQuery: jest.fn().mockReturnValue(true),
+}));
+
 jest.mock('api/apiHooks/requestHooks', () => ({
   useMyRequests: jest.fn().mockReturnValue({
     isLoading: false,

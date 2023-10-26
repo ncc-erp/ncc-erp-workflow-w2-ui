@@ -18,6 +18,8 @@ import {
   AccordionPanel,
   Box,
   useColorModeValue,
+  Button,
+  useColorMode,
 } from '@chakra-ui/react';
 import { NavLink } from 'common/components/SideBar/NavLink';
 import {
@@ -37,13 +39,22 @@ import { useSetAppConfig } from 'stores/appConfig';
 import { useNavigate } from 'react-router-dom';
 import { useIsAdmin } from 'hooks/useIsAdmin';
 import Logo from 'assets/images/ncc_logo.png';
-import { ColorThemeMode } from 'common/constants';
+import { ColorThemeMode, LinkDocRedirect } from 'common/constants';
 import { removeItem } from 'utils';
 import { LocalStorageKeys } from 'common/enums';
+import {
+  HiOutlineDocumentArrowUp,
+  HiOutlineDocumentText,
+  HiOutlineMoon,
+} from 'react-icons/hi2';
+import { FaSun } from 'react-icons/fa';
+import { useMediaQuery } from 'hooks/useMediaQuery';
 
 export const SideBarContent = () => {
+  const { colorMode, toggleColorMode } = useColorMode();
   const bg = useColorModeValue(ColorThemeMode.LIGHT, ColorThemeMode.DARK);
   const color = useColorModeValue(ColorThemeMode.DARK, ColorThemeMode.LIGHT);
+  const isLargeScreen = useMediaQuery('(min-width: 768px)');
 
   const isAdmin = useIsAdmin();
   const NavList = [
@@ -194,6 +205,84 @@ export const SideBarContent = () => {
             })}
           </>
         )}
+        <HStack borderTopColor="gray.200" hidden={isLargeScreen} w={'100%'}>
+          <Button
+            bg={bg}
+            px={'8px'}
+            py={'6px'}
+            size={'20px'}
+            leftIcon={
+              colorMode === 'light' ? (
+                <HiOutlineMoon
+                  size={'20px'}
+                  color="var(--chakra-colors-gray-500)"
+                  stroke-width="2"
+                />
+              ) : (
+                <FaSun
+                  size={'20px'}
+                  color="var(--chakra-colors-gray-500)"
+                  stroke-width="2"
+                />
+              )
+            }
+            w={'100%'}
+            justifyContent={'start'}
+            iconSpacing={3}
+            onClick={() => toggleColorMode()}
+          >
+            <Text fontSize={'14px'}>
+              {' '}
+              {colorMode === 'light' ? 'Dark' : 'Light'}{' '}
+            </Text>
+          </Button>
+        </HStack>
+        <HStack borderTopColor="gray.200" hidden={isLargeScreen} w={'100%'}>
+          <Button
+            bg={bg}
+            px={'8px'}
+            py={'6px'}
+            size={'20px'}
+            leftIcon={
+              <HiOutlineDocumentArrowUp
+                size={'20px'}
+                color="var(--chakra-colors-gray-500)"
+                stroke-width="2"
+              />
+            }
+            w={'100%'}
+            justifyContent={'start'}
+            iconSpacing={3}
+            onClick={() => {
+              window.open(LinkDocRedirect.RELEASE_DOCS, '_blank');
+            }}
+          >
+            <Text fontSize={'14px'}>Release note</Text>
+          </Button>
+        </HStack>
+        <HStack borderTopColor="gray.200" hidden={isLargeScreen} w={'100%'}>
+          <Button
+            bg={bg}
+            px={'8px'}
+            py={'6px'}
+            size={'20px'}
+            leftIcon={
+              <HiOutlineDocumentText
+                size={'20px'}
+                color="var(--chakra-colors-gray-500)"
+                stroke-width="2"
+              />
+            }
+            w={'100%'}
+            justifyContent={'start'}
+            iconSpacing={3}
+            onClick={() => {
+              window.open(LinkDocRedirect.USER_GUIDE_DOCS, '_blank');
+            }}
+          >
+            <Text fontSize={'14px'}>User guide</Text>
+          </Button>
+        </HStack>
       </VStack>
       <HStack borderTopColor="gray.200" px="12px" py="16px" spacing="12px">
         <Text fontSize="sm" fontWeight={600} noOfLines={1}>

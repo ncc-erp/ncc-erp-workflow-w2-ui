@@ -13,10 +13,16 @@
     column-gap: 2rem; /* Khoảng cách theo trục X là 2rem */
   }
 
-.wrapper  > div {
-    width: 46%;
+.wrapper > div {
+    width: 100%;
     margin-bottom: 10px !important;
 }
+
+@media (min-width: 768px) {
+    .wrapper  > div {
+        width: 46%;
+    }
+  }
 
 .modalBody {
     max-height: 70vh;
@@ -55,4 +61,36 @@
     margin-top: 10px;
     min-width: 30vw;
     min-height: 50vh;
+}
+
+.tableContent::-webkit-scrollbar {
+    height: 6px;
+
+    &-track {
+      -webkit-box-shadow: inset 0 0 6px var(--chakra-colors-blackButton-800);
+      border-radius: 8px;
+    }
+
+    &-thumb {
+      border-radius: 8px;
+      background: var(--chakra-colors-blackButton-100);
+
+      &:hover {
+        background: var(--chakra-colors-blackButton-100);
+      }
+    }
+}
+
+@media (min-width: 768px) {
+    .tableContent::-webkit-scrollbar{
+        height: 12px;
+        
+    &-track {
+      border-radius: 4px;
+    }
+
+    &-thumb {
+      border-radius: 4px;
+    }
+    }
 }

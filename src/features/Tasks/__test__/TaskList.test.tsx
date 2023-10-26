@@ -65,6 +65,10 @@ jest.mock('api/apiHooks/taskHooks', () => ({
   })),
 }));
 
+jest.mock('hooks/useMediaQuery', () => ({
+  useMediaQuery: jest.fn().mockReturnValue(true),
+}));
+
 test('Request My Requests Page', () => {
   const filter: FilterTasks = {
     maxResultCount: 10,
