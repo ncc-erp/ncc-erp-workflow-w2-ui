@@ -93,10 +93,12 @@ const CreateForm = ({ onCloseModal }: CreateFormProps) => {
         </FormLabel>
         <TextField
           h="50px"
-          placeholder={fieldname}
+          placeholder={convertToCase(fieldname)}
           fontSize="sm"
           {...register(fieldname, {
-            required: Field?.isRequired ? `${fieldname} is Required` : false,
+            required: Field?.isRequired
+              ? `${convertToCase(fieldname)} is Required!`
+              : false,
           })}
         />
         <ErrorMessage
