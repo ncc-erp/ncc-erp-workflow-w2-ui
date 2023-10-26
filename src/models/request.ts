@@ -104,6 +104,13 @@ export interface ICreateFormParams {
   displayName: string;
   tag: string;
 }
+
+export interface IUpdateInputFormParams {
+  id: string;
+  workflowDefinitionId?: string;
+  propertyDefinitions: PropertyDefinition[];
+}
+
 export interface IRequestUser {
   email: string;
   name: string;

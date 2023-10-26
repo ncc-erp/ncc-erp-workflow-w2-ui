@@ -10,6 +10,7 @@ import {
   WfhRequestFormParams,
   IRequestResult,
   ICreateFormParams,
+  IUpdateInputFormParams,
 } from 'models/request';
 import {
   useCancelByPost,
@@ -114,6 +115,12 @@ export const useNewRequestWorkflow = () => {
 export const useCreateWorkflowDefinition = () => {
   return useCreate<ICreateFormParams, any>(
     '/app/workflow-definition/workflow-definition'
+  );
+};
+
+export const useUpdateWorkflowInput = () => {
+  return useCreate<IUpdateInputFormParams, any>(
+    '/app/workflow-definition/save-workflow-input-definition'
   );
 };
 

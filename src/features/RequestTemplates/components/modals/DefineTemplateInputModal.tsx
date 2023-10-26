@@ -12,6 +12,7 @@ import DefineInputForm from '../forms/DefineInputForm';
 import styles from '../style.module.scss';
 interface DefineTemplateInputModalProps {
   isOpen: boolean;
+  requestId: string;
   onClose: () => void;
   inputDefinition?: InputDefinition;
 }
@@ -20,6 +21,7 @@ export const DefineTemplateInputModal = ({
   isOpen,
   onClose,
   inputDefinition,
+  requestId,
 }: DefineTemplateInputModalProps) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={true}>
@@ -28,8 +30,9 @@ export const DefineTemplateInputModal = ({
         <ModalHeader fontSize="md">Define Workflow Input</ModalHeader>
         <Divider></Divider>
         <ModalCloseButton />
-        <ModalBody>
+        <ModalBody className={styles.customModalBody}>
           <DefineInputForm
+            requestId={requestId}
             inputDefinition={inputDefinition}
             onCloseModal={onClose}
           />

@@ -107,6 +107,8 @@ export const ColorThemeMode = {
   DARK: 'dark',
 };
 
+export const GUID_ID_DEFAULT_VALUE = '00000000-0000-0000-0000-000000000000';
+
 export const DEFAULT_TASK_PER_PAGE = 10;
 export const TaskStatusesData = [
   { status: 'Pending', color: 'blue' },

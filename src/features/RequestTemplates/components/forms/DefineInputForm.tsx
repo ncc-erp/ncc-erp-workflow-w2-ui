@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Center,
   Checkbox,
   FormControl,
   FormHelperText,
@@ -16,16 +17,25 @@ import { useFieldArray, useForm } from 'react-hook-form';
 import 'react-datepicker/dist/react-datepicker.css';
 
 import { ErrorMessage } from '@hookform/error-message';
-import { useQueryClient } from '@tanstack/react-query';
+import {
+  useInputDefinition,
+  useRequestTemplates,
+  useUpdateWorkflowInput,
+} from 'api/apiHooks/requestHooks';
 import { ErrorDisplay } from 'common/components/ErrorDisplay';
 import { toast } from 'common/components/StandaloneToast';
-import { InputDefinition, PropertyDefinition } from 'models/request';
-import { useState } from 'react';
-import { useInputDefinition } from 'api/apiHooks/requestHooks';
+import { GUID_ID_DEFAULT_VALUE } from 'common/constants';
 import { option } from 'common/types';
+import {
+  IUpdateInputFormParams,
+  InputDefinition,
+  PropertyDefinition,
+} from 'models/request';
+import { useState } from 'react';
 
 interface DefineInputFormProps {
   inputDefinition?: InputDefinition;
+  requestId: string;
   onCloseModal: () => void;
 }
 
@@ -36,10 +46,11 @@ interface FormParams {
 const DefineInputForm = ({
   inputDefinition,
   onCloseModal,
+  requestId,
 }: DefineInputFormProps) => {
-  const queryClient = useQueryClient();
   const { data: inputType } = useInputDefinition();
-
+  const { mutateAsync: updateMutate } = useUpdateWorkflowInput();
+  const { refetch } = useRequestTemplates();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const {
     register,
@@ -50,7 +61,7 @@ const DefineInputForm = ({
     criteriaMode: 'all',
     defaultValues: {
       items: inputDefinition?.propertyDefinitions || [
-        { name: '', type: '', isRequired: false },
+        { name: '', type: 'Text', isRequired: false },
       ],
     },
   });
@@ -59,11 +70,18 @@ const DefineInputForm = ({
     name: 'items',
   });
 
-  const onSubmit = async () => {
+  const onSubmit = async (data: FormParams) => {
     setIsLoading(true);
-    // TO DO SUBMIT
 
-    queryClient.clear();
+    const payload: IUpdateInputFormParams = {
+      id: inputDefinition?.id || GUID_ID_DEFAULT_VALUE,
+      workflowDefinitionId: requestId,
+      propertyDefinitions: data.items,
+    };
+
+    await updateMutate(payload);
+    refetch();
+
     setIsLoading(false);
     toast({
       description: 'Create Request Successfully',
@@ -73,7 +91,7 @@ const DefineInputForm = ({
   };
 
   const onAddField = () => {
-    append({ name: '', type: '', isRequired: false });
+    append({ name: '', type: 'Text', isRequired: false });
   };
 
   const renderFormContent = () => {
@@ -81,15 +99,15 @@ const DefineInputForm = ({
       return (
         <HStack alignItems="flex-end" key={Field?.name + index}>
           <FormControl>
-            <FormLabel fontSize={16} my={1} fontWeight="normal">
+            <FormLabel fontSize={16} mb={1} fontWeight="normal">
               Property Name
-              <FormHelperText my={1} style={{ color: 'red' }} as="span">
+              <FormHelperText mb={1} style={{ color: 'red' }} as="span">
                 {' '}
                 *
               </FormHelperText>
             </FormLabel>
             <TextField
-              h="50px"
+              h="40px"
               w="250px"
               fontSize="sm"
               {...register(`items.${index}.name`, {
@@ -106,29 +124,37 @@ const DefineInputForm = ({
           </FormControl>
 
           <FormControl mb="20px">
-            <FormLabel fontSize={16} my={1} fontWeight="normal">
+            <FormLabel fontSize={16} mb={1} fontWeight="normal">
               Property Type
             </FormLabel>
 
             {inputType ? (
               <SelectField
-                h="50px"
+                h="40px"
                 size="md"
                 rounded="md"
                 options={inputType as option[]}
                 {...register(`items.${index}.type`, {})}
               />
             ) : (
-              <Box h="50px">
+              <Box h="40px">
                 <Spinner />
               </Box>
             )}
           </FormControl>
 
-          <FormControl textAlign="center" mb="20px">
-            <Checkbox {...register(`items.${index}.isRequired`)}>
+          <FormControl mb="20px">
+            <FormLabel
+              textAlign="center"
+              fontSize={16}
+              mb={1}
+              fontWeight="normal"
+            >
               Required
-            </Checkbox>
+            </FormLabel>
+            <Center h="40px">
+              <Checkbox size="lg" {...register(`items.${index}.isRequired`)} />
+            </Center>
           </FormControl>
 
           <Button

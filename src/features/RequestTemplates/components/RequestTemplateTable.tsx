@@ -92,10 +92,12 @@ export const RequestTemplateTable = ({
     setModalDescription('Do you want to delete workflow?');
   };
 
-  const onDefineInputWorkflow = (inputDefinition: InputDefinition) => () => {
-    setIsModalDefineInputOpen(true);
-    setModalInputDefinition(inputDefinition);
-  };
+  const onDefineInputWorkflow =
+    (workflowId: string, inputDefinition: InputDefinition) => () => {
+      setIsModalDefineInputOpen(true);
+      setRequestId(workflowId);
+      setModalInputDefinition(inputDefinition);
+    };
 
   const onDeleteWorkflow = async () => {
     await deleteWorkflowDefinitionMutation.mutateAsync(requestId);
@@ -175,7 +177,10 @@ export const RequestTemplateTable = ({
             <Center>
               <RowAction
                 onDelete={onConfirmDeleteWorkflow(definitionId)}
-                onDefineInput={onDefineInputWorkflow(inputDefinition)}
+                onDefineInput={onDefineInputWorkflow(
+                  definitionId,
+                  inputDefinition
+                )}
                 onViewWorkflow={onActionViewWorkflow(definitionId)}
               />
             </Center>
@@ -314,6 +319,7 @@ export const RequestTemplateTable = ({
       <CreateTemplateModal isOpen={isCreateModalOpen} onClose={onCloseModal} />
 
       <DefineTemplateInputModal
+        requestId={requestId}
         inputDefinition={inputDefinition}
         isOpen={isModalDefineInputOpen}
         onClose={onCloseModal}

@@ -15,7 +15,6 @@ import { useForm } from 'react-hook-form';
 import 'react-datepicker/dist/react-datepicker.css';
 
 import { ErrorMessage } from '@hookform/error-message';
-import { useQueryClient } from '@tanstack/react-query';
 import { ErrorDisplay } from 'common/components/ErrorDisplay';
 import { toast } from 'common/components/StandaloneToast';
 import {
@@ -48,8 +47,6 @@ const CreateWorkflowPropertyField: CreateWorkflowPropertyDefinition[] = [
 ];
 
 const CreateForm = ({ onCloseModal }: CreateFormProps) => {
-  const queryClient = useQueryClient();
-
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const {
     register,
@@ -61,7 +58,6 @@ const CreateForm = ({ onCloseModal }: CreateFormProps) => {
   const { mutateAsync: createMutate } = useCreateWorkflowDefinition();
   const { refetch } = useRequestTemplates();
   const onSubmit = async (data: FormParams) => {
-    console.log(data);
     setIsLoading(true);
 
     const payload: ICreateFormParams = {
@@ -72,7 +68,6 @@ const CreateForm = ({ onCloseModal }: CreateFormProps) => {
 
     await createMutate(payload);
     refetch();
-    queryClient.clear();
     setIsLoading(false);
     toast({
       description: 'Create Workflow Successfully',

@@ -25,10 +25,12 @@ import 'react-datepicker/dist/react-datepicker.css';
 import styles from './style.module.scss';
 
 import { ErrorMessage } from '@hookform/error-message';
-import { useQueryClient } from '@tanstack/react-query';
 import { ErrorDisplay } from 'common/components/ErrorDisplay';
 import { SearchableSelectField } from 'common/components/SearchableSelectField';
 import { toast } from 'common/components/StandaloneToast';
+import { ColorThemeMode, WFH_FORMAT_DATE } from 'common/constants';
+import { option } from 'common/types';
+import { isWithinInterval, subWeeks } from 'date-fns';
 import { useCurrentUser } from 'hooks/useCurrentUser';
 import { IOffices } from 'models/office';
 import { IProjects } from 'models/project';
@@ -38,12 +40,9 @@ import {
   PropertyDefinition,
 } from 'models/request';
 import { IUser } from 'models/user';
+import moment from 'moment';
 import { ChangeEvent, useState } from 'react';
 import { convertToCase, formatDate } from 'utils';
-import { ColorThemeMode, WFH_FORMAT_DATE } from 'common/constants';
-import { isWithinInterval, subWeeks } from 'date-fns';
-import { option } from 'common/types';
-import moment from 'moment';
 
 interface RequestFormProps {
   inputDefinition?: InputDefinition;
@@ -70,7 +69,6 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
   const currentUser = useCurrentUser();
   const { data: userInfo } = useUserInfoWithBranch(currentUser?.email);
   const { data: userCurrentProject } = useUserCurrentProject();
-  const queryClient = useQueryClient();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [formParams, setFormParams] = useState<FormParams>({});
@@ -116,7 +114,6 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
     };
 
     await createMutate(RequestFormParams);
-    queryClient.clear();
     setIsLoading(false);
     toast({
       description: 'Create Request Successfully',
