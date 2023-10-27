@@ -124,31 +124,32 @@ export const Table = <D,>({
                           : null
                       }
                     >
+  
+
+                      {flexRender(
+                        header.column.columnDef.header,
+                        header.getContext()
+                      )}
+
                       {{
                         asc: <Icon fontSize="md" as={IoMdArrowDropup} />,
                         desc: <Icon fontSize="md" as={IoMdArrowDropdown} />,
                       }[header.column.getIsSorted() as string] ?? null}
-
                       {header.column.getCanSort() &&
                       !header.column.getIsSorted() ? (
                         isLargeScreen ? (
                           columnHovered[index] ? (
                             <Icon fontSize="md" as={IoMdArrowDropup} />
                           ) : (
-                            ''
+                            <span style={{width:"16px"}} />
                           )
                         ) : sorting ? (
                           <Icon fontSize="md" as={IoMdArrowDropup} />
                         ) : (
-                          ''
+                          <span style={{width:"16px"}} />
                         )
                       ) : (
-                        ''
-                      )}
-
-                      {flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
+                        ""
                       )}
                     </Box>
                   )}
