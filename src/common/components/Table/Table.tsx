@@ -18,7 +18,8 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 import { ColorThemeMode } from 'common/constants';
-import  {  useState } from 'react';
+import { useMediaQuery } from 'hooks/useMediaQuery';
+import { useState } from 'react';
 import { IoMdArrowDropdown, IoMdArrowDropup } from 'react-icons/io';
 import theme from 'themes/theme';
 
@@ -55,6 +56,7 @@ export const Table = <D,>({
     getCoreRowModel: getCoreRowModel(),
   });
   const color = useColorModeValue(ColorThemeMode.DARK, ColorThemeMode.LIGHT);
+  const isLargeScreen = useMediaQuery('(min-width: 768px)');
 
   const [columnHovered, setColumnHovered] = useState<Array<boolean>>([]);
   const handleMouseEnter = (index: number) => {
@@ -72,11 +74,11 @@ export const Table = <D,>({
   return (
     <TableComponent border={`1px solid ${theme.colors.borderColor}`}>
       <Thead>
-        {table.getHeaderGroups().map((headerGroup) => (      
+        {table.getHeaderGroups().map((headerGroup) => (
           <Tr key={headerGroup.id} bg={theme.colors.borderColor}>
             {headerGroup.headers.map((header, index) => {
-            
-              const isWorkflowDefinitionDisplayName = header.id === 'workflowDefinitionDisplayName'
+              const isWorkflowDefinitionDisplayName =
+                header.id === 'workflowDefinitionDisplayName';
               const headerWidth = '20%';
 
               return (
@@ -128,9 +130,18 @@ export const Table = <D,>({
                       }[header.column.getIsSorted() as string] ?? null}
 
                       {header.column.getCanSort() &&
-                      !header.column.getIsSorted() &&
-                      columnHovered[index] ? (
-                        <Icon fontSize="md" as={IoMdArrowDropup} />
+                      !header.column.getIsSorted() ? (
+                        isLargeScreen ? (
+                          columnHovered[index] ? (
+                            <Icon fontSize="md" as={IoMdArrowDropup} />
+                          ) : (
+                            ''
+                          )
+                        ) : sorting ? (
+                          <Icon fontSize="md" as={IoMdArrowDropup} />
+                        ) : (
+                          ''
+                        )
                       ) : (
                         ''
                       )}
@@ -159,7 +170,7 @@ export const Table = <D,>({
                 }
               }}
             >
-              {row.getVisibleCells().map((cell) => {                
+              {row.getVisibleCells().map((cell) => {
                 return (
                   <Td
                     key={cell.id}

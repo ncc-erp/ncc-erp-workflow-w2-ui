@@ -1,5 +1,6 @@
 import { Button, Text, useColorMode } from '@chakra-ui/react';
 import { LinkDocRedirect } from 'common/constants';
+import { useMediaQuery } from 'hooks/useMediaQuery';
 import {} from 'react-icons';
 import { FaMoon, FaSun } from 'react-icons/fa';
 import { HiDocumentText } from 'react-icons/hi';
@@ -7,6 +8,7 @@ import { HiDocumentArrowUp } from 'react-icons/hi2';
 
 export const Toggle = () => {
   const { colorMode, toggleColorMode } = useColorMode();
+  const isLargeScreen = useMediaQuery('(min-width: 768px)');
 
   return (
     <div>
@@ -19,6 +21,7 @@ export const Toggle = () => {
         }}
         title="Release note"
         bg="transparent"
+        hidden={isLargeScreen ? false : true}
       >
         <HiDocumentArrowUp size="20px" />
       </Button>
@@ -32,11 +35,17 @@ export const Toggle = () => {
         }}
         title="User guide"
         bg="transparent"
+        hidden={isLargeScreen ? false : true}
       >
         <HiDocumentText size="20px" />
       </Button>
 
-      <Button size="md" borderRadius={20} onClick={() => toggleColorMode()}>
+      <Button
+        size="md"
+        borderRadius={20}
+        onClick={() => toggleColorMode()}
+        hidden={isLargeScreen ? false : true}
+      >
         {colorMode === 'light' ? (
           <>
             <FaMoon />

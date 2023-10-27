@@ -41,10 +41,10 @@ export const Pagination = ({
         case 'jump-next':
           return (
             <Button
-              rounded="sm"
+              rounded={['xs', 'sm']}
               variant="outline"
-              borderRadius="8px"
-              size="sm"
+              borderRadius={['8px', '8px']}
+              size={['xs', 'sm']}
               aspectRatio="1/1"
               {...buttonProps}
             >
@@ -54,10 +54,10 @@ export const Pagination = ({
         case 'jump-prev':
           return (
             <Button
-              rounded="sm"
+              rounded={['xs', 'sm']}
               variant="outline"
-              borderRadius="8px"
-              size="sm"
+              borderRadius={['8px', '8px']}
+              size={['xs', 'sm']}
               aspectRatio="1/1"
               {...buttonProps}
             >
@@ -67,10 +67,10 @@ export const Pagination = ({
         case 'prev':
           return (
             <Button
-              rounded="sm"
+              rounded={['xs', 'sm']}
               variant="outline"
-              borderRadius="8px"
-              size="sm"
+              borderRadius={['8px', '8px']}
+              size={['xs', 'sm']}
               aspectRatio="1/1"
               {...buttonProps}
               isDisabled={activePage === 1}
@@ -81,10 +81,10 @@ export const Pagination = ({
         case 'next':
           return (
             <Button
-              rounded="sm"
+              rounded={['xs', 'sm']}
               variant="outline"
-              borderRadius="8px"
-              size="sm"
+              borderRadius={['8px', '8px']}
+              size={['xs', 'sm']}
               aspectRatio="1/1"
               {...buttonProps}
               isDisabled={isLastPage(activePage as number)}
@@ -95,12 +95,12 @@ export const Pagination = ({
         default:
           return (
             <Button
-              rounded="sm"
+              rounded={['xs', 'sm']}
               variant={activePage === current ? 'solid' : 'outline'}
               background={activePage === current ? bg : undefined}
               color={activePage === current ? color : undefined}
-              size="sm"
-              borderRadius="8px"
+              size={['xs', 'sm']}
+              borderRadius={['8px', '8px']}
               {...buttonProps}
             >
               {current}
@@ -112,7 +112,7 @@ export const Pagination = ({
     <Box
       display="flex"
       listStyleType="none"
-      gap="12px"
+      gap={['6px', '12px']}
       current={current}
       as={PaginationComponent}
       itemRender={ItemRender(current, itemRenderProps)}

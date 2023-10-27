@@ -48,6 +48,7 @@ import useDebounced from 'hooks/useDebounced';
 import { EmptyWrapper } from 'common/components/EmptyWrapper';
 import { ModalConfirm } from 'common/components/ModalConfirm';
 import { AiOutlineReload } from 'react-icons/ai';
+import styles from './style.module.scss';
 
 const initialSorting: SortingState = [
   {
@@ -144,7 +145,11 @@ export const MyRequestTable = () => {
           cell: (info) => {
             const currentStates = info.getValue();
             const formattedCurrentStates = currentStates.join(',\n');
-            return <div dangerouslySetInnerHTML={{ __html: formattedCurrentStates }} />;
+            return (
+              <div
+                dangerouslySetInnerHTML={{ __html: formattedCurrentStates }}
+              />
+            );
           },
         }),
         columnHelper.accessor('stakeHolders', {
@@ -154,9 +159,12 @@ export const MyRequestTable = () => {
           cell: (info) => {
             const stakeholders = info.getValue();
             const formattedStakeholders = stakeholders.join(',\n');
-            return <div dangerouslySetInnerHTML={{ __html: formattedStakeholders }} />;
+            return (
+              <div
+                dangerouslySetInnerHTML={{ __html: formattedStakeholders }}
+              />
+            );
           },
-        
         }),
         columnHelper.accessor('createdAt', {
           id: 'createdAt',
@@ -293,6 +301,7 @@ export const MyRequestTable = () => {
         >
           <Box>
             <SelectField
+              isDisabled={isLoading || isRefetching}
               size="sm"
               rounded="md"
               onChange={(e) =>
@@ -303,6 +312,7 @@ export const MyRequestTable = () => {
           </Box>
           <Box>
             <SelectField
+              isDisabled={isLoading || isRefetching}
               size="sm"
               rounded="md"
               onChange={(e) => onTemplateStatusChange('Status', e.target.value)}
@@ -313,6 +323,7 @@ export const MyRequestTable = () => {
             <Box w={'300px'}>
               <InputGroup>
                 <Input
+                  isDisabled={isLoading || isRefetching}
                   autoFocus
                   value={txtSearch}
                   type="text"
@@ -387,27 +398,32 @@ export const MyRequestTable = () => {
           >
             <Box
               p="20px 30px 0px 24px"
-              overflowX="auto"
               w={{ base: `calc(100vw - ${sideBarWidth}px)`, lg: 'auto' }}
             >
-              <Table
-                columns={myRequestColumns}
-                data={requests}
-                sorting={sorting}
-                onSortingChange={setSorting}
-                onRowClick={onActionViewDetails}
-                onRowHover={true}
-              />
+              <Box w={'100%'} overflowX="auto" className={styles.tableContent}>
+                <Table
+                  columns={myRequestColumns}
+                  data={requests}
+                  sorting={sorting}
+                  onSortingChange={setSorting}
+                  onRowClick={onActionViewDetails}
+                  onRowHover={true}
+                />
+              </Box>
             </Box>
           </EmptyWrapper>
         )}
         <HStack
           p="20px 30px 20px 30px"
-          justifyContent="space-between"
+          justifyContent={['center', 'space-between']}
           flexWrap="wrap"
         >
           <HStack alignItems="center" spacing="6px" flexWrap="wrap">
-            <PageSize noOfRows={noOfRows} onChange={onPageSizeChange} />
+            <PageSize
+              noOfRows={noOfRows}
+              onChange={onPageSizeChange}
+              isLoading={isLoading || isRefetching}
+            />
             <Spacer w="12px" />
             <ShowingItemText
               skipCount={filter.skipCount}
