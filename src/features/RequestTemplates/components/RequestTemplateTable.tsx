@@ -165,11 +165,12 @@ export const RequestTemplateTable = ({
           h="200px"
           fontSize="xs"
           message={'No request found!'}
+          boxSizing='border-box'
         >
           <Box
-            overflowX="auto"
-            w={{ base: `calc(100vw - ${sideBarWidth}px)`, lg: 'auto' }}
-            p="10px 24px 0px"
+            w={{ base: `calc(100vw - ${sideBarWidth}px)`, lg: `calc(100vw - ${sideBarWidth}px)` , xs: 'max-content'  }}
+            p={{base : '10px 24px 0px'}}
+            
           >
             <Table
               columns={myRequestColumns}
