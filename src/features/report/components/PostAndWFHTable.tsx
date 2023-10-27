@@ -215,28 +215,29 @@ export const TablePostAndWFH = () => {
     <>
       <Box
         width={"100%"}
-        overflowX={"hidden"}
       >
         <HStack
           w="100%"
           display="flex"
           flexDirection={["column","column","column","row","row"]}
           justifyContent={["center","center","center","space-around","space-between","space-between"]}
+          pl={{xl: "24px"}}
+          justifySelf={"flex-start"}
         >
-          <InputGroup ml="16px" w={['90%', '80%','70%','40%','30%','30%']}>
+          <InputGroup alignItems={"center"} w={['90%', '80%','70%','40%','30%','30%']}>
             <Input
               type="text"
               placeholder="Enter email"
               fontSize="14px"
-              mb={2}
               onChange={(e) => setTxtSearch(e.target.value)}
             />
             <InputRightElement width="40px">
               <TbSearch />
             </InputRightElement>
           </InputGroup>
-          <Box w={['80%', '80%','70%','40%','30%','30%']} >
+          <Box w={['80%', '80%','70%','40%','40%','30%']}>
             <DateRangePicker
+
               startDate={startDate}
               endDate={endDate}
               handleStartDateChange={handleStartDateChange}
@@ -287,6 +288,7 @@ export const TablePostAndWFH = () => {
           >
             <Box
               p={{base:"8px" , md:"20px 16px"}}
+              overflowX={"scroll"}
               w={["100vw","100vw",`calc(100vw - ${sideBarWidth}px)`,`calc(100vw - ${sideBarWidth}px)`,`calc(100vw - ${sideBarWidth}px)`,`calc(100vw - ${sideBarWidth}px)`,`calc(100vw - ${sideBarWidth}px)`]}
             >
               <Table
