@@ -333,8 +333,10 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
               <thead
                 class="css-0"
               >
-                <tr
-                  class="css-1y39i0r"
+                <th
+                  class="css-1f0k43i"
+                  colspan="1"
+                  style="width: 20%;"
                 >
                   <th
                     class="css-yddv3x"
@@ -472,11 +474,149 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                     >
                       Office Equipment Request
                     </div>
-                  </td>
-                  <td
-                    class="css-jv3dxv"
-                    style="word-break: break-word; white-space: pre-wrap;"
+                  </div>
+                </th>
+                <th
+                  class="css-1f0k43i"
+                  colspan="1"
+                  style="width: auto;"
+                >
+                  <div
+                    class="css-u511cn"
                   >
+                    <div
+                      class="css-0"
+                    >
+                      Request user
+                    </div>
+                  </div>
+                </th>
+                <th
+                  class="css-1f0k43i"
+                  colspan="1"
+                  style="width: auto;"
+                >
+                  <div
+                    class="css-u511cn"
+                  >
+                    <div
+                      class="css-xi606m"
+                    >
+                      Current states
+                    </div>
+                  </div>
+                </th>
+                <th
+                  class="css-1f0k43i"
+                  colspan="1"
+                  style="width: auto;"
+                >
+                  <div
+                    class="css-u511cn"
+                  >
+                    Stakeholders
+                  </div>
+                </th>
+                <th
+                  class="css-1w0tojh"
+                  colspan="1"
+                  style="width: auto;"
+                >
+                  <div
+                    class="css-13mxke4"
+                  >
+                    <svg
+                      class="chakra-icon css-1pr7mfq"
+                      fill="currentColor"
+                      focusable="false"
+                      height="1em"
+                      stroke="currentColor"
+                      stroke-width="0"
+                      viewBox="0 0 512 512"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M128 192l128 128 128-128z"
+                      />
+                    </svg>
+                    Created at
+                  </div>
+                </th>
+                <th
+                  class="css-1w0tojh"
+                  colspan="1"
+                  style="width: auto;"
+                >
+                  <div
+                    class="css-13mxke4"
+                  >
+                    Last executed at
+                  </div>
+                </th>
+                <th
+                  class="css-1f0k43i"
+                  colspan="1"
+                  style="width: auto;"
+                >
+                  <div
+                    class="css-u511cn"
+                  >
+                    Status
+                  </div>
+                </th>
+                <th
+                  class="css-1f0k43i"
+                  colspan="1"
+                  style="width: auto;"
+                >
+                  <div
+                    class="css-u511cn"
+                  >
+                    <div
+                      class="css-mgpx6q"
+                    >
+                      Actions
+                    </div>
+                  </div>
+                </th>
+              </tr>
+            </thead>
+            <tbody
+              class="css-0"
+            >
+              <tr
+                class="css-4g6ai3"
+              >
+                <td
+                  class="css-jv3dxv"
+                  style="word-break: break-word; white-space: pre-wrap;"
+                >
+                  <div
+                    class="css-0"
+                  >
+                    Office Equipment Request
+                  </div>
+                </td>
+                <td
+                  class="css-jv3dxv"
+                  style="word-break: break-word; white-space: pre-wrap;"
+                >
+                  Nhan Huynh Ba
+                </td>
+                <td
+                  class="css-jv3dxv"
+                  style="word-break: break-word; white-space: pre-wrap;"
+                >
+                  <div>
+                    Branch Manager makes decision
+                  </div>
+                </td>
+                <td
+                  class="css-jv3dxv"
+                  style="word-break: break-word; white-space: pre-wrap;"
+                >
+                  <div>
                     Nhan Huynh Ba
                   </td>
                   <td

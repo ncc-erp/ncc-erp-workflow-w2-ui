@@ -3,7 +3,7 @@
 exports[`WFH Page should match snapshot when rendering 1`] = `
 <div>
   <div
-    class="css-0"
+    class="css-roynbj"
   >
     <div
       class="chakra-stack css-jrkth6"
@@ -98,13 +98,13 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
       class="css-0"
     >
       <div
-        class="css-0"
+        class="css-1s315wo"
       >
         <div
-          class="chakra-stack css-12o5821"
+          class="chakra-stack css-1ebuslj"
         >
           <div
-            class="chakra-input__group css-9zj08m"
+            class="chakra-input__group css-x67zbi"
             data-group="true"
           >
             <input
@@ -141,24 +141,28 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
             </div>
           </div>
           <div
-            class="css-0"
+            class="css-1smkssm"
           >
             <div
-              class="css-70qvj9"
+              class="css-1szb2xj"
             >
-              <svg
-                fill="currentColor"
-                height="1em"
-                stroke="currentColor"
-                stroke-width="0"
-                viewBox="0 0 448 512"
-                width="1em"
-                xmlns="http://www.w3.org/2000/svg"
+              <div
+                style="width: 16px; height: 16px;"
               >
-                <path
-                  d="M12 192h424c6.6 0 12 5.4 12 12v260c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V204c0-6.6 5.4-12 12-12zm436-44v-36c0-26.5-21.5-48-48-48h-48V12c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v52H160V12c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v52H48C21.5 64 0 85.5 0 112v36c0 6.6 5.4 12 12 12h424c6.6 0 12-5.4 12-12z"
-                />
-              </svg>
+                <svg
+                  fill="currentColor"
+                  height="1em"
+                  stroke="currentColor"
+                  stroke-width="0"
+                  viewBox="0 0 448 512"
+                  width="1em"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M12 192h424c6.6 0 12 5.4 12 12v260c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V204c0-6.6 5.4-12 12-12zm436-44v-36c0-26.5-21.5-48-48-48h-48V12c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v52H160V12c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v52H48C21.5 64 0 85.5 0 112v36c0 6.6 5.4 12 12 12h424c6.6 0 12-5.4 12-12z"
+                  />
+                </svg>
+              </div>
               <p
                 class="chakra-text css-1gj3gif"
               >
@@ -201,7 +205,7 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
           </div>
         </div>
         <div
-          class="chakra-wrap css-1md4fal"
+          class="chakra-wrap css-eayoj"
         >
           <ul
             class="chakra-wrap__list css-1pgldbb"
@@ -258,7 +262,7 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
           </ul>
         </div>
         <div
-          class="css-1pf2gbx"
+          class="css-1as6cgl"
         >
           <table
             class="chakra-table css-zy166a"
@@ -270,7 +274,7 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
                 class="css-1y39i0r"
               >
                 <th
-                  class="css-j2saj0"
+                  class="css-1w0tojh"
                   colspan="1"
                   style="width: auto;"
                 >
@@ -285,7 +289,7 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
                   </div>
                 </th>
                 <th
-                  class="css-j2saj0"
+                  class="css-1w0tojh"
                   colspan="1"
                   style="width: auto;"
                 >
@@ -296,7 +300,7 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
                   </div>
                 </th>
                 <th
-                  class="css-j2saj0"
+                  class="css-1w0tojh"
                   colspan="1"
                   style="width: auto;"
                 >
@@ -322,7 +326,7 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
                   </div>
                 </th>
                 <th
-                  class="css-yddv3x"
+                  class="css-1f0k43i"
                   colspan="1"
                   style="width: auto;"
                 >
@@ -449,7 +453,7 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
           </table>
         </div>
         <div
-          class="chakra-stack css-9rshmm"
+          class="chakra-stack css-148qy46"
         >
           <div
             class="chakra-stack css-130amzp"
