@@ -24,6 +24,11 @@ export interface LoginExternalParams {
 
 export interface LoginResult {
   token: string;
+  accessFailedCount: number;
+}
+
+export interface LoginExternalResult {
+  token: string;
 }
 
 export interface UserInfo {
