@@ -158,6 +158,7 @@ export const UserManagementTable = () => {
     setFilterUser((filterUser) => ({
       ...filterUser,
       filter: txtSearchDebounced,
+      skipCount: 0,
     }));
   }, [txtSearchDebounced]);
 
