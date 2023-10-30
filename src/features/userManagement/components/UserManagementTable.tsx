@@ -4,6 +4,7 @@ import {
   createColumnHelper,
 } from '@tanstack/react-table';
 import {
+  Badge,
   Box,
   Center,
   HStack,
@@ -98,7 +99,14 @@ export const UserManagementTable = () => {
           header: () => <Box>User name</Box>,
           enableSorting: true,
           sortDescFirst: true,
-          cell: (info) => <Box>{info.getValue()}</Box>,
+          cell: (info) => (
+            <Box>
+              {!info.row.original.isActive && (
+                <Badge colorScheme="red">Disabled</Badge>
+              )}{' '}
+              {info.getValue()}
+            </Box>
+          ),
         }),
         columnHelper.accessor('email', {
           id: 'email',
