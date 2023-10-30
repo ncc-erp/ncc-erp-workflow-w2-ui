@@ -53,7 +53,7 @@ export const UserModal = ({
   }
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false}>
+    <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={true}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader fontSize="18px">{modalTitle} user</ModalHeader>
