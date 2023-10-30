@@ -107,11 +107,11 @@ exports[`Request My Requests Page 1`] = `
             class="chakra-stack css-1uwl1lo"
           >
             <div
-              class="chakra-input__group css-asnw16"
+              class="chakra-input__group css-q5l91q"
               data-group="true"
             >
               <input
-                class="chakra-input css-1vgf08c"
+                class="chakra-input css-1c1k9ih"
                 placeholder="Enter email"
                 type="text"
                 value=""
@@ -147,7 +147,7 @@ exports[`Request My Requests Page 1`] = `
           </div>
         </div>
         <div
-          class="css-1pf2gbx"
+          class="css-yrk15z"
         >
           <table
             class="chakra-table css-zy166a"
@@ -159,12 +159,12 @@ exports[`Request My Requests Page 1`] = `
                 class="css-1y39i0r"
               >
                 <th
-                  class="css-j2saj0"
+                  class="css-175w36i"
                   colspan="1"
                   style="width: auto;"
                 >
                   <div
-                    class="css-13mxke4"
+                    class="css-1qe39um"
                   >
                     <svg
                       class="chakra-icon css-1pr7mfq"
@@ -189,34 +189,34 @@ exports[`Request My Requests Page 1`] = `
                   </div>
                 </th>
                 <th
-                  class="css-j2saj0"
+                  class="css-175w36i"
                   colspan="1"
                   style="width: auto;"
                 >
                   <div
-                    class="css-13mxke4"
+                    class="css-1qe39um"
                   >
                     Email address
                   </div>
                 </th>
                 <th
-                  class="css-j2saj0"
+                  class="css-175w36i"
                   colspan="1"
                   style="width: auto;"
                 >
                   <div
-                    class="css-13mxke4"
+                    class="css-1qe39um"
                   >
                     Phone number
                   </div>
                 </th>
                 <th
-                  class="css-yddv3x"
+                  class="css-avwfu8"
                   colspan="1"
                   style="width: auto;"
                 >
                   <div
-                    class="css-u511cn"
+                    class="css-alaj7i"
                   >
                     <div
                       class="css-mgpx6q"
@@ -234,7 +234,7 @@ exports[`Request My Requests Page 1`] = `
                 class="css-eg92qj"
               >
                 <td
-                  class="css-jv3dxv"
+                  class="css-xk16pm"
                   style="word-break: break-word; white-space: pre-wrap;"
                 >
                   <div
@@ -244,17 +244,17 @@ exports[`Request My Requests Page 1`] = `
                   </div>
                 </td>
                 <td
-                  class="css-jv3dxv"
+                  class="css-xk16pm"
                   style="word-break: break-word; white-space: pre-wrap;"
                 >
                   admin@abp.io
                 </td>
                 <td
-                  class="css-jv3dxv"
+                  class="css-xk16pm"
                   style="word-break: break-word; white-space: pre-wrap;"
                 />
                 <td
-                  class="css-jv3dxv"
+                  class="css-xk16pm"
                   style="word-break: break-word; white-space: pre-wrap;"
                 >
                   <div
@@ -332,16 +332,16 @@ exports[`Request My Requests Page 1`] = `
           </table>
         </div>
         <div
-          class="chakra-stack css-9rshmm"
+          class="chakra-stack css-11un3ql"
         >
           <div
-            class="chakra-stack css-130amzp"
+            class="chakra-stack css-dvyqh9"
           >
             <div
               class="chakra-stack css-1hohgv6"
             >
               <p
-                class="chakra-text css-1bevrez"
+                class="chakra-text css-1ok354g"
               >
                 Rows per page
               </p>
@@ -403,10 +403,10 @@ exports[`Request My Requests Page 1`] = `
               </div>
             </div>
             <div
-              class="css-iz7l97"
+              class="css-pu04yu"
             />
             <p
-              class="chakra-text css-1bevrez"
+              class="chakra-text css-3z0v2v"
             >
               showing 1 to 1 of 1 entries
             </p>
