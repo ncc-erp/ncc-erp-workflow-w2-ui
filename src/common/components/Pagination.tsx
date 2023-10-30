@@ -119,7 +119,6 @@ export const Pagination = ({
       as={PaginationComponent}
       itemRender={ItemRender(current, itemRenderProps)}
       {...paginationProps}
-      showPrevNextJumpers={isLargeScreen ? true : false}
       showLessItems={isLargeScreen ? false : true}
     />
   );
