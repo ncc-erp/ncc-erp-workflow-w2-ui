@@ -337,12 +337,12 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                   class="css-1y39i0r"
                 >
                   <th
-                    class="css-yddv3x"
+                    class="css-1d8mdkw"
                     colspan="1"
                     style="width: 20%;"
                   >
                     <div
-                      class="css-u511cn"
+                      class="css-alaj7i"
                     >
                       <div
                         class="css-0"
@@ -352,12 +352,12 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                     </div>
                   </th>
                   <th
-                    class="css-yddv3x"
+                    class="css-1d8mdkw"
                     colspan="1"
                     style="width: auto;"
                   >
                     <div
-                      class="css-u511cn"
+                      class="css-alaj7i"
                     >
                       <div
                         class="css-0"
@@ -367,12 +367,12 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                     </div>
                   </th>
                   <th
-                    class="css-yddv3x"
+                    class="css-1d8mdkw"
                     colspan="1"
                     style="width: auto;"
                   >
                     <div
-                      class="css-u511cn"
+                      class="css-alaj7i"
                     >
                       <div
                         class="css-xi606m"
@@ -382,23 +382,23 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                     </div>
                   </th>
                   <th
-                    class="css-yddv3x"
+                    class="css-1d8mdkw"
                     colspan="1"
                     style="width: auto;"
                   >
                     <div
-                      class="css-u511cn"
+                      class="css-alaj7i"
                     >
                       Stakeholders
                     </div>
                   </th>
                   <th
-                    class="css-j2saj0"
+                    class="css-1efk6hr"
                     colspan="1"
                     style="width: auto;"
                   >
                     <div
-                      class="css-13mxke4"
+                      class="css-1qe39um"
                     >
                       Created at
                       <svg
@@ -419,12 +419,12 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                     </div>
                   </th>
                   <th
-                    class="css-j2saj0"
+                    class="css-1efk6hr"
                     colspan="1"
                     style="width: auto;"
                   >
                     <div
-                      class="css-13mxke4"
+                      class="css-1qe39um"
                     >
                       Last executed at
                       <span
@@ -433,23 +433,23 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                     </div>
                   </th>
                   <th
-                    class="css-yddv3x"
+                    class="css-1d8mdkw"
                     colspan="1"
                     style="width: auto;"
                   >
                     <div
-                      class="css-u511cn"
+                      class="css-alaj7i"
                     >
                       Status
                     </div>
                   </th>
                   <th
-                    class="css-yddv3x"
+                    class="css-1d8mdkw"
                     colspan="1"
                     style="width: auto;"
                   >
                     <div
-                      class="css-u511cn"
+                      class="css-alaj7i"
                     >
                       <div
                         class="css-mgpx6q"
@@ -467,7 +467,7 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                   class="css-4g6ai3"
                 >
                   <td
-                    class="css-jv3dxv"
+                    class="css-xk16pm"
                     style="word-break: break-word; white-space: pre-wrap;"
                   >
                     <div
@@ -477,13 +477,13 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                     </div>
                   </td>
                   <td
-                    class="css-jv3dxv"
+                    class="css-xk16pm"
                     style="word-break: break-word; white-space: pre-wrap;"
                   >
                     Nhan Huynh Ba
                   </td>
                   <td
-                    class="css-jv3dxv"
+                    class="css-xk16pm"
                     style="word-break: break-word; white-space: pre-wrap;"
                   >
                     <div>
@@ -491,7 +491,7 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                     </div>
                   </td>
                   <td
-                    class="css-jv3dxv"
+                    class="css-xk16pm"
                     style="word-break: break-word; white-space: pre-wrap;"
                   >
                     <div>
@@ -499,25 +499,25 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                     </div>
                   </td>
                   <td
-                    class="css-jv3dxv"
+                    class="css-xk16pm"
                     style="word-break: break-word; white-space: pre-wrap;"
                   >
                     09-10-2023 11:49
                   </td>
                   <td
-                    class="css-jv3dxv"
+                    class="css-xk16pm"
                     style="word-break: break-word; white-space: pre-wrap;"
                   >
                     09-10-2023 11:49
                   </td>
                   <td
-                    class="css-jv3dxv"
+                    class="css-xk16pm"
                     style="word-break: break-word; white-space: pre-wrap;"
                   >
                     Pending
                   </td>
                   <td
-                    class="css-jv3dxv"
+                    class="css-xk16pm"
                     style="word-break: break-word; white-space: pre-wrap;"
                   >
                     <div
@@ -675,7 +675,7 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                   class="css-4g6ai3"
                 >
                   <td
-                    class="css-jv3dxv"
+                    class="css-xk16pm"
                     style="word-break: break-word; white-space: pre-wrap;"
                   >
                     <div
@@ -685,43 +685,43 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                     </div>
                   </td>
                   <td
-                    class="css-jv3dxv"
+                    class="css-xk16pm"
                     style="word-break: break-word; white-space: pre-wrap;"
                   >
                     Nhan Huynh Ba
                   </td>
                   <td
-                    class="css-jv3dxv"
+                    class="css-xk16pm"
                     style="word-break: break-word; white-space: pre-wrap;"
                   >
                     <div />
                   </td>
                   <td
-                    class="css-jv3dxv"
+                    class="css-xk16pm"
                     style="word-break: break-word; white-space: pre-wrap;"
                   >
                     <div />
                   </td>
                   <td
-                    class="css-jv3dxv"
+                    class="css-xk16pm"
                     style="word-break: break-word; white-space: pre-wrap;"
                   >
                     09-10-2023 11:23
                   </td>
                   <td
-                    class="css-jv3dxv"
+                    class="css-xk16pm"
                     style="word-break: break-word; white-space: pre-wrap;"
                   >
                     09-10-2023 11:25
                   </td>
                   <td
-                    class="css-jv3dxv"
+                    class="css-xk16pm"
                     style="word-break: break-word; white-space: pre-wrap;"
                   >
                     Rejected
                   </td>
                   <td
-                    class="css-jv3dxv"
+                    class="css-xk16pm"
                     style="word-break: break-word; white-space: pre-wrap;"
                   >
                     <div
@@ -889,7 +889,7 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
               class="chakra-stack css-1hohgv6"
             >
               <p
-                class="chakra-text css-1bevrez"
+                class="chakra-text css-1ok354g"
               >
                 Rows per page
               </p>
@@ -954,7 +954,7 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
               class="css-j1fgbz"
             />
             <p
-              class="chakra-text css-1bevrez"
+              class="chakra-text css-3z0v2v"
             >
               showing 1 to 2 of 2 entries
             </p>

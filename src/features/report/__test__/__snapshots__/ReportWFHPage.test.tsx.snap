@@ -275,12 +275,12 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
                 class="css-1y39i0r"
               >
                 <th
-                  class="css-j2saj0"
+                  class="css-1efk6hr"
                   colspan="1"
                   style="width: auto;"
                 >
                   <div
-                    class="css-13mxke4"
+                    class="css-1qe39um"
                   >
                     <div
                       class="css-0"
@@ -293,12 +293,12 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
                   </div>
                 </th>
                 <th
-                  class="css-j2saj0"
+                  class="css-1efk6hr"
                   colspan="1"
                   style="width: auto;"
                 >
                   <div
-                    class="css-13mxke4"
+                    class="css-1qe39um"
                   >
                     Number of requests for WFH
                     <span
@@ -307,12 +307,12 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
                   </div>
                 </th>
                 <th
-                  class="css-j2saj0"
+                  class="css-1efk6hr"
                   colspan="1"
                   style="width: auto;"
                 >
                   <div
-                    class="css-13mxke4"
+                    class="css-1qe39um"
                   >
                     Number of missing posts
                     <svg
@@ -333,12 +333,12 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
                   </div>
                 </th>
                 <th
-                  class="css-yddv3x"
+                  class="css-1d8mdkw"
                   colspan="1"
                   style="width: auto;"
                 >
                   <div
-                    class="css-u511cn"
+                    class="css-alaj7i"
                   >
                     <div
                       class="css-mgpx6q"
@@ -356,7 +356,7 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
                 class="css-4g6ai3"
               >
                 <td
-                  class="css-jv3dxv"
+                  class="css-xk16pm"
                   style="word-break: break-word; white-space: pre-wrap;"
                 >
                   <div
@@ -366,13 +366,13 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
                   </div>
                 </td>
                 <td
-                  class="css-jv3dxv"
+                  class="css-xk16pm"
                   style="word-break: break-word; white-space: pre-wrap;"
                 >
                   7
                 </td>
                 <td
-                  class="css-jv3dxv"
+                  class="css-xk16pm"
                   style="word-break: break-word; white-space: pre-wrap;"
                 >
                   <p
@@ -382,7 +382,7 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
                   </p>
                 </td>
                 <td
-                  class="css-jv3dxv"
+                  class="css-xk16pm"
                   style="word-break: break-word; white-space: pre-wrap;"
                 >
                   <div
@@ -468,7 +468,7 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
                 class="chakra-stack css-1hohgv6"
               >
                 <p
-                  class="chakra-text css-1bevrez"
+                  class="chakra-text css-1ok354g"
                 >
                   Rows per page
                 </p>
@@ -534,7 +534,7 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
                 class="css-iz7l97"
               />
               <p
-                class="chakra-text css-1bevrez"
+                class="chakra-text css-3z0v2v"
               >
                 showing 1 to 1 of 1 entries
               </p>
