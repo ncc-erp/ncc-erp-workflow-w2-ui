@@ -125,7 +125,7 @@ export const DetailModal = ({
                         Show more...
                       </button>
                     ) : posts.length === 0 ? (
-                      <Text>No posts found!</Text>
+                      <Text>No post found!</Text>
                     ) : null}
                   </div>
                 )}
