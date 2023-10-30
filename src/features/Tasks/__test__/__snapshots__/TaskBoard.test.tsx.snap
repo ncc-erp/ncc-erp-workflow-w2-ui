@@ -98,13 +98,13 @@ exports[`Request My Requests Page 1`] = `
       class="css-0"
     >
       <div
-        class="css-3a3hw0"
+        class="css-1t3usbj"
       >
         <div
           class="css-11nvq8j"
         >
           <div
-            class="css-blvggq"
+            class="css-13ua6uv"
           >
             <div
               class="css-0"
@@ -432,7 +432,9 @@ exports[`Request My Requests Page 1`] = `
                 />
               </svg>
             </button>
-            <div>
+            <div
+              class="css-ztxjyy"
+            >
               <div
                 data-rfd-droppable-context-id=":r4:"
                 data-rfd-droppable-id="0"
@@ -494,11 +496,13 @@ exports[`Request My Requests Page 1`] = `
                         </p>
                         <div>
                           (
-                          15 days ago
+                          20 days ago
                           )
                         </div>
                       </div>
-                      <div>
+                      <div
+                        style="background-color: rgb(0, 150, 136);"
+                      >
                         Probationary Request
                       </div>
                       <div
@@ -523,7 +527,7 @@ exports[`Request My Requests Page 1`] = `
                         nhan.huynhba
                       </div>
                       <div
-                        class="css-z7mtfw"
+                        class="css-k008qs"
                       >
                         <div
                           class="css-147dy5z"

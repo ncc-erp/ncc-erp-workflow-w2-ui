@@ -93,13 +93,13 @@ export const Table = <D,>({
                   px="8px"
                   background="secondaryColor"
                   textAlign="center"
-                  style={{ 
-                    width:  isWorkflowDefinitionDisplayName ? headerWidth :  'auto', 
+                  style={{
+                    width: isWorkflowDefinitionDisplayName
+                      ? headerWidth
+                      : 'auto',
                   }}
-                  whiteSpace={["normal","normal","normal","nowrap"]}
-                  cursor={
-                    header.column.getCanSort() ? 'pointer' : 'initial'
-                  }
+                  // whiteSpace={["normal","normal","normal","nowrap"]}
+                  cursor={header.column.getCanSort() ? 'pointer' : 'initial'}
                 >
                   {header.isPlaceholder ? null : (
                     <Box

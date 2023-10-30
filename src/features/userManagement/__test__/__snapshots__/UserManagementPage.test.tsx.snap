@@ -159,7 +159,7 @@ exports[`Request My Requests Page 1`] = `
                 class="css-1y39i0r"
               >
                 <th
-                  class="css-1w0tojh"
+                  class="css-j2saj0"
                   colspan="1"
                   style="width: auto;"
                 >
@@ -189,7 +189,7 @@ exports[`Request My Requests Page 1`] = `
                   </div>
                 </th>
                 <th
-                  class="css-1w0tojh"
+                  class="css-j2saj0"
                   colspan="1"
                   style="width: auto;"
                 >
@@ -200,7 +200,7 @@ exports[`Request My Requests Page 1`] = `
                   </div>
                 </th>
                 <th
-                  class="css-1w0tojh"
+                  class="css-j2saj0"
                   colspan="1"
                   style="width: auto;"
                 >
@@ -211,7 +211,7 @@ exports[`Request My Requests Page 1`] = `
                   </div>
                 </th>
                 <th
-                  class="css-1f0k43i"
+                  class="css-yddv3x"
                   colspan="1"
                   style="width: auto;"
                 >
@@ -350,7 +350,7 @@ exports[`Request My Requests Page 1`] = `
                 role="group"
               >
                 <div
-                  class="chakra-select__wrapper css-13voi5h"
+                  class="chakra-select__wrapper css-bo0or5"
                 >
                   <select
                     class="chakra-select css-1y1ernp"

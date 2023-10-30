@@ -9,6 +9,7 @@ import {
   FaChevronRight,
 } from 'react-icons/fa';
 import { ColorThemeMode } from 'common/constants';
+import { useMediaQuery } from 'hooks/useMediaQuery';
 
 interface PaginationProps extends PaginationComponentProps {
   itemRenderProps?: ButtonProps;
@@ -24,6 +25,7 @@ export const Pagination = ({
   current,
   ...paginationProps
 }: PaginationProps) => {
+  const isLargeScreen = useMediaQuery('(min-width: 1281px)');
   const bg = useColorModeValue(ColorThemeMode.DARK, ColorThemeMode.LIGHT);
   const color = useColorModeValue(ColorThemeMode.LIGHT, ColorThemeMode.DARK);
 
@@ -41,10 +43,10 @@ export const Pagination = ({
         case 'jump-next':
           return (
             <Button
-              rounded={['xs', 'sm']}
+              rounded={isLargeScreen ? 'sm' : 'xs'}
               variant="outline"
               borderRadius={['8px', '8px']}
-              size={['xs', 'sm']}
+              size={isLargeScreen ? 'sm' : 'xs'}
               aspectRatio="1/1"
               {...buttonProps}
             >
@@ -54,10 +56,10 @@ export const Pagination = ({
         case 'jump-prev':
           return (
             <Button
-              rounded={['xs', 'sm']}
+              rounded={isLargeScreen ? 'sm' : 'xs'}
               variant="outline"
               borderRadius={['8px', '8px']}
-              size={['xs', 'sm']}
+              size={isLargeScreen ? 'sm' : 'xs'}
               aspectRatio="1/1"
               {...buttonProps}
             >
@@ -67,10 +69,10 @@ export const Pagination = ({
         case 'prev':
           return (
             <Button
-              rounded={['xs', 'sm']}
+              rounded={isLargeScreen ? 'sm' : 'xs'}
               variant="outline"
               borderRadius={['8px', '8px']}
-              size={['xs', 'sm']}
+              size={isLargeScreen ? 'sm' : 'xs'}
               aspectRatio="1/1"
               {...buttonProps}
               isDisabled={activePage === 1}
@@ -81,10 +83,10 @@ export const Pagination = ({
         case 'next':
           return (
             <Button
-              rounded={['xs', 'sm']}
+              rounded={isLargeScreen ? 'sm' : 'xs'}
               variant="outline"
               borderRadius={['8px', '8px']}
-              size={['xs', 'sm']}
+              size={isLargeScreen ? 'sm' : 'xs'}
               aspectRatio="1/1"
               {...buttonProps}
               isDisabled={isLastPage(activePage as number)}
@@ -95,11 +97,11 @@ export const Pagination = ({
         default:
           return (
             <Button
-              rounded={['xs', 'sm']}
+              rounded={isLargeScreen ? 'sm' : 'xs'}
               variant={activePage === current ? 'solid' : 'outline'}
               background={activePage === current ? bg : undefined}
               color={activePage === current ? color : undefined}
-              size={['xs', 'sm']}
+              size={isLargeScreen ? 'sm' : 'xs'}
               borderRadius={['8px', '8px']}
               {...buttonProps}
             >
@@ -112,11 +114,13 @@ export const Pagination = ({
     <Box
       display="flex"
       listStyleType="none"
-      gap={['6px', '12px']}
+      gap={['5px', '5px']}
       current={current}
       as={PaginationComponent}
       itemRender={ItemRender(current, itemRenderProps)}
       {...paginationProps}
+      showPrevNextJumpers={isLargeScreen ? true : false}
+      showLessItems={isLargeScreen ? false : true}
     />
   );
 };

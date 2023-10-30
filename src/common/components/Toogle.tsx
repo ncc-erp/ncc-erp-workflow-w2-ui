@@ -8,7 +8,7 @@ import { HiDocumentArrowUp } from 'react-icons/hi2';
 
 export const Toggle = () => {
   const { colorMode, toggleColorMode } = useColorMode();
-  const isLargeScreen = useMediaQuery('(min-width: 768px)');
+  const isLargeScreen = useMediaQuery('(min-width: 1024px)');
 
   return (
     <div>
