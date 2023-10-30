@@ -124,13 +124,10 @@ export const Table = <D,>({
                           : null
                       }
                     >
-  
-
                       {flexRender(
                         header.column.columnDef.header,
                         header.getContext()
                       )}
-
                       {{
                         asc: <Icon fontSize="md" as={IoMdArrowDropup} />,
                         desc: <Icon fontSize="md" as={IoMdArrowDropdown} />,
