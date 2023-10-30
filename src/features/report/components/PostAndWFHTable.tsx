@@ -213,19 +213,28 @@ export const TablePostAndWFH = () => {
 
   return (
     <>
-      <Box
-        width={"100%"}
-      >
+      <Box width={'100%'}>
         <HStack
           w="100%"
           display="flex"
-          flexDirection={["column","column","column","row","row"]}
-          justifyContent={["center","center","center","space-around","space-between","space-between"]}
-          pl={{xl: "24px"}}
-          justifySelf={"flex-start"}
+          flexDirection={['column', 'column', 'column', 'row', 'row']}
+          justifyContent={[
+            'center',
+            'center',
+            'center',
+            'space-between',
+            'space-between',
+            'space-between',
+          ]}
+          px={{ xl: '24px' }}
+          justifySelf={'flex-start'}
         >
-          <InputGroup alignItems={"center"} w={['90%', '80%','70%','40%','30%','30%']}>
+          <InputGroup
+            alignItems={'center'}
+            w={['90%', '80%', '70%', '40%', '30%', '30%']}
+          >
             <Input
+              isDisabled={isLoading || isRefetching}
               type="text"
               placeholder="Enter email"
               fontSize="14px"
@@ -235,9 +244,14 @@ export const TablePostAndWFH = () => {
               <TbSearch />
             </InputRightElement>
           </InputGroup>
-          <Box w={['80%', '80%','70%','40%','40%','30%']}>
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent={{ lg: 'flex-end', sm: 'flex-start' }}
+            w={['80%', '80%', '70%', '40%', '40%', '30%']}
+          >
             <DateRangePicker
-
+              isDisabled={isLoading || isRefetching}
               startDate={startDate}
               endDate={endDate}
               handleStartDateChange={handleStartDateChange}
@@ -246,7 +260,7 @@ export const TablePostAndWFH = () => {
             />
           </Box>
         </HStack>
-        <Wrap pt={"12px"}  pr={"16px"} justify="flex-end">
+        <Wrap pt={'12px'} pr={'16px'} justify="flex-end">
           <WrapItem>
             <div className={styles.btnExport}>
               <Button
@@ -282,14 +296,22 @@ export const TablePostAndWFH = () => {
             h="200px"
             fontSize="xs"
             message={'No request found!'}
-            display={"flex"}
-            justifyContent={"center"}
-            alignItems={"center"}
+            display={'flex'}
+            justifyContent={'center'}
+            alignItems={'center'}
           >
             <Box
-              p={{base:"8px" , md:"20px 16px"}}
-              overflowX={"scroll"}
-              w={["100vw","100vw",`calc(100vw - ${sideBarWidth}px)`,`calc(100vw - ${sideBarWidth}px)`,`calc(100vw - ${sideBarWidth}px)`,`calc(100vw - ${sideBarWidth}px)`,`calc(100vw - ${sideBarWidth}px)`]}
+              p={{ base: '8px', md: '20px 16px' }}
+              overflowX={'scroll'}
+              w={[
+                '100vw',
+                '100vw',
+                `calc(100vw - ${sideBarWidth}px)`,
+                `calc(100vw - ${sideBarWidth}px)`,
+                `calc(100vw - ${sideBarWidth}px)`,
+                `calc(100vw - ${sideBarWidth}px)`,
+                `calc(100vw - ${sideBarWidth}px)`,
+              ]}
             >
               <Table
                 columns={wfhColumns}
@@ -299,35 +321,36 @@ export const TablePostAndWFH = () => {
                 sorting={sorting}
                 onRowHover={true}
               />
+
+              <HStack
+                p="20px 30px 20px 30px"
+                justifyContent="space-between"
+                flexWrap="wrap"
+              >
+                <HStack alignItems="center" spacing="6px" flexWrap="wrap">
+                  <PageSize
+                    noOfRows={noOfRows}
+                    onChange={onPageSizeChange}
+                    defaultValue={+noOfRows[2].value}
+                  />
+                  <Spacer w="12px" />
+                  <ShowingItemText
+                    skipCount={filter.skipCount}
+                    maxResultCount={filter.maxResultCount}
+                    totalCount={totalCount}
+                  />
+                </HStack>
+                <Pagination
+                  total={totalCount}
+                  pageSize={filter.maxResultCount}
+                  current={currentPage}
+                  onChange={onPageChange}
+                  hideOnSinglePage
+                />
+              </HStack>
             </Box>
           </EmptyWrapper>
         )}
-        <HStack
-          p="20px 30px 20px 30px"
-          justifyContent="space-between"
-          flexWrap="wrap"
-        >
-          <HStack alignItems="center" spacing="6px" flexWrap="wrap">
-            <PageSize
-              noOfRows={noOfRows}
-              onChange={onPageSizeChange}
-              defaultValue={+noOfRows[2].value}
-            />
-            <Spacer w="12px" />
-            <ShowingItemText
-              skipCount={filter.skipCount}
-              maxResultCount={filter.maxResultCount}
-              totalCount={totalCount}
-            />
-          </HStack>
-          <Pagination
-            total={totalCount}
-            pageSize={filter.maxResultCount}
-            current={currentPage}
-            onChange={onPageChange}
-            hideOnSinglePage
-          />
-        </HStack>
 
         {reportDetail && (
           <DetailModal

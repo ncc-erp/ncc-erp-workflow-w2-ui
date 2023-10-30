@@ -286,6 +286,9 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
                     >
                       Email address
                     </div>
+                    <span
+                      style="width: 16px;"
+                    />
                   </div>
                 </th>
                 <th
@@ -297,6 +300,9 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
                     class="css-13mxke4"
                   >
                     Number of requests for WFH
+                    <span
+                      style="width: 16px;"
+                    />
                   </div>
                 </th>
                 <th
@@ -307,6 +313,7 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
                   <div
                     class="css-13mxke4"
                   >
+                    Number of missing posts
                     <svg
                       class="chakra-icon css-1pr7mfq"
                       fill="currentColor"
@@ -322,7 +329,6 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
                         d="M128 192l128 128 128-128z"
                       />
                     </svg>
-                    Number of missing posts
                   </div>
                 </th>
                 <th

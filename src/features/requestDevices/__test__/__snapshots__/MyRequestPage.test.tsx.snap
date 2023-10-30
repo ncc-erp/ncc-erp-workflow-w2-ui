@@ -400,6 +400,7 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                     <div
                       class="css-13mxke4"
                     >
+                      Created at
                       <svg
                         class="chakra-icon css-1pr7mfq"
                         fill="currentColor"
@@ -415,7 +416,6 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                           d="M128 192l128 128 128-128z"
                         />
                       </svg>
-                      Created at
                     </div>
                   </th>
                   <th
@@ -427,6 +427,9 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                       class="css-13mxke4"
                     >
                       Last executed at
+                      <span
+                        style="width: 16px;"
+                      />
                     </div>
                   </th>
                   <th
