@@ -38,6 +38,7 @@ export interface FilterUserParams {
   maxResultCount: number;
   skipCount: number;
   sorting: string;
+  roles: string;
 }
 
 export interface ListResult<T> {
