@@ -28,7 +28,10 @@ export const PageSize = ({
 
   return (
     <HStack spacing={0}>
-      <Text whiteSpace="nowrap" fontSize="xs">
+      <Text
+        whiteSpace="nowrap"
+        fontSize={{ base: '10px', sm: 'xs', lg: '12px' }}
+      >
         Rows per page
       </Text>
       <SelectField

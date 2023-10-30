@@ -56,7 +56,7 @@ export const Table = <D,>({
     getCoreRowModel: getCoreRowModel(),
   });
   const color = useColorModeValue(ColorThemeMode.DARK, ColorThemeMode.LIGHT);
-  const isLargeScreen = useMediaQuery('(min-width: 768px)');
+  const isLargeScreen = useMediaQuery('(min-width: 1024px)');
 
   const [columnHovered, setColumnHovered] = useState<Array<boolean>>([]);
   const handleMouseEnter = (index: number) => {
@@ -87,10 +87,15 @@ export const Table = <D,>({
                   colSpan={header.colSpan}
                   textTransform="none"
                   fontWeight={600}
-                  fontSize="sm"
+                  fontSize={{
+                    base: '10px',
+                    sm: '12px',
+                    lg: 'sm',
+                    xl: 'sm',
+                  }}
                   border={`1px solid ${theme.colors.borderColor}`}
                   color={color}
-                  px="8px"
+                  px={['2px', '8px']}
                   background="secondaryColor"
                   textAlign="center"
                   style={{
@@ -99,6 +104,7 @@ export const Table = <D,>({
                       ? headerWidth
                       : 'auto',
                   }}
+                  // whiteSpace={["pre-line","pre-line","pre-line","nowrap","nowrap","nowrap"]}
                   cursor={header.column.getCanSort() ? 'pointer' : 'initial'}
                 >
                   {header.isPlaceholder ? null : (
@@ -106,7 +112,7 @@ export const Table = <D,>({
                       key={index}
                       display="flex"
                       alignItems="center"
-                      gap="12px"
+                      gap={['2px', '12px']}
                       onClick={header.column.getToggleSortingHandler()}
                       cursor={
                         header.column.getCanSort() ? 'pointer' : 'initial'
@@ -174,7 +180,7 @@ export const Table = <D,>({
                 return (
                   <Td
                     key={cell.id}
-                    fontSize="14px"
+                    fontSize={['10px', '12px', '12px', '14px']}
                     borderRight="1px"
                     borderColor={theme.colors.borderColor}
                     px="6px"
