@@ -25,7 +25,7 @@ export const SideNav = () => {
   const { openSideBar } = useRecoilValue(appConfigState);
   const { setSideBarWidth } = useSetAppConfig();
   const { onCloseSideBar, onOpenSideBar } = useSetAppConfig();
-  const isLargeSceen = useMediaQuery('(min-width: 768px)');
+  const isLargeSceen = useMediaQuery('(min-width: 1024px)');
 
   useEffect(() => {
     sideBarRef.current && setSideBarWidth(sideBarRef.current.offsetWidth);
@@ -52,7 +52,7 @@ export const SideNav = () => {
               size={{ base: 'md', md: 'sm' }}
               aria-label=""
               onClick={onOpenSideBar}
-              position={{ base: 'fixed', md: 'initial' }}
+              position={{ base: 'fixed' }}
               rounded={{ base: 'md', md: 0 }}
               variant="ghost"
               bgColor="whiteAlpha.100"

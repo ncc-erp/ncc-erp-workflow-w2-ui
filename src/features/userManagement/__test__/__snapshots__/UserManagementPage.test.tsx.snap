@@ -350,7 +350,7 @@ exports[`Request My Requests Page 1`] = `
                 role="group"
               >
                 <div
-                  class="chakra-select__wrapper css-13voi5h"
+                  class="chakra-select__wrapper css-bo0or5"
                 >
                   <select
                     class="chakra-select css-1y1ernp"

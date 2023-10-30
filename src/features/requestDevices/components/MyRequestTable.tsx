@@ -424,7 +424,7 @@ export const MyRequestTable = () => {
               onChange={onPageSizeChange}
               isLoading={isLoading || isRefetching}
             />
-            <Spacer w="12px" />
+            <Spacer w="5px" />
             <ShowingItemText
               skipCount={filter.skipCount}
               maxResultCount={filter.maxResultCount}
