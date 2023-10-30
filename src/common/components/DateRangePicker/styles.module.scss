@@ -4,11 +4,19 @@
     width: 140px;
     padding: 8px 15px;
     font-size: 15px;
-    margin-right: 5px;
     background-color: inherit;
     border-color: inherit;
     &:hover {
         border-color: var(--chakra-colors-gray-300);
+    }
+    @media (max-width: 1024px) {
+        width: 110px; /* Adjust for smaller screens */
+        padding: 8px 8px;
+    }
+
+    @media (max-width: 576px) {
+        width: 96px; /* Further adjustment for even smaller screens */
+        padding: 4px 8px;
     }
 }
 
