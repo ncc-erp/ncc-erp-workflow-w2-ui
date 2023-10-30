@@ -72,6 +72,7 @@ export const FilterAll = {
 export const UserRoles = {
   ADMIN: 'admin',
   DEFAULT_USER: 'DefaultUser',
+  DESIGNER: 'Designer',
 };
 
 export const UserAction = {

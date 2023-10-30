@@ -18,7 +18,7 @@ import { QueryKeys, UserRoles } from 'common/constants';
 import { useFormik } from 'formik';
 import { ModalUserParams } from 'models/userIdentity';
 import { ChangeEvent, useEffect, useState } from 'react';
-import { validationSchema } from 'utils';
+import { convertToCase, validationSchema } from 'utils';
 
 interface UserFormProps {
   initialValues: ModalUserParams;
@@ -86,6 +86,16 @@ const UserForm = ({ initialValues, userId, onClose }: UserFormProps) => {
       handleChangeCheckbox('roleNames', updatedRoles);
     }
   };
+
+  const renderCheckbox = (role: string) => (
+    <Checkbox
+      colorScheme="gray"
+      isChecked={formik.values.roleNames.includes(role)}
+      onChange={(e) => handleChangeRolesCheckbox(role, e.target.checked)}
+    >
+      {convertToCase(role)}
+    </Checkbox>
+  );
 
   return (
     <Tabs size="md" variant="enclosed">
@@ -224,29 +234,7 @@ const UserForm = ({ initialValues, userId, onClose }: UserFormProps) => {
           </TabPanel>
           <TabPanel p="0">
             <Stack mt={6} mb={6} direction="column">
-              <Checkbox
-                colorScheme="gray"
-                isChecked={formik.values.roleNames.includes(UserRoles.ADMIN)}
-                onChange={(e) =>
-                  handleChangeRolesCheckbox(UserRoles.ADMIN, e.target.checked)
-                }
-              >
-                {UserRoles.ADMIN}
-              </Checkbox>
-              <Checkbox
-                colorScheme="gray"
-                isChecked={formik.values.roleNames.includes(
-                  UserRoles.DEFAULT_USER
-                )}
-                onChange={(e) =>
-                  handleChangeRolesCheckbox(
-                    UserRoles.DEFAULT_USER,
-                    e.target.checked
-                  )
-                }
-              >
-                {UserRoles.DEFAULT_USER}
-              </Checkbox>
+              {Object.values(UserRoles).map((role) => renderCheckbox(role))}
             </Stack>
           </TabPanel>
         </TabPanels>
