@@ -55,7 +55,7 @@ export const UserModal = ({
   return (
     <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={true}>
       <ModalOverlay />
-      <ModalContent>
+      <ModalContent mx="8px">
         <ModalHeader fontSize="18px">{modalTitle} user</ModalHeader>
         <ModalCloseButton />
         {UserComponent && <ModalBody>{UserComponent[modalTitle]}</ModalBody>}
