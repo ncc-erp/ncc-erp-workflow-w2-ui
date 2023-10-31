@@ -13,6 +13,7 @@ export type StakeHolderResult = ListResult<IStakeHolder>;
 
 export interface ITask {
   name: string;
+  title?: string;
   email: string;
   emailTo: string[];
   reason?: string;

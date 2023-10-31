@@ -537,14 +537,33 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
                                     <Flex
                                       justifyContent={'space-between'}
                                       alignItems={'center'}
+                                      wrap={'wrap'}
                                       w={'100%'}
                                     >
-                                      <Text fontWeight={'bold'} mr={1}>
-                                        ID: {item.id.slice(-5).toUpperCase()}
-                                      </Text>
-                                      <div>
+                                      <Box
+                                        display="flex"
+                                        w={'100%'}
+                                        flex="1"
+                                        flexDirection="row"
+                                      >
+                                        <Text fontWeight={'bold'} mr={1}>
+                                          ID: {item.id.slice(-5).toUpperCase()}
+                                        </Text>
+                                        {item?.title && (
+                                          <Text
+                                            mr={1}
+                                            flex="1"
+                                            overflow="hidden"
+                                            textOverflow="ellipsis"
+                                          >
+                                            {item?.title}
+                                          </Text>
+                                        )}
+                                      </Box>
+
+                                      <Text>
                                         ({getDayAgo(item?.creationTime)})
-                                      </div>
+                                      </Text>
                                     </Flex>
                                     <div
                                       className={styles.title}

@@ -126,7 +126,14 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
         id: 'name',
         header: 'Request template',
         enableSorting: false,
-        cell: (info) => info.getValue(),
+        cell: (info) => {
+          const { name, title } = info.row.original;
+          return (
+            <Box>
+              {name} {title ? `: ${title}` : ``}
+            </Box>
+          );
+        },
       }),
       columnHelper.accessor('authorName', {
         id: 'authorName',
