@@ -402,8 +402,9 @@ const Boards = ({ filters, openDetailModal,getColorByType }: BoardsProps): JSX.E
   const arrColor: Color[] = ['#009688','#000000']
 
   let currentColor: number = 0;
+  console.log(getColorByType)
   const hashMap = new Map<string, string>(getColorByType);
-
+  console.log(hashMap)
   const renderColor = (key: string) => {
     if (hashMap.has(key)) {
       return hashMap.get(key);

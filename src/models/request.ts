@@ -47,7 +47,7 @@ export interface RequestTemplate {
   isPublished: boolean;
   isLatest: boolean;
   inputDefinition: InputDefinition;
-  SettingDefinition: SettingDefinition
+  settingDefinition: SettingDefinition
   id: string;
 }
 

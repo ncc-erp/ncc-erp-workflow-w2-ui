@@ -107,15 +107,16 @@ export const TasksBoard = () => {
   const getColorByRequestTemplates =  (items: RequestTemplate[]): [string, string][] | [] => {
     const result: [string, string][] = [];
     for (const item of items) {
-      if (item.SettingDefinition) {
+      if (item.settingDefinition) {
         const displayName: string = item.displayName || '';
-        const color: string = item.SettingDefinition.propertyDefinitions.find(prop => prop.key === "color")?.value || "#000000";
+        const color: string = item.settingDefinition.propertyDefinitions.find(prop => prop.key === "color")?.value || "#ffffff";
         result.push([displayName, color]);
       }
     }
     return result;
   };
-  
+
+  console.log(getColorByRequestTemplates(requestTemplates))
   
   
   const statusOptions = useMemo(() => {
