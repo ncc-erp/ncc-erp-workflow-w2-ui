@@ -16,6 +16,10 @@ jest.mock('hooks/useIsAdmin', () => ({
   useIsAdmin: jest.fn().mockReturnValue(true),
 }));
 
+jest.mock('hooks/useMediaQuery', () => ({
+  useMediaQuery: jest.fn().mockReturnValue(true),
+}));
+
 jest.mock('api/apiHooks/reportHooks', () => ({
   useWfhList: jest.fn().mockReturnValue({
     isLoading: false,
@@ -183,7 +187,7 @@ describe('WFH Page', () => {
 
     it('should display the correct number of buttons on the screen', async () => {
       const buttonList = await screen.findAllByRole('button');
-      expect(buttonList).toHaveLength(totalCount + 3);
+      expect(buttonList).toHaveLength(totalCount + 5);
     });
 
     it('should handle selecting rows per page', async () => {

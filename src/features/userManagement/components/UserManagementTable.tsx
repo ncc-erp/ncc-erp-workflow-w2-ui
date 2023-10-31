@@ -156,11 +156,11 @@ export const UserManagementTable = () => {
           display="flex"
         >
           <HStack w="full" pl="24px" alignItems="flex-end" flexWrap="wrap">
-            <InputGroup w={'20%'}>
+            <InputGroup w={{ base: '48%', sm: '30%', lg: '20%' }}>
               <Input
                 type="text"
                 placeholder="Enter email"
-                fontSize="14px"
+                fontSize={{ base: '10px', sm: '12px', lg: '14px' }}
                 mb={2}
                 value={txtSearch}
                 onChange={(e) => setTxtSearch(e.target.value)}
@@ -180,12 +180,16 @@ export const UserManagementTable = () => {
             isEmpty={!requests.length}
             h="200px"
             fontSize="xs"
-            message={'No requests found!'}
+            message={'No request found!'}
           >
             <Box
               p="20px 24px"
-              overflowX="auto"
-              w={{ base: `calc(100vw - ${sideBarWidth}px)`, lg: 'auto' }}
+              w={{
+                base: '100vw',
+                sm: `calc(100vw - ${sideBarWidth}px)`,
+                lg: 'auto',
+                xl: 'auto',
+              }}
             >
               <Table
                 columns={userColumns}
@@ -197,13 +201,26 @@ export const UserManagementTable = () => {
           </EmptyWrapper>
         )}
         <HStack
-          p="0px 30px 20px 30px"
-          justifyContent="space-between"
+          p={{
+            base: '0px 12px 20px 12px',
+            sm: '0px 30px 20px 30px',
+            lg: '26px 30px 20px 30px',
+          }}
+          justifyContent={{
+            base: 'center',
+            lg: 'space-between',
+          }}
           flexWrap="wrap"
         >
-          <HStack alignItems="center" spacing="6px" flexWrap="wrap">
+          <HStack
+            alignItems="center"
+            spacing="6px"
+            flexWrap="wrap"
+            px={{ base: '10px', sm: '12px', lg: '0px' }}
+            pl={'-60px'}
+          >
             <PageSize noOfRows={noOfRows} onChange={onPageSizeChange} />
-            <Spacer w="12px" />
+            <Spacer w="2px" />
             <ShowingItemText
               skipCount={filterUser.skipCount}
               maxResultCount={filterUser.maxResultCount}

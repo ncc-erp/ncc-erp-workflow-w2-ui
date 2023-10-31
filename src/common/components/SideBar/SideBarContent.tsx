@@ -18,6 +18,7 @@ import {
   AccordionPanel,
   Box,
   useColorModeValue,
+  useColorMode,
 } from '@chakra-ui/react';
 import { NavLink } from 'common/components/SideBar/NavLink';
 import {
@@ -37,13 +38,22 @@ import { useSetAppConfig } from 'stores/appConfig';
 import { useNavigate } from 'react-router-dom';
 import { useIsAdmin } from 'hooks/useIsAdmin';
 import Logo from 'assets/images/ncc_logo.png';
-import { ColorThemeMode } from 'common/constants';
+import { ColorThemeMode, LinkDocRedirect } from 'common/constants';
 import { removeItem } from 'utils';
 import { LocalStorageKeys } from 'common/enums';
+import {
+  HiOutlineDocumentArrowUp,
+  HiOutlineDocumentText,
+  HiOutlineMoon,
+} from 'react-icons/hi2';
+import { FaSun } from 'react-icons/fa';
+import { useMediaQuery } from 'hooks/useMediaQuery';
 
 export const SideBarContent = () => {
+  const { colorMode, toggleColorMode } = useColorMode();
   const bg = useColorModeValue(ColorThemeMode.LIGHT, ColorThemeMode.DARK);
   const color = useColorModeValue(ColorThemeMode.DARK, ColorThemeMode.LIGHT);
+  const isLargeScreen = useMediaQuery('(min-width: 1024px)');
 
   const isAdmin = useIsAdmin();
   const NavList = [
@@ -217,6 +227,51 @@ export const SideBarContent = () => {
               <Icon as={HiUser} fontSize="xl" color="gray.500" />
               <Text fontSize="sm">My profile</Text>
             </MenuItem> */}
+            <MenuItem
+              color={color}
+              display="flex"
+              gap="12px"
+              onClick={() => toggleColorMode()}
+              hidden={isLargeScreen}
+            >
+              {colorMode === 'light' ? (
+                <Icon as={HiOutlineMoon} fontSize="xl" color="gray.500" />
+              ) : (
+                <Icon as={FaSun} fontSize="xl" color="gray.500" />
+              )}
+              <Text fontSize="sm">
+                {' '}
+                {colorMode === 'light' ? 'Dark' : 'Light'}{' '}
+              </Text>
+            </MenuItem>
+            <MenuItem
+              color={color}
+              display="flex"
+              gap="12px"
+              onClick={() => {
+                window.open(LinkDocRedirect.RELEASE_DOCS, '_blank');
+              }}
+              hidden={isLargeScreen}
+            >
+              <Icon
+                as={HiOutlineDocumentArrowUp}
+                fontSize="xl"
+                color="gray.500"
+              />
+              <Text fontSize="sm">Release note</Text>
+            </MenuItem>
+            <MenuItem
+              color={color}
+              display="flex"
+              gap="12px"
+              onClick={() => {
+                window.open(LinkDocRedirect.USER_GUIDE_DOCS, '_blank');
+              }}
+              hidden={isLargeScreen}
+            >
+              <Icon as={HiOutlineDocumentText} fontSize="xl" color="gray.500" />
+              <Text fontSize="sm">User guide</Text>
+            </MenuItem>
             <MenuItem
               color={color}
               display="flex"

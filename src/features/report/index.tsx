@@ -9,7 +9,7 @@ const PostAndWFH = () => {
   return !isAdmin ? (
     <Navigate to="/" />
   ) : (
-    <Page>
+    <Page boxSizing="border-box">
       <Page.Header>
         <Page.HeaderLeft>
           <Page.Heading>Report WFH</Page.Heading>

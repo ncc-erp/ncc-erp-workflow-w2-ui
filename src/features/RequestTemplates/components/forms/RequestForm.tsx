@@ -355,7 +355,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
               control={control}
               rules={{
                 required: Field?.isRequired
-                  ? `${fieldname} is Required`
+                  ? `${fieldname.replace(/([A-Z])/g, ' $1')} is Required`
                   : false,
                 validate: () => {
                   const startDate = watch('StartDate');

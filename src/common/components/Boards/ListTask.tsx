@@ -45,6 +45,7 @@ import ModalBoard from './ModalBoard';
 import styles from './style.module.scss';
 import { useClearCacheTask } from './useClearCacheTask';
 import { WorkflowModal } from 'common/components/WorkflowModal';
+import { useMediaQuery } from 'hooks/useMediaQuery';
 
 interface Props {
   filters: FilterTasks;
@@ -57,6 +58,7 @@ const initDataForm = {
 };
 
 export const ListTask = ({ filters, openDetailModal }: Props) => {
+  const isLargeScreen = useMediaQuery('(min-width: 1281px)');
   const [filter, setFilter] = useState<FilterTasks>(filters);
   const columnHelper = createColumnHelper<ITask>();
   const { sideBarWidth } = useRecoilValue(appConfigState);
@@ -150,17 +152,21 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
           const status = info.row.original.status;
           return (
             <Flex alignItems={'center'} gap={1}>
-              <div
-                className={`${styles.status} ${
-                  status === TaskStatus.Pending
-                    ? styles.statusPending
-                    : status === TaskStatus.Approved
-                    ? styles.statusApproved
-                    : status === TaskStatus.Rejected
-                    ? styles.statusRejected
-                    : ''
-                }`}
-              />
+              {isLargeScreen ? (
+                <div
+                  className={`${styles.status} ${
+                    status === TaskStatus.Pending
+                      ? styles.statusPending
+                      : status === TaskStatus.Approved
+                      ? styles.statusApproved
+                      : status === TaskStatus.Rejected
+                      ? styles.statusRejected
+                      : ''
+                  }`}
+                />
+              ) : (
+                ''
+              )}
               {Object.keys(TaskStatus)[info.getValue()]}
             </Flex>
           );
@@ -303,6 +309,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
     openDetailModal,
     refetch,
     user.email,
+    isLargeScreen,
   ]);
 
   const handleClose = useCallback(() => {
@@ -403,7 +410,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
           aria-label="Done"
           fontSize="20px"
           position={'absolute'}
-          right={25}
+          right={['20px', 25]}
           top={'-40px'}
           icon={<AiOutlineReload />}
           onClick={() => refetch()}
@@ -418,24 +425,30 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
               isEmpty={false}
               h="200px"
               fontSize="xs"
-              message={'No requests found!'}
+              message={'No request found!'}
             >
               <Box
                 p="10px 20px"
-                overflowX="auto"
+                //overflowX="auto"
                 w={{ base: `calc(100vw - ${sideBarWidth}px)`, lg: 'auto' }}
               >
-                <Table
-                  onRowClick={openDetailModal}
-                  columns={taskColumns}
-                  data={data?.items ?? []}
-                  onRowHover={true}
-                />
+                <Box
+                  w={'100%'}
+                  overflowX="auto"
+                  className={styles.tableContent}
+                >
+                  <Table
+                    onRowClick={openDetailModal}
+                    columns={taskColumns}
+                    data={data?.items ?? []}
+                    onRowHover={true}
+                  />
+                </Box>
               </Box>
             </EmptyWrapper>
             <HStack
-              p="0px 30px 20px 30px"
-              justifyContent="space-between"
+              p={['20px 30px 20px 30px', '0px 30px 20px 30px']}
+              justifyContent={['center', 'space-between']}
               borderBottom="1px"
               borderColor="gray.200"
               flexWrap="wrap"

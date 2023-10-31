@@ -12,6 +12,10 @@ jest.mock('../../../api/axiosInstant', () => ({
   VITE_API_BASE_URL: '/api',
 }));
 
+jest.mock('hooks/useMediaQuery', () => ({
+  useMediaQuery: jest.fn().mockReturnValue(true),
+}));
+
 jest.mock('api/apiHooks/requestHooks', () => ({
   useRequestTemplates: jest.fn().mockReturnValue({
     isLoading: false,
@@ -101,7 +105,7 @@ describe('Request Template Page', () => {
 
     it('should display the correct number of buttons on the screen', async () => {
       const buttonList = await screen.findAllByRole('button');
-      expect(buttonList).toHaveLength(totalCount + 1);
+      expect(buttonList).toHaveLength(totalCount + 3);
     });
 
     it('should handle selecting rows per page', async () => {

@@ -33,6 +33,7 @@ import { FaTable } from 'react-icons/fa';
 import { BsCardText } from 'react-icons/bs';
 import { ITask } from 'models/request';
 import { useDynamicDataTask } from 'api/apiHooks/taskHooks';
+import { useMediaQuery } from 'hooks/useMediaQuery';
 
 const initialFilter: FilterTasks = {
   skipCount: 0,
@@ -78,6 +79,7 @@ export const OptionsDisplay = [
 ];
 
 export const TasksBoard = () => {
+  const isLargeScreen = useMediaQuery('(min-width: 768px)');
   const user = useCurrentUser();
   const [modalState, setModalState] = useState(initialModalStatus);
   const [filter, setFilter] = useState<FilterTasks>({
@@ -185,9 +187,9 @@ export const TasksBoard = () => {
   }, [isMyTask, onTemplateStatusChange, user.email]);
 
   return (
-    <Flex flexDirection={'column'} gap={2}>
+    <Flex flexDirection={'column'} gap={2} w={['100vw', 'auto']}>
       <Flex px="24px" justifyContent="space-between">
-        <Flex gap={3}>
+        <Flex gap={3} flexDirection={['column', 'row']} flexWrap={'wrap'}>
           <Box>
             <SelectField
               cursor="pointer"
@@ -258,7 +260,14 @@ export const TasksBoard = () => {
       </Flex>
 
       <Box position={'relative'}>
-        <Wrap spacing={2} px="24px" position={'absolute'} right={55} top={-10}>
+        <Wrap
+          spacing={2}
+          px="24px"
+          position={'absolute'}
+          right={55}
+          top={-10}
+          hidden={!isLargeScreen}
+        >
           {OptionsDisplay.map((item) => (
             <WrapItem key={item.value}>
               <IconButton
@@ -274,10 +283,10 @@ export const TasksBoard = () => {
             </WrapItem>
           ))}
         </Wrap>
-        {display === DislayValue.LIST && (
+        {(display === DislayValue.LIST || !isLargeScreen) && (
           <ListTask filters={filter} openDetailModal={openModal} />
         )}
-        {display === DislayValue.BOARD && (
+        {display === DislayValue.BOARD && isLargeScreen && (
           <Boards
             filters={filter}
             openDetailModal={openModal}

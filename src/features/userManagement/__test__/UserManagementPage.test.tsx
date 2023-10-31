@@ -15,6 +15,10 @@ jest.mock('hooks/useIsAdmin', () => ({
   useIsAdmin: jest.fn().mockReturnValue(true),
 }));
 
+jest.mock('hooks/useMediaQuery', () => ({
+  useMediaQuery: jest.fn().mockReturnValue(true),
+}));
+
 jest.mock('api/apiHooks/userIdentityHooks', () => ({
   useUserIdentity: jest.fn().mockReturnValue({
     isLoading: false,

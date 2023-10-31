@@ -52,6 +52,8 @@ import TaskSkeleton from './TaskSkeleton';
 import { isValidJSON } from 'utils';
 import { useClearCacheTask } from './useClearCacheTask';
 import { useNavigate } from 'react-router';
+import { Color } from 'common/types';
+import { useMediaQuery } from 'hooks/useMediaQuery';
 
 const fadeIn = keyframes`
   from { opacity: 0; }
@@ -64,6 +66,7 @@ export interface BoardsProps {
 }
 
 const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
+  const isLargeScreen = useMediaQuery('(min-width: 1024px)');
   const [filter, setFilter] = useState<FilterTasks>(filters);
   const actionTaskMutation = useActionTask();
   const {
@@ -396,6 +399,30 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
     return result;
   };
 
+  const arrColor: Color[] = ['#009688', '#000000'];
+  const initialData: [string, Color][] = [
+    ['Device Request', '#03A9F4'],
+    ['Change Office Request', '#db0000'],
+    ['Office Equipment Request', '#f27024'],
+    ['Probationary Confirmation Request', '#0c51a0'],
+    ['WFH Request', '#d000db'],
+  ];
+  let currentColor: number = 0;
+  const hashMap = new Map<string, Color>(initialData);
+
+  const renderColor = (key: string) => {
+    if (hashMap.has(key)) {
+      return hashMap.get(key);
+    }
+    if (currentColor > arrColor.length - 1) {
+      return '#3366CC';
+    }
+
+    hashMap.set(key, arrColor[currentColor]);
+    currentColor++;
+    return hashMap.get(key);
+  };
+
   return (
     <>
       <Box position={'relative'}>
@@ -439,7 +466,10 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
         />
 
         <DragDropContext onDragEnd={onDragEnd}>
-          <div className={styles.container}>
+          <Box
+            className={styles.container}
+            p={isLargeScreen ? '10px 24px' : '10px 3px'}
+          >
             {Object.values(state).map((el, ind) => (
               <Droppable key={ind} droppableId={`${ind}`}>
                 {(provided, snapshot) => (
@@ -516,7 +546,12 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
                                         ({getDayAgo(item?.creationTime)})
                                       </div>
                                     </Flex>
-                                    <div className={styles.title}>
+                                    <div
+                                      className={styles.title}
+                                      style={{
+                                        backgroundColor: renderColor(item.name),
+                                      }}
+                                    >
                                       {item.name}
                                     </div>
 
@@ -530,10 +565,7 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
                                         .map((email) => email.split('@')[0])
                                         .join(', ')}
                                     </Flex>
-                                    <Flex
-                                      justifyContent={'space-between'}
-                                      w={'100%'}
-                                    >
+                                    <Flex className={styles.cardFooter}>
                                       <Flex gap={2}>
                                         <Text>Date:</Text>
                                         {formatDate(
@@ -544,7 +576,9 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
                                         item.otherActionSignals &&
                                         item?.otherActionSignals?.length >
                                           0 && (
-                                          <div className={styles.menuButton}>
+                                          <Flex
+                                            className={`${styles.menuButton} ${styles.btn}`}
+                                          >
                                             {isActionLoading.isLoading &&
                                               isActionLoading.id ===
                                                 item.id && (
@@ -556,7 +590,7 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
                                                 fontSize={12}
                                                 as={Button}
                                                 aria-label="Options"
-                                                color="blue.300"
+                                                color={'#03A9F4'}
                                                 padding={1}
                                                 height="fit-content"
                                                 bgColor={bg}
@@ -594,7 +628,7 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
                                                 )}
                                               </MenuList>
                                             </Menu>
-                                          </div>
+                                          </Flex>
                                         )}
                                     </Flex>
                                   </Box>
@@ -640,7 +674,7 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
                 )}
               </Droppable>
             ))}
-          </div>
+          </Box>
         </DragDropContext>
       </Box>
       <ModalBoard

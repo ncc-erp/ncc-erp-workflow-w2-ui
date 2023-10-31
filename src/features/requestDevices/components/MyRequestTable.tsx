@@ -48,6 +48,7 @@ import useDebounced from 'hooks/useDebounced';
 import { EmptyWrapper } from 'common/components/EmptyWrapper';
 import { ModalConfirm } from 'common/components/ModalConfirm';
 import { AiOutlineReload } from 'react-icons/ai';
+import styles from './style.module.scss';
 
 const initialSorting: SortingState = [
   {
@@ -300,6 +301,7 @@ export const MyRequestTable = () => {
         >
           <Box>
             <SelectField
+              isDisabled={isLoading || isRefetching}
               size="sm"
               rounded="md"
               onChange={(e) =>
@@ -310,6 +312,7 @@ export const MyRequestTable = () => {
           </Box>
           <Box>
             <SelectField
+              isDisabled={isLoading || isRefetching}
               size="sm"
               rounded="md"
               onChange={(e) => onTemplateStatusChange('Status', e.target.value)}
@@ -320,6 +323,7 @@ export const MyRequestTable = () => {
             <Box w={'300px'}>
               <InputGroup>
                 <Input
+                  isDisabled={isLoading || isRefetching}
                   autoFocus
                   value={txtSearch}
                   type="text"
@@ -390,31 +394,36 @@ export const MyRequestTable = () => {
             isEmpty={!requests.length}
             h="200px"
             fontSize="xs"
-            message={'No requests found!'}
+            message={'No request found!'}
           >
             <Box
               p="20px 30px 0px 24px"
-              overflowX="auto"
               w={{ base: `calc(100vw - ${sideBarWidth}px)`, lg: 'auto' }}
             >
-              <Table
-                columns={myRequestColumns}
-                data={requests}
-                sorting={sorting}
-                onSortingChange={setSorting}
-                onRowClick={onActionViewDetails}
-                onRowHover={true}
-              />
+              <Box w={'100%'} overflowX="auto" className={styles.tableContent}>
+                <Table
+                  columns={myRequestColumns}
+                  data={requests}
+                  sorting={sorting}
+                  onSortingChange={setSorting}
+                  onRowClick={onActionViewDetails}
+                  onRowHover={true}
+                />
+              </Box>
             </Box>
 
             <HStack
               p="20px 30px 20px 30px"
-              justifyContent="space-between"
+              justifyContent={['center', 'space-between']}
               flexWrap="wrap"
             >
               <HStack alignItems="center" spacing="6px" flexWrap="wrap">
-                <PageSize noOfRows={noOfRows} onChange={onPageSizeChange} />
-                <Spacer w="12px" />
+                <PageSize
+                  noOfRows={noOfRows}
+                  onChange={onPageSizeChange}
+                  isLoading={isLoading || isRefetching}
+                />
+                <Spacer w="5px" />
                 <ShowingItemText
                   skipCount={filter.skipCount}
                   maxResultCount={filter.maxResultCount}

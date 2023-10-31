@@ -7,7 +7,7 @@ exports[`Request My Requests Page 1`] = `
   >
     <button
       aria-label="Done"
-      class="chakra-button css-2pdmvn"
+      class="chakra-button css-1g6czxt"
       type="button"
     >
       <svg
@@ -27,263 +27,268 @@ exports[`Request My Requests Page 1`] = `
       </svg>
     </button>
     <div
-      class="css-1b45uad"
+      class="css-jymn6r"
     >
-      <table
-        class="chakra-table css-zy166a"
+      <div
+        class="css-kge0eu"
       >
-        <thead
-          class="css-0"
+        <table
+          class="chakra-table css-zy166a"
         >
-          <tr
-            class="css-1y39i0r"
+          <thead
+            class="css-0"
           >
-            <th
-              class="css-yddv3x"
-              colspan="1"
-              style="white-space: nowrap; width: auto;"
+            <tr
+              class="css-1y39i0r"
             >
-              <div
-                class="css-u511cn"
+              <th
+                class="css-yddv3x"
+                colspan="1"
+                style="width: auto;"
               >
                 <div
-                  class="css-n085mf"
-                >
-                  ID
-                </div>
-              </div>
-            </th>
-            <th
-              class="css-yddv3x"
-              colspan="1"
-              style="white-space: nowrap; width: auto;"
-            >
-              <div
-                class="css-u511cn"
-              >
-                Request template
-              </div>
-            </th>
-            <th
-              class="css-yddv3x"
-              colspan="1"
-              style="white-space: nowrap; width: auto;"
-            >
-              <div
-                class="css-u511cn"
-              >
-                Request user
-              </div>
-            </th>
-            <th
-              class="css-yddv3x"
-              colspan="1"
-              style="white-space: nowrap; width: auto;"
-            >
-              <div
-                class="css-u511cn"
-              >
-                Assigned To
-              </div>
-            </th>
-            <th
-              class="css-yddv3x"
-              colspan="1"
-              style="white-space: nowrap; width: auto;"
-            >
-              <div
-                class="css-u511cn"
-              >
-                State
-              </div>
-            </th>
-            <th
-              class="css-yddv3x"
-              colspan="1"
-              style="white-space: nowrap; width: auto;"
-            >
-              <div
-                class="css-u511cn"
-              >
-                Created At
-              </div>
-            </th>
-            <th
-              class="css-yddv3x"
-              colspan="1"
-              style="white-space: nowrap; width: auto;"
-            >
-              <div
-                class="css-u511cn"
-              >
-                <div
-                  class="css-mgpx6q"
-                >
-                  Actions
-                </div>
-              </div>
-            </th>
-          </tr>
-        </thead>
-        <tbody
-          class="css-0"
-        >
-          <tr
-            class="css-4g6ai3"
-          >
-            <td
-              class="css-jv3dxv"
-              style="word-break: break-word; white-space: pre-wrap;"
-            >
-              <div
-                class="css-gmuwbf"
-              >
-                7D274
-              </div>
-            </td>
-            <td
-              class="css-jv3dxv"
-              style="word-break: break-word; white-space: pre-wrap;"
-            >
-              Probationary Request
-            </td>
-            <td
-              class="css-jv3dxv"
-              style="word-break: break-word; white-space: pre-wrap;"
-            >
-              Bubu chacha
-            </td>
-            <td
-              class="css-jv3dxv"
-              style="word-break: break-word; white-space: pre-wrap;"
-            >
-              trang.danghuyen, long.vodinhhoang
-            </td>
-            <td
-              class="css-jv3dxv"
-              style="word-break: break-word; white-space: pre-wrap;"
-            >
-              <div
-                class="css-1qofolz"
-              >
-                <div
-                  class="undefined undefined"
-                />
-                Approved
-              </div>
-            </td>
-            <td
-              class="css-jv3dxv"
-              style="word-break: break-word; white-space: pre-wrap;"
-            >
-              10-10-2023 16:39
-            </td>
-            <td
-              class="css-jv3dxv"
-              style="word-break: break-word; white-space: pre-wrap;"
-            >
-              <div
-                class="css-h607p5"
-              >
-                <div />
-                <button
-                  aria-controls="menu-list-:r8:"
-                  aria-expanded="false"
-                  aria-haspopup="menu"
-                  aria-label=""
-                  class="chakra-button chakra-menu__menu-button css-p7mkev"
-                  id="menu-button-:r8:"
-                  type="button"
-                >
-                  <svg
-                    aria-hidden="true"
-                    class="chakra-icon css-bzk4kq"
-                    fill="currentColor"
-                    focusable="false"
-                    height="1em"
-                    stroke="currentColor"
-                    stroke-width="0"
-                    viewBox="0 0 24 24"
-                    width="1em"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M5.33409 4.54491C6.3494 3.63637 7.55145 2.9322 8.87555 2.49707C9.60856 3.4128 10.7358 3.99928 12 3.99928C13.2642 3.99928 14.3914 3.4128 15.1245 2.49707C16.4486 2.9322 17.6506 3.63637 18.6659 4.54491C18.2405 5.637 18.2966 6.90531 18.9282 7.99928C19.5602 9.09388 20.6314 9.77679 21.7906 9.95392C21.9279 10.6142 22 11.2983 22 11.9993C22 12.7002 21.9279 13.3844 21.7906 14.0446C20.6314 14.2218 19.5602 14.9047 18.9282 15.9993C18.2966 17.0932 18.2405 18.3616 18.6659 19.4536C17.6506 20.3622 16.4486 21.0664 15.1245 21.5015C14.3914 20.5858 13.2642 19.9993 12 19.9993C10.7358 19.9993 9.60856 20.5858 8.87555 21.5015C7.55145 21.0664 6.3494 20.3622 5.33409 19.4536C5.75952 18.3616 5.7034 17.0932 5.0718 15.9993C4.43983 14.9047 3.36862 14.2218 2.20935 14.0446C2.07212 13.3844 2 12.7002 2 11.9993C2 11.2983 2.07212 10.6142 2.20935 9.95392C3.36862 9.77679 4.43983 9.09388 5.0718 7.99928C5.7034 6.90531 5.75952 5.637 5.33409 4.54491ZM13.5 14.5974C14.9349 13.7689 15.4265 11.9342 14.5981 10.4993C13.7696 9.0644 11.9349 8.57277 10.5 9.4012C9.06512 10.2296 8.5735 12.0644 9.40192 13.4993C10.2304 14.9342 12.0651 15.4258 13.5 14.5974Z"
-                    />
-                  </svg>
-                </button>
-                <div
-                  class="css-0"
-                  style="visibility: hidden; position: absolute; min-width: max-content; inset: 0 auto auto 0;"
+                  class="css-u511cn"
                 >
                   <div
-                    aria-orientation="vertical"
-                    class="chakra-menu__menu-list css-2vme5"
-                    id="menu-list-:r8:"
-                    role="menu"
-                    style="transform-origin: var(--popper-transform-origin); opacity: 0; visibility: hidden; transform: scale(0.8) translateZ(0);"
-                    tabindex="-1"
+                    class="css-n085mf"
                   >
-                    <button
-                      class="chakra-menu__menuitem css-z08cet"
-                      data-index="0"
-                      id="menu-list-:r8:-menuitem-:r9:"
-                      role="menuitem"
-                      tabindex="-1"
-                      type="button"
-                    >
-                      <svg
-                        class="chakra-icon css-1vzdt75"
-                        fill="currentColor"
-                        focusable="false"
-                        height="1em"
-                        stroke="currentColor"
-                        stroke-width="0"
-                        viewBox="0 0 24 24"
-                        width="1em"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M1.18164 12C2.12215 6.87976 6.60812 3 12.0003 3C17.3924 3 21.8784 6.87976 22.8189 12C21.8784 17.1202 17.3924 21 12.0003 21C6.60812 21 2.12215 17.1202 1.18164 12ZM12.0003 17C14.7617 17 17.0003 14.7614 17.0003 12C17.0003 9.23858 14.7617 7 12.0003 7C9.23884 7 7.00026 9.23858 7.00026 12C7.00026 14.7614 9.23884 17 12.0003 17ZM12.0003 15C10.3434 15 9.00026 13.6569 9.00026 12C9.00026 10.3431 10.3434 9 12.0003 9C13.6571 9 15.0003 10.3431 15.0003 12C15.0003 13.6569 13.6571 15 12.0003 15Z"
-                        />
-                      </svg>
-                      View
-                    </button>
-                    <button
-                      class="chakra-menu__menuitem css-z08cet"
-                      data-index="1"
-                      id="menu-list-:r8:-menuitem-:ra:"
-                      role="menuitem"
-                      tabindex="-1"
-                      type="button"
-                    >
-                      <svg
-                        class="chakra-icon css-zvw1k8"
-                        fill="currentColor"
-                        focusable="false"
-                        height="1em"
-                        stroke="currentColor"
-                        stroke-width="0"
-                        viewBox="0 0 24 24"
-                        width="1em"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M2 5L9 2L15 5L21.303 2.2987C21.5569 2.18992 21.8508 2.30749 21.9596 2.56131C21.9862 2.62355 22 2.69056 22 2.75827V19L15 22L9 19L2.69696 21.7013C2.44314 21.8101 2.14921 21.6925 2.04043 21.4387C2.01375 21.3765 2 21.3094 2 21.2417V5Z"
-                        />
-                      </svg>
-                      Workflow
-                    </button>
+                    ID
                   </div>
                 </div>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+              </th>
+              <th
+                class="css-yddv3x"
+                colspan="1"
+                style="width: auto;"
+              >
+                <div
+                  class="css-u511cn"
+                >
+                  Request template
+                </div>
+              </th>
+              <th
+                class="css-yddv3x"
+                colspan="1"
+                style="width: auto;"
+              >
+                <div
+                  class="css-u511cn"
+                >
+                  Request user
+                </div>
+              </th>
+              <th
+                class="css-yddv3x"
+                colspan="1"
+                style="width: auto;"
+              >
+                <div
+                  class="css-u511cn"
+                >
+                  Assigned To
+                </div>
+              </th>
+              <th
+                class="css-yddv3x"
+                colspan="1"
+                style="width: auto;"
+              >
+                <div
+                  class="css-u511cn"
+                >
+                  State
+                </div>
+              </th>
+              <th
+                class="css-yddv3x"
+                colspan="1"
+                style="width: auto;"
+              >
+                <div
+                  class="css-u511cn"
+                >
+                  Created At
+                </div>
+              </th>
+              <th
+                class="css-yddv3x"
+                colspan="1"
+                style="width: auto;"
+              >
+                <div
+                  class="css-u511cn"
+                >
+                  <div
+                    class="css-mgpx6q"
+                  >
+                    Actions
+                  </div>
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody
+            class="css-0"
+          >
+            <tr
+              class="css-4g6ai3"
+            >
+              <td
+                class="css-jv3dxv"
+                style="word-break: break-word; white-space: pre-wrap;"
+              >
+                <div
+                  class="css-gmuwbf"
+                >
+                  7D274
+                </div>
+              </td>
+              <td
+                class="css-jv3dxv"
+                style="word-break: break-word; white-space: pre-wrap;"
+              >
+                Probationary Request
+              </td>
+              <td
+                class="css-jv3dxv"
+                style="word-break: break-word; white-space: pre-wrap;"
+              >
+                Bubu chacha
+              </td>
+              <td
+                class="css-jv3dxv"
+                style="word-break: break-word; white-space: pre-wrap;"
+              >
+                trang.danghuyen, long.vodinhhoang
+              </td>
+              <td
+                class="css-jv3dxv"
+                style="word-break: break-word; white-space: pre-wrap;"
+              >
+                <div
+                  class="css-1qofolz"
+                >
+                  <div
+                    class="undefined undefined"
+                  />
+                  Approved
+                </div>
+              </td>
+              <td
+                class="css-jv3dxv"
+                style="word-break: break-word; white-space: pre-wrap;"
+              >
+                10-10-2023 16:39
+              </td>
+              <td
+                class="css-jv3dxv"
+                style="word-break: break-word; white-space: pre-wrap;"
+              >
+                <div
+                  class="css-h607p5"
+                >
+                  <div />
+                  <button
+                    aria-controls="menu-list-:r8:"
+                    aria-expanded="false"
+                    aria-haspopup="menu"
+                    aria-label=""
+                    class="chakra-button chakra-menu__menu-button css-p7mkev"
+                    id="menu-button-:r8:"
+                    type="button"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="chakra-icon css-bzk4kq"
+                      fill="currentColor"
+                      focusable="false"
+                      height="1em"
+                      stroke="currentColor"
+                      stroke-width="0"
+                      viewBox="0 0 24 24"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M5.33409 4.54491C6.3494 3.63637 7.55145 2.9322 8.87555 2.49707C9.60856 3.4128 10.7358 3.99928 12 3.99928C13.2642 3.99928 14.3914 3.4128 15.1245 2.49707C16.4486 2.9322 17.6506 3.63637 18.6659 4.54491C18.2405 5.637 18.2966 6.90531 18.9282 7.99928C19.5602 9.09388 20.6314 9.77679 21.7906 9.95392C21.9279 10.6142 22 11.2983 22 11.9993C22 12.7002 21.9279 13.3844 21.7906 14.0446C20.6314 14.2218 19.5602 14.9047 18.9282 15.9993C18.2966 17.0932 18.2405 18.3616 18.6659 19.4536C17.6506 20.3622 16.4486 21.0664 15.1245 21.5015C14.3914 20.5858 13.2642 19.9993 12 19.9993C10.7358 19.9993 9.60856 20.5858 8.87555 21.5015C7.55145 21.0664 6.3494 20.3622 5.33409 19.4536C5.75952 18.3616 5.7034 17.0932 5.0718 15.9993C4.43983 14.9047 3.36862 14.2218 2.20935 14.0446C2.07212 13.3844 2 12.7002 2 11.9993C2 11.2983 2.07212 10.6142 2.20935 9.95392C3.36862 9.77679 4.43983 9.09388 5.0718 7.99928C5.7034 6.90531 5.75952 5.637 5.33409 4.54491ZM13.5 14.5974C14.9349 13.7689 15.4265 11.9342 14.5981 10.4993C13.7696 9.0644 11.9349 8.57277 10.5 9.4012C9.06512 10.2296 8.5735 12.0644 9.40192 13.4993C10.2304 14.9342 12.0651 15.4258 13.5 14.5974Z"
+                      />
+                    </svg>
+                  </button>
+                  <div
+                    class="css-0"
+                    style="visibility: hidden; position: absolute; min-width: max-content; inset: 0 auto auto 0;"
+                  >
+                    <div
+                      aria-orientation="vertical"
+                      class="chakra-menu__menu-list css-2vme5"
+                      id="menu-list-:r8:"
+                      role="menu"
+                      style="transform-origin: var(--popper-transform-origin); opacity: 0; visibility: hidden; transform: scale(0.8) translateZ(0);"
+                      tabindex="-1"
+                    >
+                      <button
+                        class="chakra-menu__menuitem css-z08cet"
+                        data-index="0"
+                        id="menu-list-:r8:-menuitem-:r9:"
+                        role="menuitem"
+                        tabindex="-1"
+                        type="button"
+                      >
+                        <svg
+                          class="chakra-icon css-1vzdt75"
+                          fill="currentColor"
+                          focusable="false"
+                          height="1em"
+                          stroke="currentColor"
+                          stroke-width="0"
+                          viewBox="0 0 24 24"
+                          width="1em"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M1.18164 12C2.12215 6.87976 6.60812 3 12.0003 3C17.3924 3 21.8784 6.87976 22.8189 12C21.8784 17.1202 17.3924 21 12.0003 21C6.60812 21 2.12215 17.1202 1.18164 12ZM12.0003 17C14.7617 17 17.0003 14.7614 17.0003 12C17.0003 9.23858 14.7617 7 12.0003 7C9.23884 7 7.00026 9.23858 7.00026 12C7.00026 14.7614 9.23884 17 12.0003 17ZM12.0003 15C10.3434 15 9.00026 13.6569 9.00026 12C9.00026 10.3431 10.3434 9 12.0003 9C13.6571 9 15.0003 10.3431 15.0003 12C15.0003 13.6569 13.6571 15 12.0003 15Z"
+                          />
+                        </svg>
+                        View
+                      </button>
+                      <button
+                        class="chakra-menu__menuitem css-z08cet"
+                        data-index="1"
+                        id="menu-list-:r8:-menuitem-:ra:"
+                        role="menuitem"
+                        style="display: none;"
+                        tabindex="-1"
+                        type="button"
+                      >
+                        <svg
+                          class="chakra-icon css-zvw1k8"
+                          fill="currentColor"
+                          focusable="false"
+                          height="1em"
+                          stroke="currentColor"
+                          stroke-width="0"
+                          viewBox="0 0 24 24"
+                          width="1em"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M2 5L9 2L15 5L21.303 2.2987C21.5569 2.18992 21.8508 2.30749 21.9596 2.56131C21.9862 2.62355 22 2.69056 22 2.75827V19L15 22L9 19L2.69696 21.7013C2.44314 21.8101 2.14921 21.6925 2.04043 21.4387C2.01375 21.3765 2 21.3094 2 21.2417V5Z"
+                          />
+                        </svg>
+                        Workflow
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
     <div
-      class="chakra-stack css-w1zm1o"
+      class="chakra-stack css-m4cjlb"
     >
       <div
         class="chakra-stack css-130amzp"
@@ -301,7 +306,7 @@ exports[`Request My Requests Page 1`] = `
             role="group"
           >
             <div
-              class="chakra-select__wrapper css-13voi5h"
+              class="chakra-select__wrapper css-bo0or5"
             >
               <select
                 class="chakra-select css-1y1ernp"

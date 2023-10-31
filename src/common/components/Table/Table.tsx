@@ -18,7 +18,8 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 import { ColorThemeMode } from 'common/constants';
-import  {  useState } from 'react';
+import { useMediaQuery } from 'hooks/useMediaQuery';
+import { useState } from 'react';
 import { IoMdArrowDropdown, IoMdArrowDropup } from 'react-icons/io';
 import theme from 'themes/theme';
 
@@ -55,6 +56,7 @@ export const Table = <D,>({
     getCoreRowModel: getCoreRowModel(),
   });
   const color = useColorModeValue(ColorThemeMode.DARK, ColorThemeMode.LIGHT);
+  const isLargeScreen = useMediaQuery('(min-width: 1024px)');
 
   const [columnHovered, setColumnHovered] = useState<Array<boolean>>([]);
   const handleMouseEnter = (index: number) => {
@@ -72,11 +74,11 @@ export const Table = <D,>({
   return (
     <TableComponent border={`1px solid ${theme.colors.borderColor}`}>
       <Thead>
-        {table.getHeaderGroups().map((headerGroup) => (      
+        {table.getHeaderGroups().map((headerGroup) => (
           <Tr key={headerGroup.id} bg={theme.colors.borderColor}>
             {headerGroup.headers.map((header, index) => {
-            
-              const isWorkflowDefinitionDisplayName = header.id === 'workflowDefinitionDisplayName'
+              const isWorkflowDefinitionDisplayName =
+                header.id === 'workflowDefinitionDisplayName';
               const headerWidth = '20%';
 
               return (
@@ -85,26 +87,31 @@ export const Table = <D,>({
                   colSpan={header.colSpan}
                   textTransform="none"
                   fontWeight={600}
-                  fontSize="sm"
+                  fontSize={{
+                    base: '10px',
+                    sm: '12px',
+                    lg: 'sm',
+                    xl: 'sm',
+                  }}
                   border={`1px solid ${theme.colors.borderColor}`}
                   color={color}
-                  px="8px"
+                  px={['2px', '8px']}
                   background="secondaryColor"
                   textAlign="center"
-                  style={{ 
-                    whiteSpace: 'nowrap',
-                    width:  isWorkflowDefinitionDisplayName ? headerWidth :  'auto', 
+                  style={{
+                    width: isWorkflowDefinitionDisplayName
+                      ? headerWidth
+                      : 'auto',
                   }}
-                  cursor={
-                    header.column.getCanSort() ? 'pointer' : 'initial'
-                  }
+                  // whiteSpace={["normal","normal","normal","nowrap"]}
+                  cursor={header.column.getCanSort() ? 'pointer' : 'initial'}
                 >
                   {header.isPlaceholder ? null : (
                     <Box
                       key={index}
                       display="flex"
                       alignItems="center"
-                      gap="12px"
+                      gap={['2px', '12px']}
                       onClick={header.column.getToggleSortingHandler()}
                       cursor={
                         header.column.getCanSort() ? 'pointer' : 'initial'
@@ -122,22 +129,29 @@ export const Table = <D,>({
                           : null
                       }
                     >
+                      {flexRender(
+                        header.column.columnDef.header,
+                        header.getContext()
+                      )}
                       {{
                         asc: <Icon fontSize="md" as={IoMdArrowDropup} />,
                         desc: <Icon fontSize="md" as={IoMdArrowDropdown} />,
                       }[header.column.getIsSorted() as string] ?? null}
-
                       {header.column.getCanSort() &&
-                      !header.column.getIsSorted() &&
-                      columnHovered[index] ? (
-                        <Icon fontSize="md" as={IoMdArrowDropup} />
+                      !header.column.getIsSorted() ? (
+                        isLargeScreen ? (
+                          columnHovered[index] ? (
+                            <Icon fontSize="md" as={IoMdArrowDropup} />
+                          ) : (
+                            <span style={{ width: '16px' }} />
+                          )
+                        ) : sorting ? (
+                          <Icon fontSize="md" as={IoMdArrowDropup} />
+                        ) : (
+                          <span style={{ width: '16px' }} />
+                        )
                       ) : (
                         ''
-                      )}
-
-                      {flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
                       )}
                     </Box>
                   )}
@@ -159,11 +173,11 @@ export const Table = <D,>({
                 }
               }}
             >
-              {row.getVisibleCells().map((cell) => {                
+              {row.getVisibleCells().map((cell) => {
                 return (
                   <Td
                     key={cell.id}
-                    fontSize="14px"
+                    fontSize={['10px', '12px', '12px', '14px']}
                     borderRight="1px"
                     borderColor={theme.colors.borderColor}
                     px="6px"
