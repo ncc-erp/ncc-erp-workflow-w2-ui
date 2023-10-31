@@ -19,8 +19,9 @@ import { useLogin, useLoginExternal } from 'api/apiHooks/userHooks';
 import { LocalStorageKeys } from 'common/enums';
 import { userManager } from 'services/authService';
 import { getItem, setItem } from 'utils/localStorage';
-import { ColorThemeMode } from 'common/constants';
+import { ColorThemeMode, MaxFailedAccessAttempts } from 'common/constants';
 import { useEffect } from 'react';
+import { toast } from 'common/components/StandaloneToast';
 
 const initialLoginParams: LoginParams = {
   userNameOrEmailAddress: '',
@@ -59,7 +60,7 @@ const Login = () => {
     password,
     rememberMe,
   }: LoginParams) => {
-    const { token } = await loginMutate({
+    const { token, accessFailedCount } = await loginMutate({
       rememberMe,
       userNameOrEmailAddress: userNameOrEmailAddress.trim(),
       password: password.trim(),
@@ -69,7 +70,22 @@ const Login = () => {
       setItem(LocalStorageKeys.accessToken, token);
       setItem(LocalStorageKeys.prevURL, '');
       window.location.href = redirectURL ?? '/';
+      return;
     }
+
+    if (accessFailedCount) {
+      const remainingAttempts = MaxFailedAccessAttempts - accessFailedCount;
+      toast({
+        title: `You have ${remainingAttempts} attempts left before your account is locked`,
+        status: 'warning',
+      });
+      return;
+    }
+
+    toast({
+      title: `User is locked out!`,
+      status: 'error',
+    });
   };
 
   const onLoginExternal = async ({

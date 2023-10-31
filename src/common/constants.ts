@@ -140,3 +140,5 @@ export const LinkDocRedirect = {
   USER_GUIDE_DOCS:
     'https://docs.google.com/document/d/1xJxLj8JiXc3yNJC2drjqxzGsk9bCSgHxRuTZBFOnUqw/edit',
 };
+
+export const MaxFailedAccessAttempts = 5;
