@@ -406,6 +406,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
     <>
       <Box position={'relative'}>
         <IconButton
+          isDisabled={isLoading || isRefetching}
           isRound={true}
           variant="solid"
           aria-label="Done"

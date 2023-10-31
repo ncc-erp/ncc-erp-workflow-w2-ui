@@ -4,9 +4,11 @@ import {
   createColumnHelper,
 } from '@tanstack/react-table';
 import {
+  Badge,
   Box,
   Center,
   HStack,
+  IconButton,
   Input,
   InputGroup,
   InputRightElement,
@@ -15,7 +17,7 @@ import {
 } from '@chakra-ui/react';
 import { Table } from 'common/components/Table/Table';
 import { SortDirection, UserSortField } from 'common/enums';
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Pagination } from 'common/components/Pagination';
 import { noOfRows } from 'common/constants';
 import { PageSize } from 'common/components/Table/PageSize';
@@ -24,17 +26,21 @@ import { EmptyWrapper } from 'common/components/EmptyWrapper';
 import { useRecoilValue } from 'recoil';
 import { appConfigState } from 'stores/appConfig';
 import { FilterUserParams, UserIdentity } from 'models/userIdentity';
-import { useUserIdentity } from 'api/apiHooks/userIdentityHooks';
+import { useRoles, useUserIdentity } from 'api/apiHooks/userIdentityHooks';
 import { RowAction } from './RowAction';
 import { UserModal } from './UserModal';
 import useDebounced from 'hooks/useDebounced';
 import { TbSearch } from 'react-icons/tb';
+import { convertToCase } from 'utils';
+import { SelectField } from 'common/components/SelectField';
+import { AiOutlineReload } from 'react-icons/ai';
 
 const initialFilter: FilterUserParams = {
   filter: '',
   maxResultCount: +noOfRows[0].value,
   skipCount: 0,
   sorting: [UserSortField.userName, 'asc'].join(' '),
+  roles: '',
 };
 
 const initialSorting: SortingState = [
@@ -48,7 +54,9 @@ export const UserManagementTable = () => {
   const { sideBarWidth } = useRecoilValue(appConfigState);
   const [filterUser, setFilterUser] = useState<FilterUserParams>(initialFilter);
   const [sorting, setSorting] = useState<SortingState>(initialSorting);
-  const { data, isLoading } = useUserIdentity(filterUser);
+  const { data, isLoading, refetch, isRefetching } =
+    useUserIdentity(filterUser);
+  const { data: roles } = useRoles();
   const { items: requests = [], totalCount = 0 } = data ?? {};
   const columnHelper = createColumnHelper<UserIdentity>();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -56,6 +64,32 @@ export const UserManagementTable = () => {
   const [user, setUser] = useState<UserIdentity>();
   const [txtSearch, setTxtSearch] = useState('');
   const txtSearchDebounced = useDebounced(txtSearch, 500);
+
+  const onUserListFilterChange = useCallback(
+    (key: 'sorting' | 'roles' | 'filter', value?: string) => {
+      setFilterUser((filterUser) => ({
+        ...filterUser,
+        [key]: value,
+        skipCount: 0,
+      }));
+    },
+    []
+  );
+
+  const userRolesOptions = useMemo(() => {
+    if (!roles || !roles.items) return [];
+
+    const filterRoles = roles.items.map((x) => {
+      return {
+        value: x.name,
+        label: convertToCase(x.name),
+      };
+    });
+    const result = Array.from(
+      new Set(filterRoles.map((x) => JSON.stringify(x)))
+    ).map((x) => JSON.parse(x));
+    return [{ value: '', label: 'All Roles' }, ...result];
+  }, [roles]);
 
   const userColumns = useMemo(
     () =>
@@ -65,7 +99,14 @@ export const UserManagementTable = () => {
           header: () => <Box>User name</Box>,
           enableSorting: true,
           sortDescFirst: true,
-          cell: (info) => <Box>{info.getValue()}</Box>,
+          cell: (info) => (
+            <Box>
+              {!info.row.original.isActive && (
+                <Badge colorScheme="red">Disabled</Badge>
+              )}{' '}
+              {info.getValue()}
+            </Box>
+          ),
         }),
         columnHelper.accessor('email', {
           id: 'email',
@@ -117,6 +158,7 @@ export const UserManagementTable = () => {
     setFilterUser((filterUser) => ({
       ...filterUser,
       filter: txtSearchDebounced,
+      skipCount: 0,
     }));
   }, [txtSearchDebounced]);
 
@@ -149,19 +191,14 @@ export const UserManagementTable = () => {
   return (
     <>
       <Box>
-        <HStack
-          w="full"
-          p="0px 24px 20px 0px"
-          justifyContent="space-between"
-          display="flex"
-        >
+        <HStack w="full" p="0px 24px 20px 0px" justifyContent="space-between">
           <HStack w="full" pl="24px" alignItems="flex-end" flexWrap="wrap">
             <InputGroup w={{ base: '48%', sm: '30%', lg: '20%' }}>
               <Input
+                isDisabled={isLoading || isRefetching}
                 type="text"
                 placeholder="Enter email"
                 fontSize={{ base: '10px', sm: '12px', lg: '14px' }}
-                mb={2}
                 value={txtSearch}
                 onChange={(e) => setTxtSearch(e.target.value)}
               />
@@ -169,9 +206,31 @@ export const UserManagementTable = () => {
                 <TbSearch />
               </InputRightElement>
             </InputGroup>
+
+            <Box>
+              <SelectField
+                isDisabled={isLoading || isRefetching}
+                size="sm"
+                rounded="md"
+                onChange={(e) =>
+                  onUserListFilterChange('roles', e.target.value)
+                }
+                options={userRolesOptions}
+              />
+            </Box>
           </HStack>
+
+          <IconButton
+            isDisabled={isLoading || isRefetching}
+            isRound={true}
+            variant="solid"
+            aria-label="Done"
+            fontSize="20px"
+            icon={<AiOutlineReload />}
+            onClick={() => refetch()}
+          />
         </HStack>
-        {isLoading ? (
+        {isLoading || isRefetching ? (
           <Center h="200px">
             <Spinner mx="auto" speed="0.65s" thickness="3px" size="xl" />
           </Center>
@@ -198,43 +257,45 @@ export const UserManagementTable = () => {
                 onSortingChange={setSorting}
               />
             </Box>
+
+            <HStack
+              p={{
+                base: '0px 12px 20px 12px',
+                sm: '0px 30px 20px 30px',
+                lg: '26px 30px 20px 30px',
+              }}
+              justifyContent={{
+                base: 'center',
+                lg: 'space-between',
+              }}
+              flexWrap="wrap"
+            >
+              <HStack
+                alignItems="center"
+                spacing="6px"
+                flexWrap="wrap"
+                px={{ base: '10px', sm: '12px', lg: '0px' }}
+                pl={'-60px'}
+              >
+                <PageSize noOfRows={noOfRows} onChange={onPageSizeChange} />
+                <Spacer w="2px" />
+                <ShowingItemText
+                  skipCount={filterUser.skipCount}
+                  maxResultCount={filterUser.maxResultCount}
+                  totalCount={totalCount}
+                />
+              </HStack>
+              <Pagination
+                total={totalCount}
+                pageSize={filterUser.maxResultCount}
+                current={currentPage}
+                onChange={onPageChange}
+                hideOnSinglePage
+              />
+            </HStack>
           </EmptyWrapper>
         )}
-        <HStack
-          p={{
-            base: '0px 12px 20px 12px',
-            sm: '0px 30px 20px 30px',
-            lg: '26px 30px 20px 30px',
-          }}
-          justifyContent={{
-            base: 'center',
-            lg: 'space-between',
-          }}
-          flexWrap="wrap"
-        >
-          <HStack
-            alignItems="center"
-            spacing="6px"
-            flexWrap="wrap"
-            px={{ base: '10px', sm: '12px', lg: '0px' }}
-            pl={'-60px'}
-          >
-            <PageSize noOfRows={noOfRows} onChange={onPageSizeChange} />
-            <Spacer w="2px" />
-            <ShowingItemText
-              skipCount={filterUser.skipCount}
-              maxResultCount={filterUser.maxResultCount}
-              totalCount={totalCount}
-            />
-          </HStack>
-          <Pagination
-            total={totalCount}
-            pageSize={filterUser.maxResultCount}
-            current={currentPage}
-            onChange={onPageChange}
-            hideOnSinglePage
-          />
-        </HStack>
+
         {user && (
           <UserModal
             isOpen={isModalOpen}

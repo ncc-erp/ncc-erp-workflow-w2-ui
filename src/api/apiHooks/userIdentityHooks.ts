@@ -15,7 +15,7 @@ export const useRoles = () => {
 export const useUserIdentity = (filter: FilterUserParams) => {
   return useGetList<FilterUserResult>(
     [QueryKeys.FILTER_USER, filter],
-    '/identity/users',
+    '/app/custom-identity-manager',
     filter
   );
 };
