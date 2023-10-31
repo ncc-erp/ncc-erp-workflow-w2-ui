@@ -105,7 +105,7 @@ export const TasksBoard = () => {
   }, [requestTemplateData]);
 
   const getColorByRequestTemplates =  (items: RequestTemplate[]): [string, string][] | [] => {
-    const result: [string, string][] = [];
+    const result: [string, string][]  = [];
     for (const item of items) {
       if (item.settingDefinition) {
         const displayName: string = item.displayName || '';
