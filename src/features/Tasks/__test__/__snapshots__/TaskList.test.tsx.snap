@@ -42,12 +42,12 @@ exports[`Request My Requests Page 1`] = `
               class="css-1y39i0r"
             >
               <th
-                class="css-yddv3x"
+                class="css-1d8mdkw"
                 colspan="1"
                 style="width: auto;"
               >
                 <div
-                  class="css-u511cn"
+                  class="css-alaj7i"
                 >
                   <div
                     class="css-n085mf"
@@ -57,67 +57,67 @@ exports[`Request My Requests Page 1`] = `
                 </div>
               </th>
               <th
-                class="css-yddv3x"
+                class="css-1d8mdkw"
                 colspan="1"
                 style="width: auto;"
               >
                 <div
-                  class="css-u511cn"
+                  class="css-alaj7i"
                 >
                   Request template
                 </div>
               </th>
               <th
-                class="css-yddv3x"
+                class="css-1d8mdkw"
                 colspan="1"
                 style="width: auto;"
               >
                 <div
-                  class="css-u511cn"
+                  class="css-alaj7i"
                 >
                   Request user
                 </div>
               </th>
               <th
-                class="css-yddv3x"
+                class="css-1d8mdkw"
                 colspan="1"
                 style="width: auto;"
               >
                 <div
-                  class="css-u511cn"
+                  class="css-alaj7i"
                 >
                   Assigned To
                 </div>
               </th>
               <th
-                class="css-yddv3x"
+                class="css-1d8mdkw"
                 colspan="1"
                 style="width: auto;"
               >
                 <div
-                  class="css-u511cn"
+                  class="css-alaj7i"
                 >
                   State
                 </div>
               </th>
               <th
-                class="css-yddv3x"
+                class="css-1d8mdkw"
                 colspan="1"
                 style="width: auto;"
               >
                 <div
-                  class="css-u511cn"
+                  class="css-alaj7i"
                 >
                   Created At
                 </div>
               </th>
               <th
-                class="css-yddv3x"
+                class="css-1d8mdkw"
                 colspan="1"
                 style="width: auto;"
               >
                 <div
-                  class="css-u511cn"
+                  class="css-alaj7i"
                 >
                   <div
                     class="css-mgpx6q"
@@ -135,7 +135,7 @@ exports[`Request My Requests Page 1`] = `
               class="css-4g6ai3"
             >
               <td
-                class="css-jv3dxv"
+                class="css-xk16pm"
                 style="word-break: break-word; white-space: pre-wrap;"
               >
                 <div
@@ -145,25 +145,30 @@ exports[`Request My Requests Page 1`] = `
                 </div>
               </td>
               <td
-                class="css-jv3dxv"
+                class="css-xk16pm"
                 style="word-break: break-word; white-space: pre-wrap;"
               >
-                Probationary Request
+                <div
+                  class="css-0"
+                >
+                  Probationary Request
+                   
+                </div>
               </td>
               <td
-                class="css-jv3dxv"
+                class="css-xk16pm"
                 style="word-break: break-word; white-space: pre-wrap;"
               >
                 Bubu chacha
               </td>
               <td
-                class="css-jv3dxv"
+                class="css-xk16pm"
                 style="word-break: break-word; white-space: pre-wrap;"
               >
                 trang.danghuyen, long.vodinhhoang
               </td>
               <td
-                class="css-jv3dxv"
+                class="css-xk16pm"
                 style="word-break: break-word; white-space: pre-wrap;"
               >
                 <div
@@ -176,13 +181,13 @@ exports[`Request My Requests Page 1`] = `
                 </div>
               </td>
               <td
-                class="css-jv3dxv"
+                class="css-xk16pm"
                 style="word-break: break-word; white-space: pre-wrap;"
               >
                 10-10-2023 16:39
               </td>
               <td
-                class="css-jv3dxv"
+                class="css-xk16pm"
                 style="word-break: break-word; white-space: pre-wrap;"
               >
                 <div
@@ -297,7 +302,7 @@ exports[`Request My Requests Page 1`] = `
           class="chakra-stack css-1hohgv6"
         >
           <p
-            class="chakra-text css-1bevrez"
+            class="chakra-text css-1ok354g"
           >
             Rows per page
           </p>
@@ -362,7 +367,7 @@ exports[`Request My Requests Page 1`] = `
           class="css-iz7l97"
         />
         <p
-          class="chakra-text css-1bevrez"
+          class="chakra-text css-3z0v2v"
         >
           showing 1 to 1 of 1 entries
         </p>
