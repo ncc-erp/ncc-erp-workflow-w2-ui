@@ -53,7 +53,7 @@ import { isValidJSON } from 'utils';
 import { useClearCacheTask } from './useClearCacheTask';
 import { useNavigate } from 'react-router';
 import { Color } from 'common/types';
-import { useMediaQuery } from 'hooks/useMediaQuery';
+
 
 const fadeIn = keyframes`
   from { opacity: 0; }
@@ -62,11 +62,11 @@ const fadeIn = keyframes`
 export interface BoardsProps {
   filters: FilterTasks;
   openDetailModal: (task: ITask) => () => void;
+  getColorByType: [string, string][] | [];
   status: number | Array<number>;
 }
 
-const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
-  const isLargeScreen = useMediaQuery('(min-width: 1024px)');
+const Boards = ({ filters, openDetailModal,getColorByType }: BoardsProps): JSX.Element => {
   const [filter, setFilter] = useState<FilterTasks>(filters);
   const actionTaskMutation = useActionTask();
   const {
@@ -399,16 +399,10 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
     return result;
   };
 
-  const arrColor: Color[] = ['#009688', '#000000'];
-  const initialData: [string, Color][] = [
-    ['Device Request', '#03A9F4'],
-    ['Change Office Request', '#db0000'],
-    ['Office Equipment Request', '#f27024'],
-    ['Probationary Confirmation Request', '#0c51a0'],
-    ['WFH Request', '#d000db'],
-  ];
+  const arrColor: Color[] = ['#009688','#000000']
+
   let currentColor: number = 0;
-  const hashMap = new Map<string, Color>(initialData);
+  const hashMap = new Map<string, string>(getColorByType);
 
   const renderColor = (key: string) => {
     if (hashMap.has(key)) {
@@ -468,7 +462,7 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
         <DragDropContext onDragEnd={onDragEnd}>
           <Box
             className={styles.container}
-            p={isLargeScreen ? '10px 24px' : '10px 3px'}
+            p={'10px 24px'}
           >
             {Object.values(state).map((el, ind) => (
               <Droppable key={ind} droppableId={`${ind}`}>

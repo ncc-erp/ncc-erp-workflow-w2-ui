@@ -31,7 +31,7 @@ import { ListTask } from '../../../common/components/Boards/ListTask';
 import { TaskDetailModal } from './TaskDetailModal';
 import { FaTable } from 'react-icons/fa';
 import { BsCardText } from 'react-icons/bs';
-import { ITask } from 'models/request';
+import { ITask, RequestTemplate } from 'models/request';
 import { useDynamicDataTask } from 'api/apiHooks/taskHooks';
 import { useMediaQuery } from 'hooks/useMediaQuery';
 
@@ -93,7 +93,9 @@ export const TasksBoard = () => {
   const isAdmin = useIsAdmin();
   const dynamicDataTaskMutation = useDynamicDataTask();
 
+
   const { data: requestTemplateData } = useRequestTemplates();
+  
   const requestTemplates = useMemo(() => {
     if (requestTemplateData?.items) {
       return requestTemplateData.items;
@@ -101,6 +103,21 @@ export const TasksBoard = () => {
 
     return [];
   }, [requestTemplateData]);
+
+  const getColorByRequestTemplates =  (items: RequestTemplate[]): [string, string][] | [] => {
+    const result: [string, string][] = [];
+    for (const item of items) {
+      if (item.SettingDefinition) {
+        const displayName: string = item.displayName || '';
+        const color: string = item.SettingDefinition.propertyDefinitions.find(prop => prop.key === "color")?.value || "#000000";
+        result.push([displayName, color]);
+      }
+    }
+    return result;
+  };
+  
+  
+  
   const statusOptions = useMemo(() => {
     const defaultOptions = {
       value: -1,
@@ -283,12 +300,13 @@ export const TasksBoard = () => {
             </WrapItem>
           ))}
         </Wrap>
-        {(display === DislayValue.LIST || !isLargeScreen) && (
-          <ListTask filters={filter} openDetailModal={openModal} />
+        {display === DislayValue.LIST && (
+          <ListTask  filters={filter} openDetailModal={openModal} />
         )}
         {display === DislayValue.BOARD && isLargeScreen && (
           <Boards
             filters={filter}
+            getColorByType={getColorByRequestTemplates(requestTemplates)}
             openDetailModal={openModal}
             status={filter?.status || -1}
           />
