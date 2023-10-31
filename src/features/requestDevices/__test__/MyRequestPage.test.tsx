@@ -188,7 +188,7 @@ describe('My Request Page', () => {
 
     it('should display the correct three number of selects on the screen', async () => {
       const selectList = await screen.findAllByRole('combobox');
-      expect(selectList).toHaveLength(4);
+      expect(selectList).toHaveLength(3);
     });
   });
 });
