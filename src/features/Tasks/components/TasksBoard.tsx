@@ -105,7 +105,7 @@ export const TasksBoard = () => {
     return [];
   }, [requestTemplateData]);
 
-  const getColorByRequestTemplates =  (items: RequestTemplate[]): [string, string][] | [] => {
+  const getColorByRequestTemplates =  (items: RequestTemplate[]): [string, Color][] | [] => {
     const result: [string, Color][]  = [];
     for (const item of items) {
       if (item.settingDefinition) {

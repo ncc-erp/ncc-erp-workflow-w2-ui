@@ -62,11 +62,11 @@ const fadeIn = keyframes`
 export interface BoardsProps {
   filters: FilterTasks;
   openDetailModal: (task: ITask) => () => void;
-  getColorByType: [string, string][] | [];
+  getColorByType: [string, Color][] | [];
   status: number | Array<number>;
 }
 
-const Boards = ({ filters, openDetailModal,getColorByType }: BoardsProps): JSX.Element => {
+const Boards = ({ filters, openDetailModal, getColorByType }: BoardsProps): JSX.Element => {
   const [filter, setFilter] = useState<FilterTasks>(filters);
   const actionTaskMutation = useActionTask();
   const {
@@ -399,23 +399,14 @@ const Boards = ({ filters, openDetailModal,getColorByType }: BoardsProps): JSX.E
     return result;
   };
 
-  const arrColor: Color[] = ['#009688','#000000']
 
-  let currentColor: number = 0;
-  console.log(getColorByType)
-  const hashMap = new Map<string, string>(getColorByType);
+  const hashMap = new Map<string, Color>(getColorByType);
   console.log(hashMap)
   const renderColor = (key: string) => {
     if (hashMap.has(key)) {
       return hashMap.get(key);
     }
-    if (currentColor > arrColor.length - 1) {
-      return '#3366CC';
-    }
-
-    hashMap.set(key, arrColor[currentColor]);
-    currentColor++;
-    return hashMap.get(key);
+    return '#3366CC';
   };
 
   return (

@@ -12,6 +12,6 @@ export function validateTypeColor(value: string): Color | HEX {
     } else if (hexPattern.test(value)) {
         return value as HEX;
     } else {
-        return "#000000" as HEX;
+        return "#3366CC" as HEX;
     }
 }
