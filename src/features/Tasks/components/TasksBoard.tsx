@@ -302,7 +302,7 @@ export const TasksBoard = () => {
             </WrapItem>
           ))}
         </Wrap>
-        {display === DislayValue.LIST && (
+        {display === DislayValue.LIST || !isLargeScreen &&  (
           <ListTask  filters={filter} openDetailModal={openModal} />
         )}
         {display === DislayValue.BOARD && isLargeScreen && (
