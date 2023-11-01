@@ -58,14 +58,10 @@ export interface InputDefinition {
 }
 export interface SettingDefinition {
   workflowDefinitionId: string;
-  propertyDefinitions: PropertyDefinitionSetting[];
+  propertyDefinitions: Record<string, string>;
   id: string;
 }
 
-export interface PropertyDefinitionSetting {
-  key: string;
-  value: string;
-}
 
 export interface PropertyDefinition {
   name: string;
