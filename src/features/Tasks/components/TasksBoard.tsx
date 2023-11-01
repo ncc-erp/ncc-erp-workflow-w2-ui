@@ -117,7 +117,6 @@ export const TasksBoard = () => {
     return result;
   };
 
-  console.log(getColorByRequestTemplates(requestTemplates))
   
   
   const statusOptions = useMemo(() => {

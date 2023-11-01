@@ -402,7 +402,6 @@ const Boards = ({ filters, openDetailModal, getColorByType }: BoardsProps): JSX.
 
 
   const hashMap = new Map<string, Color>(getColorByType);
-  console.log(hashMap)
   const renderColor = (key: string) => {
     if (hashMap.has(key)) {
       return hashMap.get(key);

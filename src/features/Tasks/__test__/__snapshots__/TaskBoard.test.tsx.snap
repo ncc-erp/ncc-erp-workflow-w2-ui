@@ -496,12 +496,12 @@ exports[`Request My Requests Page 1`] = `
                         </p>
                         <div>
                           (
-                          21 days ago
+                          22 days ago
                           )
                         </div>
                       </div>
                       <div
-                        style="background-color: rgb(0, 150, 136);"
+                        style="background-color: rgb(51, 102, 204);"
                       >
                         Probationary Request
                       </div>
