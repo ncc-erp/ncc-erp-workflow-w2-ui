@@ -53,7 +53,7 @@ import { isValidJSON } from 'utils';
 import { useClearCacheTask } from './useClearCacheTask';
 import { useNavigate } from 'react-router';
 import { Color } from 'common/types';
-
+import { useMediaQuery } from 'hooks/useMediaQuery';
 
 const fadeIn = keyframes`
   from { opacity: 0; }
@@ -67,6 +67,7 @@ export interface BoardsProps {
 }
 
 const Boards = ({ filters, openDetailModal, getColorByType }: BoardsProps): JSX.Element => {
+  const isLargeScreen = useMediaQuery('(min-width: 1024px)');
   const [filter, setFilter] = useState<FilterTasks>(filters);
   const actionTaskMutation = useActionTask();
   const {
@@ -454,7 +455,7 @@ const Boards = ({ filters, openDetailModal, getColorByType }: BoardsProps): JSX.
         <DragDropContext onDragEnd={onDragEnd}>
           <Box
             className={styles.container}
-            p={'10px 24px'}
+            p={isLargeScreen ? '10px 24px' : '10px 3px'}
           >
             {Object.values(state).map((el, ind) => (
               <Droppable key={ind} droppableId={`${ind}`}>
