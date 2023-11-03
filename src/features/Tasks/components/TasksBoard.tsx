@@ -96,6 +96,7 @@ export const TasksBoard = () => {
 
 
   const { data: requestTemplateData } = useRequestTemplates();
+  console.log('chekdsf',requestTemplateData)
   
   const requestTemplates = useMemo(() => {
     if (requestTemplateData?.items) {

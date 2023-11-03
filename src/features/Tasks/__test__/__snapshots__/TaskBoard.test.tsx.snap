@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Request My Requests Page 1`] = `
+exports[`Task Page should match snapshot when rendering' 1`] = `
 <div>
   <div
     class="css-0"
@@ -129,6 +129,31 @@ exports[`Request My Requests Page 1`] = `
                       value="3a05daee-8f55-1e4c-9ac3-443c04309b77"
                     >
                       Change Office Request
+                    </option>
+                    <option
+                      value="3a057e11-7cde-1749-5c03-60520662a1f5"
+                    >
+                      Device Request
+                    </option>
+                    <option
+                      value="3a0b89d4-93b5-232f-964d-ffa129064cc6"
+                    >
+                      Office Equipment Request
+                    </option>
+                    <option
+                      value="3a0e486c-ffc1-b160-6a8a-27b169da00f6"
+                    >
+                      Probationary Confirmation Request
+                    </option>
+                    <option
+                      value="3a0e0b0b-eb79-7124-53af-05734fe921f4"
+                    >
+                      huyhuy
+                    </option>
+                    <option
+                      value="3a0da6a6-c212-60b6-a952-3efed4c97d1a"
+                    >
+                      WFH Request
                     </option>
                   </select>
                   <div
@@ -496,7 +521,7 @@ exports[`Request My Requests Page 1`] = `
                         </p>
                         <div>
                           (
-                          22 days ago
+                          24 days ago
                           )
                         </div>
                       </div>
