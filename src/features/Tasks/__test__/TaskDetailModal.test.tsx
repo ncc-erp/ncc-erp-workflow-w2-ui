@@ -19,6 +19,14 @@ jest.mock('hooks/useIsAdmin', () => ({
 }));
 
 jest.mock('api/apiHooks/requestHooks', () => ({
+  useUserList: jest.fn().mockReturnValue({
+    data: [
+      {
+        name: 'Ân Bùi Hoàng',
+        email: 'an.buihoang@ncc.asia',
+      },
+    ],
+  }),
   useOffices: jest.fn().mockReturnValue({
     data: [
       {

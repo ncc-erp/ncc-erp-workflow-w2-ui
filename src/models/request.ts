@@ -123,6 +123,7 @@ export interface ITask {
   otherActionSignals?: IOtherActionSignals[];
   description?: string;
   authorName?: string;
+  updatedBy?: string;
 }
 
 export interface IRequestResult {

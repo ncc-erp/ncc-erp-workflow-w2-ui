@@ -142,3 +142,5 @@ export const LinkDocRedirect = {
 };
 
 export const MaxFailedAccessAttempts = 5;
+
+export const UPDATED_BY_W2 = 'W2 Workflow';

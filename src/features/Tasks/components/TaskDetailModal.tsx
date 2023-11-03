@@ -20,7 +20,11 @@ import Logo from 'assets/images/ncc_logo.png';
 import { toast } from 'common/components/StandaloneToast';
 import { TextGroup } from 'common/components/TextGroup/TextGroup';
 import { WorkflowModal } from 'common/components/WorkflowModal';
-import { OtherActionSignalStatus, TaskStatus } from 'common/constants';
+import {
+  OtherActionSignalStatus,
+  TaskStatus,
+  UPDATED_BY_W2,
+} from 'common/constants';
 import { useCallback, useMemo, useState } from 'react';
 import {
   convertToCase,
@@ -31,6 +35,8 @@ import {
 import { RequestInput } from './RequestInput';
 import { IOtherTasks } from './TasksBoard';
 import styles from './style.module.scss';
+import { RequestStatus } from 'common/enums';
+import { useUserList } from 'api/apiHooks/requestHooks';
 
 interface IDetailModalProps {
   isOpen: boolean;
@@ -49,6 +55,7 @@ export const TaskDetailModal = ({
   taskId,
   otherTasks,
 }: IDetailModalProps) => {
+  const { data: users } = useUserList();
   const actionTaskMutation = useActionTask();
   const {
     data,
@@ -119,6 +126,20 @@ export const TaskDetailModal = ({
       return [];
     }
   };
+
+  const getUserReject = useMemo(() => {
+    if (
+      (getStatusByIndex(tasks?.status).status as string) !==
+      RequestStatus.Rejected
+    ) {
+      return null;
+    }
+
+    const userReject = otherTasks?.items?.find(
+      (task) => task.updatedBy != null && task.updatedBy != UPDATED_BY_W2
+    )?.updatedBy;
+    return users?.find((user) => user.email == userReject)?.name;
+  }, [tasks?.status, otherTasks, users]);
 
   const renderDynamicDataContent = useCallback(() => {
     if (!otherTasks || otherTasks.items.length <= 0) return null;
@@ -312,6 +333,9 @@ export const TaskDetailModal = ({
                       : ''
                   }
                 />
+                {getUserReject && (
+                  <TextGroup label="Rejected by" content={getUserReject} />
+                )}
               </div>
 
               {renderDynamicDataContent()}
