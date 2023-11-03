@@ -24,6 +24,7 @@ import { isObjectEmpty, formatDate, getColorByStatus } from 'utils';
 import { WorkflowModal } from 'common/components/WorkflowModal';
 import { RequestStatus } from 'common/enums';
 import { UPDATED_BY_W2 } from 'common/constants';
+import { removeDiacritics } from 'utils/removeDiacritics';
 
 interface IDetailModalProps {
   isOpen: boolean;
@@ -73,9 +74,16 @@ export const RequestDetailModal = ({
       return null;
     }
 
-    const userReject = tasks?.find(
+    const taskSorted = tasks?.sort(
+      (a, b) =>
+        new Date(b?.creationTime).getTime() -
+        new Date(a?.creationTime).getTime()
+    );
+
+    const userReject = taskSorted?.find(
       (task) => task.updatedBy != null && task.updatedBy != UPDATED_BY_W2
     )?.updatedBy;
+
     return users?.find((user) => user.email == userReject)?.name;
   }, [requestDetail?.status, tasks, users]);
 
@@ -217,7 +225,10 @@ export const RequestDetailModal = ({
                 )}
 
                 {getUserReject && (
-                  <TextGroup label="Rejected by" content={getUserReject} />
+                  <TextGroup
+                    label="Rejected by"
+                    content={removeDiacritics(getUserReject)}
+                  />
                 )}
               </div>
             </div>

@@ -37,6 +37,7 @@ import { IOtherTasks } from './TasksBoard';
 import styles from './style.module.scss';
 import { RequestStatus } from 'common/enums';
 import { useUserList } from 'api/apiHooks/requestHooks';
+import { removeDiacritics } from 'utils/removeDiacritics';
 
 interface IDetailModalProps {
   isOpen: boolean;
@@ -135,9 +136,16 @@ export const TaskDetailModal = ({
       return null;
     }
 
-    const userReject = otherTasks?.items?.find(
+    const otherTasksSorted = otherTasks?.items?.sort(
+      (a, b) =>
+        new Date(b?.creationTime).getTime() -
+        new Date(a?.creationTime).getTime()
+    );
+
+    const userReject = otherTasksSorted?.find(
       (task) => task.updatedBy != null && task.updatedBy != UPDATED_BY_W2
     )?.updatedBy;
+
     return users?.find((user) => user.email == userReject)?.name;
   }, [tasks?.status, otherTasks, users]);
 
@@ -334,7 +342,10 @@ export const TaskDetailModal = ({
                   }
                 />
                 {getUserReject && (
-                  <TextGroup label="Rejected by" content={getUserReject} />
+                  <TextGroup
+                    label="Rejected by"
+                    content={removeDiacritics(getUserReject)}
+                  />
                 )}
               </div>
 
