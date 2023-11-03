@@ -21,7 +21,7 @@ import {
 } from 'common/constants';
 import { FilterTasks } from 'models/task';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { TFilterTask } from 'common/types';
+import { Color, TFilterTask } from 'common/types';
 import { useIsAdmin } from 'hooks/useIsAdmin';
 import { TbSearch } from 'react-icons/tb';
 import useDebounced from 'hooks/useDebounced';
@@ -31,9 +31,10 @@ import { ListTask } from '../../../common/components/Boards/ListTask';
 import { TaskDetailModal } from './TaskDetailModal';
 import { FaTable } from 'react-icons/fa';
 import { BsCardText } from 'react-icons/bs';
-import { ITask } from 'models/request';
+import { ITask, RequestTemplate } from 'models/request';
 import { useDynamicDataTask } from 'api/apiHooks/taskHooks';
 import { useMediaQuery } from 'hooks/useMediaQuery';
+import { validateTypeColor } from 'utils/validateTypeColor';
 
 const initialFilter: FilterTasks = {
   skipCount: 0,
@@ -93,7 +94,10 @@ export const TasksBoard = () => {
   const isAdmin = useIsAdmin();
   const dynamicDataTaskMutation = useDynamicDataTask();
 
+
   const { data: requestTemplateData } = useRequestTemplates();
+  console.log('chekdsf',requestTemplateData)
+  
   const requestTemplates = useMemo(() => {
     if (requestTemplateData?.items) {
       return requestTemplateData.items;
@@ -101,6 +105,22 @@ export const TasksBoard = () => {
 
     return [];
   }, [requestTemplateData]);
+
+  const getColorByRequestTemplates =  (items: RequestTemplate[]): [string, Color][] | [] => {
+    const result: [string, Color][]  = [];
+    for (const item of items) {
+      if (item.settingDefinition) {
+        const displayName: string = item.displayName || '';
+        const color: Color = validateTypeColor(item.settingDefinition.propertyDefinitions["color"]);
+        result.push([displayName, color]);
+      }
+    }
+    return result;
+  };
+  
+
+  
+  
   const statusOptions = useMemo(() => {
     const defaultOptions = {
       value: -1,
@@ -283,12 +303,13 @@ export const TasksBoard = () => {
             </WrapItem>
           ))}
         </Wrap>
-        {(display === DislayValue.LIST || !isLargeScreen) && (
-          <ListTask filters={filter} openDetailModal={openModal} />
+        {display === DislayValue.LIST || !isLargeScreen &&  (
+          <ListTask  filters={filter} openDetailModal={openModal} />
         )}
         {display === DislayValue.BOARD && isLargeScreen && (
           <Boards
             filters={filter}
+            getColorByType={getColorByRequestTemplates(requestTemplates)}
             openDetailModal={openModal}
             status={filter?.status || -1}
           />

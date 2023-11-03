@@ -62,10 +62,11 @@ const fadeIn = keyframes`
 export interface BoardsProps {
   filters: FilterTasks;
   openDetailModal: (task: ITask) => () => void;
+  getColorByType: [string, Color][] | [];
   status: number | Array<number>;
 }
 
-const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
+const Boards = ({ filters, openDetailModal, getColorByType }: BoardsProps): JSX.Element => {
   const isLargeScreen = useMediaQuery('(min-width: 1024px)');
   const [filter, setFilter] = useState<FilterTasks>(filters);
   const actionTaskMutation = useActionTask();
@@ -399,28 +400,13 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
     return result;
   };
 
-  const arrColor: Color[] = ['#009688', '#000000'];
-  const initialData: [string, Color][] = [
-    ['Device Request', '#03A9F4'],
-    ['Change Office Request', '#db0000'],
-    ['Office Equipment Request', '#f27024'],
-    ['Probationary Confirmation Request', '#0c51a0'],
-    ['WFH Request', '#d000db'],
-  ];
-  let currentColor: number = 0;
-  const hashMap = new Map<string, Color>(initialData);
 
+  const hashMap = new Map<string, Color>(getColorByType);
   const renderColor = (key: string) => {
     if (hashMap.has(key)) {
       return hashMap.get(key);
     }
-    if (currentColor > arrColor.length - 1) {
-      return '#3366CC';
-    }
-
-    hashMap.set(key, arrColor[currentColor]);
-    currentColor++;
-    return hashMap.get(key);
+    return '#3366CC';
   };
 
   return (

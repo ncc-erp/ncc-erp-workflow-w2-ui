@@ -47,6 +47,7 @@ export interface RequestTemplate {
   isPublished: boolean;
   isLatest: boolean;
   inputDefinition: InputDefinition;
+  settingDefinition: SettingDefinition
   id: string;
 }
 
@@ -55,6 +56,12 @@ export interface InputDefinition {
   propertyDefinitions: PropertyDefinition[];
   id: string;
 }
+export interface SettingDefinition {
+  workflowDefinitionId: string;
+  propertyDefinitions: Record<string, string>;
+  id: string;
+}
+
 
 export interface PropertyDefinition {
   name: string;
