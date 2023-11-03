@@ -134,6 +134,12 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
         enableSorting: false,
         cell: (info) => info.getValue(),
       }),
+      columnHelper.accessor('description',{
+        id: "description",
+        header:"Current State",
+        enableSorting: false,
+        cell: (info) => info.getValue(),
+      }),
       columnHelper.accessor('emailTo', {
         id: 'emailTo',
         header: 'Assigned To',
@@ -172,6 +178,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
           );
         },
       }),
+
       columnHelper.accessor('creationTime', {
         id: 'creationTime',
         header: 'Created At',
