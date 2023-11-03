@@ -560,6 +560,10 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
                                       {item.authorName}
                                     </Flex>
                                     <Flex gap={2}>
+                                      <Text>Current State:</Text>
+                                      {item.description}
+                                    </Flex>
+                                    <Flex gap={2}>
                                       <Text>Assign:</Text>
                                       {item.emailTo
                                         .map((email) => email.split('@')[0])
