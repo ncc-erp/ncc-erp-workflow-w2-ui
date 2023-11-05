@@ -16,13 +16,15 @@ import {
 import Logo from 'assets/images/ncc_logo.png';
 import styles from './style.module.scss';
 import { Request } from 'models/request';
-import { useGetRequestDetail } from 'api/apiHooks/requestHooks';
+import { useGetRequestDetail, useUserList } from 'api/apiHooks/requestHooks';
 import { useMemo, useState } from 'react';
 import { RequestInput } from 'features/Tasks/components/RequestInput';
 import { TextGroup } from 'common/components/TextGroup/TextGroup';
 import { isObjectEmpty, formatDate, getColorByStatus } from 'utils';
 import { WorkflowModal } from 'common/components/WorkflowModal';
 import { RequestStatus } from 'common/enums';
+import { UPDATED_BY_W2 } from 'common/constants';
+import { removeDiacritics } from 'utils/removeDiacritics';
 
 interface IDetailModalProps {
   isOpen: boolean;
@@ -36,6 +38,7 @@ export const RequestDetailModal = ({
   requestDetail,
 }: IDetailModalProps) => {
   const { data, isLoading } = useGetRequestDetail(requestDetail.id);
+  const { data: users } = useUserList();
 
   const [requestWorkflow, setRequestWorkflow] = useState<string>('');
   const [isOpenWorkflow, setOpenWorkflow] = useState(false);
@@ -66,6 +69,24 @@ export const RequestDetailModal = ({
     return tasks?.find((task) => task.reason)?.reason;
   }, [requestDetail?.status, tasks]);
 
+  const getUserReject = useMemo(() => {
+    if (!tasks || requestDetail?.status !== RequestStatus.Rejected) {
+      return null;
+    }
+
+    const taskSorted = tasks?.sort(
+      (a, b) =>
+        new Date(b?.creationTime).getTime() -
+        new Date(a?.creationTime).getTime()
+    );
+
+    const userReject = taskSorted?.find(
+      (task) => task.updatedBy != null && task.updatedBy != UPDATED_BY_W2
+    )?.updatedBy;
+
+    return users?.find((user) => user.email == userReject)?.name;
+  }, [requestDetail?.status, tasks, users]);
+
   const hasInputRequestData: boolean = useMemo(() => {
     return !isObjectEmpty(inputRequestDetail);
   }, [inputRequestDetail]);
@@ -84,7 +105,7 @@ export const RequestDetailModal = ({
       </Modal>
     );
   }
-  
+
   return (
     <>
       <Modal isOpen={isOpen} onClose={onClose} blockScrollOnMount={false}>
@@ -177,7 +198,7 @@ export const RequestDetailModal = ({
                   content={getColorByStatus(requestDetail?.status).status}
                   color={getColorByStatus(requestDetail?.status).color}
                 />
-                
+
                 {requestDetail?.currentStates.length > 0 && (
                   <TextGroup
                     label="Current state"
@@ -201,6 +222,13 @@ export const RequestDetailModal = ({
 
                 {rejectReason && (
                   <TextGroup label="Reason" content={rejectReason} />
+                )}
+
+                {getUserReject && (
+                  <TextGroup
+                    label="Rejected by"
+                    content={removeDiacritics(getUserReject)}
+                  />
                 )}
               </div>
             </div>

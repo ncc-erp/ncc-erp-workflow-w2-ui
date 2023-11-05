@@ -1,4 +1,4 @@
-import {  render,screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { RequestDetailModal } from '../components/DetailModal';
 import { RequestStatus } from 'common/enums';
@@ -68,6 +68,14 @@ jest.mock('api/apiHooks/requestHooks', () => ({
       },
     ],
   }),
+  useUserList: jest.fn().mockReturnValue({
+    data: [
+      {
+        name: 'Ân Bùi Hoàng',
+        email: 'an.buihoang@ncc.asia',
+      },
+    ],
+  }),
 }));
 
 const requestDetails = {
@@ -82,8 +90,7 @@ const requestDetails = {
   currentStates: ['Branch Manager makes decision'],
 };
 
-
-describe('My Request Detail',() => {
+describe('My Request Detail', () => {
   const queryClient: QueryClient = new QueryClient();
 
   test('should match snapshot when rendering', async () => {
@@ -99,86 +106,83 @@ describe('My Request Detail',() => {
     expect(baseElement).toMatchSnapshot();
   });
 
-  describe('My Request Detail with requestDetails' ,() => {
+  describe('My Request Detail with requestDetails', () => {
     beforeEach(() => {
       render(
         <QueryClientProvider client={queryClient}>
-        <RequestDetailModal
-          isOpen={true}
-          onClose={() => jest.fn()}
-          requestDetail={requestDetails}
-        />
-      </QueryClientProvider>
-      )
-    })
+          <RequestDetailModal
+            isOpen={true}
+            onClose={() => jest.fn()}
+            requestDetail={requestDetails}
+          />
+        </QueryClientProvider>
+      );
+    });
 
-    it('Should have a Title when Request Detail loaded.',() => {
-      expect(screen.getAllByText(/Office Equipment Request/i)).toBeTruthy()
-    })
+    it('Should have a Title when Request Detail loaded.', () => {
+      expect(screen.getAllByText(/Office Equipment Request/i)).toBeTruthy();
+    });
 
     describe('Request input attributes', () => {
-      it('Should have a Request input attributes when Request Detail loaded.', async() => {
-        screen.findByText(/Request input/i)
-      })
+      it('Should have a Request input attributes when Request Detail loaded.', async () => {
+        screen.findByText(/Request input/i);
+      });
 
       it('Should have a Current Office label in Request input', () => {
-        screen.findByLabelText(/Current Office/i)
-      })
+        screen.findByLabelText(/Current Office/i);
+      });
 
       it('Should have a Reason label in Request input', () => {
-        screen.findByLabelText(/Reason/i)
-      })
-      
-      it('Should have a Equipment label in Request input', () => {
-        screen.findByLabelText(/Equipment/i)
-      })
+        screen.findByLabelText(/Reason/i);
+      });
 
-    })
-    
+      it('Should have a Equipment label in Request input', () => {
+        screen.findByLabelText(/Equipment/i);
+      });
+    });
+
     describe('Request user attributes', () => {
-      it('Should have a Request user attributes when Request Detail loaded.', async() => {
-        screen.findByText(/Request user/i)
-      })
+      it('Should have a Request user attributes when Request Detail loaded.', async () => {
+        screen.findByText(/Request user/i);
+      });
 
       it('Should have a Name label in Request user', () => {
-        screen.findByLabelText(/Name/i)
-      })
+        screen.findByLabelText(/Name/i);
+      });
 
       it('Should have a Email label in Request user', () => {
-        screen.findByLabelText(/Email/i)
-      })
-      
+        screen.findByLabelText(/Email/i);
+      });
+
       it('Should have a Branch name label in Request user', () => {
-        screen.findByLabelText(/Branch name/i)
-      })
-    })
-    
+        screen.findByLabelText(/Branch name/i);
+      });
+    });
+
     describe('Detail attributes', () => {
-      it('Should have a Detail attributes when Request Detail loaded.', async() => {
-        screen.findByText(/Detail attributes/i)
-      })
+      it('Should have a Detail attributes when Request Detail loaded.', async () => {
+        screen.findByText(/Detail attributes/i);
+      });
 
       it('Should have a Request template label in Detail', () => {
-        screen.findByLabelText(/Request template/i)
-      })
+        screen.findByLabelText(/Request template/i);
+      });
 
       it('Should have a Status label in Detail', () => {
-        screen.findByLabelText(/Status/i)
-      })
-      
+        screen.findByLabelText(/Status/i);
+      });
+
       it('Should have a Current state label in Detail', () => {
-        screen.findByLabelText(/Current state/i)
-      })
+        screen.findByLabelText(/Current state/i);
+      });
 
       it('Should have a Stakeholders label in Detail', () => {
-        screen.findByLabelText(/Stakeholders/i)
-      })
+        screen.findByLabelText(/Stakeholders/i);
+      });
 
       it('Should have a Creation time label in Detail', () => {
-        screen.findByLabelText(/Creation time/i)
-      })
-    })
-    
-  })
-
-})
+        screen.findByLabelText(/Creation time/i);
+      });
+    });
+  });
+});
