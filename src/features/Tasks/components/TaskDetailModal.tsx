@@ -38,6 +38,7 @@ import styles from './style.module.scss';
 import { RequestStatus } from 'common/enums';
 import { useUserList } from 'api/apiHooks/requestHooks';
 import { removeDiacritics } from 'utils/removeDiacritics';
+import { BiPencil } from 'react-icons/bi';
 
 interface IDetailModalProps {
   isOpen: boolean;
@@ -196,8 +197,15 @@ export const TaskDetailModal = ({
     return tasksWithData.map((x, ind) => {
       return (
         <div key={ind}>
-          <Text fontSize={15} mt={2} fontWeight={600}>
-            {x.title}
+          <Text
+            display="flex"
+            alignItems="center"
+            gap={1}
+            fontSize={15}
+            mt={2}
+            fontWeight={600}
+          >
+            {x.title} <BiPencil fontSize={15} />
           </Text>
           {mappingReviewToList(x.items)}
         </div>
