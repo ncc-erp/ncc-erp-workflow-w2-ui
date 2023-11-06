@@ -38,6 +38,7 @@ import styles from './style.module.scss';
 import { RequestStatus } from 'common/enums';
 import { useUserList } from 'api/apiHooks/requestHooks';
 import { removeDiacritics } from 'utils/removeDiacritics';
+import { BiPencil } from 'react-icons/bi';
 
 interface IDetailModalProps {
   isOpen: boolean;
@@ -48,6 +49,11 @@ interface IDetailModalProps {
 
 interface IDynamicDataProps {
   [key: string]: string;
+}
+
+interface IDynamicReviewProps {
+  title: string;
+  items: IDynamicDataProps[];
 }
 
 export const TaskDetailModal = ({
@@ -149,54 +155,62 @@ export const TaskDetailModal = ({
     return users?.find((user) => user.email == userReject)?.name;
   }, [tasks?.status, otherTasks, users]);
 
+  const mappingReviewToList = (data: IDynamicDataProps[]) => {
+    return data.map((element, ind) => {
+      if (!Array.isArray(element.data)) return null;
+
+      const filteredData = element.data.filter((item) => item.trim() !== '');
+
+      if (filteredData.length === 0) return null;
+
+      return (
+        <List key={element.name + ind} mt={1} spacing={1}>
+          <Text fontSize={14} fontWeight={600} fontStyle="italic">
+            {convertToCase(element.name)}:
+          </Text>
+          {filteredData.map((x) => (
+            <ListItem key={x}>{x}</ListItem>
+          ))}
+        </List>
+      );
+    });
+  };
+
   const renderDynamicDataContent = useCallback(() => {
     if (!otherTasks || otherTasks.items.length <= 0) return null;
 
-    const filterOtherTask = otherTasks.items.map((x) =>
-      convertToDynamicArray(x.dynamicActionData)
+    const filterOtherTask: IDynamicReviewProps[] = otherTasks.items.map((x) => {
+      return {
+        title: x.description || 'No name',
+        items: convertToDynamicArray(x.dynamicActionData),
+      };
+    });
+
+    const tasksWithData = filterOtherTask.filter((task) =>
+      task.items.some(
+        (item) =>
+          Array.isArray(item.data) &&
+          item.data.some((data) => data.trim() !== '')
+      )
     );
 
-    const combinedData = filterOtherTask.reduce((result, dataRow) => {
-      dataRow.forEach((dataItem) => {
-        const { name, data, isFinalApprove } = dataItem;
-        const existingItem = result.find((item) => item.name === name);
-
-        if (existingItem) {
-          existingItem.data = existingItem.data.concat(data);
-        } else {
-          result.push({ name, data, isFinalApprove });
-        }
-      });
-
-      return result;
-    }, []);
-
-    const convertData = [...combinedData];
-
-    return (
-      <>
-        {convertData.map((element, ind) => {
-          if (!Array.isArray(element.data)) return null;
-
-          const filteredData = element.data.filter(
-            (item) => item.trim() !== ''
-          );
-
-          if (filteredData.length === 0) return null;
-
-          return (
-            <List key={ind} mt={1} spacing={2}>
-              <Text fontSize={15} fontWeight={600}>
-                {convertToCase(element.name)}
-              </Text>
-              {filteredData.map((x) => (
-                <ListItem key={x}>{x}</ListItem>
-              ))}
-            </List>
-          );
-        })}
-      </>
-    );
+    return tasksWithData.map((x, ind) => {
+      return (
+        <div key={ind}>
+          <Text
+            display="flex"
+            alignItems="center"
+            gap={1}
+            fontSize={15}
+            mt={2}
+            fontWeight={600}
+          >
+            {x.title} <BiPencil fontSize={15} />
+          </Text>
+          {mappingReviewToList(x.items)}
+        </div>
+      );
+    });
   }, [otherTasks]);
 
   if (hasGetTaskLoading) {
@@ -347,9 +361,9 @@ export const TaskDetailModal = ({
                     content={removeDiacritics(getUserReject)}
                   />
                 )}
-              </div>
 
-              {renderDynamicDataContent()}
+                {renderDynamicDataContent()}
+              </div>
             </div>
           </ModalBody>
         </ModalContent>
