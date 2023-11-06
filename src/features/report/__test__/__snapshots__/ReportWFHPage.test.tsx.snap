@@ -3,7 +3,7 @@
 exports[`WFH Page should match snapshot when rendering 1`] = `
 <div>
   <div
-    class="css-roynbj"
+    class="css-0"
   >
     <div
       class="chakra-stack css-jrkth6"
@@ -101,7 +101,7 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
         class="css-8atqhb"
       >
         <div
-          class="chakra-stack css-srzla3"
+          class="chakra-stack css-dozqnx"
         >
           <div
             class="chakra-input__group css-1hxop28"
@@ -141,7 +141,7 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
             </div>
           </div>
           <div
-            class="css-1va21sn"
+            class="css-1gv0j7j"
           >
             <div
               class="css-o89bj0"
@@ -262,7 +262,7 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
           </ul>
         </div>
         <div
-          class="css-d9a31o"
+          class="css-1wxacle"
         >
           <table
             class="chakra-table css-zy166a"
