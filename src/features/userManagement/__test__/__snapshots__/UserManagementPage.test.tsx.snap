@@ -159,13 +159,18 @@ exports[`Request My Requests Page 1`] = `
                 class="css-1y39i0r"
               >
                 <th
-                  class="css-175w36i"
+                  class="css-1efk6hr"
                   colspan="1"
                   style="width: auto;"
                 >
                   <div
                     class="css-1qe39um"
                   >
+                    <div
+                      class="css-0"
+                    >
+                      User name
+                    </div>
                     <svg
                       class="chakra-icon css-1pr7mfq"
                       fill="currentColor"
@@ -181,15 +186,10 @@ exports[`Request My Requests Page 1`] = `
                         d="M128 320l128-128 128 128z"
                       />
                     </svg>
-                    <div
-                      class="css-0"
-                    >
-                      User name
-                    </div>
                   </div>
                 </th>
                 <th
-                  class="css-175w36i"
+                  class="css-1efk6hr"
                   colspan="1"
                   style="width: auto;"
                 >
@@ -197,10 +197,13 @@ exports[`Request My Requests Page 1`] = `
                     class="css-1qe39um"
                   >
                     Email address
+                    <span
+                      style="width: 16px;"
+                    />
                   </div>
                 </th>
                 <th
-                  class="css-175w36i"
+                  class="css-1efk6hr"
                   colspan="1"
                   style="width: auto;"
                 >
@@ -208,10 +211,13 @@ exports[`Request My Requests Page 1`] = `
                     class="css-1qe39um"
                   >
                     Phone number
+                    <span
+                      style="width: 16px;"
+                    />
                   </div>
                 </th>
                 <th
-                  class="css-avwfu8"
+                  class="css-1d8mdkw"
                   colspan="1"
                   style="width: auto;"
                 >
@@ -235,7 +241,6 @@ exports[`Request My Requests Page 1`] = `
               >
                 <td
                   class="css-xk16pm"
-                  style="word-break: break-word; white-space: pre-wrap;"
                 >
                   <div
                     class="css-0"
@@ -245,17 +250,14 @@ exports[`Request My Requests Page 1`] = `
                 </td>
                 <td
                   class="css-xk16pm"
-                  style="word-break: break-word; white-space: pre-wrap;"
                 >
                   admin@abp.io
                 </td>
                 <td
                   class="css-xk16pm"
-                  style="word-break: break-word; white-space: pre-wrap;"
                 />
                 <td
                   class="css-xk16pm"
-                  style="word-break: break-word; white-space: pre-wrap;"
                 >
                   <div
                     class="css-gmuwbf"

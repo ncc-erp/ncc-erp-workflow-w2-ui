@@ -1,7 +1,6 @@
 import {
   Box,
   Center,
-  Flex,
   HStack,
   Icon,
   IconButton,
@@ -45,7 +44,6 @@ import ModalBoard from './ModalBoard';
 import styles from './style.module.scss';
 import { useClearCacheTask } from './useClearCacheTask';
 import { WorkflowModal } from 'common/components/WorkflowModal';
-import { useMediaQuery } from 'hooks/useMediaQuery';
 
 interface Props {
   filters: FilterTasks;
@@ -58,7 +56,6 @@ const initDataForm = {
 };
 
 export const ListTask = ({ filters, openDetailModal }: Props) => {
-  const isLargeScreen = useMediaQuery('(min-width: 1281px)');
   const [filter, setFilter] = useState<FilterTasks>(filters);
   const columnHelper = createColumnHelper<ITask>();
   const { sideBarWidth } = useRecoilValue(appConfigState);
@@ -157,10 +154,10 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
         cell: (info) => {
           const status = info.row.original.status;
           return (
-            <Flex alignItems={'center'} gap={1}>
-              {isLargeScreen ? (
+            <Box display={"flex"} >
+              {(
                 <div
-                  className={`${styles.status} ${
+                  className={`${styles.badge} ${
                     status === TaskStatus.Pending
                       ? styles.statusPending
                       : status === TaskStatus.Approved
@@ -169,12 +166,11 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
                       ? styles.statusRejected
                       : ''
                   }`}
-                />
-              ) : (
-                ''
+                >
+                  {Object.keys(TaskStatus)[info.getValue()]}
+                </div>
               )}
-              {Object.keys(TaskStatus)[info.getValue()]}
-            </Flex>
+            </Box>
           );
         },
       }),
@@ -317,7 +313,6 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
     openDetailModal,
     refetch,
     user.email,
-    isLargeScreen,
   ]);
 
   const handleClose = useCallback(() => {

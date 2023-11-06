@@ -30,7 +30,7 @@ import { toast } from 'common/components/StandaloneToast';
 import { PageSize } from 'common/components/Table/PageSize';
 import { ShowingItemText } from 'common/components/Table/ShowingItemText';
 import { Table } from 'common/components/Table/Table';
-import { QueryKeys, noOfRows } from 'common/constants';
+import { QueryKeys, noOfRows} from 'common/constants';
 import { RequestSortField, RequestStatus, SortDirection } from 'common/enums';
 import { RowAction } from 'features/requestDevices/components/RowAction';
 import { useCurrentUser } from 'hooks/useCurrentUser';
@@ -44,11 +44,12 @@ import { RequestDetailModal } from './DetailModal';
 import { WorkflowModal } from 'common/components/WorkflowModal';
 import { TbSearch } from 'react-icons/tb';
 import useDebounced from 'hooks/useDebounced';
-
 import { EmptyWrapper } from 'common/components/EmptyWrapper';
 import { ModalConfirm } from 'common/components/ModalConfirm';
 import { AiOutlineReload } from 'react-icons/ai';
 import styles from './style.module.scss';
+
+
 
 const initialSorting: SortingState = [
   {
@@ -172,6 +173,7 @@ export const MyRequestTable = () => {
           cell: (info) => formatDate(new Date(info.getValue())),
           sortDescFirst: true,
         }),
+        
         columnHelper.accessor('lastExecutedAt', {
           id: 'lastExecutedAt',
           header: 'Last executed at',
@@ -182,7 +184,21 @@ export const MyRequestTable = () => {
           id: 'status',
           header: 'Status',
           enableSorting: false,
-          cell: (info) => info.getValue(),
+          cell: (info) => {
+            const status = info.row.original.status;
+            return (
+              <Box display={"flex"}>
+                { (
+                  <div
+                    className={`${styles.badge} ${styles[status]}`}
+                  >
+                    {info.getValue()}
+
+                  </div>
+                )}
+              </Box>
+            );
+          },
         }),
         columnHelper.display({
           id: 'actions',
