@@ -159,13 +159,18 @@ exports[`Request My Requests Page 1`] = `
                 class="css-1y39i0r"
               >
                 <th
-                  class="css-175w36i"
+                  class="css-1efk6hr"
                   colspan="1"
                   style="width: auto;"
                 >
                   <div
                     class="css-1qe39um"
                   >
+                    <div
+                      class="css-0"
+                    >
+                      User name
+                    </div>
                     <svg
                       class="chakra-icon css-1pr7mfq"
                       fill="currentColor"
@@ -181,15 +186,10 @@ exports[`Request My Requests Page 1`] = `
                         d="M128 320l128-128 128 128z"
                       />
                     </svg>
-                    <div
-                      class="css-0"
-                    >
-                      User name
-                    </div>
                   </div>
                 </th>
                 <th
-                  class="css-175w36i"
+                  class="css-1efk6hr"
                   colspan="1"
                   style="width: auto;"
                 >
@@ -197,10 +197,13 @@ exports[`Request My Requests Page 1`] = `
                     class="css-1qe39um"
                   >
                     Email address
+                    <span
+                      style="width: 16px;"
+                    />
                   </div>
                 </th>
                 <th
-                  class="css-175w36i"
+                  class="css-1efk6hr"
                   colspan="1"
                   style="width: auto;"
                 >
@@ -208,10 +211,13 @@ exports[`Request My Requests Page 1`] = `
                     class="css-1qe39um"
                   >
                     Phone number
+                    <span
+                      style="width: 16px;"
+                    />
                   </div>
                 </th>
                 <th
-                  class="css-avwfu8"
+                  class="css-1d8mdkw"
                   colspan="1"
                   style="width: auto;"
                 >
@@ -261,12 +267,12 @@ exports[`Request My Requests Page 1`] = `
                     class="css-gmuwbf"
                   >
                     <button
-                      aria-controls="menu-list-:r5:"
+                      aria-controls="menu-list-:r6:"
                       aria-expanded="false"
                       aria-haspopup="menu"
                       aria-label=""
                       class="chakra-button chakra-menu__menu-button css-p7mkev"
-                      id="menu-button-:r5:"
+                      id="menu-button-:r6:"
                       type="button"
                     >
                       <svg
@@ -293,7 +299,7 @@ exports[`Request My Requests Page 1`] = `
                       <div
                         aria-orientation="vertical"
                         class="chakra-menu__menu-list css-1oaq8ss"
-                        id="menu-list-:r5:"
+                        id="menu-list-:r6:"
                         role="menu"
                         style="transform-origin: var(--popper-transform-origin); opacity: 0; visibility: hidden; transform: scale(0.8) translateZ(0);"
                         tabindex="-1"
@@ -301,7 +307,7 @@ exports[`Request My Requests Page 1`] = `
                         <button
                           class="chakra-menu__menuitem css-zn25ca"
                           data-index="0"
-                          id="menu-list-:r5:-menuitem-:r6:"
+                          id="menu-list-:r6:-menuitem-:r7:"
                           role="menuitem"
                           tabindex="-1"
                           type="button"
@@ -322,6 +328,31 @@ exports[`Request My Requests Page 1`] = `
                             />
                           </svg>
                           Edit
+                        </button>
+                        <button
+                          class="chakra-menu__menuitem css-zn25ca"
+                          data-index="1"
+                          id="menu-list-:r6:-menuitem-:r8:"
+                          role="menuitem"
+                          tabindex="-1"
+                          type="button"
+                        >
+                          <svg
+                            class="chakra-icon css-zvw1k8"
+                            fill="currentColor"
+                            focusable="false"
+                            height="1em"
+                            stroke="currentColor"
+                            stroke-width="0"
+                            viewBox="0 0 24 24"
+                            width="1em"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M11 14.0619V20H13V14.0619C16.9463 14.554 20 17.9204 20 22H4C4 17.9204 7.05369 14.554 11 14.0619ZM12 13C8.685 13 6 10.315 6 7C6 3.685 8.685 1 12 1C15.315 1 18 3.685 18 7C18 10.315 15.315 13 12 13Z"
+                            />
+                          </svg>
+                          Permissions
                         </button>
                       </div>
                     </div>
@@ -354,7 +385,7 @@ exports[`Request My Requests Page 1`] = `
                 >
                   <select
                     class="chakra-select css-1y1ernp"
-                    id="field-:r3:"
+                    id="field-:r4:"
                   >
                     <option
                       value="10"

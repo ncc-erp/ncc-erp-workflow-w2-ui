@@ -1,3 +1,4 @@
+import { PermissionResult } from './../../models/permission';
 import {
   FilterUserParams,
   FilterUserResult,
@@ -32,5 +33,12 @@ export const useUpdateUser = (userId: string, user: ModalUserParams) => {
     `/identity/users`,
     userId,
     user
+  );
+};
+
+export const useUserPermissionByUserId = (providerKey: string) => {
+  return useGetList<PermissionResult>(
+    [QueryKeys.GET_USER_PERMISSION, providerKey],
+    `/permission-management/permissions?providerName=U&providerKey=${providerKey}`
   );
 };

@@ -45,4 +45,17 @@ export interface ListResult<T> {
   items: T[];
 }
 
+export interface UserPermission {
+  name: string;
+  displayName: string;
+  parentName: string;
+  isGranted: boolean;
+  allowedProviders: [];
+  grantedProviders: [];
+}
+export interface PermissionParams {
+  providerName: string;
+  providerKey: string;
+}
+
 export type FilterUserResult = ListResult<UserIdentity>;

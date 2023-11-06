@@ -1,0 +1,21 @@
+.customTab {
+  text-align: left;
+  font-size: 14px;
+  margin-right: 10px;
+  border-radius: 10px;
+  color: var(--chakra-colors-blue-300);
+}
+
+.customTabHasChecked {
+  text-align: left;
+  font-size: 14px;
+  margin-right: 10px;
+  border-radius: 10px;
+  color: var(--chakra-colors-blue-400);
+  font-weight: bold;
+}
+
+.childCheckbox {
+  padding-left: 15px;
+  margin-top: 2px;
+}

@@ -10,6 +10,7 @@ import { UserAction } from 'common/constants';
 import UserForm from './UserForm';
 import { ModalUserParams, UserIdentity } from 'models/userIdentity';
 import { useRoleByUserId } from 'api/apiHooks/userIdentityHooks';
+import PermissionForm from './PermissionForm';
 
 interface IUserModalProps {
   isOpen: boolean;
@@ -47,7 +48,9 @@ export const UserModal = ({
           onClose={onClose}
         />
       ),
-      [UserAction.PERMISSIONS]: <></>,
+      [UserAction.PERMISSIONS]: (
+        <PermissionForm userId={user.id} onClose={onClose} />
+      ),
       [UserAction.DELETE]: <></>,
     };
   }
