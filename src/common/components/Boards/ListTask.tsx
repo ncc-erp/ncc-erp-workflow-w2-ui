@@ -44,7 +44,6 @@ import ModalBoard from './ModalBoard';
 import styles from './style.module.scss';
 import { useClearCacheTask } from './useClearCacheTask';
 import { WorkflowModal } from 'common/components/WorkflowModal';
-import { useMediaQuery } from 'hooks/useMediaQuery';
 
 interface Props {
   filters: FilterTasks;
@@ -57,7 +56,6 @@ const initDataForm = {
 };
 
 export const ListTask = ({ filters, openDetailModal }: Props) => {
-  const isLargeScreen = useMediaQuery('(min-width: 1281px)');
   const [filter, setFilter] = useState<FilterTasks>(filters);
   const columnHelper = createColumnHelper<ITask>();
   const { sideBarWidth } = useRecoilValue(appConfigState);
@@ -315,7 +313,6 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
     openDetailModal,
     refetch,
     user.email,
-    isLargeScreen,
   ]);
 
   const handleClose = useCallback(() => {
