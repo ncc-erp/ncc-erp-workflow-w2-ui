@@ -1,7 +1,6 @@
 import {
   Box,
   Center,
-  Flex,
   HStack,
   Icon,
   IconButton,
