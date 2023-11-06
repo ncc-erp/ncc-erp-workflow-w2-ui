@@ -433,7 +433,9 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
               <Box
                 p="10px 20px"
                 //overflowX="auto"
-                w={{ base: `calc(100vw - ${sideBarWidth}px)`, lg: 'auto' }}
+                w={{
+                  base:"100vw", lg:`calc(100vw - ${sideBarWidth}px)`
+                }}
               >
                 <Box
                   w={'100%'}

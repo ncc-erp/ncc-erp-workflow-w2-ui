@@ -414,7 +414,9 @@ export const MyRequestTable = () => {
           >
             <Box
               p="20px 30px 0px 24px"
-              w={{ base: `calc(100vw - ${sideBarWidth}px)`, lg: 'auto' }}
+              w={{
+                base:"100vw", lg:`calc(100vw - ${sideBarWidth}px)`
+              }}
             >
               <Box w={'100%'} overflowX="auto" className={styles.tableContent}>
                 <Table
