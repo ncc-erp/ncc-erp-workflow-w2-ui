@@ -144,3 +144,6 @@ export const LinkDocRedirect = {
 export const MaxFailedAccessAttempts = 5;
 
 export const UPDATED_BY_W2 = 'W2 Workflow';
+
+export const PROBATIONARY_REQUEST_ID_DEFAULT =
+  '3a0e34b2-9746-6a31-4bbc-e879f2c7ea99';

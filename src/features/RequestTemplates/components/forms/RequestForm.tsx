@@ -38,9 +38,13 @@ import {
   PropertyDefinition,
 } from 'models/request';
 import { IUser } from 'models/user';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useMemo, useState } from 'react';
 import { formatDate } from 'utils';
-import { ColorThemeMode, WFH_FORMAT_DATE } from 'common/constants';
+import {
+  ColorThemeMode,
+  PROBATIONARY_REQUEST_ID_DEFAULT,
+  WFH_FORMAT_DATE,
+} from 'common/constants';
 import { isWithinInterval, subWeeks } from 'date-fns';
 import { option } from 'common/types';
 import moment from 'moment';
@@ -63,17 +67,19 @@ type FormParamsValue =
   | undefined;
 
 const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
-  const { data: offices } = useOffices();
-  const { data: projects } = useUserProjects();
-  const { data: users } = useUserList();
-
   const currentUser = useCurrentUser();
-  const { data: userInfo } = useUserInfoWithBranch(currentUser?.email);
-  const { data: userCurrentProject } = useUserCurrentProject();
   const queryClient = useQueryClient();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [formParams, setFormParams] = useState<FormParams>({});
+  const [emailUser, setEmailUser] = useState<string>(currentUser?.email);
+
+  const { data: users } = useUserList();
+  const { data: offices } = useOffices();
+  const { data: userInfo } = useUserInfoWithBranch(emailUser);
+  const { data: projects } = useUserProjects(emailUser);
+  const { data: userCurrentProject } = useUserCurrentProject(emailUser);
+
   const {
     register,
     handleSubmit,
@@ -140,9 +146,22 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
 
   const handleSelectChangeValue = (value: string, variable: string) => {
     const updatedFormParams = { ...formParams };
+
+    if (variable == 'Staff' && isProbationaryRequest) {
+      setEmailUser(value);
+      updatedFormParams['Project'] = undefined;
+      updatedFormParams['CurrentOffice'] = undefined;
+    }
+
     updatedFormParams[variable] = value;
     setFormParams(updatedFormParams);
   };
+
+  const isProbationaryRequest = useMemo(() => {
+    return (
+      inputDefinition?.workflowDefinitionId === PROBATIONARY_REQUEST_ID_DEFAULT
+    );
+  }, [inputDefinition?.workflowDefinitionId]);
 
   const getOptions = (type: string) => {
     switch (type) {
@@ -261,6 +280,11 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
               isRequired={Field?.isRequired}
               value={formParams[fieldname] as string}
               handleChange={handleSelectChangeValue}
+              isDisabled={
+                isProbationaryRequest &&
+                fieldname != 'Staff' &&
+                !getDefaultValueSelected('UserList', 'Staff')
+              }
             />
 
             <ErrorMessage
