@@ -157,10 +157,10 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
         cell: (info) => {
           const status = info.row.original.status;
           return (
-            <Flex alignItems={'center'} gap={1}>
-              {isLargeScreen ? (
+            <Box display={"flex"} >
+              {(
                 <div
-                  className={`${styles.status} ${
+                  className={`${styles.badge} ${
                     status === TaskStatus.Pending
                       ? styles.statusPending
                       : status === TaskStatus.Approved
@@ -169,12 +169,11 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
                       ? styles.statusRejected
                       : ''
                   }`}
-                />
-              ) : (
-                ''
+                >
+                  {Object.keys(TaskStatus)[info.getValue()]}
+                </div>
               )}
-              {Object.keys(TaskStatus)[info.getValue()]}
-            </Flex>
+            </Box>
           );
         },
       }),
