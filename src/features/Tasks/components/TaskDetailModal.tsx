@@ -300,7 +300,10 @@ export const TaskDetailModal = ({
 
               <div className={styles.wrapper}>
                 {hasInputRequestData && inputRequestDetail && (
-                  <RequestInput inputRequestDetail={inputRequestDetail} />
+                  <RequestInput
+                    inputRequestDetail={inputRequestDetail}
+                    requestUserEmail={inputRequestUser?.email as string}
+                  />
                 )}
               </div>
 

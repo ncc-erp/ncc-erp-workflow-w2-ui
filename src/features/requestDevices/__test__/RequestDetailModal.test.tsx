@@ -78,6 +78,18 @@ jest.mock('api/apiHooks/requestHooks', () => ({
   }),
 }));
 
+jest.mock('api/apiHooks/taskHooks', () => ({
+  useGetUserProjectsByEmail: jest.fn().mockReturnValue({
+    data: [
+      {
+        displayName: 'Đà Nẵng',
+        code: 'ĐN',
+        headOfOfficeEmail: 'thien.dang@ncc.asia',
+      },
+    ],
+  }),
+}));
+
 const requestDetails = {
   id: '3a0e24f1-b739-1627-f78a-cb2bdd068279',
   workflowDefinitionId: '3a0b89d4-93b5-232f-964d-ffa129064cc6',

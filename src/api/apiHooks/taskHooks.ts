@@ -17,6 +17,7 @@ import {
   StakeHolderResult,
   TaskResult,
 } from './../../models/task';
+import { IProjects } from 'models/project';
 
 export const useGetAllTask = (filter: FilterTasks, status: number) => {
   const getStatus = useCallback(
@@ -87,5 +88,12 @@ export const useGetTaskDetail = (id: string) => {
   return useGetList<ITaskResult>(
     [QueryKeys.GET_TASK, id],
     `/app/task/${id}/detail-by-id`
+  );
+};
+
+export const useGetUserProjectsByEmail = (email: string) => {
+  return useGetList<IProjects[]>(
+    [QueryKeys.GET_PROJECT_USER_BY_MAIL],
+    `/app/external-resource/user-projects-from-api?email=${email}`
   );
 };
