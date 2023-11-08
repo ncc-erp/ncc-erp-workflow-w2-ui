@@ -76,10 +76,12 @@ export const useOffices = () => {
   );
 };
 
-export const useUserProjects = () => {
+export const useUserProjects = (userEmail: string = '') => {
   return useGetOne<typeof projectList>(
-    [QueryKeys.GET_PROJECT_USER],
-    '/app/external-resource/current-user-projects'
+    [QueryKeys.GET_PROJECT_USER, userEmail],
+    userEmail != ''
+      ? `/app/external-resource/current-user-projects?email=${userEmail}`
+      : '/app/external-resource/current-user-projects'
   );
 };
 
@@ -103,9 +105,11 @@ export const useNewRequestWorkflow = () => {
   );
 };
 
-export const useUserCurrentProject = () => {
+export const useUserCurrentProject = (userEmail: string = '') => {
   return useGetOne<ICurrentProject>(
-    [QueryKeys.GET_USER_CURRENT_PROJECT],
-    '/app/external-resource/current-user-working-project'
+    [QueryKeys.GET_USER_CURRENT_PROJECT, userEmail],
+    userEmail != ''
+      ? `/app/external-resource/current-user-working-project?email=${userEmail}`
+      : '/app/external-resource/current-user-working-project'
   );
 };

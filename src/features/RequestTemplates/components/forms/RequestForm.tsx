@@ -63,17 +63,19 @@ type FormParamsValue =
   | undefined;
 
 const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
-  const { data: offices } = useOffices();
-  const { data: projects } = useUserProjects();
-  const { data: users } = useUserList();
-
   const currentUser = useCurrentUser();
-  const { data: userInfo } = useUserInfoWithBranch(currentUser?.email);
-  const { data: userCurrentProject } = useUserCurrentProject();
   const queryClient = useQueryClient();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [formParams, setFormParams] = useState<FormParams>({});
+  const [emailUser, setEmailUser] = useState<string>(currentUser?.email);
+
+  const { data: users } = useUserList();
+  const { data: offices } = useOffices();
+  const { data: userInfo } = useUserInfoWithBranch(emailUser);
+  const { data: projects } = useUserProjects(emailUser);
+  const { data: userCurrentProject } = useUserCurrentProject(emailUser);
+
   const {
     register,
     handleSubmit,
@@ -139,7 +141,13 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
   };
 
   const handleSelectChangeValue = (value: string, variable: string) => {
-    const updatedFormParams = { ...formParams };
+    let updatedFormParams = { ...formParams };
+
+    if (variable == 'Staff') {
+      setEmailUser(value);
+      updatedFormParams = { Staff: value };
+    }
+
     updatedFormParams[variable] = value;
     setFormParams(updatedFormParams);
   };
