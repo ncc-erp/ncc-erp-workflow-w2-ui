@@ -38,13 +38,9 @@ import {
   PropertyDefinition,
 } from 'models/request';
 import { IUser } from 'models/user';
-import { ChangeEvent, useMemo, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { formatDate } from 'utils';
-import {
-  ColorThemeMode,
-  PROBATIONARY_REQUEST_ID_DEFAULT,
-  WFH_FORMAT_DATE,
-} from 'common/constants';
+import { ColorThemeMode, WFH_FORMAT_DATE } from 'common/constants';
 import { isWithinInterval, subWeeks } from 'date-fns';
 import { option } from 'common/types';
 import moment from 'moment';
@@ -145,23 +141,16 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
   };
 
   const handleSelectChangeValue = (value: string, variable: string) => {
-    const updatedFormParams = { ...formParams };
+    let updatedFormParams = { ...formParams };
 
-    if (variable == 'Staff' && isProbationaryRequest) {
+    if (variable == 'Staff') {
       setEmailUser(value);
-      updatedFormParams['Project'] = undefined;
-      updatedFormParams['CurrentOffice'] = undefined;
+      updatedFormParams = { Staff: value };
     }
 
     updatedFormParams[variable] = value;
     setFormParams(updatedFormParams);
   };
-
-  const isProbationaryRequest = useMemo(() => {
-    return (
-      inputDefinition?.workflowDefinitionId === PROBATIONARY_REQUEST_ID_DEFAULT
-    );
-  }, [inputDefinition?.workflowDefinitionId]);
 
   const getOptions = (type: string) => {
     switch (type) {
@@ -280,11 +269,6 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
               isRequired={Field?.isRequired}
               value={formParams[fieldname] as string}
               handleChange={handleSelectChangeValue}
-              isDisabled={
-                isProbationaryRequest &&
-                fieldname != 'Staff' &&
-                !getDefaultValueSelected('UserList', 'Staff')
-              }
             />
 
             <ErrorMessage

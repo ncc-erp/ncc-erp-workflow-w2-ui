@@ -12,7 +12,6 @@ type SelectFieldFieldProps = Omit<InputWrapperProps, 'children'> & {
   handleChange: (value: string, variable: string) => void;
   options: option[];
   isRequired: boolean;
-  isDisabled?: boolean;
 };
 
 const EmptyValue: option = {
@@ -27,7 +26,6 @@ export const SearchableSelectField = ({
   value,
   handleChange,
   isRequired,
-  isDisabled = false,
 }: SelectFieldFieldProps) => {
   const initValue = useMemo(() => {
     return options.find((el) => {
@@ -76,7 +74,6 @@ export const SearchableSelectField = ({
           }}
           value={displayValue}
           options={options}
-          isDisabled={isDisabled}
         />
       )}
     />
