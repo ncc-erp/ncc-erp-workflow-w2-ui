@@ -113,23 +113,23 @@ exports[`Request Template Page should match snapshot when rendering 1`] = `
                 class="css-1y39i0r"
               >
                 <th
-                  class="css-yddv3x"
+                  class="css-1d8mdkw"
                   colspan="1"
                   style="width: auto;"
                 >
                   <div
-                    class="css-u511cn"
+                    class="css-alaj7i"
                   >
                     Request Template
                   </div>
                 </th>
                 <th
-                  class="css-yddv3x"
+                  class="css-1d8mdkw"
                   colspan="1"
                   style="width: auto;"
                 >
                   <div
-                    class="css-u511cn"
+                    class="css-alaj7i"
                   >
                     <div
                       class="css-mgpx6q"
@@ -147,14 +147,12 @@ exports[`Request Template Page should match snapshot when rendering 1`] = `
                 class="css-eg92qj"
               >
                 <td
-                  class="css-jv3dxv"
-                  style="word-break: break-word; white-space: pre-wrap;"
+                  class="css-xk16pm"
                 >
                   Change Office Request
                 </td>
                 <td
-                  class="css-jv3dxv"
-                  style="word-break: break-word; white-space: pre-wrap;"
+                  class="css-xk16pm"
                 >
                   <div
                     class="css-gmuwbf"
@@ -196,7 +194,7 @@ exports[`Request Template Page should match snapshot when rendering 1`] = `
               class="chakra-stack css-1hohgv6"
             >
               <p
-                class="chakra-text css-1bevrez"
+                class="chakra-text css-1ok354g"
               >
                 Rows per page
               </p>
@@ -261,7 +259,7 @@ exports[`Request Template Page should match snapshot when rendering 1`] = `
               class="css-iz7l97"
             />
             <p
-              class="chakra-text css-1bevrez"
+              class="chakra-text css-3z0v2v"
             >
               showing 1 to 1 of 1 entries
             </p>
