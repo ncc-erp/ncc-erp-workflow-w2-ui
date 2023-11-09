@@ -154,60 +154,43 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
   };
 
   const getOptions = (type: string) => {
+    let transformedData: option[] = [];
+
     switch (type) {
       case 'OfficeList':
-        return offices?.map((office: IOffices) => ({
+        transformedData = (offices ?? []).map((office: IOffices) => ({
           value: office?.code,
           label: office?.displayName,
         }));
+        break;
 
       case 'MyProject':
-        return projects?.map((project: IProjects) => ({
+        transformedData = (projects ?? []).map((project: IProjects) => ({
           value: project?.code,
           label: project?.name,
         }));
+        break;
 
       case 'UserList': {
-        const transformedUsers = (users ?? []).map((user: IUser) => ({
+        transformedData = (users ?? []).map((user: IUser) => ({
           value: user?.email ?? '',
           label: `${user?.name ?? ''} (${user?.email ?? ''})`,
         }));
-        transformedUsers.unshift({ value: '', label: '' });
-        return transformedUsers;
+        break;
       }
     }
-  };
 
-  const getInitValue = (
-    value: string | undefined,
-    options: option[] | undefined
-  ): string | undefined => {
-    const normalizedValue = value?.toLowerCase();
-
-    if (options && normalizedValue) {
-      const optionTemp = options.find(
-        (el) => el?.value?.toString().toLowerCase() === normalizedValue
-      );
-
-      return optionTemp ? value : options?.[0]?.value.toString();
-    }
-
-    return undefined;
+    transformedData.unshift({ value: '', label: '' });
+    return transformedData;
   };
 
   const getDefaultValueSelected = (type: string, fieldname: string) => {
     switch (type) {
       case 'OfficeList':
-        return (
-          formParams[fieldname] ??
-          getInitValue(userInfo?.branch, getOptions(type))
-        );
+        return formParams[fieldname] ?? userInfo?.branch;
 
       case 'MyProject':
-        return (
-          formParams[fieldname] ??
-          getInitValue(userCurrentProject?.code, getOptions(type))
-        );
+        return formParams[fieldname] ?? userCurrentProject?.code;
 
       case 'UserList':
         return formParams[fieldname] ?? '';

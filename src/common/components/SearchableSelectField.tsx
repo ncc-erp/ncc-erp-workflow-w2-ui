@@ -36,7 +36,7 @@ export const SearchableSelectField = ({
       return el.value === value;
     });
 
-    return option ?? options?.[0];
+    return option ?? { value: '', label: '' };
   }, [options, value]);
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const displayValue = useMemo(() => {
