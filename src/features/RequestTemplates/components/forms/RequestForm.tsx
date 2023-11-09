@@ -51,7 +51,7 @@ interface RequestFormProps {
 }
 export type FormParams = Record<
   string,
-  string | DateObject | DateObject[] | null | Date | undefined
+  string | DateObject | DateObject[] | null | Date | undefined | number
 >;
 
 type FormParamsValue =
@@ -60,7 +60,8 @@ type FormParamsValue =
   | DateObject[]
   | null
   | Date
-  | undefined;
+  | undefined
+  | number;
 
 const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
   const currentUser = useCurrentUser();
@@ -177,13 +178,36 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
     }
   };
 
+  const getInitValue = (
+    value: string | undefined,
+    options: option[] | undefined
+  ): string | undefined => {
+    const normalizedValue = value?.toLowerCase();
+
+    if (options && normalizedValue) {
+      const optionTemp = options.find(
+        (el) => el?.value?.toString().toLowerCase() === normalizedValue
+      );
+
+      return optionTemp ? value : options?.[0]?.value.toString();
+    }
+
+    return undefined;
+  };
+
   const getDefaultValueSelected = (type: string, fieldname: string) => {
     switch (type) {
       case 'OfficeList':
-        return formParams[fieldname] ?? userInfo?.branch;
+        return (
+          formParams[fieldname] ??
+          getInitValue(userInfo?.branch, getOptions(type))
+        );
 
       case 'MyProject':
-        return formParams[fieldname] ?? userCurrentProject?.code;
+        return (
+          formParams[fieldname] ??
+          getInitValue(userCurrentProject?.code, getOptions(type))
+        );
 
       case 'UserList':
         return formParams[fieldname] ?? '';
@@ -201,7 +225,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
   };
 
   const validateMultiDatePicker = (
-    value: string | DateObject | Date | DateObject[] | null | undefined
+    value: string | DateObject | Date | DateObject[] | null | undefined | number
   ) => {
     if (value && Array.isArray(value)) {
       for (const dateObject of value) {
