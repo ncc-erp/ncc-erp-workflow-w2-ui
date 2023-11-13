@@ -41,9 +41,10 @@ import { IUser } from 'models/user';
 import { ChangeEvent, useState } from 'react';
 import { formatDate } from 'utils';
 import { ColorThemeMode, WFH_FORMAT_DATE } from 'common/constants';
-import { isWithinInterval, subWeeks } from 'date-fns';
+import { isSameDay, isWithinInterval, subWeeks } from 'date-fns';
 import { option } from 'common/types';
 import moment from 'moment';
+
 
 interface RequestFormProps {
   inputDefinition?: InputDefinition;
@@ -195,6 +196,14 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
       case 'UserList':
         return formParams[fieldname] ?? '';
     }
+  };
+
+  const handleDayClassName = (date: Date, selectedDate: Date) => {
+    // Kiểm tra nếu ngày nhỏ hơn ngày hiện tại và không phải là ngày được chọn
+    if (date < new Date() && !isSameDay(date, selectedDate)) {
+      return styles['past-date']; // Thêm class 'past-date' để đổi màu sắc
+    }
+    return null;
   };
 
   const color = useColorModeValue(ColorThemeMode.DARK, ColorThemeMode.LIGHT);
@@ -412,9 +421,10 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
                     autoComplete="off"
                     className={styles.datePicker}
                     onChange={field.onChange}
-                    selected={field.value as Date}
                     dateFormat="dd/MM/yyyy"
+                    dayClassName={(date) => handleDayClassName(date,field.value as Date)}
                     wrapperClassName={styles.wrapperCustom}
+                    selected={field.value as Date}
                   />
                 );
               }}
@@ -461,7 +471,22 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
                     format="DD/MM/YYYY"
                     plugins={[<Toolbar position="bottom" sort={['close']} />]}
                     inputClass={styles.multiDatePicker}
+                    highlightToday={true}
                     containerStyle={{ width: '100%' }}
+                    mapDays={({ date ,selectedDate}) => {
+                      const selectedDates = Array.isArray(selectedDate) ? selectedDate : [selectedDate];
+                      const isSelected = selectedDates.some(selected => selected.toDate().getTime() === date.toDate().getTime());
+                      if (date.toDate() < new Date() && !isSelected) {
+                        return {
+                          style:{
+                            color:"#ccc"
+                          }
+                        };
+                      }
+                      return {
+                        style:{}
+                      }
+                    }}
                   />
                 );
               }}
