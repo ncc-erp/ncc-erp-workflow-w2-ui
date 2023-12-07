@@ -181,7 +181,7 @@ export const TaskDetailModal = ({
 
     const filterOtherTask: IDynamicReviewProps[] = otherTasks.items.map((x) => {
       return {
-        title: x.description || 'No name',
+        title: `${x.description || 'No name'} (${x.updatedBy?.split("@").shift()})`,
         items: convertToDynamicArray(x.dynamicActionData),
       };
     });

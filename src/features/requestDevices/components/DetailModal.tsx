@@ -12,19 +12,22 @@ import {
   Spinner,
   Text,
   Button,
+  ListItem,
+  List,
 } from '@chakra-ui/react';
 import Logo from 'assets/images/ncc_logo.png';
 import styles from './style.module.scss';
 import { Request } from 'models/request';
 import { useGetRequestDetail, useUserList } from 'api/apiHooks/requestHooks';
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { RequestInput } from 'features/Tasks/components/RequestInput';
 import { TextGroup } from 'common/components/TextGroup/TextGroup';
-import { isObjectEmpty, formatDate, getColorByStatus } from 'utils';
+import { isObjectEmpty, formatDate, getColorByStatus, convertToCase } from 'utils';
 import { WorkflowModal } from 'common/components/WorkflowModal';
 import { RequestStatus } from 'common/enums';
 import { UPDATED_BY_W2 } from 'common/constants';
 import { removeDiacritics } from 'utils/removeDiacritics';
+import { BiPencil } from 'react-icons/bi';
 
 interface IDetailModalProps {
   isOpen: boolean;
@@ -32,12 +35,22 @@ interface IDetailModalProps {
   requestDetail: Request;
 }
 
+interface IDynamicDataProps {
+  [key: string]: string;
+}
+
+interface IDynamicReviewProps {
+  title: string;
+  items: IDynamicDataProps[];
+}
+
 export const RequestDetailModal = ({
   isOpen,
   onClose,
-  requestDetail,
+  requestDetail
 }: IDetailModalProps) => {
   const { data, isLoading } = useGetRequestDetail(requestDetail.id);
+  
   const { data: users } = useUserList();
 
   const [requestWorkflow, setRequestWorkflow] = useState<string>('');
@@ -47,7 +60,7 @@ export const RequestDetailModal = ({
     setRequestWorkflow(workflowId);
     setOpenWorkflow(true);
   };
-
+  
   const { inputRequestDetail, inputRequestUser, tasks } = useMemo(() => {
     const { typeRequest, input, tasks, workInstanceId } = data || {};
     const { RequestUser, Request } = input || {};
@@ -91,6 +104,43 @@ export const RequestDetailModal = ({
     return !isObjectEmpty(inputRequestDetail);
   }, [inputRequestDetail]);
 
+  const renderDynamicDataContent = useCallback(() => {
+    if (!tasks || tasks.length <= 0) return null;
+
+    const filterOtherTask: IDynamicReviewProps[] = tasks.map((x) => {
+      return {
+        title: `${x.description || 'No name'} (${x.updatedBy?.split("@").shift()})`,
+        items: convertToDynamicArray(x.dynamicActionData),
+      };
+    });
+
+    const tasksWithData = filterOtherTask.filter((task) =>
+      task.items.some(
+        (item) =>
+          Array.isArray(item.data) &&
+          item.data.some((data) => data.trim() !== '')
+      )
+    );
+
+    return tasksWithData.map((x, ind) => {
+      return (
+        <div key={ind}>
+          <Text
+            display="flex"
+            alignItems="center"
+            gap={1}
+            fontSize={15}
+            mt={2}
+            fontWeight={600}
+          >
+            {x.title} <BiPencil fontSize={15} />
+          </Text>
+          {mappingReviewToList(x.items)}
+        </div>
+      );
+    });
+  }, [tasks]);
+
   if (isLoading) {
     return (
       <Modal isOpen={isOpen} onClose={onClose}>
@@ -105,6 +155,42 @@ export const RequestDetailModal = ({
       </Modal>
     );
   }
+
+  
+  const convertToDynamicArray = (payload: string | null | undefined) => {
+    if (!payload) return [];
+
+    try {
+      const data = JSON.parse(payload) as IDynamicDataProps[];
+      return data.map((element) => ({
+        data: (element.data || '').split('\n'),
+        name: element.name || 'No Name',
+      })) as unknown as IDynamicDataProps[];
+    } catch (error) {
+      return [];
+    }
+  };
+
+  const mappingReviewToList = (data: IDynamicDataProps[]) => {
+    return data.map((element, ind) => {
+      if (!Array.isArray(element.data)) return null;
+
+      const filteredData = element.data.filter((item) => item.trim() !== '');
+
+      if (filteredData.length === 0) return null;
+
+      return (
+        <List key={element.name + ind} mt={1} spacing={1}>
+          <Text fontSize={14} fontWeight={600} fontStyle="italic">
+            {convertToCase(element.name)}:
+          </Text>
+          {filteredData.map((x) => (
+            <ListItem key={x}>{x}</ListItem>
+          ))}
+        </List>
+      );
+    });
+  };
 
   return (
     <>
@@ -223,13 +309,16 @@ export const RequestDetailModal = ({
                 {rejectReason && (
                   <TextGroup label="Reason" content={rejectReason} />
                 )}
-
+                {!rejectReason && (
+                  <TextGroup label="" content="" />
+                )}
                 {getUserReject && (
                   <TextGroup
                     label="Rejected by"
                     content={removeDiacritics(getUserReject)}
                   />
                 )}
+                {renderDynamicDataContent()}
               </div>
             </div>
           </ModalBody>
