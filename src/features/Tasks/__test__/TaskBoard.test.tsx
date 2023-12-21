@@ -261,10 +261,6 @@ jest.mock('utils/getAllTaskPagination', () => ({
 
 test('Request My Requests Page', () => {
   const queryClient: QueryClient = new QueryClient();
-  // beforeAll(() => {
-  //   Date.now = jest.fn(() => new Date('2019-04-07T10:20:30Z').getTime());
-  // });
-
   const { container } = render(
     <QueryClientProvider client={queryClient}>
       <Router>
