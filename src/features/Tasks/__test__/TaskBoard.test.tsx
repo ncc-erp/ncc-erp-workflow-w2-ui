@@ -3,6 +3,8 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter as Router } from 'react-router-dom';
 import Tasks from '..';
 
+jest.useFakeTimers().setSystemTime(new Date('2023-12-11'));
+
 jest.mock('../../../api/apiHooks/index', () => ({
   useAxios: jest.fn(),
 }));
@@ -259,6 +261,10 @@ jest.mock('utils/getAllTaskPagination', () => ({
 
 test('Request My Requests Page', () => {
   const queryClient: QueryClient = new QueryClient();
+  // beforeAll(() => {
+  //   Date.now = jest.fn(() => new Date('2019-04-07T10:20:30Z').getTime());
+  // });
+
   const { container } = render(
     <QueryClientProvider client={queryClient}>
       <Router>
