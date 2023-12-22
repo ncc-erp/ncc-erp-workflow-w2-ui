@@ -36,6 +36,7 @@
     "date-fns": "^2.30.0",
     "formik": "^2.4.4",
     "framer-motion": "^10.16.4",
+    "jest-css-modules-transform": "^4.4.2",
     "js-cookie": "^3.0.5",
     "lodash.debounce": "^4.0.8",
     "moment": "^2.29.4",
