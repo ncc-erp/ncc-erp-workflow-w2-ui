@@ -1,12 +1,17 @@
-import { LoginParams, LoginResult, User } from 'models/user';
-import { useCreate, useGetOne } from 'api/apiHooks';
-
-export const currentUserKey = ['currentUser'];
+import {
+  LoginExternalParams,
+  LoginParams,
+  LoginResult,
+  LoginExternalResult,
+} from 'models/user';
+import { useCreate } from 'api/apiHooks/index';
 
 export const useLogin = () => {
-  return useCreate<LoginParams, LoginResult>('/account/login');
+  return useCreate<LoginParams, LoginResult>('/app/auth/login-account');
 };
 
-export const useCurrentUser = () => {
-  return useGetOne<User>(currentUserKey, '/account/my-profile');
+export const useLoginExternal = () => {
+  return useCreate<LoginExternalParams, LoginExternalResult>(
+    `/app/external-resource/external-login`
+  );
 };

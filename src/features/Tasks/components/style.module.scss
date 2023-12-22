@@ -1,0 +1,54 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+}
+
+.wrapper {
+    display: flex;
+    width: 100%;
+    gap: 0; /* Không có khoảng cách theo trục Y */
+    flex-direction: row;
+    flex-wrap: wrap;
+    column-gap: 2rem; /* Khoảng cách theo trục X là 2rem */
+  }
+
+.wrapper > div {
+    width: 100%;
+    margin-bottom: 10px !important;
+}
+
+@media (min-width: 768px) {
+    .wrapper  > div {
+        width: 46%;
+    }
+}
+
+.modalBody {
+    max-height: 70vh;
+    overflow-y: scroll;
+}
+
+.containerSpinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    min-width: 30vw;
+    min-height: 50vh;
+}
+
+.actions {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 15px;
+
+    .spinner {
+        min-width: 24px;
+        margin-right: 5px;
+    }
+}

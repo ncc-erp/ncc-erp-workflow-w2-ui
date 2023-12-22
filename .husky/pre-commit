@@ -1,0 +1,8 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+pnpm test
+# Run pnpm build first
+pnpm build
+
+npx lint-staged --allow-empty

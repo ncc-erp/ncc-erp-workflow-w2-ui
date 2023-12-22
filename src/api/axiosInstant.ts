@@ -1,16 +1,18 @@
-import { createContext } from 'react';
+import { createContext, useContext } from 'react';
 import Axios, {
   AxiosError,
   AxiosInstance,
   AxiosResponse,
   isAxiosError,
 } from 'axios';
-import { useContext } from 'react';
 import { toast } from 'common/components/StandaloneToast';
+import { getItem } from 'utils';
+import { LocalStorageKeys } from 'common/enums';
+
+const { VITE_API_BASE_URL } = import.meta.env;
 
 const axios = Axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL + '',
-  timeout: 10000,
+  baseURL: VITE_API_BASE_URL,
   withCredentials: true,
   headers: {
     'Content-Type': 'application/json',
@@ -18,6 +20,13 @@ const axios = Axios.create({
 });
 
 axios.interceptors.request.use((config) => {
+  const accessToken: string | null = getItem(LocalStorageKeys.accessToken);
+  if (accessToken != null) {
+    const accessHeader = `Bearer ${accessToken}`;
+    if (config.headers != null) {
+      config.headers.Authorization = accessHeader;
+    }
+  }
   return config;
 });
 
@@ -33,40 +42,14 @@ axios.interceptors.response.use(
   },
   (error: AxiosError | Error) => {
     if (isAxiosError(error)) {
-      const { status } = (error.response as AxiosResponse) ?? {};
-      const { code } = error;
-
-      if (code === 'ERR_NETWORK') {
-        toast({
-          title: 'Network Error!',
-          status: 'error',
-        });
-      }
-
-      switch (status) {
-        case 401: {
-          window.location.href = '/login';
-          break;
-        }
-        case 403: {
-          // "Permission denied"
-          break;
-        }
-        case 404: {
-          // "Invalid request"
-          break;
-        }
-        case 500: {
-          // "Server error"
-          break;
-        }
-        default: {
-          // "Unknown error occurred"
-          break;
-        }
-      }
+      const { data } = (error.response as AxiosResponse) ?? {};
+      const { message } = error;
+      const errorMessage = data?.error?.message || message;
+      toast({
+        title: errorMessage,
+        status: 'error',
+      });
     }
-
     return Promise.reject(error);
   }
 );

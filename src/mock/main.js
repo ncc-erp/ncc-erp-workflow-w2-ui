@@ -14,7 +14,7 @@ const file = join(__dirname, 'data.json');
 
 // Configure lowdb to write data to JSON file
 const adapter = new JSONFile(file);
-const defaultData = { account: [] };
+const defaultData = { account: [], requests: [], requestTemplates: [] };
 const db = new Low(adapter, defaultData);
 await db.read();
 
@@ -44,6 +44,43 @@ server.post('/api/account/login', (req, res) => {
   });
 });
 
+server.post('/api/account/loginExternal', (req, res) => {
+  const { emailAddress, name } = req.body;
+  const existingUser = db.data.account.find(({ email }) => {
+    return email === emailAddress;
+  });
+
+  if (existingUser) {
+    res.cookie('username', emailAddress.split('@')[0]);
+    res.send({
+      result: 1,
+      description: 'UsernameAlreadyExists',
+    });
+  } else {
+    const newUser = {
+      userName: emailAddress.split('@')[0],
+      password: '1q2w3E*',
+      email: emailAddress,
+      name: name,
+      surname: null,
+      phoneNumber: null,
+      isExternal: true,
+      hasPassword: true,
+      concurrencyStamp: '89876537f95448609f5b7f5be6fdc445',
+      extraProperties: {},
+    };
+
+    db.data.account.push(newUser);
+    db.write();
+
+    res.cookie('username', emailAddress.split('@')[0]);
+    res.send({
+      result: 1,
+      description: 'AccountCreatedSuccessfully',
+    });
+  }
+});
+
 server.get('/api/account/my-profile', (req, res) => {
   const currentUsername = req.cookies?.username;
   const user = db.data.account.find(({ userName }) => {
@@ -51,6 +88,48 @@ server.get('/api/account/my-profile', (req, res) => {
   });
 
   res.send({ ...user });
+});
+
+server.post('/api/app/workflow-instance/list', (req, res) => {
+  const {
+    Status,
+    WorkflowDefinitionId,
+    maxResultCount = 10,
+    skipCount = 0,
+    sorting = 'createdAt desc',
+  } = req.body;
+  const [sortColumn, sortType] = sorting.split(' ');
+
+  let data = db.data.requests.filter(({ status, workflowDefinitionId }) => {
+    const matchStatus = !Status || status === Status;
+    const matchWorkflow =
+      !WorkflowDefinitionId || WorkflowDefinitionId === workflowDefinitionId;
+
+    return matchStatus && matchWorkflow;
+  });
+
+  const result = data
+    .sort((a, b) => {
+      const aDateInMilis = new Date(a[sortColumn]).getTime();
+      const bDateInMilis = new Date(b[sortColumn]).getTime();
+
+      return sortType === 'desc'
+        ? bDateInMilis - aDateInMilis
+        : aDateInMilis - bDateInMilis;
+    })
+    .slice(skipCount, skipCount + maxResultCount);
+
+  res.send({
+    items: result,
+    totalCount: data.length,
+  });
+});
+
+server.post('/api/app/workflow-definition/list-all', (req, res) => {
+  res.send({
+    items: db.data.requestTemplates,
+    totalCount: db.data.requestTemplates.length,
+  });
 });
 
 server.listen(5000, () => {

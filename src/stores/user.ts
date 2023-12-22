@@ -1,7 +1,5 @@
-import { atom, useResetRecoilState } from 'recoil';
+import { atom } from 'recoil';
 import { User } from 'models/user';
-import { useCallback } from 'react';
-import cookie from 'js-cookie';
 
 const initialState: User = {
   logged: false,
@@ -20,14 +18,3 @@ export const userState = atom({
   key: 'userState',
   default: initialState,
 });
-
-export const useClearUserData = () => {
-  const resetUser = useResetRecoilState(userState);
-
-  const clearData = useCallback(() => {
-    resetUser();
-    cookie.remove('username');
-  }, [resetUser]);
-
-  return clearData;
-};

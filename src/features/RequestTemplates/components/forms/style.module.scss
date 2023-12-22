@@ -1,0 +1,24 @@
+.datePicker {
+  border: 1px solid;
+  border-radius: 5px;
+  width: 100%;
+  padding: 8px 10px;
+  font-size: 15px;
+  background: inherit;
+  border-color: inherit;
+}
+
+.multiDatePicker {
+  border: 1px var(--chakra-colors-gray-300) solid;
+  width: 100%;
+  height: 40px;
+  border-radius: 5px;
+  font-size: 15px;
+  padding: 3px 10px;
+  background: inherit;
+  border-color: inherit;
+}
+
+.wrapperCustom {
+  width: 100% !important;
+}

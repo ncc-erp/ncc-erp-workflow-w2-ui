@@ -21,7 +21,11 @@
     "noFallthroughCasesInSwitch": true,
 
     "baseUrl": "./src",
-    "paths": {}
+    "paths": {},
+    "types": ["vite/client", "jest"],
+
+    //enable jest
+    "esModuleInterop": true
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]

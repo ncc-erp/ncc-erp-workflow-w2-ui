@@ -1,0 +1,318 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`My Request Detail should match snapshot when rendering 1`] = `
+<body>
+  <div
+    aria-hidden="true"
+    data-aria-hidden="true"
+  />
+  <div
+    class="chakra-portal"
+  >
+    <div
+      aria-hidden="true"
+      class="chakra-modal__overlay css-13d1tkw"
+      data-aria-hidden="true"
+      style="opacity: 0;"
+    />
+    <div
+      aria-hidden="true"
+      data-aria-hidden="true"
+      data-focus-guard="true"
+      style="width: 1px; height: 0px; padding: 0px; overflow: hidden; position: fixed; top: 1px; left: 1px;"
+      tabindex="0"
+    />
+    <div
+      data-focus-lock-disabled="false"
+    >
+      <div
+        class="chakra-modal__content-container css-1oxhx2p"
+        tabindex="-1"
+      >
+        <section
+          aria-describedby="chakra-modal--body-:r0:"
+          aria-labelledby="chakra-modal--header-:r0:"
+          aria-modal="true"
+          class="chakra-modal__content css-ctar5y"
+          id="chakra-modal-:r0:"
+          role="dialog"
+          style="opacity: 0; transform: scale(0.95) translateZ(0);"
+          tabindex="-1"
+        >
+          <header
+            class="chakra-modal__header css-72fd9l"
+            id="chakra-modal--header-:r0:"
+          >
+            <div
+              class="chakra-stack css-1igwmid"
+            >
+              <img
+                class="chakra-image css-kow2w3"
+                src=""
+              />
+              <h2
+                class="chakra-heading css-sigo6f"
+              >
+                <p
+                  class="chakra-text css-fb81nc"
+                >
+                  Office Equipment Request
+                </p>
+                <p
+                  class="chakra-text css-issjhg"
+                >
+                  Request Details
+                </p>
+              </h2>
+            </div>
+            <button
+              class="chakra-button css-12eh3jv"
+              disabled=""
+              style="display: none;"
+              type="button"
+            >
+              View Workflow Detail
+            </button>
+          </header>
+          <button
+            aria-label="Close"
+            class="chakra-modal__close-btn css-1m7215s"
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              class="chakra-icon css-onkibi"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M.439,21.44a1.5,1.5,0,0,0,2.122,2.121L11.823,14.3a.25.25,0,0,1,.354,0l9.262,9.263a1.5,1.5,0,1,0,2.122-2.121L14.3,12.177a.25.25,0,0,1,0-.354l9.263-9.262A1.5,1.5,0,0,0,21.439.44L12.177,9.7a.25.25,0,0,1-.354,0L2.561.44A1.5,1.5,0,0,0,.439,2.561L9.7,11.823a.25.25,0,0,1,0,.354Z"
+                fill="currentColor"
+              />
+            </svg>
+          </button>
+          <div
+            class="chakra-modal__body modalBody css-1qou8as"
+            id="chakra-modal--body-:r0:"
+          >
+            <hr
+              aria-orientation="horizontal"
+              class="chakra-divider css-1urc9z9"
+            />
+            <div
+              class="container"
+            >
+              <p
+                class="chakra-text css-10g9qth"
+              >
+                Request input
+              </p>
+              <div
+                class="wrapper"
+              >
+                <div
+                  class="textGroup"
+                >
+                  <label
+                    class="label"
+                  >
+                    Current Office
+                  </label>
+                  <p
+                    class="content "
+                  >
+                    Đà Nẵng
+                  </p>
+                </div>
+                <div
+                  class="textGroup"
+                >
+                  <label
+                    class="label"
+                  >
+                    Equipment
+                  </label>
+                  <p
+                    class="content "
+                  >
+                    test current state
+                  </p>
+                </div>
+                <div
+                  class="textGroup"
+                >
+                  <label
+                    class="label"
+                  >
+                    Reason
+                  </label>
+                  <p
+                    class="content "
+                  >
+                    test
+                  </p>
+                </div>
+              </div>
+              <hr
+                aria-orientation="horizontal"
+                class="chakra-divider css-1urc9z9"
+              />
+              <p
+                class="chakra-text css-10g9qth"
+              >
+                Request user
+              </p>
+              <div
+                class="wrapper"
+              >
+                <div
+                  class="textGroup"
+                >
+                  <label
+                    class="label"
+                  >
+                    Name
+                  </label>
+                  <p
+                    class="content "
+                  >
+                    Nhan Huynh Ba
+                  </p>
+                </div>
+                <div
+                  class="textGroup"
+                >
+                  <label
+                    class="label"
+                  >
+                    Email
+                  </label>
+                  <p
+                    class="content "
+                  >
+                    nhan.huynhba@ncc.asia
+                  </p>
+                </div>
+                <div
+                  class="textGroup"
+                >
+                  <label
+                    class="label"
+                  >
+                    Branch name
+                  </label>
+                  <p
+                    class="content "
+                  >
+                    Đà Nẵng
+                  </p>
+                </div>
+              </div>
+              <hr
+                aria-orientation="horizontal"
+                class="chakra-divider css-1urc9z9"
+              />
+              <p
+                class="chakra-text css-yb4mb5"
+              >
+                Detail
+              </p>
+              <div
+                class="wrapper"
+              >
+                <div
+                  class="textGroup"
+                >
+                  <label
+                    class="label"
+                  >
+                    Request template
+                  </label>
+                  <p
+                    class="content "
+                  >
+                    Office Equipment Request
+                  </p>
+                </div>
+                <div
+                  class="textGroup"
+                >
+                  <label
+                    class="label"
+                  >
+                    Status
+                  </label>
+                  <p
+                    class="content content-green"
+                  >
+                    Approved
+                  </p>
+                </div>
+                <div
+                  class="textGroup"
+                >
+                  <label
+                    class="label"
+                  >
+                    Current state
+                  </label>
+                  <p
+                    class="content "
+                  >
+                    Branch Manager makes decision
+                  </p>
+                </div>
+                <div
+                  class="textGroup"
+                >
+                  <label
+                    class="label"
+                  >
+                    Stakeholders
+                  </label>
+                  <p
+                    class="content "
+                  >
+                    Nhan Huynh Ba
+                  </p>
+                </div>
+                <div
+                  class="textGroup"
+                >
+                  <label
+                    class="label"
+                  >
+                    Creation time
+                  </label>
+                  <p
+                    class="content "
+                  >
+                    09-10-2023 11:49
+                  </p>
+                </div>
+                <div
+                  class="textGroup"
+                >
+                  <label
+                    class="label"
+                  />
+                  <p
+                    class="content "
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+    <div
+      aria-hidden="true"
+      data-aria-hidden="true"
+      data-focus-guard="true"
+      style="width: 1px; height: 0px; padding: 0px; overflow: hidden; position: fixed; top: 1px; left: 1px;"
+      tabindex="0"
+    />
+  </div>
+</body>
+`;

@@ -1,0 +1,272 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Request Template Page should match snapshot when rendering 1`] = `
+<div>
+  <div
+    class="css-0"
+  >
+    <div
+      class="chakra-stack css-jrkth6"
+    >
+      <div
+        class="chakra-stack__item css-1stbcqi"
+      >
+        <h1
+          class="chakra-heading css-ftu039"
+        >
+          Request Templates
+        </h1>
+      </div>
+      <div
+        class="chakra-stack__item css-bdvyq0"
+      >
+        <div>
+          <button
+            class="chakra-button css-fkrxci"
+            title="Release note"
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              fill="currentColor"
+              height="20px"
+              stroke="currentColor"
+              stroke-width="0"
+              viewBox="0 0 24 24"
+              width="20px"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                clip-rule="evenodd"
+                d="M5.625 1.5H9a3.75 3.75 0 013.75 3.75v1.875c0 1.036.84 1.875 1.875 1.875H16.5a3.75 3.75 0 013.75 3.75v7.875c0 1.035-.84 1.875-1.875 1.875H5.625a1.875 1.875 0 01-1.875-1.875V3.375c0-1.036.84-1.875 1.875-1.875zm6.905 9.97a.75.75 0 00-1.06 0l-3 3a.75.75 0 101.06 1.06l1.72-1.72V18a.75.75 0 001.5 0v-4.19l1.72 1.72a.75.75 0 101.06-1.06l-3-3z"
+                fill-rule="evenodd"
+              />
+              <path
+                d="M14.25 5.25a5.23 5.23 0 00-1.279-3.434 9.768 9.768 0 016.963 6.963A5.23 5.23 0 0016.5 7.5h-1.875a.375.375 0 01-.375-.375V5.25z"
+              />
+            </svg>
+          </button>
+          <button
+            class="chakra-button css-fkrxci"
+            title="User guide"
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              fill="currentColor"
+              height="20px"
+              stroke="currentColor"
+              stroke-width="0"
+              viewBox="0 0 20 20"
+              width="20px"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                clip-rule="evenodd"
+                d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z"
+                fill-rule="evenodd"
+              />
+            </svg>
+          </button>
+          <button
+            class="chakra-button css-v0af4h"
+            type="button"
+          >
+            <svg
+              fill="currentColor"
+              height="1em"
+              stroke="currentColor"
+              stroke-width="0"
+              viewBox="0 0 512 512"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M256 160c-52.9 0-96 43.1-96 96s43.1 96 96 96 96-43.1 96-96-43.1-96-96-96zm246.4 80.5l-94.7-47.3 33.5-100.4c4.5-13.6-8.4-26.5-21.9-21.9l-100.4 33.5-47.4-94.8c-6.4-12.8-24.6-12.8-31 0l-47.3 94.7L92.7 70.8c-13.6-4.5-26.5 8.4-21.9 21.9l33.5 100.4-94.7 47.4c-12.8 6.4-12.8 24.6 0 31l94.7 47.3-33.5 100.5c-4.5 13.6 8.4 26.5 21.9 21.9l100.4-33.5 47.3 94.7c6.4 12.8 24.6 12.8 31 0l47.3-94.7 100.4 33.5c13.6 4.5 26.5-8.4 21.9-21.9l-33.5-100.4 94.7-47.3c13-6.5 13-24.7.2-31.1zm-155.9 106c-49.9 49.9-131.1 49.9-181 0-49.9-49.9-49.9-131.1 0-181 49.9-49.9 131.1-49.9 181 0 49.9 49.9 49.9 131.1 0 181z"
+              />
+            </svg>
+            <p
+              class="chakra-text css-14gt3bc"
+            >
+              Light
+            </p>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div
+      class="css-0"
+    >
+      <div
+        class="css-0"
+      >
+        <div
+          class="css-jpzvhs"
+        >
+          <table
+            class="chakra-table css-zy166a"
+          >
+            <thead
+              class="css-0"
+            >
+              <tr
+                class="css-1y39i0r"
+              >
+                <th
+                  class="css-1d8mdkw"
+                  colspan="1"
+                  style="width: auto;"
+                >
+                  <div
+                    class="css-alaj7i"
+                  >
+                    Request Template
+                  </div>
+                </th>
+                <th
+                  class="css-1d8mdkw"
+                  colspan="1"
+                  style="width: auto;"
+                >
+                  <div
+                    class="css-alaj7i"
+                  >
+                    <div
+                      class="css-mgpx6q"
+                    >
+                      Actions
+                    </div>
+                  </div>
+                </th>
+              </tr>
+            </thead>
+            <tbody
+              class="css-0"
+            >
+              <tr
+                class="css-eg92qj"
+              >
+                <td
+                  class="css-xk16pm"
+                >
+                  Change Office Request
+                </td>
+                <td
+                  class="css-xk16pm"
+                >
+                  <div
+                    class="css-gmuwbf"
+                  >
+                    <button
+                      aria-label="Popup modal"
+                      class="chakra-button css-p7mkev"
+                      type="button"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        fill="currentColor"
+                        focusable="false"
+                        height="1em"
+                        stroke="currentColor"
+                        stroke-width="0"
+                        viewBox="0 0 24 24"
+                        width="1em"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M11 11V5H13V11H19V13H13V19H11V13H5V11H11Z"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div
+          class="chakra-stack css-148qy46"
+        >
+          <div
+            class="chakra-stack css-130amzp"
+          >
+            <div
+              class="chakra-stack css-1hohgv6"
+            >
+              <p
+                class="chakra-text css-1ok354g"
+              >
+                Rows per page
+              </p>
+              <div
+                class="chakra-form-control css-0"
+                role="group"
+              >
+                <div
+                  class="chakra-select__wrapper css-bo0or5"
+                >
+                  <select
+                    class="chakra-select css-1y1ernp"
+                    id="field-:r0:"
+                  >
+                    <option
+                      value="10"
+                    >
+                      10
+                    </option>
+                    <option
+                      value="25"
+                    >
+                      25
+                    </option>
+                    <option
+                      value="50"
+                    >
+                      50
+                    </option>
+                    <option
+                      value="100"
+                    >
+                      100
+                    </option>
+                  </select>
+                  <div
+                    class="chakra-select__icon-wrapper css-10n8c1x"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="chakra-icon chakra-select__icon css-13otjrl"
+                      fill="currentColor"
+                      focusable="false"
+                      height="1em"
+                      role="presentation"
+                      stroke="currentColor"
+                      stroke-width="0"
+                      style="color: currentColor; width: 1em; height: 1em;"
+                      viewBox="0 0 24 24"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M12 14L8 10H16L12 14Z"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="css-iz7l97"
+            />
+            <p
+              class="chakra-text css-3z0v2v"
+            >
+              showing 1 to 1 of 1 entries
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

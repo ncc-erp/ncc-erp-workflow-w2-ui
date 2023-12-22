@@ -1,38 +1,18 @@
-import { useCurrentUser } from 'api/apiHooks/userHooks';
-import { useEffect } from 'react';
-import { Navigate, RouteProps } from 'react-router';
-import { useRecoilState } from 'recoil';
-import { useClearUserData, userState } from 'stores/user';
+import { LocalStorageKeys } from 'common/enums';
+import { RouteProps } from 'react-router';
+import { Navigate } from 'react-router-dom';
+import { getItem, setItem } from 'utils';
 
 const PrivateRoute = ({ children }: RouteProps) => {
-  const clearUser = useClearUserData();
-  const [user, setUser] = useRecoilState(userState);
-  const {
-    data: userInfo,
-    isError,
-    isFetched,
-    isFetching,
-    remove,
-  } = useCurrentUser();
-  const isUnauthorized = isFetched && (!userInfo?.userName || isError);
+  const accessToken: string | null = getItem(LocalStorageKeys.accessToken);
+  const isUnauthorized = accessToken === null;
 
-  useEffect(() => {
-    if (isFetched && !user.logged) {
-      setUser({ ...user, ...userInfo, logged: true });
-    }
-  }, [isFetched, setUser, user, userInfo]);
+  if (isUnauthorized) {
+    setItem(LocalStorageKeys.prevURL, window.location.href);
+    return <Navigate to="/login" />;
+  }
 
-  useEffect(() => {
-    isUnauthorized && clearUser();
-
-    return () => {
-      isUnauthorized && remove();
-    };
-  }, [clearUser, isUnauthorized, remove]);
-
-  if (isFetching) return <div>Loading...</div>;
-
-  return isUnauthorized ? <Navigate to='/login' /> : children;
+  return <>{children}</>;
 };
 
 export default PrivateRoute;

@@ -1,10 +1,19 @@
-import { lazy } from 'react';
-import { Navigate, RouteObject, createBrowserRouter } from 'react-router-dom';
+import { Suspense, lazy } from 'react';
+import {
+  Navigate,
+  Outlet,
+  RouteObject,
+  createBrowserRouter,
+} from 'react-router-dom';
 import WrapperRouteComponent from 'routes/WrapperRoute';
 import Layout from 'common/components/Layout';
-import RequestTemplates from 'features/requestDevices/pages/RequestTemplates';
-import MyRequests from 'features/requestDevices/pages/MyRequests';
+import MyRequests from 'features/requestDevices';
 import Login from 'features/auth/pages/Login';
+import LoginCallback from 'features/auth/pages/LoginCallback';
+import RequestTemplates from 'features/RequestTemplates';
+import UserManagement from 'features/userManagement';
+import Tasks from 'features/Tasks';
+import PostAndWFH from 'features/report';
 
 const NotFound = lazy(() => import('common/components/NotFound'));
 const routeList: RouteObject[] = [
@@ -18,7 +27,7 @@ const routeList: RouteObject[] = [
     children: [
       {
         index: true,
-        element: <Navigate to='request-templates' />,
+        element: <Navigate to="request-templates" />,
       },
       {
         path: 'request-templates',
@@ -37,14 +46,58 @@ const routeList: RouteObject[] = [
         ),
       },
       {
-        path: '*',
+        path: 'administration',
         element: (
           <WrapperRouteComponent>
-            <NotFound />
+            <Outlet />
+          </WrapperRouteComponent>
+        ),
+        children: [
+          {
+            index: true,
+            element: <Navigate to="user-management" />,
+          },
+          {
+            path: 'user-management',
+            element: (
+              <WrapperRouteComponent>
+                <UserManagement />
+              </WrapperRouteComponent>
+            ),
+          },
+        ],
+      },
+      {
+        path: 'tasks',
+        element: (
+          <WrapperRouteComponent>
+            <Tasks />
           </WrapperRouteComponent>
         ),
       },
+      {
+        path: 'report-wfh',
+        element: (
+          <WrapperRouteComponent>
+            <PostAndWFH />
+          </WrapperRouteComponent>
+        ),
+      },
+      {
+        path: '*',
+        element: (
+          <Suspense>
+            <WrapperRouteComponent>
+              <NotFound />
+            </WrapperRouteComponent>
+          </Suspense>
+        ),
+      },
     ],
+  },
+  {
+    path: 'callback',
+    element: <LoginCallback />,
   },
   {
     path: 'login',

@@ -1,0 +1,568 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Request My Requests Page 1`] = `
+<div>
+  <div
+    class="css-0"
+  >
+    <div
+      class="chakra-stack css-jrkth6"
+    >
+      <div
+        class="chakra-stack__item css-1stbcqi"
+      >
+        <h1
+          class="chakra-heading css-ftu039"
+        >
+          Tasks Board
+        </h1>
+      </div>
+      <div
+        class="chakra-stack__item css-bdvyq0"
+      >
+        <div>
+          <button
+            class="chakra-button css-fkrxci"
+            title="Release note"
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              fill="currentColor"
+              height="20px"
+              stroke="currentColor"
+              stroke-width="0"
+              viewBox="0 0 24 24"
+              width="20px"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                clip-rule="evenodd"
+                d="M5.625 1.5H9a3.75 3.75 0 013.75 3.75v1.875c0 1.036.84 1.875 1.875 1.875H16.5a3.75 3.75 0 013.75 3.75v7.875c0 1.035-.84 1.875-1.875 1.875H5.625a1.875 1.875 0 01-1.875-1.875V3.375c0-1.036.84-1.875 1.875-1.875zm6.905 9.97a.75.75 0 00-1.06 0l-3 3a.75.75 0 101.06 1.06l1.72-1.72V18a.75.75 0 001.5 0v-4.19l1.72 1.72a.75.75 0 101.06-1.06l-3-3z"
+                fill-rule="evenodd"
+              />
+              <path
+                d="M14.25 5.25a5.23 5.23 0 00-1.279-3.434 9.768 9.768 0 016.963 6.963A5.23 5.23 0 0016.5 7.5h-1.875a.375.375 0 01-.375-.375V5.25z"
+              />
+            </svg>
+          </button>
+          <button
+            class="chakra-button css-fkrxci"
+            title="User guide"
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              fill="currentColor"
+              height="20px"
+              stroke="currentColor"
+              stroke-width="0"
+              viewBox="0 0 20 20"
+              width="20px"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                clip-rule="evenodd"
+                d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z"
+                fill-rule="evenodd"
+              />
+            </svg>
+          </button>
+          <button
+            class="chakra-button css-v0af4h"
+            type="button"
+          >
+            <svg
+              fill="currentColor"
+              height="1em"
+              stroke="currentColor"
+              stroke-width="0"
+              viewBox="0 0 512 512"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M256 160c-52.9 0-96 43.1-96 96s43.1 96 96 96 96-43.1 96-96-43.1-96-96-96zm246.4 80.5l-94.7-47.3 33.5-100.4c4.5-13.6-8.4-26.5-21.9-21.9l-100.4 33.5-47.4-94.8c-6.4-12.8-24.6-12.8-31 0l-47.3 94.7L92.7 70.8c-13.6-4.5-26.5 8.4-21.9 21.9l33.5 100.4-94.7 47.4c-12.8 6.4-12.8 24.6 0 31l94.7 47.3-33.5 100.5c-4.5 13.6 8.4 26.5 21.9 21.9l100.4-33.5 47.3 94.7c6.4 12.8 24.6 12.8 31 0l47.3-94.7 100.4 33.5c13.6 4.5 26.5-8.4 21.9-21.9l-33.5-100.4 94.7-47.3c13-6.5 13-24.7.2-31.1zm-155.9 106c-49.9 49.9-131.1 49.9-181 0-49.9-49.9-49.9-131.1 0-181 49.9-49.9 131.1-49.9 181 0 49.9 49.9 49.9 131.1 0 181z"
+              />
+            </svg>
+            <p
+              class="chakra-text css-14gt3bc"
+            >
+              Light
+            </p>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div
+      class="css-0"
+    >
+      <div
+        class="css-1t3usbj"
+      >
+        <div
+          class="css-11nvq8j"
+        >
+          <div
+            class="css-13ua6uv"
+          >
+            <div
+              class="css-0"
+            >
+              <div
+                class="chakra-form-control css-0"
+                role="group"
+              >
+                <div
+                  class="chakra-select__wrapper css-42b2qy"
+                >
+                  <select
+                    class="chakra-select css-e1p5t"
+                    id="field-:r0:"
+                  >
+                    <option
+                      value=""
+                    >
+                      All types
+                    </option>
+                    <option
+                      value="3a05daee-8f55-1e4c-9ac3-443c04309b77"
+                    >
+                      Change Office Request
+                    </option>
+                  </select>
+                  <div
+                    class="chakra-select__icon-wrapper css-162mkon"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="chakra-icon chakra-select__icon css-13otjrl"
+                      fill="currentColor"
+                      focusable="false"
+                      height="1em"
+                      role="presentation"
+                      stroke="currentColor"
+                      stroke-width="0"
+                      style="color: currentColor; width: 1em; height: 1em;"
+                      viewBox="0 0 24 24"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M12 14L8 10H16L12 14Z"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="css-0"
+            >
+              <div
+                class="chakra-form-control css-0"
+                role="group"
+              >
+                <div
+                  class="chakra-select__wrapper css-42b2qy"
+                >
+                  <select
+                    class="chakra-select css-e1p5t"
+                    id="field-:r1:"
+                  >
+                    <option
+                      value="-1"
+                    >
+                      All status
+                    </option>
+                    <option
+                      value="0"
+                    >
+                      Pending
+                    </option>
+                    <option
+                      value="1"
+                    >
+                      Approved
+                    </option>
+                    <option
+                      value="2"
+                    >
+                      Rejected
+                    </option>
+                  </select>
+                  <div
+                    class="chakra-select__icon-wrapper css-162mkon"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="chakra-icon chakra-select__icon css-13otjrl"
+                      fill="currentColor"
+                      focusable="false"
+                      height="1em"
+                      role="presentation"
+                      stroke="currentColor"
+                      stroke-width="0"
+                      style="color: currentColor; width: 1em; height: 1em;"
+                      viewBox="0 0 24 24"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M12 14L8 10H16L12 14Z"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="css-0"
+            >
+              <div
+                class="chakra-form-control css-0"
+                role="group"
+              >
+                <div
+                  class="chakra-select__wrapper css-42b2qy"
+                >
+                  <select
+                    class="chakra-select css-e1p5t"
+                    id="field-:r2:"
+                  >
+                    <option
+                      value=""
+                    >
+                      All date
+                    </option>
+                    <option
+                      value="15/9/2023"
+                    >
+                      1 week
+                    </option>
+                    <option
+                      value="15/9/2023"
+                    >
+                      1 month
+                    </option>
+                    <option
+                      value="15/9/2023"
+                    >
+                      3 months
+                    </option>
+                  </select>
+                  <div
+                    class="chakra-select__icon-wrapper css-162mkon"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="chakra-icon chakra-select__icon css-13otjrl"
+                      fill="currentColor"
+                      focusable="false"
+                      height="1em"
+                      role="presentation"
+                      stroke="currentColor"
+                      stroke-width="0"
+                      style="color: currentColor; width: 1em; height: 1em;"
+                      viewBox="0 0 24 24"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M12 14L8 10H16L12 14Z"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="css-1v5z18m"
+            >
+              <div
+                class="chakra-input__group css-bx0blc"
+                data-group="true"
+              >
+                <input
+                  class="chakra-input css-1vgf08c"
+                  placeholder="Enter email"
+                  type="text"
+                  value=""
+                />
+                <div
+                  class="chakra-input__right-element css-yn8497"
+                >
+                  <svg
+                    fill="none"
+                    height="1em"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="1em"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M0 0h24v24H0z"
+                      fill="none"
+                      stroke="none"
+                    />
+                    <path
+                      d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"
+                    />
+                    <path
+                      d="M21 21l-6 -6"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="css-ydavzz"
+        >
+          <div
+            class="chakra-wrap css-0"
+          >
+            <ul
+              class="chakra-wrap__list css-19lo6pj"
+            >
+              <li
+                class="chakra-wrap__listitem css-1yp4ln"
+              >
+                <button
+                  class="chakra-button css-23xu8g"
+                  type="button"
+                >
+                  Only my task
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div
+          class="css-79elbk"
+        >
+          <div
+            class="chakra-wrap css-5l7pf5"
+          >
+            <ul
+              class="chakra-wrap__list css-lq08yq"
+            >
+              <li
+                class="chakra-wrap__listitem css-1yp4ln"
+              >
+                <button
+                  aria-label="Call Sage"
+                  class="chakra-button css-e200s3"
+                  type="button"
+                  value="0"
+                >
+                  <svg
+                    aria-hidden="true"
+                    fill="currentColor"
+                    focusable="false"
+                    height="1em"
+                    stroke="currentColor"
+                    stroke-width="0"
+                    viewBox="0 0 16 16"
+                    width="1em"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"
+                    />
+                    <path
+                      d="M3 5.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM3 8a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 8zm0 2.5a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5z"
+                    />
+                  </svg>
+                </button>
+              </li>
+              <li
+                class="chakra-wrap__listitem css-1yp4ln"
+              >
+                <button
+                  aria-label="Call Sage"
+                  class="chakra-button css-e200s3"
+                  type="button"
+                  value="1"
+                >
+                  <svg
+                    aria-hidden="true"
+                    fill="currentColor"
+                    focusable="false"
+                    height="1em"
+                    stroke="currentColor"
+                    stroke-width="0"
+                    viewBox="0 0 512 512"
+                    width="1em"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M464 32H48C21.49 32 0 53.49 0 80v352c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V80c0-26.51-21.49-48-48-48zM224 416H64v-96h160v96zm0-160H64v-96h160v96zm224 160H288v-96h160v96zm0-160H288v-96h160v96z"
+                    />
+                  </svg>
+                </button>
+              </li>
+            </ul>
+          </div>
+          <div
+            class="css-79elbk"
+          >
+            <button
+              aria-label="Done"
+              class="chakra-button css-2pdmvn"
+              type="button"
+            >
+              <svg
+                aria-hidden="true"
+                fill="currentColor"
+                focusable="false"
+                height="1em"
+                stroke="currentColor"
+                stroke-width="0"
+                viewBox="0 0 1024 1024"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M909.1 209.3l-56.4 44.1C775.8 155.1 656.2 92 521.9 92 290 92 102.3 279.5 102 511.5 101.7 743.7 289.8 932 521.9 932c181.3 0 335.8-115 394.6-276.1 1.5-4.2-.7-8.9-4.9-10.3l-56.7-19.5a8 8 0 0 0-10.1 4.8c-1.8 5-3.8 10-5.9 14.9-17.3 41-42.1 77.8-73.7 109.4A344.77 344.77 0 0 1 655.9 829c-42.3 17.9-87.4 27-133.8 27-46.5 0-91.5-9.1-133.8-27A341.5 341.5 0 0 1 279 755.2a342.16 342.16 0 0 1-73.7-109.4c-17.9-42.4-27-87.4-27-133.9s9.1-91.5 27-133.9c17.3-41 42.1-77.8 73.7-109.4 31.6-31.6 68.4-56.4 109.3-73.8 42.3-17.9 87.4-27 133.8-27 46.5 0 91.5 9.1 133.8 27a341.5 341.5 0 0 1 109.3 73.8c9.9 9.9 19.2 20.4 27.8 31.4l-60.2 47a8 8 0 0 0 3 14.1l175.6 43c5 1.2 9.9-2.6 9.9-7.7l.8-180.9c-.1-6.6-7.8-10.3-13-6.2z"
+                />
+              </svg>
+            </button>
+            <div
+              class="container css-ztxjyy"
+            >
+              <div
+                data-rfd-droppable-context-id=":r4:"
+                data-rfd-droppable-id="0"
+                style="background: rgb(239, 242, 245); padding: 8px; min-width: 250px; width: 100%; height: 720px; border-radius: 8px;"
+              >
+                <div
+                  class="columnLabel"
+                  style="background-color: rgb(255, 255, 255);"
+                >
+                  Pending
+                </div>
+                <div
+                  class="columnContent css-0"
+                />
+              </div>
+              <div
+                data-rfd-droppable-context-id=":r4:"
+                data-rfd-droppable-id="1"
+                style="background: rgb(239, 242, 245); padding: 8px; min-width: 250px; width: 100%; height: 720px; border-radius: 8px;"
+              >
+                <div
+                  class="columnLabel"
+                  style="background-color: rgb(255, 255, 255);"
+                >
+                  Approved
+                </div>
+                <div
+                  class="columnContent css-0"
+                />
+              </div>
+              <div
+                data-rfd-droppable-context-id=":r4:"
+                data-rfd-droppable-id="2"
+                style="background: rgb(239, 242, 245); padding: 8px; min-width: 250px; width: 100%; height: 720px; border-radius: 8px;"
+              >
+                <div
+                  class="columnLabel"
+                  style="background-color: rgb(255, 255, 255);"
+                >
+                  Rejected
+                </div>
+                <div
+                  class="columnContent css-0"
+                >
+                  <div
+                    class="css-11tqb05"
+                    data-rfd-draggable-context-id=":r4:"
+                    data-rfd-draggable-id="3a0e2b22-fcfd-82fb-cb31-fff19f66387f"
+                    style="user-select: none; padding: 0px; margin: 0px;"
+                  >
+                    <div
+                      class="item itemRejected css-1lwj26n"
+                    >
+                      <div
+                        class="css-nb2z2f"
+                      >
+                        <p
+                          class="chakra-text css-1e3dq3t"
+                        >
+                          ID: 
+                          6387F
+                        </p>
+                        <div>
+                          (
+                          2 months ago
+                          )
+                        </div>
+                      </div>
+                      <div
+                        class="title"
+                        style="background-color: rgb(0, 150, 136);"
+                      >
+                        Probationary Request
+                      </div>
+                      <div
+                        class="css-147dy5z"
+                      >
+                        <p
+                          class="chakra-text css-0"
+                        >
+                          Request user:
+                        </p>
+                         
+                        Ba Bi
+                      </div>
+                      <div
+                        class="css-147dy5z"
+                      >
+                        <p
+                          class="chakra-text css-0"
+                        >
+                          Current State:
+                        </p>
+                        CEO Review
+                      </div>
+                      <div
+                        class="css-147dy5z"
+                      >
+                        <p
+                          class="chakra-text css-0"
+                        >
+                          Assign:
+                        </p>
+                        nhan.huynhba
+                      </div>
+                      <div
+                        class="cardFooter css-k008qs"
+                      >
+                        <div
+                          class="css-147dy5z"
+                        >
+                          <p
+                            class="chakra-text css-0"
+                          >
+                            Date:
+                          </p>
+                          10-10-2023 16:41
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
