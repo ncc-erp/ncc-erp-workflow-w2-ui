@@ -3,6 +3,8 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter as Router } from 'react-router-dom';
 import Tasks from '..';
 
+jest.useFakeTimers().setSystemTime(new Date('2023-12-11'));
+
 jest.mock('../../../api/apiHooks/index', () => ({
   useAxios: jest.fn(),
 }));
