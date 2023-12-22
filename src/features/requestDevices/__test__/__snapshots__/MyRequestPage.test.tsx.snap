@@ -325,7 +325,7 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
           class="css-mv716n"
         >
           <div
-            class="css-kge0eu"
+            class="tableContent css-kge0eu"
           >
             <table
               class="chakra-table css-zy166a"
@@ -511,7 +511,7 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                       class="css-k008qs"
                     >
                       <div
-                        class="undefined undefined"
+                        class="badge Pending"
                       >
                         Pending
                       </div>
@@ -715,7 +715,7 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                       class="css-k008qs"
                     >
                       <div
-                        class="undefined undefined"
+                        class="badge Rejected"
                       >
                         Rejected
                       </div>

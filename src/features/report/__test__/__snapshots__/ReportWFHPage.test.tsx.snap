@@ -150,6 +150,7 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
                 style="width: 16px; height: 16px;"
               >
                 <svg
+                  class="icon"
                   fill="currentColor"
                   height="1em"
                   stroke="currentColor"
@@ -175,7 +176,7 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
                   class="react-datepicker__input-container"
                 >
                   <input
-                    class=""
+                    class="datePicker"
                     placeholder="Start Date"
                     type="text"
                     value=""
@@ -194,7 +195,7 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
                   class="react-datepicker__input-container"
                 >
                   <input
-                    class="undefined undefined"
+                    class="datePicker disabled"
                     placeholder="End Date"
                     type="text"
                     value=""
@@ -213,7 +214,9 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
             <li
               class="chakra-wrap__listitem css-1yp4ln"
             >
-              <div>
+              <div
+                class="btnExport"
+              >
                 <button
                   class="chakra-button css-4xx2wk"
                   type="button"

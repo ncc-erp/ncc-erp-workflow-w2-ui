@@ -30,7 +30,7 @@ exports[`Request My Requests Page 1`] = `
       class="css-1t3mkjm"
     >
       <div
-        class="css-kge0eu"
+        class="tableContent css-kge0eu"
       >
         <table
           class="chakra-table css-zy166a"
@@ -181,7 +181,7 @@ exports[`Request My Requests Page 1`] = `
                   class="css-k008qs"
                 >
                   <div
-                    class="undefined undefined"
+                    class="badge statusApproved"
                   >
                     Approved
                   </div>
@@ -198,7 +198,9 @@ exports[`Request My Requests Page 1`] = `
                 <div
                   class="css-h607p5"
                 >
-                  <div />
+                  <div
+                    class="tableActionLoading"
+                  />
                   <button
                     aria-controls="menu-list-:r8:"
                     aria-expanded="false"
