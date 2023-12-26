@@ -1,9 +1,7 @@
-name: Deploy UI to server dev
+name: Deploy UI to server prod
 
-on:
-  push:
-    branches:
-      - develop
+on: 
+  workflow_dispatch:
 
 jobs:
   build:
@@ -27,12 +25,11 @@ jobs:
       - name: Build project
         run: pnpm run build
         env: 
-          VITE_OAUTH_CLIENT_ID : ${{secrets.VITE_OAUTH_CLIENT_ID}}
-          VITE_GOOGLE_LOGIN_REDIRECT : ${{secrets.VITE_GOOGLE_LOGIN_REDIRECT}}
-          VITE_AUTHORITY_URL : ${{secrets.VITE_AUTHORITY_URL}}
-          VITE_API_BASE_URL : ${{secrets.VITE_API_BASE_URL}}
-          VITE_PROXY_SERVER_URL : ${{secrets.VITE_PROXY_SERVER_URL}}
-          VITE_API_ANT_URL : ${{secrets.VITE_API_ANT_URL}}
+          VITE_OAUTH_CLIENT_ID : ${{secrets.VITE_OAUTH_CLIENT_ID_PROD}}
+          VITE_GOOGLE_LOGIN_REDIRECT : ${{secrets.VITE_GOOGLE_LOGIN_REDIRECT_PROD}}
+          VITE_AUTHORITY_URL : ${{secrets.VITE_AUTHORITY_URL_PROD}}
+          VITE_API_BASE_URL : ${{secrets.VITE_API_BASE_URL_PROD}}
+          VITE_API_ANT_URL : ${{secrets.VITE_API_ANT_URL_PROD}}
 
       - name: Compress build file
         run: zip -r fe.zip dist/
@@ -45,7 +42,7 @@ jobs:
           retention-days: 1
 
   deploy:
-    runs-on: w2-fe-dev
+    runs-on: w2-fe-prod
     needs: 
       - build
     steps:
@@ -56,7 +53,7 @@ jobs:
 
       - name: Extract file to server
         run: |
-          rm -rf /apps/ncc-erp-w2/workflow-w2-ui/*
-          unzip fe.zip -d /apps/ncc-erp-w2/workflow-w2-ui
+          rm -rf /var/www/app/w2/prod-fe-w2/*
+          unzip fe.zip -d /var/www/app/w2/prod-fe-w2/
           rm -rf fe.zip
   
