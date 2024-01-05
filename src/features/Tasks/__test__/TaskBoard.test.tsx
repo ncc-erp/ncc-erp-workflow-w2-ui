@@ -259,8 +259,30 @@ jest.mock('utils/getAllTaskPagination', () => ({
     }),
 }));
 
+jest.mock('hooks/useCurrentUser', () => ({
+  __esModule: true,
+  useCurrentUser: jest.fn().mockReturnValue({
+    sub: [
+      '81676b37-5ab2-469a-b04b-63aaedb34b40',
+      '81676b37-5ab2-469a-b04b-63aaedb34b40',
+    ],
+    name: 'nhan.huynhba@ncc.asia',
+    email: 'nhan.huynhba@ncc.asia',
+    given_name: ['Nhan Huynh Ba', 'Nhan Huynh Ba'],
+    role: 'admin',
+    unique_name: 'nhan.huynhba@ncc.asia',
+    auth_time: '1703748944',
+    nbf: 1703748944,
+    exp: 1703750744,
+    iat: 1703748944,
+    iss: 'W2',
+    aud: 'W2',
+  }),
+}));
+
 test('Request My Requests Page', () => {
   const queryClient: QueryClient = new QueryClient();
+
   const { container } = render(
     <QueryClientProvider client={queryClient}>
       <Router>
