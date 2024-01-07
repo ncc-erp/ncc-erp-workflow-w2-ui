@@ -191,7 +191,7 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                     Rejected
                   </option>
                   <option
-                    value="Suspended"
+                    value="Pending"
                   >
                     Pending
                   </option>
@@ -422,17 +422,14 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                     </div>
                   </th>
                   <th
-                    class="css-1efk6hr"
+                    class="css-1d8mdkw"
                     colspan="1"
                     style="width: auto;"
                   >
                     <div
-                      class="css-1qe39um"
+                      class="css-alaj7i"
                     >
                       Last executed at
-                      <span
-                        style="width: 16px;"
-                      />
                     </div>
                   </th>
                   <th
