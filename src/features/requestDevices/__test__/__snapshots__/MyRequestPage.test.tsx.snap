@@ -191,7 +191,7 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                     Rejected
                   </option>
                   <option
-                    value="Suspended"
+                    value="Pending"
                   >
                     Pending
                   </option>

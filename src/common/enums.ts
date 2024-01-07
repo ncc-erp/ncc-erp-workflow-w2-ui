@@ -6,7 +6,7 @@ export enum LoginStatus {
 export enum RequestStatus {
   Approved = 'Approved',
   Rejected = 'Rejected',
-  Pending = 'Suspended',
+  Pending = 'Pending',
   Canceled = 'Cancelled',
 }
 
