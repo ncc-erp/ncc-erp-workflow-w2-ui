@@ -1,3 +1,10 @@
+
+.past-date {
+  color: #ccc; /* Màu nền xám nhạt cho ngày đã qua */
+  border-radius: 5px;
+}
+
+
 .datePicker {
   border: 1px solid;
   border-radius: 5px;
@@ -7,6 +14,8 @@
   background: inherit;
   border-color: inherit;
 }
+
+
 
 .multiDatePicker {
   border: 1px var(--chakra-colors-gray-300) solid;
