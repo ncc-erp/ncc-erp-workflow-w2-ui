@@ -20,7 +20,6 @@ import {
 } from '@tanstack/react-table';
 import {
   useCancelRequest,
-  useDeleteRequest,
   useMyRequests,
   useRequestTemplates,
 } from 'api/apiHooks/requestHooks';
@@ -80,14 +79,12 @@ export const MyRequestTable = () => {
   const isAdmin = useIsAdmin();
 
   const queryClient = useQueryClient();
-  const deleteRequestMutation = useDeleteRequest();
   const cancelRequestMutation = useCancelRequest();
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenDetails, setOpenDetails] = useState(false);
   const [isOpenWorkflow, setOpenWorkflow] = useState(false);
   const [modalTitle, setModalTitle] = useState('');
   const [modalDescription, setModalDescription] = useState('');
-  const [actionType, setActionType] = useState('');
   const [requestId, setRequestId] = useState('');
   const [requestDetails, setRequestDetails] = useState<Request>();
   const [requestWorkflow, setRequestWorkflow] = useState<string>('');
@@ -204,15 +201,20 @@ export const MyRequestTable = () => {
             <Center onClick={(e) => e.stopPropagation()}>
               <RowAction
                 onCancel={onAction(info.row.original.id, 'canceled')}
-                onDelete={onAction(info.row.original.id, 'deleted')}
                 onViewDetails={onActionViewDetails(info.row.original)}
                 onViewWorkflow={onActionViewWorkflow(info.row.original.id)}
+                actions={{
+                  cancel:
+                    (isAdmin &&
+                      info.row.original.status !== RequestStatus.Canceled) ||
+                    info.row.original.status === RequestStatus.Pending,
+                }}
               />
             </Center>
           ),
         }),
       ] as ColumnDef<Request>[],
-    [columnHelper]
+    [columnHelper, isAdmin]
   );
 
   useEffect(() => {
@@ -270,9 +272,8 @@ export const MyRequestTable = () => {
     setOpenWorkflow(true);
   };
 
-  const onAction = (requestId: string, type: 'deleted' | 'canceled') => () => {
+  const onAction = (requestId: string, type: 'canceled') => () => {
     setRequestId(requestId);
-    setActionType(type);
     setModalTitle(`Confirm ${type} request`);
     setModalDescription(`Request will be ${type}. Do you confirm that?`);
     setIsOpen(true);
@@ -282,21 +283,12 @@ export const MyRequestTable = () => {
     setIsOpen(false);
     if (requestId.length === 0) return;
 
-    const mutation =
-      actionType === 'deleted' ? deleteRequestMutation : cancelRequestMutation;
-    const successMessage =
-      actionType === 'deleted'
-        ? 'Deleted successfully!'
-        : 'Cancelled successfully!';
-    const errorMessage =
-      actionType === 'deleted' ? 'Delete failed!' : 'Cancel failed!';
-
     try {
-      await mutation.mutateAsync(requestId);
+      await cancelRequestMutation.mutateAsync(requestId);
       queryClient.invalidateQueries({ queryKey: [QueryKeys.FILTER_REQUEST] });
-      toast({ title: successMessage, status: 'success' });
+      toast({ title: 'Cancelled successfully!', status: 'success' });
     } catch (error) {
-      toast({ title: errorMessage, status: 'error' });
+      toast({ title: 'Cancel failed!', status: 'error' });
     }
   };
 
@@ -335,13 +327,14 @@ export const MyRequestTable = () => {
             <Box w={'300px'}>
               <InputGroup>
                 <Input
-                  isDisabled={isLoading || isRefetching}
                   autoFocus
                   value={txtSearch}
                   type="text"
                   placeholder="Enter email"
                   fontSize="14px"
-                  onChange={(e) => setTxtSearch(e.target.value)}
+                  onChange={(e) =>
+                    !isLoading && !isRefetching && setTxtSearch(e.target.value)
+                  }
                 />
                 <InputRightElement width="40px">
                   <TbSearch />

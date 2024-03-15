@@ -7,7 +7,7 @@ export enum RequestStatus {
   Approved = 'Approved',
   Rejected = 'Rejected',
   Pending = 'Pending',
-  Canceled = 'Cancelled',
+  Canceled = 'Canceled',
 }
 
 export enum ETaskStatus {
