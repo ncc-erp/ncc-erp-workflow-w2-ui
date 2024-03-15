@@ -181,10 +181,6 @@ export const Table = <D,>({
                     borderRight="1px"
                     borderColor={theme.colors.borderColor}
                     px="6px"
-                    style={{
-                      wordBreak: 'break-word',
-                      whiteSpace: 'pre-wrap',
-                    }}
                   >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </Td>

@@ -20,7 +20,11 @@ import Logo from 'assets/images/ncc_logo.png';
 import { toast } from 'common/components/StandaloneToast';
 import { TextGroup } from 'common/components/TextGroup/TextGroup';
 import { WorkflowModal } from 'common/components/WorkflowModal';
-import { OtherActionSignalStatus, TaskStatus } from 'common/constants';
+import {
+  OtherActionSignalStatus,
+  TaskStatus,
+  UPDATED_BY_W2,
+} from 'common/constants';
 import { useCallback, useMemo, useState } from 'react';
 import {
   convertToCase,
@@ -31,6 +35,10 @@ import {
 import { RequestInput } from './RequestInput';
 import { IOtherTasks } from './TasksBoard';
 import styles from './style.module.scss';
+import { RequestStatus } from 'common/enums';
+import { useUserList } from 'api/apiHooks/requestHooks';
+import { removeDiacritics } from 'utils/removeDiacritics';
+import { BiPencil } from 'react-icons/bi';
 
 interface IDetailModalProps {
   isOpen: boolean;
@@ -43,12 +51,18 @@ interface IDynamicDataProps {
   [key: string]: string;
 }
 
+interface IDynamicReviewProps {
+  title: string;
+  items: IDynamicDataProps[];
+}
+
 export const TaskDetailModal = ({
   isOpen,
   onClose,
   taskId,
   otherTasks,
 }: IDetailModalProps) => {
+  const { data: users } = useUserList();
   const actionTaskMutation = useActionTask();
   const {
     data,
@@ -120,54 +134,85 @@ export const TaskDetailModal = ({
     }
   };
 
+  const getUserReject = useMemo(() => {
+    if (
+      (getStatusByIndex(tasks?.status).status as string) !==
+      RequestStatus.Rejected
+    ) {
+      return null;
+    }
+
+    const otherTasksSorted = otherTasks?.items?.sort(
+      (a, b) =>
+        new Date(b?.creationTime).getTime() -
+        new Date(a?.creationTime).getTime()
+    );
+
+    const userReject = otherTasksSorted?.find(
+      (task) => task.updatedBy != null && task.updatedBy != UPDATED_BY_W2
+    )?.updatedBy;
+
+    return users?.find((user) => user.email == userReject)?.name;
+  }, [tasks?.status, otherTasks, users]);
+
+  const mappingReviewToList = (data: IDynamicDataProps[]) => {
+    return data.map((element, ind) => {
+      if (!Array.isArray(element.data)) return null;
+
+      const filteredData = element.data.filter((item) => item.trim() !== '');
+
+      if (filteredData.length === 0) return null;
+
+      return (
+        <List key={element.name + ind} mt={1} spacing={1}>
+          <Text fontSize={14} fontWeight={600} fontStyle="italic">
+            {convertToCase(element.name)}:
+          </Text>
+          {filteredData.map((x) => (
+            <ListItem key={x}>{x}</ListItem>
+          ))}
+        </List>
+      );
+    });
+  };
+
   const renderDynamicDataContent = useCallback(() => {
     if (!otherTasks || otherTasks.items.length <= 0) return null;
 
-    const filterOtherTask = otherTasks.items.map((x) =>
-      convertToDynamicArray(x.dynamicActionData)
+    const filterOtherTask: IDynamicReviewProps[] = otherTasks.items.map((x) => {
+      return {
+        title: `${x.description || 'No name'} (${x.updatedBy
+          ?.split('@')
+          .shift()})`,
+        items: convertToDynamicArray(x.dynamicActionData),
+      };
+    });
+
+    const tasksWithData = filterOtherTask.filter((task) =>
+      task.items.some(
+        (item) =>
+          Array.isArray(item.data) &&
+          item.data.some((data) => data.trim() !== '')
+      )
     );
 
-    const combinedData = filterOtherTask.reduce((result, dataRow) => {
-      dataRow.forEach((dataItem) => {
-        const { name, data, isFinalApprove } = dataItem;
-        const existingItem = result.find((item) => item.name === name);
-
-        if (existingItem) {
-          existingItem.data = existingItem.data.concat(data);
-        } else {
-          result.push({ name, data, isFinalApprove });
-        }
-      });
-
-      return result;
-    }, []);
-
-    const convertData = [...combinedData];
-
-    return (
-      <>
-        {convertData.map((element, ind) => {
-          if (!Array.isArray(element.data)) return null;
-
-          const filteredData = element.data.filter(
-            (item) => item.trim() !== ''
-          );
-
-          if (filteredData.length === 0) return null;
-
-          return (
-            <List key={ind} mt={1} spacing={2}>
-              <Text fontSize={15} fontWeight={600}>
-                {convertToCase(element.name)}
-              </Text>
-              {filteredData.map((x) => (
-                <ListItem key={x}>{x}</ListItem>
-              ))}
-            </List>
-          );
-        })}
-      </>
-    );
+    return tasksWithData.map((x, ind) => {
+      return (
+        <div key={ind}>
+          <Text
+            display="flex"
+            alignItems="center"
+            gap={1}
+            fontSize={15}
+            mt={2}
+            fontWeight={600}
+          >
+            {x.title} <BiPencil fontSize={15} />
+          </Text>
+          {mappingReviewToList(x.items)}
+        </div>
+      );
+    });
   }, [otherTasks]);
 
   if (hasGetTaskLoading) {
@@ -311,9 +356,15 @@ export const TaskDetailModal = ({
                       : ''
                   }
                 />
-              </div>
+                {getUserReject && (
+                  <TextGroup
+                    label="Rejected by"
+                    content={removeDiacritics(getUserReject)}
+                  />
+                )}
 
-              {renderDynamicDataContent()}
+                {renderDynamicDataContent()}
+              </div>
             </div>
           </ModalBody>
         </ModalContent>

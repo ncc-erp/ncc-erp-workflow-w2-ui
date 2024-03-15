@@ -74,8 +74,12 @@ exports[`WFH Modal Detail should match snapshot when rendering 1`] = `
               aria-orientation="horizontal"
               class="chakra-divider css-vrx5g4"
             />
-            <div>
-              <div>
+            <div
+              class="container"
+            >
+              <div
+                class="left"
+              >
                 <p
                   class="chakra-text css-yb4mb5"
                 >
@@ -87,32 +91,34 @@ exports[`WFH Modal Detail should match snapshot when rendering 1`] = `
                   <div>
                     <div>
                       <div
-                        class="css-1svpmll"
+                        class="card css-1svpmll"
                       >
                         <p
-                          class="chakra-text css-dynqen"
+                          class="chakra-text title css-dynqen"
                         >
                           Title
                         </p>
                         <p
-                          class="chakra-text css-dynqen"
+                          class="chakra-text small css-dynqen"
                         >
                           Cùng khám phá Kỹ năng giao tiếp cơ bản
                         </p>
                         <p
-                          class="chakra-text css-dynqen"
+                          class="chakra-text title css-dynqen"
                         >
                           Date
                         </p>
                         <p
-                          class="chakra-text css-dynqen"
+                          class="chakra-text small css-dynqen"
                         >
                           24-08-2023 17:30
                         </p>
                         <div
-                          class="undefined"
+                          class="goCorner usedPost"
                         >
-                          <div>
+                          <div
+                            class="goArrow"
+                          >
                             →
                           </div>
                         </div>
@@ -120,82 +126,90 @@ exports[`WFH Modal Detail should match snapshot when rendering 1`] = `
                     </div>
                     <div>
                       <div
-                        class="css-1svpmll"
+                        class="card css-1svpmll"
                       >
                         <p
-                          class="chakra-text css-dynqen"
+                          class="chakra-text title css-dynqen"
                         >
                           Title
                         </p>
                         <p
-                          class="chakra-text css-dynqen"
+                          class="chakra-text small css-dynqen"
                         >
                           10 lời khuyên cho hồ sơ LinkedIn chuyên nghiệp
                         </p>
                         <p
-                          class="chakra-text css-dynqen"
+                          class="chakra-text title css-dynqen"
                         >
                           Date
                         </p>
                         <p
-                          class="chakra-text css-dynqen"
+                          class="chakra-text small css-dynqen"
                         >
                           24-08-2023 17:30
                         </p>
                         <div
-                          class="undefined"
+                          class="goCorner usedPost"
                         >
-                          <div>
+                          <div
+                            class="goArrow"
+                          >
                             →
                           </div>
                         </div>
                       </div>
                     </div>
-                    <button>
+                    <button
+                      class="btnShowMore"
+                    >
                       Show more...
                     </button>
                   </div>
                 </div>
               </div>
-              <div>
+              <div
+                class="right"
+              >
                 <p
                   class="chakra-text css-yb4mb5"
                 >
                   Request Details
                 </p>
-                <div>
+                <div
+                  class="dates"
+                >
                   <p
-                    class="chakra-text undefined css-71gjlu"
+                    class="chakra-text date countedDate css-71gjlu"
                   >
                     03/08/2023
                   </p>
                   <p
-                    class="chakra-text undefined css-71gjlu"
+                    class="chakra-text date countedDate css-71gjlu"
                   >
                     10/08/2023
                   </p>
                   <p
-                    class="chakra-text undefined css-71gjlu"
+                    class="chakra-text date countedDate css-71gjlu"
                   >
                     14/08/2023
                   </p>
                   <p
-                    class="chakra-text undefined css-71gjlu"
+                    class="chakra-text date countedDate css-71gjlu"
                   >
                     20/08/2023
                   </p>
                   <p
-                    class="chakra-text css-71gjlu"
+                    class="chakra-text date css-71gjlu"
                   >
                     21/09/2023
                   </p>
                   <p
-                    class="chakra-text css-71gjlu"
+                    class="chakra-text date css-71gjlu"
                   >
                     11/10/2023
                   </p>
                   <p
-                    class="chakra-text css-71gjlu"
+                    class="chakra-text date css-71gjlu"
                   >
                     12/10/2023
                   </p>

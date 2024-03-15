@@ -27,10 +27,10 @@ exports[`Request My Requests Page 1`] = `
       </svg>
     </button>
     <div
-      class="css-jymn6r"
+      class="css-1t3mkjm"
     >
       <div
-        class="css-kge0eu"
+        class="tableContent css-kge0eu"
       >
         <table
           class="chakra-table css-zy166a"
@@ -76,6 +76,17 @@ exports[`Request My Requests Page 1`] = `
                   class="css-alaj7i"
                 >
                   Request user
+                </div>
+              </th>
+              <th
+                class="css-1d8mdkw"
+                colspan="1"
+                style="width: auto;"
+              >
+                <div
+                  class="css-alaj7i"
+                >
+                  Current State
                 </div>
               </th>
               <th
@@ -136,7 +147,6 @@ exports[`Request My Requests Page 1`] = `
             >
               <td
                 class="css-xk16pm"
-                style="word-break: break-word; white-space: pre-wrap;"
               >
                 <div
                   class="css-gmuwbf"
@@ -146,49 +156,51 @@ exports[`Request My Requests Page 1`] = `
               </td>
               <td
                 class="css-xk16pm"
-                style="word-break: break-word; white-space: pre-wrap;"
               >
                 Probationary Request
               </td>
               <td
                 class="css-xk16pm"
-                style="word-break: break-word; white-space: pre-wrap;"
               >
                 Bubu chacha
               </td>
               <td
                 class="css-xk16pm"
-                style="word-break: break-word; white-space: pre-wrap;"
+              >
+                PM Reviews
+              </td>
+              <td
+                class="css-xk16pm"
               >
                 trang.danghuyen, long.vodinhhoang
               </td>
               <td
                 class="css-xk16pm"
-                style="word-break: break-word; white-space: pre-wrap;"
               >
                 <div
-                  class="css-1qofolz"
+                  class="css-k008qs"
                 >
                   <div
-                    class="undefined undefined"
-                  />
-                  Approved
+                    class="badge statusApproved"
+                  >
+                    Approved
+                  </div>
                 </div>
               </td>
               <td
                 class="css-xk16pm"
-                style="word-break: break-word; white-space: pre-wrap;"
               >
                 10-10-2023 16:39
               </td>
               <td
                 class="css-xk16pm"
-                style="word-break: break-word; white-space: pre-wrap;"
               >
                 <div
                   class="css-h607p5"
                 >
-                  <div />
+                  <div
+                    class="tableActionLoading"
+                  />
                   <button
                     aria-controls="menu-list-:r8:"
                     aria-expanded="false"

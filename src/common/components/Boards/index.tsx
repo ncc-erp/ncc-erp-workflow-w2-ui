@@ -281,11 +281,17 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
 
   const rejectTask = async (id: string | null) => {
     if (!reason) return;
-    await rejectTaskMutation.mutateAsync({
-      id: id as string,
-      reason,
-    });
-    toast({ title: 'Rejected Task Successfully!', status: 'success' });
+    await rejectTaskMutation
+      .mutateAsync({
+        id: id as string,
+        reason,
+      })
+      .then(() => {
+        toast({ title: 'Rejected Task Successfully!', status: 'success' });
+      })
+      .catch((error) => {
+        console.error(error.response.data.error.message);
+      });
     clear();
     refetchRejected();
     refetchPending();
@@ -295,11 +301,17 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
     id: string | null,
     approvedData?: string | null
   ) => {
-    await approveTaskMutation.mutateAsync({
-      id: id as string,
-      dynamicActionData: approvedData,
-    });
-    toast({ title: 'Approved Task Successfully!', status: 'success' });
+    await approveTaskMutation
+      .mutateAsync({
+        id: id as string,
+        dynamicActionData: approvedData,
+      })
+      .then(() => {
+        toast({ title: 'Approved Task Successfully!', status: 'success' });
+      })
+      .catch((error) => {
+        console.error(error.response.data.error.message);
+      });
     clear();
     refetchApproved();
     refetchPending();
@@ -487,7 +499,12 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
                     </div>
 
                     <Box className={styles.columnContent}>
-                      {!loadingStates[ind].value ? (
+                      {!loadingStates[ind].value &&
+                      !rejectTaskMutation.isLoading &&
+                      !approveTaskMutation.isLoading &&
+                      !loadPending &&
+                      !loadApproved &&
+                      !loadRejected ? (
                         el.map((item, index) => {
                           const isDisabled =
                             +item.status !== +TaskStatus.Pending ||
@@ -558,6 +575,10 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
                                     <Flex gap={2}>
                                       <Text>Request user:</Text>{' '}
                                       {item.authorName}
+                                    </Flex>
+                                    <Flex gap={2}>
+                                      <Text>Current State:</Text>
+                                      {item.description}
                                     </Flex>
                                     <Flex gap={2}>
                                       <Text>Assign:</Text>

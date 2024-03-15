@@ -20,6 +20,9 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
       <div
         class="chakra-stack__item css-bdvyq0"
       >
+        <h2
+          class="chakra-heading css-vvrlka"
+        />
         <div>
           <button
             class="chakra-button css-fkrxci"
@@ -188,14 +191,14 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                     Rejected
                   </option>
                   <option
-                    value="Suspended"
+                    value="Pending"
                   >
                     Pending
                   </option>
                   <option
-                    value="Cancelled"
+                    value="Canceled"
                   >
-                    Cancelled
+                    Canceled
                   </option>
                 </select>
                 <div
@@ -322,10 +325,10 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
           </div>
         </div>
         <div
-          class="css-wk949k"
+          class="css-mv716n"
         >
           <div
-            class="css-kge0eu"
+            class="tableContent css-kge0eu"
           >
             <table
               class="chakra-table css-zy166a"
@@ -419,17 +422,14 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                     </div>
                   </th>
                   <th
-                    class="css-1efk6hr"
+                    class="css-1d8mdkw"
                     colspan="1"
                     style="width: auto;"
                   >
                     <div
-                      class="css-1qe39um"
+                      class="css-alaj7i"
                     >
                       Last executed at
-                      <span
-                        style="width: 16px;"
-                      />
                     </div>
                   </th>
                   <th
@@ -468,7 +468,6 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                 >
                   <td
                     class="css-xk16pm"
-                    style="word-break: break-word; white-space: pre-wrap;"
                   >
                     <div
                       class="css-0"
@@ -478,13 +477,11 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                   </td>
                   <td
                     class="css-xk16pm"
-                    style="word-break: break-word; white-space: pre-wrap;"
                   >
                     Nhan Huynh Ba
                   </td>
                   <td
                     class="css-xk16pm"
-                    style="word-break: break-word; white-space: pre-wrap;"
                   >
                     <div>
                       Branch Manager makes decision
@@ -492,7 +489,6 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                   </td>
                   <td
                     class="css-xk16pm"
-                    style="word-break: break-word; white-space: pre-wrap;"
                   >
                     <div>
                       Nhan Huynh Ba
@@ -500,36 +496,40 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                   </td>
                   <td
                     class="css-xk16pm"
-                    style="word-break: break-word; white-space: pre-wrap;"
                   >
                     09-10-2023 11:49
                   </td>
                   <td
                     class="css-xk16pm"
-                    style="word-break: break-word; white-space: pre-wrap;"
                   >
                     09-10-2023 11:49
                   </td>
                   <td
                     class="css-xk16pm"
-                    style="word-break: break-word; white-space: pre-wrap;"
                   >
-                    Pending
+                    <div
+                      class="css-k008qs"
+                    >
+                      <div
+                        class="badge Pending"
+                      >
+                        Pending
+                      </div>
+                    </div>
                   </td>
                   <td
                     class="css-xk16pm"
-                    style="word-break: break-word; white-space: pre-wrap;"
                   >
                     <div
                       class="css-gmuwbf"
                     >
                       <button
-                        aria-controls="menu-list-:rh:"
+                        aria-controls="menu-list-:rf:"
                         aria-expanded="false"
                         aria-haspopup="menu"
                         aria-label=""
                         class="chakra-button chakra-menu__menu-button css-p7mkev"
-                        id="menu-button-:rh:"
+                        id="menu-button-:rf:"
                         type="button"
                       >
                         <svg
@@ -556,7 +556,7 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                         <div
                           aria-orientation="vertical"
                           class="chakra-menu__menu-list css-1oaq8ss"
-                          id="menu-list-:rh:"
+                          id="menu-list-:rf:"
                           role="menu"
                           style="transform-origin: var(--popper-transform-origin); opacity: 0; visibility: hidden; transform: scale(0.8) translateZ(0);"
                           tabindex="-1"
@@ -564,7 +564,7 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                           <button
                             class="chakra-menu__menuitem css-zn25ca"
                             data-index="0"
-                            id="menu-list-:rh:-menuitem-:ri:"
+                            id="menu-list-:rf:-menuitem-:rg:"
                             role="menuitem"
                             tabindex="-1"
                             type="button"
@@ -589,7 +589,7 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                           <button
                             class="chakra-menu__menuitem css-zn25ca"
                             data-index="1"
-                            id="menu-list-:rh:-menuitem-:rj:"
+                            id="menu-list-:rf:-menuitem-:rh:"
                             role="menuitem"
                             tabindex="-1"
                             type="button"
@@ -614,32 +614,7 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                           <button
                             class="chakra-menu__menuitem css-zn25ca"
                             data-index="2"
-                            id="menu-list-:rh:-menuitem-:rk:"
-                            role="menuitem"
-                            tabindex="-1"
-                            type="button"
-                          >
-                            <svg
-                              class="chakra-icon css-zvw1k8"
-                              fill="currentColor"
-                              focusable="false"
-                              height="1em"
-                              stroke="currentColor"
-                              stroke-width="0"
-                              viewBox="0 0 24 24"
-                              width="1em"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                d="M17 4H22V6H20V21C20 21.5523 19.5523 22 19 22H5C4.44772 22 4 21.5523 4 21V6H2V4H7V2H17V4ZM9 9V17H11V9H9ZM13 9V17H15V9H13Z"
-                              />
-                            </svg>
-                            Delete
-                          </button>
-                          <button
-                            class="chakra-menu__menuitem css-zn25ca"
-                            data-index="3"
-                            id="menu-list-:rh:-menuitem-:rl:"
+                            id="menu-list-:rf:-menuitem-:ri:"
                             role="menuitem"
                             tabindex="-1"
                             type="button"
@@ -675,7 +650,6 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                 >
                   <td
                     class="css-xk16pm"
-                    style="word-break: break-word; white-space: pre-wrap;"
                   >
                     <div
                       class="css-0"
@@ -685,54 +659,55 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                   </td>
                   <td
                     class="css-xk16pm"
-                    style="word-break: break-word; white-space: pre-wrap;"
                   >
                     Nhan Huynh Ba
                   </td>
                   <td
                     class="css-xk16pm"
-                    style="word-break: break-word; white-space: pre-wrap;"
                   >
                     <div />
                   </td>
                   <td
                     class="css-xk16pm"
-                    style="word-break: break-word; white-space: pre-wrap;"
                   >
                     <div />
                   </td>
                   <td
                     class="css-xk16pm"
-                    style="word-break: break-word; white-space: pre-wrap;"
                   >
                     09-10-2023 11:23
                   </td>
                   <td
                     class="css-xk16pm"
-                    style="word-break: break-word; white-space: pre-wrap;"
                   >
                     09-10-2023 11:25
                   </td>
                   <td
                     class="css-xk16pm"
-                    style="word-break: break-word; white-space: pre-wrap;"
                   >
-                    Rejected
+                    <div
+                      class="css-k008qs"
+                    >
+                      <div
+                        class="badge Rejected"
+                      >
+                        Rejected
+                      </div>
+                    </div>
                   </td>
                   <td
                     class="css-xk16pm"
-                    style="word-break: break-word; white-space: pre-wrap;"
                   >
                     <div
                       class="css-gmuwbf"
                     >
                       <button
-                        aria-controls="menu-list-:rn:"
+                        aria-controls="menu-list-:rk:"
                         aria-expanded="false"
                         aria-haspopup="menu"
                         aria-label=""
                         class="chakra-button chakra-menu__menu-button css-p7mkev"
-                        id="menu-button-:rn:"
+                        id="menu-button-:rk:"
                         type="button"
                       >
                         <svg
@@ -759,7 +734,7 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                         <div
                           aria-orientation="vertical"
                           class="chakra-menu__menu-list css-1oaq8ss"
-                          id="menu-list-:rn:"
+                          id="menu-list-:rk:"
                           role="menu"
                           style="transform-origin: var(--popper-transform-origin); opacity: 0; visibility: hidden; transform: scale(0.8) translateZ(0);"
                           tabindex="-1"
@@ -767,7 +742,7 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                           <button
                             class="chakra-menu__menuitem css-zn25ca"
                             data-index="0"
-                            id="menu-list-:rn:-menuitem-:ro:"
+                            id="menu-list-:rk:-menuitem-:rl:"
                             role="menuitem"
                             tabindex="-1"
                             type="button"
@@ -792,7 +767,7 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                           <button
                             class="chakra-menu__menuitem css-zn25ca"
                             data-index="1"
-                            id="menu-list-:rn:-menuitem-:rp:"
+                            id="menu-list-:rk:-menuitem-:rm:"
                             role="menuitem"
                             tabindex="-1"
                             type="button"
@@ -817,32 +792,7 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                           <button
                             class="chakra-menu__menuitem css-zn25ca"
                             data-index="2"
-                            id="menu-list-:rn:-menuitem-:rq:"
-                            role="menuitem"
-                            tabindex="-1"
-                            type="button"
-                          >
-                            <svg
-                              class="chakra-icon css-zvw1k8"
-                              fill="currentColor"
-                              focusable="false"
-                              height="1em"
-                              stroke="currentColor"
-                              stroke-width="0"
-                              viewBox="0 0 24 24"
-                              width="1em"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                d="M17 4H22V6H20V21C20 21.5523 19.5523 22 19 22H5C4.44772 22 4 21.5523 4 21V6H2V4H7V2H17V4ZM9 9V17H11V9H9ZM13 9V17H15V9H13Z"
-                              />
-                            </svg>
-                            Delete
-                          </button>
-                          <button
-                            class="chakra-menu__menuitem css-zn25ca"
-                            data-index="3"
-                            id="menu-list-:rn:-menuitem-:rr:"
+                            id="menu-list-:rk:-menuitem-:rn:"
                             role="menuitem"
                             tabindex="-1"
                             type="button"
@@ -900,7 +850,7 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                 >
                   <select
                     class="chakra-select css-1y1ernp"
-                    id="field-:re:"
+                    id="field-:rc:"
                   >
                     <option
                       value="10"

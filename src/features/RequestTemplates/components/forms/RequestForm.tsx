@@ -50,7 +50,7 @@ interface RequestFormProps {
 }
 export type FormParams = Record<
   string,
-  string | DateObject | DateObject[] | null | Date | undefined
+  string | DateObject | DateObject[] | null | Date | undefined | number
 >;
 
 type FormParamsValue =
@@ -59,19 +59,22 @@ type FormParamsValue =
   | DateObject[]
   | null
   | Date
-  | undefined;
+  | undefined
+  | number;
 
 const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
-  const { data: offices } = useOffices();
-  const { data: projects } = useUserProjects();
-  const { data: users } = useUserList();
-
   const currentUser = useCurrentUser();
-  const { data: userInfo } = useUserInfoWithBranch(currentUser?.email);
-  const { data: userCurrentProject } = useUserCurrentProject();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [formParams, setFormParams] = useState<FormParams>({});
+  const [emailUser, setEmailUser] = useState<string>(currentUser?.email);
+
+  const { data: users } = useUserList();
+  const { data: offices } = useOffices();
+  const { data: userInfo } = useUserInfoWithBranch(emailUser);
+  const { data: projects } = useUserProjects(emailUser);
+  const { data: userCurrentProject } = useUserCurrentProject(emailUser);
+
   const {
     register,
     handleSubmit,
@@ -132,34 +135,46 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
   };
 
   const handleSelectChangeValue = (value: string, variable: string) => {
-    const updatedFormParams = { ...formParams };
+    let updatedFormParams = { ...formParams };
+
+    if (variable == 'Staff') {
+      setEmailUser(value);
+      updatedFormParams = { Staff: value };
+    }
+
     updatedFormParams[variable] = value;
     setFormParams(updatedFormParams);
   };
 
   const getOptions = (type: string) => {
+    let transformedData: option[] = [];
+
     switch (type) {
       case 'OfficeList':
-        return offices?.map((office: IOffices) => ({
+        transformedData = (offices ?? []).map((office: IOffices) => ({
           value: office?.code,
           label: office?.displayName,
         }));
+        break;
 
       case 'MyProject':
-        return projects?.map((project: IProjects) => ({
+        transformedData = (projects ?? []).map((project: IProjects) => ({
           value: project?.code,
           label: project?.name,
         }));
+        break;
 
       case 'UserList': {
-        const transformedUsers = (users ?? []).map((user: IUser) => ({
+        transformedData = (users ?? []).map((user: IUser) => ({
           value: user?.email ?? '',
           label: `${user?.name ?? ''} (${user?.email ?? ''})`,
         }));
-        transformedUsers.unshift({ value: '', label: '' });
-        return transformedUsers;
+        break;
       }
     }
+
+    transformedData.unshift({ value: '', label: '' });
+    return transformedData;
   };
 
   const getDefaultValueSelected = (type: string, fieldname: string) => {
@@ -186,7 +201,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
   };
 
   const validateMultiDatePicker = (
-    value: string | DateObject | Date | DateObject[] | null | undefined
+    value: string | DateObject | Date | DateObject[] | null | undefined | number
   ) => {
     if (value && Array.isArray(value)) {
       for (const dateObject of value) {

@@ -1,7 +1,6 @@
 import {
   Box,
   Center,
-  Flex,
   HStack,
   Icon,
   IconButton,
@@ -45,7 +44,6 @@ import ModalBoard from './ModalBoard';
 import styles from './style.module.scss';
 import { useClearCacheTask } from './useClearCacheTask';
 import { WorkflowModal } from 'common/components/WorkflowModal';
-import { useMediaQuery } from 'hooks/useMediaQuery';
 
 interface Props {
   filters: FilterTasks;
@@ -58,7 +56,6 @@ const initDataForm = {
 };
 
 export const ListTask = ({ filters, openDetailModal }: Props) => {
-  const isLargeScreen = useMediaQuery('(min-width: 1281px)');
   const [filter, setFilter] = useState<FilterTasks>(filters);
   const columnHelper = createColumnHelper<ITask>();
   const { sideBarWidth } = useRecoilValue(appConfigState);
@@ -134,6 +131,12 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
         enableSorting: false,
         cell: (info) => info.getValue(),
       }),
+      columnHelper.accessor('description', {
+        id: 'description',
+        header: 'Current State',
+        enableSorting: false,
+        cell: (info) => info.getValue(),
+      }),
       columnHelper.accessor('emailTo', {
         id: 'emailTo',
         header: 'Assigned To',
@@ -151,10 +154,10 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
         cell: (info) => {
           const status = info.row.original.status;
           return (
-            <Flex alignItems={'center'} gap={1}>
-              {isLargeScreen ? (
+            <Box display={'flex'}>
+              {
                 <div
-                  className={`${styles.status} ${
+                  className={`${styles.badge} ${
                     status === TaskStatus.Pending
                       ? styles.statusPending
                       : status === TaskStatus.Approved
@@ -163,15 +166,15 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
                       ? styles.statusRejected
                       : ''
                   }`}
-                />
-              ) : (
-                ''
-              )}
-              {Object.keys(TaskStatus)[info.getValue()]}
-            </Flex>
+                >
+                  {Object.keys(TaskStatus)[info.getValue()]}
+                </div>
+              }
+            </Box>
           );
         },
       }),
+
       columnHelper.accessor('creationTime', {
         id: 'creationTime',
         header: 'Created At',
@@ -309,7 +312,6 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
     openDetailModal,
     refetch,
     user.email,
-    isLargeScreen,
   ]);
 
   const handleClose = useCallback(() => {
@@ -430,7 +432,10 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
               <Box
                 p="10px 20px"
                 //overflowX="auto"
-                w={{ base: `calc(100vw - ${sideBarWidth}px)`, lg: 'auto' }}
+                w={{
+                  base: '100vw',
+                  lg: `calc(100vw - ${sideBarWidth}px)`,
+                }}
               >
                 <Box
                   w={'100%'}

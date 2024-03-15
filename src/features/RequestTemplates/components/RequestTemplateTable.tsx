@@ -320,7 +320,14 @@ export const RequestTemplateTable = ({
         />
       </HStack>
 
-      <CreateTemplateModal isOpen={isCreateModalOpen} onClose={onCloseModal} />
+      <CreateTemplateModal
+        isOpen={isCreateModalOpen}
+        onClose={onCloseModal}
+        OnCreateSuccess={(workflowId) => {
+          setRequestWorkflow(workflowId);
+          setOpenWorkflow(true);
+        }}
+      />
 
       <DefineTemplateInputModal
         requestId={requestId}

@@ -28,6 +28,7 @@ import { convertToCase } from 'utils';
 interface CreateFormProps {
   inputDefinition?: InputDefinition;
   onCloseModal: () => void;
+  onSuccess: (workflowId: string) => void;
 }
 export type FormParams = Record<string, string | null | undefined>;
 
@@ -46,7 +47,7 @@ const CreateWorkflowPropertyField: CreateWorkflowPropertyDefinition[] = [
   },
 ];
 
-const CreateForm = ({ onCloseModal }: CreateFormProps) => {
+const CreateForm = ({ onCloseModal, onSuccess }: CreateFormProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const {
     register,
@@ -66,14 +67,16 @@ const CreateForm = ({ onCloseModal }: CreateFormProps) => {
       tag: data.tag as string,
     };
 
-    await createMutate(payload);
-    refetch();
-    setIsLoading(false);
-    toast({
-      description: 'Create Workflow Successfully',
-      status: 'success',
+    await createMutate(payload).then(() => {
+      refetch();
+      setIsLoading(false);
+      toast({
+        description: 'Create Workflow Successfully',
+        status: 'success',
+      });
+      onCloseModal();
+      onSuccess('3a115306-3d91-4b5c-e346-4e6dcbde5ac2');
     });
-    onCloseModal();
   };
 
   const getField = (Field: CreateWorkflowPropertyDefinition) => {

@@ -71,8 +71,12 @@ exports[`Task Detail Modal 1`] = `
             >
               View Workflow Detail
             </button>
-            <div>
-              <div />
+            <div
+              class="actions"
+            >
+              <div
+                class="spinner"
+              />
             </div>
           </header>
           <button
@@ -93,56 +97,84 @@ exports[`Task Detail Modal 1`] = `
             </svg>
           </button>
           <div
-            class="chakra-modal__body css-1qou8as"
+            class="chakra-modal__body modalBody css-1qou8as"
             id="chakra-modal--body-:r0:"
           >
             <hr
               aria-orientation="horizontal"
               class="chakra-divider css-1urc9z9"
             />
-            <div>
+            <div
+              class="container"
+            >
               <p
                 class="chakra-text css-10g9qth"
               >
                 Request input
               </p>
-              <div>
-                <div>
-                  <label>
+              <div
+                class="wrapper"
+              >
+                <div
+                  class="textGroup"
+                >
+                  <label
+                    class="label"
+                  >
                     Content
                   </label>
                   <p
-                    class="undefined "
+                    class="content "
                   >
                     sdasda
                   </p>
                 </div>
-                <div>
-                  <label>
+                <div
+                  class="textGroup"
+                >
+                  <label
+                    class="label"
+                  >
                     Current Office
                   </label>
                   <p
-                    class="undefined "
+                    class="content "
                   >
                     Đà Nẵng
                   </p>
                 </div>
-                <div>
-                  <label>
+                <div
+                  class="textGroup"
+                >
+                  <label
+                    class="label"
+                  >
                     Start Date
                   </label>
-                  <div>
-                    <p>
+                  <div
+                    class="dates"
+                  >
+                    <p
+                      class="date"
+                    >
                       04/10/2023
                     </p>
                   </div>
                 </div>
-                <div>
-                  <label>
+                <div
+                  class="textGroup"
+                >
+                  <label
+                    class="label"
+                  >
                     End Date
                   </label>
-                  <div>
-                    <p>
+                  <div
+                    class="dates"
+                  >
+                    <p
+                      class="date"
+                    >
                       01/02/2024
                     </p>
                   </div>
@@ -157,33 +189,47 @@ exports[`Task Detail Modal 1`] = `
               >
                 Request user
               </p>
-              <div>
-                <div>
-                  <label>
+              <div
+                class="wrapper"
+              >
+                <div
+                  class="textGroup"
+                >
+                  <label
+                    class="label"
+                  >
                     Name
                   </label>
                   <p
-                    class="undefined "
+                    class="content "
                   >
                     Long Vo Dinh Hoang
                   </p>
                 </div>
-                <div>
-                  <label>
+                <div
+                  class="textGroup"
+                >
+                  <label
+                    class="label"
+                  >
                     Email
                   </label>
                   <p
-                    class="undefined "
+                    class="content "
                   >
                     long.vodinhhoang@ncc.asia
                   </p>
                 </div>
-                <div>
-                  <label>
+                <div
+                  class="textGroup"
+                >
+                  <label
+                    class="label"
+                  >
                     Branch name
                   </label>
                   <p
-                    class="undefined "
+                    class="content "
                   >
                     Đà Nẵng
                   </p>
@@ -198,43 +244,61 @@ exports[`Task Detail Modal 1`] = `
               >
                 Detail
               </p>
-              <div>
-                <div>
-                  <label>
+              <div
+                class="wrapper"
+              >
+                <div
+                  class="textGroup"
+                >
+                  <label
+                    class="label"
+                  >
                     Request template
                   </label>
                   <p
-                    class="undefined "
+                    class="content "
                   >
                     Probationary Request
                   </p>
                 </div>
-                <div>
-                  <label>
+                <div
+                  class="textGroup"
+                >
+                  <label
+                    class="label"
+                  >
                     State
                   </label>
                   <p
-                    class="undefined undefined"
+                    class="content content-blue"
                   >
                     Pending
                   </p>
                 </div>
-                <div>
-                  <label>
+                <div
+                  class="textGroup"
+                >
+                  <label
+                    class="label"
+                  >
                     Email assignment
                   </label>
                   <p
-                    class="undefined "
+                    class="content "
                   >
                     long.vodinhhoang@ncc.asia, trang.danghuyen@ncc.asia
                   </p>
                 </div>
-                <div>
-                  <label>
+                <div
+                  class="textGroup"
+                >
+                  <label
+                    class="label"
+                  >
                     Creation time
                   </label>
                   <p
-                    class="undefined "
+                    class="content "
                   >
                     10-10-2023 15:45
                   </p>

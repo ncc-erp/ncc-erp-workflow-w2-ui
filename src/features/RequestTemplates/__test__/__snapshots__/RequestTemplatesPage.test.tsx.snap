@@ -20,6 +20,9 @@ exports[`Request Template Page should match snapshot when rendering 1`] = `
       <div
         class="chakra-stack__item css-bdvyq0"
       >
+        <h2
+          class="chakra-heading css-vvrlka"
+        />
         <div>
           <button
             class="chakra-button css-fkrxci"
@@ -148,13 +151,11 @@ exports[`Request Template Page should match snapshot when rendering 1`] = `
               >
                 <td
                   class="css-xk16pm"
-                  style="word-break: break-word; white-space: pre-wrap;"
                 >
                   Change Office Request
                 </td>
                 <td
                   class="css-xk16pm"
-                  style="word-break: break-word; white-space: pre-wrap;"
                 >
                   <div
                     class="css-gmuwbf"

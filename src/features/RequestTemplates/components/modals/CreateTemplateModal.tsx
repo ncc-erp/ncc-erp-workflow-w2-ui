@@ -12,11 +12,13 @@ import CreateForm from '../forms/CreateForm';
 interface RequestTemplateModalProps {
   isOpen: boolean;
   onClose: () => void;
+  OnCreateSuccess: (workflowId: string) => void;
 }
 
 export const CreateTemplateModal = ({
   isOpen,
   onClose,
+  OnCreateSuccess,
 }: RequestTemplateModalProps) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={true}>
@@ -26,7 +28,7 @@ export const CreateTemplateModal = ({
         <Divider></Divider>
         <ModalCloseButton />
         <ModalBody>
-          <CreateForm onCloseModal={onClose} />
+          <CreateForm onCloseModal={onClose} onSuccess={OnCreateSuccess} />
         </ModalBody>
       </ModalContent>
     </Modal>

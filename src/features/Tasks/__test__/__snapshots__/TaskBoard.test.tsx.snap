@@ -20,6 +20,11 @@ exports[`Request My Requests Page 1`] = `
       <div
         class="chakra-stack__item css-bdvyq0"
       >
+        <h2
+          class="chakra-heading css-vvrlka"
+        >
+          Nhan Huynh Ba
+        </h2>
         <div>
           <button
             class="chakra-button css-fkrxci"
@@ -433,7 +438,7 @@ exports[`Request My Requests Page 1`] = `
               </svg>
             </button>
             <div
-              class="css-ztxjyy"
+              class="container css-ztxjyy"
             >
               <div
                 data-rfd-droppable-context-id=":r4:"
@@ -441,12 +446,13 @@ exports[`Request My Requests Page 1`] = `
                 style="background: rgb(239, 242, 245); padding: 8px; min-width: 250px; width: 100%; height: 720px; border-radius: 8px;"
               >
                 <div
+                  class="columnLabel"
                   style="background-color: rgb(255, 255, 255);"
                 >
                   Pending
                 </div>
                 <div
-                  class="css-0"
+                  class="columnContent css-0"
                 />
               </div>
               <div
@@ -455,12 +461,13 @@ exports[`Request My Requests Page 1`] = `
                 style="background: rgb(239, 242, 245); padding: 8px; min-width: 250px; width: 100%; height: 720px; border-radius: 8px;"
               >
                 <div
+                  class="columnLabel"
                   style="background-color: rgb(255, 255, 255);"
                 >
                   Approved
                 </div>
                 <div
-                  class="css-0"
+                  class="columnContent css-0"
                 />
               </div>
               <div
@@ -469,12 +476,13 @@ exports[`Request My Requests Page 1`] = `
                 style="background: rgb(239, 242, 245); padding: 8px; min-width: 250px; width: 100%; height: 720px; border-radius: 8px;"
               >
                 <div
+                  class="columnLabel"
                   style="background-color: rgb(255, 255, 255);"
                 >
                   Rejected
                 </div>
                 <div
-                  class="css-0"
+                  class="columnContent css-0"
                 >
                   <div
                     class="css-11tqb05"
@@ -483,7 +491,7 @@ exports[`Request My Requests Page 1`] = `
                     style="user-select: none; padding: 0px; margin: 0px;"
                   >
                     <div
-                      class="undefined undefined css-1lwj26n"
+                      class="item itemRejected css-1lwj26n"
                     >
                       <div
                         class="css-nb2z2f"
@@ -496,11 +504,12 @@ exports[`Request My Requests Page 1`] = `
                         </p>
                         <div>
                           (
-                          20 days ago
+                          2 months ago
                           )
                         </div>
                       </div>
                       <div
+                        class="title"
                         style="background-color: rgb(0, 150, 136);"
                       >
                         Probationary Request
@@ -522,12 +531,22 @@ exports[`Request My Requests Page 1`] = `
                         <p
                           class="chakra-text css-0"
                         >
+                          Current State:
+                        </p>
+                        CEO Review
+                      </div>
+                      <div
+                        class="css-147dy5z"
+                      >
+                        <p
+                          class="chakra-text css-0"
+                        >
                           Assign:
                         </p>
                         nhan.huynhba
                       </div>
                       <div
-                        class="css-k008qs"
+                        class="cardFooter css-k008qs"
                       >
                         <div
                           class="css-147dy5z"

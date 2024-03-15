@@ -28,7 +28,15 @@ export const SearchableSelectField = ({
   isRequired,
 }: SelectFieldFieldProps) => {
   const initValue = useMemo(() => {
-    return options.find((el) => el.value === value);
+    const option = options.find((el) => {
+      if (value && el?.value) {
+        return el?.value?.toString().toLowerCase() === value.toLowerCase();
+      }
+
+      return el.value === value;
+    });
+
+    return option ?? { value: '', label: '' };
   }, [options, value]);
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const displayValue = useMemo(() => {

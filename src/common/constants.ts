@@ -115,7 +115,7 @@ export const TaskStatusesData = [
   { status: 'Approved', color: 'green' },
   { status: 'Rejected', color: 'red' },
   { status: 'Faulted', color: 'yellow' },
-  { status: 'Cancelled', color: 'gray' },
+  { status: 'Canceled', color: 'gray' },
 ];
 
 export const OtherActionSignalStatus = {
@@ -143,3 +143,7 @@ export const LinkDocRedirect = {
   USER_GUIDE_DOCS:
     'https://docs.google.com/document/d/1xJxLj8JiXc3yNJC2drjqxzGsk9bCSgHxRuTZBFOnUqw/edit',
 };
+
+export const MaxFailedAccessAttempts = 5;
+
+export const UPDATED_BY_W2 = 'W2 Workflow';

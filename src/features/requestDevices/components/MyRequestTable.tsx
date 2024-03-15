@@ -20,7 +20,6 @@ import {
 } from '@tanstack/react-table';
 import {
   useCancelRequest,
-  useDeleteRequest,
   useMyRequests,
   useRequestTemplates,
 } from 'api/apiHooks/requestHooks';
@@ -44,7 +43,6 @@ import { RequestDetailModal } from './DetailModal';
 import { WorkflowModal } from 'common/components/WorkflowModal';
 import { TbSearch } from 'react-icons/tb';
 import useDebounced from 'hooks/useDebounced';
-
 import { EmptyWrapper } from 'common/components/EmptyWrapper';
 import { ModalConfirm } from 'common/components/ModalConfirm';
 import { AiOutlineReload } from 'react-icons/ai';
@@ -81,14 +79,12 @@ export const MyRequestTable = () => {
   const isAdmin = useIsAdmin();
 
   const queryClient = useQueryClient();
-  const deleteRequestMutation = useDeleteRequest();
   const cancelRequestMutation = useCancelRequest();
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenDetails, setOpenDetails] = useState(false);
   const [isOpenWorkflow, setOpenWorkflow] = useState(false);
   const [modalTitle, setModalTitle] = useState('');
   const [modalDescription, setModalDescription] = useState('');
-  const [actionType, setActionType] = useState('');
   const [requestId, setRequestId] = useState('');
   const [requestDetails, setRequestDetails] = useState<Request>();
   const [requestWorkflow, setRequestWorkflow] = useState<string>('');
@@ -172,17 +168,30 @@ export const MyRequestTable = () => {
           cell: (info) => formatDate(new Date(info.getValue())),
           sortDescFirst: true,
         }),
+
         columnHelper.accessor('lastExecutedAt', {
           id: 'lastExecutedAt',
           header: 'Last executed at',
           cell: (info) => formatDate(new Date(info.getValue())),
+          enableSorting: false,
           sortDescFirst: true,
         }),
         columnHelper.accessor('status', {
           id: 'status',
           header: 'Status',
           enableSorting: false,
-          cell: (info) => info.getValue(),
+          cell: (info) => {
+            const status = info.row.original.status;
+            return (
+              <Box display={'flex'}>
+                {
+                  <div className={`${styles.badge} ${styles[status]}`}>
+                    {info.getValue()}
+                  </div>
+                }
+              </Box>
+            );
+          },
         }),
         columnHelper.display({
           id: 'actions',
@@ -192,15 +201,20 @@ export const MyRequestTable = () => {
             <Center onClick={(e) => e.stopPropagation()}>
               <RowAction
                 onCancel={onAction(info.row.original.id, 'canceled')}
-                onDelete={onAction(info.row.original.id, 'deleted')}
                 onViewDetails={onActionViewDetails(info.row.original)}
                 onViewWorkflow={onActionViewWorkflow(info.row.original.id)}
+                actions={{
+                  cancel:
+                    (isAdmin &&
+                      info.row.original.status !== RequestStatus.Canceled) ||
+                    info.row.original.status === RequestStatus.Pending,
+                }}
               />
             </Center>
           ),
         }),
       ] as ColumnDef<Request>[],
-    [columnHelper]
+    [columnHelper, isAdmin]
   );
 
   useEffect(() => {
@@ -258,9 +272,8 @@ export const MyRequestTable = () => {
     setOpenWorkflow(true);
   };
 
-  const onAction = (requestId: string, type: 'deleted' | 'canceled') => () => {
+  const onAction = (requestId: string, type: 'canceled') => () => {
     setRequestId(requestId);
-    setActionType(type);
     setModalTitle(`Confirm ${type} request`);
     setModalDescription(`Request will be ${type}. Do you confirm that?`);
     setIsOpen(true);
@@ -270,21 +283,12 @@ export const MyRequestTable = () => {
     setIsOpen(false);
     if (requestId.length === 0) return;
 
-    const mutation =
-      actionType === 'deleted' ? deleteRequestMutation : cancelRequestMutation;
-    const successMessage =
-      actionType === 'deleted'
-        ? 'Deleted successfully!'
-        : 'Cancelled successfully!';
-    const errorMessage =
-      actionType === 'deleted' ? 'Delete failed!' : 'Cancel failed!';
-
     try {
-      await mutation.mutateAsync(requestId);
+      await cancelRequestMutation.mutateAsync(requestId);
       queryClient.invalidateQueries({ queryKey: [QueryKeys.FILTER_REQUEST] });
-      toast({ title: successMessage, status: 'success' });
+      toast({ title: 'Cancelled successfully!', status: 'success' });
     } catch (error) {
-      toast({ title: errorMessage, status: 'error' });
+      toast({ title: 'Cancel failed!', status: 'error' });
     }
   };
 
@@ -323,13 +327,14 @@ export const MyRequestTable = () => {
             <Box w={'300px'}>
               <InputGroup>
                 <Input
-                  isDisabled={isLoading || isRefetching}
                   autoFocus
                   value={txtSearch}
                   type="text"
                   placeholder="Enter email"
                   fontSize="14px"
-                  onChange={(e) => setTxtSearch(e.target.value)}
+                  onChange={(e) =>
+                    !isLoading && !isRefetching && setTxtSearch(e.target.value)
+                  }
                 />
                 <InputRightElement width="40px">
                   <TbSearch />
@@ -398,7 +403,10 @@ export const MyRequestTable = () => {
           >
             <Box
               p="20px 30px 0px 24px"
-              w={{ base: `calc(100vw - ${sideBarWidth}px)`, lg: 'auto' }}
+              w={{
+                base: '100vw',
+                lg: `calc(100vw - ${sideBarWidth}px)`,
+              }}
             >
               <Box w={'100%'} overflowX="auto" className={styles.tableContent}>
                 <Table
