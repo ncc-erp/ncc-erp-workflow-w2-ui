@@ -108,7 +108,7 @@ const DefineInputForm = ({
             </FormLabel>
             <TextField
               h="40px"
-              w="250px"
+              w="210px"
               fontSize="sm"
               {...register(`items.${index}.name`, {
                 required: `Name is Required`,
@@ -152,7 +152,7 @@ const DefineInputForm = ({
             >
               Required
             </FormLabel>
-            <Center h="40px">
+            <Center h="40px" mr={3}>
               <Checkbox size="lg" {...register(`items.${index}.isRequired`)} />
             </Center>
           </FormControl>
@@ -160,7 +160,7 @@ const DefineInputForm = ({
           <Button
             colorScheme="red"
             mb="20px"
-            w="200px"
+            w="250px"
             isDisabled={!(fields.length > 1)}
             onClick={() => remove(index)}
           >
