@@ -16,13 +16,13 @@ type HEX = `#${string}`;
 export type Color = RGB | RGBA | HEX;
 
 // type Maximum_Color = 256;
-// type ComputedRange<N extends number, Result extends Array<unknown> = []> = 
+// type ComputedRange<N extends number, Result extends Array<unknown> = []> =
 // (
 //   Result['length'] extends N?
 //   Result:
 //   ComputedRange<N, [...Result,Result['length']]>
 // )
-  
+
 // type FromZeroTo256 = ComputedRange<Maximum_Color>[number];
 // type alpha = 0.1 | 0.2 | 0.3 | 0.4 | 0.5 | 0.6 | 0.7 | 0.8 | 0.9
 // type RGB = `rgb(${FromZeroTo256}, ${FromZeroTo256}, ${FromZeroTo256})`;
@@ -40,5 +40,3 @@ export type Color = RGB | RGBA | HEX;
 // type HEX = `#${HexCodeModern}`;
 
 // export type Color = RGB | RGBA | HEX;
-
-

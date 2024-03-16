@@ -269,7 +269,6 @@ exports[`Request My Requests Page 1`] = `
                         data-index="1"
                         id="menu-list-:r8:-menuitem-:ra:"
                         role="menuitem"
-                        style="display: none;"
                         tabindex="-1"
                         type="button"
                       >

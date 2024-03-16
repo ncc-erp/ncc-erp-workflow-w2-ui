@@ -16,10 +16,6 @@ jest.mock('hooks/useIsAdmin', () => ({
   useIsAdmin: jest.fn().mockReturnValue(true),
 }));
 
-jest.mock('common/components/WorkflowModal', () => ({
-  VITE_PROXY_SERVER_URL: 'http://localhost:4433',
-}));
-
 jest.mock('hooks/useCurrentUser', () => ({
   useCurrentUser: jest.fn().mockReturnValue({ email: 'bob@example.com' }),
 }));

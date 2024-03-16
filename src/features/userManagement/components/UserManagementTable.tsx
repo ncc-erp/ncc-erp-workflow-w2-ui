@@ -184,11 +184,10 @@ export const UserManagementTable = () => {
           >
             <Box
               p="20px 24px"
-              overflowX={"auto"}
+              overflowX={'auto'}
               w={{
                 base: '100vw',
                 lg: `calc(100vw - ${sideBarWidth}px)`,
-
               }}
             >
               <Table

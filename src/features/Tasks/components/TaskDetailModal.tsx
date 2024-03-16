@@ -181,7 +181,9 @@ export const TaskDetailModal = ({
 
     const filterOtherTask: IDynamicReviewProps[] = otherTasks.items.map((x) => {
       return {
-        title: `${x.description || 'No name'} (${x.updatedBy?.split("@").shift()})`,
+        title: `${x.description || 'No name'} (${x.updatedBy
+          ?.split('@')
+          .shift()})`,
         items: convertToDynamicArray(x.dynamicActionData),
       };
     });
@@ -249,8 +251,7 @@ export const TaskDetailModal = ({
               onClick={onActionViewWorkflow(
                 data?.tasks.workflowInstanceId as string
               )}
-              style={{ display: 'none' }}
-              isDisabled={true}
+              mt={2}
             >
               View Workflow Detail
             </Button>
@@ -372,7 +373,7 @@ export const TaskDetailModal = ({
         <WorkflowModal
           isOpen={isOpenWorkflow}
           onClose={() => setOpenWorkflow(false)}
-          workflowId={requestWorkflow}
+          workflow={`CompOnly?id=${requestWorkflow}`}
         />
       )}
     </>

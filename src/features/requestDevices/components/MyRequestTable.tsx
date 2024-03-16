@@ -419,34 +419,35 @@ export const MyRequestTable = () => {
                 />
               </Box>
             </Box>
+
+            <HStack
+              p="20px 30px 20px 30px"
+              justifyContent={['center', 'space-between']}
+              flexWrap="wrap"
+            >
+              <HStack alignItems="center" spacing="6px" flexWrap="wrap">
+                <PageSize
+                  noOfRows={noOfRows}
+                  onChange={onPageSizeChange}
+                  isLoading={isLoading || isRefetching}
+                />
+                <Spacer w="5px" />
+                <ShowingItemText
+                  skipCount={filter.skipCount}
+                  maxResultCount={filter.maxResultCount}
+                  totalCount={totalCount}
+                />
+              </HStack>
+              <Pagination
+                total={totalCount}
+                pageSize={filter.maxResultCount}
+                current={currentPage}
+                onChange={onPageChange}
+                hideOnSinglePage
+              />
+            </HStack>
           </EmptyWrapper>
         )}
-        <HStack
-          p="20px 30px 20px 30px"
-          justifyContent={['center', 'space-between']}
-          flexWrap="wrap"
-        >
-          <HStack alignItems="center" spacing="6px" flexWrap="wrap">
-            <PageSize
-              noOfRows={noOfRows}
-              onChange={onPageSizeChange}
-              isLoading={isLoading || isRefetching}
-            />
-            <Spacer w="5px" />
-            <ShowingItemText
-              skipCount={filter.skipCount}
-              maxResultCount={filter.maxResultCount}
-              totalCount={totalCount}
-            />
-          </HStack>
-          <Pagination
-            total={totalCount}
-            pageSize={filter.maxResultCount}
-            current={currentPage}
-            onChange={onPageChange}
-            hideOnSinglePage
-          />
-        </HStack>
       </Box>
       <ModalConfirm
         isOpen={isOpen}
@@ -466,7 +467,7 @@ export const MyRequestTable = () => {
         <WorkflowModal
           isOpen={isOpenWorkflow}
           onClose={() => setOpenWorkflow(false)}
-          workflowId={requestWorkflow}
+          workflow={`CompOnly?id=${requestWorkflow}`}
         />
       )}
     </>

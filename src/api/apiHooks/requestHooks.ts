@@ -9,6 +9,8 @@ import {
   RequestTemplateResult,
   WfhRequestFormParams,
   IRequestResult,
+  ICreateFormParams,
+  IUpdateInputFormParams,
 } from 'models/request';
 import {
   useCancelByPost,
@@ -76,6 +78,13 @@ export const useOffices = () => {
   );
 };
 
+export const useInputDefinition = () => {
+  return useGetOne(
+    [QueryKeys.GET_INPUT_DEFINITION],
+    '/app/external-resource/workflow-input-definition-property-types'
+  );
+};
+
 export const useUserProjects = (userEmail: string = '') => {
   return useGetOne<typeof projectList>(
     [QueryKeys.GET_PROJECT_USER, userEmail],
@@ -103,6 +112,22 @@ export const useNewRequestWorkflow = () => {
   return useCreate<IRequestFormParams, any>(
     '/app/workflow-instance/new-instance'
   );
+};
+
+export const useCreateWorkflowDefinition = () => {
+  return useCreate<ICreateFormParams, any>(
+    '/app/workflow-definition/workflow-definition'
+  );
+};
+
+export const useUpdateWorkflowInput = () => {
+  return useCreate<IUpdateInputFormParams, any>(
+    '/app/workflow-definition/save-workflow-input-definition'
+  );
+};
+
+export const useDeleteWorkflowDefinition = () => {
+  return useDelete(`/app/workflow-definition`);
 };
 
 export const useUserCurrentProject = (userEmail: string = '') => {
