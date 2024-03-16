@@ -99,12 +99,15 @@ export const QueryKeys = {
   GET_USER_CURRENT_PROJECT: 'getUserCurrentProject',
   GET_STAKE_HOLDERS_FOR_FILTER: 'getStakeHoldersForFilter',
   GET_USER_LIST: 'getUserList',
+  GET_INPUT_DEFINITION: 'getInputDefinition',
 };
 
 export const ColorThemeMode = {
   LIGHT: 'light',
   DARK: 'dark',
 };
+
+export const GUID_ID_DEFAULT_VALUE = '00000000-0000-0000-0000-000000000000';
 
 export const DEFAULT_TASK_PER_PAGE = 10;
 export const TaskStatusesData = [
