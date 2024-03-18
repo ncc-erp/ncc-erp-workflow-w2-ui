@@ -15,7 +15,7 @@ import { ColorThemeMode } from 'common/constants';
 interface RowActionProps {
   onViewDetails: () => void;
   onCancel: () => void;
-  onViewWorkflow: () => void;
+  onViewWorkflow?: () => void;
   actions?: {
     cancel?: boolean;
   };
@@ -51,15 +51,17 @@ export const RowAction = ({
           <Icon color="gray.500" as={FaEye} />
           View
         </MenuItem>
-        <MenuItem
-          color={color}
-          display="flex"
-          gap="12px"
-          onClick={onViewWorkflow}
-        >
-          <Icon color="gray.500" as={FaRegMap} />
-          Workflow
-        </MenuItem>
+        {onViewWorkflow && (
+          <MenuItem
+            color={color}
+            display="flex"
+            gap="12px"
+            onClick={onViewWorkflow}
+          >
+            <Icon color="gray.500" as={FaRegMap} />
+            Workflow
+          </MenuItem>
+        )}
         {actions.cancel && (
           <MenuItem color={color} display="flex" gap="12px" onClick={onCancel}>
             <Icon color="gray.500" as={MdCancel} />
