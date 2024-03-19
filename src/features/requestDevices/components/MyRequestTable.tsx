@@ -323,7 +323,7 @@ export const MyRequestTable = () => {
               options={statusOptions}
             />
           </Box>
-          {isAdmin && (
+          {isAdmin && !filter.RequestUser && (
             <Box w={'300px'}>
               <InputGroup>
                 <Input
