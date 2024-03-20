@@ -3,7 +3,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import MyRequests from '..';
 import { RecoilRoot } from 'recoil';
 import userEvent from '@testing-library/user-event';
-
+import { BrowserRouter as Router } from 'react-router-dom';
 jest.mock('../../../api/apiHooks/index', () => ({
   useAxios: jest.fn(),
 }));
@@ -144,7 +144,9 @@ describe('My Request Page', () => {
     const { container } = render(
       <QueryClientProvider client={queryClient}>
         <RecoilRoot>
-          <MyRequests />
+          <Router>
+            <MyRequests />
+          </Router>
         </RecoilRoot>
       </QueryClientProvider>
     );
@@ -157,7 +159,9 @@ describe('My Request Page', () => {
       render(
         <QueryClientProvider client={queryClient}>
           <RecoilRoot>
-            <MyRequests />
+            <Router>
+              <MyRequests />
+            </Router>
           </RecoilRoot>
         </QueryClientProvider>
       );
@@ -171,7 +175,7 @@ describe('My Request Page', () => {
 
     it('should display the correct number of buttons on the screen', async () => {
       const buttonList = await screen.findAllByRole('button');
-      expect(buttonList).toHaveLength(totalCount + 5);
+      expect(buttonList).toHaveLength(totalCount + 6);
     });
 
     it('should handle selecting rows per page', async () => {
