@@ -40,7 +40,7 @@ import { useRecoilValue } from 'recoil';
 import { appConfigState } from 'stores/appConfig';
 import { formatDate } from 'utils';
 import { RequestDetailModal } from './DetailModal';
-// import { WorkflowModal } from 'common/components/WorkflowModal';
+import { WorkflowModal } from 'common/components/WorkflowModal';
 import { TbSearch } from 'react-icons/tb';
 import useDebounced from 'hooks/useDebounced';
 import { EmptyWrapper } from 'common/components/EmptyWrapper';
@@ -82,12 +82,12 @@ export const MyRequestTable = () => {
   const cancelRequestMutation = useCancelRequest();
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenDetails, setOpenDetails] = useState(false);
-  // const [isOpenWorkflow, setOpenWorkflow] = useState(false);
+  const [isOpenWorkflow, setOpenWorkflow] = useState(false);
   const [modalTitle, setModalTitle] = useState('');
   const [modalDescription, setModalDescription] = useState('');
   const [requestId, setRequestId] = useState('');
   const [requestDetails, setRequestDetails] = useState<Request>();
-  // const [requestWorkflow, setRequestWorkflow] = useState<string>('');
+  const [requestWorkflow, setRequestWorkflow] = useState<string>('');
   const [txtSearch, setTxtSearch] = useState<string>('');
   const txtSearchDebounced = useDebounced(txtSearch, 500);
 
@@ -202,7 +202,7 @@ export const MyRequestTable = () => {
               <RowAction
                 onCancel={onAction(info.row.original.id, 'canceled')}
                 onViewDetails={onActionViewDetails(info.row.original)}
-                // onViewWorkflow={onActionViewWorkflow(info.row.original.id)}
+                onViewWorkflow={onActionViewWorkflow(info.row.original.id)}
                 actions={{
                   cancel:
                     (isAdmin &&
@@ -267,10 +267,10 @@ export const MyRequestTable = () => {
     setOpenDetails(true);
   };
 
-  // const onActionViewWorkflow = (workflowId: string) => () => {
-  //   setRequestWorkflow(workflowId);
-  //   setOpenWorkflow(true);
-  // };
+  const onActionViewWorkflow = (workflowId: string) => () => {
+    setRequestWorkflow(workflowId);
+    setOpenWorkflow(true);
+  };
 
   const onAction = (requestId: string, type: 'canceled') => () => {
     setRequestId(requestId);
@@ -463,13 +463,13 @@ export const MyRequestTable = () => {
           requestDetail={requestDetails}
         />
       )}
-      {/* {requestWorkflow && (
+      {requestWorkflow && (
         <WorkflowModal
           isOpen={isOpenWorkflow}
           onClose={() => setOpenWorkflow(false)}
           workflow={`CompOnly?id=${requestWorkflow}`}
         />
-      )} */}
+      )}
     </>
   );
 };
