@@ -361,6 +361,7 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
     }
 
     if (!checkPermissionConfirmTask(id)) {
+      toast({ title: "you don't have permission!", status: 'error' });
       return navigate('/request-templates');
     }
 

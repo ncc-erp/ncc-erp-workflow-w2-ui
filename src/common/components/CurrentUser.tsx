@@ -13,7 +13,7 @@ export const CurrentUser = () => {
       display="flex"
       position="absolute"
       top="30px"
-      right={isLargeScreen ? '225px' : '54px'}
+      right={isLargeScreen ? '270px' : '54px'}
     >
       {currentUser?.given_name[0] || currentUser?.email}
     </Heading>
