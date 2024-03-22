@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+import { AspectRatio, Box, Spinner } from '@chakra-ui/react';
+import React, { useEffect, useState, useRef } from 'react';
 
 interface IframeProps {
   src: string;
@@ -7,16 +8,15 @@ interface IframeProps {
 
 const Iframe: React.FC<IframeProps> = (props) => {
   const { src } = props;
-
-  const iframe = React.createRef<HTMLIFrameElement>();
-
-  const method = 'GET';
-  const headers = new Headers({ ...props.headers });
-  const options = { method, headers };
-
-  const get = React.useRef(() => {});
+  const [loading, setLoading] = useState<boolean>(true);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+  const get = useRef<() => Promise<void>>(async () => {});
 
   get.current = async () => {
+    const method = 'GET';
+    const headers = new Headers({ ...props.headers });
+    const options = { method, headers };
+
     try {
       const response = await fetch(src, options);
       if (!response.ok) {
@@ -24,8 +24,7 @@ const Iframe: React.FC<IframeProps> = (props) => {
       }
 
       const responseText = await response.text();
-
-      const frame = iframe.current?.contentWindow;
+      const frame = iframeRef.current?.contentWindow;
 
       if (!frame || !frame.document) {
         return;
@@ -33,6 +32,7 @@ const Iframe: React.FC<IframeProps> = (props) => {
 
       frame.document.open();
       frame.document.write(responseText);
+
       frame.document.close();
     } catch (e) {
       console.error(`Error: ${e}`);
@@ -42,10 +42,39 @@ const Iframe: React.FC<IframeProps> = (props) => {
 
   useEffect(() => {
     get.current();
-  }, []);
+  }, [src, props.headers]);
+
+  useEffect(() => {
+    const iframe = iframeRef.current?.contentDocument?.getElementById(
+      'workflowInstanceViewer'
+    );
+    if (iframe) {
+      setLoading(false);
+    }
+  }, [iframeRef.current?.contentDocument]);
 
   return (
-    <iframe style={{ maxHeight: '75vh' }} ref={iframe} title="react-iframe" />
+    <Box style={{ width: '100%', height: '100%' }}>
+      {loading && (
+        <div
+          style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+          }}
+        >
+          <Spinner color="red.500" size="xl" />
+        </div>
+      )}
+      <AspectRatio maxW="100%" style={{ position: 'relative' }} ratio={1}>
+        <iframe
+          style={{ maxHeight: '75vh' }}
+          ref={iframeRef}
+          title="react-iframe"
+        />
+      </AspectRatio>
+    </Box>
   );
 };
 

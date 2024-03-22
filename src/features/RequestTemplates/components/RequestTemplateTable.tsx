@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   Box,
+  Button,
   Center,
   HStack,
   IconButton,
@@ -246,13 +247,13 @@ export const RequestTemplateTable = ({
     setIsModalDefineInputOpen(false);
   };
 
-  // const onOpenCreateModal = () => {
-  //   setIsCreateModalOpen(true);
-  // };
+  const onOpenCreateModal = () => {
+    setIsCreateModalOpen(true);
+  };
 
   return (
     <Box>
-      {/* {isAdmin && (
+      {isAdmin && (
         <Box px={6}>
           <Button
             isDisabled={isLoading}
@@ -265,7 +266,7 @@ export const RequestTemplateTable = ({
             Create
           </Button>
         </Box>
-      )} */}
+      )}
 
       {isLoading ? (
         <Center h="200px">
