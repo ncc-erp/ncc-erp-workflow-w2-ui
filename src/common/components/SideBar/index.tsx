@@ -8,7 +8,6 @@ import {
   Portal,
 } from '@chakra-ui/react';
 import { SideBarContent } from 'common/components/SideBar/SideBarContent';
-import { useMediaQuery } from 'hooks/useMediaQuery';
 import { ReactNode, useEffect, useRef } from 'react';
 import { HiMenuAlt2 } from 'react-icons/hi';
 import { IoCloseOutline } from 'react-icons/io5';

@@ -1,5 +1,4 @@
 import {
-  AspectRatio,
   Divider,
   HStack,
   Heading,

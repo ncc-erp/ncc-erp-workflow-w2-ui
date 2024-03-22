@@ -32,7 +32,6 @@ const Iframe: React.FC<IframeProps> = (props) => {
 
       frame.document.open();
       frame.document.write(responseText);
-
       frame.document.close();
     } catch (e) {
       console.error(`Error: ${e}`);
@@ -42,7 +41,7 @@ const Iframe: React.FC<IframeProps> = (props) => {
 
   useEffect(() => {
     get.current();
-  }, [src, props.headers]);
+  }, []);
 
   useEffect(() => {
     const iframe = iframeRef.current?.contentDocument?.getElementById(
