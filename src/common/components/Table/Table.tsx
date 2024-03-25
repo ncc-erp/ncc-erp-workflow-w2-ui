@@ -58,7 +58,6 @@ export const Table = <D,>({
     getCoreRowModel: getCoreRowModel(),
   });
   const color = useColorModeValue(ColorThemeMode.DARK, ColorThemeMode.LIGHT);
-  const 
   const isLargeScreen = useMediaQuery('(min-width: 1024px)');
 
   const [columnHovered, setColumnHovered] = useState<Array<boolean>>([]);
