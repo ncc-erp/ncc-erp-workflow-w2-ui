@@ -119,103 +119,109 @@ export const MyRequestTable = () => {
     return [defaultOptions, ...options];
   }, [requestTemplates]);
 
-  const myRequestColumns = useMemo(
-    () =>
-      [
-        columnHelper.accessor('workflowDefinitionDisplayName', {
-          id: 'workflowDefinitionDisplayName',
-          header: () => <Box>Request template</Box>,
-          enableSorting: false,
-          cell: (info) => <Box>{info.getValue()}</Box>,
-        }),
-        columnHelper.accessor('userRequestName', {
-          id: 'userRequestName',
-          header: () => <Box>Request user</Box>,
-          enableSorting: false,
-          cell: (info) => info.getValue(),
-        }),
-        columnHelper.accessor('currentStates', {
-          id: 'currentStates',
-          header: () => <Box textAlign="center">Current states</Box>,
-          enableSorting: false,
-          cell: (info) => {
-            const currentStates = info.getValue();
-            const formattedCurrentStates = currentStates.join(',\n');
-            return (
-              <div
-                dangerouslySetInnerHTML={{ __html: formattedCurrentStates }}
-              />
-            );
-          },
-        }),
-        columnHelper.accessor('stakeHolders', {
-          id: 'stakeHolders',
-          header: 'Stakeholders',
-          enableSorting: false,
-          cell: (info) => {
-            const stakeholders = info.getValue();
-            const formattedStakeholders = stakeholders.join(',\n');
-            return (
-              <div
-                dangerouslySetInnerHTML={{ __html: formattedStakeholders }}
-              />
-            );
-          },
-        }),
-        columnHelper.accessor('createdAt', {
-          id: 'createdAt',
-          header: 'Created at',
-          cell: (info) => formatDate(new Date(info.getValue())),
-          sortDescFirst: true,
-        }),
+  const myRequestColumns = useMemo(() => {
+    const displayColumn = columnHelper.accessor(
+      'workflowDefinitionDisplayName',
+      {
+        id: 'workflowDefinitionDisplayName',
+        header: () => <Box>Request template</Box>,
+        enableSorting: false,
+        cell: (info) => <Box>{info.getValue()}</Box>,
+      }
+    );
 
-        columnHelper.accessor('lastExecutedAt', {
-          id: 'lastExecutedAt',
-          header: 'Last executed at',
-          cell: (info) => formatDate(new Date(info.getValue())),
-          enableSorting: false,
-          sortDescFirst: true,
-        }),
-        columnHelper.accessor('status', {
-          id: 'status',
-          header: 'Status',
-          enableSorting: false,
-          cell: (info) => {
-            const status = info.row.original.status;
-            return (
-              <Box display={'flex'}>
-                {
-                  <div className={`${styles.badge} ${styles[status]}`}>
-                    {info.getValue()}
-                  </div>
-                }
-              </Box>
-            );
-          },
-        }),
-        columnHelper.display({
-          id: 'actions',
-          enableSorting: false,
-          header: () => <Center w="full">Actions</Center>,
-          cell: (info) => (
-            <Center onClick={(e) => e.stopPropagation()}>
-              <RowAction
-                onCancel={onAction(info.row.original.id, 'canceled')}
-                onViewDetails={onActionViewDetails(info.row.original)}
-                onViewWorkflow={onActionViewWorkflow(info.row.original.id)}
-                actions={{
-                  cancel:
-                    (isAdmin &&
-                      info.row.original.status !== RequestStatus.Canceled) ||
-                    info.row.original.status === RequestStatus.Pending,
-                }}
-              />
-            </Center>
-          ),
-        }),
-      ] as ColumnDef<Request>[],
-    [columnHelper, isAdmin]
-  );
+    const editorColumn = columnHelper.accessor('userRequestName', {
+      id: 'userRequestName',
+      header: () => <Box>Request user</Box>,
+      enableSorting: false,
+      cell: (info) => info.getValue(),
+    });
+
+    const coreColumn = [
+      columnHelper.accessor('currentStates', {
+        id: 'currentStates',
+        header: () => <Box textAlign="center">Current states</Box>,
+        enableSorting: false,
+        cell: (info) => {
+          const currentStates = info.getValue();
+          const formattedCurrentStates = currentStates.join(',\n');
+          return (
+            <div dangerouslySetInnerHTML={{ __html: formattedCurrentStates }} />
+          );
+        },
+      }),
+      columnHelper.accessor('stakeHolders', {
+        id: 'stakeHolders',
+        header: 'Stakeholders',
+        enableSorting: false,
+        cell: (info) => {
+          const stakeholders = info.getValue();
+          const formattedStakeholders = stakeholders.join(',\n');
+          return (
+            <div dangerouslySetInnerHTML={{ __html: formattedStakeholders }} />
+          );
+        },
+      }),
+      columnHelper.accessor('createdAt', {
+        id: 'createdAt',
+        header: 'Created at',
+        cell: (info) => formatDate(new Date(info.getValue())),
+        sortDescFirst: true,
+      }),
+
+      columnHelper.accessor('lastExecutedAt', {
+        id: 'lastExecutedAt',
+        header: 'Last executed at',
+        cell: (info) => formatDate(new Date(info.getValue())),
+        enableSorting: false,
+        sortDescFirst: true,
+      }),
+      columnHelper.accessor('status', {
+        id: 'status',
+        header: 'Status',
+        enableSorting: false,
+        cell: (info) => {
+          const status = info.row.original.status;
+          return (
+            <Box display={'flex'}>
+              {
+                <div className={`${styles.badge} ${styles[status]}`}>
+                  {info.getValue()}
+                </div>
+              }
+            </Box>
+          );
+        },
+      }),
+      columnHelper.display({
+        id: 'actions',
+        enableSorting: false,
+        header: () => <Center w="full">Actions</Center>,
+        cell: (info) => (
+          <Center onClick={(e) => e.stopPropagation()}>
+            <RowAction
+              onCancel={onAction(info.row.original.id, 'canceled')}
+              onViewDetails={onActionViewDetails(info.row.original)}
+              onViewWorkflow={onActionViewWorkflow(info.row.original.id)}
+              actions={{
+                cancel:
+                  (isAdmin &&
+                    info.row.original.status !== RequestStatus.Canceled) ||
+                  info.row.original.status === RequestStatus.Pending,
+              }}
+            />
+          </Center>
+        ),
+      }),
+    ] as ColumnDef<Request>[];
+
+    const result = [
+      displayColumn,
+      ...(isAdmin ? [editorColumn] : []),
+      ...coreColumn,
+    ] as ColumnDef<Request>[];
+    return result;
+  }, [columnHelper, isAdmin]);
 
   useEffect(() => {
     const { id, desc } = sorting?.[0] ?? {};
@@ -295,14 +301,7 @@ export const MyRequestTable = () => {
   return (
     <>
       <Box>
-        <HStack
-          w="full"
-          gap={3}
-          pl="24px"
-          pb="8px"
-          alignItems="flex-end"
-          flexWrap="wrap"
-        >
+        <HStack w="full" gap={3} pl="24px" pb="8px" alignItems="flex-end">
           <Box>
             <SelectField
               isDisabled={isLoading || isRefetching}
@@ -402,22 +401,22 @@ export const MyRequestTable = () => {
             message={'No request found!'}
           >
             <Box
-              p="20px 30px 0px 24px"
               w={{
-                base: '100vw',
+                base: `calc(100vw - ${sideBarWidth}px)`,
                 lg: `calc(100vw - ${sideBarWidth}px)`,
+                xs: 'max-content',
               }}
+              p={{ base: '10px 24px 0px' }}
             >
-              <Box w={'100%'} overflowX="auto" className={styles.tableContent}>
-                <Table
-                  columns={myRequestColumns}
-                  data={requests}
-                  sorting={sorting}
-                  onSortingChange={setSorting}
-                  onRowClick={onActionViewDetails}
-                  onRowHover={true}
-                />
-              </Box>
+              <Table
+                columns={myRequestColumns}
+                data={requests}
+                sorting={sorting}
+                onSortingChange={setSorting}
+                onRowClick={onActionViewDetails}
+                onRowHover={true}
+                isHighlight={true}
+              />
             </Box>
 
             <HStack

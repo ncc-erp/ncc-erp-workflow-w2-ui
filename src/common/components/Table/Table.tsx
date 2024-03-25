@@ -33,6 +33,7 @@ interface TableProps<D> {
   onSortingChange?: OnChangeFn<SortingState>;
   onRowClick?: IRowActionProps<D>;
   onRowHover?: boolean;
+  isHighlight?: boolean;
 }
 
 export const Table = <D,>({
@@ -42,6 +43,7 @@ export const Table = <D,>({
   onSortingChange,
   onRowClick,
   onRowHover,
+  isHighlight,
 }: TableProps<D>) => {
   const table = useReactTable({
     data,
@@ -167,6 +169,14 @@ export const Table = <D,>({
             <Tr
               key={row.id}
               cursor={onRowHover ? 'pointer' : 'initial'}
+              _hover={
+                isHighlight
+                  ? {
+                      background: theme.colors.secondary,
+                      transition: 'background-color 0.5s ease',
+                    }
+                  : {}
+              }
               onClick={() => {
                 if (onRowClick) {
                   onRowClick(row.original)();

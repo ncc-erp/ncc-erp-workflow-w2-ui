@@ -8,7 +8,6 @@ import {
   Portal,
 } from '@chakra-ui/react';
 import { SideBarContent } from 'common/components/SideBar/SideBarContent';
-import { useMediaQuery } from 'hooks/useMediaQuery';
 import { ReactNode, useEffect, useRef } from 'react';
 import { HiMenuAlt2 } from 'react-icons/hi';
 import { IoCloseOutline } from 'react-icons/io5';
@@ -20,22 +19,23 @@ interface PortalWrapperProps {
   shouldRenderInPortal: boolean;
 }
 
-export const SideNav = () => {
+interface SideNavProps {
+  isLargeScreen: boolean;
+}
+
+export const SideNav = ({ isLargeScreen }: SideNavProps) => {
   const sideBarRef = useRef<HTMLDivElement>(null);
   const { openSideBar } = useRecoilValue(appConfigState);
   const { setSideBarWidth } = useSetAppConfig();
   const { onCloseSideBar, onOpenSideBar } = useSetAppConfig();
-  const isLargeSceen = useMediaQuery('(min-width: 1024px)');
-
   useEffect(() => {
     sideBarRef.current && setSideBarWidth(sideBarRef.current.offsetWidth);
   }, [setSideBarWidth, sideBarRef]);
-
   return (
     <>
       <Box
         ref={sideBarRef}
-        w={isLargeSceen ? '240px' : 'auto'}
+        w={isLargeScreen ? '240px' : 'auto'}
         borderRightColor="gray.200"
         bgColor="gray.50"
         h="100vh"
@@ -44,10 +44,10 @@ export const SideNav = () => {
         top={0}
         left={0}
       >
-        {isLargeSceen ? (
-          <SideBarContent />
+        {isLargeScreen ? (
+          <SideBarContent isLargeScreen={isLargeScreen} />
         ) : (
-          <PortalWrapper shouldRenderInPortal={!isLargeSceen}>
+          <PortalWrapper shouldRenderInPortal={!isLargeScreen}>
             <IconButton
               size={{ base: 'md', md: 'sm' }}
               aria-label=""
@@ -77,7 +77,7 @@ export const SideNav = () => {
       >
         <DrawerOverlay />
         <DrawerContent w="240px" position="relative">
-          <SideBarContent />
+          <SideBarContent isLargeScreen={isLargeScreen} />
           <IconButton
             aria-label=""
             position="absolute"
