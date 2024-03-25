@@ -49,12 +49,12 @@ export const WorkflowModal = ({
         <ModalCloseButton mt="15px" mr="10px" />
         <ModalBody>
           <Divider mb={5}></Divider>
-            <IFrame
-              src={`${window.location.origin}/${workflow}`}
-              headers={{
-                Authorization: `Bearer ${token}`,
-              }}
-            />
+          <IFrame
+            src={`${window.location.origin}/${workflow}`}
+            headers={{
+              Authorization: `Bearer ${token}`,
+            }}
+          />
         </ModalBody>
       </ModalContent>
     </Modal>

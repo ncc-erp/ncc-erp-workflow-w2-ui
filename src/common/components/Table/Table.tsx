@@ -17,7 +17,7 @@ import {
   getCoreRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import { ColorHighlightTable, ColorThemeMode } from 'common/constants';
+import { ColorThemeMode } from 'common/constants';
 import { useMediaQuery } from 'hooks/useMediaQuery';
 import { useState } from 'react';
 import { IoMdArrowDropdown, IoMdArrowDropup } from 'react-icons/io';
@@ -169,7 +169,14 @@ export const Table = <D,>({
             <Tr
               key={row.id}
               cursor={onRowHover ? 'pointer' : 'initial'}
-              _hover={isHighlight ? {background:theme.colors.secondary , transition: "background-color 0.5s ease"}: {}}
+              _hover={
+                isHighlight
+                  ? {
+                      background: theme.colors.secondary,
+                      transition: 'background-color 0.5s ease',
+                    }
+                  : {}
+              }
               onClick={() => {
                 if (onRowClick) {
                   onRowClick(row.original)();

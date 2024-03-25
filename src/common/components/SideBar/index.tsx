@@ -23,7 +23,7 @@ interface SideNavProps {
   isLargeScreen: boolean;
 }
 
-export const SideNav = ({isLargeScreen}:SideNavProps) => {
+export const SideNav = ({ isLargeScreen }: SideNavProps) => {
   const sideBarRef = useRef<HTMLDivElement>(null);
   const { openSideBar } = useRecoilValue(appConfigState);
   const { setSideBarWidth } = useSetAppConfig();
@@ -45,9 +45,7 @@ export const SideNav = ({isLargeScreen}:SideNavProps) => {
         left={0}
       >
         {isLargeScreen ? (
-          <SideBarContent 
-          isLargeScreen={isLargeScreen}
-          />
+          <SideBarContent isLargeScreen={isLargeScreen} />
         ) : (
           <PortalWrapper shouldRenderInPortal={!isLargeScreen}>
             <IconButton
@@ -79,9 +77,7 @@ export const SideNav = ({isLargeScreen}:SideNavProps) => {
       >
         <DrawerOverlay />
         <DrawerContent w="240px" position="relative">
-          <SideBarContent
-            isLargeScreen={isLargeScreen}
-          />
+          <SideBarContent isLargeScreen={isLargeScreen} />
           <IconButton
             aria-label=""
             position="absolute"

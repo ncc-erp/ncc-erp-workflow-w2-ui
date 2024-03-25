@@ -48,12 +48,11 @@ import {
 } from 'react-icons/hi2';
 import { FaSun } from 'react-icons/fa';
 
-
 interface SideBarContentProps {
   isLargeScreen: boolean;
 }
 
-export const SideBarContent = ({isLargeScreen}:SideBarContentProps) => {
+export const SideBarContent = ({ isLargeScreen }: SideBarContentProps) => {
   const { colorMode, toggleColorMode } = useColorMode();
   const bg = useColorModeValue(ColorThemeMode.LIGHT, ColorThemeMode.DARK);
   const color = useColorModeValue(ColorThemeMode.DARK, ColorThemeMode.LIGHT);
