@@ -47,13 +47,15 @@ import {
   HiOutlineMoon,
 } from 'react-icons/hi2';
 import { FaSun } from 'react-icons/fa';
-import { useMediaQuery } from 'hooks/useMediaQuery';
 
-export const SideBarContent = () => {
+interface SideBarContentProps {
+  isLargeScreen: boolean;
+}
+
+export const SideBarContent = ({ isLargeScreen }: SideBarContentProps) => {
   const { colorMode, toggleColorMode } = useColorMode();
   const bg = useColorModeValue(ColorThemeMode.LIGHT, ColorThemeMode.DARK);
   const color = useColorModeValue(ColorThemeMode.DARK, ColorThemeMode.LIGHT);
-  const isLargeScreen = useMediaQuery('(min-width: 1024px)');
 
   const isAdmin = useIsAdmin();
   const NavList = [

@@ -1,5 +1,4 @@
 import {
-  AspectRatio,
   Divider,
   HStack,
   Heading,
@@ -50,14 +49,12 @@ export const WorkflowModal = ({
         <ModalCloseButton mt="15px" mr="10px" />
         <ModalBody>
           <Divider mb={5}></Divider>
-          <AspectRatio maxW="100%" ratio={1}>
-            <IFrame
-              src={`${window.location.origin}/${workflow}`}
-              headers={{
-                Authorization: `Bearer ${token}`,
-              }}
-            />
-          </AspectRatio>
+          <IFrame
+            src={`${window.location.origin}/${workflow}`}
+            headers={{
+              Authorization: `Bearer ${token}`,
+            }}
+          />
         </ModalBody>
       </ModalContent>
     </Modal>
