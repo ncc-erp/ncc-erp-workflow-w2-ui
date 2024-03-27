@@ -392,6 +392,15 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
     [filters]
   );
 
+  const displayData = useMemo(() => {
+    return data?.items.map((item) => {
+      return {
+        ...item,
+        id: item.taskId || item.id,
+      };
+    });
+  }, [data]);
+
   useEffect(() => {
     setFilter({
       ...filters,
@@ -445,7 +454,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
                   <Table
                     onRowClick={openDetailModal}
                     columns={taskColumns}
-                    data={data?.items ?? []}
+                    data={displayData ?? []}
                     onRowHover={true}
                   />
                 </Box>

@@ -558,7 +558,10 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
                                       w={'100%'}
                                     >
                                       <Text fontWeight={'bold'} mr={1}>
-                                        ID: {item.id.slice(-5).toUpperCase()}
+                                        ID:{' '}
+                                        {item.taskId
+                                          ? item.taskId.slice(-5).toUpperCase()
+                                          : item.id.slice(-5).toUpperCase()}
                                       </Text>
                                       <div>
                                         ({getDayAgo(item?.creationTime)})

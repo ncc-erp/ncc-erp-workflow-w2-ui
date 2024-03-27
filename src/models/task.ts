@@ -19,6 +19,7 @@ export interface ITask {
   status: number;
   workflowInstanceId: string;
   dynamicActionData?: string;
+  taskId?: string;
   creationTime: string;
   id: string;
   otherActionSignals?: IOtherActionSignals[];
