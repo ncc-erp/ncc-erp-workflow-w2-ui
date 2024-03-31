@@ -183,11 +183,12 @@ export const UserManagementTable = () => {
             message={'No request found!'}
           >
             <Box
-              p="20px 24px"
+              p={{ base: '10px 24px 0px' }}
               overflowX={'auto'}
               w={{
-                base: '100vw',
+                base: `calc(100vw - ${sideBarWidth}px)`,
                 lg: `calc(100vw - ${sideBarWidth}px)`,
+                xs: 'max-content'
               }}
             >
               <Table
