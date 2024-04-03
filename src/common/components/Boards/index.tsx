@@ -54,6 +54,7 @@ import { useClearCacheTask } from './useClearCacheTask';
 import { useNavigate } from 'react-router';
 import { Color } from 'common/types';
 import { useMediaQuery } from 'hooks/useMediaQuery';
+import { Tooltip } from 'react-tooltip';
 
 const fadeIn = keyframes`
   from { opacity: 0; }
@@ -557,12 +558,35 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
                                       alignItems={'center'}
                                       w={'100%'}
                                     >
-                                      <Text fontWeight={'bold'} mr={1}>
-                                        ID:{' '}
-                                        {item.taskId
-                                          ? item.taskId.slice(-5).toUpperCase()
-                                          : item.id.slice(-5).toUpperCase()}
-                                      </Text>
+                                      <Box style={{ display: 'flex', gap: 4 }}>
+                                        <Text fontWeight={'bold'} mr={1}>
+                                          ID:{' '}
+                                          {item.requestId
+                                            ? item.requestId
+                                                .slice(-5)
+                                                .toUpperCase()
+                                            : item.id.slice(-5).toUpperCase()}
+                                        </Text>
+                                        <Text
+                                          fontWeight={'normal'}
+                                          width={'100px'}
+                                          data-tooltip-id={item.id}
+                                          style={{
+                                            whiteSpace: 'nowrap',
+                                            overflow: 'hidden',
+                                            textOverflow: 'ellipsis',
+                                          }}
+                                          mr={1}
+                                        >
+                                          {item.title ? item.title : 'no title'}
+                                        </Text>
+                                        <Tooltip
+                                          id={item.id}
+                                          place="bottom"
+                                          content={item.title}
+                                        />
+                                      </Box>
+
                                       <div>
                                         ({getDayAgo(item?.creationTime)})
                                       </div>

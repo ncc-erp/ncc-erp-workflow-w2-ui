@@ -91,7 +91,7 @@ const DefineInputForm = ({
   };
 
   const onAddField = () => {
-    append({ name: '', type: 'Text', isRequired: false });
+    append({ name: '', isTitle:false ,type: 'Text', isRequired: false });
   };
 
   const renderFormContent = () => {

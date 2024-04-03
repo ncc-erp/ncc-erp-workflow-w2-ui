@@ -44,6 +44,7 @@ import ModalBoard from './ModalBoard';
 import styles from './style.module.scss';
 import { useClearCacheTask } from './useClearCacheTask';
 import { WorkflowModal } from 'common/components/WorkflowModal';
+import { Tooltip } from 'react-tooltip';
 
 interface Props {
   filters: FilterTasks;
@@ -124,6 +125,28 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
         header: 'Request template',
         enableSorting: false,
         cell: (info) => info.getValue(),
+      }),
+      columnHelper.accessor('title', {
+        id: 'title',
+        header: () => <Box textAlign="center">Title</Box>,
+        enableSorting: false,
+        cell: (info) => {
+          const shortTitle = info.getValue();
+          let displayedShortTitle = shortTitle;
+          if (shortTitle.length > 10) {
+            displayedShortTitle = shortTitle.slice(0, 10) + '...';
+          }
+          return (
+            <>
+              <a data-tooltip-id={shortTitle}> {displayedShortTitle} </a>
+              <Tooltip
+                id={shortTitle}
+                content={shortTitle}
+                events={['hover']}
+              />
+            </>
+          );
+        },
       }),
       columnHelper.accessor('authorName', {
         id: 'authorName',
@@ -396,7 +419,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
     return data?.items.map((item) => {
       return {
         ...item,
-        id: item.taskId || item.id,
+        id: item.requestId || item.id,
       };
     });
   }, [data]);

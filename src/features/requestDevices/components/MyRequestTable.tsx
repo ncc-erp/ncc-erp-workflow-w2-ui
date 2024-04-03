@@ -47,6 +47,7 @@ import { EmptyWrapper } from 'common/components/EmptyWrapper';
 import { ModalConfirm } from 'common/components/ModalConfirm';
 import { AiOutlineReload } from 'react-icons/ai';
 import styles from './style.module.scss';
+import { Tooltip } from 'react-tooltip';
 
 const initialSorting: SortingState = [
   {
@@ -147,6 +148,28 @@ export const MyRequestTable = () => {
           const formattedCurrentStates = currentStates.join(',\n');
           return (
             <div dangerouslySetInnerHTML={{ __html: formattedCurrentStates }} />
+          );
+        },
+      }),
+      columnHelper.accessor('shortTitle', {
+        id: 'shortTitle',
+        header: () => <Box textAlign="center">Title</Box>,
+        enableSorting: false,
+        cell: (info) => {
+          const shortTitle = info.getValue();
+          let displayedShortTitle = shortTitle;
+          if (shortTitle && shortTitle.length > 10) {
+            displayedShortTitle = shortTitle.slice(0, 10) + '...';
+          }
+          return (
+            <>
+              <a data-tooltip-id={shortTitle}> {displayedShortTitle} </a>
+              <Tooltip
+                id={shortTitle}
+                content={shortTitle}
+                events={['hover']}
+              />
+            </>
           );
         },
       }),
