@@ -133,7 +133,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
         cell: (info) => {
           const shortTitle = info.getValue();
           let displayedShortTitle = shortTitle;
-          if (shortTitle.length > 10) {
+          if (shortTitle && shortTitle.length > 10) {
             displayedShortTitle = shortTitle.slice(0, 10) + '...';
           }
           return (
