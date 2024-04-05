@@ -45,6 +45,7 @@ import styles from './style.module.scss';
 import { useClearCacheTask } from './useClearCacheTask';
 import { WorkflowModal } from 'common/components/WorkflowModal';
 import { Tooltip } from 'react-tooltip';
+import TextToolTip from '../textTooltip';
 
 interface Props {
   filters: FilterTasks;
@@ -132,19 +133,8 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
         enableSorting: false,
         cell: (info) => {
           const shortTitle = info.getValue();
-          let displayedShortTitle = shortTitle;
-          if (shortTitle && shortTitle.length > 10) {
-            displayedShortTitle = shortTitle.slice(0, 10) + '...';
-          }
           return (
-            <>
-              <a data-tooltip-id={shortTitle}> {displayedShortTitle} </a>
-              <Tooltip
-                id={shortTitle}
-                content={shortTitle}
-                events={['hover']}
-              />
-            </>
+            <TextToolTip type="LIST" maxLines={1} width={100} title={shortTitle}  />
           );
         },
       }),
