@@ -44,7 +44,6 @@ import ModalBoard from './ModalBoard';
 import styles from './style.module.scss';
 import { useClearCacheTask } from './useClearCacheTask';
 import { WorkflowModal } from 'common/components/WorkflowModal';
-import { Tooltip } from 'react-tooltip';
 import TextToolTip from '../textTooltip';
 
 interface Props {

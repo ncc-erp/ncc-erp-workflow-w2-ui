@@ -47,7 +47,6 @@ import { EmptyWrapper } from 'common/components/EmptyWrapper';
 import { ModalConfirm } from 'common/components/ModalConfirm';
 import { AiOutlineReload } from 'react-icons/ai';
 import styles from './style.module.scss';
-import { Tooltip } from 'react-tooltip';
 import TextToolTip from 'common/components/textTooltip';
 
 const initialSorting: SortingState = [
