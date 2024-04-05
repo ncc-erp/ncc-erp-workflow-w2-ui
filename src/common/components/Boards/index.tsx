@@ -559,8 +559,8 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
                                     >
                                       <Text fontWeight={'bold'} mr={1}>
                                         ID:{' '}
-                                        {item.taskId
-                                          ? item.taskId.slice(-5).toUpperCase()
+                                        {item.requestId
+                                          ? item.requestId.slice(-5).toUpperCase()
                                           : item.id.slice(-5).toUpperCase()}
                                       </Text>
                                       <div>

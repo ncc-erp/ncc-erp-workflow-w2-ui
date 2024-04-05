@@ -396,7 +396,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
     return data?.items.map((item) => {
       return {
         ...item,
-        id: item.taskId || item.id,
+        id: item.requestId || item.id,
       };
     });
   }, [data]);
