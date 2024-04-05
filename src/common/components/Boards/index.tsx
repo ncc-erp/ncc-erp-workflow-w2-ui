@@ -565,20 +565,20 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
                                           width: '15%',
                                         }}
                                       >
-                                          <Text fontWeight={'bold'} mr={1}>
-                                            {item.requestId
-                                              ? item.requestId
-                                                  .slice(-5)
-                                                  .toUpperCase()
-                                              : item.id.slice(-5).toUpperCase()}
-                                          </Text>
-
+                                        <Text fontWeight={'bold'} mr={1}>
+                                          {(item.requestId
+                                            ? item.requestId
+                                            : item.id
+                                          )
+                                            .slice(-5)
+                                            .toUpperCase()}
+                                        </Text>
                                       </Box>
                                       <TextToolTip
-                                          type="BOARD"
-                                          maxLines={2}
-                                          item={item}
-                                        />
+                                        type="BOARD"
+                                        maxLines={2}
+                                        item={item}
+                                      />
                                       <Box style={{ width: '20%' }}>
                                         <div>
                                           ({getDayAgo(item?.creationTime)})
