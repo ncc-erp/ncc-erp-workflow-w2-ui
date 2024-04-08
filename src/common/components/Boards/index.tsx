@@ -572,7 +572,10 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
                                     >
                                       {item.name}
                                     </div>
-
+                                    {item?.staff && <Flex gap={2}>
+                                      <Text>Staff:</Text>{' '}
+                                      {item.staff.split('@')[0]}
+                                    </Flex>}
                                     <Flex gap={2}>
                                       <Text>Request user:</Text>{' '}
                                       {item.authorName}
