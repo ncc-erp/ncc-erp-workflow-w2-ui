@@ -44,6 +44,7 @@ import ModalBoard from './ModalBoard';
 import styles from './style.module.scss';
 import { useClearCacheTask } from './useClearCacheTask';
 import { WorkflowModal } from 'common/components/WorkflowModal';
+import TextToolTip from '../textTooltip';
 
 interface Props {
   filters: FilterTasks;
@@ -124,6 +125,17 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
         header: 'Request template',
         enableSorting: false,
         cell: (info) => info.getValue(),
+      }),
+      columnHelper.accessor('title', {
+        id: 'title',
+        header: () => <Box textAlign="center">Title</Box>,
+        enableSorting: false,
+        cell: (info) => {
+          const shortTitle = info.getValue();
+          return (
+            <TextToolTip type="LIST" maxLines={1} width={100} title={shortTitle}  />
+          );
+        },
       }),
       columnHelper.accessor('authorName', {
         id: 'authorName',

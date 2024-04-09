@@ -47,6 +47,7 @@ import { EmptyWrapper } from 'common/components/EmptyWrapper';
 import { ModalConfirm } from 'common/components/ModalConfirm';
 import { AiOutlineReload } from 'react-icons/ai';
 import styles from './style.module.scss';
+import TextToolTip from 'common/components/textTooltip';
 
 const initialSorting: SortingState = [
   {
@@ -120,15 +121,30 @@ export const MyRequestTable = () => {
   }, [requestTemplates]);
 
   const myRequestColumns = useMemo(() => {
-    const displayColumn = columnHelper.accessor(
-      'workflowDefinitionDisplayName',
-      {
-        id: 'workflowDefinitionDisplayName',
-        header: () => <Box>Request template</Box>,
+    const displayColumn = [
+      columnHelper.accessor(
+        'workflowDefinitionDisplayName',
+        {
+          id: 'workflowDefinitionDisplayName',
+          header: () => <Box>Request template</Box>,
+          enableSorting: false,
+          cell: (info) => <Box>{info.getValue()}</Box>,
+        }
+      ),
+      columnHelper.accessor('shortTitle', {
+        id: 'shortTitle',
+        header: () => <Box textAlign="center">Title</Box>,
         enableSorting: false,
-        cell: (info) => <Box>{info.getValue()}</Box>,
-      }
-    );
+        cell: (info) => {
+          const shortTitle = info.getValue();
+          return (
+            <>
+              <TextToolTip type="LIST" maxLines={1} width={100} title={shortTitle}  />
+            </>
+          );
+        },
+      }),
+    ]
 
     const editorColumn = columnHelper.accessor('userRequestName', {
       id: 'userRequestName',
@@ -150,6 +166,7 @@ export const MyRequestTable = () => {
           );
         },
       }),
+
       columnHelper.accessor('stakeHolders', {
         id: 'stakeHolders',
         header: 'Stakeholders',
@@ -216,7 +233,7 @@ export const MyRequestTable = () => {
     ] as ColumnDef<Request>[];
 
     const result = [
-      displayColumn,
+      ...displayColumn,
       ...(isAdmin ? [editorColumn] : []),
       ...coreColumn,
     ] as ColumnDef<Request>[];
