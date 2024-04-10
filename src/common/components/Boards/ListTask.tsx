@@ -120,20 +120,35 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
           <Center>{info.getValue().slice(-5).toUpperCase()}</Center>
         ),
       }),
-      columnHelper.accessor('name', {
-        id: 'name',
-        header: 'Request template',
-        enableSorting: false,
-        cell: (info) => info.getValue(),
-      }),
+      // columnHelper.accessor('name', {
+      //   id: 'name',
+      //   header: 'Request template',
+      //   enableSorting: false,
+      //   cell: (info) => info.getValue(),
+      // }),
       columnHelper.accessor('title', {
         id: 'title',
         header: () => <Box textAlign="center">Title</Box>,
         enableSorting: false,
         cell: (info) => {
-          const shortTitle = info.getValue();
           return (
-            <TextToolTip type="LIST" maxLines={1} width={100} title={shortTitle}  />
+              <>
+                <Box>
+                  <TextToolTip
+                    type="LIST"
+                    maxLines={1}
+                    width={200}
+                    title={info.row.original?.title}
+                  />
+                  <div
+                    style={{
+                      fontSize:10,
+                    }}
+                  >
+                    {`(${info.row.original.name})`}
+                  </div>
+                </Box>
+              </>
           );
         },
       }),

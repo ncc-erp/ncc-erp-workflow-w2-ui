@@ -48,6 +48,7 @@ import { ModalConfirm } from 'common/components/ModalConfirm';
 import { AiOutlineReload } from 'react-icons/ai';
 import styles from './style.module.scss';
 import TextToolTip from 'common/components/textTooltip';
+import { renderColor } from 'utils/getColorTypeRequest';
 
 const initialSorting: SortingState = [
   {
@@ -121,30 +122,39 @@ export const MyRequestTable = () => {
   }, [requestTemplates]);
 
   const myRequestColumns = useMemo(() => {
-    const displayColumn = [
-      columnHelper.accessor(
-        'workflowDefinitionDisplayName',
-        {
-          id: 'workflowDefinitionDisplayName',
-          header: () => <Box>Request template</Box>,
-          enableSorting: false,
-          cell: (info) => <Box>{info.getValue()}</Box>,
-        }
-      ),
-      columnHelper.accessor('shortTitle', {
-        id: 'shortTitle',
-        header: () => <Box textAlign="center">Title</Box>,
-        enableSorting: false,
-        cell: (info) => {
-          const shortTitle = info.getValue();
-          return (
-            <>
-              <TextToolTip type="LIST" maxLines={1} width={100} title={shortTitle}  />
-            </>
-          );
-        },
-      }),
-    ]
+    const displayColumn = columnHelper.accessor('shortTitle', {
+      id: 'shortTitle',
+      header: () => <Box textAlign="center">Title</Box>,
+      enableSorting: false,
+      cell: (info) => {
+        return (
+          <>
+            <Box>
+              <TextToolTip
+                type="LIST"
+                maxLines={1}
+                width={200}
+                title={info.row.original?.shortTitle}
+              />
+              <span
+                style={{
+                  fontSize:10,
+                  paddingTop: 2,
+                  paddingBottom:2,
+                  paddingLeft:8,
+                  paddingRight:8,
+                  borderRadius: 8,
+                  backgroundColor: renderColor(info.row.original.workflowDefinitionDisplayName),
+                  color: "#ffffff"
+                }}
+              >
+                {info.row.original.workflowDefinitionDisplayName}
+              </span>
+            </Box>
+          </>
+        );
+      },
+    });
 
     const editorColumn = columnHelper.accessor('userRequestName', {
       id: 'userRequestName',
@@ -233,7 +243,7 @@ export const MyRequestTable = () => {
     ] as ColumnDef<Request>[];
 
     const result = [
-      ...displayColumn,
+      displayColumn,
       ...(isAdmin ? [editorColumn] : []),
       ...coreColumn,
     ] as ColumnDef<Request>[];

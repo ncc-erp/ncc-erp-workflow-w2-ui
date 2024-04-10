@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
 import { Box, Text } from '@chakra-ui/react';
-import { Tooltip } from 'react-tooltip';
+import { PlacesType, Tooltip } from 'react-tooltip';
 import { ITask } from 'models/task';
 
 interface TextToolTipProps {
@@ -9,6 +9,7 @@ interface TextToolTipProps {
   maxLines: number;
   type: 'BOARD' | 'LIST';
   width?: number;
+  place?: PlacesType | undefined;
 }
 
 const TextToolTip = ({
@@ -17,6 +18,7 @@ const TextToolTip = ({
   maxLines = 2,
   type,
   width,
+  place = "bottom-end"
 }: TextToolTipProps) => {
   const [isTooltipVisible, setIsTooltipVisible] = useState<boolean>(
     type === 'LIST'
@@ -86,8 +88,8 @@ const TextToolTip = ({
       >
         {resultTitle}
       </Text>
-      {(isTooltipVisible || isList) && (
-        <Tooltip id={resultTitle} place="bottom" content={resultTitle} />
+      {(isTooltipVisible) && (
+        <Tooltip id={resultTitle} place={place} content={resultTitle} />
       )}
     </Box>
   );

@@ -52,9 +52,9 @@ import TaskSkeleton from './TaskSkeleton';
 import { isValidJSON } from 'utils';
 import { useClearCacheTask } from './useClearCacheTask';
 import { useNavigate } from 'react-router';
-import { Color } from 'common/types';
 import { useMediaQuery } from 'hooks/useMediaQuery';
 import TextToolTip from '../textTooltip';
+import { renderColor } from 'utils/getColorTypeRequest';
 
 const fadeIn = keyframes`
   from { opacity: 0; }
@@ -413,30 +413,6 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
     return result;
   };
 
-  const arrColor: Color[] = ['#009688', '#000000'];
-  const initialData: [string, Color][] = [
-    ['Device Request', '#03A9F4'],
-    ['Change Office Request', '#db0000'],
-    ['Office Equipment Request', '#f27024'],
-    ['Probationary Confirmation Request', '#0c51a0'],
-    ['WFH Request', '#d000db'],
-  ];
-  let currentColor: number = 0;
-  const hashMap = new Map<string, Color>(initialData);
-
-  const renderColor = (key: string) => {
-    if (hashMap.has(key)) {
-      return hashMap.get(key);
-    }
-    if (currentColor > arrColor.length - 1) {
-      return '#3366CC';
-    }
-
-    hashMap.set(key, arrColor[currentColor]);
-    currentColor++;
-    return hashMap.get(key);
-  };
-
   return (
     <>
       <Box position={'relative'}>
@@ -562,7 +538,7 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
                                         style={{
                                           display: 'flex',
                                           gap: 8,
-                                          width: '15%',
+                                          width: '70%',
                                         }}
                                       >
                                         <Text fontWeight={'bold'} mr={1}>
@@ -572,27 +548,23 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
                                           )
                                             .slice(-5)
                                             .toUpperCase()}
+                                          :{' '}
                                         </Text>
+                                        <Box style={{flex: 1}}>
+                                          <TextToolTip
+                                            type="BOARD"
+                                            maxLines={2}
+                                            item={item}
+                                          />
+                                        </Box>
                                       </Box>
-                                      <TextToolTip
-                                        type="BOARD"
-                                        maxLines={2}
-                                        item={item}
-                                      />
-                                      <Box style={{ width: '20%' }}>
+
+                                      <Box>
                                         <div>
                                           ({getDayAgo(item?.creationTime)})
                                         </div>
                                       </Box>
                                     </Flex>
-                                    <div
-                                      className={styles.title}
-                                      style={{
-                                        backgroundColor: renderColor(item.name),
-                                      }}
-                                    >
-                                      {item.name}
-                                    </div>
 
                                     <Flex gap={2}>
                                       <Text>Request user:</Text>{' '}
@@ -602,18 +574,19 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
                                       <Text>Current State:</Text>
                                       {item.description}
                                     </Flex>
-                                    <Flex gap={2}>
-                                      <Text>Assign:</Text>
-                                      {item.emailTo
-                                        .map((email) => email.split('@')[0])
-                                        .join(', ')}
-                                    </Flex>
-                                    <Flex className={styles.cardFooter}>
+                                    <Flex
+                                      style={{
+                                        flexDirection: 'row',
+                                        justifyContent: 'space-between',
+                                        width: '100%',
+                                        alignItems: 'center',
+                                      }}
+                                    >
                                       <Flex gap={2}>
-                                        <Text>Date:</Text>
-                                        {formatDate(
-                                          new Date(item?.creationTime)
-                                        )}
+                                        <Text>Assign:</Text>
+                                        {item.emailTo
+                                          .map((email) => email.split('@')[0])
+                                          .join(', ')}
                                       </Flex>
                                       {item.status === TaskStatus.Pending &&
                                         item.otherActionSignals &&
@@ -673,6 +646,24 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
                                             </Menu>
                                           </Flex>
                                         )}
+                                    </Flex>
+                                    <Flex className={styles.cardFooter}>
+                                      <Flex gap={2}>
+                                        <Text>Date:</Text>
+                                        {formatDate(
+                                          new Date(item?.creationTime)
+                                        )}
+                                      </Flex>
+                                      <div
+                                        className={styles.title}
+                                        style={{
+                                          backgroundColor: renderColor(
+                                            item.name
+                                          ),
+                                        }}
+                                      >
+                                        {item.name}
+                                      </div>
                                     </Flex>
                                   </Box>
                                 </Box>
