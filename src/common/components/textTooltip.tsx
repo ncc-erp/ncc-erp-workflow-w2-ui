@@ -10,15 +10,17 @@ interface TextToolTipProps {
   type: 'BOARD' | 'LIST';
   width?: number;
   place?: PlacesType | undefined;
+  id?: string;
 }
 
 const TextToolTip = ({
+  id,
   item,
   title,
   maxLines = 2,
   type,
   width,
-  place = "bottom-end"
+  place = 'bottom',
 }: TextToolTipProps) => {
   const [isTooltipVisible, setIsTooltipVisible] = useState<boolean>(
     type === 'LIST'
@@ -53,11 +55,22 @@ const TextToolTip = ({
     };
   }, [maxLines]);
 
+
   const resultTitle: string = useMemo(() => {
-    return isList
-      ? title || item?.title || 'no title'
-      : item?.title || title || 'no title';
-  }, [title, item, isList]);
+    if(id && title){
+      return `${id}: ${title}`
+    }
+    if(id && !title){
+      return `${id}`
+    }
+    if(!id){
+      return title ? title : ''
+    }
+    return ''
+  }, [id, title])
+
+
+
 
   return (
     <Box style={width ? { width: width } : { flex: 1 }}>
@@ -88,8 +101,8 @@ const TextToolTip = ({
       >
         {resultTitle}
       </Text>
-      {(isTooltipVisible) && (
-        <Tooltip id={resultTitle} place={place} content={resultTitle} />
+      {isTooltipVisible && (
+        <Tooltip style={{width:300}} id={resultTitle} place={place} content={title || 'sagdsgdsagdasds ds fds gds gds gd s gdsg dsg dsd gds gds g'} />
       )}
     </Box>
   );

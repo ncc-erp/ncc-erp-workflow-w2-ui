@@ -538,23 +538,20 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
                                         style={{
                                           display: 'flex',
                                           gap: 8,
-                                          width: '70%',
+                                          flex:1
                                         }}
                                       >
-                                        <Text fontWeight={'bold'} mr={1}>
-                                          {(item.requestId
-                                            ? item.requestId
-                                            : item.id
-                                          )
-                                            .slice(-5)
-                                            .toUpperCase()}
-                                          :{' '}
-                                        </Text>
                                         <Box style={{flex: 1}}>
                                           <TextToolTip
                                             type="BOARD"
                                             maxLines={2}
-                                            item={item}
+                                            title={item.title}
+                                            id={(item.requestId
+                                              ? item.requestId
+                                              : item.id
+                                            )
+                                              .slice(-5)
+                                              .toUpperCase()}
                                           />
                                         </Box>
                                       </Box>
