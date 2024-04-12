@@ -1,10 +1,8 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
 import { Box, Text } from '@chakra-ui/react';
 import { PlacesType, Tooltip } from 'react-tooltip';
-import { ITask } from 'models/task';
 
 interface TextToolTipProps {
-  item?: ITask;
   title?: string;
   maxLines: number;
   type: 'BOARD' | 'LIST';
@@ -15,7 +13,6 @@ interface TextToolTipProps {
 
 const TextToolTip = ({
   id,
-  item,
   title,
   maxLines = 2,
   type,
