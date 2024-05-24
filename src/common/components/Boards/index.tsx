@@ -311,10 +311,10 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
       })
       .catch((error) => {
         console.error(error.response.data.error.message);
+        clear();
+        refetchApproved();
+        refetchPending();
       });
-    clear();
-    refetchApproved();
-    refetchPending();
   };
 
   const searchParams = new URLSearchParams(window.location.search);
@@ -501,8 +501,6 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
 
                     <Box className={styles.columnContent}>
                       {!loadingStates[ind].value &&
-                      !rejectTaskMutation.isLoading &&
-                      !approveTaskMutation.isLoading &&
                       !loadPending &&
                       !loadApproved &&
                       !loadRejected ? (
