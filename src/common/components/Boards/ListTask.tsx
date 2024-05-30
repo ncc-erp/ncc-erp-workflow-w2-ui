@@ -10,6 +10,7 @@ import {
   MenuList,
   Spacer,
   Spinner,
+  Tooltip,
   useDisclosure,
 } from '@chakra-ui/react';
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
@@ -44,7 +45,8 @@ import ModalBoard from './ModalBoard';
 import styles from './style.module.scss';
 import { useClearCacheTask } from './useClearCacheTask';
 import { WorkflowModal } from 'common/components/WorkflowModal';
-import TextToolTip from '../textTooltip';
+import OverflowText from '../OverflowText';
+import { renderColor } from 'utils/getColorTypeRequest';
 
 interface Props {
   filters: FilterTasks;
@@ -111,13 +113,19 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
     };
 
     return [
-      columnHelper.accessor('id', {
+      columnHelper.accessor('requestId', {
         id: 'id',
         header: () => <Box pl="16px">ID</Box>,
         enableSorting: false,
         sortDescFirst: true,
         cell: (info) => (
-          <Center>{info.getValue().slice(-5).toUpperCase()}</Center>
+          <Center>
+            <Tooltip fontSize={'xs'} label={info.getValue()}>
+              {info.getValue()
+                ? info.getValue()?.slice(-5).toUpperCase()
+                : info.row.original.id.slice(-5).toUpperCase()}
+            </Tooltip>
+          </Center>
         ),
       }),
       // columnHelper.accessor('name', {
@@ -132,23 +140,28 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
         enableSorting: false,
         cell: (info) => {
           return (
-              <>
-                <Box>
-                  <TextToolTip
-                    type="LIST"
-                    maxLines={1}
-                    width={200}
-                    title={info.row.original?.title}
-                  />
-                  <div
+            <>
+              <Box
+                style={{
+                  display: 'flex',
+                  alignItems: 'start',
+                  flexDirection: 'column',
+                  gap: '5px',
+                }}
+              >
+                {info.row.original.title}
+                <Tooltip fontSize={'xs'} label={info.row.original.name}>
+                  <Box
+                    className={styles.titleBoard}
                     style={{
-                      fontSize:10,
+                      backgroundColor: renderColor(info.row.original.name),
                     }}
                   >
-                    {`(${info.row.original.name})`}
-                  </div>
-                </Box>
-              </>
+                    <OverflowText text={info.row.original.name} maxLines={1} />
+                  </Box>
+                </Tooltip>
+              </Box>
+            </>
           );
         },
       }),
@@ -156,7 +169,14 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
         id: 'authorName',
         header: 'Request user',
         enableSorting: false,
-        cell: (info) => info.getValue(),
+        cell: (info) => {
+          const authorName = info.getValue();
+          return (
+            <Tooltip fontSize={'xs'} label={info.row.original.email}>
+              <Box>{authorName}</Box>
+            </Tooltip>
+          );
+        },
       }),
       columnHelper.accessor('description', {
         id: 'description',

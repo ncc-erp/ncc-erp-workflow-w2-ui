@@ -9,6 +9,7 @@ import {
   InputRightElement,
   Spacer,
   Spinner,
+  Tooltip,
   Wrap,
   WrapItem,
 } from '@chakra-ui/react';
@@ -47,8 +48,8 @@ import { EmptyWrapper } from 'common/components/EmptyWrapper';
 import { ModalConfirm } from 'common/components/ModalConfirm';
 import { AiOutlineReload } from 'react-icons/ai';
 import styles from './style.module.scss';
-import TextToolTip from 'common/components/textTooltip';
 import { renderColor } from 'utils/getColorTypeRequest';
+import OverflowText from 'common/components/OverflowText';
 
 const initialSorting: SortingState = [
   {
@@ -128,30 +129,34 @@ export const MyRequestTable = () => {
       enableSorting: false,
       cell: (info) => {
         return (
-          <>
-            <Box>
-              <TextToolTip
-                type="LIST"
-                maxLines={1}
-                width={200}
-                title={info.row.original?.shortTitle}
-              />
-              <span
+          <Box
+            style={{
+              display: 'flex',
+              alignItems: 'start',
+              flexDirection: 'column',
+              gap: '5px',
+            }}
+          >
+            {info.row.original.shortTitle}
+            <Tooltip
+              fontSize={'xs'}
+              label={info.row.original.workflowDefinitionDisplayName}
+            >
+              <Box
+                className={styles.titleTable}
                 style={{
-                  fontSize:10,
-                  paddingTop: 2,
-                  paddingBottom:2,
-                  paddingLeft:8,
-                  paddingRight:8,
-                  borderRadius: 8,
-                  backgroundColor: renderColor(info.row.original.workflowDefinitionDisplayName),
-                  color: "#ffffff"
+                  backgroundColor: renderColor(
+                    info.row.original.workflowDefinitionDisplayName
+                  ),
                 }}
               >
-                {info.row.original.workflowDefinitionDisplayName}
-              </span>
-            </Box>
-          </>
+                <OverflowText
+                  text={info.row.original.workflowDefinitionDisplayName}
+                  maxLines={1}
+                />
+              </Box>
+            </Tooltip>
+          </Box>
         );
       },
     });

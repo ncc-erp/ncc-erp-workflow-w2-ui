@@ -9,6 +9,7 @@ import {
   MenuList,
   Spinner,
   Text,
+  Tooltip,
   keyframes,
   useColorModeValue,
   useDisclosure,
@@ -53,8 +54,8 @@ import { isValidJSON } from 'utils';
 import { useClearCacheTask } from './useClearCacheTask';
 import { useNavigate } from 'react-router';
 import { useMediaQuery } from 'hooks/useMediaQuery';
-import TextToolTip from '../textTooltip';
 import { renderColor } from 'utils/getColorTypeRequest';
+import OverflowText from '../OverflowText';
 
 const fadeIn = keyframes`
   from { opacity: 0; }
@@ -69,6 +70,7 @@ export interface BoardsProps {
 const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
   const isLargeScreen = useMediaQuery('(min-width: 1024px)');
   const [filter, setFilter] = useState<FilterTasks>(filters);
+  const [shortTitle, setShortTitle] = useState<string>('');
   const actionTaskMutation = useActionTask();
   const {
     data: listPending,
@@ -108,6 +110,8 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
     hasDynamicForm: false,
     dynamicForm: '',
   });
+
+  console.log(result);
   const [reason, setReason] = useState<string>('');
   const [state, setState] = useState<Record<ETaskStatus, ITask[]>>({
     [ETaskStatus.Pending]: [],
@@ -142,6 +146,9 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
     if (!destination) return;
     const sInd = +source.droppableId as ETaskStatus;
     const dInd = +destination.droppableId;
+
+    const shortTitleSelect = state[sInd][source.index].title;
+
     if (sInd === dInd) {
       const items = reorder(state[sInd], source.index, destination.index);
       const newState = { ...state };
@@ -165,6 +172,7 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
     }
     onOpen();
     setResult(result);
+    setShortTitle(shortTitleSelect);
   };
 
   const handleDrop = async (approvedData?: string) => {
@@ -413,6 +421,10 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
     return result;
   };
 
+  const formatShortId = (id: string) => {
+    return id.slice(0, 5);
+  };
+
   return (
     <>
       <Box position={'relative'}>
@@ -534,26 +546,29 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
                                       alignItems={'flex-start'}
                                       w={'100%'}
                                     >
-                                      <Box
-                                        style={{
-                                          display: 'flex',
-                                          gap: 8,
-                                          flex:1
-                                        }}
-                                      >
-                                        <Box style={{flex: 1}}>
-                                          <TextToolTip
-                                            type="BOARD"
-                                            maxLines={2}
-                                            title={item.title}
-                                            id={(item.requestId
-                                              ? item.requestId
-                                              : item.id
-                                            )
-                                              .slice(-5)
-                                              .toUpperCase()}
-                                          />
-                                        </Box>
+                                      <Box style={{ flex: 1 }}>
+                                        <Tooltip
+                                          fontSize={'xs'}
+                                          label={item.id}
+                                        >
+                                          <div
+                                            style={{
+                                              fontWeight: 'bold',
+                                              maxWidth: '250px',
+                                            }}
+                                          >
+                                            <OverflowText
+                                              maxLines={2}
+                                              text={
+                                                item.requestId
+                                                  ? formatShortId(
+                                                      item.requestId
+                                                    )
+                                                  : formatShortId(item.id)
+                                              }
+                                            />
+                                          </div>
+                                        </Tooltip>
                                       </Box>
 
                                       <Box>
@@ -564,8 +579,28 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
                                     </Flex>
 
                                     <Flex gap={2}>
-                                      <Text>Request user:</Text>{' '}
-                                      {item.authorName}
+                                      <Text>Title:</Text>
+                                      <Tooltip
+                                        fontSize={'xs'}
+                                        label={item.title}
+                                      >
+                                        <Box>
+                                          <Tooltip label={item.title}>
+                                            <OverflowText
+                                              styles={{ maxWidth: 250 }}
+                                              maxLines={1}
+                                              text={item.title}
+                                            />
+                                          </Tooltip>
+                                        </Box>
+                                      </Tooltip>
+                                    </Flex>
+
+                                    <Flex gap={2}>
+                                      <Text>Request user:</Text>
+                                      <Tooltip label={item.email}>
+                                        <div>{item.authorName}</div>
+                                      </Tooltip>
                                     </Flex>
                                     <Flex gap={2}>
                                       <Text>Current State:</Text>
@@ -709,6 +744,7 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
         </DragDropContext>
       </Box>
       <ModalBoard
+        shortTitle={shortTitle}
         isOpen={isOpen}
         onClose={handleClose}
         onConfirm={isExternal ? handleConfirmExternal : handleDrop}

@@ -32,6 +32,7 @@ interface ModalBoardProps {
   isDisabled?: boolean;
   isLoading?: boolean;
   setReason: (data: string) => void;
+  shortTitle?: string;
 }
 
 interface IDynamicFormProps {
@@ -50,6 +51,7 @@ const ModalBoard = (props: ModalBoardProps): JSX.Element => {
     showDynamicForm = false,
     dynamicForm = '',
     setReason,
+    shortTitle,
   } = props;
 
   const {
@@ -131,7 +133,7 @@ const ModalBoard = (props: ModalBoardProps): JSX.Element => {
         <AlertDialogOverlay>
           <AlertDialogContent>
             <AlertDialogHeader fontSize="lg" fontWeight="bold" pb={1}>
-              Update status
+              Update status ({shortTitle})
             </AlertDialogHeader>
 
             <AlertDialogBody>
