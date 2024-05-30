@@ -69,6 +69,7 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
   const isLargeScreen = useMediaQuery('(min-width: 1024px)');
   const [filter, setFilter] = useState<FilterTasks>(filters);
   const actionTaskMutation = useActionTask();
+
   const {
     data: listPending,
     isLoading: loadPending,
@@ -77,6 +78,7 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
     hasNextPage: hasNextPagePending,
     isFetchingNextPage: isFetchingNextPagePending,
   } = useGetAllTask({ ...filter }, TaskStatus.Pending);
+
   const {
     data: listApproved,
     isLoading: loadApproved,
@@ -85,6 +87,7 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
     hasNextPage: hasNextPageApproved,
     isFetchingNextPage: isFetchingNextPageApproved,
   } = useGetAllTask({ ...filter }, TaskStatus.Approved);
+
   const {
     data: listRejected,
     isLoading: loadRejected,
@@ -93,6 +96,7 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
     hasNextPage: hasNextPageRejected,
     isFetchingNextPage: isFetchingNextPageRejected,
   } = useGetAllTask({ ...filter }, TaskStatus.Rejected);
+
   const color = useColorModeValue(ColorThemeMode.DARK, ColorThemeMode.LIGHT);
   const bg = useColorModeValue(theme.colors.white, theme.colors.quarty);
   const bgDisabled = useColorModeValue(
@@ -222,6 +226,10 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
   useEffect(() => {
     setFilter(filters);
   }, [filters]);
+
+  useEffect(() => {
+    refetchPending(), refetchApproved(), refetchRejected();
+  }, [refetchPending, refetchApproved, refetchRejected]);
 
   const onActionClick = async (id: string, action: string) => {
     try {
