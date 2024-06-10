@@ -157,6 +157,20 @@ const DefineInputForm = ({
             </Center>
           </FormControl>
 
+          <FormControl mb="20px">
+            <FormLabel
+              textAlign="center"
+              fontSize={16}
+              mb={1}
+              fontWeight="normal"
+            >
+              Title
+            </FormLabel>
+            <Center h="40px" mr={3}>
+              <Checkbox size="lg" {...register(`items.${index}.isTitle`)} />
+            </Center>
+          </FormControl>
+
           <Button
             colorScheme="red"
             mb="20px"

@@ -1,5 +1,6 @@
 .customModal {
-  max-width: 700px !important;
+  width: max-content !important;
+  min-width: 700px !important;
   margin: 10px;
   box-sizing: border-box;
 }
