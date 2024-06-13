@@ -9,6 +9,7 @@ import {
   MenuList,
   Spinner,
   Text,
+  Tooltip,
   keyframes,
   useColorModeValue,
   useDisclosure,
@@ -52,8 +53,9 @@ import TaskSkeleton from './TaskSkeleton';
 import { isValidJSON } from 'utils';
 import { useClearCacheTask } from './useClearCacheTask';
 import { useNavigate } from 'react-router';
-import { Color } from 'common/types';
 import { useMediaQuery } from 'hooks/useMediaQuery';
+import { renderColor } from 'utils/getColorTypeRequest';
+import OverflowText from '../OverflowText';
 
 const fadeIn = keyframes`
   from { opacity: 0; }
@@ -68,6 +70,7 @@ export interface BoardsProps {
 const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
   const isLargeScreen = useMediaQuery('(min-width: 1024px)');
   const [filter, setFilter] = useState<FilterTasks>(filters);
+  const [shortTitle, setShortTitle] = useState<string>('');
   const actionTaskMutation = useActionTask();
   const {
     data: listPending,
@@ -107,6 +110,8 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
     hasDynamicForm: false,
     dynamicForm: '',
   });
+
+  console.log(result);
   const [reason, setReason] = useState<string>('');
   const [state, setState] = useState<Record<ETaskStatus, ITask[]>>({
     [ETaskStatus.Pending]: [],
@@ -141,6 +146,9 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
     if (!destination) return;
     const sInd = +source.droppableId as ETaskStatus;
     const dInd = +destination.droppableId;
+
+    const shortTitleSelect = state[sInd][source.index].title;
+
     if (sInd === dInd) {
       const items = reorder(state[sInd], source.index, destination.index);
       const newState = { ...state };
@@ -164,6 +172,7 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
     }
     onOpen();
     setResult(result);
+    setShortTitle(shortTitleSelect);
   };
 
   const handleDrop = async (approvedData?: string) => {
@@ -412,28 +421,8 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
     return result;
   };
 
-  const arrColor: Color[] = ['#009688', '#000000'];
-  const initialData: [string, Color][] = [
-    ['Device Request', '#03A9F4'],
-    ['Change Office Request', '#db0000'],
-    ['Office Equipment Request', '#f27024'],
-    ['Probationary Confirmation Request', '#0c51a0'],
-    ['WFH Request', '#d000db'],
-  ];
-  let currentColor: number = 0;
-  const hashMap = new Map<string, Color>(initialData);
-
-  const renderColor = (key: string) => {
-    if (hashMap.has(key)) {
-      return hashMap.get(key);
-    }
-    if (currentColor > arrColor.length - 1) {
-      return '#3366CC';
-    }
-
-    hashMap.set(key, arrColor[currentColor]);
-    currentColor++;
-    return hashMap.get(key);
+  const formatShortId = (id: string) => {
+    return id.slice(0, 5);
   };
 
   return (
@@ -554,45 +543,82 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
                                   >
                                     <Flex
                                       justifyContent={'space-between'}
-                                      alignItems={'center'}
+                                      alignItems={'flex-start'}
                                       w={'100%'}
                                     >
-                                      <Text fontWeight={'bold'} mr={1}>
-                                        ID: {item.id.slice(-5).toUpperCase()}
-                                      </Text>
-                                      <div>
-                                        ({getDayAgo(item?.creationTime)})
-                                      </div>
+                                      <Box style={{ flex: 1 }}>
+                                        <Tooltip
+                                          fontSize={'xs'}
+                                          label={item.id}
+                                        >
+                                          <div
+                                            style={{
+                                              fontWeight: 'bold',
+                                              maxWidth: '250px',
+                                            }}
+                                          >
+                                            <OverflowText
+                                              maxLines={2}
+                                              text={
+                                                item.requestId
+                                                  ? formatShortId(
+                                                      item.requestId
+                                                    )
+                                                  : formatShortId(item.id)
+                                              }
+                                            />
+                                          </div>
+                                        </Tooltip>
+                                      </Box>
+
+                                      <Box>
+                                        <div>
+                                          ({getDayAgo(item?.creationTime)})
+                                        </div>
+                                      </Box>
                                     </Flex>
-                                    <div
-                                      className={styles.title}
-                                      style={{
-                                        backgroundColor: renderColor(item.name),
-                                      }}
-                                    >
-                                      {item.name}
-                                    </div>
 
                                     <Flex gap={2}>
-                                      <Text>Request user:</Text>{' '}
-                                      {item.authorName}
+                                      <Text>Title:</Text>
+                                      <Tooltip
+                                        fontSize={'xs'}
+                                        label={item.title}
+                                      >
+                                        <Box>
+                                          <Tooltip label={item.title}>
+                                            <OverflowText
+                                              styles={{ maxWidth: 250 }}
+                                              maxLines={1}
+                                              text={item.title}
+                                            />
+                                          </Tooltip>
+                                        </Box>
+                                      </Tooltip>
+                                    </Flex>
+
+                                    <Flex gap={2}>
+                                      <Text>Request user:</Text>
+                                      <Tooltip label={item.email}>
+                                        <div>{item.authorName}</div>
+                                      </Tooltip>
                                     </Flex>
                                     <Flex gap={2}>
                                       <Text>Current State:</Text>
                                       {item.description}
                                     </Flex>
-                                    <Flex gap={2}>
-                                      <Text>Assign:</Text>
-                                      {item.emailTo
-                                        .map((email) => email.split('@')[0])
-                                        .join(', ')}
-                                    </Flex>
-                                    <Flex className={styles.cardFooter}>
+                                    <Flex
+                                      style={{
+                                        flexDirection: 'row',
+                                        justifyContent: 'space-between',
+                                        width: '100%',
+                                        alignItems: 'center',
+                                      }}
+                                    >
                                       <Flex gap={2}>
-                                        <Text>Date:</Text>
-                                        {formatDate(
-                                          new Date(item?.creationTime)
-                                        )}
+                                        <Text>Assign:</Text>
+                                        {item.emailTo
+                                          .map((email) => email.split('@')[0])
+                                          .join(', ')}
                                       </Flex>
                                       {item.status === TaskStatus.Pending &&
                                         item.otherActionSignals &&
@@ -653,6 +679,24 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
                                           </Flex>
                                         )}
                                     </Flex>
+                                    <Flex className={styles.cardFooter}>
+                                      <Flex gap={2}>
+                                        <Text>Date:</Text>
+                                        {formatDate(
+                                          new Date(item?.creationTime)
+                                        )}
+                                      </Flex>
+                                      <div
+                                        className={styles.title}
+                                        style={{
+                                          backgroundColor: renderColor(
+                                            item.name
+                                          ),
+                                        }}
+                                      >
+                                        {item.name}
+                                      </div>
+                                    </Flex>
                                   </Box>
                                 </Box>
                               )}
@@ -700,6 +744,7 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
         </DragDropContext>
       </Box>
       <ModalBoard
+        shortTitle={shortTitle}
         isOpen={isOpen}
         onClose={handleClose}
         onConfirm={isExternal ? handleConfirmExternal : handleDrop}

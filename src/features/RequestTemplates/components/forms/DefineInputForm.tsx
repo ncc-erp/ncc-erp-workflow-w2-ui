@@ -91,7 +91,7 @@ const DefineInputForm = ({
   };
 
   const onAddField = () => {
-    append({ name: '', type: 'Text', isRequired: false });
+    append({ name: '', isTitle: false, type: 'Text', isRequired: false });
   };
 
   const renderFormContent = () => {
@@ -154,6 +154,20 @@ const DefineInputForm = ({
             </FormLabel>
             <Center h="40px" mr={3}>
               <Checkbox size="lg" {...register(`items.${index}.isRequired`)} />
+            </Center>
+          </FormControl>
+
+          <FormControl mb="20px">
+            <FormLabel
+              textAlign="center"
+              fontSize={16}
+              mb={1}
+              fontWeight="normal"
+            >
+              Title
+            </FormLabel>
+            <Center h="40px" mr={3}>
+              <Checkbox size="lg" {...register(`items.${index}.isTitle`)} />
             </Center>
           </FormControl>
 

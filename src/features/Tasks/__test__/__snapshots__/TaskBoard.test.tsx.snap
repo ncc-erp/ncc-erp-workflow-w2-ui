@@ -516,25 +516,47 @@ exports[`Request My Requests Page 1`] = `
                       class="item itemRejected css-1lwj26n"
                     >
                       <div
-                        class="css-nb2z2f"
+                        class="css-y3sjyp"
                       >
-                        <p
-                          class="chakra-text css-1e3dq3t"
+                        <div
+                          class="css-0"
+                          style="flex: 1;"
                         >
-                          ID: 
-                          6387F
-                        </p>
-                        <div>
-                          (
-                          2 months ago
-                          )
+                          <div
+                            style="font-weight: bold; max-width: 250px;"
+                          >
+                            <div
+                              style="overflow: hidden; text-overflow: ellipsis; display: -webkit-box;"
+                            >
+                              3a0e2
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          class="css-0"
+                        >
+                          <div>
+                            (
+                            2 months ago
+                            )
+                          </div>
                         </div>
                       </div>
                       <div
-                        class="title"
-                        style="background-color: rgb(0, 150, 136);"
+                        class="css-147dy5z"
                       >
-                        Probationary Request
+                        <p
+                          class="chakra-text css-0"
+                        >
+                          Title:
+                        </p>
+                        <div
+                          class="css-0"
+                        >
+                          <div
+                            style="overflow: hidden; text-overflow: ellipsis; display: -webkit-box; max-width: 250px;"
+                          />
+                        </div>
                       </div>
                       <div
                         class="css-147dy5z"
@@ -544,8 +566,9 @@ exports[`Request My Requests Page 1`] = `
                         >
                           Request user:
                         </p>
-                         
-                        Ba Bi
+                        <div>
+                          Ba Bi
+                        </div>
                       </div>
                       <div
                         class="css-147dy5z"
@@ -558,14 +581,19 @@ exports[`Request My Requests Page 1`] = `
                         CEO Review
                       </div>
                       <div
-                        class="css-147dy5z"
+                        class="css-k008qs"
+                        style="flex-direction: row; justify-content: space-between; width: 100%; align-items: center;"
                       >
-                        <p
-                          class="chakra-text css-0"
+                        <div
+                          class="css-147dy5z"
                         >
-                          Assign:
-                        </p>
-                        nhan.huynhba
+                          <p
+                            class="chakra-text css-0"
+                          >
+                            Assign:
+                          </p>
+                          nhan.huynhba
+                        </div>
                       </div>
                       <div
                         class="cardFooter css-k008qs"
@@ -579,6 +607,12 @@ exports[`Request My Requests Page 1`] = `
                             Date:
                           </p>
                           10-10-2023 16:41
+                        </div>
+                        <div
+                          class="title"
+                          style="background-color: rgb(0, 150, 136);"
+                        >
+                          Probationary Request
                         </div>
                       </div>
                     </div>

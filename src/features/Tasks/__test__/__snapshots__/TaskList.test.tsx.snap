@@ -64,7 +64,11 @@ exports[`Request My Requests Page 1`] = `
                 <div
                   class="css-alaj7i"
                 >
-                  Request template
+                  <div
+                    class="css-xi606m"
+                  >
+                    Title
+                  </div>
                 </div>
               </th>
               <th
@@ -143,7 +147,7 @@ exports[`Request My Requests Page 1`] = `
             class="css-0"
           >
             <tr
-              class="css-4g6ai3"
+              class="css-1zgccc"
             >
               <td
                 class="css-xk16pm"
@@ -157,12 +161,30 @@ exports[`Request My Requests Page 1`] = `
               <td
                 class="css-xk16pm"
               >
-                Probationary Request
+                <div
+                  class="css-0"
+                  style="display: flex; align-items: start; flex-direction: column; gap: 5px;"
+                >
+                  <div
+                    class="titleBoard css-0"
+                    style="background-color: rgb(0, 150, 136);"
+                  >
+                    <div
+                      style="overflow: hidden; text-overflow: ellipsis; display: -webkit-box;"
+                    >
+                      Probationary Request
+                    </div>
+                  </div>
+                </div>
               </td>
               <td
                 class="css-xk16pm"
               >
-                Bubu chacha
+                <div
+                  class="css-0"
+                >
+                  Bubu chacha
+                </div>
               </td>
               <td
                 class="css-xk16pm"
@@ -202,12 +224,12 @@ exports[`Request My Requests Page 1`] = `
                     class="tableActionLoading"
                   />
                   <button
-                    aria-controls="menu-list-:r8:"
+                    aria-controls="menu-list-:rk:"
                     aria-expanded="false"
                     aria-haspopup="menu"
                     aria-label=""
                     class="chakra-button chakra-menu__menu-button css-p7mkev"
-                    id="menu-button-:r8:"
+                    id="menu-button-:rk:"
                     type="button"
                   >
                     <svg
@@ -234,7 +256,7 @@ exports[`Request My Requests Page 1`] = `
                     <div
                       aria-orientation="vertical"
                       class="chakra-menu__menu-list css-2vme5"
-                      id="menu-list-:r8:"
+                      id="menu-list-:rk:"
                       role="menu"
                       style="transform-origin: var(--popper-transform-origin); opacity: 0; visibility: hidden; transform: scale(0.8) translateZ(0);"
                       tabindex="-1"
@@ -242,7 +264,7 @@ exports[`Request My Requests Page 1`] = `
                       <button
                         class="chakra-menu__menuitem css-z08cet"
                         data-index="0"
-                        id="menu-list-:r8:-menuitem-:r9:"
+                        id="menu-list-:rk:-menuitem-:rl:"
                         role="menuitem"
                         tabindex="-1"
                         type="button"
@@ -267,7 +289,7 @@ exports[`Request My Requests Page 1`] = `
                       <button
                         class="chakra-menu__menuitem css-z08cet"
                         data-index="1"
-                        id="menu-list-:r8:-menuitem-:ra:"
+                        id="menu-list-:rk:-menuitem-:rm:"
                         role="menuitem"
                         tabindex="-1"
                         type="button"
@@ -321,7 +343,7 @@ exports[`Request My Requests Page 1`] = `
             >
               <select
                 class="chakra-select css-1y1ernp"
-                id="field-:r5:"
+                id="field-:rb:"
               >
                 <option
                   value="10"

@@ -7,6 +7,7 @@ export interface Request {
   userRequestName: string;
   createdAt: string;
   lastExecutedAt: string;
+  shortTitle?: string;
   status: RequestStatus;
   stakeHolders: string[];
   currentStates: string[];
@@ -60,6 +61,7 @@ export interface PropertyDefinition {
   name: string;
   type: string;
   isRequired: boolean;
+  isTitle?: boolean;
 }
 
 export interface CreateWorkflowPropertyDefinition {
