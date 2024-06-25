@@ -547,23 +547,9 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
                                       w={'100%'}
                                     >
                                       <Box style={{ flex: 1 }}>
-                                        {/* <Tooltip
-                                          fontSize={'xs'}
-                                          label={item.id}
-                                        >
-                                          <div
-                                            style={{
-                                              fontWeight: 'bold',
-                                              maxWidth: '250px',
-                                            }}
-                                          >
-
-                                          </div>
-                                        </Tooltip> */}
                                         <TextToolTip
                                           maxLines={1}
-                                          // title={item.title}
-                                          title="sdfds sdf ds sdf dsf ds fsdf dsf ds fds fs dfds fds fd sf df ds"
+                                          title={item.title}
                                           id={formatShortId(item.id)}
                                           type="BOARD"
                                         />

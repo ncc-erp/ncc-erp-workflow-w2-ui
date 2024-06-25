@@ -138,8 +138,7 @@ export const MyRequestTable = () => {
             }}
           >
             <TextToolTip
-              // title={info.row.original.shortTitle || ""}
-              title="sà sdf dsf dsf dsa fd sà dsaf ds f dsaf sd fds fds f dá dsgdsfgsdf sdfgdfgdfs fsdgdfgfd ggfđs gfdg"
+              title={info.row.original.shortTitle || ''}
               maxLines={1}
               type="LIST"
               place="top"

@@ -54,7 +54,7 @@ const TextToolTip = ({
 
   const resultTitle: string = useMemo(() => {
     if (id && title) {
-      return `${id}: ${title}`;
+      return `${id} ${title}`;
     }
     if (id && !title) {
       return `${id}`;

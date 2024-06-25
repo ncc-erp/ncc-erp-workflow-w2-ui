@@ -498,11 +498,9 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                     >
                       <p
                         class="chakra-text css-e3cc90"
-                        data-tooltip-id="sà sdf dsf dsf dsa fd sà dsaf ds f dsaf sd fds fds f dá dsgdsfgsdf sdfgdfgdfs fsdgdfgfd ggfđs gfdg"
+                        data-tooltip-id=""
                         style="overflow: hidden; text-overflow: ellipsis; font-weight: 600; display: -webkit-box;"
-                      >
-                        sà sdf dsf dsf dsa fd sà dsaf ds f dsaf sd fds fds f dá dsgdsfgsdf sdfgdfgdfs fsdgdfgfd ggfđs gfdg
-                      </p>
+                      />
                     </div>
                     <div
                       class="titleTable css-0"
@@ -702,11 +700,9 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                     >
                       <p
                         class="chakra-text css-e3cc90"
-                        data-tooltip-id="sà sdf dsf dsf dsa fd sà dsaf ds f dsaf sd fds fds f dá dsgdsfgsdf sdfgdfgdfs fsdgdfgfd ggfđs gfdg"
+                        data-tooltip-id=""
                         style="overflow: hidden; text-overflow: ellipsis; font-weight: 600; display: -webkit-box;"
-                      >
-                        sà sdf dsf dsf dsa fd sà dsaf ds f dsaf sd fds fds f dá dsgdsfgsdf sdfgdfgdfs fsdgdfgfd ggfđs gfdg
-                      </p>
+                      />
                     </div>
                     <div
                       class="titleTable css-0"

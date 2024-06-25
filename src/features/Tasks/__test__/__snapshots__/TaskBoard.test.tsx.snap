@@ -528,10 +528,10 @@ exports[`Request My Requests Page 1`] = `
                           >
                             <p
                               class="chakra-text css-e3cc90"
-                              data-tooltip-id="3a0e2: sdfds sdf ds sdf dsf ds fsdf dsf ds fds fs dfds fds fd sf df ds"
+                              data-tooltip-id="3a0e2"
                               style="overflow: hidden; font-weight: 600; display: -webkit-box; text-overflow: ellipsis;"
                             >
-                              3a0e2: sdfds sdf ds sdf dsf ds fsdf dsf ds fds fs dfds fds fd sf df ds
+                              3a0e2
                             </p>
                           </div>
                         </div>
