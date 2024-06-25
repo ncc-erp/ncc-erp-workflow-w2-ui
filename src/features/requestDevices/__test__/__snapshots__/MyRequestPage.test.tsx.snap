@@ -361,15 +361,15 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                 <th
                   class="css-1d8mdkw"
                   colspan="1"
-                  style="width: auto;"
+                  style="width: 20%;"
                 >
                   <div
                     class="css-alaj7i"
                   >
                     <div
-                      class="css-xi606m"
+                      class="css-0"
                     >
-                      Title
+                      Request template
                     </div>
                   </div>
                 </th>
@@ -490,18 +490,8 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                 >
                   <div
                     class="css-0"
-                    style="display: flex; align-items: start; flex-direction: column; gap: 5px;"
                   >
-                    <div
-                      class="titleTable css-0"
-                      style="background-color: rgb(242, 112, 36);"
-                    >
-                      <div
-                        style="overflow: hidden; text-overflow: ellipsis; display: -webkit-box;"
-                      >
-                        Office Equipment Request
-                      </div>
-                    </div>
+                    Office Equipment Request
                   </div>
                 </td>
                 <td
@@ -553,12 +543,12 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                     class="css-gmuwbf"
                   >
                     <button
-                      aria-controls="menu-list-:rl:"
+                      aria-controls="menu-list-:rf:"
                       aria-expanded="false"
                       aria-haspopup="menu"
                       aria-label=""
                       class="chakra-button chakra-menu__menu-button css-p7mkev"
-                      id="menu-button-:rl:"
+                      id="menu-button-:rf:"
                       type="button"
                     >
                       <svg
@@ -585,7 +575,7 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                       <div
                         aria-orientation="vertical"
                         class="chakra-menu__menu-list css-1oaq8ss"
-                        id="menu-list-:rl:"
+                        id="menu-list-:rf:"
                         role="menu"
                         style="transform-origin: var(--popper-transform-origin); opacity: 0; visibility: hidden; transform: scale(0.8) translateZ(0);"
                         tabindex="-1"
@@ -593,7 +583,7 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                         <button
                           class="chakra-menu__menuitem css-zn25ca"
                           data-index="0"
-                          id="menu-list-:rl:-menuitem-:rm:"
+                          id="menu-list-:rf:-menuitem-:rg:"
                           role="menuitem"
                           tabindex="-1"
                           type="button"
@@ -618,7 +608,7 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                         <button
                           class="chakra-menu__menuitem css-zn25ca"
                           data-index="1"
-                          id="menu-list-:rl:-menuitem-:rn:"
+                          id="menu-list-:rf:-menuitem-:rh:"
                           role="menuitem"
                           tabindex="-1"
                           type="button"
@@ -643,7 +633,7 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                         <button
                           class="chakra-menu__menuitem css-zn25ca"
                           data-index="2"
-                          id="menu-list-:rl:-menuitem-:ro:"
+                          id="menu-list-:rf:-menuitem-:ri:"
                           role="menuitem"
                           tabindex="-1"
                           type="button"
@@ -682,18 +672,8 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                 >
                   <div
                     class="css-0"
-                    style="display: flex; align-items: start; flex-direction: column; gap: 5px;"
                   >
-                    <div
-                      class="titleTable css-0"
-                      style="background-color: rgb(208, 0, 219);"
-                    >
-                      <div
-                        style="overflow: hidden; text-overflow: ellipsis; display: -webkit-box;"
-                      >
-                        WFH Request
-                      </div>
-                    </div>
+                    WFH Request
                   </div>
                 </td>
                 <td
@@ -741,12 +721,12 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                     class="css-gmuwbf"
                   >
                     <button
-                      aria-controls="menu-list-:rs:"
+                      aria-controls="menu-list-:rk:"
                       aria-expanded="false"
                       aria-haspopup="menu"
                       aria-label=""
                       class="chakra-button chakra-menu__menu-button css-p7mkev"
-                      id="menu-button-:rs:"
+                      id="menu-button-:rk:"
                       type="button"
                     >
                       <svg
@@ -773,7 +753,7 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                       <div
                         aria-orientation="vertical"
                         class="chakra-menu__menu-list css-1oaq8ss"
-                        id="menu-list-:rs:"
+                        id="menu-list-:rk:"
                         role="menu"
                         style="transform-origin: var(--popper-transform-origin); opacity: 0; visibility: hidden; transform: scale(0.8) translateZ(0);"
                         tabindex="-1"
@@ -781,7 +761,7 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                         <button
                           class="chakra-menu__menuitem css-zn25ca"
                           data-index="0"
-                          id="menu-list-:rs:-menuitem-:rt:"
+                          id="menu-list-:rk:-menuitem-:rl:"
                           role="menuitem"
                           tabindex="-1"
                           type="button"
@@ -806,7 +786,7 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                         <button
                           class="chakra-menu__menuitem css-zn25ca"
                           data-index="1"
-                          id="menu-list-:rs:-menuitem-:ru:"
+                          id="menu-list-:rk:-menuitem-:rm:"
                           role="menuitem"
                           tabindex="-1"
                           type="button"
@@ -831,7 +811,7 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                         <button
                           class="chakra-menu__menuitem css-zn25ca"
                           data-index="2"
-                          id="menu-list-:rs:-menuitem-:rv:"
+                          id="menu-list-:rk:-menuitem-:rn:"
                           role="menuitem"
                           tabindex="-1"
                           type="button"
