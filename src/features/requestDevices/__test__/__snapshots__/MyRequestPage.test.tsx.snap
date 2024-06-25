@@ -361,15 +361,15 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                 <th
                   class="css-1d8mdkw"
                   colspan="1"
-                  style="width: auto;"
+                  style="width: 20%;"
                 >
                   <div
                     class="css-alaj7i"
                   >
                     <div
-                      class="css-xi606m"
+                      class="css-0"
                     >
-                      Title
+                      Request template
                     </div>
                   </div>
                 </th>
@@ -490,28 +490,8 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                 >
                   <div
                     class="css-0"
-                    style="display: flex; align-items: start; flex-direction: column; gap: 5px;"
                   >
-                    <div
-                      class="css-0"
-                      style="flex: 1;"
-                    >
-                      <p
-                        class="chakra-text css-e3cc90"
-                        data-tooltip-id=""
-                        style="overflow: hidden; text-overflow: ellipsis; font-weight: 600; display: -webkit-box;"
-                      />
-                    </div>
-                    <div
-                      class="titleTable css-0"
-                      style="background-color: rgb(242, 112, 36);"
-                    >
-                      <div
-                        style="overflow: hidden; text-overflow: ellipsis; display: -webkit-box;"
-                      >
-                        Office Equipment Request
-                      </div>
-                    </div>
+                    Office Equipment Request
                   </div>
                 </td>
                 <td
@@ -692,28 +672,8 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                 >
                   <div
                     class="css-0"
-                    style="display: flex; align-items: start; flex-direction: column; gap: 5px;"
                   >
-                    <div
-                      class="css-0"
-                      style="flex: 1;"
-                    >
-                      <p
-                        class="chakra-text css-e3cc90"
-                        data-tooltip-id=""
-                        style="overflow: hidden; text-overflow: ellipsis; font-weight: 600; display: -webkit-box;"
-                      />
-                    </div>
-                    <div
-                      class="titleTable css-0"
-                      style="background-color: rgb(208, 0, 219);"
-                    >
-                      <div
-                        style="overflow: hidden; text-overflow: ellipsis; display: -webkit-box;"
-                      >
-                        WFH Request
-                      </div>
-                    </div>
+                    WFH Request
                   </div>
                 </td>
                 <td
