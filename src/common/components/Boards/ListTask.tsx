@@ -152,7 +152,6 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
               >
                 <TextToolTip
                   title={info.row.original.title || ''}
-                  // title='sà sdf dsf dsf dsa fd sà dsaf ds f dsaf sd fds fds f dá'
                   maxLines={1}
                   type="LIST"
                   place="top"
