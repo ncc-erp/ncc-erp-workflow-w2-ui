@@ -47,6 +47,7 @@ import { useClearCacheTask } from './useClearCacheTask';
 import { WorkflowModal } from 'common/components/WorkflowModal';
 import OverflowText from '../OverflowText';
 import { renderColor } from 'utils/getColorTypeRequest';
+import TextToolTip from '../textTooltip';
 
 interface Props {
   filters: FilterTasks;
@@ -149,17 +150,22 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
                   gap: '5px',
                 }}
               >
-                {info.row.original.title}
-                <Tooltip fontSize={'xs'} label={info.row.original.name}>
-                  <Box
-                    className={styles.titleBoard}
-                    style={{
-                      backgroundColor: renderColor(info.row.original.name),
-                    }}
-                  >
-                    <OverflowText text={info.row.original.name} maxLines={1} />
-                  </Box>
-                </Tooltip>
+                <TextToolTip
+                  title={info.row.original.title || ''}
+                  // title='sà sdf dsf dsf dsa fd sà dsaf ds f dsaf sd fds fds f dá'
+                  maxLines={1}
+                  type="LIST"
+                  place="top"
+                />
+
+                <Box
+                  className={styles.titleBoard}
+                  style={{
+                    backgroundColor: renderColor(info.row.original.name),
+                  }}
+                >
+                  <OverflowText text={info.row.original.name} maxLines={1} />
+                </Box>
               </Box>
             </>
           );

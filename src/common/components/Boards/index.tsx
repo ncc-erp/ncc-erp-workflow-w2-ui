@@ -55,7 +55,7 @@ import { useClearCacheTask } from './useClearCacheTask';
 import { useNavigate } from 'react-router';
 import { useMediaQuery } from 'hooks/useMediaQuery';
 import { renderColor } from 'utils/getColorTypeRequest';
-import OverflowText from '../OverflowText';
+import TextToolTip from '../textTooltip';
 
 const fadeIn = keyframes`
   from { opacity: 0; }
@@ -547,7 +547,7 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
                                       w={'100%'}
                                     >
                                       <Box style={{ flex: 1 }}>
-                                        <Tooltip
+                                        {/* <Tooltip
                                           fontSize={'xs'}
                                           label={item.id}
                                         >
@@ -557,18 +557,16 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
                                               maxWidth: '250px',
                                             }}
                                           >
-                                            <OverflowText
-                                              maxLines={2}
-                                              text={
-                                                item.requestId
-                                                  ? formatShortId(
-                                                      item.requestId
-                                                    )
-                                                  : formatShortId(item.id)
-                                              }
-                                            />
+
                                           </div>
-                                        </Tooltip>
+                                        </Tooltip> */}
+                                        <TextToolTip
+                                          maxLines={1}
+                                          // title={item.title}
+                                          title="sdfds sdf ds sdf dsf ds fsdf dsf ds fds fs dfds fds fd sf df ds"
+                                          id={formatShortId(item.id)}
+                                          type="BOARD"
+                                        />
                                       </Box>
 
                                       <Box>
@@ -576,24 +574,6 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
                                           ({getDayAgo(item?.creationTime)})
                                         </div>
                                       </Box>
-                                    </Flex>
-
-                                    <Flex gap={2}>
-                                      <Text>Title:</Text>
-                                      <Tooltip
-                                        fontSize={'xs'}
-                                        label={item.title}
-                                      >
-                                        <Box>
-                                          <Tooltip label={item.title}>
-                                            <OverflowText
-                                              styles={{ maxWidth: 250 }}
-                                              maxLines={1}
-                                              text={item.title}
-                                            />
-                                          </Tooltip>
-                                        </Box>
-                                      </Tooltip>
                                     </Flex>
 
                                     <Flex gap={2}>

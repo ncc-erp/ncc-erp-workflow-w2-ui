@@ -52,22 +52,18 @@ const TextToolTip = ({
     };
   }, [maxLines]);
 
-
   const resultTitle: string = useMemo(() => {
-    if(id && title){
-      return `${id}: ${title}`
+    if (id && title) {
+      return `${id}: ${title}`;
     }
-    if(id && !title){
-      return `${id}`
+    if (id && !title) {
+      return `${id}`;
     }
-    if(!id){
-      return title ? title : ''
+    if (!id) {
+      return title ? title : '';
     }
-    return ''
-  }, [id, title])
-
-
-
+    return '';
+  }, [id, title]);
 
   return (
     <Box style={width ? { width: width } : { flex: 1 }}>
@@ -80,26 +76,34 @@ const TextToolTip = ({
           isList
             ? {
                 overflow: 'hidden',
-                whiteSpace: 'nowrap',
                 textOverflow: 'ellipsis',
-                display: 'block',
-                width: width || '100%',
+                fontWeight: 600,
+                display: '-webkit-box',
+                WebkitBoxOrient: 'vertical',
               }
             : {
                 overflow: 'hidden',
                 fontWeight: 600,
+                display: '-webkit-box',
+                WebkitBoxOrient: 'vertical',
+                textOverflow: 'ellipsis',
               }
         }
         css={{
           display: '-webkit-box',
-          WebkitLineClamp: '2',
+          WebkitLineClamp: maxLines,
           WebkitBoxOrient: 'vertical',
         }}
       >
         {resultTitle}
       </Text>
       {isTooltipVisible && (
-        <Tooltip style={{width:300}} id={resultTitle} place={place} content={title || 'sagdsgdsagdasds ds fds gds gds gd s gdsg dsg dsd gds gds g'} />
+        <Tooltip
+          style={{ width: 300 }}
+          id={resultTitle}
+          place={place}
+          content={title}
+        />
       )}
     </Box>
   );
