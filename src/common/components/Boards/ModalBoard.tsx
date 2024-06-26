@@ -140,7 +140,7 @@ const ModalBoard = (props: ModalBoardProps): JSX.Element => {
         <AlertDialogOverlay>
           <AlertDialogContent>
             <AlertDialogHeader fontSize="lg" fontWeight="bold" pb={1}>
-              Update status ({shortTitle})
+              Update status
             </AlertDialogHeader>
 
             <AlertDialogBody>
@@ -153,6 +153,16 @@ const ModalBoard = (props: ModalBoardProps): JSX.Element => {
                 Do you want to update status ?
               </Text>
               <Box style={{ padding: '4px 0' }}>
+                {shortTitle && (
+                  <Text
+                    whiteSpace="nowrap"
+                    fontSize="xs"
+                    fontWeight="medium"
+                    pb={0}
+                  >
+                    Title: {shortTitle}
+                  </Text>
+                )}
                 {requestUser && (
                   <Text
                     whiteSpace="nowrap"
