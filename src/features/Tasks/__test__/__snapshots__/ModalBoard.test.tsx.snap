@@ -41,8 +41,7 @@ exports[`Request My Requests Page 1`] = `
               class="chakra-modal__header css-1rwr1rh"
               id="chakra-modal--header-:r0:"
             >
-              Update status (
-              )
+              Update status
             </header>
             <div
               class="chakra-modal__body css-0"
