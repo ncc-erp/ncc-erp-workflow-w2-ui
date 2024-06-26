@@ -21,6 +21,8 @@ import { useForm } from 'react-hook-form';
 import { TextareaField } from '../TextareaField';
 import { ErrorMessage } from '@hookform/error-message';
 import { ErrorDisplay } from '../ErrorDisplay';
+import { renderColor } from 'utils/getColorTypeRequest';
+import styles from './style.module.scss';
 
 interface ModalBoardProps {
   isOpen: boolean;
@@ -33,6 +35,9 @@ interface ModalBoardProps {
   isLoading?: boolean;
   setReason: (data: string) => void;
   shortTitle?: string;
+  id?: string;
+  name?: string;
+  requestUser?: string;
 }
 
 interface IDynamicFormProps {
@@ -52,6 +57,8 @@ const ModalBoard = (props: ModalBoardProps): JSX.Element => {
     dynamicForm = '',
     setReason,
     shortTitle,
+    name,
+    requestUser,
   } = props;
 
   const {
@@ -145,6 +152,29 @@ const ModalBoard = (props: ModalBoardProps): JSX.Element => {
               >
                 Do you want to update status ?
               </Text>
+              <Box style={{ padding: '4px 0' }}>
+                {requestUser && (
+                  <Text
+                    whiteSpace="nowrap"
+                    fontSize="xs"
+                    fontWeight="medium"
+                    pb={0}
+                  >
+                    Request User: {requestUser}
+                  </Text>
+                )}
+                {name && (
+                  <span
+                    className={styles.badge}
+                    style={{
+                      backgroundColor: renderColor(name),
+                    }}
+                  >
+                    {name}
+                  </span>
+                )}
+              </Box>
+
               {showDynamicForm && (
                 <form
                   style={{ width: '100%', margin: '10px 0' }}
