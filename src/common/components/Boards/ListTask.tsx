@@ -10,6 +10,7 @@ import {
   MenuList,
   Spacer,
   Spinner,
+  Tooltip,
   useDisclosure,
 } from '@chakra-ui/react';
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
@@ -44,6 +45,9 @@ import ModalBoard from './ModalBoard';
 import styles from './style.module.scss';
 import { useClearCacheTask } from './useClearCacheTask';
 import { WorkflowModal } from 'common/components/WorkflowModal';
+import OverflowText from '../OverflowText';
+import { renderColor } from 'utils/getColorTypeRequest';
+import TextToolTip from '../textTooltip';
 
 interface Props {
   filters: FilterTasks;
@@ -110,26 +114,74 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
     };
 
     return [
-      columnHelper.accessor('id', {
+      columnHelper.accessor('requestId', {
         id: 'id',
         header: () => <Box pl="16px">ID</Box>,
         enableSorting: false,
         sortDescFirst: true,
         cell: (info) => (
-          <Center>{info.getValue().slice(-5).toUpperCase()}</Center>
+          <Center>
+            <Tooltip fontSize={'xs'} label={info.getValue()}>
+              {info.getValue()
+                ? info.getValue()?.slice(-5).toUpperCase()
+                : info.row.original.id.slice(-5).toUpperCase()}
+            </Tooltip>
+          </Center>
         ),
       }),
-      columnHelper.accessor('name', {
-        id: 'name',
-        header: 'Request template',
+      // columnHelper.accessor('name', {
+      //   id: 'name',
+      //   header: 'Request template',
+      //   enableSorting: false,
+      //   cell: (info) => info.getValue(),
+      // }),
+      columnHelper.accessor('title', {
+        id: 'title',
+        header: () => <Box textAlign="center">Title</Box>,
         enableSorting: false,
-        cell: (info) => info.getValue(),
+        cell: (info) => {
+          return (
+            <>
+              <Box
+                style={{
+                  display: 'flex',
+                  alignItems: 'start',
+                  flexDirection: 'column',
+                  gap: '5px',
+                }}
+              >
+                <TextToolTip
+                  title={info.row.original.title || ''}
+                  maxLines={1}
+                  type="LIST"
+                  place="top"
+                />
+
+                <Box
+                  className={styles.titleBoard}
+                  style={{
+                    backgroundColor: renderColor(info.row.original.name),
+                  }}
+                >
+                  <OverflowText text={info.row.original.name} maxLines={1} />
+                </Box>
+              </Box>
+            </>
+          );
+        },
       }),
       columnHelper.accessor('authorName', {
         id: 'authorName',
         header: 'Request user',
         enableSorting: false,
-        cell: (info) => info.getValue(),
+        cell: (info) => {
+          const authorName = info.getValue();
+          return (
+            <Tooltip fontSize={'xs'} label={info.row.original.email}>
+              <Box>{authorName}</Box>
+            </Tooltip>
+          );
+        },
       }),
       columnHelper.accessor('description', {
         id: 'description',
@@ -392,6 +444,15 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
     [filters]
   );
 
+  const displayData = useMemo(() => {
+    return data?.items.map((item) => {
+      return {
+        ...item,
+        id: item.requestId || item.id,
+      };
+    });
+  }, [data]);
+
   useEffect(() => {
     setFilter({
       ...filters,
@@ -445,7 +506,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
                   <Table
                     onRowClick={openDetailModal}
                     columns={taskColumns}
-                    data={data?.items ?? []}
+                    data={displayData ?? []}
                     onRowHover={true}
                   />
                 </Box>

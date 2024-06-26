@@ -101,6 +101,7 @@ export const TasksBoard = () => {
 
     return [];
   }, [requestTemplateData]);
+
   const statusOptions = useMemo(() => {
     const defaultOptions = {
       value: -1,

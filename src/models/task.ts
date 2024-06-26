@@ -17,8 +17,10 @@ export interface ITask {
   emailTo: string[];
   reason?: string;
   status: number;
+  title: string;
   workflowInstanceId: string;
   dynamicActionData?: string;
+  requestId?: string;
   creationTime: string;
   id: string;
   otherActionSignals?: IOtherActionSignals[];
