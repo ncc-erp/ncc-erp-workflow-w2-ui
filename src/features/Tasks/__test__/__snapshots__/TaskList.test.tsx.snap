@@ -166,6 +166,16 @@ exports[`Request My Requests Page 1`] = `
                   style="display: flex; align-items: start; flex-direction: column; gap: 5px;"
                 >
                   <div
+                    class="css-0"
+                    style="flex: 1;"
+                  >
+                    <p
+                      class="chakra-text css-e3cc90"
+                      data-tooltip-id=""
+                      style="overflow: hidden; text-overflow: ellipsis; font-weight: 600; display: -webkit-box;"
+                    />
+                  </div>
+                  <div
                     class="titleBoard css-0"
                     style="background-color: rgb(0, 150, 136);"
                   >
@@ -224,12 +234,12 @@ exports[`Request My Requests Page 1`] = `
                     class="tableActionLoading"
                   />
                   <button
-                    aria-controls="menu-list-:rk:"
+                    aria-controls="menu-list-:rg:"
                     aria-expanded="false"
                     aria-haspopup="menu"
                     aria-label=""
                     class="chakra-button chakra-menu__menu-button css-p7mkev"
-                    id="menu-button-:rk:"
+                    id="menu-button-:rg:"
                     type="button"
                   >
                     <svg
@@ -256,7 +266,7 @@ exports[`Request My Requests Page 1`] = `
                     <div
                       aria-orientation="vertical"
                       class="chakra-menu__menu-list css-2vme5"
-                      id="menu-list-:rk:"
+                      id="menu-list-:rg:"
                       role="menu"
                       style="transform-origin: var(--popper-transform-origin); opacity: 0; visibility: hidden; transform: scale(0.8) translateZ(0);"
                       tabindex="-1"
@@ -264,7 +274,7 @@ exports[`Request My Requests Page 1`] = `
                       <button
                         class="chakra-menu__menuitem css-z08cet"
                         data-index="0"
-                        id="menu-list-:rk:-menuitem-:rl:"
+                        id="menu-list-:rg:-menuitem-:rh:"
                         role="menuitem"
                         tabindex="-1"
                         type="button"
@@ -289,7 +299,7 @@ exports[`Request My Requests Page 1`] = `
                       <button
                         class="chakra-menu__menuitem css-z08cet"
                         data-index="1"
-                        id="menu-list-:rk:-menuitem-:rm:"
+                        id="menu-list-:rg:-menuitem-:ri:"
                         role="menuitem"
                         tabindex="-1"
                         type="button"
@@ -343,7 +353,7 @@ exports[`Request My Requests Page 1`] = `
             >
               <select
                 class="chakra-select css-1y1ernp"
-                id="field-:rb:"
+                id="field-:r9:"
               >
                 <option
                   value="10"
