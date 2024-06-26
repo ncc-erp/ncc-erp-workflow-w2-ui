@@ -71,6 +71,8 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
   const isLargeScreen = useMediaQuery('(min-width: 1024px)');
   const [filter, setFilter] = useState<FilterTasks>(filters);
   const [shortTitle, setShortTitle] = useState<string>('');
+  const [requestUser, setRequestUser] = useState<string>('');
+  const [name, setName] = useState<string>('');
   const actionTaskMutation = useActionTask();
 
   const {
@@ -115,7 +117,6 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
     dynamicForm: '',
   });
 
-  console.log(result);
   const [reason, setReason] = useState<string>('');
   const [state, setState] = useState<Record<ETaskStatus, ITask[]>>({
     [ETaskStatus.Pending]: [],
@@ -152,6 +153,8 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
     const dInd = +destination.droppableId;
 
     const shortTitleSelect = state[sInd][source.index].title;
+    const requestUserSelect = state[sInd][source.index].authorName || '';
+    const nameSelect = state[sInd][source.index].name;
 
     if (sInd === dInd) {
       const items = reorder(state[sInd], source.index, destination.index);
@@ -177,6 +180,8 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
     onOpen();
     setResult(result);
     setShortTitle(shortTitleSelect);
+    setRequestUser(requestUserSelect);
+    setName(nameSelect);
   };
 
   const handleDrop = async (approvedData?: string) => {
@@ -728,6 +733,8 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
         dynamicForm={dynamicForm.dynamicForm}
         isDisabled={isRejected && !reason}
         isLoading={isLoading}
+        name={name}
+        requestUser={requestUser}
       />
     </>
   );

@@ -41,8 +41,7 @@ exports[`Request My Requests Page 1`] = `
               class="chakra-modal__header css-1rwr1rh"
               id="chakra-modal--header-:r0:"
             >
-              Update status (
-              )
+              Update status
             </header>
             <div
               class="chakra-modal__body css-0"
@@ -53,6 +52,10 @@ exports[`Request My Requests Page 1`] = `
               >
                 Do you want to update status ?
               </p>
+              <div
+                class="css-0"
+                style="padding: 4px 0px;"
+              />
               <div
                 class="css-odz94x"
               >
