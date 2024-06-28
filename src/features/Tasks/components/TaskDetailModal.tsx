@@ -98,7 +98,7 @@ export const TaskDetailModal = ({
   const user = useCurrentUser();
   const [isLoadingBtnApprove, setIsLoadingBtnApprove] = useState(false);
   const [isLoadingBtnReject, setIsLoadingBtnReject] = useState(false);
-  const [loadStatus, setLoadStatus] = useState<boolean>(false);
+  const [loadStatus] = useState<boolean>(false);
 
   const [requestWorkflow, setRequestWorkflow] = useState<string>('');
   const [isOpenWorkflow, setOpenWorkflow] = useState(false);
@@ -144,25 +144,15 @@ export const TaskDetailModal = ({
   const handleApproveClick = () => {
     setModalType('approve');
     setIsModalOpen(true);
-    setDynamicForm({
-      hasDynamicForm: true,
-      dynamicForm: tasks?.dynamicActionData ?? '',
-    });
   };
-
   const handleRejectClick = () => {
     setModalType('reject');
     setIsModalOpen(true);
-    setDynamicForm({
-      hasDynamicForm: false,
-      dynamicForm: '',
-    });
   };
 
   const rejectTask = async (id: string | null) => {
     if (!reason) return;
     setIsLoadingBtnReject(true);
-    setLoadStatus(true);
     await rejectTaskMutation
       .mutateAsync({
         id: id as string,
@@ -177,6 +167,7 @@ export const TaskDetailModal = ({
     clear();
     refetchRejected();
     refetchPending();
+    setIsLoadingBtnApprove(false);
     onClose();
   };
 
@@ -185,7 +176,6 @@ export const TaskDetailModal = ({
     approvedData?: string | null
   ) => {
     setIsLoadingBtnApprove(true);
-    setLoadStatus(true);
     await approveTaskMutation
       .mutateAsync({
         id: id as string,
@@ -200,6 +190,7 @@ export const TaskDetailModal = ({
     clear();
     refetchApproved();
     refetchPending();
+    setIsLoadingBtnApprove(false);
     onClose();
   };
 
@@ -257,6 +248,10 @@ export const TaskDetailModal = ({
     if (isOpen) {
       setIsLoadingBtnApprove(false);
       setIsLoadingBtnReject(false);
+      setDynamicForm({
+        hasDynamicForm: false,
+        dynamicForm: '',
+      });
     }
   }, [isOpen]);
 
@@ -523,7 +518,6 @@ export const TaskDetailModal = ({
                     content={removeDiacritics(getUserReject)}
                   />
                 )}
-
                 {renderDynamicDataContent()}
               </div>
             </div>
@@ -540,6 +534,8 @@ export const TaskDetailModal = ({
         setReason={setReason}
         shortTitle={modalType === 'approve' ? 'Approve Task' : 'Reject Task'}
         isLoading={loadStatus}
+        name={tasks?.name}
+        requestUser={data?.input?.RequestUser?.name}
       />
       {requestWorkflow && (
         <WorkflowModal

@@ -235,7 +235,6 @@ describe('Request Template Form Components', () => {
           screen.getByPlaceholderText('Content'),
           'Is the Content'
         );
-
         // Select the start date
         const startPicker = screen.getByLabelText(/Start Date/i);
         userEvent.click(startPicker);
