@@ -135,6 +135,7 @@ export const MyRequestTable = () => {
               alignItems: 'start',
               flexDirection: 'column',
               gap: '5px',
+              minWidth: '400px',
             }}
           >
             <TextToolTip
