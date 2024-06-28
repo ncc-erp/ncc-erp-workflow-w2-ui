@@ -47,6 +47,9 @@ import { EmptyWrapper } from 'common/components/EmptyWrapper';
 import { ModalConfirm } from 'common/components/ModalConfirm';
 import { AiOutlineReload } from 'react-icons/ai';
 import styles from './style.module.scss';
+import { renderColor } from 'utils/getColorTypeRequest';
+import OverflowText from 'common/components/OverflowText';
+import TextToolTip from 'common/components/textTooltip';
 
 const initialSorting: SortingState = [
   {
@@ -120,15 +123,44 @@ export const MyRequestTable = () => {
   }, [requestTemplates]);
 
   const myRequestColumns = useMemo(() => {
-    const displayColumn = columnHelper.accessor(
-      'workflowDefinitionDisplayName',
-      {
-        id: 'workflowDefinitionDisplayName',
-        header: () => <Box>Request template</Box>,
-        enableSorting: false,
-        cell: (info) => <Box>{info.getValue()}</Box>,
-      }
-    );
+    const displayColumn = columnHelper.accessor('shortTitle', {
+      id: 'shortTitle',
+      header: () => <Box textAlign="center">Title</Box>,
+      enableSorting: false,
+      cell: (info) => {
+        return (
+          <Box
+            style={{
+              display: 'flex',
+              alignItems: 'start',
+              flexDirection: 'column',
+              gap: '5px',
+              minWidth: '400px',
+            }}
+          >
+            <TextToolTip
+              title={info.row.original.shortTitle || ''}
+              maxLines={1}
+              type="LIST"
+              place="top"
+            />
+            <Box
+              className={styles.titleTable}
+              style={{
+                backgroundColor: renderColor(
+                  info.row.original.workflowDefinitionDisplayName
+                ),
+              }}
+            >
+              <OverflowText
+                text={info.row.original.workflowDefinitionDisplayName}
+                maxLines={1}
+              />
+            </Box>
+          </Box>
+        );
+      },
+    });
 
     const editorColumn = columnHelper.accessor('userRequestName', {
       id: 'userRequestName',
@@ -150,6 +182,7 @@ export const MyRequestTable = () => {
           );
         },
       }),
+
       columnHelper.accessor('stakeHolders', {
         id: 'stakeHolders',
         header: 'Stakeholders',

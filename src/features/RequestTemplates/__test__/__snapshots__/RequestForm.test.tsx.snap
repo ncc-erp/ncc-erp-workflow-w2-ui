@@ -39,7 +39,6 @@ exports[`Request Template Form Components should match snapshot when rendering 1
             aria-live="polite"
             aria-relevant="additions text"
             class="css-1f43avz-a11yText-A11yText"
-            role="log"
           />
           <div
             class=" css-13cymwt-control"
@@ -57,7 +56,6 @@ exports[`Request Template Form Components should match snapshot when rendering 1
                 data-value=""
               >
                 <input
-                  aria-activedescendant=""
                   aria-autocomplete="list"
                   aria-expanded="false"
                   aria-haspopup="true"
@@ -138,7 +136,6 @@ exports[`Request Template Form Components should match snapshot when rendering 1
             aria-live="polite"
             aria-relevant="additions text"
             class="css-1f43avz-a11yText-A11yText"
-            role="log"
           />
           <div
             class=" css-13cymwt-control"
@@ -156,7 +153,6 @@ exports[`Request Template Form Components should match snapshot when rendering 1
                 data-value=""
               >
                 <input
-                  aria-activedescendant=""
                   aria-autocomplete="list"
                   aria-expanded="false"
                   aria-haspopup="true"

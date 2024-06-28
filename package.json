@@ -55,6 +55,7 @@
     "react-router": "^6.16.0",
     "react-router-dom": "^6.16.0",
     "react-select": "^5.7.4",
+    "react-tooltip": "^5.26.3",
     "recoil": "^0.7.7",
     "sass": "^1.67.0",
     "xlsx": "^0.18.5",

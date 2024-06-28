@@ -136,26 +136,31 @@ const inputDefinition: InputDefinition = {
       name: 'CurrentOffice',
       type: 'OfficeList',
       isRequired: true,
+      isTitle: true,
     },
     {
       name: 'DestinationOffice',
       type: 'OfficeList',
       isRequired: true,
+      isTitle: true,
     },
     {
       name: 'Content',
       type: 'RichText',
       isRequired: true,
+      isTitle: true,
     },
     {
       name: 'StartDate',
       type: 'DateTime',
       isRequired: true,
+      isTitle: true,
     },
     {
       name: 'EndDate',
       type: 'DateTime',
       isRequired: false,
+      isTitle: true,
     },
   ],
   id: '3a05ffba-3830-e0d4-e931-9381c70a3710',
@@ -230,7 +235,6 @@ describe('Request Template Form Components', () => {
           screen.getByPlaceholderText('Content'),
           'Is the Content'
         );
-
         // Select the start date
         const startPicker = screen.getByLabelText(/Start Date/i);
         userEvent.click(startPicker);

@@ -41,7 +41,7 @@ import {
 } from 'models/request';
 import { IUser } from 'models/user';
 import moment from 'moment';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useMemo, useState } from 'react';
 import { convertToCase, formatDate } from 'utils';
 
 interface RequestFormProps {
@@ -96,6 +96,9 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
       return datesFormatted;
     }
   };
+  const shortHeader:string = useMemo(() => {
+    return inputDefinition?.propertyDefinitions.find((item) => item.isTitle == true)?.name || ""
+  }, [inputDefinition?.propertyDefinitions]);
 
   const onSubmit = async () => {
     setIsLoading(true);
@@ -110,6 +113,8 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
         formParamsFormatted[key] = formatDateForm(formParamsFormatted[key]);
       }
     });
+
+    formParamsFormatted['shortHeader'] = shortHeader;
 
     const RequestFormParams: IRequestFormParams = {
       workflowDefinitionId: inputDefinition?.workflowDefinitionId,
