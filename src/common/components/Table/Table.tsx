@@ -89,11 +89,6 @@ export const Table = <D,>({
                   colSpan={header.colSpan}
                   textTransform="none"
                   fontWeight={600}
-                  minWidth={
-                    header.column.columnDef.minSize
-                      ? `${header.column.columnDef.minSize}px`
-                      : 'auto'
-                  }
                   fontSize={{
                     base: '10px',
                     sm: '12px',
