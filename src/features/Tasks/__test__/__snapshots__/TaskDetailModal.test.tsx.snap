@@ -71,6 +71,18 @@ exports[`Task Detail Modal 1`] = `
             >
               View Workflow Detail
             </button>
+            <button
+              class="chakra-button btnApproveTask css-12eh3jv"
+              type="button"
+            >
+              Approve
+            </button>
+            <button
+              class="chakra-button btnRejectTask css-12eh3jv"
+              type="button"
+            >
+              Reject
+            </button>
             <div
               class="actions"
             >

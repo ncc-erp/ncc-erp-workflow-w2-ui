@@ -173,7 +173,6 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
         dynamicForm: state[sInd][source.index].dynamicActionData || '',
       });
     }
-
     if (+destination.droppableId === BoardColumnStatus.Rejected) {
       setIsRejected(true);
     }
