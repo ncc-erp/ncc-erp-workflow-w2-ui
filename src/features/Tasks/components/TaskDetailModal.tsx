@@ -91,6 +91,7 @@ export const TaskDetailModal = ({
     refetch,
     isLoading: hasGetTaskLoading,
   } = useGetTaskDetail(taskId);
+
   const [isLoading, setIsLoading] = useState(false);
   const approveTaskMutation = useApproveTask();
   const rejectTaskMutation = useRejectTask();
@@ -99,6 +100,7 @@ export const TaskDetailModal = ({
   const [isLoadingBtnApprove, setIsLoadingBtnApprove] = useState(false);
   const [isLoadingBtnReject, setIsLoadingBtnReject] = useState(false);
   const [loadStatus] = useState<boolean>(false);
+  const [isRejected, setIsRejected] = useState<boolean>(false);
 
   const [requestWorkflow, setRequestWorkflow] = useState<string>('');
   const [isOpenWorkflow, setOpenWorkflow] = useState(false);
@@ -144,10 +146,12 @@ export const TaskDetailModal = ({
   const handleApproveClick = () => {
     setModalType('approve');
     setIsModalOpen(true);
+    setIsRejected(false);
   };
   const handleRejectClick = () => {
     setModalType('reject');
     setIsModalOpen(true);
+    setIsRejected(true);
   };
 
   const rejectTask = async (id: string | null) => {
@@ -390,7 +394,8 @@ export const TaskDetailModal = ({
             >
               View Workflow Detail
             </Button>
-            {tasks?.status === 1 || tasks?.status === 2 ? null : (
+            {tasks?.status === TaskStatus.Approved ||
+            tasks?.status === TaskStatus.Rejected ? null : (
               <>
                 <Button
                   colorScheme="green"
@@ -528,14 +533,15 @@ export const TaskDetailModal = ({
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onConfirm={handleModalConfirm}
-        showReason={modalType === 'reject'}
+        showReason={isRejected}
         showDynamicForm={dynamicForm.hasDynamicForm}
         dynamicForm={dynamicForm.dynamicForm}
         setReason={setReason}
-        shortTitle={modalType === 'approve' ? 'Approve Task' : 'Reject Task'}
+        shortTitle={tasks?.title}
         isLoading={loadStatus}
         name={tasks?.name}
         requestUser={data?.input?.RequestUser?.name}
+        isDisabled={isRejected && !reason}
       />
       {requestWorkflow && (
         <WorkflowModal
