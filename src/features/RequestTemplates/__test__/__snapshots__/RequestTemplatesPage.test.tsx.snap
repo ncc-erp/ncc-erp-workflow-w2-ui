@@ -138,7 +138,7 @@ exports[`Request Template Page should match snapshot when rendering 1`] = `
                 class="css-1y39i0r"
               >
                 <th
-                  class="css-1d8mdkw"
+                  class="css-g4r5ji"
                   colspan="1"
                   style="width: auto;"
                 >
@@ -149,7 +149,7 @@ exports[`Request Template Page should match snapshot when rendering 1`] = `
                   </div>
                 </th>
                 <th
-                  class="css-1d8mdkw"
+                  class="css-g4r5ji"
                   colspan="1"
                   style="width: auto;"
                 >

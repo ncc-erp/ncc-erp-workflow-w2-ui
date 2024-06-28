@@ -302,7 +302,7 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
                 class="css-1y39i0r"
               >
                 <th
-                  class="css-1efk6hr"
+                  class="css-1i9vd6c"
                   colspan="1"
                   style="width: auto;"
                 >
@@ -320,7 +320,7 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
                   </div>
                 </th>
                 <th
-                  class="css-1efk6hr"
+                  class="css-1i9vd6c"
                   colspan="1"
                   style="width: auto;"
                 >
@@ -334,7 +334,7 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
                   </div>
                 </th>
                 <th
-                  class="css-1efk6hr"
+                  class="css-1i9vd6c"
                   colspan="1"
                   style="width: auto;"
                 >
@@ -360,7 +360,7 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
                   </div>
                 </th>
                 <th
-                  class="css-1d8mdkw"
+                  class="css-g4r5ji"
                   colspan="1"
                   style="width: auto;"
                 >

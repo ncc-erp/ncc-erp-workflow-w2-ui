@@ -42,7 +42,7 @@ exports[`Request My Requests Page 1`] = `
               class="css-1y39i0r"
             >
               <th
-                class="css-1d8mdkw"
+                class="css-g4r5ji"
                 colspan="1"
                 style="width: auto;"
               >
@@ -57,7 +57,7 @@ exports[`Request My Requests Page 1`] = `
                 </div>
               </th>
               <th
-                class="css-1d8mdkw"
+                class="css-g4r5ji"
                 colspan="1"
                 style="width: auto;"
               >
@@ -72,7 +72,7 @@ exports[`Request My Requests Page 1`] = `
                 </div>
               </th>
               <th
-                class="css-1d8mdkw"
+                class="css-g4r5ji"
                 colspan="1"
                 style="width: auto;"
               >
@@ -83,7 +83,7 @@ exports[`Request My Requests Page 1`] = `
                 </div>
               </th>
               <th
-                class="css-1d8mdkw"
+                class="css-g4r5ji"
                 colspan="1"
                 style="width: auto;"
               >
@@ -94,7 +94,7 @@ exports[`Request My Requests Page 1`] = `
                 </div>
               </th>
               <th
-                class="css-1d8mdkw"
+                class="css-g4r5ji"
                 colspan="1"
                 style="width: auto;"
               >
@@ -105,7 +105,7 @@ exports[`Request My Requests Page 1`] = `
                 </div>
               </th>
               <th
-                class="css-1d8mdkw"
+                class="css-g4r5ji"
                 colspan="1"
                 style="width: auto;"
               >
@@ -116,7 +116,7 @@ exports[`Request My Requests Page 1`] = `
                 </div>
               </th>
               <th
-                class="css-1d8mdkw"
+                class="css-g4r5ji"
                 colspan="1"
                 style="width: auto;"
               >
@@ -127,7 +127,7 @@ exports[`Request My Requests Page 1`] = `
                 </div>
               </th>
               <th
-                class="css-1d8mdkw"
+                class="css-g4r5ji"
                 colspan="1"
                 style="width: auto;"
               >
@@ -163,7 +163,7 @@ exports[`Request My Requests Page 1`] = `
               >
                 <div
                   class="css-0"
-                  style="display: flex; align-items: start; flex-direction: column; gap: 5px;"
+                  style="display: flex; align-items: start; flex-direction: column; gap: 5px; min-width: 400px;"
                 >
                   <div
                     class="css-0"

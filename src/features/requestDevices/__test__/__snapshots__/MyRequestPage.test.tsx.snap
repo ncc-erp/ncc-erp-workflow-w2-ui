@@ -359,7 +359,7 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                 class="css-1y39i0r"
               >
                 <th
-                  class="css-1d8mdkw"
+                  class="css-g4r5ji"
                   colspan="1"
                   style="width: auto;"
                 >
@@ -374,7 +374,7 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                   </div>
                 </th>
                 <th
-                  class="css-1d8mdkw"
+                  class="css-g4r5ji"
                   colspan="1"
                   style="width: auto;"
                 >
@@ -389,7 +389,7 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                   </div>
                 </th>
                 <th
-                  class="css-1d8mdkw"
+                  class="css-g4r5ji"
                   colspan="1"
                   style="width: auto;"
                 >
@@ -404,7 +404,7 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                   </div>
                 </th>
                 <th
-                  class="css-1d8mdkw"
+                  class="css-g4r5ji"
                   colspan="1"
                   style="width: auto;"
                 >
@@ -415,7 +415,7 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                   </div>
                 </th>
                 <th
-                  class="css-1efk6hr"
+                  class="css-1i9vd6c"
                   colspan="1"
                   style="width: auto;"
                 >
@@ -441,7 +441,7 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                   </div>
                 </th>
                 <th
-                  class="css-1d8mdkw"
+                  class="css-g4r5ji"
                   colspan="1"
                   style="width: auto;"
                 >
@@ -452,7 +452,7 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                   </div>
                 </th>
                 <th
-                  class="css-1d8mdkw"
+                  class="css-g4r5ji"
                   colspan="1"
                   style="width: auto;"
                 >
@@ -463,7 +463,7 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                   </div>
                 </th>
                 <th
-                  class="css-1d8mdkw"
+                  class="css-g4r5ji"
                   colspan="1"
                   style="width: auto;"
                 >
@@ -490,7 +490,7 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                 >
                   <div
                     class="css-0"
-                    style="display: flex; align-items: start; flex-direction: column; gap: 5px;"
+                    style="display: flex; align-items: start; flex-direction: column; gap: 5px; min-width: 400px;"
                   >
                     <div
                       class="css-0"
@@ -692,7 +692,7 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                 >
                   <div
                     class="css-0"
-                    style="display: flex; align-items: start; flex-direction: column; gap: 5px;"
+                    style="display: flex; align-items: start; flex-direction: column; gap: 5px; min-width: 400px;"
                   >
                     <div
                       class="css-0"
