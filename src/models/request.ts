@@ -62,6 +62,7 @@ export interface PropertyDefinition {
   type: string;
   isRequired: boolean;
   isTitle?: boolean;
+  titleTemplate?: string;
 }
 
 export interface CreateWorkflowPropertyDefinition {
