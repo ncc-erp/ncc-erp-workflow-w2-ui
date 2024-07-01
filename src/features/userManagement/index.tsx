@@ -1,7 +1,9 @@
 import Page from 'common/components/Page';
 import { UserManagementTable } from './components/UserManagementTable';
+import { usePageTracking } from 'hooks/useTrackingPage';
 
 const UserManagement = () => {
+  usePageTracking();
   return (
     <Page>
       <Page.Header>

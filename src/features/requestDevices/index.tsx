@@ -1,9 +1,11 @@
 import Page from 'common/components/Page';
 import { useIsAdmin } from 'hooks/useIsAdmin';
 import { MyRequestTable } from './components/MyRequestTable';
+import { usePageTracking } from 'hooks/useTrackingPage';
 
 const MyRequests = () => {
   const isAdmin = useIsAdmin();
+  usePageTracking();
   return (
     <Page>
       <Page.Header>

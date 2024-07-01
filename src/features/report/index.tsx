@@ -2,9 +2,11 @@ import Page from 'common/components/Page';
 import { Navigate } from 'react-router-dom';
 import { useIsAdmin } from 'hooks/useIsAdmin';
 import { TablePostAndWFH } from './components/PostAndWFHTable';
+import { usePageTracking } from 'hooks/useTrackingPage';
 
 const PostAndWFH = () => {
   const isAdmin = useIsAdmin();
+  usePageTracking();
 
   return !isAdmin ? (
     <Navigate to="/" />

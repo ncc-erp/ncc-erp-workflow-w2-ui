@@ -2,9 +2,11 @@ import { useRequestTemplates } from 'api/apiHooks/requestHooks';
 import Page from 'common/components/Page';
 import { RequestTemplateTable } from './components/RequestTemplateTable';
 import { useMemo } from 'react';
+import { usePageTracking } from 'hooks/useTrackingPage';
 
 const RequestTemplates = () => {
   const { data, isLoading, refetch } = useRequestTemplates();
+  usePageTracking();
 
   const temp = useMemo(() => {
     return data;
