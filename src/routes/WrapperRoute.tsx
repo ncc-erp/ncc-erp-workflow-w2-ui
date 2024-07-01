@@ -1,3 +1,4 @@
+import { usePageTracking } from 'hooks/useTrackingPage';
 import { RouteProps } from 'react-router';
 import PrivateRoute from 'routes/privateRoute';
 
@@ -6,6 +7,7 @@ export type WrapperRouteProps = RouteProps & {
 };
 
 const WrapperRoute = ({ auth, children }: WrapperRouteProps) => {
+  usePageTracking();
   if (auth) {
     return <PrivateRoute>{children}</PrivateRoute>;
   }
