@@ -3,6 +3,7 @@ import {
   Button,
   Center,
   Checkbox,
+  Divider,
   FormControl,
   FormHelperText,
   FormLabel,
@@ -100,11 +101,11 @@ const DefineInputForm = ({
     return fields?.map((Field: PropertyDefinition, index: number) => {
       return (
         <>
-          <HStack alignItems="flex-end" key={Field?.name + index}>
+          <HStack alignItems="flex-end" key={Field?.name + index} mb={1}>
             <FormControl>
               <FormLabel fontSize={16} mb={1} fontWeight="normal">
                 Property Name
-                <FormHelperText mb={1} style={{ color: 'red' }} as="span">
+                <FormHelperText mb={1} as="span">
                   {' '}
                   *
                 </FormHelperText>
@@ -188,7 +189,12 @@ const DefineInputForm = ({
           </HStack>
           {items[index].isTitle && (
             <FormControl
-              style={{ display: 'flex', gap: '4px', alignItems: 'center' }}
+              style={{
+                display: 'flex',
+                gap: '4px',
+                alignItems: 'center',
+                marginBottom: '20px',
+              }}
             >
               <FormLabel
                 textAlign="center"
@@ -206,6 +212,7 @@ const DefineInputForm = ({
               />
             </FormControl>
           )}
+          <Divider my={1} />
         </>
       );
     });
