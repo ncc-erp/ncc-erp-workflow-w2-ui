@@ -1,11 +1,11 @@
 .customModal {
   width: max-content !important;
-  min-width: 700px !important;
+  min-width: 800px !important;
   margin: 10px;
   box-sizing: border-box;
 }
 
 .customModalBody {
   max-height: 80vh;
-  overflow: scroll;
+  overflow: auto;
 }
