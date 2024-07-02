@@ -397,6 +397,9 @@ export const TaskDetailModal = ({
                 View Workflow Detail
               </Button>
               <div className={styles.actions}>
+                <div className={styles.spinner}>
+                  {isLoading && <Spinner color="red.500" />}
+                </div>
                 {hasTaskAction &&
                   data?.otherActionSignals
                     ?.sort((a, b) => {
@@ -420,9 +423,6 @@ export const TaskDetailModal = ({
                         </Button>
                       );
                     })}
-                <div className={styles.spinner}>
-                  {isLoading && <Spinner color="red.500" />}
-                </div>
               </div>
               <div className={styles.listBtnActionTask}>
                 {tasks?.status === TaskStatus.Approved ||
