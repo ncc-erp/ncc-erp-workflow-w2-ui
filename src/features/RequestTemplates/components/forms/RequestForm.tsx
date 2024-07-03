@@ -74,7 +74,6 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
   const { data: userInfo } = useUserInfoWithBranch(emailUser);
   const { data: projects } = useUserProjects(emailUser);
   const { data: userCurrentProject } = useUserCurrentProject(emailUser);
-
   const {
     register,
     handleSubmit,
@@ -96,8 +95,11 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
       return datesFormatted;
     }
   };
-  const shortHeader:string = useMemo(() => {
-    return inputDefinition?.propertyDefinitions.find((item) => item.isTitle == true)?.name || ""
+  const shortHeader: string = useMemo(() => {
+    return (
+      inputDefinition?.propertyDefinitions.find((item) => item.isTitle == true)
+        ?.name || ''
+    );
   }, [inputDefinition?.propertyDefinitions]);
 
   const onSubmit = async () => {
@@ -262,6 +264,11 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
               ) : (
                 ''
               )}
+              {Field.helper && (
+                <FormHelperText my={1} as="span">
+                  ({Field.helper})
+                </FormHelperText>
+              )}
             </FormLabel>
             <SearchableSelectField
               name={fieldname}
@@ -285,7 +292,8 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
         );
 
       case 'Text':
-        formParams[fieldname] = formParams[fieldname] ?? '';
+        formParams[fieldname] =
+          formParams[fieldname] ?? Field?.defaultValue ?? '';
         return (
           <FormControl key={Field?.name}>
             <FormLabel fontSize={16} my={1} fontWeight="normal">
@@ -297,6 +305,11 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
                 </FormHelperText>
               ) : (
                 ''
+              )}
+              {Field.helper && (
+                <FormHelperText my={1} as="span">
+                  ({Field.helper})
+                </FormHelperText>
               )}
             </FormLabel>
             <TextField
@@ -320,7 +333,8 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
         );
 
       case 'RichText':
-        formParams[fieldname] = formParams[fieldname] ?? '';
+        formParams[fieldname] =
+          formParams[fieldname] ?? Field?.defaultValue ?? '';
         return (
           <FormControl key={Field?.name}>
             <FormLabel fontSize={16} my={1} fontWeight="normal">
@@ -332,6 +346,11 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
                 </FormHelperText>
               ) : (
                 ''
+              )}
+              {Field.helper && (
+                <FormHelperText my={1} as="span">
+                  ({Field.helper})
+                </FormHelperText>
               )}
             </FormLabel>
             <TextareaField
@@ -369,6 +388,11 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
                 </FormHelperText>
               ) : (
                 ''
+              )}
+              {Field.helper && (
+                <FormHelperText my={1} as="span">
+                  ({Field.helper})
+                </FormHelperText>
               )}
             </FormLabel>
             <Controller
@@ -438,6 +462,11 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
                 </FormHelperText>
               ) : (
                 ''
+              )}
+              {Field.helper && (
+                <FormHelperText my={1} as="span">
+                  ({Field.helper})
+                </FormHelperText>
               )}
             </FormLabel>
             <Controller
