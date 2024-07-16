@@ -3,6 +3,7 @@ import {
   Button,
   Center,
   Checkbox,
+  Divider,
   FormControl,
   FormHelperText,
   FormLabel,
@@ -55,6 +56,7 @@ const DefineInputForm = ({
   const {
     register,
     handleSubmit,
+    watch,
     control,
     formState: { errors },
   } = useForm<FormParams>({
@@ -94,93 +96,124 @@ const DefineInputForm = ({
     append({ name: '', isTitle: false, type: 'Text', isRequired: false });
   };
 
+  const items = watch('items');
   const renderFormContent = () => {
     return fields?.map((Field: PropertyDefinition, index: number) => {
       return (
-        <HStack alignItems="flex-end" key={Field?.name + index}>
-          <FormControl>
-            <FormLabel fontSize={16} mb={1} fontWeight="normal">
-              Property Name
-              <FormHelperText mb={1} style={{ color: 'red' }} as="span">
-                {' '}
-                *
-              </FormHelperText>
-            </FormLabel>
-            <TextField
-              h="40px"
-              w="210px"
-              fontSize="sm"
-              {...register(`items.${index}.name`, {
-                required: `Name is Required`,
-              })}
-            />
-            <Box h="20px">
-              <ErrorMessage
-                errors={errors}
-                name={`items.${index}.name`}
-                render={({ message }) => <ErrorDisplay message={message} />}
-              />
-            </Box>
-          </FormControl>
-
-          <FormControl mb="20px">
-            <FormLabel fontSize={16} mb={1} fontWeight="normal">
-              Property Type
-            </FormLabel>
-
-            {inputType ? (
-              <SelectField
+        <>
+          <HStack alignItems="flex-end" key={Field?.name + index} mb={1}>
+            <FormControl>
+              <FormLabel fontSize={16} mb={1} fontWeight="normal">
+                Property Name
+                <FormHelperText mb={1} as="span">
+                  {' '}
+                  *
+                </FormHelperText>
+              </FormLabel>
+              <TextField
                 h="40px"
-                size="md"
-                rounded="md"
-                options={inputType as option[]}
-                {...register(`items.${index}.type`, {})}
+                w="210px"
+                fontSize="sm"
+                {...register(`items.${index}.name`, {
+                  required: `Name is Required`,
+                })}
               />
-            ) : (
-              <Box h="40px">
-                <Spinner />
+              <Box h="20px">
+                <ErrorMessage
+                  errors={errors}
+                  name={`items.${index}.name`}
+                  render={({ message }) => <ErrorDisplay message={message} />}
+                />
               </Box>
-            )}
-          </FormControl>
+            </FormControl>
 
-          <FormControl mb="20px">
-            <FormLabel
-              textAlign="center"
-              fontSize={16}
-              mb={1}
-              fontWeight="normal"
+            <FormControl mb="20px">
+              <FormLabel fontSize={16} mb={1} fontWeight="normal">
+                Property Type
+              </FormLabel>
+
+              {inputType ? (
+                <SelectField
+                  h="40px"
+                  size="md"
+                  rounded="md"
+                  options={inputType as option[]}
+                  {...register(`items.${index}.type`, {})}
+                />
+              ) : (
+                <Box h="40px">
+                  <Spinner />
+                </Box>
+              )}
+            </FormControl>
+
+            <FormControl mb="20px">
+              <FormLabel
+                textAlign="center"
+                fontSize={16}
+                mb={1}
+                fontWeight="normal"
+              >
+                Required
+              </FormLabel>
+              <Center h="40px" mr={3}>
+                <Checkbox
+                  size="lg"
+                  {...register(`items.${index}.isRequired`)}
+                />
+              </Center>
+            </FormControl>
+
+            <FormControl mb="20px">
+              <FormLabel
+                textAlign="center"
+                fontSize={16}
+                mb={1}
+                fontWeight="normal"
+              >
+                IsTitle
+              </FormLabel>
+              <Center h="40px" mr={3}>
+                <Checkbox size="lg" {...register(`items.${index}.isTitle`)} />
+              </Center>
+            </FormControl>
+            <Button
+              colorScheme="red"
+              mb="20px"
+              w="250px"
+              isDisabled={!(fields.length > 1)}
+              onClick={() => remove(index)}
             >
-              Required
-            </FormLabel>
-            <Center h="40px" mr={3}>
-              <Checkbox size="lg" {...register(`items.${index}.isRequired`)} />
-            </Center>
-          </FormControl>
-
-          <FormControl mb="20px">
-            <FormLabel
-              textAlign="center"
-              fontSize={16}
-              mb={1}
-              fontWeight="normal"
+              Remove
+            </Button>
+          </HStack>
+          {items[index].isTitle && (
+            <FormControl
+              style={{
+                display: 'flex',
+                gap: '4px',
+                alignItems: 'center',
+                marginBottom: '20px',
+              }}
             >
-              Title
-            </FormLabel>
-            <Center h="40px" mr={3}>
-              <Checkbox size="lg" {...register(`items.${index}.isTitle`)} />
-            </Center>
-          </FormControl>
-
-          <Button
-            colorScheme="red"
-            mb="20px"
-            w="250px"
-            isDisabled={!(fields.length > 1)}
-            onClick={() => remove(index)}
-          >
-            Remove
-          </Button>
-        </HStack>
+              <FormLabel
+                textAlign="center"
+                fontSize={16}
+                mb={1}
+                fontWeight="normal"
+              >
+                Title
+              </FormLabel>
+              <TextField
+                h="40px"
+                w="500px"
+                fontSize="sm"
+                {...register(`items.${index}.titleTemplate`)}
+              />
+            </FormControl>
+          )}
+          <Divider my={1} />
+        </>
       );
     });
   };

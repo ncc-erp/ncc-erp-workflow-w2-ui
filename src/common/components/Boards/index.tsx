@@ -55,7 +55,7 @@ import { useClearCacheTask } from './useClearCacheTask';
 import { useNavigate } from 'react-router';
 import { useMediaQuery } from 'hooks/useMediaQuery';
 import { renderColor } from 'utils/getColorTypeRequest';
-import OverflowText from '../OverflowText';
+import TextToolTip from '../textTooltip';
 
 const fadeIn = keyframes`
   from { opacity: 0; }
@@ -71,6 +71,8 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
   const isLargeScreen = useMediaQuery('(min-width: 1024px)');
   const [filter, setFilter] = useState<FilterTasks>(filters);
   const [shortTitle, setShortTitle] = useState<string>('');
+  const [requestUser, setRequestUser] = useState<string>('');
+  const [name, setName] = useState<string>('');
   const actionTaskMutation = useActionTask();
 
   const {
@@ -115,7 +117,6 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
     dynamicForm: '',
   });
 
-  console.log(result);
   const [reason, setReason] = useState<string>('');
   const [state, setState] = useState<Record<ETaskStatus, ITask[]>>({
     [ETaskStatus.Pending]: [],
@@ -152,6 +153,8 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
     const dInd = +destination.droppableId;
 
     const shortTitleSelect = state[sInd][source.index].title;
+    const requestUserSelect = state[sInd][source.index].authorName || '';
+    const nameSelect = state[sInd][source.index].name;
 
     if (sInd === dInd) {
       const items = reorder(state[sInd], source.index, destination.index);
@@ -170,13 +173,14 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
         dynamicForm: state[sInd][source.index].dynamicActionData || '',
       });
     }
-
     if (+destination.droppableId === BoardColumnStatus.Rejected) {
       setIsRejected(true);
     }
     onOpen();
     setResult(result);
     setShortTitle(shortTitleSelect);
+    setRequestUser(requestUserSelect);
+    setName(nameSelect);
   };
 
   const handleDrop = async (approvedData?: string) => {
@@ -555,28 +559,12 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
                                       w={'100%'}
                                     >
                                       <Box style={{ flex: 1 }}>
-                                        <Tooltip
-                                          fontSize={'xs'}
-                                          label={item.id}
-                                        >
-                                          <div
-                                            style={{
-                                              fontWeight: 'bold',
-                                              maxWidth: '250px',
-                                            }}
-                                          >
-                                            <OverflowText
-                                              maxLines={2}
-                                              text={
-                                                item.requestId
-                                                  ? formatShortId(
-                                                      item.requestId
-                                                    )
-                                                  : formatShortId(item.id)
-                                              }
-                                            />
-                                          </div>
-                                        </Tooltip>
+                                        <TextToolTip
+                                          maxLines={1}
+                                          title={item.title}
+                                          id={formatShortId(item.id)}
+                                          type="BOARD"
+                                        />
                                       </Box>
 
                                       <Box>
@@ -584,24 +572,6 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
                                           ({getDayAgo(item?.creationTime)})
                                         </div>
                                       </Box>
-                                    </Flex>
-
-                                    <Flex gap={2}>
-                                      <Text>Title:</Text>
-                                      <Tooltip
-                                        fontSize={'xs'}
-                                        label={item.title}
-                                      >
-                                        <Box>
-                                          <Tooltip label={item.title}>
-                                            <OverflowText
-                                              styles={{ maxWidth: 250 }}
-                                              maxLines={1}
-                                              text={item.title}
-                                            />
-                                          </Tooltip>
-                                        </Box>
-                                      </Tooltip>
                                     </Flex>
 
                                     <Flex gap={2}>
@@ -762,6 +732,8 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
         dynamicForm={dynamicForm.dynamicForm}
         isDisabled={isRejected && !reason}
         isLoading={isLoading}
+        name={name}
+        requestUser={requestUser}
       />
     </>
   );

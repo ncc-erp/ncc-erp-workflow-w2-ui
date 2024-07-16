@@ -9,7 +9,6 @@ import {
   InputRightElement,
   Spacer,
   Spinner,
-  Tooltip,
   Wrap,
   WrapItem,
 } from '@chakra-ui/react';
@@ -50,6 +49,7 @@ import { AiOutlineReload } from 'react-icons/ai';
 import styles from './style.module.scss';
 import { renderColor } from 'utils/getColorTypeRequest';
 import OverflowText from 'common/components/OverflowText';
+import TextToolTip from 'common/components/textTooltip';
 
 const initialSorting: SortingState = [
   {
@@ -135,27 +135,28 @@ export const MyRequestTable = () => {
               alignItems: 'start',
               flexDirection: 'column',
               gap: '5px',
+              minWidth: '400px',
             }}
           >
-            {info.row.original.shortTitle}
-            <Tooltip
-              fontSize={'xs'}
-              label={info.row.original.workflowDefinitionDisplayName}
+            <TextToolTip
+              title={info.row.original.shortTitle || ''}
+              maxLines={1}
+              type="LIST"
+              place="top"
+            />
+            <Box
+              className={styles.titleTable}
+              style={{
+                backgroundColor: renderColor(
+                  info.row.original.workflowDefinitionDisplayName
+                ),
+              }}
             >
-              <Box
-                className={styles.titleTable}
-                style={{
-                  backgroundColor: renderColor(
-                    info.row.original.workflowDefinitionDisplayName
-                  ),
-                }}
-              >
-                <OverflowText
-                  text={info.row.original.workflowDefinitionDisplayName}
-                  maxLines={1}
-                />
-              </Box>
-            </Tooltip>
+              <OverflowText
+                text={info.row.original.workflowDefinitionDisplayName}
+                maxLines={1}
+              />
+            </Box>
           </Box>
         );
       },

@@ -523,13 +523,16 @@ exports[`Request My Requests Page 1`] = `
                           style="flex: 1;"
                         >
                           <div
-                            style="font-weight: bold; max-width: 250px;"
+                            class="css-0"
+                            style="flex: 1;"
                           >
-                            <div
-                              style="overflow: hidden; text-overflow: ellipsis; display: -webkit-box;"
+                            <p
+                              class="chakra-text css-e3cc90"
+                              data-tooltip-id="3a0e2"
+                              style="overflow: hidden; font-weight: 600; display: -webkit-box; text-overflow: ellipsis;"
                             >
                               3a0e2
-                            </div>
+                            </p>
                           </div>
                         </div>
                         <div
@@ -540,22 +543,6 @@ exports[`Request My Requests Page 1`] = `
                             2 months ago
                             )
                           </div>
-                        </div>
-                      </div>
-                      <div
-                        class="css-147dy5z"
-                      >
-                        <p
-                          class="chakra-text css-0"
-                        >
-                          Title:
-                        </p>
-                        <div
-                          class="css-0"
-                        >
-                          <div
-                            style="overflow: hidden; text-overflow: ellipsis; display: -webkit-box; max-width: 250px;"
-                          />
                         </div>
                       </div>
                       <div
