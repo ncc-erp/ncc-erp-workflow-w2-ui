@@ -50,6 +50,7 @@ import styles from './style.module.scss';
 import { renderColor } from 'utils/getColorTypeRequest';
 import OverflowText from 'common/components/OverflowText';
 import TextToolTip from 'common/components/textTooltip';
+import StatusButton from 'common/components/BadgeStatus/StatusButton';
 
 const initialSorting: SortingState = [
   {
@@ -217,11 +218,7 @@ export const MyRequestTable = () => {
           const status = info.row.original.status;
           return (
             <Box display={'flex'}>
-              {
-                <div className={`${styles.badge} ${styles[status]}`}>
-                  {info.getValue()}
-                </div>
-              }
+              <StatusButton status={status}>{info.getValue()}</StatusButton>
             </Box>
           );
         },
