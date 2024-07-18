@@ -1,5 +1,5 @@
 import { DEFAULT_FORMAT_DATE } from 'common/constants';
-import { format, parse, isValid } from 'date-fns';
+import { format, parse, isValid, parseISO } from 'date-fns';
 
 export const isValidDate = (
   date: string,
@@ -37,3 +37,15 @@ export const formatDate = (
 ) => {
   return format(new Date(date), formatString);
 };
+
+/**
+ * Formats a date or string to the format "19 June 2024".
+ * @param date The date or date string to format.
+ * @returns A string formatted as "19 June 2024".
+ */
+export function formatDateTask(date: Date | string): string {
+  // If the input is a string, parse it to a Date object.
+  const dateObj = typeof date === 'string' ? parseISO(date) : date;
+  // Format the date to the desired format.
+  return format(dateObj, 'd MMMM yyyy');
+}

@@ -9,6 +9,7 @@ import { drawerTheme } from 'themes/drawerTheme';
 import { getItem } from 'utils';
 import { alertTheme } from 'common/components/Alert/AlertTheme';
 import { switchTheme } from 'common/components/CustomToggle/SwitchTheme';
+import { buttonTheme } from 'common/components/Button/ButtonTheme';
 
 const themeLocal = getItem('chakra-ui-color-mode');
 
@@ -63,6 +64,7 @@ export const theme = extendTheme({
     Drawer: drawerTheme,
     Switch: switchTheme,
     Alert: alertTheme,
+    Button: buttonTheme,
   },
 });
 
