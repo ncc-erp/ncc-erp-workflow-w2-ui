@@ -36,7 +36,7 @@ const brandPrimary = defineStyle({
 const brandDestructive = defineStyle({
   background: '#D92D20',
   color: 'white',
-  fontFamily: 'roboto',
+  fontFamily: 'Roboto',
   fontSize: '16px',
   lineHeight: '24px',
   fontWeight: '600',
@@ -64,7 +64,7 @@ const brandDestructive = defineStyle({
 const brandSecondary = defineStyle({
   background: '#FFFFFF',
   color: '#344054',
-  fontFamily: 'roboto',
+  fontFamily: 'Roboto',
   fontSize: '16px',
   lineHeight: '24px',
   fontWeight: '600',
