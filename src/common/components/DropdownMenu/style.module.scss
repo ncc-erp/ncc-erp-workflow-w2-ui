@@ -1,0 +1,19 @@
+.MenuItem {
+   display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.ItemText {
+    font-size: 14px;
+    font-weight: 400;
+    color: #344054;
+    line-height: 20px;
+    font-family: 'Roboto';
+}
+
+.SubMenu {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
