@@ -11,6 +11,7 @@ import { alertTheme } from 'common/components/Alert/AlertTheme';
 import { switchTheme } from 'common/components/CustomToggle/SwitchTheme';
 import { buttonTheme } from 'common/components/Button/ButtonTheme';
 import { tabsTheme } from 'common/components/TabsRequest/tabsTheme';
+import { checkboxTheme } from 'common/components/CustomCheckbox/CustomCheckboxThem';
 
 const themeLocal = getItem('chakra-ui-color-mode');
 
@@ -67,6 +68,7 @@ export const theme = extendTheme({
     Alert: alertTheme,
     Button: buttonTheme,
     Tabs: tabsTheme,
+    Checkbox: checkboxTheme,
   },
 });
 

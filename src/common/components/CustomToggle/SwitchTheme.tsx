@@ -5,19 +5,21 @@ const { definePartsStyle, defineMultiStyleConfig } =
   createMultiStyleConfigHelpers(switchAnatomy.keys);
 
 const baseStyle = definePartsStyle({
-  container: {
-    bg: '#F2F4F7',
-    _checked: {
-      bg: '#F2F4F7',
-    },
-  },
   thumb: {
     bg: '#F9FAFB',
   },
   track: {
     bg: '#EAECF0',
     _checked: {
-      bg: 'gray.700',
+      bg: '#17B26A',
+    },
+    _focus: {
+      border: '2px solid #F2F4F7',
+      borderRadius: 'full',
+    },
+    _disabled: {
+      border: '2px solid #F2F4F7',
+      borderRadius: 'full',
     },
   },
 });

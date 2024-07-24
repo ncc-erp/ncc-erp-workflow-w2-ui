@@ -17,35 +17,30 @@ type Story = StoryObj<typeof meta>;
 export const Open: Story = {
   args: {
     isChecked: true,
-    state: 'default',
     size: 'md',
+    isDisabled: false,
+    isFocusable: false,
   },
 };
 export const Close: Story = {
   args: {
     isChecked: false,
-    state: 'default',
+    isFocusable: false,
+    isDisabled: false,
     size: 'md',
   },
 };
 export const Focus: Story = {
   args: {
     isChecked: true,
-    state: 'focus',
+    isFocusable: true,
     size: 'md',
   },
 };
 export const Disabled: Story = {
   args: {
     isChecked: true,
-    state: 'disabled',
-    size: 'md',
-  },
-};
-export const DisabledClose: Story = {
-  args: {
-    isChecked: false,
-    state: 'disabled',
+    isDisabled: true,
     size: 'md',
   },
 };

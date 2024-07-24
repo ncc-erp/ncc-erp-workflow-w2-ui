@@ -1,26 +1,7 @@
 import { Switch, SwitchProps } from '@chakra-ui/react';
 
-interface CustomToggleProps extends SwitchProps {
-  state?: 'default' | 'focus' | 'disabled';
-}
+interface CustomToggleProps extends SwitchProps {}
 
-export const CustomToggle = ({
-  isChecked,
-  state = 'default',
-  size = 'md',
-  ...rest
-}: CustomToggleProps) => {
-  const borderColor = state === ('disabled' || 'focus') ? '#F2F4F7' : '#EAECF0';
-
-  return (
-    <Switch
-      size={size}
-      isChecked={isChecked}
-      disabled={state === 'disabled'}
-      borderRadius={100}
-      borderWidth={2}
-      borderColor={borderColor}
-      {...rest}
-    />
-  );
+export const CustomToggle = ({ size = 'md', ...rest }: CustomToggleProps) => {
+  return <Switch size={size} {...rest} />;
 };
