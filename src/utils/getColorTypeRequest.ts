@@ -2,11 +2,11 @@ import { Color } from 'common/types';
 
 const arrColor: Color[] = ['#009688', '#000000'];
 const initialData: [string, Color][] = [
-  ['Device Request', '#03A9F4'],
-  ['Change Office Request', '#db0000'],
-  ['Office Equipment Request', '#f27024'],
-  ['Probationary Confirmation Request', '#0c51a0'],
-  ['WFH Request', '#d000db'],
+  ['Device Request', '#175CD3'],
+  ['Change Office Request', '#C11574'],
+  ['Office Equipment Request', '#0DBE9E'],
+  ['Probationary Confirmation Request', '#58880A'],
+  ['WFH Request', '#7F56D9'],
 ];
 let currentColor: number = 0;
 const hashMap = new Map<string, Color>(initialData);

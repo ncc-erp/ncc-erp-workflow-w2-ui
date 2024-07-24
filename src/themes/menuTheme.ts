@@ -18,12 +18,12 @@ const baseStyle = definePartsStyle({
   item: {
     rounded: '4px',
     _hover: {
-      bg: 'gray.200',
-      color: 'black',
+      bg: '#F9FAFB',
+      color: '#182230',
     },
     _focus: {
-      bg: 'gray.200',
-      color: 'black',
+      bg: '#F9FAFB',
+      color: '#182230',
     },
   },
 });

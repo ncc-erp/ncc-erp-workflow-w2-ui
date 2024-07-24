@@ -504,7 +504,7 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                     </div>
                     <div
                       class="titleTable css-0"
-                      style="background-color: rgb(242, 112, 36);"
+                      style="background-color: rgb(13, 190, 158);"
                     >
                       <div
                         style="overflow: hidden; text-overflow: ellipsis; display: -webkit-box;"
@@ -549,11 +549,47 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                   <div
                     class="css-k008qs"
                   >
-                    <div
-                      class="badge Pending"
+                    <span
+                      class="chakra-badge css-71se01"
+                      style="border: 1px solid #b54708;"
                     >
-                      Pending
-                    </div>
+                      <svg
+                        class="spin"
+                        fill="none"
+                        height="12"
+                        viewBox="0 0 12 12"
+                        width="12"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <g
+                          clip-path="url(#clip0_481_1249)"
+                        >
+                          <path
+                            d="M1 5C1 5 1.06066 4.57538 2.81802 2.81802C4.57538 1.06066 7.42462 1.06066 9.18198 2.81802C9.80462 3.44066 10.2067 4.20036 10.3881 5M1 5V2M1 5H4M11 7C11 7 10.9393 7.42462 9.18198 9.18198C7.42462 10.9393 4.57538 10.9393 2.81802 9.18198C2.19538 8.55934 1.79335 7.79964 1.61191 7M11 7V10M11 7H8"
+                            stroke="#B54708"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="1.5"
+                          />
+                        </g>
+                        <defs>
+                          <clippath
+                            id="clip0_481_1249"
+                          >
+                            <rect
+                              fill="white"
+                              height="12"
+                              width="12"
+                            />
+                          </clippath>
+                        </defs>
+                      </svg>
+                      <span
+                        style="color: rgb(181, 71, 8);"
+                      >
+                        Pending
+                      </span>
+                    </span>
                   </div>
                 </td>
                 <td
@@ -706,7 +742,7 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                     </div>
                     <div
                       class="titleTable css-0"
-                      style="background-color: rgb(208, 0, 219);"
+                      style="background-color: rgb(127, 86, 217);"
                     >
                       <div
                         style="overflow: hidden; text-overflow: ellipsis; display: -webkit-box;"
@@ -747,11 +783,31 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                   <div
                     class="css-k008qs"
                   >
-                    <div
-                      class="badge Rejected"
+                    <span
+                      class="chakra-badge css-dlcswn"
+                      style="border: 1px solid #b42318;"
                     >
-                      Rejected
-                    </div>
+                      <svg
+                        fill="none"
+                        height="12"
+                        viewBox="0 0 12 12"
+                        width="12"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M9 3L3 9M3 3L9 9"
+                          stroke="#B42318"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="1.5"
+                        />
+                      </svg>
+                      <span
+                        style="color: rgb(180, 35, 24);"
+                      >
+                        Rejected
+                      </span>
+                    </span>
                   </div>
                 </td>
                 <td
