@@ -187,31 +187,55 @@ const DefineInputForm = ({
               Remove
             </Button>
           </HStack>
-          {items[index].isTitle && (
+          <Box style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
             <FormControl
               style={{
-                display: 'flex',
-                gap: '4px',
-                alignItems: 'center',
                 marginBottom: '20px',
               }}
             >
-              <FormLabel
-                textAlign="center"
-                fontSize={16}
-                mb={1}
-                fontWeight="normal"
-              >
-                Title
+              <FormLabel fontSize={16} mb={1} fontWeight="normal">
+                Helper
               </FormLabel>
               <TextField
                 h="40px"
-                w="500px"
+                w="220px"
                 fontSize="sm"
-                {...register(`items.${index}.titleTemplate`)}
+                {...register(`items.${index}.helper`)}
               />
             </FormControl>
-          )}
+            <FormControl
+              style={{
+                marginBottom: '20px',
+              }}
+            >
+              <FormLabel fontSize={16} mb={1} fontWeight="normal">
+                Default Value
+              </FormLabel>
+              <TextField
+                h="40px"
+                w="220px"
+                fontSize="sm"
+                {...register(`items.${index}.defaultValue`)}
+              />
+            </FormControl>
+            {items[index].isTitle && (
+              <FormControl
+                style={{
+                  marginBottom: '20px',
+                }}
+              >
+                <FormLabel fontSize={16} mb={1} fontWeight="normal">
+                  Title
+                </FormLabel>
+                <TextField
+                  h="40px"
+                  w="220px"
+                  fontSize="sm"
+                  {...register(`items.${index}.titleTemplate`)}
+                />
+              </FormControl>
+            )}
+          </Box>
           <Divider my={1} />
         </>
       );
