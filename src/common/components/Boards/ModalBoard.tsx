@@ -75,7 +75,7 @@ const ModalBoard = (props: ModalBoardProps): JSX.Element => {
   }, [reset, showDynamicForm]);
 
   const dynamicFormParse = useMemo(() => {
-    if (showDynamicForm) {
+    if (showDynamicForm && dynamicForm.length > 0) {
       return JSON.parse(dynamicForm);
     }
     return {};
