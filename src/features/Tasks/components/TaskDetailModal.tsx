@@ -253,11 +253,15 @@ export const TaskDetailModal = ({
       setIsLoadingBtnApprove(false);
       setIsLoadingBtnReject(false);
       setDynamicForm({
-        hasDynamicForm: false,
-        dynamicForm: '',
+        hasDynamicForm:
+          data?.tasks?.dynamicActionData &&
+          data?.tasks?.dynamicActionData?.length > 0
+            ? true
+            : false,
+        dynamicForm: data?.tasks?.dynamicActionData || '',
       });
     }
-  }, [isOpen]);
+  }, [isOpen, data?.tasks?.dynamicActionData]);
 
   const convertToDynamicArray = (payload: string | null | undefined) => {
     if (!payload) return [];
