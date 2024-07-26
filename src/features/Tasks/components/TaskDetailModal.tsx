@@ -119,8 +119,8 @@ export const TaskDetailModal = ({
   const [modalType, setModalType] = useState<'approve' | 'reject' | ''>('');
   const [reason, setReason] = useState('');
   const [dynamicForm, setDynamicForm] = useState({
-    hasDynamicForm: true,
-    dynamicForm: data?.tasks?.dynamicActionData || '',
+    hasDynamicForm: false,
+    dynamicForm: '',
   });
   const { refetch: refetchPending } = useGetAllTask(
     { ...filter },
@@ -253,11 +253,11 @@ export const TaskDetailModal = ({
       setIsLoadingBtnApprove(false);
       setIsLoadingBtnReject(false);
       setDynamicForm({
-        hasDynamicForm: true,
-        dynamicForm: data?.tasks?.dynamicActionData || '',
+        hasDynamicForm: false,
+        dynamicForm: '',
       });
     }
-  }, [isOpen, data?.tasks?.dynamicActionData]);
+  }, [isOpen]);
 
   const convertToDynamicArray = (payload: string | null | undefined) => {
     if (!payload) return [];
