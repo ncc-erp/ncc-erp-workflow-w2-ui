@@ -38,6 +38,7 @@ import {
   formatDate,
   getStatusByIndex,
   isObjectEmpty,
+  isValidJSON,
   subtractTime,
 } from 'utils';
 import { RequestInput } from './RequestInput';
@@ -252,14 +253,15 @@ export const TaskDetailModal = ({
     if (isOpen) {
       setIsLoadingBtnApprove(false);
       setIsLoadingBtnReject(false);
-      setDynamicForm({
-        hasDynamicForm:
-          data?.tasks?.dynamicActionData &&
-          data?.tasks?.dynamicActionData?.length > 0
-            ? true
-            : false,
-        dynamicForm: data?.tasks?.dynamicActionData || '',
-      });
+      if (
+        data?.tasks?.dynamicActionData &&
+        isValidJSON(data?.tasks?.dynamicActionData)
+      ) {
+        setDynamicForm({
+          hasDynamicForm: true,
+          dynamicForm: data?.tasks?.dynamicActionData || '',
+        });
+      }
     }
   }, [isOpen, data?.tasks?.dynamicActionData]);
 
