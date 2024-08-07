@@ -17,17 +17,17 @@ import {
 } from '@chakra-ui/react';
 import {
   useActionTask,
-  useApproveTask,
-  useGetAllTask,
+  // useApproveTask,
+  // useGetAllTask,
   useGetTaskDetail,
-  useRejectTask,
+  // useRejectTask,
 } from 'api/apiHooks/taskHooks';
 import Logo from 'assets/images/ncc_logo.png';
 import { toast } from 'common/components/StandaloneToast';
 import { TextGroup } from 'common/components/TextGroup/TextGroup';
 import { WorkflowModal } from 'common/components/WorkflowModal';
 import {
-  DEFAULT_TASK_PER_PAGE,
+  // DEFAULT_TASK_PER_PAGE,
   OtherActionSignalStatus,
   TaskStatus,
   UPDATED_BY_W2,
@@ -38,8 +38,8 @@ import {
   formatDate,
   getStatusByIndex,
   isObjectEmpty,
-  isValidJSON,
-  subtractTime,
+  // isValidJSON,
+  // subtractTime,
 } from 'utils';
 import { RequestInput } from './RequestInput';
 import { IOtherTasks } from './TasksBoard';
@@ -48,20 +48,20 @@ import { RequestStatus } from 'common/enums';
 import { useUserList } from 'api/apiHooks/requestHooks';
 import { removeDiacritics } from 'utils/removeDiacritics';
 import { BiPencil } from 'react-icons/bi';
-import ModalBoard from 'common/components/Boards/ModalBoard';
-import { useClearCacheTask } from 'common/components/Boards/useClearCacheTask';
-import { FilterTasks } from 'models/task';
-import { useCurrentUser } from 'hooks/useCurrentUser';
+// import ModalBoard from 'common/components/Boards/ModalBoard';
+// import { useClearCacheTask } from 'common/components/Boards/useClearCacheTask';
+// import { FilterTasks } from 'models/task';
+// import { useCurrentUser } from 'hooks/useCurrentUser';
 
-const initialFilter: FilterTasks = {
-  skipCount: 0,
-  maxResultCount: DEFAULT_TASK_PER_PAGE,
-  workflowDefinitionId: '',
-  status: -1,
-  dates: subtractTime('months', 1),
-  emailRequest: '',
-  emailAssign: '',
-};
+// const initialFilter: FilterTasks = {
+//   skipCount: 0,
+//   maxResultCount: DEFAULT_TASK_PER_PAGE,
+//   workflowDefinitionId: '',
+//   status: -1,
+//   dates: subtractTime('months', 1),
+//   emailRequest: '',
+//   emailAssign: '',
+// };
 
 interface IDetailModalProps {
   isOpen: boolean;
@@ -94,14 +94,14 @@ export const TaskDetailModal = ({
   } = useGetTaskDetail(taskId);
 
   const [isLoading, setIsLoading] = useState(false);
-  const approveTaskMutation = useApproveTask();
-  const rejectTaskMutation = useRejectTask();
-  const { clear } = useClearCacheTask();
-  const user = useCurrentUser();
-  const [isLoadingBtnApprove, setIsLoadingBtnApprove] = useState(false);
-  const [isLoadingBtnReject, setIsLoadingBtnReject] = useState(false);
-  const [loadStatus] = useState<boolean>(false);
-  const [isRejected, setIsRejected] = useState<boolean>(false);
+  // const approveTaskMutation = useApproveTask();
+  // const rejectTaskMutation = useRejectTask();
+  // const { clear } = useClearCacheTask();
+  // const user = useCurrentUser();
+  // const [isLoadingBtnApprove, setIsLoadingBtnApprove] = useState(false);
+  // const [isLoadingBtnReject, setIsLoadingBtnReject] = useState(false);
+  // const [loadStatus] = useState<boolean>(false);
+  // const [isRejected, setIsRejected] = useState<boolean>(false);
 
   const [requestWorkflow, setRequestWorkflow] = useState<string>('');
   const [isOpenWorkflow, setOpenWorkflow] = useState(false);
@@ -111,32 +111,32 @@ export const TaskDetailModal = ({
     setOpenWorkflow(true);
   };
 
-  const [filter] = useState<FilterTasks>({
-    ...initialFilter,
-    emailAssign: user?.email,
-  });
+  // const [filter] = useState<FilterTasks>({
+  //   ...initialFilter,
+  //   emailAssign: user?.email,
+  // });
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalType, setModalType] = useState<'approve' | 'reject' | ''>('');
-  const [reason, setReason] = useState('');
-  const [dynamicForm, setDynamicForm] = useState({
-    hasDynamicForm: false,
-    dynamicForm: '',
-  });
-  const { refetch: refetchPending } = useGetAllTask(
-    { ...filter },
-    TaskStatus.Pending
-  );
+  // const [isModalOpen, setIsModalOpen] = useState(false);
+  // // const [modalType, setModalType] = useState<'approve' | 'reject' | ''>('');
+  // const [reason, setReason] = useState('');
+  // const [dynamicForm, setDynamicForm] = useState({
+  //   hasDynamicForm: false,
+  //   dynamicForm: '',
+  // });
+  // const { refetch: refetchPending } = useGetAllTask(
+  //   { ...filter },
+  //   TaskStatus.Pending
+  // );
 
-  const { refetch: refetchApproved } = useGetAllTask(
-    { ...filter },
-    TaskStatus.Approved
-  );
+  // const { refetch: refetchApproved } = useGetAllTask(
+  //   { ...filter },
+  //   TaskStatus.Approved
+  // );
 
-  const { refetch: refetchRejected } = useGetAllTask(
-    { ...filter },
-    TaskStatus.Rejected
-  );
+  // const { refetch: refetchRejected } = useGetAllTask(
+  //   { ...filter },
+  //   TaskStatus.Rejected
+  // );
 
   useEffect(() => {
     if (data) {
@@ -144,69 +144,69 @@ export const TaskDetailModal = ({
     }
   }, [data]);
 
-  const handleApproveClick = () => {
-    setModalType('approve');
-    setIsModalOpen(true);
-    setIsRejected(false);
-  };
-  const handleRejectClick = () => {
-    setModalType('reject');
-    setIsModalOpen(true);
-    setIsRejected(true);
-  };
+  // const handleApproveClick = () => {
+  //   setModalType('approve');
+  //   setIsModalOpen(true);
+  //   setIsRejected(false);
+  // };
+  // const handleRejectClick = () => {
+  //   setModalType('reject');
+  //   setIsModalOpen(true);
+  //   setIsRejected(true);
+  // };
 
-  const rejectTask = async (id: string | null) => {
-    if (!reason) return;
-    setIsLoadingBtnReject(true);
-    await rejectTaskMutation
-      .mutateAsync({
-        id: id as string,
-        reason,
-      })
-      .then(() => {
-        toast({ title: 'Rejected Task Successfully!', status: 'success' });
-      })
-      .catch((error) => {
-        console.error(error.response.data.error.message);
-      });
-    clear();
-    refetchRejected();
-    refetchPending();
-    setIsLoadingBtnApprove(false);
-    onClose();
-  };
+  // const rejectTask = async (id: string | null) => {
+  //   if (!reason) return;
+  //   setIsLoadingBtnReject(true);
+  //   await rejectTaskMutation
+  //     .mutateAsync({
+  //       id: id as string,
+  //       reason,
+  //     })
+  //     .then(() => {
+  //       toast({ title: 'Rejected Task Successfully!', status: 'success' });
+  //     })
+  //     .catch((error) => {
+  //       console.error(error.response.data.error.message);
+  //     });
+  //   clear();
+  //   refetchRejected();
+  //   refetchPending();
+  //   setIsLoadingBtnApprove(false);
+  //   onClose();
+  // };
 
-  const approveTask = async (
-    id: string | null,
-    approvedData?: string | null
-  ) => {
-    setIsLoadingBtnApprove(true);
-    await approveTaskMutation
-      .mutateAsync({
-        id: id as string,
-        dynamicActionData: approvedData,
-      })
-      .then(() => {
-        toast({ title: 'Approved Task Successfully!', status: 'success' });
-      })
-      .catch((error) => {
-        console.error(error.response.data.error.message);
-      });
-    clear();
-    refetchApproved();
-    refetchPending();
-    setIsLoadingBtnApprove(false);
-    onClose();
-  };
+  // const approveTask = async (
+  //   id: string | null,
+  //   approvedData?: string | null
+  // ) => {
+  //   setIsLoadingBtnApprove(true);
+  //   await approveTaskMutation
+  //     .mutateAsync({
+  //       id: id as string,
+  //       dynamicActionData: approvedData,
+  //     })
+  //     .then(() => {
+  //       toast({ title: 'Approved Task Successfully!', status: 'success' });
+  //     })
+  //     .catch((error) => {
+  //       console.error(error.response.data.error.message);
+  //     });
+  //   clear();
+  //   refetchApproved();
+  //   refetchPending();
+  //   setIsLoadingBtnApprove(false);
+  //   onClose();
+  // };
 
-  const handleModalConfirm = async (data?: string) => {
-    setIsModalOpen(false);
-    if (modalType === 'approve') {
-      await approveTask(taskId, data);
-    } else if (modalType === 'reject') {
-      await rejectTask(taskId);
-    }
-  };
+  // const handleModalConfirm = async (data?: string) => {
+  //   setIsModalOpen(false);
+  //   if (modalType === 'approve') {
+  //     await approveTask(taskId, data);
+  //   } else if (modalType === 'reject') {
+  //     await rejectTask(taskId);
+  //   }
+  // };
 
   const { tasks, inputRequestUser, inputRequestDetail, emailTo } =
     useMemo(() => {
@@ -249,21 +249,21 @@ export const TaskDetailModal = ({
     }
   };
 
-  useEffect(() => {
-    if (isOpen) {
-      setIsLoadingBtnApprove(false);
-      setIsLoadingBtnReject(false);
-      if (
-        data?.tasks?.dynamicActionData &&
-        isValidJSON(data?.tasks?.dynamicActionData)
-      ) {
-        setDynamicForm({
-          hasDynamicForm: true,
-          dynamicForm: data?.tasks?.dynamicActionData || '',
-        });
-      }
-    }
-  }, [isOpen, data?.tasks?.dynamicActionData]);
+  // useEffect(() => {
+  //   if (isOpen) {
+  //     setIsLoadingBtnApprove(false);
+  //     setIsLoadingBtnReject(false);
+  //     if (
+  //       data?.tasks?.dynamicActionData &&
+  //       isValidJSON(data?.tasks?.dynamicActionData)
+  //     ) {
+  //       setDynamicForm({
+  //         hasDynamicForm: true,
+  //         dynamicForm: data?.tasks?.dynamicActionData || '',
+  //       });
+  //     }
+  //   }
+  // }, [isOpen, data?.tasks?.dynamicActionData]);
 
   const convertToDynamicArray = (payload: string | null | undefined) => {
     if (!payload) return [];
@@ -400,7 +400,7 @@ export const TaskDetailModal = ({
             >
               View Workflow Detail
             </Button>
-            {tasks?.status === TaskStatus.Approved ||
+            {/* {tasks?.status === TaskStatus.Approved ||
             tasks?.status === TaskStatus.Rejected ? null : (
               <>
                 <Button
@@ -422,7 +422,7 @@ export const TaskDetailModal = ({
                   Reject
                 </Button>
               </>
-            )}
+            )} */}
             <div className={styles.actions}>
               <div className={styles.spinner}>
                 {isLoading && <Spinner color="red.500" />}
@@ -535,7 +535,7 @@ export const TaskDetailModal = ({
           </ModalBody>
         </ModalContent>
       </Modal>
-      <ModalBoard
+      {/* <ModalBoard
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onConfirm={handleModalConfirm}
@@ -548,7 +548,7 @@ export const TaskDetailModal = ({
         name={tasks?.name}
         requestUser={data?.input?.RequestUser?.name}
         isDisabled={isRejected && !reason}
-      />
+      /> */}
       {requestWorkflow && (
         <WorkflowModal
           isOpen={isOpenWorkflow}
