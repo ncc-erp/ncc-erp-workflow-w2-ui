@@ -33,6 +33,7 @@ import { RequestStatus } from 'common/enums';
 import { UPDATED_BY_W2 } from 'common/constants';
 import { removeDiacritics } from 'utils/removeDiacritics';
 import { BiPencil } from 'react-icons/bi';
+import { RelatedTaskTable } from './RelatedTaskTable';
 
 interface IDetailModalProps {
   isOpen: boolean;
@@ -319,6 +320,10 @@ export const RequestDetailModal = ({
                 )}
                 {renderDynamicDataContent()}
               </div>
+            </div>
+            <div>
+              <TextGroup label='Related tasks'></TextGroup>
+              <RelatedTaskTable taskLists={tasks}/>
             </div>
           </ModalBody>
         </ModalContent>
