@@ -1,5 +1,6 @@
 import {
   Divider,
+  Grid,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -10,6 +11,7 @@ import {
 import { InputDefinition } from 'models/request';
 import DefineInputForm from '../forms/DefineInputForm';
 import styles from '../style.module.scss';
+import ExportImportJson from '../ExportImportJson';
 interface DefineTemplateInputModalProps {
   isOpen: boolean;
   requestId: string;
@@ -27,7 +29,21 @@ export const DefineTemplateInputModal = ({
     <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={true}>
       <ModalOverlay />
       <ModalContent className={styles.customModal}>
-        <ModalHeader fontSize="md">Define Workflow Input</ModalHeader>
+        <Grid
+          templateColumns="1fr auto"
+          alignItems="center"
+          gap={4}
+          paddingRight={32}
+          marginTop={2}
+          marginBottom={2}
+        >
+          <ModalHeader fontSize="md">Define Workflow Input</ModalHeader>
+          <ExportImportJson
+            requestId={requestId}
+            inputDefinition={inputDefinition}
+            onClose={onClose}
+          />
+        </Grid>
         <Divider></Divider>
         <ModalCloseButton />
         <ModalBody className={styles.customModalBody}>
