@@ -321,9 +321,10 @@ export const RequestDetailModal = ({
                 {renderDynamicDataContent()}
               </div>
             </div>
+            <Divider mt={2} mb={3} />
             <div>
-              <TextGroup label='Related tasks'></TextGroup>
-              <RelatedTaskTable taskLists={tasks}/>
+              <TextGroup label="Related tasks"></TextGroup>
+              <RelatedTaskTable taskLists={tasks} />
             </div>
           </ModalBody>
         </ModalContent>
