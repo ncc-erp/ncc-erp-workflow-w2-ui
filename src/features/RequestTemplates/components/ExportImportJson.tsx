@@ -1,5 +1,5 @@
 import { Button } from '@chakra-ui/react';
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { ImportJsonModal } from './modals/ImportJsonModal';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { InputDefinition } from 'models/request';
@@ -32,11 +32,14 @@ const ExportImportJson: React.FC<ExportImportJsonProps> = ({
     control,
     name: 'items',
   });
-  const exportData = {
-    id: inputDefinition?.id,
-    workflowDefinitionId: requestId,
-    propertyDefinitions: fields,
-  };
+  const exportData = useMemo(() => {
+    return {
+      id: inputDefinition?.id,
+      workflowDefinitionId: requestId,
+      propertyDefinitions: fields,
+    };
+  }, [inputDefinition?.id, requestId, fields]);
+
   const handleExport = () => {
     const jsonString = JSON.stringify(exportData, null, 2);
     const blob = new Blob([jsonString], { type: 'application/json' });

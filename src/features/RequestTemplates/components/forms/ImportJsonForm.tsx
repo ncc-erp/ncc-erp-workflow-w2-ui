@@ -49,38 +49,26 @@ const ImportJsonForm = ({ onCloseModal }: ImportJsonFormProps) => {
 
   const onSubmit = async () => {
     const defaultKeys = ['id', 'workflowDefinitionId', 'propertyDefinitions'];
-
     const jsonObject = JSON.parse(importedData);
     const keysOfData = Object.keys(jsonObject);
 
-    if (keysOfData.length !== defaultKeys.length) {
+    const isNotValidFormat = keysOfData.some(
+      (key, index) => key !== defaultKeys[index]
+    );
+
+    if (isNotValidFormat) {
       toast({
         description: 'Invalid JSON format!',
         status: 'error',
       });
       return;
     }
-
-    const isValidFormat = keysOfData.every(
-      (key, index) => key === defaultKeys[index]
-    );
-
-    if (!isValidFormat) {
-      toast({
-        description: 'Invalid format!',
-        status: 'error',
-      });
-      return;
-    }
     if (jsonObject) {
       try {
-        const requestId = jsonObject?.workflowDefinitionId;
-        const data = jsonObject?.propertyDefinitions;
-        const id = jsonObject?.id;
         const payload: IUpdateInputFormParams = {
-          id: id || GUID_ID_DEFAULT_VALUE,
-          workflowDefinitionId: requestId,
-          propertyDefinitions: data,
+          id: jsonObject?.id || GUID_ID_DEFAULT_VALUE,
+          workflowDefinitionId: jsonObject?.workflowDefinitionId,
+          propertyDefinitions: jsonObject?.propertyDefinitions,
         };
 
         await updateMutate(payload);
@@ -113,23 +101,22 @@ const ImportJsonForm = ({ onCloseModal }: ImportJsonFormProps) => {
           }}
         />
       </InputGroup>
-      {importedData !== null && (
-        <Box marginTop="20px">
-          <Text fontSize="lg" fontWeight="bold">
-            Import Data:
-          </Text>
-          <Box
-            as="pre"
-            whiteSpace="pre-wrap"
-            wordBreak="break-word"
-            backgroundColor="#F7FAFC"
-            padding="10px"
-            borderRadius="md"
-          >
-            {importedData ? importedData : 'No data!'}
-          </Box>
+      <Box marginTop="20px">
+        <Text fontSize="lg" fontWeight="bold">
+          Import Data:
+        </Text>
+        <Box
+          as="pre"
+          whiteSpace="pre-wrap"
+          wordBreak="break-word"
+          backgroundColor="#F7FAFC"
+          padding="10px"
+          borderRadius="md"
+        >
+          {importedData ? importedData : 'No data !'}
         </Box>
-      )}
+      </Box>
+
       <Button
         mt="14px"
         h="50px"
