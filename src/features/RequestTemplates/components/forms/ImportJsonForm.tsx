@@ -52,35 +52,33 @@ const ImportJsonForm = ({ onCloseModal }: ImportJsonFormProps) => {
     const jsonObject = JSON.parse(importedData);
     const keysOfData = Object.keys(jsonObject);
 
-    const isNotValidFormat = keysOfData.some(
+    const isInvalidFormat = keysOfData.some(
       (key, index) => key !== defaultKeys[index]
     );
 
-    if (isNotValidFormat) {
+    if (isInvalidFormat) {
       toast({
         description: 'Invalid JSON format!',
         status: 'error',
       });
       return;
     }
-    if (jsonObject) {
-      try {
-        const payload: IUpdateInputFormParams = {
-          id: jsonObject?.id || GUID_ID_DEFAULT_VALUE,
-          workflowDefinitionId: jsonObject?.workflowDefinitionId,
-          propertyDefinitions: jsonObject?.propertyDefinitions,
-        };
+    try {
+      const payload: IUpdateInputFormParams = {
+        id: jsonObject?.id || GUID_ID_DEFAULT_VALUE,
+        workflowDefinitionId: jsonObject?.workflowDefinitionId,
+        propertyDefinitions: jsonObject?.propertyDefinitions,
+      };
 
-        await updateMutate(payload);
-        refetch();
-        toast({
-          description: 'Import workflow input data successfully!',
-          status: 'success',
-        });
-        onCloseModal();
-      } catch (error) {
-        console.log(error);
-      }
+      await updateMutate(payload);
+      refetch();
+      toast({
+        description: 'Import workflow input data successfully!',
+        status: 'success',
+      });
+      onCloseModal();
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -113,7 +111,7 @@ const ImportJsonForm = ({ onCloseModal }: ImportJsonFormProps) => {
           padding="10px"
           borderRadius="md"
         >
-          {importedData ? importedData : 'No data !'}
+          {importedData ? importedData : 'No data imported !'}
         </Box>
       </Box>
 
