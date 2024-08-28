@@ -171,7 +171,7 @@ export const Table = <D,>({
       <Tbody>
         {isLoading || isRefetching ? (
           <>
-            {Array.from({ length: 5 }).map((_, rowIndex) => (
+            {Array.from({ length: 3 }).map((_, rowIndex) => (
               <Tr key={rowIndex}>
                 {table.getAllColumns().map((_column, colIndex) => (
                   <Td key={colIndex}>
