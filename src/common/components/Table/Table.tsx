@@ -22,6 +22,7 @@ import { useMediaQuery } from 'hooks/useMediaQuery';
 import { useState } from 'react';
 import { IoMdArrowDropdown, IoMdArrowDropup } from 'react-icons/io';
 import theme from 'themes/theme';
+import TableSkeleton from './TableSkeleton';
 
 export type IRowActionProps<D> = (data: D) => () => void;
 
@@ -34,6 +35,8 @@ interface TableProps<D> {
   onRowClick?: IRowActionProps<D>;
   onRowHover?: boolean;
   isHighlight?: boolean;
+  isLoading?: boolean;
+  isRefetching?: boolean;
 }
 
 export const Table = <D,>({
@@ -44,6 +47,8 @@ export const Table = <D,>({
   onRowClick,
   onRowHover,
   isHighlight,
+  isLoading,
+  isRefetching,
 }: TableProps<D>) => {
   const table = useReactTable({
     data,
@@ -164,41 +169,58 @@ export const Table = <D,>({
         ))}
       </Thead>
       <Tbody>
-        {table.getRowModel().rows.map((row) => {
-          return (
-            <Tr
-              key={row.id}
-              cursor={onRowHover ? 'pointer' : 'initial'}
-              _hover={
-                isHighlight
-                  ? {
-                      background: theme.colors.secondary,
-                      transition: 'background-color 0.5s ease',
-                    }
-                  : {}
-              }
-              onClick={() => {
-                if (onRowClick) {
-                  onRowClick(row.original)();
-                }
-              }}
-            >
-              {row.getVisibleCells().map((cell) => {
-                return (
-                  <Td
-                    key={cell.id}
-                    fontSize={['10px', '12px', '12px', '14px']}
-                    borderRight="1px"
-                    borderColor={theme.colors.borderColor}
-                    px="6px"
-                  >
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+        {isLoading || isRefetching ? (
+          <>
+            {Array.from({ length: 5 }).map((_, rowIndex) => (
+              <Tr key={rowIndex}>
+                {table.getAllColumns().map((_column, colIndex) => (
+                  <Td key={colIndex}>
+                    <TableSkeleton />
                   </Td>
-                );
-              })}
-            </Tr>
-          );
-        })}
+                ))}
+              </Tr>
+            ))}
+          </>
+        ) : (
+          table.getRowModel().rows.map((row) => {
+            return (
+              <Tr
+                key={row.id}
+                cursor={onRowHover ? 'pointer' : 'initial'}
+                _hover={
+                  isHighlight
+                    ? {
+                        background: theme.colors.secondary,
+                        transition: 'background-color 0.5s ease',
+                      }
+                    : {}
+                }
+                onClick={() => {
+                  if (onRowClick) {
+                    onRowClick(row.original)();
+                  }
+                }}
+              >
+                {row.getVisibleCells().map((cell) => {
+                  return (
+                    <Td
+                      key={cell.id}
+                      fontSize={['10px', '12px', '12px', '14px']}
+                      borderRight="1px"
+                      borderColor={theme.colors.borderColor}
+                      px="6px"
+                    >
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </Td>
+                  );
+                })}
+              </Tr>
+            );
+          })
+        )}
       </Tbody>
     </TableComponent>
   );

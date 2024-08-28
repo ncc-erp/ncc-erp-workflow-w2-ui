@@ -8,7 +8,6 @@ import {
   InputGroup,
   InputRightElement,
   Spacer,
-  Spinner,
   Wrap,
   WrapItem,
 } from '@chakra-ui/react';
@@ -92,6 +91,9 @@ export const MyRequestTable = () => {
   const [requestDetails, setRequestDetails] = useState<Request>();
   const [requestWorkflow, setRequestWorkflow] = useState<string>('');
   const [txtSearch, setTxtSearch] = useState<string>('');
+  const [isMyRequestLoading, setIsMyRequestLoading] = useState(isLoading);
+  const [isMyRequestRefetching, setIsMyRequestRefetching] =
+    useState(isRefetching);
   const txtSearchDebounced = useDebounced(txtSearch, 500);
 
   const statusOptions = useMemo(() => {
@@ -301,6 +303,11 @@ export const MyRequestTable = () => {
     onTemplateStatusChange('EmailRequest', txtSearchDebounced);
   }, [onTemplateStatusChange, txtSearchDebounced]);
 
+  useEffect(() => {
+    setIsMyRequestLoading(isLoading);
+    setIsMyRequestRefetching(isRefetching);
+  }, [isLoading, isRefetching]);
+
   const onActionViewDetails = (request: Request) => () => {
     setRequestDetails(request);
     setOpenDetails(true);
@@ -422,64 +429,62 @@ export const MyRequestTable = () => {
             </WrapItem>
           </Wrap>
         </Box>
-        {isLoading || isRefetching ? (
-          <Center h="200px">
-            <Spinner mx="auto" speed="0.65s" thickness="3px" size="xl" />
-          </Center>
-        ) : (
-          <EmptyWrapper
-            isEmpty={!requests.length}
-            h="200px"
-            fontSize="xs"
-            message={'No request found!'}
+        <EmptyWrapper
+          isEmpty={
+            !requests.length && !isMyRequestRefetching && !isMyRequestLoading
+          }
+          h="200px"
+          fontSize="xs"
+          message={'No request found!'}
+        >
+          <Box
+            w={{
+              base: `calc(100vw - ${sideBarWidth}px)`,
+              lg: `calc(100vw - ${sideBarWidth}px)`,
+              xs: 'max-content',
+            }}
+            p={{ base: '10px 24px 0px' }}
           >
-            <Box
-              w={{
-                base: `calc(100vw - ${sideBarWidth}px)`,
-                lg: `calc(100vw - ${sideBarWidth}px)`,
-                xs: 'max-content',
-              }}
-              p={{ base: '10px 24px 0px' }}
-            >
-              <Table
-                columns={myRequestColumns}
-                data={requests}
-                sorting={sorting}
-                onSortingChange={setSorting}
-                onRowClick={onActionViewDetails}
-                onRowHover={true}
-                isHighlight={true}
-              />
-            </Box>
+            <Table
+              columns={myRequestColumns}
+              data={requests}
+              sorting={sorting}
+              onSortingChange={setSorting}
+              onRowClick={onActionViewDetails}
+              onRowHover={true}
+              isHighlight={true}
+              isLoading={isMyRequestLoading}
+              isRefetching={isMyRequestRefetching}
+            />
+          </Box>
 
-            <HStack
-              p="20px 30px 20px 30px"
-              justifyContent={['center', 'space-between']}
-              flexWrap="wrap"
-            >
-              <HStack alignItems="center" spacing="6px" flexWrap="wrap">
-                <PageSize
-                  noOfRows={noOfRows}
-                  onChange={onPageSizeChange}
-                  isLoading={isLoading || isRefetching}
-                />
-                <Spacer w="5px" />
-                <ShowingItemText
-                  skipCount={filter.skipCount}
-                  maxResultCount={filter.maxResultCount}
-                  totalCount={totalCount}
-                />
-              </HStack>
-              <Pagination
-                total={totalCount}
-                pageSize={filter.maxResultCount}
-                current={currentPage}
-                onChange={onPageChange}
-                hideOnSinglePage
+          <HStack
+            p="20px 30px 20px 30px"
+            justifyContent={['center', 'space-between']}
+            flexWrap="wrap"
+          >
+            <HStack alignItems="center" spacing="6px" flexWrap="wrap">
+              <PageSize
+                noOfRows={noOfRows}
+                onChange={onPageSizeChange}
+                isLoading={isLoading || isRefetching}
+              />
+              <Spacer w="5px" />
+              <ShowingItemText
+                skipCount={filter.skipCount}
+                maxResultCount={filter.maxResultCount}
+                totalCount={totalCount}
               />
             </HStack>
-          </EmptyWrapper>
-        )}
+            <Pagination
+              total={totalCount}
+              pageSize={filter.maxResultCount}
+              current={currentPage}
+              onChange={onPageChange}
+              hideOnSinglePage
+            />
+          </HStack>
+        </EmptyWrapper>
       </Box>
       <ModalConfirm
         isOpen={isOpen}

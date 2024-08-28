@@ -35,7 +35,7 @@ export const SideNav = ({ isLargeScreen }: SideNavProps) => {
     <>
       <Box
         ref={sideBarRef}
-        w={isLargeScreen ? '240px' : 'auto'}
+        minW={isLargeScreen ? '240px' : 'auto'}
         borderRightColor="gray.200"
         bgColor="gray.50"
         h="100vh"
