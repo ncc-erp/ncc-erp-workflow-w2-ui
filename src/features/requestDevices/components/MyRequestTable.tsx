@@ -47,7 +47,6 @@ import { EmptyWrapper } from 'common/components/EmptyWrapper';
 import { ModalConfirm } from 'common/components/ModalConfirm';
 import { AiOutlineReload } from 'react-icons/ai';
 import styles from './style.module.scss';
-import { renderColor } from 'utils/getColorTypeRequest';
 import OverflowText from 'common/components/OverflowText';
 import TextToolTip from 'common/components/textTooltip';
 
@@ -128,6 +127,14 @@ export const MyRequestTable = () => {
       header: () => <Box textAlign="center">Title</Box>,
       enableSorting: false,
       cell: (info) => {
+        let colorCode: string = '#aabbcc';
+        if (info.row.original.settings)
+          try {
+            const jsonSetting = JSON.parse(info.row.original.settings);
+            colorCode = jsonSetting.color;
+          } catch (error) {
+            console.log(error);
+          }
         return (
           <Box
             style={{
@@ -147,9 +154,7 @@ export const MyRequestTable = () => {
             <Box
               className={styles.titleTable}
               style={{
-                backgroundColor: renderColor(
-                  info.row.original.workflowDefinitionDisplayName
-                ),
+                backgroundColor: colorCode,
               }}
             >
               <OverflowText
