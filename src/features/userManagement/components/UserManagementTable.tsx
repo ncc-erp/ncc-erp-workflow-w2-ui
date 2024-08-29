@@ -196,6 +196,7 @@ export const UserManagementTable = () => {
               sorting={sorting}
               onSortingChange={setSorting}
               isLoading={isUserTableLoading}
+              pageSize={filterUser.maxResultCount}
             />
           </Box>
         </EmptyWrapper>

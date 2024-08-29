@@ -37,6 +37,7 @@ interface TableProps<D> {
   isHighlight?: boolean;
   isLoading?: boolean;
   isRefetching?: boolean;
+  pageSize?: number;
 }
 
 export const Table = <D,>({
@@ -49,6 +50,7 @@ export const Table = <D,>({
   isHighlight,
   isLoading,
   isRefetching,
+  pageSize,
 }: TableProps<D>) => {
   const table = useReactTable({
     data,
@@ -87,6 +89,7 @@ export const Table = <D,>({
               const isWorkflowDefinitionDisplayName =
                 header.id === 'workflowDefinitionDisplayName';
               const headerWidth = '20%';
+              const headerLoadingWidth = '35%';
 
               return (
                 <Th
@@ -108,9 +111,11 @@ export const Table = <D,>({
                   style={{
                     width: isWorkflowDefinitionDisplayName
                       ? headerWidth
+                      : isLoading
+                      ? headerLoadingWidth
                       : 'auto',
                   }}
-                  // whiteSpace={["normal","normal","normal","nowrap"]}
+                  whiteSpace={['normal', 'normal', 'normal', 'nowrap']}
                   cursor={header.column.getCanSort() ? 'pointer' : 'initial'}
                 >
                   {header.isPlaceholder ? null : (
@@ -171,10 +176,15 @@ export const Table = <D,>({
       <Tbody>
         {isLoading || isRefetching ? (
           <>
-            {Array.from({ length: 3 }).map((_, rowIndex) => (
-              <Tr key={rowIndex}>
+            {Array.from({ length: pageSize ?? 0 }).map((_, rowIndex) => (
+              <Tr key={rowIndex} height="65px">
                 {table.getAllColumns().map((_column, colIndex) => (
-                  <Td key={colIndex}>
+                  <Td
+                    key={colIndex}
+                    fontSize={['10px', '12px', '12px', '14px']}
+                    borderRight="1px"
+                    borderColor={theme.colors.borderColor}
+                  >
                     <TableSkeleton />
                   </Td>
                 ))}
@@ -192,6 +202,7 @@ export const Table = <D,>({
                     ? {
                         background: theme.colors.secondary,
                         transition: 'background-color 0.5s ease',
+                        color: '#333',
                       }
                     : {}
                 }

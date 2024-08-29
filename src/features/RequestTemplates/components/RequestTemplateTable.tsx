@@ -293,6 +293,7 @@ export const RequestTemplateTable = ({
             sorting={sorting}
             onSortingChange={setSorting}
             isLoading={isRequestLoading}
+            pageSize={filter.maxResultCount}
           />
         </Box>
       </EmptyWrapper>

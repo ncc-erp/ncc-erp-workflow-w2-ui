@@ -455,6 +455,7 @@ export const MyRequestTable = () => {
               isHighlight={true}
               isLoading={isMyRequestLoading}
               isRefetching={isMyRequestRefetching}
+              pageSize={filter.maxResultCount}
             />
           </Box>
 
