@@ -17,9 +17,15 @@ import { IUpdateInputFormParams } from 'models/request';
 
 interface ImportJsonFormProps {
   onCloseModal: () => void;
+  id: string | undefined;
+  workflowDefinitionId: string;
 }
 
-const ImportJsonForm = ({ onCloseModal }: ImportJsonFormProps) => {
+const ImportJsonForm = ({
+  onCloseModal,
+  id,
+  workflowDefinitionId,
+}: ImportJsonFormProps) => {
   const [importedData, setImportedData] = useState<string>('');
   const { mutateAsync: updateMutate } = useUpdateWorkflowInput();
   const { refetch } = useRequestTemplates();
@@ -48,7 +54,8 @@ const ImportJsonForm = ({ onCloseModal }: ImportJsonFormProps) => {
   };
 
   const onSubmit = async () => {
-    const defaultKeys = ['id', 'workflowDefinitionId', 'propertyDefinitions'];
+    if (!id) return;
+    const defaultKeys = ['propertyDefinitions'];
     const jsonObject = JSON.parse(importedData);
     const keysOfData = Object.keys(jsonObject);
 
@@ -65,8 +72,8 @@ const ImportJsonForm = ({ onCloseModal }: ImportJsonFormProps) => {
     }
     try {
       const payload: IUpdateInputFormParams = {
-        id: jsonObject?.id || GUID_ID_DEFAULT_VALUE,
-        workflowDefinitionId: jsonObject?.workflowDefinitionId,
+        id: id || GUID_ID_DEFAULT_VALUE,
+        workflowDefinitionId: workflowDefinitionId,
         propertyDefinitions: jsonObject?.propertyDefinitions,
       };
 

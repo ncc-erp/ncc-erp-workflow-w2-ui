@@ -94,10 +94,12 @@ export const RequestTemplateTable = ({
   };
 
   const onDefineInputWorkflow =
-    (workflowId: string, inputDefinition: InputDefinition) => () => {
+    (workflowId: string, inputDefinition: InputDefinition, name: string) =>
+    () => {
       setIsModalDefineInputOpen(true);
       setRequestId(workflowId);
       setModalInputDefinition(inputDefinition);
+      setModalTitle(name);
     };
 
   const onDeleteWorkflow = async () => {
@@ -173,14 +175,15 @@ export const RequestTemplateTable = ({
         enableSorting: false,
         header: () => <Center w="full">Designer</Center>,
         cell: (info) => {
-          const { definitionId, inputDefinition } = info.row.original;
+          const { definitionId, inputDefinition, name } = info.row.original;
           return (
             <Center>
               <RowAction
                 onDelete={onConfirmDeleteWorkflow(definitionId)}
                 onDefineInput={onDefineInputWorkflow(
                   definitionId,
-                  inputDefinition
+                  inputDefinition,
+                  name
                 )}
                 onViewWorkflow={onActionViewWorkflow(definitionId)}
               />
@@ -332,6 +335,7 @@ export const RequestTemplateTable = ({
 
       <DefineTemplateInputModal
         requestId={requestId}
+        workflowName={modalTitle}
         inputDefinition={inputDefinition}
         isOpen={isModalDefineInputOpen}
         onClose={onCloseModal}

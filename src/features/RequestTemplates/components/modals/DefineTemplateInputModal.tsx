@@ -17,6 +17,7 @@ interface DefineTemplateInputModalProps {
   requestId: string;
   onClose: () => void;
   inputDefinition?: InputDefinition;
+  workflowName: string;
 }
 
 export const DefineTemplateInputModal = ({
@@ -24,6 +25,7 @@ export const DefineTemplateInputModal = ({
   onClose,
   inputDefinition,
   requestId,
+  workflowName,
 }: DefineTemplateInputModalProps) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={true}>
@@ -39,6 +41,7 @@ export const DefineTemplateInputModal = ({
         >
           <ModalHeader fontSize="md">Define Workflow Input</ModalHeader>
           <ExportImportJson
+            workflowName={workflowName}
             requestId={requestId}
             inputDefinition={inputDefinition}
             onClose={onClose}

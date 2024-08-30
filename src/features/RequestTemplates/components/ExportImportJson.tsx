@@ -11,11 +11,13 @@ interface ExportImportJsonProps {
   requestId: string;
   inputDefinition?: InputDefinition;
   onClose: () => void;
+  workflowName: string;
 }
 const ExportImportJson: React.FC<ExportImportJsonProps> = ({
   requestId,
   inputDefinition,
   onClose,
+  workflowName,
 }) => {
   const [isImportJsonModalOpen, setIsImportJsonModalOpen] =
     useState<boolean>(false);
@@ -34,11 +36,9 @@ const ExportImportJson: React.FC<ExportImportJsonProps> = ({
   });
   const exportData = useMemo(() => {
     return {
-      id: inputDefinition?.id,
-      workflowDefinitionId: requestId,
       propertyDefinitions: fields,
     };
-  }, [inputDefinition?.id, requestId, fields]);
+  }, [fields]);
 
   const handleExport = () => {
     const jsonString = JSON.stringify(exportData, null, 2);
@@ -46,7 +46,7 @@ const ExportImportJson: React.FC<ExportImportJsonProps> = ({
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = 'define_workflow_input_data.json';
+    link.download = `${workflowName}.json`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -57,7 +57,12 @@ const ExportImportJson: React.FC<ExportImportJsonProps> = ({
 
   return (
     <div>
-      <ImportJsonModal isOpen={isImportJsonModalOpen} onClose={onClose} />
+      <ImportJsonModal
+        id={inputDefinition?.id}
+        workflowDefinitionId={requestId}
+        isOpen={isImportJsonModalOpen}
+        onClose={onClose}
+      />
       <Button onClick={handleExport} colorScheme="red" m={2}>
         Export
       </Button>
