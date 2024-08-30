@@ -6,7 +6,6 @@ import {
   HStack,
   IconButton,
   Spacer,
-  Spinner,
 } from '@chakra-ui/react';
 import {
   ColumnDef,
@@ -268,35 +267,31 @@ export const RequestTemplateTable = ({
         </Box>
       )}
 
-      {isLoading ? (
-        <Center h="200px">
-          <Spinner mx="auto" speed="0.65s" thickness="3px" size="xl" />
-        </Center>
-      ) : (
-        <EmptyWrapper
-          isEmpty={!items.length}
-          h="200px"
-          fontSize="xs"
-          message={'No request found!'}
-          boxSizing="border-box"
+      <EmptyWrapper
+        isEmpty={!items.length && !isLoading}
+        h="200px"
+        fontSize="xs"
+        message={'No request found!'}
+        boxSizing="border-box"
+      >
+        <Box
+          w={{
+            base: `calc(100vw - ${sideBarWidth}px)`,
+            lg: `calc(100vw - ${sideBarWidth}px)`,
+            xs: 'max-content',
+          }}
+          p={{ base: '10px 24px 0px' }}
         >
-          <Box
-            w={{
-              base: `calc(100vw - ${sideBarWidth}px)`,
-              lg: `calc(100vw - ${sideBarWidth}px)`,
-              xs: 'max-content',
-            }}
-            p={{ base: '10px 24px 0px' }}
-          >
-            <Table
-              columns={myRequestColumns}
-              data={items}
-              sorting={sorting}
-              onSortingChange={setSorting}
-            />
-          </Box>
-        </EmptyWrapper>
-      )}
+          <Table
+            columns={myRequestColumns}
+            data={items}
+            sorting={sorting}
+            onSortingChange={setSorting}
+            isLoading={isLoading}
+            pageSize={filter.maxResultCount}
+          />
+        </Box>
+      </EmptyWrapper>
 
       <HStack
         p="20px 30px 20px 30px"
