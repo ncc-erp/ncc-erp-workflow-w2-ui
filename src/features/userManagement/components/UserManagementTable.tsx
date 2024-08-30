@@ -55,7 +55,6 @@ export const UserManagementTable = () => {
   const [user, setUser] = useState<UserIdentity>();
   const [txtSearch, setTxtSearch] = useState('');
   const txtSearchDebounced = useDebounced(txtSearch, 500);
-  const [isUserTableLoading, setIsUserTableLoading] = useState(isLoading);
 
   const userColumns = useMemo(
     () =>
@@ -120,10 +119,6 @@ export const UserManagementTable = () => {
     }));
   }, [txtSearchDebounced]);
 
-  useEffect(() => {
-    setIsUserTableLoading(isLoading);
-  }, [isLoading]);
-
   const onPageChange = (page: number) => {
     setFilterUser((filter) => ({
       ...filter,
@@ -176,7 +171,7 @@ export const UserManagementTable = () => {
           </HStack>
         </HStack>
         <EmptyWrapper
-          isEmpty={!requests.length && !isUserTableLoading}
+          isEmpty={!requests.length && !isLoading}
           h="200px"
           fontSize="xs"
           message={'No request found!'}
@@ -195,7 +190,7 @@ export const UserManagementTable = () => {
               data={requests}
               sorting={sorting}
               onSortingChange={setSorting}
-              isLoading={isUserTableLoading}
+              isLoading={isLoading}
               pageSize={filterUser.maxResultCount}
             />
           </Box>

@@ -40,6 +40,8 @@ interface TableProps<D> {
   pageSize?: number;
 }
 
+const DEFAULT_SKELETON_AMOUNT = 5;
+
 export const Table = <D,>({
   columns,
   data,
@@ -176,20 +178,22 @@ export const Table = <D,>({
       <Tbody>
         {isLoading || isRefetching ? (
           <>
-            {Array.from({ length: pageSize ?? 0 }).map((_, rowIndex) => (
-              <Tr key={rowIndex} height="65px">
-                {table.getAllColumns().map((_column, colIndex) => (
-                  <Td
-                    key={colIndex}
-                    fontSize={['10px', '12px', '12px', '14px']}
-                    borderRight="1px"
-                    borderColor={theme.colors.borderColor}
-                  >
-                    <TableSkeleton />
-                  </Td>
-                ))}
-              </Tr>
-            ))}
+            {Array.from({ length: pageSize ?? DEFAULT_SKELETON_AMOUNT }).map(
+              (_, rowIndex) => (
+                <Tr key={rowIndex} height="65px">
+                  {table.getAllColumns().map((_column, colIndex) => (
+                    <Td
+                      key={colIndex}
+                      fontSize={['10px', '12px', '12px', '14px']}
+                      borderRight="1px"
+                      borderColor={theme.colors.borderColor}
+                    >
+                      <TableSkeleton />
+                    </Td>
+                  ))}
+                </Tr>
+              )
+            )}
           </>
         ) : (
           table.getRowModel().rows.map((row) => {

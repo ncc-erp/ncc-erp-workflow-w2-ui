@@ -80,7 +80,6 @@ export const RequestTemplateTable = ({
   const [isOpenWorkflow, setOpenWorkflow] = useState(false);
   const [isModalDefineInputOpen, setIsModalDefineInputOpen] = useState(false);
   const [isModalConfirmOpen, setIsModalConfirmOpen] = useState(false);
-  const [isRequestLoading, setIsRequestLoading] = useState(isLoading);
   const isAdmin = useIsAdmin();
 
   const { sideBarWidth } = useRecoilValue(appConfigState);
@@ -210,10 +209,6 @@ export const RequestTemplateTable = ({
     }));
   }, [sorting]);
 
-  useEffect(() => {
-    setIsRequestLoading(isLoading);
-  }, [isLoading]);
-
   const onPageChange = (page: number) => {
     setFilter((filter) => ({
       ...filter,
@@ -273,7 +268,7 @@ export const RequestTemplateTable = ({
       )}
 
       <EmptyWrapper
-        isEmpty={!items.length && !isRequestLoading}
+        isEmpty={!items.length && !isLoading}
         h="200px"
         fontSize="xs"
         message={'No request found!'}
@@ -292,7 +287,7 @@ export const RequestTemplateTable = ({
             data={items}
             sorting={sorting}
             onSortingChange={setSorting}
-            isLoading={isRequestLoading}
+            isLoading={isLoading}
             pageSize={filter.maxResultCount}
           />
         </Box>

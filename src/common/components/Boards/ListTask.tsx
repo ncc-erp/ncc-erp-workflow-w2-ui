@@ -82,8 +82,6 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
     hasDynamicForm: false,
     dynamicForm: '',
   });
-  const [isTaskLoading, setIsTaskLoading] = useState(isLoading);
-  const [isTaskRefetching, setIsTaskRefetching] = useState(isRefetching);
 
   const { clear } = useClearCacheTask();
 
@@ -462,11 +460,6 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
     });
   }, [filters]);
 
-  useEffect(() => {
-    setIsTaskLoading(isLoading);
-    setIsTaskRefetching(isRefetching);
-  }, [isLoading, isRefetching]);
-
   const currentPage = useMemo(() => {
     const { skipCount, maxResultCount } = filter;
     return (maxResultCount + skipCount) / maxResultCount;
@@ -507,8 +500,8 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
                   columns={taskColumns}
                   data={displayData ?? []}
                   onRowHover={true}
-                  isLoading={isTaskLoading}
-                  isRefetching={isTaskRefetching}
+                  isLoading={isLoading}
+                  isRefetching={isRefetching}
                   pageSize={filter.maxResultCount}
                 />
               </Box>

@@ -91,9 +91,6 @@ export const MyRequestTable = () => {
   const [requestDetails, setRequestDetails] = useState<Request>();
   const [requestWorkflow, setRequestWorkflow] = useState<string>('');
   const [txtSearch, setTxtSearch] = useState<string>('');
-  const [isMyRequestLoading, setIsMyRequestLoading] = useState(isLoading);
-  const [isMyRequestRefetching, setIsMyRequestRefetching] =
-    useState(isRefetching);
   const txtSearchDebounced = useDebounced(txtSearch, 500);
 
   const statusOptions = useMemo(() => {
@@ -303,11 +300,6 @@ export const MyRequestTable = () => {
     onTemplateStatusChange('EmailRequest', txtSearchDebounced);
   }, [onTemplateStatusChange, txtSearchDebounced]);
 
-  useEffect(() => {
-    setIsMyRequestLoading(isLoading);
-    setIsMyRequestRefetching(isRefetching);
-  }, [isLoading, isRefetching]);
-
   const onActionViewDetails = (request: Request) => () => {
     setRequestDetails(request);
     setOpenDetails(true);
@@ -430,9 +422,7 @@ export const MyRequestTable = () => {
           </Wrap>
         </Box>
         <EmptyWrapper
-          isEmpty={
-            !requests.length && !isMyRequestRefetching && !isMyRequestLoading
-          }
+          isEmpty={!requests.length && !isRefetching && !isLoading}
           h="200px"
           fontSize="xs"
           message={'No request found!'}
@@ -453,8 +443,8 @@ export const MyRequestTable = () => {
               onRowClick={onActionViewDetails}
               onRowHover={true}
               isHighlight={true}
-              isLoading={isMyRequestLoading}
-              isRefetching={isMyRequestRefetching}
+              isLoading={isLoading}
+              isRefetching={isRefetching}
               pageSize={filter.maxResultCount}
             />
           </Box>
