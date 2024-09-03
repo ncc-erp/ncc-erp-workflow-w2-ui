@@ -297,8 +297,10 @@ export const MyRequestTable = () => {
   );
 
   useEffect(() => {
-    onTemplateStatusChange('EmailRequest', txtSearchDebounced);
-  }, [onTemplateStatusChange, txtSearchDebounced]);
+    if (!filter.RequestUser) {
+      onTemplateStatusChange('EmailRequest', txtSearchDebounced);
+    }
+  }, [onTemplateStatusChange, txtSearchDebounced, filter.RequestUser]);
 
   const onActionViewDetails = (request: Request) => () => {
     setRequestDetails(request);
