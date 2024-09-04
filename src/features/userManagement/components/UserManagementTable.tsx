@@ -120,6 +120,12 @@ export const UserManagementTable = () => {
           enableSorting: true,
           cell: (info) => info.getValue(),
         }),
+        columnHelper.accessor('roles', {
+          id: 'roles',
+          header: 'Roles',
+          enableSorting: true,
+          cell: (info) => `${info.getValue()}  `,
+        }),
         columnHelper.display({
           id: 'actions',
           enableSorting: false,
