@@ -3,32 +3,27 @@
     flex-direction: column;
     margin-top: 10px;
 }
-
 .wrapper {
     display: flex;
     width: 100%;
-    gap: 0; 
+    gap: 0;
     flex-direction: row;
     flex-wrap: wrap;
     column-gap: 2rem;
-  }
-
+}
 .wrapper > div {
     width: 100%;
     margin-bottom: 10px !important;
 }
-
 @media (min-width: 768px) {
-    .wrapper  > div {
+    .wrapper > div {
         width: 46%;
     }
 }
-
 .modalBody {
     max-height: 70vh;
     overflow-y: scroll;
 }
-
 .containerSpinner {
     display: flex;
     justify-content: center;
@@ -37,26 +32,40 @@
     min-width: 30vw;
     min-height: 50vh;
 }
-
-.actions {
-    display: flex;
+.listActionContainer {
+    display: grid;
+    grid-template-columns: 2fr 2fr 2fr;
+    gap: 10px;
     align-items: center;
-    flex-direction: row;
-    width: 100%;
-    flex-wrap: wrap;
-    gap: 5px;
-    margin-top: 15px;
-
-    .spinner {
+  .btnWFDetail{
+    grid-column: 1 / 2;
+  }
+    .actions {
+      margin-top: 10px;
+      display: flex;
+      align-items: center;
+      flex-direction: row;
+      width: auto;
+      gap: 5px;
+      grid-column: 2 / 3;
+      .spinner {
         min-width: 24px;
         margin-right: 5px;
+        align-self: center;
+      }
     }
-}
-.btnApproveTask{
-    margin-left: 13rem;
-    width: 6rem;
-}
-.btnRejectTask{
-    width: 6rem;
-    margin-left: 1rem;
-}
+  
+    .listBtnActionTask {
+      display: flex;
+      justify-content: flex-end;
+      grid-column: 3 / 4;
+    }
+    .btnApproveTask {
+      margin-right: 10px;
+    }
+  
+    .btnRejectTask {
+      min-width: 6rem;
+    }
+  }
+  

@@ -6,7 +6,6 @@ import {
   HStack,
   IconButton,
   Spacer,
-  Spinner,
 } from '@chakra-ui/react';
 import {
   ColumnDef,
@@ -94,10 +93,12 @@ export const RequestTemplateTable = ({
   };
 
   const onDefineInputWorkflow =
-    (workflowId: string, inputDefinition: InputDefinition) => () => {
+    (workflowId: string, inputDefinition: InputDefinition, name: string) =>
+    () => {
       setIsModalDefineInputOpen(true);
       setRequestId(workflowId);
       setModalInputDefinition(inputDefinition);
+      setModalTitle(name);
     };
 
   const onDeleteWorkflow = async () => {
@@ -173,14 +174,15 @@ export const RequestTemplateTable = ({
         enableSorting: false,
         header: () => <Center w="full">Designer</Center>,
         cell: (info) => {
-          const { definitionId, inputDefinition } = info.row.original;
+          const { definitionId, inputDefinition, name } = info.row.original;
           return (
             <Center>
               <RowAction
                 onDelete={onConfirmDeleteWorkflow(definitionId)}
                 onDefineInput={onDefineInputWorkflow(
                   definitionId,
-                  inputDefinition
+                  inputDefinition,
+                  name
                 )}
                 onViewWorkflow={onActionViewWorkflow(definitionId)}
               />
@@ -268,35 +270,31 @@ export const RequestTemplateTable = ({
         </Box>
       )}
 
-      {isLoading ? (
-        <Center h="200px">
-          <Spinner mx="auto" speed="0.65s" thickness="3px" size="xl" />
-        </Center>
-      ) : (
-        <EmptyWrapper
-          isEmpty={!items.length}
-          h="200px"
-          fontSize="xs"
-          message={'No request found!'}
-          boxSizing="border-box"
+      <EmptyWrapper
+        isEmpty={!items.length && !isLoading}
+        h="200px"
+        fontSize="xs"
+        message={'No request found!'}
+        boxSizing="border-box"
+      >
+        <Box
+          w={{
+            base: `calc(100vw - ${sideBarWidth}px)`,
+            lg: `calc(100vw - ${sideBarWidth}px)`,
+            xs: 'max-content',
+          }}
+          p={{ base: '10px 24px 0px' }}
         >
-          <Box
-            w={{
-              base: `calc(100vw - ${sideBarWidth}px)`,
-              lg: `calc(100vw - ${sideBarWidth}px)`,
-              xs: 'max-content',
-            }}
-            p={{ base: '10px 24px 0px' }}
-          >
-            <Table
-              columns={myRequestColumns}
-              data={items}
-              sorting={sorting}
-              onSortingChange={setSorting}
-            />
-          </Box>
-        </EmptyWrapper>
-      )}
+          <Table
+            columns={myRequestColumns}
+            data={items}
+            sorting={sorting}
+            onSortingChange={setSorting}
+            isLoading={isLoading}
+            pageSize={filter.maxResultCount}
+          />
+        </Box>
+      </EmptyWrapper>
 
       <HStack
         p="20px 30px 20px 30px"
@@ -332,6 +330,7 @@ export const RequestTemplateTable = ({
 
       <DefineTemplateInputModal
         requestId={requestId}
+        workflowName={modalTitle}
         inputDefinition={inputDefinition}
         isOpen={isModalDefineInputOpen}
         onClose={onCloseModal}

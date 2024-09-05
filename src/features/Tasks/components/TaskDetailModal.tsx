@@ -386,65 +386,69 @@ export const TaskDetailModal = ({
                 </Text>
               </Heading>
             </HStack>
-            <Button
-              onClick={onActionViewWorkflow(
-                data?.tasks.workflowInstanceId as string
-              )}
-              mt={2}
-            >
-              View Workflow Detail
-            </Button>
-            {tasks?.status === TaskStatus.Approved ||
-            tasks?.status === TaskStatus.Rejected ? null : (
-              <>
-                <Button
-                  colorScheme="green"
-                  isLoading={isLoadingBtnApprove}
-                  onClick={handleApproveClick}
-                  mt={2}
-                  className={styles.btnApproveTask}
-                >
-                  Approve
-                </Button>
-                <Button
-                  colorScheme="red"
-                  isLoading={isLoadingBtnReject}
-                  onClick={handleRejectClick}
-                  mt={2}
-                  className={styles.btnRejectTask}
-                >
-                  Reject
-                </Button>
-              </>
-            )}
-            <div className={styles.actions}>
-              <div className={styles.spinner}>
-                {isLoading && <Spinner color="red.500" />}
+            <div className={styles.listActionContainer}>
+              <Button
+                className={styles.btnWFDetail}
+                onClick={onActionViewWorkflow(
+                  data?.tasks.workflowInstanceId as string
+                )}
+                mt={2}
+              >
+                View Workflow Detail
+              </Button>
+              <div className={styles.actions}>
+                <div className={styles.spinner}>
+                  {isLoading && <Spinner color="red.500" />}
+                </div>
+                {hasTaskAction &&
+                  data?.otherActionSignals
+                    ?.sort((a, b) => {
+                      return a.otherActionSignal.localeCompare(
+                        b.otherActionSignal
+                      );
+                    })
+                    .map((x, ind) => {
+                      return (
+                        <Button
+                          key={ind}
+                          isDisabled={
+                            isLoading ||
+                            x.status !== OtherActionSignalStatus.PENDING
+                          }
+                          onClick={() =>
+                            onActionClick(data?.tasks.id, x.otherActionSignal)
+                          }
+                        >
+                          {x.otherActionSignal}
+                        </Button>
+                      );
+                    })}
               </div>
-
-              {hasTaskAction &&
-                data?.otherActionSignals
-                  ?.sort((a, b) => {
-                    return a.otherActionSignal.localeCompare(
-                      b.otherActionSignal
-                    );
-                  })
-                  .map((x, ind) => {
-                    return (
-                      <Button
-                        key={ind}
-                        isDisabled={
-                          isLoading ||
-                          x.status !== OtherActionSignalStatus.PENDING
-                        }
-                        onClick={() =>
-                          onActionClick(data?.tasks.id, x.otherActionSignal)
-                        }
-                      >
-                        {x.otherActionSignal}
-                      </Button>
-                    );
-                  })}
+              <div className={styles.listBtnActionTask}>
+                {tasks?.status === TaskStatus.Approved ||
+                tasks?.status === TaskStatus.Rejected ? null : (
+                  <>
+                    <Button
+                      colorScheme="green"
+                      isLoading={isLoadingBtnApprove}
+                      onClick={handleApproveClick}
+                      mt={2}
+                      className={styles.btnApproveTask}
+                    >
+                      Approve
+                    </Button>
+                    <Button
+                      colorScheme="red"
+                      isLoading={isLoadingBtnReject}
+                      onClick={handleRejectClick}
+                      mt={2}
+                      className={styles.btnRejectTask}
+                    >
+                      Reject
+                    </Button>
+                  </>
+                )}
+              </div>
             </div>
           </ModalHeader>
           <ModalCloseButton mt="15px" mr="10px" />

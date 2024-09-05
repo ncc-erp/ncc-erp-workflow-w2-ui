@@ -22,6 +22,7 @@ import { useMediaQuery } from 'hooks/useMediaQuery';
 import { useState } from 'react';
 import { IoMdArrowDropdown, IoMdArrowDropup } from 'react-icons/io';
 import theme from 'themes/theme';
+import TableSkeleton from './TableSkeleton';
 
 export type IRowActionProps<D> = (data: D) => () => void;
 
@@ -34,7 +35,12 @@ interface TableProps<D> {
   onRowClick?: IRowActionProps<D>;
   onRowHover?: boolean;
   isHighlight?: boolean;
+  isLoading?: boolean;
+  isRefetching?: boolean;
+  pageSize?: number;
 }
+
+const DEFAULT_SKELETON_AMOUNT = 5;
 
 export const Table = <D,>({
   columns,
@@ -44,6 +50,9 @@ export const Table = <D,>({
   onRowClick,
   onRowHover,
   isHighlight,
+  isLoading,
+  isRefetching,
+  pageSize,
 }: TableProps<D>) => {
   const table = useReactTable({
     data,
@@ -82,6 +91,7 @@ export const Table = <D,>({
               const isWorkflowDefinitionDisplayName =
                 header.id === 'workflowDefinitionDisplayName';
               const headerWidth = '20%';
+              const headerLoadingWidth = '35%';
 
               return (
                 <Th
@@ -103,9 +113,11 @@ export const Table = <D,>({
                   style={{
                     width: isWorkflowDefinitionDisplayName
                       ? headerWidth
+                      : isLoading
+                      ? headerLoadingWidth
                       : 'auto',
                   }}
-                  // whiteSpace={["normal","normal","normal","nowrap"]}
+                  whiteSpace={['normal', 'normal', 'normal', 'nowrap']}
                   cursor={header.column.getCanSort() ? 'pointer' : 'initial'}
                 >
                   {header.isPlaceholder ? null : (
@@ -164,41 +176,66 @@ export const Table = <D,>({
         ))}
       </Thead>
       <Tbody>
-        {table.getRowModel().rows.map((row) => {
-          return (
-            <Tr
-              key={row.id}
-              cursor={onRowHover ? 'pointer' : 'initial'}
-              _hover={
-                isHighlight
-                  ? {
-                      background: theme.colors.secondary,
-                      transition: 'background-color 0.5s ease',
-                    }
-                  : {}
-              }
-              onClick={() => {
-                if (onRowClick) {
-                  onRowClick(row.original)();
+        {isLoading || isRefetching ? (
+          <>
+            {Array.from({ length: pageSize ?? DEFAULT_SKELETON_AMOUNT }).map(
+              (_, rowIndex) => (
+                <Tr key={rowIndex} height="65px">
+                  {table.getAllColumns().map((_column, colIndex) => (
+                    <Td
+                      key={colIndex}
+                      fontSize={['10px', '12px', '12px', '14px']}
+                      borderRight="1px"
+                      borderColor={theme.colors.borderColor}
+                    >
+                      <TableSkeleton />
+                    </Td>
+                  ))}
+                </Tr>
+              )
+            )}
+          </>
+        ) : (
+          table.getRowModel().rows.map((row) => {
+            return (
+              <Tr
+                key={row.id}
+                cursor={onRowHover ? 'pointer' : 'initial'}
+                _hover={
+                  isHighlight
+                    ? {
+                        background: theme.colors.secondary,
+                        transition: 'background-color 0.5s ease',
+                        color: '#333',
+                      }
+                    : {}
                 }
-              }}
-            >
-              {row.getVisibleCells().map((cell) => {
-                return (
-                  <Td
-                    key={cell.id}
-                    fontSize={['10px', '12px', '12px', '14px']}
-                    borderRight="1px"
-                    borderColor={theme.colors.borderColor}
-                    px="6px"
-                  >
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </Td>
-                );
-              })}
-            </Tr>
-          );
-        })}
+                onClick={() => {
+                  if (onRowClick) {
+                    onRowClick(row.original)();
+                  }
+                }}
+              >
+                {row.getVisibleCells().map((cell) => {
+                  return (
+                    <Td
+                      key={cell.id}
+                      fontSize={['10px', '12px', '12px', '14px']}
+                      borderRight="1px"
+                      borderColor={theme.colors.borderColor}
+                      px="6px"
+                    >
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </Td>
+                  );
+                })}
+              </Tr>
+            );
+          })
+        )}
       </Tbody>
     </TableComponent>
   );
