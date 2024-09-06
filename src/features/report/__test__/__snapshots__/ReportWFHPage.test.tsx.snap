@@ -3,7 +3,7 @@
 exports[`WFH Page should match snapshot when rendering 1`] = `
 <div>
   <div
-    class="css-roynbj"
+    class="css-0"
   >
     <div
       class="chakra-stack css-jrkth6"
@@ -20,7 +20,32 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
       <div
         class="chakra-stack__item css-bdvyq0"
       >
+        <h2
+          class="chakra-heading css-x3ytmx"
+        />
         <div>
+          <button
+            class="chakra-button css-fkrxci"
+            title="Log out"
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              fill="none"
+              height="20px"
+              stroke="currentColor"
+              stroke-width="1.5"
+              viewBox="0 0 24 24"
+              width="20px"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M5.636 5.636a9 9 0 1012.728 0M12 3v9"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
           <button
             class="chakra-button css-fkrxci"
             title="Release note"
@@ -101,7 +126,7 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
         class="css-8atqhb"
       >
         <div
-          class="chakra-stack css-1g8jm4d"
+          class="chakra-stack css-dozqnx"
         >
           <div
             class="chakra-input__group css-1hxop28"
@@ -141,7 +166,7 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
             </div>
           </div>
           <div
-            class="css-179dqmg"
+            class="css-1gv0j7j"
           >
             <div
               class="css-agx81t"
@@ -150,6 +175,7 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
                 style="width: 18px; height: 18px;"
               >
                 <svg
+                  class="icon"
                   fill="currentColor"
                   height="1em"
                   stroke="currentColor"
@@ -175,7 +201,7 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
                   class="react-datepicker__input-container"
                 >
                   <input
-                    class=""
+                    class="datePicker"
                     placeholder="Start Date"
                     type="text"
                     value=""
@@ -194,7 +220,7 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
                   class="react-datepicker__input-container"
                 >
                   <input
-                    class="undefined"
+                    class="datePicker disabled"
                     disabled=""
                     placeholder="End Date"
                     type="text"
@@ -214,7 +240,9 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
             <li
               class="chakra-wrap__listitem css-1yp4ln"
             >
-              <div>
+              <div
+                class="btnExport"
+              >
                 <button
                   class="chakra-button css-4xx2wk"
                   type="button"
@@ -263,7 +291,7 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
           </ul>
         </div>
         <div
-          class="css-d9a31o"
+          class="css-1wxacle"
         >
           <table
             class="chakra-table css-zy166a"
@@ -275,7 +303,7 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
                 class="css-1y39i0r"
               >
                 <th
-                  class="css-1efk6hr"
+                  class="css-175w36i"
                   colspan="1"
                   style="width: auto;"
                 >
@@ -293,7 +321,7 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
                   </div>
                 </th>
                 <th
-                  class="css-1efk6hr"
+                  class="css-175w36i"
                   colspan="1"
                   style="width: auto;"
                 >
@@ -307,7 +335,7 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
                   </div>
                 </th>
                 <th
-                  class="css-1efk6hr"
+                  class="css-175w36i"
                   colspan="1"
                   style="width: auto;"
                 >
@@ -333,7 +361,7 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
                   </div>
                 </th>
                 <th
-                  class="css-1d8mdkw"
+                  class="css-avwfu8"
                   colspan="1"
                   style="width: auto;"
                 >
@@ -353,11 +381,10 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
               class="css-0"
             >
               <tr
-                class="css-4g6ai3"
+                class="css-1zgccc"
               >
                 <td
                   class="css-xk16pm"
-                  style="word-break: break-word; white-space: pre-wrap;"
                 >
                   <div
                     class="css-0"
@@ -367,13 +394,11 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
                 </td>
                 <td
                   class="css-xk16pm"
-                  style="word-break: break-word; white-space: pre-wrap;"
                 >
                   7
                 </td>
                 <td
                   class="css-xk16pm"
-                  style="word-break: break-word; white-space: pre-wrap;"
                 >
                   <p
                     class="chakra-text css-12c7uv1"
@@ -383,7 +408,6 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
                 </td>
                 <td
                   class="css-xk16pm"
-                  style="word-break: break-word; white-space: pre-wrap;"
                 >
                   <div
                     class="css-gmuwbf"

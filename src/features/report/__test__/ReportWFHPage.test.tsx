@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { RecoilRoot } from 'recoil';
 import PostAndWFH from '..';
 import userEvent from '@testing-library/user-event';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 jest.mock('../../../api/apiHooks/index', () => ({
   useAxios: jest.fn(),
@@ -160,7 +161,9 @@ describe('WFH Page', () => {
     const { container } = render(
       <QueryClientProvider client={queryClient}>
         <RecoilRoot>
-          <PostAndWFH />
+          <Router>
+            <PostAndWFH />
+          </Router>
         </RecoilRoot>
       </QueryClientProvider>
     );
@@ -173,7 +176,9 @@ describe('WFH Page', () => {
       render(
         <QueryClientProvider client={queryClient}>
           <RecoilRoot>
-            <PostAndWFH />
+            <Router>
+              <PostAndWFH />
+            </Router>
           </RecoilRoot>
         </QueryClientProvider>
       );
@@ -187,7 +192,7 @@ describe('WFH Page', () => {
 
     it('should display the correct number of buttons on the screen', async () => {
       const buttonList = await screen.findAllByRole('button');
-      expect(buttonList).toHaveLength(totalCount + 5);
+      expect(buttonList).toHaveLength(totalCount + 6);
     });
 
     it('should handle selecting rows per page', async () => {

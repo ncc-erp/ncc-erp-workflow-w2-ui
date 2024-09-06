@@ -2,6 +2,7 @@ import { render } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { RecoilRoot } from 'recoil';
 import UserManagement from '..';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 jest.mock('../../../api/apiHooks/index', () => ({
   useAxios: jest.fn(),
@@ -59,7 +60,9 @@ test('Request My Requests Page', () => {
   const { container } = render(
     <QueryClientProvider client={queryClient}>
       <RecoilRoot>
-        <UserManagement />
+        <Router>
+          <UserManagement />
+        </Router>
       </RecoilRoot>
     </QueryClientProvider>
   );

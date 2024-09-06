@@ -9,6 +9,8 @@ import {
   RequestTemplateResult,
   WfhRequestFormParams,
   IRequestResult,
+  ICreateFormParams,
+  IUpdateInputFormParams,
 } from 'models/request';
 import {
   useCancelByPost,
@@ -76,10 +78,19 @@ export const useOffices = () => {
   );
 };
 
-export const useUserProjects = () => {
+export const useInputDefinition = () => {
+  return useGetOne(
+    [QueryKeys.GET_INPUT_DEFINITION],
+    '/app/external-resource/workflow-input-definition-property-types'
+  );
+};
+
+export const useUserProjects = (userEmail: string = '') => {
   return useGetOne<typeof projectList>(
-    [QueryKeys.GET_PROJECT_USER],
-    '/app/external-resource/current-user-projects'
+    [QueryKeys.GET_PROJECT_USER, userEmail],
+    userEmail != ''
+      ? `/app/external-resource/current-user-projects?email=${userEmail}`
+      : '/app/external-resource/current-user-projects'
   );
 };
 
@@ -103,9 +114,27 @@ export const useNewRequestWorkflow = () => {
   );
 };
 
-export const useUserCurrentProject = () => {
+export const useCreateWorkflowDefinition = () => {
+  return useCreate<ICreateFormParams, any>(
+    '/app/workflow-definition/workflow-definition'
+  );
+};
+
+export const useUpdateWorkflowInput = () => {
+  return useCreate<IUpdateInputFormParams, any>(
+    '/app/workflow-definition/save-workflow-input-definition'
+  );
+};
+
+export const useDeleteWorkflowDefinition = () => {
+  return useDelete(`/app/workflow-definition`);
+};
+
+export const useUserCurrentProject = (userEmail: string = '') => {
   return useGetOne<ICurrentProject>(
-    [QueryKeys.GET_USER_CURRENT_PROJECT],
-    '/app/external-resource/current-user-working-project'
+    [QueryKeys.GET_USER_CURRENT_PROJECT, userEmail],
+    userEmail != ''
+      ? `/app/external-resource/current-user-working-project?email=${userEmail}`
+      : '/app/external-resource/current-user-working-project'
   );
 };

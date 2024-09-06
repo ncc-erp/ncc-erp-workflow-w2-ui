@@ -10,26 +10,32 @@ import {
   ModalHeader,
   ModalOverlay,
   Text,
-  AspectRatio,
 } from '@chakra-ui/react';
 import Logo from 'assets/images/ncc_logo.png';
-const { VITE_PROXY_SERVER_URL } = import.meta.env;
+import { LocalStorageKeys } from 'common/enums';
+import { useMemo } from 'react';
+import { getItem } from 'utils';
+import IFrame from './IFrame';
 
 interface IWorkflowModalProps {
   isOpen: boolean;
   onClose: () => void;
-  workflowId: string;
+  workflow: string;
 }
 
 export const WorkflowModal = ({
   isOpen,
   onClose,
-  workflowId,
+  workflow,
 }: IWorkflowModalProps) => {
+  const token: string | null = useMemo(() => {
+    return getItem(LocalStorageKeys.accessToken);
+  }, []);
+
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
-      <ModalContent p="10px" maxW="900px">
+      <ModalContent p="5px" maxW="90vw" maxH="90vh" overflow="hidden">
         <ModalHeader>
           <HStack>
             <Image h="45px" src={Logo} />
@@ -43,12 +49,12 @@ export const WorkflowModal = ({
         <ModalCloseButton mt="15px" mr="10px" />
         <ModalBody>
           <Divider mb={5}></Divider>
-          <AspectRatio maxW="100%" ratio={1}>
-            <iframe
-              title="Workflow Details"
-              src={VITE_PROXY_SERVER_URL + '/CompOnly?id=' + workflowId}
-            />
-          </AspectRatio>
+          <IFrame
+            src={`${window.location.origin}/${workflow}`}
+            headers={{
+              Authorization: `Bearer ${token}`,
+            }}
+          />
         </ModalBody>
       </ModalContent>
     </Modal>

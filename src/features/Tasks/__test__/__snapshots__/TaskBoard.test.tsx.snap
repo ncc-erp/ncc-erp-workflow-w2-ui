@@ -20,7 +20,34 @@ exports[`Request My Requests Page 1`] = `
       <div
         class="chakra-stack__item css-bdvyq0"
       >
+        <h2
+          class="chakra-heading css-x3ytmx"
+        >
+          Nhan Huynh Ba
+        </h2>
         <div>
+          <button
+            class="chakra-button css-fkrxci"
+            title="Log out"
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              fill="none"
+              height="20px"
+              stroke="currentColor"
+              stroke-width="1.5"
+              viewBox="0 0 24 24"
+              width="20px"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M5.636 5.636a9 9 0 1012.728 0M12 3v9"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
           <button
             class="chakra-button css-fkrxci"
             title="Release note"
@@ -433,7 +460,7 @@ exports[`Request My Requests Page 1`] = `
               </svg>
             </button>
             <div
-              class="css-ztxjyy"
+              class="container css-ztxjyy"
             >
               <div
                 data-rfd-droppable-context-id=":r4:"
@@ -441,12 +468,13 @@ exports[`Request My Requests Page 1`] = `
                 style="background: rgb(239, 242, 245); padding: 8px; min-width: 250px; width: 100%; height: 720px; border-radius: 8px;"
               >
                 <div
+                  class="columnLabel"
                   style="background-color: rgb(255, 255, 255);"
                 >
                   Pending
                 </div>
                 <div
-                  class="css-0"
+                  class="columnContent css-0"
                 />
               </div>
               <div
@@ -455,12 +483,13 @@ exports[`Request My Requests Page 1`] = `
                 style="background: rgb(239, 242, 245); padding: 8px; min-width: 250px; width: 100%; height: 720px; border-radius: 8px;"
               >
                 <div
+                  class="columnLabel"
                   style="background-color: rgb(255, 255, 255);"
                 >
                   Approved
                 </div>
                 <div
-                  class="css-0"
+                  class="columnContent css-0"
                 />
               </div>
               <div
@@ -469,12 +498,13 @@ exports[`Request My Requests Page 1`] = `
                 style="background: rgb(239, 242, 245); padding: 8px; min-width: 250px; width: 100%; height: 720px; border-radius: 8px;"
               >
                 <div
+                  class="columnLabel"
                   style="background-color: rgb(255, 255, 255);"
                 >
                   Rejected
                 </div>
                 <div
-                  class="css-0"
+                  class="columnContent css-0"
                 >
                   <div
                     class="css-11tqb05"
@@ -483,27 +513,37 @@ exports[`Request My Requests Page 1`] = `
                     style="user-select: none; padding: 0px; margin: 0px;"
                   >
                     <div
-                      class="undefined undefined css-1lwj26n"
+                      class="item itemRejected css-1lwj26n"
                     >
                       <div
-                        class="css-nb2z2f"
+                        class="css-y3sjyp"
                       >
-                        <p
-                          class="chakra-text css-1e3dq3t"
+                        <div
+                          class="css-0"
+                          style="flex: 1;"
                         >
-                          ID: 
-                          6387F
-                        </p>
-                        <div>
-                          (
-                          11 months ago
-                          )
+                          <div
+                            class="css-0"
+                            style="flex: 1;"
+                          >
+                            <p
+                              class="chakra-text css-e3cc90"
+                              data-tooltip-id="3a0e2"
+                              style="overflow: hidden; font-weight: 600; display: -webkit-box; text-overflow: ellipsis;"
+                            >
+                              3a0e2
+                            </p>
+                          </div>
                         </div>
-                      </div>
-                      <div
-                        style="background-color: rgb(0, 150, 136);"
-                      >
-                        Probationary Request
+                        <div
+                          class="css-0"
+                        >
+                          <div>
+                            (
+                            2 months ago
+                            )
+                          </div>
+                        </div>
                       </div>
                       <div
                         class="css-147dy5z"
@@ -513,8 +553,9 @@ exports[`Request My Requests Page 1`] = `
                         >
                           Request user:
                         </p>
-                         
-                        Ba Bi
+                        <div>
+                          Ba Bi
+                        </div>
                       </div>
                       <div
                         class="css-147dy5z"
@@ -522,12 +563,27 @@ exports[`Request My Requests Page 1`] = `
                         <p
                           class="chakra-text css-0"
                         >
-                          Assign:
+                          Current State:
                         </p>
-                        nhan.huynhba
+                        CEO Review
                       </div>
                       <div
                         class="css-k008qs"
+                        style="flex-direction: row; justify-content: space-between; width: 100%; align-items: center;"
+                      >
+                        <div
+                          class="css-147dy5z"
+                        >
+                          <p
+                            class="chakra-text css-0"
+                          >
+                            Assign:
+                          </p>
+                          nhan.huynhba
+                        </div>
+                      </div>
+                      <div
+                        class="cardFooter css-k008qs"
                       >
                         <div
                           class="css-147dy5z"
@@ -538,6 +594,12 @@ exports[`Request My Requests Page 1`] = `
                             Date:
                           </p>
                           10-10-2023 16:41
+                        </div>
+                        <div
+                          class="title"
+                          style="background-color: rgb(0, 150, 136);"
+                        >
+                          Probationary Request
                         </div>
                       </div>
                     </div>

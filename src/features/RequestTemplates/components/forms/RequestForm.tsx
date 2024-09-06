@@ -25,10 +25,12 @@ import 'react-datepicker/dist/react-datepicker.css';
 import styles from './style.module.scss';
 
 import { ErrorMessage } from '@hookform/error-message';
-import { useQueryClient } from '@tanstack/react-query';
 import { ErrorDisplay } from 'common/components/ErrorDisplay';
 import { SearchableSelectField } from 'common/components/SearchableSelectField';
 import { toast } from 'common/components/StandaloneToast';
+import { ColorThemeMode, WFH_FORMAT_DATE } from 'common/constants';
+import { option } from 'common/types';
+import { isWithinInterval, subWeeks } from 'date-fns';
 import { useCurrentUser } from 'hooks/useCurrentUser';
 import { IOffices } from 'models/office';
 import { IProjects } from 'models/project';
@@ -38,12 +40,9 @@ import {
   PropertyDefinition,
 } from 'models/request';
 import { IUser } from 'models/user';
-import { ChangeEvent, useState } from 'react';
-import { formatDate } from 'utils';
-import { ColorThemeMode, WFH_FORMAT_DATE } from 'common/constants';
-import { isWithinInterval, subWeeks } from 'date-fns';
-import { option } from 'common/types';
 import moment from 'moment';
+import { ChangeEvent, useMemo, useState } from 'react';
+import { convertToCase, formatDate } from 'utils';
 
 interface RequestFormProps {
   inputDefinition?: InputDefinition;
@@ -51,7 +50,7 @@ interface RequestFormProps {
 }
 export type FormParams = Record<
   string,
-  string | DateObject | DateObject[] | null | Date | undefined
+  string | DateObject | DateObject[] | null | Date | undefined | number
 >;
 
 type FormParamsValue =
@@ -60,20 +59,22 @@ type FormParamsValue =
   | DateObject[]
   | null
   | Date
-  | undefined;
+  | undefined
+  | number;
 
 const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
-  const { data: offices } = useOffices();
-  const { data: projects } = useUserProjects();
-  const { data: users } = useUserList();
-
   const currentUser = useCurrentUser();
-  const { data: userInfo } = useUserInfoWithBranch(currentUser?.email);
-  const { data: userCurrentProject } = useUserCurrentProject();
-  const queryClient = useQueryClient();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [formParams, setFormParams] = useState<FormParams>({});
+  const [emailUser, setEmailUser] = useState<string>(currentUser?.email);
+
+  const { data: users } = useUserList();
+  const { data: offices } = useOffices();
+  const { data: userInfo } = useUserInfoWithBranch(emailUser);
+  const { data: projects } = useUserProjects(emailUser);
+  const { data: userCurrentProject } = useUserCurrentProject(emailUser);
+
   const {
     register,
     handleSubmit,
@@ -95,6 +96,12 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
       return datesFormatted;
     }
   };
+  const shortHeader: string = useMemo(() => {
+    return (
+      inputDefinition?.propertyDefinitions.find((item) => item.isTitle == true)
+        ?.name || ''
+    );
+  }, [inputDefinition?.propertyDefinitions]);
 
   const onSubmit = async () => {
     setIsLoading(true);
@@ -110,13 +117,14 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
       }
     });
 
+    formParamsFormatted['shortHeader'] = shortHeader;
+
     const RequestFormParams: IRequestFormParams = {
       workflowDefinitionId: inputDefinition?.workflowDefinitionId,
       input: formParamsFormatted,
     };
 
     await createMutate(RequestFormParams);
-    queryClient.clear();
     setIsLoading(false);
     toast({
       description: 'Create Request Successfully',
@@ -134,39 +142,47 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
     setFormParams(updatedFormParams);
   };
 
-  const toDisplayName = (inputName: string) => {
-    return inputName.replace(/([a-z])([A-Z])/g, '$1 $2');
-  };
-
   const handleSelectChangeValue = (value: string, variable: string) => {
-    const updatedFormParams = { ...formParams };
+    let updatedFormParams = { ...formParams };
+
+    if (variable == 'Staff') {
+      setEmailUser(value);
+      updatedFormParams = { Staff: value };
+    }
+
     updatedFormParams[variable] = value;
     setFormParams(updatedFormParams);
   };
 
   const getOptions = (type: string) => {
+    let transformedData: option[] = [];
+
     switch (type) {
       case 'OfficeList':
-        return offices?.map((office: IOffices) => ({
+        transformedData = (offices ?? []).map((office: IOffices) => ({
           value: office?.code,
           label: office?.displayName,
         }));
+        break;
 
       case 'MyProject':
-        return projects?.map((project: IProjects) => ({
+        transformedData = (projects ?? []).map((project: IProjects) => ({
           value: project?.code,
           label: project?.name,
         }));
+        break;
 
       case 'UserList': {
-        const transformedUsers = (users ?? []).map((user: IUser) => ({
+        transformedData = (users ?? []).map((user: IUser) => ({
           value: user?.email ?? '',
           label: `${user?.name ?? ''} (${user?.email ?? ''})`,
         }));
-        transformedUsers.unshift({ value: '', label: '' });
-        return transformedUsers;
+        break;
       }
     }
+
+    transformedData.unshift({ value: '', label: '' });
+    return transformedData;
   };
 
   const getDefaultValueSelected = (type: string, fieldname: string) => {
@@ -193,7 +209,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
   };
 
   const validateMultiDatePicker = (
-    value: string | DateObject | Date | DateObject[] | null | undefined
+    value: string | DateObject | Date | DateObject[] | null | undefined | number
   ) => {
     if (value && Array.isArray(value)) {
       for (const dateObject of value) {
@@ -240,7 +256,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
               fontWeight="normal"
               textColor={color}
             >
-              {toDisplayName(fieldname)}
+              {convertToCase(fieldname)}
               {Field?.isRequired ? (
                 <FormHelperText my={1} style={{ color: 'red' }} as="span">
                   {' '}
@@ -276,7 +292,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
         return (
           <FormControl key={Field?.name}>
             <FormLabel fontSize={16} my={1} fontWeight="normal">
-              {toDisplayName(fieldname)}
+              {convertToCase(fieldname)}
               {Field?.isRequired ? (
                 <FormHelperText my={1} style={{ color: 'red' }} as="span">
                   {' '}
@@ -311,7 +327,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
         return (
           <FormControl key={Field?.name}>
             <FormLabel fontSize={16} my={1} fontWeight="normal">
-              {toDisplayName(fieldname)}
+              {convertToCase(fieldname)}
               {Field?.isRequired ? (
                 <FormHelperText my={1} style={{ color: 'red' }} as="span">
                   {' '}
@@ -348,7 +364,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
               my={1}
               fontWeight="normal"
             >
-              {toDisplayName(fieldname)}
+              {convertToCase(fieldname)}
               {Field?.isRequired ? (
                 <FormHelperText my={1} style={{ color: 'red' }} as="span">
                   {' '}
@@ -417,7 +433,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
         return (
           <FormControl key={Field?.name}>
             <FormLabel my={1} fontSize={16} fontWeight="normal">
-              {toDisplayName(fieldname)}
+              {convertToCase(fieldname)}
               {Field?.isRequired ? (
                 <FormHelperText my={1} style={{ color: 'red' }} as="span">
                   {' '}

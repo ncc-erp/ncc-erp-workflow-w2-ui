@@ -1,7 +1,6 @@
 import {
   Box,
   Center,
-  Flex,
   HStack,
   Icon,
   IconButton,
@@ -11,6 +10,7 @@ import {
   MenuList,
   Spacer,
   Spinner,
+  Tooltip,
   useDisclosure,
 } from '@chakra-ui/react';
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
@@ -45,7 +45,9 @@ import ModalBoard from './ModalBoard';
 import styles from './style.module.scss';
 import { useClearCacheTask } from './useClearCacheTask';
 import { WorkflowModal } from 'common/components/WorkflowModal';
-import { useMediaQuery } from 'hooks/useMediaQuery';
+import OverflowText from '../OverflowText';
+import { renderColor } from 'utils/getColorTypeRequest';
+import TextToolTip from '../textTooltip';
 
 interface Props {
   filters: FilterTasks;
@@ -58,7 +60,6 @@ const initDataForm = {
 };
 
 export const ListTask = ({ filters, openDetailModal }: Props) => {
-  const isLargeScreen = useMediaQuery('(min-width: 1281px)');
   const [filter, setFilter] = useState<FilterTasks>(filters);
   const columnHelper = createColumnHelper<ITask>();
   const { sideBarWidth } = useRecoilValue(appConfigState);
@@ -113,24 +114,79 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
     };
 
     return [
-      columnHelper.accessor('id', {
+      columnHelper.accessor('requestId', {
         id: 'id',
         header: () => <Box pl="16px">ID</Box>,
         enableSorting: false,
         sortDescFirst: true,
         cell: (info) => (
-          <Center>{info.getValue().slice(-5).toUpperCase()}</Center>
+          <Center>
+            <Tooltip fontSize={'xs'} label={info.getValue()}>
+              {info.getValue()
+                ? info.getValue()?.slice(-5).toUpperCase()
+                : info.row.original.id.slice(-5).toUpperCase()}
+            </Tooltip>
+          </Center>
         ),
       }),
-      columnHelper.accessor('name', {
-        id: 'name',
-        header: 'Request template',
+      // columnHelper.accessor('name', {
+      //   id: 'name',
+      //   header: 'Request template',
+      //   enableSorting: false,
+      //   cell: (info) => info.getValue(),
+      // }),
+      columnHelper.accessor('title', {
+        id: 'title',
+        header: () => <Box textAlign="center">Title</Box>,
         enableSorting: false,
-        cell: (info) => info.getValue(),
+        cell: (info) => {
+          return (
+            <>
+              <Box
+                style={{
+                  display: 'flex',
+                  alignItems: 'start',
+                  flexDirection: 'column',
+                  gap: '5px',
+                  minWidth: '400px',
+                }}
+              >
+                <TextToolTip
+                  title={info.row.original.title || ''}
+                  maxLines={1}
+                  type="LIST"
+                  place="top"
+                />
+
+                <Box
+                  className={styles.titleBoard}
+                  style={{
+                    backgroundColor: renderColor(info.row.original.name),
+                  }}
+                >
+                  <OverflowText text={info.row.original.name} maxLines={1} />
+                </Box>
+              </Box>
+            </>
+          );
+        },
       }),
       columnHelper.accessor('authorName', {
         id: 'authorName',
         header: 'Request user',
+        enableSorting: false,
+        cell: (info) => {
+          const authorName = info.getValue();
+          return (
+            <Tooltip fontSize={'xs'} label={info.row.original.email}>
+              <Box>{authorName}</Box>
+            </Tooltip>
+          );
+        },
+      }),
+      columnHelper.accessor('description', {
+        id: 'description',
+        header: 'Current State',
         enableSorting: false,
         cell: (info) => info.getValue(),
       }),
@@ -151,10 +207,10 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
         cell: (info) => {
           const status = info.row.original.status;
           return (
-            <Flex alignItems={'center'} gap={1}>
-              {isLargeScreen ? (
+            <Box display={'flex'}>
+              {
                 <div
-                  className={`${styles.status} ${
+                  className={`${styles.badge} ${
                     status === TaskStatus.Pending
                       ? styles.statusPending
                       : status === TaskStatus.Approved
@@ -163,15 +219,15 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
                       ? styles.statusRejected
                       : ''
                   }`}
-                />
-              ) : (
-                ''
-              )}
-              {Object.keys(TaskStatus)[info.getValue()]}
-            </Flex>
+                >
+                  {Object.keys(TaskStatus)[info.getValue()]}
+                </div>
+              }
+            </Box>
           );
         },
       }),
+
       columnHelper.accessor('creationTime', {
         id: 'creationTime',
         header: 'Created At',
@@ -213,7 +269,6 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
                   <MenuItem
                     display="flex"
                     gap="12px"
-                    style={{ display: 'none' }}
                     onClick={() =>
                       onActionViewWorkflow(
                         info.row.original.workflowInstanceId
@@ -310,7 +365,6 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
     openDetailModal,
     refetch,
     user.email,
-    isLargeScreen,
   ]);
 
   const handleClose = useCallback(() => {
@@ -391,6 +445,15 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
     [filters]
   );
 
+  const displayData = useMemo(() => {
+    return data?.items.map((item) => {
+      return {
+        ...item,
+        id: item.requestId || item.id,
+      };
+    });
+  }, [data]);
+
   useEffect(() => {
     setFilter({
       ...filters,
@@ -417,67 +480,63 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
           icon={<AiOutlineReload />}
           onClick={() => refetch()}
         />
-        {isLoading || isRefetching ? (
-          <Center h="200px">
-            <Spinner mx="auto" speed="0.65s" thickness="3px" size="xl" />
-          </Center>
-        ) : (
-          <>
-            <EmptyWrapper
-              isEmpty={false}
-              h="200px"
-              fontSize="xs"
-              message={'No request found!'}
+        <>
+          <EmptyWrapper
+            isEmpty={false}
+            h="200px"
+            fontSize="xs"
+            message={'No request found!'}
+          >
+            <Box
+              p="10px 20px"
+              //overflowX="auto"
+              w={{
+                base: '100vw',
+                lg: `calc(100vw - ${sideBarWidth}px)`,
+              }}
             >
-              <Box
-                p="10px 20px"
-                //overflowX="auto"
-                w={{ base: `calc(100vw - ${sideBarWidth}px)`, lg: 'auto' }}
-              >
-                <Box
-                  w={'100%'}
-                  overflowX="auto"
-                  className={styles.tableContent}
-                >
-                  <Table
-                    onRowClick={openDetailModal}
-                    columns={taskColumns}
-                    data={data?.items ?? []}
-                    onRowHover={true}
-                  />
-                </Box>
+              <Box w={'100%'} overflowX="auto" className={styles.tableContent}>
+                <Table
+                  onRowClick={openDetailModal}
+                  columns={taskColumns}
+                  data={displayData ?? []}
+                  onRowHover={true}
+                  isLoading={isLoading}
+                  isRefetching={isRefetching}
+                  pageSize={filter.maxResultCount}
+                />
               </Box>
-            </EmptyWrapper>
-            <HStack
-              p={['20px 30px 20px 30px', '0px 30px 20px 30px']}
-              justifyContent={['center', 'space-between']}
-              borderBottom="1px"
-              borderColor="gray.200"
-              flexWrap="wrap"
-            >
-              <HStack alignItems="center" spacing="6px" flexWrap="wrap">
-                <PageSize
-                  noOfRows={noOfRows}
-                  onChange={onPageSizeChange}
-                  value={filter.maxResultCount}
-                />
-                <Spacer w="12px" />
-                <ShowingItemText
-                  skipCount={filter.skipCount}
-                  maxResultCount={filter.maxResultCount}
-                  totalCount={data?.totalCount ?? 0}
-                />
-              </HStack>
-              <Pagination
-                total={data?.totalCount ?? 0}
-                pageSize={filter.maxResultCount}
-                current={currentPage}
-                onChange={onPageChange}
-                hideOnSinglePage
+            </Box>
+          </EmptyWrapper>
+          <HStack
+            p={['20px 30px 20px 30px', '0px 30px 20px 30px']}
+            justifyContent={['center', 'space-between']}
+            borderBottom="1px"
+            borderColor="gray.200"
+            flexWrap="wrap"
+          >
+            <HStack alignItems="center" spacing="6px" flexWrap="wrap">
+              <PageSize
+                noOfRows={noOfRows}
+                onChange={onPageSizeChange}
+                value={filter.maxResultCount}
+              />
+              <Spacer w="12px" />
+              <ShowingItemText
+                skipCount={filter.skipCount}
+                maxResultCount={filter.maxResultCount}
+                totalCount={data?.totalCount ?? 0}
               />
             </HStack>
-          </>
-        )}
+            <Pagination
+              total={data?.totalCount ?? 0}
+              pageSize={filter.maxResultCount}
+              current={currentPage}
+              onChange={onPageChange}
+              hideOnSinglePage
+            />
+          </HStack>
+        </>
       </Box>
       <ModalBoard
         isOpen={isOpen}
@@ -494,7 +553,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
         <WorkflowModal
           isOpen={isOpenWorkflow}
           onClose={() => setOpenWorkflow(false)}
-          workflowId={requestWorkflow}
+          workflow={`CompOnly?id=${requestWorkflow}`}
         />
       )}
     </>

@@ -67,8 +67,6 @@ exports[`My Request Detail should match snapshot when rendering 1`] = `
             </div>
             <button
               class="chakra-button css-12eh3jv"
-              disabled=""
-              style="display: none;"
               type="button"
             >
               View Workflow Detail
@@ -92,46 +90,62 @@ exports[`My Request Detail should match snapshot when rendering 1`] = `
             </svg>
           </button>
           <div
-            class="chakra-modal__body css-1qou8as"
+            class="chakra-modal__body modalBody css-1qou8as"
             id="chakra-modal--body-:r0:"
           >
             <hr
               aria-orientation="horizontal"
               class="chakra-divider css-1urc9z9"
             />
-            <div>
+            <div
+              class="container"
+            >
               <p
                 class="chakra-text css-10g9qth"
               >
                 Request input
               </p>
-              <div>
-                <div>
-                  <label>
+              <div
+                class="wrapper"
+              >
+                <div
+                  class="textGroup"
+                >
+                  <label
+                    class="label"
+                  >
                     Current Office
                   </label>
                   <p
-                    class="undefined "
+                    class="content "
                   >
                     Đà Nẵng
                   </p>
                 </div>
-                <div>
-                  <label>
+                <div
+                  class="textGroup"
+                >
+                  <label
+                    class="label"
+                  >
                     Equipment
                   </label>
                   <p
-                    class="undefined "
+                    class="content "
                   >
                     test current state
                   </p>
                 </div>
-                <div>
-                  <label>
+                <div
+                  class="textGroup"
+                >
+                  <label
+                    class="label"
+                  >
                     Reason
                   </label>
                   <p
-                    class="undefined "
+                    class="content "
                   >
                     test
                   </p>
@@ -146,33 +160,47 @@ exports[`My Request Detail should match snapshot when rendering 1`] = `
               >
                 Request user
               </p>
-              <div>
-                <div>
-                  <label>
+              <div
+                class="wrapper"
+              >
+                <div
+                  class="textGroup"
+                >
+                  <label
+                    class="label"
+                  >
                     Name
                   </label>
                   <p
-                    class="undefined "
+                    class="content "
                   >
                     Nhan Huynh Ba
                   </p>
                 </div>
-                <div>
-                  <label>
+                <div
+                  class="textGroup"
+                >
+                  <label
+                    class="label"
+                  >
                     Email
                   </label>
                   <p
-                    class="undefined "
+                    class="content "
                   >
                     nhan.huynhba@ncc.asia
                   </p>
                 </div>
-                <div>
-                  <label>
+                <div
+                  class="textGroup"
+                >
+                  <label
+                    class="label"
+                  >
                     Branch name
                   </label>
                   <p
-                    class="undefined "
+                    class="content "
                   >
                     Đà Nẵng
                   </p>
@@ -187,56 +215,88 @@ exports[`My Request Detail should match snapshot when rendering 1`] = `
               >
                 Detail
               </p>
-              <div>
-                <div>
-                  <label>
+              <div
+                class="wrapper"
+              >
+                <div
+                  class="textGroup"
+                >
+                  <label
+                    class="label"
+                  >
                     Request template
                   </label>
                   <p
-                    class="undefined "
+                    class="content "
                   >
                     Office Equipment Request
                   </p>
                 </div>
-                <div>
-                  <label>
+                <div
+                  class="textGroup"
+                >
+                  <label
+                    class="label"
+                  >
                     Status
                   </label>
                   <p
-                    class="undefined undefined"
+                    class="content content-green"
                   >
                     Approved
                   </p>
                 </div>
-                <div>
-                  <label>
+                <div
+                  class="textGroup"
+                >
+                  <label
+                    class="label"
+                  >
                     Current state
                   </label>
                   <p
-                    class="undefined "
+                    class="content "
                   >
                     Branch Manager makes decision
                   </p>
                 </div>
-                <div>
-                  <label>
+                <div
+                  class="textGroup"
+                >
+                  <label
+                    class="label"
+                  >
                     Stakeholders
                   </label>
                   <p
-                    class="undefined "
+                    class="content "
                   >
                     Nhan Huynh Ba
                   </p>
                 </div>
-                <div>
-                  <label>
+                <div
+                  class="textGroup"
+                >
+                  <label
+                    class="label"
+                  >
                     Creation time
                   </label>
                   <p
-                    class="undefined "
+                    class="content "
                   >
                     09-10-2023 11:49
                   </p>
+                </div>
+                <div
+                  class="textGroup"
+                >
+                  <label
+                    class="label"
+                  />
+                  <p
+                    class="content "
+                  />
                 </div>
               </div>
             </div>

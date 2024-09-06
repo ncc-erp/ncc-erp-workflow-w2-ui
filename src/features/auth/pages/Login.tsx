@@ -19,8 +19,9 @@ import { useLogin, useLoginExternal } from 'api/apiHooks/userHooks';
 import { LocalStorageKeys } from 'common/enums';
 import { userManager } from 'services/authService';
 import { getItem, setItem } from 'utils/localStorage';
-import { ColorThemeMode } from 'common/constants';
+import { ColorThemeMode, MaxFailedAccessAttempts } from 'common/constants';
 import { useEffect } from 'react';
+import { toast } from 'common/components/StandaloneToast';
 
 const initialLoginParams: LoginParams = {
   userNameOrEmailAddress: '',
@@ -59,7 +60,7 @@ const Login = () => {
     password,
     rememberMe,
   }: LoginParams) => {
-    const { token } = await loginMutate({
+    const { token, accessFailedCount } = await loginMutate({
       rememberMe,
       userNameOrEmailAddress: userNameOrEmailAddress.trim(),
       password: password.trim(),
@@ -69,7 +70,22 @@ const Login = () => {
       setItem(LocalStorageKeys.accessToken, token);
       setItem(LocalStorageKeys.prevURL, '');
       window.location.href = redirectURL ?? '/';
+      return;
     }
+
+    if (accessFailedCount) {
+      const remainingAttempts = MaxFailedAccessAttempts - accessFailedCount;
+      toast({
+        title: `You have ${remainingAttempts} attempts left before your account is locked`,
+        status: 'warning',
+      });
+      return;
+    }
+
+    toast({
+      title: `User is locked out!`,
+      status: 'error',
+    });
   };
 
   const onLoginExternal = async ({
@@ -120,49 +136,53 @@ const Login = () => {
           <Heading as="h1" size="md" textAlign="left" w="full" fontWeight={700}>
             Sign In
           </Heading>
-          <form
-            style={{ width: '100%' }}
-            onSubmit={handleSubmit(onLogin)}
-            data-testid="login-form"
-          >
-            <VStack spacing="14px">
-              <TextField
-                h="50px"
-                placeholder="Username or email address"
-                fontSize="sm"
-                error={errors.userNameOrEmailAddress?.message}
-                {...register('userNameOrEmailAddress', {
-                  required: 'The Username or email address field is required!',
-                })}
-              />
-              <PasswordField
-                h="50px"
-                placeholder="Password"
-                fontSize="sm"
-                error={errors.password?.message}
-                {...register('password', {
-                  required: 'The password field is required!',
-                })}
-                iconsProps={{
-                  w: '18px',
-                  h: '18px',
-                }}
-                buttonProps={{
-                  mr: '10px',
-                }}
-              />
-              <Button
-                mt="14px"
-                h="50px"
-                type="submit"
-                isLoading={isLoginLoading}
-                colorScheme="gray"
-                w="full"
-              >
-                Sign in
-              </Button>
-            </VStack>
-          </form>
+          {(import.meta.env.VITE_MODE == 'development' ||
+            import.meta.env.MODE !== 'production') && (
+            <form
+              style={{ width: '100%' }}
+              onSubmit={handleSubmit(onLogin)}
+              data-testid="login-form"
+            >
+              <VStack spacing="14px">
+                <TextField
+                  h="50px"
+                  placeholder="Username or email address"
+                  fontSize="sm"
+                  error={errors.userNameOrEmailAddress?.message}
+                  {...register('userNameOrEmailAddress', {
+                    required:
+                      'The Username or email address field is required!',
+                  })}
+                />
+                <PasswordField
+                  h="50px"
+                  placeholder="Password"
+                  fontSize="sm"
+                  error={errors.password?.message}
+                  {...register('password', {
+                    required: 'The password field is required!',
+                  })}
+                  iconsProps={{
+                    w: '18px',
+                    h: '18px',
+                  }}
+                  buttonProps={{
+                    mr: '10px',
+                  }}
+                />
+                <Button
+                  mt="14px"
+                  h="50px"
+                  type="submit"
+                  isLoading={isLoginLoading}
+                  colorScheme="gray"
+                  w="full"
+                >
+                  Sign in
+                </Button>
+              </VStack>
+            </form>
+          )}
           <Button
             isLoading={isLoginExternalLoading}
             onClick={handleLogin}

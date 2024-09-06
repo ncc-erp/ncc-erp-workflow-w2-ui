@@ -7,6 +7,7 @@ export interface Request {
   userRequestName: string;
   createdAt: string;
   lastExecutedAt: string;
+  shortTitle?: string;
   status: RequestStatus;
   stakeHolders: string[];
   currentStates: string[];
@@ -60,6 +61,13 @@ export interface PropertyDefinition {
   name: string;
   type: string;
   isRequired: boolean;
+  isTitle?: boolean;
+  titleTemplate?: string;
+}
+
+export interface CreateWorkflowPropertyDefinition {
+  name: string;
+  isRequired: boolean;
 }
 
 export interface ChangeOfficeRequestFormParams {
@@ -94,6 +102,18 @@ export interface IRequestFormParams {
   input: object;
 }
 
+export interface ICreateFormParams {
+  name: string;
+  displayName: string;
+  tag: string;
+}
+
+export interface IUpdateInputFormParams {
+  id: string;
+  workflowDefinitionId?: string;
+  propertyDefinitions: PropertyDefinition[];
+}
+
 export interface IRequestUser {
   email: string;
   name: string;
@@ -123,6 +143,7 @@ export interface ITask {
   otherActionSignals?: IOtherActionSignals[];
   description?: string;
   authorName?: string;
+  updatedBy?: string;
 }
 
 export interface IRequestResult {

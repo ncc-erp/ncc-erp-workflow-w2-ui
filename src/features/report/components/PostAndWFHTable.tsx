@@ -218,16 +218,9 @@ export const TablePostAndWFH = () => {
           w="100%"
           display="flex"
           flexDirection={['column', 'column', 'column', 'row', 'row']}
-          justifyContent={[
-            'center',
-            'center',
-            'center',
-            'space-between',
-            'space-between',
-            'space-between',
-          ]}
-          px={{ xl: '24px' }}
-          justifySelf={'flex-start'}
+          justifyContent={['flex-start', 'space-between']}
+          alignItems={['flex-start']}
+          pl={{ base: '24px' }}
         >
           <InputGroup
             alignItems={'center'}
@@ -244,12 +237,7 @@ export const TablePostAndWFH = () => {
               <TbSearch />
             </InputRightElement>
           </InputGroup>
-          <Box
-            display="flex"
-            alignItems="center"
-            justifyContent={{ lg: 'flex-end', sm: 'flex-start' }}
-            w={['80%', '80%', '70%', '40%', '40%', '30%']}
-          >
+          <Box w={['80%', '80%', '70%', '50%', '40%', '30%']}>
             <DateRangePicker
               isDisabled={isLoading || isRefetching}
               startDate={startDate}
@@ -301,17 +289,12 @@ export const TablePostAndWFH = () => {
             alignItems={'center'}
           >
             <Box
-              p={{ base: '8px', md: '20px 16px' }}
+              p={{ base: '20px 24px' }}
               overflowX={'scroll'}
-              w={[
-                '100vw',
-                '100vw',
-                `calc(100vw - ${sideBarWidth}px)`,
-                `calc(100vw - ${sideBarWidth}px)`,
-                `calc(100vw - ${sideBarWidth}px)`,
-                `calc(100vw - ${sideBarWidth}px)`,
-                `calc(100vw - ${sideBarWidth}px)`,
-              ]}
+              w={{
+                base: '100vw',
+                lg: `calc(100vw - ${sideBarWidth}px)`,
+              }}
             >
               <Table
                 columns={wfhColumns}

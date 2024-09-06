@@ -13,7 +13,6 @@ import {
   InputGroup,
   InputRightElement,
   Spacer,
-  Spinner,
 } from '@chakra-ui/react';
 import { Table } from 'common/components/Table/Table';
 import { SortDirection, UserSortField } from 'common/enums';
@@ -236,72 +235,66 @@ export const UserManagementTable = () => {
             onClick={() => refetch()}
           />
         </HStack>
-        {isLoading || isRefetching ? (
-          <Center h="200px">
-            <Spinner mx="auto" speed="0.65s" thickness="3px" size="xl" />
-          </Center>
-        ) : (
-          <EmptyWrapper
-            isEmpty={!requests.length}
-            h="200px"
-            fontSize="xs"
-            message={'No request found!'}
+        <EmptyWrapper
+          isEmpty={!requests.length && !isLoading}
+          h="200px"
+          fontSize="xs"
+          message={'No request found!'}
+        >
+          <Box
+            p={{ base: '10px 24px 0px' }}
+            overflowX={'auto'}
+            w={{
+              base: `calc(100vw - ${sideBarWidth}px)`,
+              lg: `calc(100vw - ${sideBarWidth}px)`,
+              xs: 'max-content',
+            }}
           >
-            <Box
-              p="20px 24px"
-              w={{
-                base: '100vw',
-                sm: `calc(100vw - ${sideBarWidth}px)`,
-                lg: 'auto',
-                xl: 'auto',
-              }}
-            >
-              <Table
-                columns={userColumns}
-                data={requests}
-                sorting={sorting}
-                onSortingChange={setSorting}
-              />
-            </Box>
-
-            <HStack
-              p={{
-                base: '0px 12px 20px 12px',
-                sm: '0px 30px 20px 30px',
-                lg: '26px 30px 20px 30px',
-              }}
-              justifyContent={{
-                base: 'center',
-                lg: 'space-between',
-              }}
-              flexWrap="wrap"
-            >
-              <HStack
-                alignItems="center"
-                spacing="6px"
-                flexWrap="wrap"
-                px={{ base: '10px', sm: '12px', lg: '0px' }}
-                pl={'-60px'}
-              >
-                <PageSize noOfRows={noOfRows} onChange={onPageSizeChange} />
-                <Spacer w="2px" />
-                <ShowingItemText
-                  skipCount={filterUser.skipCount}
-                  maxResultCount={filterUser.maxResultCount}
-                  totalCount={totalCount}
-                />
-              </HStack>
-              <Pagination
-                total={totalCount}
-                pageSize={filterUser.maxResultCount}
-                current={currentPage}
-                onChange={onPageChange}
-                hideOnSinglePage
-              />
-            </HStack>
-          </EmptyWrapper>
-        )}
-
+            <Table
+              columns={userColumns}
+              data={requests}
+              sorting={sorting}
+              onSortingChange={setSorting}
+              isLoading={isLoading}
+              pageSize={filterUser.maxResultCount}
+            />
+          </Box>
+        </EmptyWrapper>
+        <HStack
+          p={{
+            base: '0px 12px 20px 12px',
+            sm: '0px 30px 20px 30px',
+            lg: '26px 30px 20px 30px',
+          }}
+          justifyContent={{
+            base: 'center',
+            lg: 'space-between',
+          }}
+          flexWrap="wrap"
+        >
+          <HStack
+            alignItems="center"
+            spacing="6px"
+            flexWrap="wrap"
+            px={{ base: '10px', sm: '12px', lg: '0px' }}
+            pl={'-60px'}
+          >
+            <PageSize noOfRows={noOfRows} onChange={onPageSizeChange} />
+            <Spacer w="2px" />
+            <ShowingItemText
+              skipCount={filterUser.skipCount}
+              maxResultCount={filterUser.maxResultCount}
+              totalCount={totalCount}
+            />
+          </HStack>
+          <Pagination
+            total={totalCount}
+            pageSize={filterUser.maxResultCount}
+            current={currentPage}
+            onChange={onPageChange}
+            hideOnSinglePage
+          />
+        </HStack>
         {user && (
           <UserModal
             isOpen={isModalOpen}

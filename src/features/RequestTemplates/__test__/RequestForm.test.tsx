@@ -136,26 +136,31 @@ const inputDefinition: InputDefinition = {
       name: 'CurrentOffice',
       type: 'OfficeList',
       isRequired: true,
+      isTitle: true,
     },
     {
       name: 'DestinationOffice',
       type: 'OfficeList',
       isRequired: true,
+      isTitle: true,
     },
     {
       name: 'Content',
       type: 'RichText',
       isRequired: true,
+      isTitle: true,
     },
     {
       name: 'StartDate',
       type: 'DateTime',
       isRequired: true,
+      isTitle: true,
     },
     {
       name: 'EndDate',
       type: 'DateTime',
       isRequired: false,
+      isTitle: true,
     },
   ],
   id: '3a05ffba-3830-e0d4-e931-9381c70a3710',
@@ -163,7 +168,6 @@ const inputDefinition: InputDefinition = {
 
 describe('Request Template Form Components', () => {
   const queryClient: QueryClient = new QueryClient();
-
   test('should match snapshot when rendering', () => {
     const { container } = render(
       <QueryClientProvider client={queryClient}>
@@ -192,7 +196,6 @@ describe('Request Template Form Components', () => {
       it('should have a Content input when the form is loaded', () => {
         expect(screen.getByPlaceholderText('Content')).toBeInTheDocument();
       });
-
       it('should show an error message when no content is entered', async () => {
         const submitButton = screen.getByRole('button', {
           name: 'Save',
@@ -230,7 +233,6 @@ describe('Request Template Form Components', () => {
           screen.getByPlaceholderText('Content'),
           'Is the Content'
         );
-
         // Select the start date
         const startPicker = screen.getByLabelText(/Start Date/i);
         userEvent.click(startPicker);

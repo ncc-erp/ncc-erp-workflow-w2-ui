@@ -40,7 +40,7 @@ const initialFilter: FilterTasks = {
   maxResultCount: DEFAULT_TASK_PER_PAGE,
   workflowDefinitionId: '',
   status: -1,
-  dates: subtractTime('months', 3),
+  dates: subtractTime('months', 1),
   emailRequest: '',
   emailAssign: '',
 };
@@ -101,6 +101,7 @@ export const TasksBoard = () => {
 
     return [];
   }, [requestTemplateData]);
+
   const statusOptions = useMemo(() => {
     const defaultOptions = {
       value: -1,

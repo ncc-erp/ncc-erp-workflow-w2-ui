@@ -20,7 +20,32 @@ exports[`Request Template Page should match snapshot when rendering 1`] = `
       <div
         class="chakra-stack__item css-bdvyq0"
       >
+        <h2
+          class="chakra-heading css-x3ytmx"
+        />
         <div>
+          <button
+            class="chakra-button css-fkrxci"
+            title="Log out"
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              fill="none"
+              height="20px"
+              stroke="currentColor"
+              stroke-width="1.5"
+              viewBox="0 0 24 24"
+              width="20px"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M5.636 5.636a9 9 0 1012.728 0M12 3v9"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
           <button
             class="chakra-button css-fkrxci"
             title="Release note"
@@ -113,7 +138,7 @@ exports[`Request Template Page should match snapshot when rendering 1`] = `
                 class="css-1y39i0r"
               >
                 <th
-                  class="css-1d8mdkw"
+                  class="css-avwfu8"
                   colspan="1"
                   style="width: auto;"
                 >
@@ -124,7 +149,7 @@ exports[`Request Template Page should match snapshot when rendering 1`] = `
                   </div>
                 </th>
                 <th
-                  class="css-1d8mdkw"
+                  class="css-avwfu8"
                   colspan="1"
                   style="width: auto;"
                 >
@@ -144,17 +169,15 @@ exports[`Request Template Page should match snapshot when rendering 1`] = `
               class="css-0"
             >
               <tr
-                class="css-eg92qj"
+                class="css-vkdk95"
               >
                 <td
                   class="css-xk16pm"
-                  style="word-break: break-word; white-space: pre-wrap;"
                 >
                   Change Office Request
                 </td>
                 <td
                   class="css-xk16pm"
-                  style="word-break: break-word; white-space: pre-wrap;"
                 >
                   <div
                     class="css-gmuwbf"

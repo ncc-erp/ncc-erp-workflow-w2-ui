@@ -8,8 +8,8 @@ import {
   ModalOverlay,
 } from '@chakra-ui/react';
 import { InputDefinition } from 'models/request';
-import RequestForm from './forms/RequestForm';
-import styles from './style.module.scss';
+import RequestForm from '../forms/RequestForm';
+import styles from '../style.module.scss';
 interface RequestTemplateModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -26,7 +26,7 @@ export const RequestTemplateModal = ({
   inputDefinition,
 }: RequestTemplateModalProps) => {
   return (
-    <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false}>
+    <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={true}>
       <ModalOverlay />
       <ModalContent className={styles.customModal}>
         <ModalHeader fontSize="md">{displayName}</ModalHeader>
