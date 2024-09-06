@@ -1,5 +1,5 @@
 import { Box, FormControl, FormLabel } from '@chakra-ui/react';
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { InputDefinition } from 'models/request';
 import debounce from 'lodash.debounce';
 
@@ -15,17 +15,21 @@ export const ColorSettingForm = ({
   const [colorCode, setColorCode] = useState<string>('#e53e3e');
   const [nameRequest, setNameRequest] = useState<string>('Name request');
 
-  const debouncedColorSubmit = useCallback(
-    (newColor: string) => {
-      return debounce(() => OnColorSubmit(newColor), 300);
-    },
-    [OnColorSubmit]
+  const debouncedColorSubmitRef = useRef(
+    debounce((color: string) => OnColorSubmit(color), 300)
   );
+
+  useEffect(() => {
+    debouncedColorSubmitRef.current = debounce(
+      (color: string) => OnColorSubmit(color),
+      300
+    );
+  }, [OnColorSubmit]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newColor: string = event.target.value;
     setColorCode(newColor);
-    debouncedColorSubmit(newColor);
+    debouncedColorSubmitRef.current(newColor);
   };
 
   useEffect(() => {
