@@ -55,8 +55,13 @@ export interface RequestTemplate {
 export interface InputDefinition {
   workflowDefinitionId: string;
   propertyDefinitions: PropertyDefinition[];
-  settings?: string;
+  settings?: Settings;
   id: string;
+  nameRequest?: string;
+}
+
+export interface Settings {
+  color?: string;
 }
 
 export interface PropertyDefinition {
@@ -114,7 +119,7 @@ export interface IUpdateInputFormParams {
   id: string;
   workflowDefinitionId?: string;
   propertyDefinitions: PropertyDefinition[];
-  settings?: string;
+  settings?: Settings;
 }
 
 export interface IRequestUser {

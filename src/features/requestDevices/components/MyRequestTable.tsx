@@ -33,7 +33,7 @@ import { RequestSortField, RequestStatus, SortDirection } from 'common/enums';
 import { RowAction } from 'features/requestDevices/components/RowAction';
 import { useCurrentUser } from 'hooks/useCurrentUser';
 import { useIsAdmin } from 'hooks/useIsAdmin';
-import { FilterRequestParams, Request } from 'models/request';
+import { FilterRequestParams, Request, Settings } from 'models/request';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { appConfigState } from 'stores/appConfig';
@@ -127,13 +127,15 @@ export const MyRequestTable = () => {
       enableSorting: false,
       cell: (info) => {
         let colorCode: string = '#aabbcc';
-        if (info.row.original.settings)
-          try {
-            const jsonSetting = JSON.parse(info.row.original.settings);
-            colorCode = jsonSetting.color;
-          } catch (error) {
-            console.log(error);
+        if (
+          info.row.original.settings &&
+          typeof info.row.original.settings === 'object'
+        ) {
+          const settings = info.row.original.settings as Settings;
+          if (settings.color) {
+            colorCode = settings.color;
           }
+        }
         return (
           <Box
             style={{

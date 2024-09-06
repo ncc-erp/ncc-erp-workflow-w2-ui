@@ -181,7 +181,7 @@ export const RequestTemplateTable = ({
                 onDelete={onConfirmDeleteWorkflow(definitionId)}
                 onDefineInput={onDefineInputWorkflow(
                   definitionId,
-                  inputDefinition,
+                  { ...inputDefinition, nameRequest: name },
                   name
                 )}
                 onViewWorkflow={onActionViewWorkflow(definitionId)}

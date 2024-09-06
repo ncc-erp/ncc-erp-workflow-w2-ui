@@ -1,7 +1,7 @@
-import { Box, Button, FormControl, FormLabel } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
-import { ColorPickerModal } from '../modals/ColorPickerModal';
+import { Box, FormControl, FormLabel } from '@chakra-ui/react';
+import { useEffect, useState, useCallback } from 'react';
 import { InputDefinition } from 'models/request';
+import debounce from 'lodash.debounce';
 
 interface ColorSettingFormProps {
   OnColorSubmit: (colorCode: string) => void;
@@ -12,37 +12,29 @@ export const ColorSettingForm = ({
   inputDefinition,
   OnColorSubmit,
 }: ColorSettingFormProps) => {
-  const [isColorPickerModalOpen, setIsColorPickerModalOpen] =
-    useState<boolean>(false);
-  const [colorCode, setColorCode] = useState<string>('#FFF');
+  const [colorCode, setColorCode] = useState<string>('#e53e3e');
+  const [nameRequest, setNameRequest] = useState<string>('Name request');
+
+  const debouncedColorSubmit = useCallback(
+    (newColor: string) => {
+      return debounce(() => OnColorSubmit(newColor), 300);
+    },
+    [OnColorSubmit]
+  );
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newColor: string = event.target.value;
+    setColorCode(newColor);
+    debouncedColorSubmit(newColor);
+  };
 
   useEffect(() => {
     if (inputDefinition && inputDefinition.settings) {
-      try {
-        const jsonSetting = JSON.parse(inputDefinition.settings);
-        if (jsonSetting && jsonSetting.color) {
-          setColorCode(jsonSetting.color);
-        }
-      } catch (error) {
-        console.error('Error parsing settings:', error);
-      }
+      const colorSetting: string = inputDefinition?.settings?.color ?? '';
+      setColorCode(colorSetting);
+      setNameRequest(inputDefinition.nameRequest ?? 'Name request');
     }
   }, [inputDefinition]);
-
-  const onOpenColorPickerModal = () => {
-    setIsColorPickerModalOpen(true);
-  };
-
-  const onCloseColorPickerModal = () => {
-    setIsColorPickerModalOpen(false);
-  };
-
-  const onColorSave = (colorCode: string) => {
-    if (colorCode) {
-      setColorCode(colorCode);
-      OnColorSubmit(colorCode);
-    }
-  };
 
   return (
     <>
@@ -59,22 +51,28 @@ export const ColorSettingForm = ({
         <Box
           style={{
             backgroundColor: colorCode,
-            padding: '7px',
-            borderRadius: '5px',
+            padding: '2px 9px',
+            borderRadius: '12px',
             textAlign: 'center',
+            fontSize: '12px',
+            fontWeight: '600',
+            color: '#ffffff',
           }}
         >
-          {colorCode ? colorCode : ''}
+          {nameRequest}
         </Box>
-        <Button ml={5} w="16%" onClick={onOpenColorPickerModal}>
-          Change color
-        </Button>
+        <input
+          type="color"
+          value={colorCode}
+          onChange={handleChange}
+          style={{
+            backgroundColor: 'transparent',
+            border: '1px solid #E2E8F0 ',
+            marginLeft: '10px',
+            cursor: 'pointer',
+          }}
+        />
       </FormControl>
-      <ColorPickerModal
-        isOpen={isColorPickerModalOpen}
-        onClose={onCloseColorPickerModal}
-        OnColorSave={onColorSave}
-      />
     </>
   );
 };

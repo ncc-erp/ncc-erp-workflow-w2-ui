@@ -31,6 +31,7 @@ import {
   IUpdateInputFormParams,
   InputDefinition,
   PropertyDefinition,
+  Settings,
 } from 'models/request';
 import { useState } from 'react';
 
@@ -38,7 +39,7 @@ interface DefineInputFormProps {
   inputDefinition?: InputDefinition;
   requestId: string;
   onCloseModal: () => void;
-  settings: string;
+  settings: Settings;
 }
 
 interface FormParams {
@@ -81,7 +82,7 @@ const DefineInputForm = ({
       id: inputDefinition?.id || GUID_ID_DEFAULT_VALUE,
       workflowDefinitionId: requestId,
       propertyDefinitions: data.items,
-      settings: settings,
+      settings,
     };
 
     await updateMutate(payload);
