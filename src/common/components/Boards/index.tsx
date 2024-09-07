@@ -54,7 +54,6 @@ import { isValidJSON } from 'utils';
 import { useClearCacheTask } from './useClearCacheTask';
 import { useNavigate } from 'react-router';
 import { useMediaQuery } from 'hooks/useMediaQuery';
-import { renderColor } from 'utils/getColorTypeRequest';
 import TextToolTip from '../textTooltip';
 
 const fadeIn = keyframes`
@@ -667,9 +666,8 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
                                       <div
                                         className={styles.title}
                                         style={{
-                                          backgroundColor: renderColor(
-                                            item.name
-                                          ),
+                                          backgroundColor:
+                                            item?.settings?.color ?? '#aabbcc',
                                         }}
                                       >
                                         {item.name}
