@@ -29,7 +29,9 @@ export const useMyRequests = (filter: FilterRequestParams) => {
   return useGetListByPost<FilterRequestResult>(
     [QueryKeys.FILTER_REQUEST, filter],
     '/app/workflow-instance/list',
-    filter
+    filter,
+    {},
+    { refetchOnMount: true }
   );
 };
 
