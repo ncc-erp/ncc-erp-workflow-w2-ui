@@ -33,7 +33,7 @@ import { RequestSortField, RequestStatus, SortDirection } from 'common/enums';
 import { RowAction } from 'features/requestDevices/components/RowAction';
 import { useCurrentUser } from 'hooks/useCurrentUser';
 import { useIsAdmin } from 'hooks/useIsAdmin';
-import { FilterRequestParams, Request } from 'models/request';
+import { FilterRequestParams, Request, Settings } from 'models/request';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { appConfigState } from 'stores/appConfig';
@@ -46,7 +46,6 @@ import { EmptyWrapper } from 'common/components/EmptyWrapper';
 import { ModalConfirm } from 'common/components/ModalConfirm';
 import { AiOutlineReload } from 'react-icons/ai';
 import styles from './style.module.scss';
-import { renderColor } from 'utils/getColorTypeRequest';
 import OverflowText from 'common/components/OverflowText';
 import TextToolTip from 'common/components/textTooltip';
 
@@ -127,6 +126,16 @@ export const MyRequestTable = () => {
       header: () => <Box textAlign="center">Title</Box>,
       enableSorting: false,
       cell: (info) => {
+        let colorCode: string = '#aabbcc';
+        if (
+          info.row.original.settings &&
+          typeof info.row.original.settings === 'object'
+        ) {
+          const settings = info.row.original.settings as Settings;
+          if (settings.color) {
+            colorCode = settings.color;
+          }
+        }
         return (
           <Box
             style={{
@@ -146,9 +155,7 @@ export const MyRequestTable = () => {
             <Box
               className={styles.titleTable}
               style={{
-                backgroundColor: renderColor(
-                  info.row.original.workflowDefinitionDisplayName
-                ),
+                backgroundColor: colorCode,
               }}
             >
               <OverflowText
