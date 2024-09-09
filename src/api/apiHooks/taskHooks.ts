@@ -55,7 +55,9 @@ export const useGetTasks = (filter: FilterTasks) => {
         Number(filter?.status) !== -1
           ? [filter.status]
           : Object.values(TaskStatus),
-    }
+    },
+    {},
+    { refetchOnMount: true }
   );
 };
 

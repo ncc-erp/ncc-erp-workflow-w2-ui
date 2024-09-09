@@ -12,7 +12,7 @@ import { InputDefinition, Settings } from 'models/request';
 import DefineInputForm from '../forms/DefineInputForm';
 import styles from '../style.module.scss';
 import { ColorSettingForm } from '../forms/ColorSettingForm';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ExportImportJson from '../ExportImportJson';
 interface DefineTemplateInputModalProps {
   isOpen: boolean;
@@ -29,13 +29,18 @@ export const DefineTemplateInputModal = ({
   requestId,
   workflowName,
 }: DefineTemplateInputModalProps) => {
-  const colorCode = '#FFF';
+  const colorCode = '#aabbcc';
   const [colorSettings, setColorSettings] = useState<Settings>({
-    color: '#ffffff',
+    color: '#aabbcc',
   });
   const onColorSubmit = (color: string) => {
     setColorSettings({ color: color ?? colorCode });
   };
+
+  useEffect(() => {
+    setColorSettings({ color: inputDefinition?.settings?.color ?? colorCode });
+  }, [inputDefinition]);
+
   return (
     <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={true}>
       <ModalOverlay />

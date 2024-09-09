@@ -36,9 +36,12 @@ const ExportImportJson: React.FC<ExportImportJsonProps> = ({
   });
   const exportData = useMemo(() => {
     return {
+      settings: {
+        color: inputDefinition?.settings?.color ?? '#aabbcc',
+      },
       propertyDefinitions: fields,
     };
-  }, [fields]);
+  }, [fields, inputDefinition?.settings?.color]);
 
   const handleExport = () => {
     const jsonString = JSON.stringify(exportData, null, 2);
