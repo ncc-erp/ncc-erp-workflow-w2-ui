@@ -55,7 +55,7 @@ const ImportJsonForm = ({
 
   const onSubmit = async () => {
     if (!id) return;
-    const defaultKeys = ['propertyDefinitions'];
+    const defaultKeys = ['settings', 'propertyDefinitions'];
     const jsonObject = JSON.parse(importedData);
     const keysOfData = Object.keys(jsonObject);
 
@@ -75,6 +75,7 @@ const ImportJsonForm = ({
         id: id || GUID_ID_DEFAULT_VALUE,
         workflowDefinitionId: workflowDefinitionId,
         propertyDefinitions: jsonObject?.propertyDefinitions,
+        settings: jsonObject?.settings,
       };
 
       await updateMutate(payload);
@@ -91,7 +92,9 @@ const ImportJsonForm = ({
 
   return (
     <Box padding="20px">
-      <ModalHeader fontSize="xl">Import Workflow Input</ModalHeader>
+      <ModalHeader fontSize="xl" paddingLeft="0px">
+        Import Workflow Input
+      </ModalHeader>
       <InputGroup>
         <InputLeftElement pointerEvents="none" />
         <input

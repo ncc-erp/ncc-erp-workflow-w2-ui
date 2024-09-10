@@ -12,7 +12,7 @@ export const ColorSettingForm = ({
   inputDefinition,
   OnColorSubmit,
 }: ColorSettingFormProps) => {
-  const [colorCode, setColorCode] = useState<string>('#e53e3e');
+  const [colorCode, setColorCode] = useState<string>('#aabbcc');
   const [nameRequest, setNameRequest] = useState<string>('Name request');
 
   const debouncedColorSubmitRef = useRef(
@@ -33,11 +33,9 @@ export const ColorSettingForm = ({
   };
 
   useEffect(() => {
-    if (inputDefinition && inputDefinition.settings) {
-      const colorSetting: string = inputDefinition?.settings?.color ?? '';
-      setColorCode(colorSetting);
-      setNameRequest(inputDefinition.nameRequest ?? 'Name request');
-    }
+    const colorSetting: string = inputDefinition?.settings?.color ?? '#aabbcc';
+    setColorCode(colorSetting);
+    setNameRequest(inputDefinition?.nameRequest ?? 'Name request');
   }, [inputDefinition]);
 
   return (
