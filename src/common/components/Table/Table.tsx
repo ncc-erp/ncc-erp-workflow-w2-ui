@@ -1,6 +1,7 @@
 import {
   Box,
   Icon,
+  keyframes,
   Table as TableComponent,
   Tbody,
   Td,
@@ -23,6 +24,11 @@ import { useState } from 'react';
 import { IoMdArrowDropdown, IoMdArrowDropup } from 'react-icons/io';
 import theme from 'themes/theme';
 import TableSkeleton from './TableSkeleton';
+
+const fadeIn = keyframes`
+  from { opacity: 0; }
+  to { opacity: 1; }
+`;
 
 export type IRowActionProps<D> = (data: D) => () => void;
 
@@ -215,6 +221,7 @@ export const Table = <D,>({
                     onRowClick(row.original)();
                   }
                 }}
+                animation={`${fadeIn} 1s cubic-bezier(0.390, 0.575, 0.565, 1.000)`}
               >
                 {row.getVisibleCells().map((cell) => {
                   return (
