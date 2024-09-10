@@ -300,6 +300,101 @@ exports[`My Request Detail should match snapshot when rendering 1`] = `
                 </div>
               </div>
             </div>
+            <hr
+              aria-orientation="horizontal"
+              class="chakra-divider css-1urc9z9"
+            />
+            <div>
+              <div
+                class="textGroup"
+              >
+                <label
+                  class="label"
+                >
+                  Related tasks
+                </label>
+                <p
+                  class="content "
+                />
+              </div>
+              <div
+                class="css-0"
+              >
+                <div
+                  class="chakra-table__container css-zipzvv"
+                >
+                  <table
+                    class="chakra-table css-1brscxi"
+                  >
+                    <thead
+                      class="css-1udpdxg"
+                    >
+                      <tr
+                        class="css-0"
+                      >
+                        <th
+                          class="css-0"
+                        >
+                          Title
+                        </th>
+                        <th
+                          class="css-0"
+                        >
+                          Current State
+                        </th>
+                        <th
+                          class="css-0"
+                        >
+                          Assigned
+                        </th>
+                        <th
+                          class="css-0"
+                        >
+                          Status
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody
+                      class="css-0"
+                    >
+                      <tr
+                        class="css-0"
+                      >
+                        <td
+                          class="css-1brscxi"
+                        >
+                          Office Equipment Request
+                        </td>
+                        <td
+                          class="css-1brscxi"
+                        >
+                          Branch Manager Makes Decision
+                        </td>
+                        <td
+                          class="css-1brscxi"
+                        />
+                        <td
+                          class="css-1brscxi"
+                        >
+                          <div
+                            class="textGroup"
+                          >
+                            <label
+                              class="label"
+                            />
+                            <p
+                              class="content content-blue"
+                            >
+                              Pending
+                            </p>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
       </div>

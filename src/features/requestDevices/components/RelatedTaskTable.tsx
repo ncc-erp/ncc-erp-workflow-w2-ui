@@ -40,8 +40,8 @@ export const RelatedTaskTable = ({ taskLists }: IRelatedTaskTableProp) => {
                       {task.description}
                     </Td>
                     <Td border="1px solid" borderColor="gray.200">
-                      {task.emailTo?.map((email, index) => (
-                        <div key={index}>{email.split('@')[0]}</div>
+                      {task.emailTo?.map((email) => (
+                        <div key={email}>{email.split('@')[0]}</div>
                       ))}
                     </Td>
                     <Td border="1px solid" borderColor="gray.200">
