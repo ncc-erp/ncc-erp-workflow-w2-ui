@@ -33,7 +33,7 @@ import { TbSearch } from 'react-icons/tb';
 import { convertToCase } from 'utils';
 import { SelectField } from 'common/components/SelectField';
 import { AiOutlineReload } from 'react-icons/ai';
-
+import { RolesUserManagement } from '../../../common/constants';
 const initialFilter: FilterUserParams = {
   filter: '',
   maxResultCount: +noOfRows[0].value,
@@ -123,7 +123,26 @@ export const UserManagementTable = () => {
           id: 'roles',
           header: 'Roles',
           enableSorting: true,
-          cell: (info) => `${info.getValue()}  `,
+          cell: (info) => {
+            const roles = info.getValue();
+            if (Array.isArray(roles) && roles.length > 0) {
+              return roles
+                .map((role) => {
+                  switch (role) {
+                    case 'admin':
+                      return RolesUserManagement.ADMIN;
+                    case 'DefaultUser':
+                      return RolesUserManagement.DEFAULT_USER;
+                    case 'Designer':
+                      return RolesUserManagement.DESIGNER;
+                    default:
+                      return;
+                  }
+                })
+                .join(', ');
+            }
+            return RolesUserManagement.UNASSIGNED;
+          },
         }),
         columnHelper.display({
           id: 'actions',

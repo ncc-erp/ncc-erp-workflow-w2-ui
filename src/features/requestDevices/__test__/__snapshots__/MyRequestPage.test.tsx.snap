@@ -483,7 +483,7 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
               class="css-0"
             >
               <tr
-                class="css-zcttqi"
+                class="css-1mmrbq3"
               >
                 <td
                   class="css-xk16pm"
@@ -504,7 +504,7 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                     </div>
                     <div
                       class="titleTable css-0"
-                      style="background-color: rgb(242, 112, 36);"
+                      style="background-color: rgb(170, 187, 204);"
                     >
                       <div
                         style="overflow: hidden; text-overflow: ellipsis; display: -webkit-box;"
@@ -685,7 +685,7 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                 </td>
               </tr>
               <tr
-                class="css-zcttqi"
+                class="css-1mmrbq3"
               >
                 <td
                   class="css-xk16pm"
@@ -706,7 +706,7 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                     </div>
                     <div
                       class="titleTable css-0"
-                      style="background-color: rgb(208, 0, 219);"
+                      style="background-color: rgb(170, 187, 204);"
                     >
                       <div
                         style="overflow: hidden; text-overflow: ellipsis; display: -webkit-box;"

@@ -148,3 +148,9 @@ export const LinkDocRedirect = {
 export const MaxFailedAccessAttempts = 5;
 
 export const UPDATED_BY_W2 = 'W2 Workflow';
+export const RolesUserManagement = {
+  ADMIN: 'Admin',
+  DEFAULT_USER: 'Default User',
+  DESIGNER: 'Designer',
+  UNASSIGNED: 'N/A',
+};
