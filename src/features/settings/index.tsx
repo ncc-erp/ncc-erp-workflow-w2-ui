@@ -1,5 +1,5 @@
 import Page from 'common/components/Page';
-import { GDVPSettings } from './components/GDVPSettings';
+import { DIRECTORSettings } from './components/DIRECTORGroupSettings';
 import { ITSettings } from './components/ITGroupSettings';
 import { HRSettings } from './components/HRGroupSettings';
 import { CEOSettings } from './components/CEOGroupSettings';
@@ -15,7 +15,7 @@ const SettingsComponent = () => {
         <Page.HeaderRight />
       </Page.Header>
       <Page.Body>
-        <GDVPSettings />
+        <DIRECTORSettings />
         <ITSettings />
         <HRSettings />
         <CEOSettings />

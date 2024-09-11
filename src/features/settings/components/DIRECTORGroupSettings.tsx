@@ -1,5 +1,5 @@
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
-import { Box, Button, Center, Flex } from '@chakra-ui/react';
+import { Box, Center } from '@chakra-ui/react';
 import { Table } from 'common/components/Table/Table';
 import { EmptyWrapper } from 'common/components/EmptyWrapper';
 import { useRecoilValue } from 'recoil';
@@ -8,11 +8,10 @@ import { RowAction } from './RowAction';
 import { useMemo, useState } from 'react';
 import {
   ESettingCode,
-  FilterSettingParams,
+  IFilterSettingParams,
   ISettingPayload,
   ISettingValue,
 } from 'models/settings';
-import { TextField } from 'common/components/TextField';
 import { useFormik } from 'formik';
 import { validationGDVPSettingForm } from 'utils/validationSchema';
 import {
@@ -23,9 +22,10 @@ import {
 } from 'api/apiHooks/settingHooks';
 import { toast } from 'common/components/StandaloneToast';
 import QueryString from 'qs';
+import { SettingForm } from './SettingForm';
 
-const initialFilter: FilterSettingParams = {
-  settingCode: ESettingCode.GDVP,
+const initialFilter: IFilterSettingParams = {
+  settingCode: ESettingCode.DIRECTOR,
 };
 
 const initialValues: ISettingValue = {
@@ -34,40 +34,37 @@ const initialValues: ISettingValue = {
   email: '',
 };
 
-export const GDVPSettings = () => {
+export const DIRECTORSettings = () => {
   const { sideBarWidth } = useRecoilValue(appConfigState);
   const { data, isLoading, refetch } = useGetSettingList(initialFilter);
   const [updateSetting, setUpdateSetting] = useState({ ...initialValues });
   const { mutateAsync: updateMutate } = useUpdateSetting({
     ...updateSetting,
-    settingCode: ESettingCode.GDVP,
+    settingCode: ESettingCode.DIRECTOR,
   });
   const { mutateAsync: createMutate, isLoading: isCreating } =
     useCreateSetting();
   const { mutateAsync: deleteMutate } = useDeleteSetting();
   const settings = useMemo(
-    () => (data ? JSON.parse(data?.value ?? '').items : []) as ISettingValue[],
+    () => (data ? JSON.parse(data?.value ?? {}).items : []) as ISettingValue[],
     [data]
   );
   const [isUpdateStatus, setIsUpdateStatus] = useState(false);
   const columnHelper = createColumnHelper<ISettingValue>();
 
-  const handleSubmit = async (settingData: ISettingValue) => {
+  const handleSubmit = async ({ email, code, name }: ISettingValue) => {
     if (isCreating) return;
     const errors = await formik.validateForm();
 
     if (Object.keys(errors).length) {
-      formik.setFieldTouched('email');
-      formik.setFieldTouched('code');
-      formik.setFieldTouched('name');
       return;
     }
 
     const payload: ISettingPayload = {
-      email: settingData.email,
-      code: settingData.code,
-      name: settingData.name,
-      settingCode: ESettingCode.GDVP,
+      email,
+      code,
+      name,
+      settingCode: ESettingCode.DIRECTOR,
     };
 
     if (isUpdateStatus) {
@@ -95,7 +92,7 @@ export const GDVPSettings = () => {
         })
         .catch((err) => {
           if (err.response.data.error.code === '409')
-            formik.setFieldError('code', 'Please enter a unique code.');
+            formik.setFieldError('code', 'This code already exist.');
         });
     }
   };
@@ -112,10 +109,10 @@ export const GDVPSettings = () => {
   });
 
   const userColumns = useMemo(() => {
-    const handleDeleteSetting = async (settingData: ISettingValue) => {
+    const handleDeleteSetting = async ({ code }: ISettingValue) => {
       const payload: ISettingPayload = {
-        code: settingData.code,
-        settingCode: ESettingCode.GDVP,
+        code,
+        settingCode: ESettingCode.DIRECTOR,
       };
 
       await deleteMutate(QueryString.stringify(payload)).then(() => {
@@ -190,98 +187,13 @@ export const GDVPSettings = () => {
         GDVP config
       </Box>
       <Box p="0px 24px" fontSize="14" fontWeight="bold">
-        <form>
-          <Flex gap="4" alignItems="flex-start">
-            <TextField
-              h="10"
-              mb={formik.errors.name && formik.touched.name ? '0' : '26px'}
-              label="Name"
-              placeholder="GDVP Name"
-              isRequired
-              fontSize={15}
-              error={
-                formik.errors.name && formik.touched.name
-                  ? formik.errors.name
-                  : ''
-              }
-              name="name"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.name}
-              autoComplete="off"
-            />
-            <TextField
-              h="10"
-              mb={formik.errors.code && formik.touched.code ? '0' : '26px'}
-              label="Code"
-              placeholder="GDVP Code"
-              isRequired
-              isDisabled={isUpdateStatus}
-              fontSize={15}
-              error={
-                formik.errors.code && formik.touched.code
-                  ? formik.errors.code
-                  : ''
-              }
-              name="code"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.code}
-              autoComplete="off"
-            />
-            <TextField
-              h="10"
-              mb={formik.errors.email && formik.touched.email ? '0' : '26px'}
-              label="Email"
-              placeholder="GDVP email"
-              isRequired
-              fontSize={15}
-              error={
-                formik.errors.email && formik.touched.email
-                  ? formik.errors.email
-                  : ''
-              }
-              name="email"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.email}
-              autoComplete="off"
-            />
-            {isUpdateStatus && (
-              <Button
-                size={'md'}
-                mb="26px"
-                colorScheme="gray"
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleCancel();
-                }}
-                fontSize="sm"
-                fontWeight="medium"
-                minW="70"
-                isLoading={isLoading}
-              >
-                Cancel
-              </Button>
-            )}
-            <Button
-              size={'md'}
-              mt="46px"
-              colorScheme="green"
-              type="submit"
-              onClick={(e) => {
-                e.preventDefault();
-                handleSubmit(formik.values);
-              }}
-              fontSize="sm"
-              fontWeight="medium"
-              minW="70"
-              isLoading={isLoading}
-            >
-              {isUpdateStatus ? 'Edit' : 'Add'}
-            </Button>
-          </Flex>
-        </form>
+        <SettingForm
+          formik={formik}
+          isLoading={isLoading}
+          settingCode={ESettingCode.DIRECTOR}
+          isUpdateStatus={isUpdateStatus}
+          handleCancel={handleCancel}
+        ></SettingForm>
       </Box>
       <Box>
         <EmptyWrapper

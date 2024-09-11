@@ -1,18 +1,18 @@
 import { QueryKeys } from 'common/constants';
 import { useCreate, useDelete, useGetList, useUpdate } from '.';
 import {
-  FilterSettingParams,
+  IFilterSettingParams,
   ISetting,
   ISettingPayload,
 } from 'models/settings';
 
 export const useGetSettingList = (
-  FilterSettingParams?: FilterSettingParams
+  IFilterSettingParams?: IFilterSettingParams
 ) => {
   return useGetList<ISetting>(
-    [QueryKeys.GET_SETTING_LIST, FilterSettingParams],
+    [QueryKeys.GET_SETTING_LIST, IFilterSettingParams],
     'app/setting/w2setting-list',
-    FilterSettingParams
+    IFilterSettingParams
   );
 };
 

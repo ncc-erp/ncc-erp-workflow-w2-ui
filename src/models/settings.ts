@@ -20,7 +20,7 @@ export interface IListResult<T> {
   items: T[];
 }
 
-export interface FilterSettingParams {
+export interface IFilterSettingParams {
   settingCode: ESettingCode;
   maxResultCount?: number;
   skipCount?: number;
@@ -28,7 +28,7 @@ export interface FilterSettingParams {
 }
 
 export enum ESettingCode {
-  GDVP = 'GDVP',
+  DIRECTOR = 'GDVP',
   CEO = 'CEO',
   SALE = 'SALE',
   IT = 'IT',

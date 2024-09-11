@@ -1,5 +1,5 @@
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
-import { Box, Button, Center, Flex } from '@chakra-ui/react';
+import { Box, Center } from '@chakra-ui/react';
 import { Table } from 'common/components/Table/Table';
 import { EmptyWrapper } from 'common/components/EmptyWrapper';
 import { useRecoilValue } from 'recoil';
@@ -9,11 +9,10 @@ import { RowAction } from './RowAction';
 import { useMemo } from 'react';
 import {
   ESettingCode,
-  FilterSettingParams,
+  IFilterSettingParams,
   ISettingPayload,
   ISettingValue,
 } from 'models/settings';
-import { TextField } from 'common/components/TextField';
 import { useFormik } from 'formik';
 import { validationSettingForm } from 'utils/validationSchema';
 import {
@@ -23,8 +22,9 @@ import {
 } from 'api/apiHooks/settingHooks';
 import { toast } from 'common/components/StandaloneToast';
 import QueryString from 'qs';
+import { SettingForm } from './SettingForm';
 
-const initialFilter: FilterSettingParams = {
+const initialFilter: IFilterSettingParams = {
   settingCode: ESettingCode.CEO,
 };
 
@@ -39,28 +39,24 @@ export const CEOSettings = () => {
     useCreateSetting();
   const { mutateAsync: deleteMutate } = useDeleteSetting();
   const settings = (
-    data ? JSON.parse(data?.value ?? '').items : []
+    data ? JSON.parse(data?.value ?? {}).items : []
   ) as ISettingValue[];
   const columnHelper = createColumnHelper<UserIdentity>();
 
-  const handleSubmit = async (settingData: ISettingValue) => {
+  const handleSubmit = async ({ email }: ISettingValue) => {
     if (isCreating) return;
     const errors = await formik.validateForm();
 
     if (Object.keys(errors).length) {
-      formik.setFieldTouched('email');
       return;
     }
 
     const payload: ISettingPayload = {
-      email: settingData.email,
+      email,
       settingCode: ESettingCode.CEO,
     };
 
-    await createMutate({
-      email: payload.email,
-      settingCode: payload.settingCode,
-    })
+    await createMutate(payload)
       .then(() => {
         refetch();
         toast({
@@ -82,9 +78,9 @@ export const CEOSettings = () => {
   });
 
   const userColumns = useMemo(() => {
-    const handleDeleteSetting = async (settingData: ISettingValue) => {
+    const handleDeleteSetting = async ({ email }: ISettingValue) => {
       const payload: ISettingPayload = {
-        email: settingData.email,
+        email,
         settingCode: ESettingCode.CEO,
       };
 
@@ -102,7 +98,7 @@ export const CEOSettings = () => {
           case 'Delete':
             handleDeleteSetting(setting);
             break;
-
+          case 'Edit':
           default:
             break;
         }
@@ -133,44 +129,11 @@ export const CEOSettings = () => {
         CEO Group
       </Box>
       <Box p="0px 24px" fontSize="14" fontWeight="bold">
-        <form onSubmit={formik.handleSubmit}>
-          <Flex gap="4" alignItems="flex-end">
-            <TextField
-              h="10"
-              mb={formik.errors.email && formik.touched.email ? '0' : '26px'}
-              label="Email"
-              placeholder="CEO email"
-              isRequired
-              fontSize={15}
-              error={
-                formik.errors.email && formik.touched.email
-                  ? formik.errors.email
-                  : ''
-              }
-              name="email"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.email}
-              autoComplete="off"
-            />
-            <Button
-              size={'md'}
-              mb="26px"
-              colorScheme="green"
-              type="submit"
-              onClick={(e) => {
-                e.preventDefault();
-                handleSubmit(formik.values);
-              }}
-              fontSize="sm"
-              fontWeight="medium"
-              minW="70"
-              isLoading={isLoading}
-            >
-              Add
-            </Button>
-          </Flex>
-        </form>
+        <SettingForm
+          formik={formik}
+          isLoading={isLoading}
+          settingCode={ESettingCode.CEO}
+        ></SettingForm>
       </Box>
       <Box>
         <EmptyWrapper
