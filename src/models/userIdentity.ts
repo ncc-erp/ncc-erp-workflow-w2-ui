@@ -20,7 +20,7 @@ export interface UserIdentity {
   creatorId: string;
   id: string;
   extraProperties: object;
-  roles: string;
+  roles: string[];
 }
 
 export interface ModalUserParams {
