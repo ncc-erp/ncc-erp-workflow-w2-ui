@@ -87,8 +87,9 @@ const UserForm = ({ initialValues, userId, onClose }: UserFormProps) => {
     }
   };
 
-  const renderCheckbox = (role: string) => (
+  const renderCheckbox = (role: string, index: number) => (
     <Checkbox
+      key={index}
       colorScheme="gray"
       isChecked={formik.values.roleNames.includes(role)}
       onChange={(e) => handleChangeRolesCheckbox(role, e.target.checked)}
@@ -234,7 +235,9 @@ const UserForm = ({ initialValues, userId, onClose }: UserFormProps) => {
           </TabPanel>
           <TabPanel p="0">
             <Stack mt={6} mb={6} direction="column">
-              {Object.values(UserRoles).map((role) => renderCheckbox(role))}
+              {Object.values(UserRoles).map((role, index) =>
+                renderCheckbox(role, index)
+              )}
             </Stack>
           </TabPanel>
         </TabPanels>
