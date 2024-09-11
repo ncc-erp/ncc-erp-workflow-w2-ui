@@ -27,6 +27,7 @@ import {
   TbLayoutBoard,
   TbBrandMastercard,
   TbUserCog,
+  TbSettingsBolt,
 } from 'react-icons/tb';
 import { BiLogOutCircle } from 'react-icons/bi';
 import { VscKebabVertical } from 'react-icons/vsc';
@@ -85,11 +86,11 @@ export const SideBarContent = ({ isLargeScreen }: SideBarContentProps) => {
           text: 'User management',
           icon: TbBrandMastercard,
         },
-        // {
-        //   to: '/settings',
-        //   text: 'Settings',
-        //   icon: TbSettingsBolt,
-        // },
+        {
+          to: '/administration/settings',
+          text: 'Settings',
+          icon: TbSettingsBolt,
+        },
       ],
     },
     // {

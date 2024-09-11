@@ -100,6 +100,7 @@ export const QueryKeys = {
   GET_STAKE_HOLDERS_FOR_FILTER: 'getStakeHoldersForFilter',
   GET_USER_LIST: 'getUserList',
   GET_INPUT_DEFINITION: 'getInputDefinition',
+  GET_SETTING_LIST: 'getSettingList',
 };
 
 export const ColorThemeMode = {

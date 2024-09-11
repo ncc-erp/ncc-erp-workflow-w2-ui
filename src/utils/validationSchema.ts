@@ -29,3 +29,18 @@ export const validationSchema = yup.object().shape({
     .min(10, 'Phone number is not valid')
     .matches(phoneRegExp, 'Phone number is not valid'),
 });
+
+export const validationGDVPSettingForm = yup.object().shape({
+  name: yup.string().required('Name field is required!'),
+  code: yup.string().required('Code field is required!'),
+  email: yup
+    .string()
+    .required('Email address field is required!')
+    .email('Email address field is not a valid e-mail address.'),
+});
+export const validationSettingForm = yup.object().shape({
+  email: yup
+    .string()
+    .required('Email address field is required!')
+    .email('Email address field is not a valid e-mail address.'),
+});
