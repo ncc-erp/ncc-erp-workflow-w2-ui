@@ -10,7 +10,7 @@ import {
 } from '@chakra-ui/react';
 import { ColorThemeMode } from 'common/constants';
 import { FaEye, FaRegMap } from 'react-icons/fa';
-import { RiSettings4Fill } from 'react-icons/ri';
+import { RiDeleteBin6Fill, RiSettings4Fill } from 'react-icons/ri';
 
 interface RowActionProps {
   onDefineInput: () => void;
@@ -19,7 +19,7 @@ interface RowActionProps {
 }
 
 export const RowAction = ({
-  // onDelete,
+  onDelete,
   onDefineInput,
   onViewWorkflow,
 }: RowActionProps) => {
@@ -54,10 +54,10 @@ export const RowAction = ({
           <Icon color="gray.500" as={FaRegMap} />
           Edit Workflow
         </MenuItem>
-        {/* <MenuItem color={color} display="flex" gap="12px" onClick={onDelete}>
+        <MenuItem color={color} display="flex" gap="12px" onClick={onDelete}>
           <Icon color="gray.500" as={RiDeleteBin6Fill} />
           Delete
-        </MenuItem> */}
+        </MenuItem>
       </MenuList>
     </Menu>
   );
