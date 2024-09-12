@@ -46,8 +46,8 @@ import styles from './style.module.scss';
 import { useClearCacheTask } from './useClearCacheTask';
 import { WorkflowModal } from 'common/components/WorkflowModal';
 import OverflowText from '../OverflowText';
-import { renderColor } from 'utils/getColorTypeRequest';
 import TextToolTip from '../textTooltip';
+import { Settings } from 'models/request';
 
 interface Props {
   filters: FilterTasks;
@@ -140,6 +140,16 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
         header: () => <Box textAlign="center">Title</Box>,
         enableSorting: false,
         cell: (info) => {
+          let colorCode: string = '#aabbcc';
+          if (
+            info.row.original.settings &&
+            typeof info.row.original.settings === 'object'
+          ) {
+            const settings = info.row.original.settings as Settings;
+            if (settings.color) {
+              colorCode = settings.color;
+            }
+          }
           return (
             <>
               <Box
@@ -161,7 +171,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
                 <Box
                   className={styles.titleBoard}
                   style={{
-                    backgroundColor: renderColor(info.row.original.name),
+                    backgroundColor: colorCode,
                   }}
                 >
                   <OverflowText text={info.row.original.name} maxLines={1} />
@@ -479,70 +489,63 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
           icon={<AiOutlineReload />}
           onClick={() => refetch()}
         />
-        {isLoading || isRefetching ? (
-          <Center h="200px">
-            <Spinner mx="auto" speed="0.65s" thickness="3px" size="xl" />
-          </Center>
-        ) : (
-          <>
-            <EmptyWrapper
-              isEmpty={false}
-              h="200px"
-              fontSize="xs"
-              message={'No request found!'}
+        <>
+          <EmptyWrapper
+            isEmpty={false}
+            h="200px"
+            fontSize="xs"
+            message={'No request found!'}
+          >
+            <Box
+              p="10px 20px"
+              //overflowX="auto"
+              w={{
+                base: '100vw',
+                lg: `calc(100vw - ${sideBarWidth}px)`,
+              }}
             >
-              <Box
-                p="10px 20px"
-                //overflowX="auto"
-                w={{
-                  base: '100vw',
-                  lg: `calc(100vw - ${sideBarWidth}px)`,
-                }}
-              >
-                <Box
-                  w={'100%'}
-                  overflowX="auto"
-                  className={styles.tableContent}
-                >
-                  <Table
-                    onRowClick={openDetailModal}
-                    columns={taskColumns}
-                    data={displayData ?? []}
-                    onRowHover={true}
-                  />
-                </Box>
+              <Box w={'100%'} overflowX="auto" className={styles.tableContent}>
+                <Table
+                  onRowClick={openDetailModal}
+                  columns={taskColumns}
+                  data={displayData ?? []}
+                  onRowHover={true}
+                  isLoading={isLoading}
+                  isRefetching={isRefetching}
+                  pageSize={filter.maxResultCount}
+                />
               </Box>
-            </EmptyWrapper>
-            <HStack
-              p={['20px 30px 20px 30px', '0px 30px 20px 30px']}
-              justifyContent={['center', 'space-between']}
-              borderBottom="1px"
-              borderColor="gray.200"
-              flexWrap="wrap"
-            >
-              <HStack alignItems="center" spacing="6px" flexWrap="wrap">
-                <PageSize
-                  noOfRows={noOfRows}
-                  onChange={onPageSizeChange}
-                  value={filter.maxResultCount}
-                />
-                <Spacer w="12px" />
-                <ShowingItemText
-                  skipCount={filter.skipCount}
-                  maxResultCount={filter.maxResultCount}
-                  totalCount={data?.totalCount ?? 0}
-                />
-              </HStack>
-              <Pagination
-                total={data?.totalCount ?? 0}
-                pageSize={filter.maxResultCount}
-                current={currentPage}
-                onChange={onPageChange}
-                hideOnSinglePage
+            </Box>
+          </EmptyWrapper>
+          <HStack
+            p={['20px 30px 20px 30px', '0px 30px 20px 30px']}
+            justifyContent={['center', 'space-between']}
+            borderBottom="1px"
+            borderColor="gray.200"
+            flexWrap="wrap"
+          >
+            <HStack alignItems="center" spacing="6px" flexWrap="wrap">
+              <PageSize
+                noOfRows={noOfRows}
+                onChange={onPageSizeChange}
+                value={filter.maxResultCount}
+              />
+              <Spacer w="12px" />
+              <ShowingItemText
+                skipCount={filter.skipCount}
+                maxResultCount={filter.maxResultCount}
+                totalCount={data?.totalCount ?? 0}
               />
             </HStack>
-          </>
-        )}
+            <Pagination
+              total={data?.totalCount ?? 0}
+              pageSize={filter.maxResultCount}
+              current={currentPage}
+              onChange={onPageChange}
+              hideOnSinglePage
+            />
+          </HStack>
+        </>
       </Box>
       <ModalBoard
         isOpen={isOpen}

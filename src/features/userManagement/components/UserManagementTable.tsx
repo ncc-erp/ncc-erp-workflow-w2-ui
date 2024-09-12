@@ -11,7 +11,6 @@ import {
   InputGroup,
   InputRightElement,
   Spacer,
-  Spinner,
 } from '@chakra-ui/react';
 import { Table } from 'common/components/Table/Table';
 import { SortDirection, UserSortField } from 'common/enums';
@@ -171,35 +170,31 @@ export const UserManagementTable = () => {
             </InputGroup>
           </HStack>
         </HStack>
-        {isLoading ? (
-          <Center h="200px">
-            <Spinner mx="auto" speed="0.65s" thickness="3px" size="xl" />
-          </Center>
-        ) : (
-          <EmptyWrapper
-            isEmpty={!requests.length}
-            h="200px"
-            fontSize="xs"
-            message={'No request found!'}
+        <EmptyWrapper
+          isEmpty={!requests.length && !isLoading}
+          h="200px"
+          fontSize="xs"
+          message={'No request found!'}
+        >
+          <Box
+            p={{ base: '10px 24px 0px' }}
+            overflowX={'auto'}
+            w={{
+              base: `calc(100vw - ${sideBarWidth}px)`,
+              lg: `calc(100vw - ${sideBarWidth}px)`,
+              xs: 'max-content',
+            }}
           >
-            <Box
-              p={{ base: '10px 24px 0px' }}
-              overflowX={'auto'}
-              w={{
-                base: `calc(100vw - ${sideBarWidth}px)`,
-                lg: `calc(100vw - ${sideBarWidth}px)`,
-                xs: 'max-content'
-              }}
-            >
-              <Table
-                columns={userColumns}
-                data={requests}
-                sorting={sorting}
-                onSortingChange={setSorting}
-              />
-            </Box>
-          </EmptyWrapper>
-        )}
+            <Table
+              columns={userColumns}
+              data={requests}
+              sorting={sorting}
+              onSortingChange={setSorting}
+              isLoading={isLoading}
+              pageSize={filterUser.maxResultCount}
+            />
+          </Box>
+        </EmptyWrapper>
         <HStack
           p={{
             base: '0px 12px 20px 12px',

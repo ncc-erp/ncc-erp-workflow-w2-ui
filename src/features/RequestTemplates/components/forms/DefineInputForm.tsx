@@ -3,6 +3,7 @@ import {
   Button,
   Center,
   Checkbox,
+  Divider,
   FormControl,
   FormHelperText,
   FormLabel,
@@ -30,6 +31,7 @@ import {
   IUpdateInputFormParams,
   InputDefinition,
   PropertyDefinition,
+  Settings,
 } from 'models/request';
 import { useState } from 'react';
 
@@ -37,6 +39,7 @@ interface DefineInputFormProps {
   inputDefinition?: InputDefinition;
   requestId: string;
   onCloseModal: () => void;
+  settings: Settings;
 }
 
 interface FormParams {
@@ -47,6 +50,7 @@ const DefineInputForm = ({
   inputDefinition,
   onCloseModal,
   requestId,
+  settings,
 }: DefineInputFormProps) => {
   const { data: inputType } = useInputDefinition();
   const { mutateAsync: updateMutate } = useUpdateWorkflowInput();
@@ -78,6 +82,7 @@ const DefineInputForm = ({
       id: inputDefinition?.id || GUID_ID_DEFAULT_VALUE,
       workflowDefinitionId: requestId,
       propertyDefinitions: data.items,
+      settings,
     };
 
     await updateMutate(payload);
@@ -100,11 +105,11 @@ const DefineInputForm = ({
     return fields?.map((Field: PropertyDefinition, index: number) => {
       return (
         <>
-          <HStack alignItems="flex-end" key={Field?.name + index}>
+          <HStack alignItems="flex-end" key={Field?.name + index} mb={1}>
             <FormControl>
               <FormLabel fontSize={16} mb={1} fontWeight="normal">
                 Property Name
-                <FormHelperText mb={1} style={{ color: 'red' }} as="span">
+                <FormHelperText mb={1} as="span">
                   {' '}
                   *
                 </FormHelperText>
@@ -188,7 +193,12 @@ const DefineInputForm = ({
           </HStack>
           {items[index].isTitle && (
             <FormControl
-              style={{ display: 'flex', gap: '4px', alignItems: 'center' }}
+              style={{
+                display: 'flex',
+                gap: '4px',
+                alignItems: 'center',
+                marginBottom: '20px',
+              }}
             >
               <FormLabel
                 textAlign="center"
@@ -206,6 +216,7 @@ const DefineInputForm = ({
               />
             </FormControl>
           )}
+          <Divider my={1} />
         </>
       );
     });

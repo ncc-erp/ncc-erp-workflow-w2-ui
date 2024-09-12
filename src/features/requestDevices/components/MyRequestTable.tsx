@@ -8,7 +8,6 @@ import {
   InputGroup,
   InputRightElement,
   Spacer,
-  Spinner,
   Wrap,
   WrapItem,
 } from '@chakra-ui/react';
@@ -34,7 +33,7 @@ import { RequestSortField, RequestStatus, SortDirection } from 'common/enums';
 import { RowAction } from 'features/requestDevices/components/RowAction';
 import { useCurrentUser } from 'hooks/useCurrentUser';
 import { useIsAdmin } from 'hooks/useIsAdmin';
-import { FilterRequestParams, Request } from 'models/request';
+import { FilterRequestParams, Request, Settings } from 'models/request';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { appConfigState } from 'stores/appConfig';
@@ -47,7 +46,6 @@ import { EmptyWrapper } from 'common/components/EmptyWrapper';
 import { ModalConfirm } from 'common/components/ModalConfirm';
 import { AiOutlineReload } from 'react-icons/ai';
 import styles from './style.module.scss';
-import { renderColor } from 'utils/getColorTypeRequest';
 import OverflowText from 'common/components/OverflowText';
 import TextToolTip from 'common/components/textTooltip';
 
@@ -128,6 +126,16 @@ export const MyRequestTable = () => {
       header: () => <Box textAlign="center">Title</Box>,
       enableSorting: false,
       cell: (info) => {
+        let colorCode: string = '#aabbcc';
+        if (
+          info.row.original.settings &&
+          typeof info.row.original.settings === 'object'
+        ) {
+          const settings = info.row.original.settings as Settings;
+          if (settings.color) {
+            colorCode = settings.color;
+          }
+        }
         return (
           <Box
             style={{
@@ -147,9 +155,7 @@ export const MyRequestTable = () => {
             <Box
               className={styles.titleTable}
               style={{
-                backgroundColor: renderColor(
-                  info.row.original.workflowDefinitionDisplayName
-                ),
+                backgroundColor: colorCode,
               }}
             >
               <OverflowText
@@ -422,64 +428,61 @@ export const MyRequestTable = () => {
             </WrapItem>
           </Wrap>
         </Box>
-        {isLoading || isRefetching ? (
-          <Center h="200px">
-            <Spinner mx="auto" speed="0.65s" thickness="3px" size="xl" />
-          </Center>
-        ) : (
-          <EmptyWrapper
-            isEmpty={!requests.length}
-            h="200px"
-            fontSize="xs"
-            message={'No request found!'}
+        <EmptyWrapper
+          isEmpty={!requests.length && !isRefetching && !isLoading}
+          h="200px"
+          fontSize="xs"
+          message={'No request found!'}
+        >
+          <Box
+            w={{
+              base: `calc(100vw - ${sideBarWidth}px)`,
+              lg: `calc(100vw - ${sideBarWidth}px)`,
+              xs: 'max-content',
+            }}
+            p={{ base: '10px 24px 0px' }}
           >
-            <Box
-              w={{
-                base: `calc(100vw - ${sideBarWidth}px)`,
-                lg: `calc(100vw - ${sideBarWidth}px)`,
-                xs: 'max-content',
-              }}
-              p={{ base: '10px 24px 0px' }}
-            >
-              <Table
-                columns={myRequestColumns}
-                data={requests}
-                sorting={sorting}
-                onSortingChange={setSorting}
-                onRowClick={onActionViewDetails}
-                onRowHover={true}
-                isHighlight={true}
-              />
-            </Box>
+            <Table
+              columns={myRequestColumns}
+              data={requests}
+              sorting={sorting}
+              onSortingChange={setSorting}
+              onRowClick={onActionViewDetails}
+              onRowHover={true}
+              isHighlight={true}
+              isLoading={isLoading}
+              isRefetching={isRefetching}
+              pageSize={filter.maxResultCount}
+            />
+          </Box>
 
-            <HStack
-              p="20px 30px 20px 30px"
-              justifyContent={['center', 'space-between']}
-              flexWrap="wrap"
-            >
-              <HStack alignItems="center" spacing="6px" flexWrap="wrap">
-                <PageSize
-                  noOfRows={noOfRows}
-                  onChange={onPageSizeChange}
-                  isLoading={isLoading || isRefetching}
-                />
-                <Spacer w="5px" />
-                <ShowingItemText
-                  skipCount={filter.skipCount}
-                  maxResultCount={filter.maxResultCount}
-                  totalCount={totalCount}
-                />
-              </HStack>
-              <Pagination
-                total={totalCount}
-                pageSize={filter.maxResultCount}
-                current={currentPage}
-                onChange={onPageChange}
-                hideOnSinglePage
+          <HStack
+            p="20px 30px 20px 30px"
+            justifyContent={['center', 'space-between']}
+            flexWrap="wrap"
+          >
+            <HStack alignItems="center" spacing="6px" flexWrap="wrap">
+              <PageSize
+                noOfRows={noOfRows}
+                onChange={onPageSizeChange}
+                isLoading={isLoading || isRefetching}
+              />
+              <Spacer w="5px" />
+              <ShowingItemText
+                skipCount={filter.skipCount}
+                maxResultCount={filter.maxResultCount}
+                totalCount={totalCount}
               />
             </HStack>
-          </EmptyWrapper>
-        )}
+            <Pagination
+              total={totalCount}
+              pageSize={filter.maxResultCount}
+              current={currentPage}
+              onChange={onPageChange}
+              hideOnSinglePage
+            />
+          </HStack>
+        </EmptyWrapper>
       </Box>
       <ModalConfirm
         isOpen={isOpen}

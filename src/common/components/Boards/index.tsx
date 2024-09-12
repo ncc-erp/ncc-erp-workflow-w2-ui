@@ -54,7 +54,6 @@ import { isValidJSON } from 'utils';
 import { useClearCacheTask } from './useClearCacheTask';
 import { useNavigate } from 'react-router';
 import { useMediaQuery } from 'hooks/useMediaQuery';
-import { renderColor } from 'utils/getColorTypeRequest';
 import TextToolTip from '../textTooltip';
 
 const fadeIn = keyframes`
@@ -80,6 +79,7 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
     isLoading: loadPending,
     fetchNextPage: fetchNextPagePending,
     refetch: refetchPending,
+    isRefetching: isRefetchingPending,
     hasNextPage: hasNextPagePending,
     isFetchingNextPage: isFetchingNextPagePending,
   } = useGetAllTask({ ...filter }, TaskStatus.Pending);
@@ -89,6 +89,7 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
     isLoading: loadApproved,
     fetchNextPage: fetchNextPageApproved,
     refetch: refetchApproved,
+    isRefetching: isRefetchingApproved,
     hasNextPage: hasNextPageApproved,
     isFetchingNextPage: isFetchingNextPageApproved,
   } = useGetAllTask({ ...filter }, TaskStatus.Approved);
@@ -98,6 +99,7 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
     isLoading: loadRejected,
     fetchNextPage: fetchNextPageRejected,
     refetch: refetchRejected,
+    isRefetching: isRefetchingRejected,
     hasNextPage: hasNextPageRejected,
     isFetchingNextPage: isFetchingNextPageRejected,
   } = useGetAllTask({ ...filter }, TaskStatus.Rejected);
@@ -504,7 +506,10 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
                       {!loadingStates[ind].value &&
                       !loadPending &&
                       !loadApproved &&
-                      !loadRejected ? (
+                      !loadRejected &&
+                      !isRefetchingPending &&
+                      !isRefetchingApproved &&
+                      !isRefetchingRejected ? (
                         el.map((item, index) => {
                           const isDisabled =
                             +item.status !== +TaskStatus.Pending ||
@@ -665,9 +670,8 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
                                       <div
                                         className={styles.title}
                                         style={{
-                                          backgroundColor: renderColor(
-                                            item.name
-                                          ),
+                                          backgroundColor:
+                                            item?.settings?.color ?? '#aabbcc',
                                         }}
                                       >
                                         {item.name}

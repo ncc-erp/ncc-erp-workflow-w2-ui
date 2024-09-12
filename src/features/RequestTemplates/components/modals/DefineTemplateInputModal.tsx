@@ -1,5 +1,6 @@
 import {
   Divider,
+  Grid,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -7,14 +8,18 @@ import {
   ModalHeader,
   ModalOverlay,
 } from '@chakra-ui/react';
-import { InputDefinition } from 'models/request';
+import { InputDefinition, Settings } from 'models/request';
 import DefineInputForm from '../forms/DefineInputForm';
 import styles from '../style.module.scss';
+import { ColorSettingForm } from '../forms/ColorSettingForm';
+import { useEffect, useState } from 'react';
+import ExportImportJson from '../ExportImportJson';
 interface DefineTemplateInputModalProps {
   isOpen: boolean;
   requestId: string;
   onClose: () => void;
   inputDefinition?: InputDefinition;
+  workflowName: string;
 }
 
 export const DefineTemplateInputModal = ({
@@ -22,12 +27,44 @@ export const DefineTemplateInputModal = ({
   onClose,
   inputDefinition,
   requestId,
+  workflowName,
 }: DefineTemplateInputModalProps) => {
+  const colorCode = '#aabbcc';
+  const [colorSettings, setColorSettings] = useState<Settings>({
+    color: '#aabbcc',
+  });
+  const onColorSubmit = (color: string) => {
+    setColorSettings({ color: color ?? colorCode });
+  };
+
+  useEffect(() => {
+    setColorSettings({ color: inputDefinition?.settings?.color ?? colorCode });
+  }, [inputDefinition]);
+
   return (
     <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={true}>
       <ModalOverlay />
       <ModalContent className={styles.customModal}>
-        <ModalHeader fontSize="md">Define Workflow Input</ModalHeader>
+        <Grid
+          templateColumns="1fr auto"
+          alignItems="center"
+          gap={4}
+          paddingRight={32}
+          marginTop={2}
+          marginBottom={2}
+        >
+          <ModalHeader fontSize="md">Define Workflow Input</ModalHeader>
+          <ExportImportJson
+            workflowName={workflowName}
+            requestId={requestId}
+            inputDefinition={inputDefinition}
+            onClose={onClose}
+          />
+          <ColorSettingForm
+            inputDefinition={inputDefinition}
+            OnColorSubmit={onColorSubmit}
+          />
+        </Grid>
         <Divider></Divider>
         <ModalCloseButton />
         <ModalBody className={styles.customModalBody}>
@@ -35,6 +72,7 @@ export const DefineTemplateInputModal = ({
             requestId={requestId}
             inputDefinition={inputDefinition}
             onCloseModal={onClose}
+            settings={colorSettings}
           />
         </ModalBody>
       </ModalContent>
