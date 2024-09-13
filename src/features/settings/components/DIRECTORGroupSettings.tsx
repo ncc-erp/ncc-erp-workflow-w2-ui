@@ -13,7 +13,7 @@ import {
   ISettingValue,
 } from 'models/settings';
 import { useFormik } from 'formik';
-import { validationGDVPSettingForm } from 'utils/validationSchema';
+import { validationDirectorSettingForm } from 'utils/validationSchema';
 import {
   useCreateSetting,
   useDeleteSetting,
@@ -34,7 +34,7 @@ const initialValues: ISettingValue = {
   email: '',
 };
 
-export const DIRECTORSettings = () => {
+export const DirectorSettings = () => {
   const { sideBarWidth } = useRecoilValue(appConfigState);
   const { data, isLoading, refetch } = useGetSettingList(initialFilter);
   const [updateSetting, setUpdateSetting] = useState({ ...initialValues });
@@ -46,7 +46,10 @@ export const DIRECTORSettings = () => {
     useCreateSetting();
   const { mutateAsync: deleteMutate } = useDeleteSetting();
   const settings = useMemo(
-    () => (data ? JSON.parse(data?.value ?? {}).items : []) as ISettingValue[],
+    () =>
+      (data?.value
+        ? JSON.parse(data?.value ?? {}).items
+        : []) as ISettingValue[],
     [data]
   );
   const [isUpdateStatus, setIsUpdateStatus] = useState(false);
@@ -104,7 +107,7 @@ export const DIRECTORSettings = () => {
 
   const formik = useFormik({
     initialValues,
-    validationSchema: validationGDVPSettingForm,
+    validationSchema: validationDirectorSettingForm,
     onSubmit: handleSubmit,
   });
 
@@ -165,6 +168,7 @@ export const DIRECTORSettings = () => {
       columnHelper.display({
         id: 'actions',
         enableSorting: false,
+        size: 50,
         header: () => <Center w="full">Actions</Center>,
         cell: (info) => (
           <Center>
@@ -184,12 +188,13 @@ export const DIRECTORSettings = () => {
   return (
     <>
       <Box p="0px 24px" fontSize="14" fontWeight="bold">
-        GDVP config
+        GDVP Group
       </Box>
       <Box p="0px 24px" fontSize="14" fontWeight="bold">
         <SettingForm
           formik={formik}
           isLoading={isLoading}
+          isCreating={isCreating}
           settingCode={ESettingCode.DIRECTOR}
           isUpdateStatus={isUpdateStatus}
           handleCancel={handleCancel}

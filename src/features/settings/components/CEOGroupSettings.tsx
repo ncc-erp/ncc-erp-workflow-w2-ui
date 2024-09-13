@@ -38,9 +38,13 @@ export const CEOSettings = () => {
   const { mutateAsync: createMutate, isLoading: isCreating } =
     useCreateSetting();
   const { mutateAsync: deleteMutate } = useDeleteSetting();
-  const settings = (
-    data ? JSON.parse(data?.value ?? {}).items : []
-  ) as ISettingValue[];
+  const settings = useMemo(
+    () =>
+      (data?.value
+        ? JSON.parse(data?.value ?? {}).items
+        : []) as ISettingValue[],
+    [data]
+  );
   const columnHelper = createColumnHelper<UserIdentity>();
 
   const handleSubmit = async ({ email }: ISettingValue) => {
@@ -107,12 +111,13 @@ export const CEOSettings = () => {
       columnHelper.accessor('email', {
         id: 'email',
         header: 'Email',
-        enableSorting: true,
+        enableSorting: false,
         cell: (info) => info.getValue(),
       }),
       columnHelper.display({
         id: 'actions',
         enableSorting: false,
+        size: 50,
         header: () => <Center w="full">Actions</Center>,
         cell: (info) => (
           <Center>
@@ -132,6 +137,7 @@ export const CEOSettings = () => {
         <SettingForm
           formik={formik}
           isLoading={isLoading}
+          isCreating={isCreating}
           settingCode={ESettingCode.CEO}
         ></SettingForm>
       </Box>

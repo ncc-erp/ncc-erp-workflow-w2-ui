@@ -38,9 +38,13 @@ export const ITSettings = () => {
   const { mutateAsync: createMutate, isLoading: isCreating } =
     useCreateSetting();
   const { mutateAsync: deleteMutate } = useDeleteSetting();
-  const settings = (
-    data ? JSON.parse(data?.value ?? {}).items : []
-  ) as ISettingValue[];
+  const settings = useMemo(
+    () =>
+      (data?.value
+        ? JSON.parse(data?.value ?? {}).items
+        : []) as ISettingValue[],
+    [data]
+  );
   const columnHelper = createColumnHelper<UserIdentity>();
 
   const handleSubmit = async ({ email }: ISettingValue) => {
@@ -112,6 +116,7 @@ export const ITSettings = () => {
       }),
       columnHelper.display({
         id: 'actions',
+        size: 50,
         enableSorting: false,
         header: () => <Center w="full">Actions</Center>,
         cell: (info) => (
@@ -132,6 +137,7 @@ export const ITSettings = () => {
         <SettingForm
           formik={formik}
           isLoading={isLoading}
+          isCreating={isCreating}
           settingCode={ESettingCode.IT}
         ></SettingForm>
       </Box>

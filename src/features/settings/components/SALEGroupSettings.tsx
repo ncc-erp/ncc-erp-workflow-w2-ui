@@ -32,15 +32,19 @@ const initialValues = {
   email: '',
 };
 
-export const SALESettings = () => {
+export const SaleSettings = () => {
   const { sideBarWidth } = useRecoilValue(appConfigState);
   const { data, isLoading, refetch } = useGetSettingList(initialFilter);
   const { mutateAsync: createMutate, isLoading: isCreating } =
     useCreateSetting();
   const { mutateAsync: deleteMutate } = useDeleteSetting();
-  const settings = (
-    data ? JSON.parse(data?.value ?? {}).items : []
-  ) as ISettingValue[];
+  const settings = useMemo(
+    () =>
+      (data?.value
+        ? JSON.parse(data?.value ?? {}).items
+        : []) as ISettingValue[],
+    [data]
+  );
   const columnHelper = createColumnHelper<UserIdentity>();
 
   const handleSubmit = async ({ email }: ISettingValue) => {
@@ -113,6 +117,7 @@ export const SALESettings = () => {
       }),
       columnHelper.display({
         id: 'actions',
+        size: 50,
         enableSorting: false,
         header: () => <Center w="full">Actions</Center>,
         cell: (info) => (
@@ -133,6 +138,7 @@ export const SALESettings = () => {
         <SettingForm
           formik={formik}
           isLoading={isLoading}
+          isCreating={isCreating}
           settingCode={ESettingCode.SALE}
         ></SettingForm>
       </Box>

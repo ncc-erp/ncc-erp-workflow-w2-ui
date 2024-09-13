@@ -1,9 +1,9 @@
 import Page from 'common/components/Page';
-import { DIRECTORSettings } from './components/DIRECTORGroupSettings';
 import { ITSettings } from './components/ITGroupSettings';
 import { HRSettings } from './components/HRGroupSettings';
 import { CEOSettings } from './components/CEOGroupSettings';
-import { SALESettings } from './components/SALEGroupSettings';
+import { SaleSettings } from './components/SaleGroupSettings';
+import { DirectorSettings } from './components/DirectorGroupSettings';
 
 const SettingsComponent = () => {
   return (
@@ -15,11 +15,11 @@ const SettingsComponent = () => {
         <Page.HeaderRight />
       </Page.Header>
       <Page.Body>
-        <DIRECTORSettings />
+        <DirectorSettings />
         <ITSettings />
         <HRSettings />
         <CEOSettings />
-        <SALESettings />
+        <SaleSettings />
       </Page.Body>
     </Page>
   );

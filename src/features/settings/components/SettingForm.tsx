@@ -6,6 +6,7 @@ import { ESettingCode, ISettingValue } from 'models/settings';
 interface SettingFormProps {
   formik: FormikProps<ISettingValue>;
   isLoading: boolean;
+  isCreating: boolean;
   settingCode: ESettingCode;
   isUpdateStatus?: boolean;
   handleCancel?: () => void;
@@ -14,6 +15,7 @@ interface SettingFormProps {
 export const SettingForm = ({
   formik,
   isLoading,
+  isCreating,
   settingCode,
   isUpdateStatus,
   handleCancel,
@@ -102,7 +104,7 @@ export const SettingForm = ({
           fontSize="sm"
           fontWeight="medium"
           minW="70"
-          isLoading={isLoading}
+          isLoading={isLoading || isCreating}
         >
           {isUpdateStatus ? 'Edit' : 'Add'}
         </Button>

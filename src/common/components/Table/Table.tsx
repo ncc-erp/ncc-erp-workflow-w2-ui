@@ -65,6 +65,10 @@ export const Table = <D,>({
     columns,
     manualSorting: true,
     debugTable: true,
+    defaultColumn: {
+      size: 0,
+      minSize: 0,
+    },
     enableSortingRemoval: false,
     state: {
       sorting,
@@ -94,10 +98,18 @@ export const Table = <D,>({
         {table.getHeaderGroups().map((headerGroup) => (
           <Tr key={headerGroup.id} bg={theme.colors.borderColor}>
             {headerGroup.headers.map((header, index) => {
-              const isWorkflowDefinitionDisplayName =
-                header.id === 'workflowDefinitionDisplayName';
-              const headerWidth = '20%';
-              const headerLoadingWidth = '35%';
+              const DEFAULT_COLUMN_LOADING_WIDTH = '35%';
+
+              const getThWidth = () => {
+                const columnCustomSize = header.getSize();
+                return isLoading
+                  ? columnCustomSize > 0
+                    ? columnCustomSize
+                    : DEFAULT_COLUMN_LOADING_WIDTH
+                  : columnCustomSize > 0
+                  ? columnCustomSize
+                  : 'auto';
+              };
 
               return (
                 <Th
@@ -117,11 +129,7 @@ export const Table = <D,>({
                   background="secondaryColor"
                   textAlign="center"
                   style={{
-                    width: isWorkflowDefinitionDisplayName
-                      ? headerWidth
-                      : isLoading
-                      ? headerLoadingWidth
-                      : 'auto',
+                    width: getThWidth(),
                   }}
                   whiteSpace={['normal', 'normal', 'normal', 'nowrap']}
                   cursor={header.column.getCanSort() ? 'pointer' : 'initial'}

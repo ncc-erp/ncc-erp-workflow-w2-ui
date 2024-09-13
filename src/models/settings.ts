@@ -28,9 +28,9 @@ export interface IFilterSettingParams {
 }
 
 export enum ESettingCode {
-  DIRECTOR = 'GDVP',
+  DIRECTOR = 'Director',
   CEO = 'CEO',
-  SALE = 'SALE',
+  SALE = 'Sale',
   IT = 'IT',
   HR = 'HR',
 }
