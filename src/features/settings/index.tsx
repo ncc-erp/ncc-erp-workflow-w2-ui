@@ -2,8 +2,8 @@ import Page from 'common/components/Page';
 import { ITSettings } from './components/ITGroupSettings';
 import { HRSettings } from './components/HRGroupSettings';
 import { CEOSettings } from './components/CEOGroupSettings';
-import { SaleSettings } from './components/SaleGroupSettings';
-import { DirectorSettings } from './components/DirectorGroupSettings';
+import { DirectorSettings } from './components/Director-Group-Settings';
+import { SaleSettings } from './components/Sale-Group-Settings';
 
 const SettingsComponent = () => {
   return (
