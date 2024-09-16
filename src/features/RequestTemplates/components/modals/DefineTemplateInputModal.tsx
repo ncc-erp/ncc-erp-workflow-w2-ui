@@ -38,7 +38,6 @@ export const DefineTemplateInputModal = ({
 
     setUpdatedInputDefinition((prevDefinition) => {
       if (!prevDefinition) return undefined;
-      console.log('prevDefinition', prevDefinition);
 
       return {
         ...prevDefinition,
