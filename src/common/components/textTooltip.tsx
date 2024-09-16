@@ -18,6 +18,7 @@ const TextToolTip = ({
   type,
   width,
   place = 'bottom',
+  ...props
 }: TextToolTipProps) => {
   const [isTooltipVisible, setIsTooltipVisible] = useState<boolean>(
     type === 'LIST'
@@ -66,7 +67,7 @@ const TextToolTip = ({
   }, [id, title]);
 
   return (
-    <Box style={width ? { width: width } : { flex: 1 }}>
+    <Box style={width ? { width: width } : { flex: 1 }} {...props}>
       <Text
         ref={textRef}
         fontWeight={'normal'}

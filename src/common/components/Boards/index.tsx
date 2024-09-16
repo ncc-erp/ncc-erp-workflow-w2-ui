@@ -483,6 +483,7 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
           <Box
             className={styles.container}
             p={isLargeScreen ? '10px 24px' : '10px 3px'}
+            data-testid="board-view"
           >
             {Object.values(state).map((el, ind) => (
               <Droppable key={ind} droppableId={`${ind}`}>
@@ -500,7 +501,8 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
                       {getQuantityTasks(ind)}
                     </div>
 
-                    <Box className={styles.columnContent}>
+                    <Box className={styles.columnContent} 
+                    data-testid="board-col">
                       {!loadingStates[ind].value &&
                       !loadPending &&
                       !loadApproved &&
@@ -537,6 +539,7 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
                                   }}
                                 >
                                   <Box
+                                    data-testid="board-item"
                                     animation={`${fadeIn} 1s cubic-bezier(0.390, 0.575, 0.565, 1.000)`}
                                     className={`${styles.item} ${
                                       ind === BoardColumnStatus.Pending
@@ -558,6 +561,7 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
                                     >
                                       <Box style={{ flex: 1 }}>
                                         <TextToolTip
+                                          data-testid="board-item-title"
                                           maxLines={1}
                                           title={item.title}
                                           id={formatShortId(item.id)}
