@@ -140,16 +140,8 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
         header: () => <Box textAlign="center">Title</Box>,
         enableSorting: false,
         cell: (info) => {
-          let colorCode: string = '#aabbcc';
-          if (
-            info.row.original.settings &&
-            typeof info.row.original.settings === 'object'
-          ) {
-            const settings = info.row.original.settings as Settings;
-            if (settings.color) {
-              colorCode = settings.color;
-            }
-          }
+          const { color = '#aabbcc', titleTemplate = '' } =
+            (info.row.original.settings as Settings) || {};
           return (
             <>
               <Box
@@ -162,7 +154,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
                 }}
               >
                 <TextToolTip
-                  title={info.row.original.title || ''}
+                  title={titleTemplate}
                   maxLines={1}
                   type="LIST"
                   place="top"
@@ -171,7 +163,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
                 <Box
                   className={styles.titleBoard}
                   style={{
-                    backgroundColor: colorCode,
+                    backgroundColor: color,
                   }}
                 >
                   <OverflowText text={info.row.original.name} maxLines={1} />

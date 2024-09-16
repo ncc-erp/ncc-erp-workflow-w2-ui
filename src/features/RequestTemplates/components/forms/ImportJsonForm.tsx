@@ -6,29 +6,21 @@ import {
   ModalHeader,
   Text,
 } from '@chakra-ui/react';
-import {
-  useRequestTemplates,
-  useUpdateWorkflowInput,
-} from 'api/apiHooks/requestHooks';
 import { toast } from 'common/components/StandaloneToast';
+import { IJsonObject } from 'models/request';
 import { useState, ChangeEvent } from 'react';
-import { GUID_ID_DEFAULT_VALUE } from 'common/constants';
-import { IUpdateInputFormParams } from 'models/request';
 
 interface ImportJsonFormProps {
   onCloseModal: () => void;
   id: string | undefined;
-  workflowDefinitionId: string;
+  onChangeData: (jsonObject: IJsonObject) => void;
 }
 
 const ImportJsonForm = ({
   onCloseModal,
-  id,
-  workflowDefinitionId,
+  onChangeData,
 }: ImportJsonFormProps) => {
   const [importedData, setImportedData] = useState<string>('');
-  const { mutateAsync: updateMutate } = useUpdateWorkflowInput();
-  const { refetch } = useRequestTemplates();
 
   const handleImport = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -54,7 +46,6 @@ const ImportJsonForm = ({
   };
 
   const onSubmit = async () => {
-    if (!id) return;
     const defaultKeys = ['settings', 'propertyDefinitions'];
     const jsonObject = JSON.parse(importedData);
     const keysOfData = Object.keys(jsonObject);
@@ -71,20 +62,12 @@ const ImportJsonForm = ({
       return;
     }
     try {
-      const payload: IUpdateInputFormParams = {
-        id: id || GUID_ID_DEFAULT_VALUE,
-        workflowDefinitionId: workflowDefinitionId,
-        propertyDefinitions: jsonObject?.propertyDefinitions,
-        settings: jsonObject?.settings,
-      };
-
-      await updateMutate(payload);
-      refetch();
       toast({
         description: 'Import workflow input data successfully!',
         status: 'success',
       });
       onCloseModal();
+      onChangeData(jsonObject);
     } catch (error) {
       console.log(error);
     }

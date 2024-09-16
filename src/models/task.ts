@@ -31,6 +31,7 @@ export interface ITask {
 
 export interface ISettings {
   color: string;
+  titleTemplate: string;
 }
 
 export interface IStakeHolder {
