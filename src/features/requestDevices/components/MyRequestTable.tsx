@@ -111,11 +111,12 @@ export const MyRequestTable = () => {
       value: '',
       label: 'All types',
     };
-
-    const options = requestTemplates.map(({ definitionId, displayName }) => ({
-      value: definitionId,
-      label: displayName,
-    }));
+    const options = requestTemplates
+      .filter(({ isPublished }) => isPublished)
+      .map(({ definitionId, displayName }) => ({
+        value: definitionId,
+        label: displayName,
+      }));
 
     return [defaultOptions, ...options];
   }, [requestTemplates]);
