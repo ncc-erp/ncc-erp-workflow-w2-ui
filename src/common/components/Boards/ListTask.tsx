@@ -46,8 +46,8 @@ import styles from './style.module.scss';
 import { useClearCacheTask } from './useClearCacheTask';
 import { WorkflowModal } from 'common/components/WorkflowModal';
 import OverflowText from '../OverflowText';
-import { renderColor } from 'utils/getColorTypeRequest';
 import TextToolTip from '../textTooltip';
+import { Settings } from 'models/request';
 
 interface Props {
   filters: FilterTasks;
@@ -140,6 +140,16 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
         header: () => <Box textAlign="center">Title</Box>,
         enableSorting: false,
         cell: (info) => {
+          let colorCode: string = '#aabbcc';
+          if (
+            info.row.original.settings &&
+            typeof info.row.original.settings === 'object'
+          ) {
+            const settings = info.row.original.settings as Settings;
+            if (settings.color) {
+              colorCode = settings.color;
+            }
+          }
           return (
             <>
               <Box
@@ -161,7 +171,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
                 <Box
                   className={styles.titleBoard}
                   style={{
-                    backgroundColor: renderColor(info.row.original.name),
+                    backgroundColor: colorCode,
                   }}
                 >
                   <OverflowText text={info.row.original.name} maxLines={1} />

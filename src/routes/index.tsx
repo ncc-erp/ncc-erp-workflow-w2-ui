@@ -13,6 +13,7 @@ import LoginCallback from 'features/auth/pages/LoginCallback';
 import RequestTemplates from 'features/RequestTemplates';
 import UserManagement from 'features/userManagement';
 import Tasks from 'features/Tasks';
+import SettingsComponent from 'features/settings';
 
 const NotFound = lazy(() => import('common/components/NotFound'));
 const routeList: RouteObject[] = [
@@ -61,6 +62,18 @@ const routeList: RouteObject[] = [
             element: (
               <WrapperRouteComponent>
                 <UserManagement />
+              </WrapperRouteComponent>
+            ),
+          },
+          {
+            index: true,
+            element: <Navigate to="settings" />,
+          },
+          {
+            path: 'settings',
+            element: (
+              <WrapperRouteComponent>
+                <SettingsComponent />
               </WrapperRouteComponent>
             ),
           },

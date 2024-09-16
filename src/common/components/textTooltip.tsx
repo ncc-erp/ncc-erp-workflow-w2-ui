@@ -29,20 +29,14 @@ const TextToolTip = ({
   useEffect(() => {
     const checkOverflow = () => {
       if (textRef.current) {
-        const lineHeight = parseFloat(
-          window.getComputedStyle(textRef.current).lineHeight
-        );
-
-        const currentLines = Math.ceil(
-          textRef.current.scrollHeight / lineHeight
-        );
-
-        if (currentLines > maxLines) {
-          textRef.current.style.maxHeight = `${maxLines * lineHeight}px`;
-          textRef.current.style.overflowY = 'hidden';
+        if (
+          textRef.current.offsetHeight < textRef.current.scrollHeight ||
+          textRef.current.offsetWidth < textRef.current.scrollWidth
+        ) {
+          setIsTooltipVisible(true);
+        } else {
+          setIsTooltipVisible(false);
         }
-
-        setIsTooltipVisible(currentLines > maxLines);
       }
     };
 
@@ -67,7 +61,12 @@ const TextToolTip = ({
   }, [id, title]);
 
   return (
-    <Box style={width ? { width: width } : { flex: 1 }} {...props}>
+    <Box
+      style={
+        width ? { width: width } : { flex: 1, display: 'flex', width: '100%' }
+      }
+      {...props}
+    >
       <Text
         ref={textRef}
         fontWeight={'normal'}
@@ -79,8 +78,12 @@ const TextToolTip = ({
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
                 fontWeight: 600,
-                display: '-webkit-box',
+                display: 'inline-block',
                 WebkitBoxOrient: 'vertical',
+                flex: 1,
+                width: 0,
+                whiteSpace: 'nowrap',
+                margin: 0,
               }
             : {
                 overflow: 'hidden',

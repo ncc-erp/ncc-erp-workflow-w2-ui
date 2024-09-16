@@ -23,7 +23,11 @@ export const useUpdate = <T, D, U>(
   const axios = useAxios();
 
   const mutate = async () => {
-    const data: U = await axios.put(`${url}/${params}`, body, config);
+    const data: U = await axios.put(
+      `${params ? url + '/' + params : url}`,
+      body,
+      config
+    );
     return data;
   };
 
@@ -81,11 +85,11 @@ export const useGetListByPost = <T, D = object>(
   return useQuery(key, () => getData(), options);
 };
 
-export const useDelete = (url: string) => {
+export const useDelete = (url: string, mergeParams: boolean = false) => {
   const axios = useAxios();
 
   const mutate = async (params: string) => {
-    await axios.delete(`${url}/${params}`);
+    await axios.delete(`${url}${mergeParams ? '?' + params : '/' + params}`);
   };
 
   return useMutation(mutate);

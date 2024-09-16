@@ -8,9 +8,11 @@ import {
   ModalHeader,
   ModalOverlay,
 } from '@chakra-ui/react';
-import { InputDefinition } from 'models/request';
+import { InputDefinition, Settings } from 'models/request';
 import DefineInputForm from '../forms/DefineInputForm';
 import styles from '../style.module.scss';
+import { ColorSettingForm } from '../forms/ColorSettingForm';
+import { useEffect, useState } from 'react';
 import ExportImportJson from '../ExportImportJson';
 interface DefineTemplateInputModalProps {
   isOpen: boolean;
@@ -27,6 +29,18 @@ export const DefineTemplateInputModal = ({
   requestId,
   workflowName,
 }: DefineTemplateInputModalProps) => {
+  const colorCode = '#aabbcc';
+  const [colorSettings, setColorSettings] = useState<Settings>({
+    color: '#aabbcc',
+  });
+  const onColorSubmit = (color: string) => {
+    setColorSettings({ color: color ?? colorCode });
+  };
+
+  useEffect(() => {
+    setColorSettings({ color: inputDefinition?.settings?.color ?? colorCode });
+  }, [inputDefinition]);
+
   return (
     <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={true}>
       <ModalOverlay />
@@ -46,6 +60,10 @@ export const DefineTemplateInputModal = ({
             inputDefinition={inputDefinition}
             onClose={onClose}
           />
+          <ColorSettingForm
+            inputDefinition={inputDefinition}
+            OnColorSubmit={onColorSubmit}
+          />
         </Grid>
         <Divider></Divider>
         <ModalCloseButton />
@@ -54,6 +72,7 @@ export const DefineTemplateInputModal = ({
             requestId={requestId}
             inputDefinition={inputDefinition}
             onCloseModal={onClose}
+            settings={colorSettings}
           />
         </ModalBody>
       </ModalContent>

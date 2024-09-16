@@ -26,6 +26,11 @@ export interface ITask {
   otherActionSignals?: IOtherActionSignals[];
   description?: string;
   authorName?: string;
+  settings?: ISettings;
+}
+
+export interface ISettings {
+  color: string;
 }
 
 export interface IStakeHolder {

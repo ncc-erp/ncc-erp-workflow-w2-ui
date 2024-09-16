@@ -461,6 +461,7 @@ exports[`Request My Requests Page 1`] = `
             </button>
             <div
               class="container css-ztxjyy"
+              data-testid="board-view"
             >
               <div
                 data-rfd-droppable-context-id=":r4:"
@@ -475,6 +476,7 @@ exports[`Request My Requests Page 1`] = `
                 </div>
                 <div
                   class="columnContent css-0"
+                  data-testid="board-col"
                 />
               </div>
               <div
@@ -490,6 +492,7 @@ exports[`Request My Requests Page 1`] = `
                 </div>
                 <div
                   class="columnContent css-0"
+                  data-testid="board-col"
                 />
               </div>
               <div
@@ -505,6 +508,7 @@ exports[`Request My Requests Page 1`] = `
                 </div>
                 <div
                   class="columnContent css-0"
+                  data-testid="board-col"
                 >
                   <div
                     class="css-11tqb05"
@@ -514,6 +518,7 @@ exports[`Request My Requests Page 1`] = `
                   >
                     <div
                       class="item itemRejected css-1lwj26n"
+                      data-testid="board-item"
                     >
                       <div
                         class="css-y3sjyp"
@@ -524,6 +529,7 @@ exports[`Request My Requests Page 1`] = `
                         >
                           <div
                             class="css-0"
+                            data-testid="board-item-title"
                             style="flex: 1;"
                           >
                             <p

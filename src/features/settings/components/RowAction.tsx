@@ -1,27 +1,25 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
-  Icon,
-  IconButton,
   Menu,
   MenuButton,
-  MenuItem,
+  IconButton,
   MenuList,
+  MenuItem,
+  Icon,
   useColorModeValue,
 } from '@chakra-ui/react';
 import { ColorThemeMode } from 'common/constants';
-import { FaEye, FaRegMap } from 'react-icons/fa';
-import { RiDeleteBin6Fill, RiSettings4Fill } from 'react-icons/ri';
+import { RiSettings4Fill, RiEdit2Fill, RiDeleteBin6Fill } from 'react-icons/ri';
 
 interface RowActionProps {
-  onDefineInput: () => void;
+  onEdit?: () => void;
   onDelete: () => void;
-  onViewWorkflow: () => void;
+  disableDeleteButton?: boolean;
 }
 
 export const RowAction = ({
+  onEdit,
   onDelete,
-  onDefineInput,
-  onViewWorkflow,
+  disableDeleteButton,
 }: RowActionProps) => {
   const bg = useColorModeValue(ColorThemeMode.LIGHT, ColorThemeMode.DARK);
   const color = useColorModeValue(ColorThemeMode.DARK, ColorThemeMode.LIGHT);
@@ -34,27 +32,24 @@ export const RowAction = ({
         variant="ghost"
         size="sm"
         icon={<Icon color="gray.500" fontSize="lg" as={RiSettings4Fill} />}
-      />
+      >
+        Actions
+      </MenuButton>
       <MenuList minW="100px" bg={bg}>
+        {onEdit && (
+          <MenuItem color={color} display="flex" gap="12px" onClick={onEdit}>
+            <Icon color="gray.500" as={RiEdit2Fill} />
+            Edit
+          </MenuItem>
+        )}
+
         <MenuItem
           color={color}
           display="flex"
           gap="12px"
-          onClick={onDefineInput}
+          onClick={onDelete}
+          isDisabled={disableDeleteButton}
         >
-          <Icon color="gray.500" as={FaEye} />
-          Define Input
-        </MenuItem>
-        <MenuItem
-          color={color}
-          display="flex"
-          gap="12px"
-          onClick={onViewWorkflow}
-        >
-          <Icon color="gray.500" as={FaRegMap} />
-          Edit Workflow
-        </MenuItem>
-        <MenuItem color={color} display="flex" gap="12px" onClick={onDelete}>
           <Icon color="gray.500" as={RiDeleteBin6Fill} />
           Delete
         </MenuItem>
