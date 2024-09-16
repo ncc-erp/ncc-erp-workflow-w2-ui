@@ -162,6 +162,8 @@ export const HRSettings = () => {
               columns={userColumns}
               data={settings}
               isLoading={isLoading}
+              isHighlight={true}
+              onRowHover={true}
             />
           </Box>
         </EmptyWrapper>

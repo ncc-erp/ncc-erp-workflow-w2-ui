@@ -510,6 +510,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
                   columns={taskColumns}
                   data={displayData ?? []}
                   onRowHover={true}
+                  isHighlight={true}
                   isLoading={isLoading}
                   isRefetching={isRefetching}
                   pageSize={filter.maxResultCount}
