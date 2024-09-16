@@ -5,41 +5,46 @@ import debounce from 'lodash.debounce';
 import { TextField } from 'common/components/TextField';
 
 interface SettingFormProps {
-  OnSettingsSubmit: (colorCode: string, title: string) => void;
+  onSubmitSettings: (colorCode: string, title: string) => void;
   inputDefinition?: InputDefinition;
 }
 
 export const SettingForm = ({
   inputDefinition,
-  OnSettingsSubmit,
+  onSubmitSettings,
 }: SettingFormProps) => {
-  const [colorCode, setColorCode] = useState<string>('#aabbcc');
-  const [nameRequest, setNameRequest] = useState<string>('Name request');
-  const [title, setTitle] = useState<string>('');
+  const [formState, setFormState] = useState({
+    colorCode: '#aabbcc',
+    nameRequest: 'Name request',
+    title: '',
+  });
 
   const debouncedSubmitRef = useRef(
     debounce(
-      (color: string, title: string) => OnSettingsSubmit(color, title),
+      (color: string, title: string) => onSubmitSettings(color, title),
       300
     )
   );
 
   useEffect(() => {
     debouncedSubmitRef.current = debounce((color: string, title: string) => {
-      OnSettingsSubmit(color, title);
+      onSubmitSettings(color, title);
     }, 300);
-  }, [OnSettingsSubmit]);
+  }, [onSubmitSettings]);
 
-  const handleColorChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newColor = event.target.value;
-    setColorCode(newColor);
-    debouncedSubmitRef.current(newColor, title);
-  };
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
 
-  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newTitle = event.target.value;
-    setTitle(newTitle);
-    debouncedSubmitRef.current(colorCode, newTitle);
+    setFormState((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+
+    if (name === 'colorCode') {
+      debouncedSubmitRef.current(value, formState.title);
+    } else if (name === 'title') {
+      debouncedSubmitRef.current(formState.colorCode, value);
+    }
   };
 
   useEffect(() => {
@@ -48,9 +53,11 @@ export const SettingForm = ({
       nameRequest = 'Name request',
     } = inputDefinition || {};
 
-    setColorCode(color);
-    setTitle(titleTemplate);
-    setNameRequest(nameRequest);
+    setFormState({
+      colorCode: color,
+      title: titleTemplate,
+      nameRequest: nameRequest,
+    });
   }, [inputDefinition]);
 
   return (
@@ -74,7 +81,7 @@ export const SettingForm = ({
         </FormLabel>
         <Box
           style={{
-            backgroundColor: colorCode,
+            backgroundColor: formState.colorCode,
             padding: '2px 9px',
             borderRadius: '12px',
             textAlign: 'center',
@@ -83,12 +90,13 @@ export const SettingForm = ({
             color: '#ffffff',
           }}
         >
-          {nameRequest}
+          {formState.nameRequest}
         </Box>
         <input
           type="color"
-          value={colorCode}
-          onChange={handleColorChange}
+          name="colorCode"
+          value={formState.colorCode}
+          onChange={handleChange}
           style={{
             backgroundColor: 'transparent',
             border: '1px solid #E2E8F0 ',
@@ -111,8 +119,9 @@ export const SettingForm = ({
           h="40px"
           w="500px"
           fontSize="sm"
-          value={title}
-          onChange={handleTitleChange}
+          name="title"
+          value={formState.title}
+          onChange={handleChange}
         />
       </FormControl>
     </FormControl>

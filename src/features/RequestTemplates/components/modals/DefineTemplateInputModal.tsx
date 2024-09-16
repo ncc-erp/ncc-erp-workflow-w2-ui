@@ -33,7 +33,7 @@ export const DefineTemplateInputModal = ({
     InputDefinition | undefined
   >(inputDefinition);
 
-  const onSettingsSubmit = (color: string, title: string) => {
+  const onSubmitSettings = (color: string, title: string) => {
     const settings: Settings = { color, titleTemplate: title };
 
     setUpdatedInputDefinition((prevDefinition) => {
@@ -90,7 +90,7 @@ export const DefineTemplateInputModal = ({
         <Divider></Divider>
         <SettingForm
           inputDefinition={updatedInputDefinition}
-          OnSettingsSubmit={onSettingsSubmit}
+          onSubmitSettings={onSubmitSettings}
         />
         <Divider></Divider>
         <ModalCloseButton />
