@@ -67,7 +67,7 @@ const CreateForm = ({ onCloseModal, onSuccess }: CreateFormProps) => {
       tag: data.tag as string,
     };
 
-    await createMutate(payload).then(() => {
+    await createMutate(payload).then((definitionId) => {
       refetch();
       setIsLoading(false);
       toast({
@@ -75,7 +75,7 @@ const CreateForm = ({ onCloseModal, onSuccess }: CreateFormProps) => {
         status: 'success',
       });
       onCloseModal();
-      onSuccess('3a115306-3d91-4b5c-e346-4e6dcbde5ac2');
+      onSuccess(definitionId);
     });
   };
 
