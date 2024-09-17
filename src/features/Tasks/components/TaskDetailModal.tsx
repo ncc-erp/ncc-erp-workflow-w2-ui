@@ -169,6 +169,7 @@ export const TaskDetailModal = ({
         console.error(error.response.data.error.message);
       });
     clear();
+    refetch();
     refetchRejected();
     refetchPending();
     setIsLoadingBtnApprove(false);
@@ -192,6 +193,7 @@ export const TaskDetailModal = ({
         console.error(error.response.data.error.message);
       });
     clear();
+    refetch();
     refetchApproved();
     refetchPending();
     setIsLoadingBtnApprove(false);
