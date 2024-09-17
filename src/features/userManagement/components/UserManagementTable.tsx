@@ -192,6 +192,8 @@ export const UserManagementTable = () => {
               onSortingChange={setSorting}
               isLoading={isLoading}
               pageSize={filterUser.maxResultCount}
+              onRowHover={true}
+              isHighlight={true}
             />
           </Box>
         </EmptyWrapper>
