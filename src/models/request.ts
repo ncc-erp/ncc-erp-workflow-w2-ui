@@ -61,7 +61,13 @@ export interface InputDefinition {
 }
 
 export interface Settings {
-  color?: string;
+  color: string;
+  titleTemplate: string;
+}
+
+export interface IJsonObject {
+  settings: Settings;
+  propertyDefinitions: PropertyDefinition[];
 }
 
 export interface PropertyDefinition {

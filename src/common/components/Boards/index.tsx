@@ -568,7 +568,9 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
                                         <TextToolTip
                                           data-testid="board-item-title"
                                           maxLines={1}
-                                          title={item.title}
+                                          title={
+                                            item?.settings?.titleTemplate || ''
+                                          }
                                           id={formatShortId(item.id)}
                                           type="BOARD"
                                         />

@@ -31,15 +31,13 @@ import {
   IUpdateInputFormParams,
   InputDefinition,
   PropertyDefinition,
-  Settings,
 } from 'models/request';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface DefineInputFormProps {
   inputDefinition?: InputDefinition;
   requestId: string;
   onCloseModal: () => void;
-  settings: Settings;
 }
 
 interface FormParams {
@@ -50,22 +48,23 @@ const DefineInputForm = ({
   inputDefinition,
   onCloseModal,
   requestId,
-  settings,
 }: DefineInputFormProps) => {
   const { data: inputType } = useInputDefinition();
   const { mutateAsync: updateMutate } = useUpdateWorkflowInput();
   const { refetch } = useRequestTemplates();
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [inputDefinitionUpdated, setInputDefinitionUpdated] =
+    useState(inputDefinition);
   const {
     register,
     handleSubmit,
-    watch,
     control,
+    reset,
     formState: { errors },
   } = useForm<FormParams>({
     criteriaMode: 'all',
     defaultValues: {
-      items: inputDefinition?.propertyDefinitions || [
+      items: inputDefinitionUpdated?.propertyDefinitions || [
         { name: '', type: 'Text', isRequired: false },
       ],
     },
@@ -75,14 +74,25 @@ const DefineInputForm = ({
     name: 'items',
   });
 
+  useEffect(() => {
+    if (inputDefinition) {
+      setInputDefinitionUpdated(inputDefinition);
+    }
+    reset({
+      items: inputDefinition?.propertyDefinitions || [
+        { name: '', type: 'Text', isRequired: false },
+      ],
+    });
+  }, [inputDefinition, reset]);
+
   const onSubmit = async (data: FormParams) => {
     setIsLoading(true);
 
     const payload: IUpdateInputFormParams = {
-      id: inputDefinition?.id || GUID_ID_DEFAULT_VALUE,
+      id: inputDefinitionUpdated?.id || GUID_ID_DEFAULT_VALUE,
       workflowDefinitionId: requestId,
       propertyDefinitions: data.items,
-      settings,
+      settings: inputDefinitionUpdated?.settings,
     };
 
     await updateMutate(payload);
@@ -100,7 +110,6 @@ const DefineInputForm = ({
     append({ name: '', isTitle: false, type: 'Text', isRequired: false });
   };
 
-  const items = watch('items');
   const renderFormContent = () => {
     return fields?.map((Field: PropertyDefinition, index: number) => {
       return (
@@ -167,20 +176,6 @@ const DefineInputForm = ({
                 />
               </Center>
             </FormControl>
-
-            <FormControl mb="20px">
-              <FormLabel
-                textAlign="center"
-                fontSize={16}
-                mb={1}
-                fontWeight="normal"
-              >
-                IsTitle
-              </FormLabel>
-              <Center h="40px" mr={3}>
-                <Checkbox size="lg" {...register(`items.${index}.isTitle`)} />
-              </Center>
-            </FormControl>
             <Button
               colorScheme="red"
               mb="20px"
@@ -191,31 +186,6 @@ const DefineInputForm = ({
               Remove
             </Button>
           </HStack>
-          {items[index].isTitle && (
-            <FormControl
-              style={{
-                display: 'flex',
-                gap: '4px',
-                alignItems: 'center',
-                marginBottom: '20px',
-              }}
-            >
-              <FormLabel
-                textAlign="center"
-                fontSize={16}
-                mb={1}
-                fontWeight="normal"
-              >
-                Title
-              </FormLabel>
-              <TextField
-                h="40px"
-                w="500px"
-                fontSize="sm"
-                {...register(`items.${index}.titleTemplate`)}
-              />
-            </FormControl>
-          )}
           <Divider my={1} />
         </>
       );
@@ -233,17 +203,17 @@ const DefineInputForm = ({
         <Button colorScheme="blue" onClick={onAddField}>
           Add Field
         </Button>
-        <Button
-          mt="14px"
-          h="50px"
-          type="submit"
-          isLoading={isLoading}
-          w="full"
-          colorScheme="gray"
-        >
-          Save
-        </Button>
       </VStack>
+      <Button
+        mt="14px"
+        h="50px"
+        type="submit"
+        isLoading={isLoading}
+        w="full"
+        colorScheme="gray"
+      >
+        Save
+      </Button>
     </form>
   );
 };
