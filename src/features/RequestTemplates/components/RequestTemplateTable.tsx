@@ -223,6 +223,8 @@ export const RequestTemplateTable = ({
             columns={myRequestColumns}
             data={items}
             isLoading={isLoading}
+            onRowHover={true}
+            isHighlight={true}
           />
         </Box>
       </EmptyWrapper>
