@@ -14,7 +14,7 @@ type SelectFieldFieldProps = SelectProps &
 export const SelectField = forwardRef(
   ({ error, label, options, ...inputProps }: SelectFieldFieldProps, ref) => {
     return (
-      <InputWrapper label={label} error={error}>
+      <InputWrapper name={inputProps.name} label={label} error={error}>
         <Select
           ref={ref}
           fontSize="sm"
