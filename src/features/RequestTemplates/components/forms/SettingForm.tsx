@@ -48,16 +48,15 @@ export const SettingForm = ({
   };
 
   useEffect(() => {
-    const {
-      settings: { color = '#aabbcc', titleTemplate = '' } = {},
-      nameRequest = 'Name request',
-    } = inputDefinition || {};
+    if (inputDefinition) {
+      const { settings, nameRequest } = inputDefinition;
 
-    setFormState({
-      colorCode: color,
-      title: titleTemplate,
-      nameRequest: nameRequest,
-    });
+      setFormState({
+        colorCode: settings?.color ?? '#aabbcc',
+        title: settings?.titleTemplate ?? '',
+        nameRequest: nameRequest ?? 'Name request',
+      });
+    }
   }, [inputDefinition]);
 
   return (

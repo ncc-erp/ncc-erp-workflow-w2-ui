@@ -32,18 +32,14 @@ export const DefineTemplateInputModal = ({
   const [updatedInputDefinition, setUpdatedInputDefinition] = useState<
     InputDefinition | undefined
   >(inputDefinition);
+  const [settings, setSettings] = useState<Settings>({
+    color: '#aabbcc',
+    titleTemplate: '',
+  });
 
   const onSubmitSettings = (color: string, title: string) => {
     const settings: Settings = { color, titleTemplate: title };
-
-    setUpdatedInputDefinition((prevDefinition) => {
-      if (!prevDefinition) return undefined;
-
-      return {
-        ...prevDefinition,
-        settings,
-      };
-    });
+    setSettings(settings);
   };
 
   useEffect(() => {
@@ -64,6 +60,7 @@ export const DefineTemplateInputModal = ({
       }
       return prevDefinition;
     });
+    setSettings(jsonObject?.settings);
   }, []);
 
   return (
@@ -98,6 +95,7 @@ export const DefineTemplateInputModal = ({
             requestId={requestId}
             inputDefinition={updatedInputDefinition}
             onCloseModal={onClose}
+            settingsToSet={settings}
           />
         </ModalBody>
       </ModalContent>

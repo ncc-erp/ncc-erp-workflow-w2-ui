@@ -47,7 +47,6 @@ import { useClearCacheTask } from './useClearCacheTask';
 import { WorkflowModal } from 'common/components/WorkflowModal';
 import OverflowText from '../OverflowText';
 import TextToolTip from '../textTooltip';
-import { Settings } from 'models/request';
 
 interface Props {
   filters: FilterTasks;
@@ -140,8 +139,9 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
         header: () => <Box textAlign="center">Title</Box>,
         enableSorting: false,
         cell: (info) => {
-          const { color = '#aabbcc', titleTemplate = '' } =
-            (info.row.original.settings as Settings) || {};
+          const { settings } = info.row.original;
+          const color: string = settings?.color || '#aabbcc';
+          const titleTemplate: string = settings?.titleTemplate || '';
           return (
             <>
               <Box

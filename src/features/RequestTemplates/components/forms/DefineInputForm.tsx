@@ -13,7 +13,7 @@ import {
 } from '@chakra-ui/react';
 import { SelectField } from 'common/components/SelectField';
 import { TextField } from 'common/components/TextField';
-import { useFieldArray, useForm } from 'react-hook-form';
+import { Controller, useFieldArray, useForm } from 'react-hook-form';
 
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -31,6 +31,7 @@ import {
   IUpdateInputFormParams,
   InputDefinition,
   PropertyDefinition,
+  Settings,
 } from 'models/request';
 import { useEffect, useState } from 'react';
 
@@ -38,6 +39,7 @@ interface DefineInputFormProps {
   inputDefinition?: InputDefinition;
   requestId: string;
   onCloseModal: () => void;
+  settingsToSet: Settings;
 }
 
 interface FormParams {
@@ -48,13 +50,12 @@ const DefineInputForm = ({
   inputDefinition,
   onCloseModal,
   requestId,
+  settingsToSet,
 }: DefineInputFormProps) => {
   const { data: inputType } = useInputDefinition();
   const { mutateAsync: updateMutate } = useUpdateWorkflowInput();
   const { refetch } = useRequestTemplates();
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [inputDefinitionUpdated, setInputDefinitionUpdated] =
-    useState(inputDefinition);
   const {
     register,
     handleSubmit,
@@ -64,7 +65,7 @@ const DefineInputForm = ({
   } = useForm<FormParams>({
     criteriaMode: 'all',
     defaultValues: {
-      items: inputDefinitionUpdated?.propertyDefinitions || [
+      items: inputDefinition?.propertyDefinitions || [
         { name: '', type: 'Text', isRequired: false },
       ],
     },
@@ -76,23 +77,28 @@ const DefineInputForm = ({
 
   useEffect(() => {
     if (inputDefinition) {
-      setInputDefinitionUpdated(inputDefinition);
+      reset({
+        items: inputDefinition?.propertyDefinitions || [
+          { name: '', type: 'Text', isRequired: false },
+        ],
+      });
     }
-    reset({
-      items: inputDefinition?.propertyDefinitions || [
-        { name: '', type: 'Text', isRequired: false },
-      ],
-    });
   }, [inputDefinition, reset]);
+
+  const isValidSettings = (settings: Settings) => {
+    return settings.titleTemplate.trim() !== '';
+  };
 
   const onSubmit = async (data: FormParams) => {
     setIsLoading(true);
 
     const payload: IUpdateInputFormParams = {
-      id: inputDefinitionUpdated?.id || GUID_ID_DEFAULT_VALUE,
+      id: inputDefinition?.id || GUID_ID_DEFAULT_VALUE,
       workflowDefinitionId: requestId,
       propertyDefinitions: data.items,
-      settings: inputDefinitionUpdated?.settings,
+      settings: isValidSettings(settingsToSet)
+        ? settingsToSet
+        : inputDefinition?.settings,
     };
 
     await updateMutate(payload);
@@ -107,7 +113,7 @@ const DefineInputForm = ({
   };
 
   const onAddField = () => {
-    append({ name: '', isTitle: false, type: 'Text', isRequired: false });
+    append({ name: '', type: 'Text', isRequired: false });
   };
 
   const renderFormContent = () => {
@@ -170,9 +176,16 @@ const DefineInputForm = ({
                 Required
               </FormLabel>
               <Center h="40px" mr={3}>
-                <Checkbox
-                  size="lg"
-                  {...register(`items.${index}.isRequired`)}
+                <Controller
+                  name={`items.${index}.isRequired`}
+                  control={control}
+                  render={({ field }) => (
+                    <Checkbox
+                      size="lg"
+                      isChecked={field.value}
+                      onChange={(e) => field.onChange(e.target.checked)}
+                    />
+                  )}
                 />
               </Center>
             </FormControl>
