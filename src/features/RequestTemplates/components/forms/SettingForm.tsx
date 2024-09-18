@@ -3,6 +3,8 @@ import { useEffect, useState, useRef } from 'react';
 import { InputDefinition } from 'models/request';
 import debounce from 'lodash.debounce';
 import { TextField } from 'common/components/TextField';
+import { ColorPicker } from 'antd';
+import { AggregationColor } from 'antd/es/color-picker/color';
 
 interface SettingFormProps {
   onSubmitSettings: (colorCode: string, title: string) => void;
@@ -32,18 +34,31 @@ export const SettingForm = ({
     }, 300);
   }, [onSubmitSettings]);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-
+  const handleColorChange = (color: string) => {
     setFormState((prevState) => ({
       ...prevState,
-      [name]: value,
+      colorCode: color,
     }));
+    debouncedSubmitRef.current(color, formState.title);
+  };
 
-    if (name === 'colorCode') {
-      debouncedSubmitRef.current(value, formState.title);
-    } else if (name === 'title') {
-      debouncedSubmitRef.current(formState.colorCode, value);
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const title = event.target.value;
+    setFormState((prevState) => ({
+      ...prevState,
+      title: title,
+    }));
+    debouncedSubmitRef.current(formState.colorCode, title);
+  };
+
+  const handleChange = (
+    event: React.ChangeEvent<HTMLInputElement> | AggregationColor
+  ) => {
+    if ('toHex' in event) {
+      const color = event.toHex();
+      handleColorChange(`#${color}`);
+    } else {
+      handleTitleChange(event as React.ChangeEvent<HTMLInputElement>);
     }
   };
 
@@ -91,17 +106,15 @@ export const SettingForm = ({
         >
           {formState.nameRequest}
         </Box>
-        <input
-          type="color"
-          name="colorCode"
+        <ColorPicker
           value={formState.colorCode}
           onChange={handleChange}
           style={{
-            backgroundColor: 'transparent',
-            border: '1px solid #E2E8F0 ',
             marginLeft: '10px',
             cursor: 'pointer',
+            borderColor: '#E2E8F0',
           }}
+          getPopupContainer={(trigger) => trigger}
         />
       </FormControl>
       <FormControl style={{ display: 'flex', alignItems: 'center' }}>
