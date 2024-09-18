@@ -209,11 +209,16 @@ const DefineInputForm = ({
     <form
       style={{ width: '100%', marginBottom: '20px' }}
       onSubmit={handleSubmit(onSubmit)}
+      data-testid="define-input-form"
     >
       <VStack spacing="14px" alignItems="flex-start">
         {renderFormContent()}
 
-        <Button colorScheme="blue" onClick={onAddField}>
+        <Button
+          colorScheme="blue"
+          onClick={onAddField}
+          data-testid="button-add-field"
+        >
           Add Field
         </Button>
       </VStack>

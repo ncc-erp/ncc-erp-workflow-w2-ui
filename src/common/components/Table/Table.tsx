@@ -44,6 +44,7 @@ interface TableProps<D> {
   isLoading?: boolean;
   isRefetching?: boolean;
   pageSize?: number;
+  dataTestId?: string;
 }
 
 const DEFAULT_SKELETON_AMOUNT = 5;
@@ -59,6 +60,7 @@ export const Table = <D,>({
   isLoading,
   isRefetching,
   pageSize,
+  dataTestId,
 }: TableProps<D>) => {
   const table = useReactTable({
     data,
@@ -230,6 +232,7 @@ export const Table = <D,>({
                   }
                 }}
                 animation={`${fadeIn} 1s cubic-bezier(0.390, 0.575, 0.565, 1.000)`}
+                data-testid={dataTestId}
               >
                 {row.getVisibleCells().map((cell) => {
                   return (

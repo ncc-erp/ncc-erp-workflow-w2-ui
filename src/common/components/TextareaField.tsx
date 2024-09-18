@@ -7,10 +7,10 @@ import {
 type TextareaFieldProps = TextareaProps & Omit<InputWrapperProps, 'children'>;
 
 export const TextareaField = forwardRef(
-  ({ error, label, ...inputProps }: TextareaFieldProps, ref) => {
+  ({ error, label, isRequired, ...inputProps }: TextareaFieldProps, ref) => {
     return (
-      <InputWrapper label={label} error={error}>
-        <Textarea ref={ref} placeholder="Content" size="sm" {...inputProps} />
+      <InputWrapper name={inputProps.name} isRequired={isRequired} label={label} error={error}>
+        <Textarea ref={ref} placeholder={label} size="sm" {...inputProps} />
       </InputWrapper>
     );
   }

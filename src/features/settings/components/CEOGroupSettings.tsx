@@ -156,6 +156,7 @@ export const CEOSettings = () => {
               lg: `calc(100vw - ${sideBarWidth}px)`,
               xs: 'max-content',
             }}
+            data-testid="ceo-group-settings-view"
           >
             <Table
               columns={userColumns}
@@ -163,6 +164,7 @@ export const CEOSettings = () => {
               isLoading={isLoading}
               isHighlight={true}
               onRowHover={true}
+              dataTestId="ceo-group-setting-item"
             />
           </Box>
         </EmptyWrapper>

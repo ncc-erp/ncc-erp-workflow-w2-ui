@@ -263,19 +263,20 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
                 ''
               )}
             </FormLabel>
-            <SearchableSelectField
-              name={fieldname}
-              control={control}
-              options={
-                (getOptions(Field?.type) as Array<option>) ?? [
-                  { value: '', label: '' },
-                ]
-              }
-              isRequired={Field?.isRequired}
-              value={formParams[fieldname] as string}
-              handleChange={handleSelectChangeValue}
-            />
-
+            <div data-testid={Field?.name}>
+              <SearchableSelectField
+                name={fieldname}
+                control={control}
+                options={
+                  (getOptions(Field?.type) as Array<option>) ?? [
+                    { value: '', label: '' },
+                  ]
+                }
+                isRequired={Field?.isRequired}
+                value={formParams[fieldname] as string}
+                handleChange={handleSelectChangeValue}
+              />
+            </div>
             <ErrorMessage
               errors={errors}
               name={fieldname}
@@ -405,15 +406,17 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
               render={({ field }) => {
                 formParams[fieldname] = field.value;
                 return (
-                  <DatePicker
-                    id={fieldname}
-                    autoComplete="off"
-                    className={styles.datePicker}
-                    onChange={field.onChange}
-                    selected={field.value as Date}
-                    dateFormat="dd/MM/yyyy"
-                    wrapperClassName={styles.wrapperCustom}
-                  />
+                  <div data-testid={Field?.name}>
+                    <DatePicker
+                      id={fieldname}
+                      autoComplete="off"
+                      className={styles.datePicker}
+                      onChange={field.onChange}
+                      selected={field.value as Date}
+                      dateFormat="dd/MM/yyyy"
+                      wrapperClassName={styles.wrapperCustom}
+                    />
+                  </div>
                 );
               }}
             />
@@ -452,15 +455,17 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
               render={({ field }) => {
                 formParams[fieldname] = field.value;
                 return (
-                  <MultiDatePicker
-                    multiple
-                    onChange={field.onChange}
-                    value={field.value}
-                    format="DD/MM/YYYY"
-                    plugins={[<Toolbar position="bottom" sort={['close']} />]}
-                    inputClass={styles.multiDatePicker}
-                    containerStyle={{ width: '100%' }}
-                  />
+                  <div data-testid={Field?.name}>
+                    <MultiDatePicker
+                      multiple
+                      onChange={field.onChange}
+                      value={field.value}
+                      format="DD/MM/YYYY"
+                      plugins={[<Toolbar position="bottom" sort={['close']} />]}
+                      inputClass={styles.multiDatePicker}
+                      containerStyle={{ width: '100%' }}
+                    />
+                  </div>
                 );
               }}
             />

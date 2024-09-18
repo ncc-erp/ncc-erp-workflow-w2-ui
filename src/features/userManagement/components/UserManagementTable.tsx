@@ -184,6 +184,7 @@ export const UserManagementTable = () => {
               lg: `calc(100vw - ${sideBarWidth}px)`,
               xs: 'max-content',
             }}
+            data-testid="list-user-manager-settings-view"
           >
             <Table
               columns={userColumns}
@@ -194,6 +195,7 @@ export const UserManagementTable = () => {
               pageSize={filterUser.maxResultCount}
               onRowHover={true}
               isHighlight={true}
+              dataTestId="user-manager-item"
             />
           </Box>
         </EmptyWrapper>
@@ -230,6 +232,7 @@ export const UserManagementTable = () => {
             current={currentPage}
             onChange={onPageChange}
             hideOnSinglePage
+            data-testid="pagination"
           />
         </HStack>
         {user && (
