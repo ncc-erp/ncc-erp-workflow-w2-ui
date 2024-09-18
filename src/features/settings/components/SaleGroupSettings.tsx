@@ -157,6 +157,7 @@ export const SaleSettings = () => {
               lg: `calc(100vw - ${sideBarWidth}px)`,
               xs: 'max-content',
             }}
+            data-testid="sale-group-settings-view"
           >
             <Table
               columns={userColumns}
@@ -164,6 +165,7 @@ export const SaleSettings = () => {
               isLoading={isLoading}
               isHighlight={true}
               onRowHover={true}
+              dataTestId="sale-group-setting-item"
             />
           </Box>
         </EmptyWrapper>

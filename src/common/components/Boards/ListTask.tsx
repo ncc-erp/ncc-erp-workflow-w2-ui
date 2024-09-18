@@ -480,6 +480,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
           top={'-40px'}
           icon={<AiOutlineReload />}
           onClick={() => refetch()}
+          data-testid="task-actions-menu-button"
         />
         <>
           <EmptyWrapper
@@ -495,6 +496,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
                 base: '100vw',
                 lg: `calc(100vw - ${sideBarWidth}px)`,
               }}
+              data-testid="list-tasks-view"
             >
               <Box w={'100%'} overflowX="auto" className={styles.tableContent}>
                 <Table
@@ -506,6 +508,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
                   isLoading={isLoading}
                   isRefetching={isRefetching}
                   pageSize={filter.maxResultCount}
+                  dataTestId="task-item"
                 />
               </Box>
             </Box>
@@ -536,6 +539,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
               current={currentPage}
               onChange={onPageChange}
               hideOnSinglePage
+              data-testid="pagination"
             />
           </HStack>
         </>
