@@ -156,6 +156,7 @@ export const ITSettings = () => {
               lg: `calc(100vw - ${sideBarWidth}px)`,
               xs: 'max-content',
             }}
+            data-testid="it-group-settings-view"
           >
             <Table
               columns={userColumns}
@@ -163,6 +164,7 @@ export const ITSettings = () => {
               isLoading={isLoading}
               isHighlight={true}
               onRowHover={true}
+              dataTestId="it-group-setting-item"
             />
           </Box>
         </EmptyWrapper>

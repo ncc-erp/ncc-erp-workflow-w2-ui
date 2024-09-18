@@ -218,6 +218,7 @@ export const RequestTemplateTable = ({
           }}
           p={{ base: '10px 24px 0px' }}
           paddingBottom={10}
+          data-testid="list-request-templates-view"
         >
           <Table
             columns={myRequestColumns}
@@ -225,6 +226,7 @@ export const RequestTemplateTable = ({
             isLoading={isLoading}
             onRowHover={true}
             isHighlight={true}
+            dataTestId="request-template-item"
           />
         </Box>
       </EmptyWrapper>

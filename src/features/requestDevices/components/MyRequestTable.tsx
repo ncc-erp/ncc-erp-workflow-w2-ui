@@ -151,6 +151,7 @@ export const MyRequestTable = () => {
               maxLines={1}
               type="LIST"
               place="top"
+              data-testid="short-title-tooltip"
             />
             <Box
               className={styles.titleTable}
@@ -373,6 +374,7 @@ export const MyRequestTable = () => {
                   onChange={(e) =>
                     !isLoading && !isRefetching && setTxtSearch(e.target.value)
                   }
+                  data-testid="search-input"
                 />
                 <InputRightElement width="40px">
                   <TbSearch />
@@ -441,6 +443,7 @@ export const MyRequestTable = () => {
               xs: 'max-content',
             }}
             p={{ base: '10px 24px 0px' }}
+            data-testid="my-requests-view"
           >
             <Table
               columns={myRequestColumns}
@@ -453,6 +456,7 @@ export const MyRequestTable = () => {
               isLoading={isLoading}
               isRefetching={isRefetching}
               pageSize={filter.maxResultCount}
+              dataTestId="my-request-item"
             />
           </Box>
 
@@ -480,6 +484,7 @@ export const MyRequestTable = () => {
               current={currentPage}
               onChange={onPageChange}
               hideOnSinglePage
+              data-testid="pagination"
             />
           </HStack>
         </EmptyWrapper>
