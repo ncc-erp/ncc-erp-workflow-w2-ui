@@ -85,10 +85,6 @@ const DefineInputForm = ({
     }
   }, [inputDefinition, reset]);
 
-  const isValidSettings = (settings: Settings) => {
-    return settings.titleTemplate.trim() !== '';
-  };
-
   const onSubmit = async (data: FormParams) => {
     setIsLoading(true);
 
@@ -96,9 +92,7 @@ const DefineInputForm = ({
       id: inputDefinition?.id || GUID_ID_DEFAULT_VALUE,
       workflowDefinitionId: requestId,
       propertyDefinitions: data.items,
-      settings: isValidSettings(settingsToSet)
-        ? settingsToSet
-        : inputDefinition?.settings,
+      settings: settingsToSet,
     };
 
     await updateMutate(payload);
