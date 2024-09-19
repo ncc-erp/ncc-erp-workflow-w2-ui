@@ -34,32 +34,19 @@ export const SettingForm = ({
     }, 300);
   }, [onSubmitSettings]);
 
-  const handleColorChange = (color: string) => {
-    setFormState((prevState) => ({
-      ...prevState,
-      colorCode: color,
-    }));
-    debouncedSubmitRef.current(color, formState.title);
-  };
-
-  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const title = event.target.value;
-    setFormState((prevState) => ({
-      ...prevState,
-      title: title,
-    }));
-    debouncedSubmitRef.current(formState.colorCode, title);
-  };
-
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement> | AggregationColor
   ) => {
-    if ('toHex' in event) {
-      const color = event.toHex();
-      handleColorChange(`#${color}`);
-    } else {
-      handleTitleChange(event as React.ChangeEvent<HTMLInputElement>);
-    }
+    setFormState((prevState) => {
+      const isColorChange = 'toHex' in event;
+      const newState = {
+        ...prevState,
+        colorCode: isColorChange ? `#${event.toHex()}` : prevState.colorCode,
+        title: !isColorChange ? event.target.value : prevState.title,
+      };
+      debouncedSubmitRef.current(newState.colorCode, newState.title);
+      return newState;
+    });
   };
 
   useEffect(() => {

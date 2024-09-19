@@ -36,11 +36,20 @@ export const DefineTemplateInputModal = ({
     color: '#aabbcc',
     titleTemplate: '',
   });
+  const [isChangedBySubmitSettings, setIsChangedBySubmitSettings] =
+    useState<boolean>(false);
 
   const onSubmitSettings = (color: string, title: string) => {
     const settings: Settings = { color, titleTemplate: title };
     setSettings(settings);
+    setIsChangedBySubmitSettings(true);
   };
+
+  useEffect(() => {
+    if (!isOpen) {
+      setIsChangedBySubmitSettings(false);
+    }
+  }, [isOpen]);
 
   useEffect(() => {
     setUpdatedInputDefinition(inputDefinition);
@@ -96,6 +105,7 @@ export const DefineTemplateInputModal = ({
             inputDefinition={updatedInputDefinition}
             onCloseModal={onClose}
             settingsToSet={settings}
+            isChangedBySubmitSettings={isChangedBySubmitSettings}
           />
         </ModalBody>
       </ModalContent>

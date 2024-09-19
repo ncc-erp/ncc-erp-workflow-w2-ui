@@ -40,6 +40,7 @@ interface DefineInputFormProps {
   requestId: string;
   onCloseModal: () => void;
   settingsToSet: Settings;
+  isChangedBySubmitSettings: boolean;
 }
 
 interface FormParams {
@@ -51,6 +52,7 @@ const DefineInputForm = ({
   onCloseModal,
   requestId,
   settingsToSet,
+  isChangedBySubmitSettings,
 }: DefineInputFormProps) => {
   const { data: inputType } = useInputDefinition();
   const { mutateAsync: updateMutate } = useUpdateWorkflowInput();
@@ -92,7 +94,9 @@ const DefineInputForm = ({
       id: inputDefinition?.id || GUID_ID_DEFAULT_VALUE,
       workflowDefinitionId: requestId,
       propertyDefinitions: data.items,
-      settings: settingsToSet,
+      settings: isChangedBySubmitSettings
+        ? settingsToSet
+        : inputDefinition?.settings,
     };
 
     await updateMutate(payload);
