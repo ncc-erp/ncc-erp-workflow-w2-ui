@@ -16,6 +16,8 @@ export const CustomDatePicker = ({
       className={styles.datePicker}
       selected={inputDate}
       onChange={(date: Date) => onChange(date)}
+      dateFormat="dd/MM/yyyy"
+      wrapperClassName={styles.wrapperCustom}
     />
   );
 };

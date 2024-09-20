@@ -33,4 +33,5 @@ export enum ESettingCode {
   SALE = 'Sale',
   IT = 'IT',
   HR = 'HR',
+  HPM = 'HPM',
 }
