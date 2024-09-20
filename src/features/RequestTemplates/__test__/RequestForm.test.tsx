@@ -195,7 +195,7 @@ describe('Request Template Form Components', () => {
 
     describe('Content Input', () => {
       it('should have a Content input when the form is loaded', () => {
-        expect(screen.getByPlaceholderText('Content')).toBeInTheDocument();
+        expect(screen.getByText('Content')).toBeInTheDocument();
       });
 
       it('should show an error message when no content is entered', async () => {
@@ -231,10 +231,7 @@ describe('Request Template Form Components', () => {
 
     describe('When all options are chosen and submitted', () => {
       it('should submit the form with the selected values', async () => {
-        userEvent.type(
-          screen.getByPlaceholderText('Content'),
-          'Is the Content'
-        );
+        userEvent.type(screen.getByText('Content'), 'Is the Content');
         // Select the start date
         const startPicker = screen.getByLabelText(/Start Date/i);
         userEvent.click(startPicker);
