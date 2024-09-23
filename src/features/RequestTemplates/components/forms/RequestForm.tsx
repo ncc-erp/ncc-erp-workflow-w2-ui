@@ -42,7 +42,8 @@ import {
 import { IUser } from 'models/user';
 import moment from 'moment';
 import { ChangeEvent, useMemo, useState } from 'react';
-import { convertToCase, formatDate } from 'utils';
+import { convertToCase } from 'utils';
+import { formatDateForm } from 'utils/dateUtils';
 
 interface RequestFormProps {
   inputDefinition?: InputDefinition;
@@ -52,15 +53,6 @@ export type FormParams = Record<
   string,
   string | DateObject | DateObject[] | null | Date | undefined | number
 >;
-
-type FormParamsValue =
-  | string
-  | DateObject
-  | DateObject[]
-  | null
-  | Date
-  | undefined
-  | number;
 
 const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
   const currentUser = useCurrentUser();
@@ -85,19 +77,11 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
     criteriaMode: 'all',
   });
   const { mutateAsync: createMutate } = useNewRequestWorkflow();
-  const formatDateForm = (date: FormParamsValue) => {
-    if (date instanceof Date) {
-      return formatDate(date, 'dd/MM/yyyy');
-    } else {
-      let datesFormatted = '';
-      datesFormatted += (date as Array<DateObject>)?.map((item: DateObject) => {
-        return item.format('DD/MM/YYYY');
-      });
-      return datesFormatted;
-    }
-  };
-  const shortHeader:string = useMemo(() => {
-    return inputDefinition?.propertyDefinitions.find((item) => item.isTitle == true)?.name || ""
+  const shortHeader: string = useMemo(() => {
+    return (
+      inputDefinition?.propertyDefinitions.find((item) => item.isTitle == true)
+        ?.name || ''
+    );
   }, [inputDefinition?.propertyDefinitions]);
 
   const onSubmit = async () => {

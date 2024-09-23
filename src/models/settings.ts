@@ -35,3 +35,11 @@ export enum ESettingCode {
   HR = 'HR',
   HPM = 'HPM',
 }
+
+export enum ESettingError {
+  CREATE_SUCCESSFULLY = 'Create setting Successfully',
+  DELETE_SUCCESSFULLY = 'Delete setting Successfully',
+  EMAIL_ALREADY_EXIST = 'This email is already in use',
+  UPDATE_SUCCESSFULLY = 'Update setting Successfully',
+  CODE_ALREADY_EXIST = 'This code already exist',
+}

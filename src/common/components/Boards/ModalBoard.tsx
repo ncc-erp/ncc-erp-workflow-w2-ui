@@ -23,9 +23,10 @@ import { ErrorMessage } from '@hookform/error-message';
 import { ErrorDisplay } from '../ErrorDisplay';
 import { renderColor } from 'utils/getColorTypeRequest';
 import styles from './style.module.scss';
-import { convertToCase, formatDate } from 'utils';
 import { CustomDatePicker } from '../DatePicker';
 import { DateObject } from 'react-multi-date-picker';
+import { formatDateForm } from 'utils/dateUtils';
+import { convertToCase, toDisplayName } from 'utils/convertToCase';
 
 interface ModalBoardProps {
   isOpen: boolean;
@@ -44,10 +45,15 @@ interface ModalBoardProps {
 }
 
 interface IDynamicFormProps {
-  [key: string]: string | DateObject | DateObject[] | Date;
+  [key: string]:
+    | string
+    | DateObject
+    | DateObject[]
+    | null
+    | Date
+    | undefined
+    | number;
 }
-
-type FormParamsValue = string | DateObject | DateObject[] | Date;
 
 const ModalBoard = ({
   isDisabled = false,
@@ -85,22 +91,6 @@ const ModalBoard = ({
     return {};
   }, [dynamicForm, showDynamicForm]);
 
-  const toDisplayName = (inputName: string) => {
-    return inputName.replace(/([a-z])([A-Z])/g, '$1 $2');
-  };
-
-  const formatDateForm = (date: FormParamsValue) => {
-    if (date instanceof Date) {
-      return formatDate(date, 'dd/MM/yyyy');
-    } else {
-      let datesFormatted = '';
-      datesFormatted += (date as Array<DateObject>)?.map((item: DateObject) => {
-        return item.format('DD/MM/YYYY');
-      });
-      return datesFormatted;
-    }
-  };
-
   const renderFormContent = (data: IDynamicFormProps[] | undefined) => {
     return data?.map(function (element, ind) {
       return (
@@ -135,7 +125,7 @@ const ModalBoard = ({
             <TextareaField
               {...register(element.name as string, {
                 required: element.isRequired
-                  ? `${toDisplayName(element.name as string)} is Required`
+                  ? `${convertToCase(element.name as string)} is Required`
                   : false,
               })}
             />

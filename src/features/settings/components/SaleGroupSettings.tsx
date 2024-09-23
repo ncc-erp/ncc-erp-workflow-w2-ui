@@ -9,6 +9,7 @@ import { RowAction } from './RowAction';
 import { useMemo } from 'react';
 import {
   ESettingCode,
+  ESettingError,
   IFilterSettingParams,
   ISettingPayload,
   ISettingValue,
@@ -23,6 +24,7 @@ import {
 import { toast } from 'common/components/StandaloneToast';
 import QueryString from 'qs';
 import { SettingForm } from './SettingForm';
+import { HttpStatusCode } from 'axios';
 
 const initialFilter: IFilterSettingParams = {
   settingCode: ESettingCode.SALE,
@@ -41,7 +43,7 @@ export const SaleSettings = () => {
   const settings = useMemo(
     () =>
       (data?.value
-        ? JSON.parse(data?.value ?? {}).items
+        ? JSON.parse(data?.value ?? '{}').items
         : []) as ISettingValue[],
     [data]
   );
@@ -64,14 +66,14 @@ export const SaleSettings = () => {
       .then(() => {
         refetch();
         toast({
-          description: 'Create setting Successfully',
+          description: ESettingError.CREATE_SUCCESSFULLY,
           status: 'success',
         });
         formik.resetForm();
       })
       .catch((err) => {
-        if (err.response.data.error.code === '409')
-          formik.setFieldError('email', 'This email is already in use');
+        if (err.response.data.error.code == HttpStatusCode.Conflict)
+          formik.setFieldError('email', ESettingError.EMAIL_ALREADY_EXIST);
       });
   };
 
@@ -103,7 +105,7 @@ export const SaleSettings = () => {
       await deleteMutate(QueryString.stringify(payload)).then(() => {
         refetch();
         toast({
-          description: 'Delete setting Successfully',
+          description: ESettingError.DELETE_SUCCESSFULLY,
           status: 'success',
         });
       });
