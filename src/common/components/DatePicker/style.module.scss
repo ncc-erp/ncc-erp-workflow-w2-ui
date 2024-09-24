@@ -1,7 +1,13 @@
 .datePicker {
-  border: 1px solid var(--chakra-colors-secondary);
+  border: 1px solid;
   border-radius: 5px;
-  width: 100% !important;
+  width: 100%;
   padding: 8px 10px;
   font-size: 15px;
+  background: inherit;
+  border-color: inherit;
+}
+
+.wrapperCustom {
+  width: 100% !important;
 }

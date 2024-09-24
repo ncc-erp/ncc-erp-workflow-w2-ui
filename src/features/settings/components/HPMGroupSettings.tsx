@@ -21,22 +21,23 @@ import {
   useDeleteSetting,
   useGetSettingList,
 } from 'api/apiHooks/settingHooks';
-import { toast } from 'common/components/StandaloneToast';
 import QueryString from 'qs';
+import { toast } from 'common/components/StandaloneToast';
 import { SettingForm } from './SettingForm';
 import { HttpStatusCode } from 'axios';
 
 const initialFilter: IFilterSettingParams = {
-  settingCode: ESettingCode.SALE,
+  settingCode: ESettingCode.HPM,
 };
 
 const initialValues = {
   email: '',
 };
 
-export const SaleSettings = () => {
+export const HPMSettings = () => {
   const { sideBarWidth } = useRecoilValue(appConfigState);
   const { data, isLoading, refetch } = useGetSettingList(initialFilter);
+
   const { mutateAsync: createMutate, isLoading: isCreating } =
     useCreateSetting();
   const { mutateAsync: deleteMutate } = useDeleteSetting();
@@ -59,7 +60,7 @@ export const SaleSettings = () => {
 
     const payload: ISettingPayload = {
       email,
-      settingCode: ESettingCode.SALE,
+      settingCode: ESettingCode.HPM,
     };
 
     await createMutate(payload)
@@ -84,6 +85,20 @@ export const SaleSettings = () => {
   });
 
   const userColumns = useMemo(() => {
+    const handleDeleteSetting = async ({ email }: ISettingValue) => {
+      const payload: ISettingPayload = {
+        email,
+        settingCode: ESettingCode.HPM,
+      };
+
+      await deleteMutate(QueryString.stringify(payload)).then(() => {
+        refetch();
+        toast({
+          description: ESettingError.DELETE_SUCCESSFULLY,
+          status: 'success',
+        });
+      });
+    };
     const onAction =
       (setting: ISettingValue, type: 'Edit' | 'Delete') => () => {
         switch (type) {
@@ -95,21 +110,6 @@ export const SaleSettings = () => {
             break;
         }
       };
-
-    const handleDeleteSetting = async ({ email }: ISettingValue) => {
-      const payload: ISettingPayload = {
-        email,
-        settingCode: ESettingCode.SALE,
-      };
-
-      await deleteMutate(QueryString.stringify(payload)).then(() => {
-        refetch();
-        toast({
-          description: ESettingError.DELETE_SUCCESSFULLY,
-          status: 'success',
-        });
-      });
-    };
     return [
       columnHelper.accessor('email', {
         id: 'email',
@@ -134,14 +134,14 @@ export const SaleSettings = () => {
   return (
     <>
       <Box p="0px 24px" fontSize="14" fontWeight="bold">
-        SALE Group
+        HPM Group
       </Box>
       <Box p="0px 24px" fontSize="14" fontWeight="bold">
         <SettingForm
           formik={formik}
           isLoading={isLoading}
           isCreating={isCreating}
-          settingCode={ESettingCode.SALE}
+          settingCode={ESettingCode.HPM}
         ></SettingForm>
       </Box>
       <Box>
@@ -159,7 +159,7 @@ export const SaleSettings = () => {
               lg: `calc(100vw - ${sideBarWidth}px)`,
               xs: 'max-content',
             }}
-            data-testid="sale-group-settings-view"
+            data-testid="hpm-group-settings-view"
           >
             <Table
               columns={userColumns}
@@ -167,7 +167,7 @@ export const SaleSettings = () => {
               isLoading={isLoading}
               isHighlight={true}
               onRowHover={true}
-              dataTestId="sale-group-setting-item"
+              dataTestId="hpm-group-setting-item"
             />
           </Box>
         </EmptyWrapper>

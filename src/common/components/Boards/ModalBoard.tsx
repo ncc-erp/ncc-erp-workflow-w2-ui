@@ -12,17 +12,21 @@ import {
   FormControl,
   FormHelperText,
   FormLabel,
-  Input,
   Spinner,
   Text,
+  Textarea,
   VStack,
 } from '@chakra-ui/react';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { TextareaField } from '../TextareaField';
 import { ErrorMessage } from '@hookform/error-message';
 import { ErrorDisplay } from '../ErrorDisplay';
 import { renderColor } from 'utils/getColorTypeRequest';
 import styles from './style.module.scss';
+import { CustomDatePicker } from '../DatePicker';
+import { DateObject } from 'react-multi-date-picker';
+import { formatDateForm } from 'utils/dateUtils';
+import { convertToCase, toDisplayName } from 'utils/convertToCase';
 
 interface ModalBoardProps {
   isOpen: boolean;
@@ -41,31 +45,37 @@ interface ModalBoardProps {
 }
 
 interface IDynamicFormProps {
-  [key: string]: string;
+  [key: string]:
+    | string
+    | DateObject
+    | DateObject[]
+    | null
+    | Date
+    | undefined
+    | number;
 }
 
-const ModalBoard = (props: ModalBoardProps): JSX.Element => {
+const ModalBoard = ({
+  isDisabled = false,
+  isLoading = false,
+  isOpen,
+  onClose,
+  onConfirm,
+  showReason = false,
+  showDynamicForm = false,
+  dynamicForm = '',
+  setReason,
+  shortTitle,
+  name,
+  requestUser,
+}: ModalBoardProps): JSX.Element => {
   const cancelRef = useRef(null);
-  const {
-    isDisabled = false,
-    isLoading = false,
-    isOpen,
-    onClose,
-    onConfirm,
-    showReason = false,
-    showDynamicForm = false,
-    dynamicForm = '',
-    setReason,
-    shortTitle,
-    name,
-    requestUser,
-  } = props;
-
   const {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
+    control,
+    formState: { errors, isValid },
   } = useForm({
     criteriaMode: 'all',
   });
@@ -81,16 +91,12 @@ const ModalBoard = (props: ModalBoardProps): JSX.Element => {
     return {};
   }, [dynamicForm, showDynamicForm]);
 
-  const toDisplayName = (inputName: string) => {
-    return inputName.replace(/([a-z])([A-Z])/g, '$1 $2');
-  };
-
   const renderFormContent = (data: IDynamicFormProps[] | undefined) => {
     return data?.map(function (element, ind) {
       return (
         <FormControl key={ind}>
           <FormLabel fontSize={16} my={1} fontWeight="normal">
-            {toDisplayName(element.name)}
+            {toDisplayName(element.name as string)}
             {element.isRequired ? (
               <FormHelperText my={1} style={{ color: 'red' }} as="span">
                 &nbsp;*
@@ -99,16 +105,34 @@ const ModalBoard = (props: ModalBoardProps): JSX.Element => {
               ''
             )}
           </FormLabel>
-          <TextareaField
-            {...register(element.name, {
-              required: element.isRequired
-                ? `${toDisplayName(element.name)} is Required`
-                : false,
-            })}
-          />
+          {element.type === 'dateTime' ? (
+            <Controller
+              control={control}
+              name={element.name as string}
+              rules={{
+                required: element.isRequired
+                  ? `${convertToCase(element.name as string)} is Required!`
+                  : false,
+              }}
+              render={({ field }) => (
+                <CustomDatePicker
+                  inputDate={field.value as Date}
+                  onChange={(date: Date) => field.onChange(date)}
+                />
+              )}
+            />
+          ) : (
+            <TextareaField
+              {...register(element.name as string, {
+                required: element.isRequired
+                  ? `${convertToCase(element.name as string)} is Required`
+                  : false,
+              })}
+            />
+          )}
           <ErrorMessage
             errors={errors}
-            name={element.name}
+            name={element.name as string}
             render={({ message }) => <ErrorDisplay message={message} />}
           />
         </FormControl>
@@ -120,7 +144,16 @@ const ModalBoard = (props: ModalBoardProps): JSX.Element => {
     if (showDynamicForm) {
       for (const item of dynamicFormParse) {
         if (Object.prototype.hasOwnProperty.call(data, item.name)) {
-          item.data = data[item.name];
+          const value = data[item.name];
+          if (
+            value instanceof Date ||
+            value instanceof DateObject ||
+            Array.isArray(value)
+          ) {
+            item.data = formatDateForm(value);
+          } else {
+            item.data = value;
+          }
         }
       }
       onConfirm(JSON.stringify(dynamicFormParse));
@@ -136,6 +169,7 @@ const ModalBoard = (props: ModalBoardProps): JSX.Element => {
         isOpen={isOpen}
         leastDestructiveRef={cancelRef}
         onClose={onClose}
+        autoFocus={false}
       >
         <AlertDialogOverlay>
           <AlertDialogContent>
@@ -207,10 +241,7 @@ const ModalBoard = (props: ModalBoardProps): JSX.Element => {
                     Reason
                     <span style={{ color: 'red' }}> *</span>
                   </Text>
-                  <Input
-                    type="text"
-                    onChange={(e) => setReason(e.target.value)}
-                  />
+                  <Textarea onChange={(e) => setReason(e.target.value)} />
                 </Box>
               )}
             </AlertDialogBody>
@@ -221,7 +252,9 @@ const ModalBoard = (props: ModalBoardProps): JSX.Element => {
                 colorScheme="red"
                 onClick={handleSubmit(onSubmit)}
                 ml={3}
-                isDisabled={isDisabled || isLoading}
+                isDisabled={
+                  isDisabled || isLoading || (showDynamicForm && !isValid)
+                }
               >
                 {isLoading ? <Spinner /> : 'Confirm'}
               </Button>
