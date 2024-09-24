@@ -119,7 +119,12 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
     variable: string
   ) => {
     const updatedFormParams = { ...formParams };
-    updatedFormParams[variable] = e.target.value;
+    if (e.target.type === 'file') {
+      const fileName = (e.target as HTMLInputElement).files?.[0]?.name || '';
+      updatedFormParams[variable] = fileName;
+    } else {
+      updatedFormParams[variable] = e.target.value;
+    }
     setFormParams(updatedFormParams);
   };
 
@@ -335,7 +340,36 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
             />
           </FormControl>
         );
-
+      case 'File':
+        return (
+          <FormControl key={Field?.name}>
+            <FormLabel fontSize={16} my={1} fontWeight="normal">
+              {convertToCase(fieldname)}
+              {Field?.isRequired ? (
+                <FormHelperText my={1} style={{ color: 'red' }} as="span">
+                  {' '}
+                  *
+                </FormHelperText>
+              ) : (
+                ''
+              )}
+            </FormLabel>
+            <input
+              type="file"
+              {...register(fieldname, {
+                required: Field?.isRequired
+                  ? `${fieldname} is required`
+                  : false,
+                onChange: (e) => handleChangeValue(e, fieldname),
+              })}
+            />
+            <ErrorMessage
+              errors={errors}
+              name={fieldname}
+              render={({ message }) => <ErrorDisplay message={message} />}
+            />
+          </FormControl>
+        );
       case 'DateTime':
         formParams[fieldname] = formParams[fieldname] ?? '';
         return (

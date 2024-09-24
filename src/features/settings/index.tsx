@@ -5,6 +5,7 @@ import { CEOSettings } from './components/CEOGroupSettings';
 import { DirectorSettings } from './components/DirectorGroupSettings';
 import { SaleSettings } from './components/SaleGroupSettings';
 import { HPMSettings } from './components/HPMGroupSettings';
+import { SupervisorSettings } from './components/SupervisorGroupSettings';
 const SettingsComponent = () => {
   return (
     <Page>
@@ -21,6 +22,7 @@ const SettingsComponent = () => {
         <HRSettings />
         <CEOSettings />
         <SaleSettings />
+        <SupervisorSettings />
       </Page.Body>
     </Page>
   );
