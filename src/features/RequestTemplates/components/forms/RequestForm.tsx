@@ -119,12 +119,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
     variable: string
   ) => {
     const updatedFormParams = { ...formParams };
-    if (e.target.type === 'file') {
-      const fileName = (e.target as HTMLInputElement).files?.[0]?.name || '';
-      updatedFormParams[variable] = fileName;
-    } else {
-      updatedFormParams[variable] = e.target.value;
-    }
+    updatedFormParams[variable] = e.target.value;
     setFormParams(updatedFormParams);
   };
 
@@ -340,6 +335,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
             />
           </FormControl>
         );
+
       case 'DateTime':
         formParams[fieldname] = formParams[fieldname] ?? '';
         return (
