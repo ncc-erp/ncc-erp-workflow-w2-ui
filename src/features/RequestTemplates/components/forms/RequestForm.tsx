@@ -340,36 +340,6 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
             />
           </FormControl>
         );
-      case 'File':
-        return (
-          <FormControl key={Field?.name}>
-            <FormLabel fontSize={16} my={1} fontWeight="normal">
-              {convertToCase(fieldname)}
-              {Field?.isRequired ? (
-                <FormHelperText my={1} style={{ color: 'red' }} as="span">
-                  {' '}
-                  *
-                </FormHelperText>
-              ) : (
-                ''
-              )}
-            </FormLabel>
-            <input
-              type="file"
-              {...register(fieldname, {
-                required: Field?.isRequired
-                  ? `${fieldname} is required`
-                  : false,
-                onChange: (e) => handleChangeValue(e, fieldname),
-              })}
-            />
-            <ErrorMessage
-              errors={errors}
-              name={fieldname}
-              render={({ message }) => <ErrorDisplay message={message} />}
-            />
-          </FormControl>
-        );
       case 'DateTime':
         formParams[fieldname] = formParams[fieldname] ?? '';
         return (
