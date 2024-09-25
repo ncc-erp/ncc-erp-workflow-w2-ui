@@ -35,6 +35,7 @@ export enum ESettingCode {
   HR = 'HR',
   HPM = 'HPM',
   SAODO = 'SaoDo',
+  ACCOUNTANT = 'Accountant',
 }
 
 export enum ESettingError {
