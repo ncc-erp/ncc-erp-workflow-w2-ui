@@ -67,11 +67,12 @@ export const MyRequestTable = () => {
     RequestUser: currentUser?.sub[0],
     StakeHolder: '',
   };
+  const isPublish = true;
   const { sideBarWidth } = useRecoilValue(appConfigState);
   const [filter, setFilter] = useState<FilterRequestParams>(initialFilter);
   const [sorting, setSorting] = useState<SortingState>(initialSorting);
   const { data, isLoading, isRefetching, refetch } = useMyRequests(filter);
-  const { data: requestTemplateData } = useRequestTemplates();
+  const { data: requestTemplateData } = useRequestTemplates(isPublish);
   const { items: requests = [], totalCount = 0 } = data ?? {};
   const { items: requestTemplates = [] } = requestTemplateData ?? {};
   const { skipCount, maxResultCount } = filter;
