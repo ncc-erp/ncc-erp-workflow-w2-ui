@@ -27,6 +27,7 @@ import { CustomDatePicker } from '../DatePicker';
 import { DateObject } from 'react-multi-date-picker';
 import { formatDateForm } from 'utils/dateUtils';
 import { convertToCase, toDisplayName } from 'utils/convertToCase';
+import { parse } from 'date-fns';
 
 interface ModalBoardProps {
   isOpen: boolean;
@@ -75,6 +76,7 @@ const ModalBoard = ({
     handleSubmit,
     reset,
     control,
+    setValue,
     formState: { errors, isValid },
   } = useForm({
     criteriaMode: 'all',
@@ -90,6 +92,21 @@ const ModalBoard = ({
     }
     return {};
   }, [dynamicForm, showDynamicForm]);
+
+  useEffect(() => {
+    if (showDynamicForm) {
+      dynamicFormParse.forEach((element: IDynamicFormProps) => {
+        if (element.type === 'dateTime' && element.prefilledData) {
+          const prefilledDate = parse(
+            element.prefilledData as string,
+            'dd/MM/yyyy',
+            new Date()
+          );
+          setValue(element.name as string, prefilledDate);
+        }
+      });
+    }
+  }, [dynamicFormParse, setValue, showDynamicForm]);
 
   const renderFormContent = (data: IDynamicFormProps[] | undefined) => {
     return data?.map(function (element, ind) {
@@ -123,6 +140,7 @@ const ModalBoard = ({
             />
           ) : (
             <TextareaField
+              defaultValue={element.prefilledData as string}
               {...register(element.name as string, {
                 required: element.isRequired
                   ? `${convertToCase(element.name as string)} is Required`
