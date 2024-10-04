@@ -1,5 +1,15 @@
 import { DEFAULT_FORMAT_DATE } from 'common/constants';
 import { format, parse, isValid } from 'date-fns';
+import { DateObject } from 'react-multi-date-picker';
+
+type FormParamsValue =
+  | string
+  | DateObject
+  | DateObject[]
+  | null
+  | Date
+  | undefined
+  | number;
 
 export const isValidDate = (
   date: string,
@@ -36,4 +46,16 @@ export const formatDate = (
   formatString = DEFAULT_FORMAT_DATE
 ) => {
   return format(new Date(date), formatString);
+};
+
+export const formatDateForm = (date: FormParamsValue) => {
+  if (date instanceof Date) {
+    return formatDate(date, 'dd/MM/yyyy');
+  } else {
+    let datesFormatted = '';
+    datesFormatted += (date as Array<DateObject>)?.map((item: DateObject) => {
+      return item.format('DD/MM/YYYY');
+    });
+    return datesFormatted;
+  }
 };

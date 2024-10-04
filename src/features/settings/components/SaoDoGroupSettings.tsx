@@ -9,7 +9,6 @@ import { RowAction } from './RowAction';
 import { useMemo } from 'react';
 import {
   ESettingCode,
-  ESettingError,
   IFilterSettingParams,
   ISettingPayload,
   ISettingValue,
@@ -24,17 +23,16 @@ import {
 import { toast } from 'common/components/StandaloneToast';
 import QueryString from 'qs';
 import { SettingForm } from './SettingForm';
-import { HttpStatusCode } from 'axios';
 
 const initialFilter: IFilterSettingParams = {
-  settingCode: ESettingCode.SALE,
+  settingCode: ESettingCode.SAODO,
 };
 
-const initialValues = {
+const initialValues: ISettingValue = {
   email: '',
 };
 
-export const SaleSettings = () => {
+export const SaoDoSettings = () => {
   const { sideBarWidth } = useRecoilValue(appConfigState);
   const { data, isLoading, refetch } = useGetSettingList(initialFilter);
   const { mutateAsync: createMutate, isLoading: isCreating } =
@@ -43,7 +41,7 @@ export const SaleSettings = () => {
   const settings = useMemo(
     () =>
       (data?.value
-        ? JSON.parse(data?.value ?? '{}').items
+        ? JSON.parse(data?.value ?? {}).items
         : []) as ISettingValue[],
     [data]
   );
@@ -59,21 +57,21 @@ export const SaleSettings = () => {
 
     const payload: ISettingPayload = {
       email,
-      settingCode: ESettingCode.SALE,
+      settingCode: ESettingCode.SAODO,
     };
 
     await createMutate(payload)
       .then(() => {
         refetch();
         toast({
-          description: ESettingError.CREATE_SUCCESSFULLY,
+          description: 'Create setting Successfully',
           status: 'success',
         });
         formik.resetForm();
       })
       .catch((err) => {
-        if (err.response.data.error.code == HttpStatusCode.Conflict)
-          formik.setFieldError('email', ESettingError.EMAIL_ALREADY_EXIST);
+        if (err.response.data.error.code === '409')
+          formik.setFieldError('email', 'This email is already in use');
       });
   };
 
@@ -84,6 +82,20 @@ export const SaleSettings = () => {
   });
 
   const userColumns = useMemo(() => {
+    const handleDeleteSetting = async ({ email }: ISettingValue) => {
+      const payload: ISettingPayload = {
+        email,
+        settingCode: ESettingCode.SAODO,
+      };
+
+      await deleteMutate(QueryString.stringify(payload)).then(() => {
+        refetch();
+        toast({
+          description: 'Delete setting Successfully',
+          status: 'success',
+        });
+      });
+    };
     const onAction =
       (setting: ISettingValue, type: 'Edit' | 'Delete') => () => {
         switch (type) {
@@ -95,21 +107,6 @@ export const SaleSettings = () => {
             break;
         }
       };
-
-    const handleDeleteSetting = async ({ email }: ISettingValue) => {
-      const payload: ISettingPayload = {
-        email,
-        settingCode: ESettingCode.SALE,
-      };
-
-      await deleteMutate(QueryString.stringify(payload)).then(() => {
-        refetch();
-        toast({
-          description: ESettingError.DELETE_SUCCESSFULLY,
-          status: 'success',
-        });
-      });
-    };
     return [
       columnHelper.accessor('email', {
         id: 'email',
@@ -134,14 +131,14 @@ export const SaleSettings = () => {
   return (
     <>
       <Box p="0px 24px" fontSize="14" fontWeight="bold">
-        SALE Group
+        Saodo Group
       </Box>
       <Box p="0px 24px" fontSize="14" fontWeight="bold">
         <SettingForm
           formik={formik}
           isLoading={isLoading}
           isCreating={isCreating}
-          settingCode={ESettingCode.SALE}
+          settingCode={ESettingCode.SAODO}
         ></SettingForm>
       </Box>
       <Box>
@@ -159,7 +156,7 @@ export const SaleSettings = () => {
               lg: `calc(100vw - ${sideBarWidth}px)`,
               xs: 'max-content',
             }}
-            data-testid="sale-group-settings-view"
+            data-testid="saodo-group-settings-view"
           >
             <Table
               columns={userColumns}
@@ -167,7 +164,7 @@ export const SaleSettings = () => {
               isLoading={isLoading}
               isHighlight={true}
               onRowHover={true}
-              dataTestId="sale-group-setting-item"
+              dataTestId="saodo-group-setting-item"
             />
           </Box>
         </EmptyWrapper>

@@ -3,6 +3,8 @@ import { useEffect, useState, useRef } from 'react';
 import { InputDefinition } from 'models/request';
 import debounce from 'lodash.debounce';
 import { TextField } from 'common/components/TextField';
+import { ColorPicker } from 'antd';
+import { AggregationColor } from 'antd/es/color-picker/color';
 
 interface SettingFormProps {
   onSubmitSettings: (colorCode: string, title: string) => void;
@@ -32,32 +34,31 @@ export const SettingForm = ({
     }, 300);
   }, [onSubmitSettings]);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-
-    setFormState((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-
-    if (name === 'colorCode') {
-      debouncedSubmitRef.current(value, formState.title);
-    } else if (name === 'title') {
-      debouncedSubmitRef.current(formState.colorCode, value);
-    }
+  const handleChange = (
+    event: React.ChangeEvent<HTMLInputElement> | AggregationColor
+  ) => {
+    setFormState((prevState) => {
+      const isColorChange = 'toHex' in event;
+      const newState = {
+        ...prevState,
+        colorCode: isColorChange ? `#${event.toHex()}` : prevState.colorCode,
+        title: !isColorChange ? event.target.value : prevState.title,
+      };
+      debouncedSubmitRef.current(newState.colorCode, newState.title);
+      return newState;
+    });
   };
 
   useEffect(() => {
-    const {
-      settings: { color = '#aabbcc', titleTemplate = '' } = {},
-      nameRequest = 'Name request',
-    } = inputDefinition || {};
+    if (inputDefinition) {
+      const { settings, nameRequest } = inputDefinition;
 
-    setFormState({
-      colorCode: color,
-      title: titleTemplate,
-      nameRequest: nameRequest,
-    });
+      setFormState({
+        colorCode: settings?.color ?? '#aabbcc',
+        title: settings?.titleTemplate ?? '',
+        nameRequest: nameRequest ?? 'Name request',
+      });
+    }
   }, [inputDefinition]);
 
   return (
@@ -92,17 +93,15 @@ export const SettingForm = ({
         >
           {formState.nameRequest}
         </Box>
-        <input
-          type="color"
-          name="colorCode"
+        <ColorPicker
           value={formState.colorCode}
           onChange={handleChange}
           style={{
-            backgroundColor: 'transparent',
-            border: '1px solid #E2E8F0 ',
             marginLeft: '10px',
             cursor: 'pointer',
+            borderColor: '#E2E8F0',
           }}
+          getPopupContainer={(trigger) => trigger}
         />
       </FormControl>
       <FormControl style={{ display: 'flex', alignItems: 'center' }}>

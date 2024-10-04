@@ -33,4 +33,15 @@ export enum ESettingCode {
   SALE = 'Sale',
   IT = 'IT',
   HR = 'HR',
+  HPM = 'HPM',
+  SAODO = 'SaoDo',
+  ACCOUNTANT = 'Accountant',
+}
+
+export enum ESettingError {
+  CREATE_SUCCESSFULLY = 'Create setting Successfully',
+  DELETE_SUCCESSFULLY = 'Delete setting Successfully',
+  EMAIL_ALREADY_EXIST = 'This email is already in use',
+  UPDATE_SUCCESSFULLY = 'Update setting Successfully',
+  CODE_ALREADY_EXIST = 'This code already exist',
 }

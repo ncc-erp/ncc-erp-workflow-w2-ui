@@ -4,7 +4,9 @@ import { HRSettings } from './components/HRGroupSettings';
 import { CEOSettings } from './components/CEOGroupSettings';
 import { DirectorSettings } from './components/DirectorGroupSettings';
 import { SaleSettings } from './components/SaleGroupSettings';
-
+import { HPMSettings } from './components/HPMGroupSettings';
+import { SaoDoSettings } from './components/SaoDoGroupSettings';
+import { AccountantSettings } from './components/AccountantGroupSettings';
 const SettingsComponent = () => {
   return (
     <Page>
@@ -16,10 +18,13 @@ const SettingsComponent = () => {
       </Page.Header>
       <Page.Body>
         <DirectorSettings />
+        <HPMSettings />
         <ITSettings />
         <HRSettings />
         <CEOSettings />
         <SaleSettings />
+        <SaoDoSettings />
+        <AccountantSettings />
       </Page.Body>
     </Page>
   );
