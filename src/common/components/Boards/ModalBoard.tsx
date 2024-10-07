@@ -96,13 +96,13 @@ const ModalBoard = ({
   useEffect(() => {
     if (showDynamicForm) {
       dynamicFormParse.forEach((element: IDynamicFormProps) => {
-        if (element.type === 'dateTime' && element.prefilledData) {
-          const prefilledDate = parse(
-            element.prefilledData as string,
+        if (element.type === 'dateTime' && element.defaultValue) {
+          const defaultDate = parse(
+            element.defaultValue as string,
             'dd/MM/yyyy',
             new Date()
           );
-          setValue(element.name as string, prefilledDate);
+          setValue(element.name as string, defaultDate);
         }
       });
     }
@@ -140,7 +140,7 @@ const ModalBoard = ({
             />
           ) : (
             <TextareaField
-              defaultValue={element.prefilledData as string}
+              defaultValue={element.defaultValue as string}
               {...register(element.name as string, {
                 required: element.isRequired
                   ? `${convertToCase(element.name as string)} is Required`
