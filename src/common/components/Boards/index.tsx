@@ -334,10 +334,10 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
       })
       .catch((error) => {
         console.error(error.response.data.error.message);
-        clear();
-        refetchApproved();
-        refetchPending();
       });
+    clear();
+    refetchApproved();
+    refetchPending();
   };
 
   const searchParams = new URLSearchParams(window.location.search);
@@ -503,8 +503,10 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
                       {getQuantityTasks(ind)}
                     </div>
 
-                    <Box className={styles.columnContent} 
-                    data-testid="board-col">
+                    <Box
+                      className={styles.columnContent}
+                      data-testid="board-col"
+                    >
                       {!loadingStates[ind].value &&
                       !loadPending &&
                       !loadApproved &&
