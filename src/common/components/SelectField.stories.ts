@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { SelectField } from './SelectField';
 
-
 const meta = {
   title: 'W2/SelectField',
   component: SelectField,
@@ -36,12 +35,12 @@ const statusOptions = [
 
 export const Default: Story = {
   args: {
-    cursor:"pointer",
+    cursor: 'pointer',
     isDisabled: false,
     size: 'sm',
     rounded: 'md',
     // value:
     // onChange:{(e)=> onTemplateStatusChange('Status', e.target.value)},
-    options:  statusOptions ,
+    options: statusOptions,
   },
 };

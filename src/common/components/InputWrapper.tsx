@@ -9,7 +9,13 @@ export interface InputWrapperProps {
   name?: string;
 }
 
-export const InputWrapper = ({ children, label, error, name, isRequired }: InputWrapperProps) => {
+export const InputWrapper = ({
+  children,
+  label,
+  error,
+  name,
+  isRequired,
+}: InputWrapperProps) => {
   const isInvalid = !!error;
 
   return (

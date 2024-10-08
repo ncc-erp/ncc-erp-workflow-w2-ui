@@ -21,8 +21,9 @@
 }
 
 .disabled {
-    pointer-events: none;
-    border-color: inherit;
+  cursor: not-allowed;
+  border-color: inherit;
+  opacity: 0.5;
 }
 
 .icon {

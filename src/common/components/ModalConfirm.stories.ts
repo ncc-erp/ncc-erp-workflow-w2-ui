@@ -1,7 +1,6 @@
 import { ModalConfirm } from 'common/components/ModalConfirm';
 import type { Meta, StoryObj } from '@storybook/react';
 
-
 const meta = {
   title: 'W2/ModalConfirm',
   component: ModalConfirm,

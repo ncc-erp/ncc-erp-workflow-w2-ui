@@ -52,6 +52,7 @@ jest.mock('api/apiHooks/userIdentityHooks', () => ({
       ],
     },
   }),
+  useRoles: jest.fn().mockReturnValue(true),
 }));
 
 test('Request My Requests Page', () => {

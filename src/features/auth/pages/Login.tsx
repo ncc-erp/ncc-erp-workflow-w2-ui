@@ -136,7 +136,8 @@ const Login = () => {
           <Heading as="h1" size="md" textAlign="left" w="full" fontWeight={700}>
             Sign In
           </Heading>
-          {(import.meta.env.VITE_MODE == 'development' || import.meta.env.MODE !== 'production') && (
+          {(import.meta.env.VITE_MODE == 'development' ||
+            import.meta.env.MODE !== 'production') && (
             <form
               style={{ width: '100%' }}
               onSubmit={handleSubmit(onLogin)}

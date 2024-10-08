@@ -227,6 +227,7 @@ export const TablePostAndWFH = () => {
             w={['90%', '80%', '70%', '40%', '30%', '30%']}
           >
             <Input
+              isDisabled={isLoading || isRefetching}
               type="text"
               placeholder="Enter email"
               fontSize="14px"
@@ -238,6 +239,7 @@ export const TablePostAndWFH = () => {
           </InputGroup>
           <Box w={['80%', '80%', '70%', '50%', '40%', '30%']}>
             <DateRangePicker
+              isDisabled={isLoading || isRefetching}
               startDate={startDate}
               endDate={endDate}
               handleStartDateChange={handleStartDateChange}
@@ -302,35 +304,36 @@ export const TablePostAndWFH = () => {
                 sorting={sorting}
                 onRowHover={true}
               />
+
+              <HStack
+                p="20px 30px 20px 30px"
+                justifyContent="space-between"
+                flexWrap="wrap"
+              >
+                <HStack alignItems="center" spacing="6px" flexWrap="wrap">
+                  <PageSize
+                    noOfRows={noOfRows}
+                    onChange={onPageSizeChange}
+                    defaultValue={+noOfRows[2].value}
+                  />
+                  <Spacer w="12px" />
+                  <ShowingItemText
+                    skipCount={filter.skipCount}
+                    maxResultCount={filter.maxResultCount}
+                    totalCount={totalCount}
+                  />
+                </HStack>
+                <Pagination
+                  total={totalCount}
+                  pageSize={filter.maxResultCount}
+                  current={currentPage}
+                  onChange={onPageChange}
+                  hideOnSinglePage
+                />
+              </HStack>
             </Box>
           </EmptyWrapper>
         )}
-        <HStack
-          p="20px 30px 20px 30px"
-          justifyContent="space-between"
-          flexWrap="wrap"
-        >
-          <HStack alignItems="center" spacing="6px" flexWrap="wrap">
-            <PageSize
-              noOfRows={noOfRows}
-              onChange={onPageSizeChange}
-              defaultValue={+noOfRows[2].value}
-            />
-            <Spacer w="12px" />
-            <ShowingItemText
-              skipCount={filter.skipCount}
-              maxResultCount={filter.maxResultCount}
-              totalCount={totalCount}
-            />
-          </HStack>
-          <Pagination
-            total={totalCount}
-            pageSize={filter.maxResultCount}
-            current={currentPage}
-            onChange={onPageChange}
-            hideOnSinglePage
-          />
-        </HStack>
 
         {reportDetail && (
           <DetailModal

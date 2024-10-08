@@ -168,7 +168,6 @@ const inputDefinition: InputDefinition = {
 
 describe('Request Template Form Components', () => {
   const queryClient: QueryClient = new QueryClient();
-
   test('should match snapshot when rendering', () => {
     const { container } = render(
       <QueryClientProvider client={queryClient}>
@@ -197,7 +196,6 @@ describe('Request Template Form Components', () => {
       it('should have a Content input when the form is loaded', () => {
         expect(screen.getByText('Content')).toBeInTheDocument();
       });
-
       it('should show an error message when no content is entered', async () => {
         const submitButton = screen.getByRole('button', {
           name: 'Save',

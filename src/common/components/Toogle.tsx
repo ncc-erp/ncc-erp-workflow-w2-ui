@@ -30,7 +30,7 @@ export const Toggle = () => {
         title="Log out"
         hidden={isLargeScreen ? false : true}
       >
-       <HiOutlinePower size="20px" />
+        <HiOutlinePower size="20px" />
       </Button>
       <Button
         mr={2}
