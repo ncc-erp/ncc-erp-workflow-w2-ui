@@ -483,7 +483,7 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
               class="css-0"
             >
               <tr
-                class="css-1mmrbq3"
+                class="css-zcttqi"
               >
                 <td
                   class="css-xk16pm"
@@ -685,7 +685,7 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                 </td>
               </tr>
               <tr
-                class="css-1mmrbq3"
+                class="css-zcttqi"
               >
                 <td
                   class="css-xk16pm"

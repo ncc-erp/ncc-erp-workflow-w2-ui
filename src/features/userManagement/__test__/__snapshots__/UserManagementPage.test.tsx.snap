@@ -302,20 +302,6 @@ exports[`Request My Requests Page 1`] = `
                   </div>
                 </th>
                 <th
-                  class="css-175w36i"
-                  colspan="1"
-                  style="width: auto;"
-                >
-                  <div
-                    class="css-1qe39um"
-                  >
-                    Roles
-                    <span
-                      style="width: 16px;"
-                    />
-                  </div>
-                </th>
-                <th
                   class="css-avwfu8"
                   colspan="1"
                   style="width: auto;"

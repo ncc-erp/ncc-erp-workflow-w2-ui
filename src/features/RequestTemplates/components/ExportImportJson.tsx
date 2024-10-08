@@ -1,8 +1,8 @@
 import { Button } from '@chakra-ui/react';
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { ImportJsonModal } from './modals/ImportJsonModal';
 import { useFieldArray, useForm } from 'react-hook-form';
-import { InputDefinition } from 'models/request';
+import { IJsonObject, InputDefinition } from 'models/request';
 
 interface FormParams {
   items: PropertyDefinition[];
@@ -10,22 +10,24 @@ interface FormParams {
 interface ExportImportJsonProps {
   requestId: string;
   inputDefinition?: InputDefinition;
-  onClose: () => void;
   workflowName: string;
+  onChangeData: (jsonObject: IJsonObject) => void;
 }
 const ExportImportJson: React.FC<ExportImportJsonProps> = ({
   requestId,
   inputDefinition,
-  onClose,
   workflowName,
+  onChangeData,
 }) => {
   const [isImportJsonModalOpen, setIsImportJsonModalOpen] =
     useState<boolean>(false);
+  const [inputDefinitionUpdated, setInputDefinitionUpdated] =
+    useState(inputDefinition);
 
-  const { control } = useForm<FormParams>({
+  const { control, reset } = useForm<FormParams>({
     criteriaMode: 'all',
     defaultValues: {
-      items: inputDefinition?.propertyDefinitions || [
+      items: inputDefinitionUpdated?.propertyDefinitions || [
         { name: '', type: 'Text', isRequired: false },
       ],
     },
@@ -36,9 +38,21 @@ const ExportImportJson: React.FC<ExportImportJsonProps> = ({
   });
   const exportData = useMemo(() => {
     return {
+      settings: inputDefinition?.settings,
       propertyDefinitions: fields,
     };
-  }, [fields]);
+  }, [fields, inputDefinition?.settings]);
+
+  useEffect(() => {
+    if (inputDefinition) {
+      setInputDefinitionUpdated(inputDefinition);
+    }
+    reset({
+      items: inputDefinition?.propertyDefinitions || [
+        { name: '', type: 'Text', isRequired: false },
+      ],
+    });
+  }, [inputDefinition, reset]);
 
   const handleExport = () => {
     const jsonString = JSON.stringify(exportData, null, 2);
@@ -54,6 +68,9 @@ const ExportImportJson: React.FC<ExportImportJsonProps> = ({
   const onOpenImportJsonModal = () => {
     setIsImportJsonModalOpen(true);
   };
+  const onCloseModal = () => {
+    setIsImportJsonModalOpen(false);
+  };
 
   return (
     <div>
@@ -61,7 +78,8 @@ const ExportImportJson: React.FC<ExportImportJsonProps> = ({
         id={inputDefinition?.id}
         workflowDefinitionId={requestId}
         isOpen={isImportJsonModalOpen}
-        onClose={onClose}
+        onClose={onCloseModal}
+        onchangeData={onChangeData}
       />
       <Button onClick={handleExport} colorScheme="red" m={2}>
         Export

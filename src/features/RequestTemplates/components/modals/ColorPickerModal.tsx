@@ -22,7 +22,7 @@ export const ColorPickerModal = ({
   onClose,
   OnColorSave,
 }: ColorPickerModalProps) => {
-  const [color, setColor] = useState('#FFF');
+  const [color, setColor] = useState('#aabbcc');
   const onColorChange = () => {
     OnColorSave(color);
     onClose();
