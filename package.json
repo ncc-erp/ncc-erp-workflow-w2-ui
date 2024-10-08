@@ -73,7 +73,6 @@
     "@storybook/addon-links": "7.6.5",
     "@storybook/addon-onboarding": "1.0.10",
     "@storybook/blocks": "7.6.5",
-    "@storybook/preset-create-react-app": "^8.2.9",
     "@storybook/react": "7.6.5",
     "@storybook/react-vite": "7.6.5",
     "@storybook/test": "7.6.5",

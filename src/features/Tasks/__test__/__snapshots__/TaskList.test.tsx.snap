@@ -147,7 +147,7 @@ exports[`Request My Requests Page 1`] = `
             class="css-0"
           >
             <tr
-              class="css-1bgkdca"
+              class="css-1zgccc"
             >
               <td
                 class="css-xk16pm"
@@ -177,7 +177,7 @@ exports[`Request My Requests Page 1`] = `
                   </div>
                   <div
                     class="titleBoard css-0"
-                    style="background-color: rgb(170, 187, 204);"
+                    style="background-color: rgb(0, 150, 136);"
                   >
                     <div
                       style="overflow: hidden; text-overflow: ellipsis; display: -webkit-box;"

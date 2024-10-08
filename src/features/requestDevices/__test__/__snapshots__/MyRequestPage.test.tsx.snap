@@ -504,7 +504,7 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                     </div>
                     <div
                       class="titleTable css-0"
-                      style="background-color: rgb(170, 187, 204);"
+                      style="background-color: rgb(242, 112, 36);"
                     >
                       <div
                         style="overflow: hidden; text-overflow: ellipsis; display: -webkit-box;"
@@ -706,7 +706,7 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                     </div>
                     <div
                       class="titleTable css-0"
-                      style="background-color: rgb(170, 187, 204);"
+                      style="background-color: rgb(208, 0, 219);"
                     >
                       <div
                         style="overflow: hidden; text-overflow: ellipsis; display: -webkit-box;"

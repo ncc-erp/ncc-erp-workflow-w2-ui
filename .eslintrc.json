@@ -12,6 +12,5 @@
     "sourceType": "module"
   },
   "plugins": ["react"],
-  "rules": {},
-  "ignorePatterns": ["!.storybook"]
+  "rules": {}
 }
