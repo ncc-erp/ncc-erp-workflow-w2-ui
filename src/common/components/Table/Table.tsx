@@ -1,6 +1,7 @@
 import {
   Box,
   Icon,
+  keyframes,
   Table as TableComponent,
   Tbody,
   Td,
@@ -22,6 +23,12 @@ import { useMediaQuery } from 'hooks/useMediaQuery';
 import { useState } from 'react';
 import { IoMdArrowDropdown, IoMdArrowDropup } from 'react-icons/io';
 import theme from 'themes/theme';
+import TableSkeleton from './TableSkeleton';
+
+const fadeIn = keyframes`
+  from { opacity: 0; }
+  to { opacity: 1; }
+`;
 
 export type IRowActionProps<D> = (data: D) => () => void;
 
@@ -33,7 +40,14 @@ interface TableProps<D> {
   onSortingChange?: OnChangeFn<SortingState>;
   onRowClick?: IRowActionProps<D>;
   onRowHover?: boolean;
+  isHighlight?: boolean;
+  isLoading?: boolean;
+  isRefetching?: boolean;
+  pageSize?: number;
+  dataTestId?: string;
 }
+
+const DEFAULT_SKELETON_AMOUNT = 5;
 
 export const Table = <D,>({
   columns,
@@ -42,12 +56,21 @@ export const Table = <D,>({
   onSortingChange,
   onRowClick,
   onRowHover,
+  isHighlight,
+  isLoading,
+  isRefetching,
+  pageSize,
+  dataTestId,
 }: TableProps<D>) => {
   const table = useReactTable({
     data,
     columns,
     manualSorting: true,
     debugTable: true,
+    defaultColumn: {
+      size: 0,
+      minSize: 0,
+    },
     enableSortingRemoval: false,
     state: {
       sorting,
@@ -77,9 +100,18 @@ export const Table = <D,>({
         {table.getHeaderGroups().map((headerGroup) => (
           <Tr key={headerGroup.id} bg={theme.colors.borderColor}>
             {headerGroup.headers.map((header, index) => {
-              const isWorkflowDefinitionDisplayName =
-                header.id === 'workflowDefinitionDisplayName';
-              const headerWidth = '20%';
+              const DEFAULT_COLUMN_LOADING_WIDTH = '35%';
+
+              const getThWidth = () => {
+                const columnCustomSize = header.getSize();
+                return isLoading
+                  ? columnCustomSize > 0
+                    ? columnCustomSize
+                    : DEFAULT_COLUMN_LOADING_WIDTH
+                  : columnCustomSize > 0
+                  ? columnCustomSize
+                  : 'auto';
+              };
 
               return (
                 <Th
@@ -99,11 +131,9 @@ export const Table = <D,>({
                   background="secondaryColor"
                   textAlign="center"
                   style={{
-                    width: isWorkflowDefinitionDisplayName
-                      ? headerWidth
-                      : 'auto',
+                    width: getThWidth(),
                   }}
-                  // whiteSpace={["normal","normal","normal","nowrap"]}
+                  whiteSpace={['normal', 'normal', 'normal', 'nowrap']}
                   cursor={header.column.getCanSort() ? 'pointer' : 'initial'}
                 >
                   {header.isPlaceholder ? null : (
@@ -162,33 +192,68 @@ export const Table = <D,>({
         ))}
       </Thead>
       <Tbody>
-        {table.getRowModel().rows.map((row) => {
-          return (
-            <Tr
-              key={row.id}
-              cursor={onRowHover ? 'pointer' : 'initial'}
-              onClick={() => {
-                if (onRowClick) {
-                  onRowClick(row.original)();
+        {isLoading || isRefetching ? (
+          <>
+            {Array.from({ length: pageSize ?? DEFAULT_SKELETON_AMOUNT }).map(
+              (_, rowIndex) => (
+                <Tr key={rowIndex} height="65px">
+                  {table.getAllColumns().map((_column, colIndex) => (
+                    <Td
+                      key={colIndex}
+                      fontSize={['10px', '12px', '12px', '14px']}
+                      borderRight="1px"
+                      borderColor={theme.colors.borderColor}
+                    >
+                      <TableSkeleton />
+                    </Td>
+                  ))}
+                </Tr>
+              )
+            )}
+          </>
+        ) : (
+          table.getRowModel().rows.map((row) => {
+            return (
+              <Tr
+                key={row.id}
+                cursor={onRowHover ? 'pointer' : 'initial'}
+                _hover={
+                  isHighlight
+                    ? {
+                        background: theme.colors.secondary,
+                        transition: 'background-color 0.5s ease',
+                        color: '#333',
+                      }
+                    : {}
                 }
-              }}
-            >
-              {row.getVisibleCells().map((cell) => {
-                return (
-                  <Td
-                    key={cell.id}
-                    fontSize={['10px', '12px', '12px', '14px']}
-                    borderRight="1px"
-                    borderColor={theme.colors.borderColor}
-                    px="6px"
-                  >
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </Td>
-                );
-              })}
-            </Tr>
-          );
-        })}
+                onClick={() => {
+                  if (onRowClick) {
+                    onRowClick(row.original)();
+                  }
+                }}
+                animation={`${fadeIn} 1s cubic-bezier(0.390, 0.575, 0.565, 1.000)`}
+                data-testid={dataTestId}
+              >
+                {row.getVisibleCells().map((cell) => {
+                  return (
+                    <Td
+                      key={cell.id}
+                      fontSize={['10px', '12px', '12px', '14px']}
+                      borderRight="1px"
+                      borderColor={theme.colors.borderColor}
+                      px="6px"
+                    >
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </Td>
+                  );
+                })}
+              </Tr>
+            );
+          })
+        )}
       </Tbody>
     </TableComponent>
   );

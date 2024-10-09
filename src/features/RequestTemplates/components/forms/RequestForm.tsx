@@ -25,10 +25,12 @@ import 'react-datepicker/dist/react-datepicker.css';
 import styles from './style.module.scss';
 
 import { ErrorMessage } from '@hookform/error-message';
-import { useQueryClient } from '@tanstack/react-query';
 import { ErrorDisplay } from 'common/components/ErrorDisplay';
 import { SearchableSelectField } from 'common/components/SearchableSelectField';
 import { toast } from 'common/components/StandaloneToast';
+import { ColorThemeMode, WFH_FORMAT_DATE } from 'common/constants';
+import { option } from 'common/types';
+import { isWithinInterval, subWeeks } from 'date-fns';
 import { useCurrentUser } from 'hooks/useCurrentUser';
 import { IOffices } from 'models/office';
 import { IProjects } from 'models/project';
@@ -38,12 +40,10 @@ import {
   PropertyDefinition,
 } from 'models/request';
 import { IUser } from 'models/user';
-import { ChangeEvent, useState } from 'react';
-import { formatDate } from 'utils';
-import { ColorThemeMode, WFH_FORMAT_DATE } from 'common/constants';
-import { isWithinInterval, subWeeks } from 'date-fns';
-import { option } from 'common/types';
 import moment from 'moment';
+import { ChangeEvent, useMemo, useState } from 'react';
+import { convertToCase } from 'utils';
+import { formatDateForm } from 'utils/dateUtils';
 
 interface RequestFormProps {
   inputDefinition?: InputDefinition;
@@ -54,18 +54,8 @@ export type FormParams = Record<
   string | DateObject | DateObject[] | null | Date | undefined | number
 >;
 
-type FormParamsValue =
-  | string
-  | DateObject
-  | DateObject[]
-  | null
-  | Date
-  | undefined
-  | number;
-
 const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
   const currentUser = useCurrentUser();
-  const queryClient = useQueryClient();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [formParams, setFormParams] = useState<FormParams>({});
@@ -87,17 +77,12 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
     criteriaMode: 'all',
   });
   const { mutateAsync: createMutate } = useNewRequestWorkflow();
-  const formatDateForm = (date: FormParamsValue) => {
-    if (date instanceof Date) {
-      return formatDate(date, 'dd/MM/yyyy');
-    } else {
-      let datesFormatted = '';
-      datesFormatted += (date as Array<DateObject>)?.map((item: DateObject) => {
-        return item.format('DD/MM/YYYY');
-      });
-      return datesFormatted;
-    }
-  };
+  const shortHeader: string = useMemo(() => {
+    return (
+      inputDefinition?.propertyDefinitions.find((item) => item.isTitle == true)
+        ?.name || ''
+    );
+  }, [inputDefinition?.propertyDefinitions]);
 
   const onSubmit = async () => {
     setIsLoading(true);
@@ -113,13 +98,14 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
       }
     });
 
+    formParamsFormatted['shortHeader'] = shortHeader;
+
     const RequestFormParams: IRequestFormParams = {
       workflowDefinitionId: inputDefinition?.workflowDefinitionId,
       input: formParamsFormatted,
     };
 
     await createMutate(RequestFormParams);
-    queryClient.clear();
     setIsLoading(false);
     toast({
       description: 'Create Request Successfully',
@@ -135,10 +121,6 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
     const updatedFormParams = { ...formParams };
     updatedFormParams[variable] = e.target.value;
     setFormParams(updatedFormParams);
-  };
-
-  const toDisplayName = (inputName: string) => {
-    return inputName.replace(/([a-z])([A-Z])/g, '$1 $2');
   };
 
   const handleSelectChangeValue = (value: string, variable: string) => {
@@ -255,7 +237,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
               fontWeight="normal"
               textColor={color}
             >
-              {toDisplayName(fieldname)}
+              {convertToCase(fieldname)}
               {Field?.isRequired ? (
                 <FormHelperText my={1} style={{ color: 'red' }} as="span">
                   {' '}
@@ -265,19 +247,20 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
                 ''
               )}
             </FormLabel>
-            <SearchableSelectField
-              name={fieldname}
-              control={control}
-              options={
-                (getOptions(Field?.type) as Array<option>) ?? [
-                  { value: '', label: '' },
-                ]
-              }
-              isRequired={Field?.isRequired}
-              value={formParams[fieldname] as string}
-              handleChange={handleSelectChangeValue}
-            />
-
+            <div data-testid={Field?.name}>
+              <SearchableSelectField
+                name={fieldname}
+                control={control}
+                options={
+                  (getOptions(Field?.type) as Array<option>) ?? [
+                    { value: '', label: '' },
+                  ]
+                }
+                isRequired={Field?.isRequired}
+                value={formParams[fieldname] as string}
+                handleChange={handleSelectChangeValue}
+              />
+            </div>
             <ErrorMessage
               errors={errors}
               name={fieldname}
@@ -291,7 +274,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
         return (
           <FormControl key={Field?.name}>
             <FormLabel fontSize={16} my={1} fontWeight="normal">
-              {toDisplayName(fieldname)}
+              {convertToCase(fieldname)}
               {Field?.isRequired ? (
                 <FormHelperText my={1} style={{ color: 'red' }} as="span">
                   {' '}
@@ -326,7 +309,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
         return (
           <FormControl key={Field?.name}>
             <FormLabel fontSize={16} my={1} fontWeight="normal">
-              {toDisplayName(fieldname)}
+              {convertToCase(fieldname)}
               {Field?.isRequired ? (
                 <FormHelperText my={1} style={{ color: 'red' }} as="span">
                   {' '}
@@ -363,7 +346,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
               my={1}
               fontWeight="normal"
             >
-              {toDisplayName(fieldname)}
+              {convertToCase(fieldname)}
               {Field?.isRequired ? (
                 <FormHelperText my={1} style={{ color: 'red' }} as="span">
                   {' '}
@@ -407,15 +390,17 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
               render={({ field }) => {
                 formParams[fieldname] = field.value;
                 return (
-                  <DatePicker
-                    id={fieldname}
-                    autoComplete="off"
-                    className={styles.datePicker}
-                    onChange={field.onChange}
-                    selected={field.value as Date}
-                    dateFormat="dd/MM/yyyy"
-                    wrapperClassName={styles.wrapperCustom}
-                  />
+                  <div data-testid={Field?.name}>
+                    <DatePicker
+                      id={fieldname}
+                      autoComplete="off"
+                      className={styles.datePicker}
+                      onChange={field.onChange}
+                      selected={field.value as Date}
+                      dateFormat="dd/MM/yyyy"
+                      wrapperClassName={styles.wrapperCustom}
+                    />
+                  </div>
                 );
               }}
             />
@@ -432,7 +417,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
         return (
           <FormControl key={Field?.name}>
             <FormLabel my={1} fontSize={16} fontWeight="normal">
-              {toDisplayName(fieldname)}
+              {convertToCase(fieldname)}
               {Field?.isRequired ? (
                 <FormHelperText my={1} style={{ color: 'red' }} as="span">
                   {' '}
@@ -454,15 +439,17 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
               render={({ field }) => {
                 formParams[fieldname] = field.value;
                 return (
-                  <MultiDatePicker
-                    multiple
-                    onChange={field.onChange}
-                    value={field.value}
-                    format="DD/MM/YYYY"
-                    plugins={[<Toolbar position="bottom" sort={['close']} />]}
-                    inputClass={styles.multiDatePicker}
-                    containerStyle={{ width: '100%' }}
-                  />
+                  <div data-testid={Field?.name}>
+                    <MultiDatePicker
+                      multiple
+                      onChange={field.onChange}
+                      value={field.value}
+                      format="DD/MM/YYYY"
+                      plugins={[<Toolbar position="bottom" sort={['close']} />]}
+                      inputClass={styles.multiDatePicker}
+                      containerStyle={{ width: '100%' }}
+                    />
+                  </div>
                 );
               }}
             />

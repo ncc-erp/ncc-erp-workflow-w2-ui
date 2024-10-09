@@ -20,6 +20,7 @@ export interface UserIdentity {
   creatorId: string;
   id: string;
   extraProperties: object;
+  roles: string[];
 }
 
 export interface ModalUserParams {
@@ -38,6 +39,7 @@ export interface FilterUserParams {
   maxResultCount: number;
   skipCount: number;
   sorting: string;
+  roles: string;
 }
 
 export interface ListResult<T> {

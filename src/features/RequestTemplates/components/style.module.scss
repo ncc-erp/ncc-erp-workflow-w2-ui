@@ -1,5 +1,29 @@
 .customModal {
-  max-width: 600px !important;
+  width: max-content !important;
+  min-width: 800px !important;
   margin: 10px;
   box-sizing: border-box;
+}
+
+.customModalBody {
+  max-height: 80vh;
+  overflow: auto;
+}
+
+div::-webkit-scrollbar {
+  width: 8px;
+}
+
+div::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}
+
+div::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+div::-webkit-scrollbar-track {
+  background-color: rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
 }

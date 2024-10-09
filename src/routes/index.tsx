@@ -13,7 +13,7 @@ import LoginCallback from 'features/auth/pages/LoginCallback';
 import RequestTemplates from 'features/RequestTemplates';
 import UserManagement from 'features/userManagement';
 import Tasks from 'features/Tasks';
-import PostAndWFH from 'features/report';
+import SettingsComponent from 'features/settings';
 
 const NotFound = lazy(() => import('common/components/NotFound'));
 const routeList: RouteObject[] = [
@@ -65,6 +65,18 @@ const routeList: RouteObject[] = [
               </WrapperRouteComponent>
             ),
           },
+          {
+            index: true,
+            element: <Navigate to="settings" />,
+          },
+          {
+            path: 'settings',
+            element: (
+              <WrapperRouteComponent>
+                <SettingsComponent />
+              </WrapperRouteComponent>
+            ),
+          },
         ],
       },
       {
@@ -75,14 +87,14 @@ const routeList: RouteObject[] = [
           </WrapperRouteComponent>
         ),
       },
-      {
-        path: 'report-wfh',
-        element: (
-          <WrapperRouteComponent>
-            <PostAndWFH />
-          </WrapperRouteComponent>
-        ),
-      },
+      // {
+      //   path: 'report-wfh',
+      //   element: (
+      //     <WrapperRouteComponent>
+      //       <PostAndWFH />
+      //     </WrapperRouteComponent>
+      //   ),
+      // },
       {
         path: '*',
         element: (

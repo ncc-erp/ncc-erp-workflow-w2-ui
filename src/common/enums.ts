@@ -6,8 +6,8 @@ export enum LoginStatus {
 export enum RequestStatus {
   Approved = 'Approved',
   Rejected = 'Rejected',
-  Pending = 'Suspended',
-  Canceled = 'Cancelled',
+  Pending = 'Pending',
+  Canceled = 'Canceled',
 }
 
 export enum ETaskStatus {
@@ -19,6 +19,12 @@ export enum ETaskStatus {
 export enum RequestSortField {
   createdAt = 'createdAt',
   lastExecutedAt = 'lastExecutedAt',
+}
+
+export enum SettingSortField {
+  name = 'name',
+  email = 'email',
+  code = 'code',
 }
 
 export enum UserSortField {

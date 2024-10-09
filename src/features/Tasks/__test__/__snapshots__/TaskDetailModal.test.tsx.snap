@@ -65,20 +65,38 @@ exports[`Task Detail Modal 1`] = `
                 </p>
               </h2>
             </div>
-            <button
-              class="chakra-button css-4xx2wk"
-              disabled=""
-              style="display: none;"
-              type="button"
-            >
-              View Workflow Detail
-            </button>
             <div
-              class="actions"
+              class="listActionContainer"
             >
+              <button
+                class="chakra-button btnWFDetail css-12eh3jv"
+                type="button"
+              >
+                View Workflow Detail
+              </button>
               <div
-                class="spinner"
-              />
+                class="actions"
+              >
+                <div
+                  class="spinner"
+                />
+              </div>
+              <div
+                class="listBtnActionTask"
+              >
+                <button
+                  class="chakra-button btnApproveTask css-12eh3jv"
+                  type="button"
+                >
+                  Approve
+                </button>
+                <button
+                  class="chakra-button btnRejectTask css-12eh3jv"
+                  type="button"
+                >
+                  Reject
+                </button>
+              </div>
             </div>
           </header>
           <button

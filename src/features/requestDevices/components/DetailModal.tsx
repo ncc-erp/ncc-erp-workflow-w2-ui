@@ -215,12 +215,7 @@ export const RequestDetailModal = ({
                 </Text>
               </Heading>
             </HStack>
-            <Button
-              mt={2}
-              style={{ display: 'none' }}
-              isDisabled={true}
-              onClick={onActionViewWorkflow(requestDetail.id)}
-            >
+            <Button mt={2} onClick={onActionViewWorkflow(requestDetail.id)}>
               View Workflow Detail
             </Button>
           </ModalHeader>
@@ -332,7 +327,7 @@ export const RequestDetailModal = ({
         <WorkflowModal
           isOpen={isOpenWorkflow}
           onClose={() => setOpenWorkflow(false)}
-          workflow={requestWorkflow}
+          workflow={`CompOnly?id=${requestWorkflow}`}
         />
       )}
     </>

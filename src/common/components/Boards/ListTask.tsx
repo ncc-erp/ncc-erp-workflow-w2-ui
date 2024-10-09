@@ -10,6 +10,7 @@ import {
   MenuList,
   Spacer,
   Spinner,
+  Tooltip,
   useDisclosure,
 } from '@chakra-ui/react';
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
@@ -44,6 +45,8 @@ import ModalBoard from './ModalBoard';
 import styles from './style.module.scss';
 import { useClearCacheTask } from './useClearCacheTask';
 import { WorkflowModal } from 'common/components/WorkflowModal';
+import OverflowText from '../OverflowText';
+import TextToolTip from '../textTooltip';
 
 interface Props {
   filters: FilterTasks;
@@ -110,26 +113,78 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
     };
 
     return [
-      columnHelper.accessor('id', {
+      columnHelper.accessor('requestId', {
         id: 'id',
         header: () => <Box pl="16px">ID</Box>,
         enableSorting: false,
         sortDescFirst: true,
         cell: (info) => (
-          <Center>{info.getValue().slice(-5).toUpperCase()}</Center>
+          <Center>
+            <Tooltip fontSize={'xs'} label={info.getValue()}>
+              {info.getValue()
+                ? info.getValue()?.slice(-5).toUpperCase()
+                : info.row.original.id.slice(-5).toUpperCase()}
+            </Tooltip>
+          </Center>
         ),
       }),
-      columnHelper.accessor('name', {
-        id: 'name',
-        header: 'Request template',
+      // columnHelper.accessor('name', {
+      //   id: 'name',
+      //   header: 'Request template',
+      //   enableSorting: false,
+      //   cell: (info) => info.getValue(),
+      // }),
+      columnHelper.accessor('title', {
+        id: 'title',
+        header: () => <Box textAlign="center">Title</Box>,
         enableSorting: false,
-        cell: (info) => info.getValue(),
+        cell: (info) => {
+          const { settings } = info.row.original;
+          const color: string = settings?.color || '#aabbcc';
+          const titleTemplate: string = settings?.titleTemplate || '';
+          return (
+            <>
+              <Box
+                style={{
+                  display: 'flex',
+                  alignItems: 'start',
+                  flexDirection: 'column',
+                  gap: '5px',
+                  minWidth: '400px',
+                }}
+              >
+                <TextToolTip
+                  title={titleTemplate}
+                  maxLines={1}
+                  type="LIST"
+                  place="top"
+                />
+
+                <Box
+                  className={styles.titleBoard}
+                  style={{
+                    backgroundColor: color,
+                  }}
+                >
+                  <OverflowText text={info.row.original.name} maxLines={1} />
+                </Box>
+              </Box>
+            </>
+          );
+        },
       }),
       columnHelper.accessor('authorName', {
         id: 'authorName',
         header: 'Request user',
         enableSorting: false,
-        cell: (info) => info.getValue(),
+        cell: (info) => {
+          const authorName = info.getValue();
+          return (
+            <Tooltip fontSize={'xs'} label={info.row.original.email}>
+              <Box>{authorName}</Box>
+            </Tooltip>
+          );
+        },
       }),
       columnHelper.accessor('description', {
         id: 'description',
@@ -216,7 +271,6 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
                   <MenuItem
                     display="flex"
                     gap="12px"
-                    style={{ display: 'none' }}
                     onClick={() =>
                       onActionViewWorkflow(
                         info.row.original.workflowInstanceId
@@ -393,6 +447,15 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
     [filters]
   );
 
+  const displayData = useMemo(() => {
+    return data?.items.map((item) => {
+      return {
+        ...item,
+        id: item.requestId || item.id,
+      };
+    });
+  }, [data]);
+
   useEffect(() => {
     setFilter({
       ...filters,
@@ -408,6 +471,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
     <>
       <Box position={'relative'}>
         <IconButton
+          isDisabled={isLoading || isRefetching}
           isRound={true}
           variant="solid"
           aria-label="Done"
@@ -417,71 +481,69 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
           top={'-40px'}
           icon={<AiOutlineReload />}
           onClick={() => refetch()}
+          data-testid="task-actions-menu-button"
         />
-        {isLoading || isRefetching ? (
-          <Center h="200px">
-            <Spinner mx="auto" speed="0.65s" thickness="3px" size="xl" />
-          </Center>
-        ) : (
-          <>
-            <EmptyWrapper
-              isEmpty={false}
-              h="200px"
-              fontSize="xs"
-              message={'No request found!'}
+        <>
+          <EmptyWrapper
+            isEmpty={false}
+            h="200px"
+            fontSize="xs"
+            message={'No request found!'}
+          >
+            <Box
+              p="10px 20px"
+              //overflowX="auto"
+              w={{
+                base: '100vw',
+                lg: `calc(100vw - ${sideBarWidth}px)`,
+              }}
+              data-testid="list-tasks-view"
             >
-              <Box
-                p="10px 20px"
-                //overflowX="auto"
-                w={{
-                  base: '100vw',
-                  lg: `calc(100vw - ${sideBarWidth}px)`,
-                }}
-              >
-                <Box
-                  w={'100%'}
-                  overflowX="auto"
-                  className={styles.tableContent}
-                >
-                  <Table
-                    onRowClick={openDetailModal}
-                    columns={taskColumns}
-                    data={data?.items ?? []}
-                    onRowHover={true}
-                  />
-                </Box>
+              <Box w={'100%'} overflowX="auto" className={styles.tableContent}>
+                <Table
+                  onRowClick={openDetailModal}
+                  columns={taskColumns}
+                  data={displayData ?? []}
+                  onRowHover={true}
+                  isHighlight={true}
+                  isLoading={isLoading}
+                  isRefetching={isRefetching}
+                  pageSize={filter.maxResultCount}
+                  dataTestId="task-item"
+                />
               </Box>
-            </EmptyWrapper>
-            <HStack
-              p={['20px 30px 20px 30px', '0px 30px 20px 30px']}
-              justifyContent={['center', 'space-between']}
-              borderBottom="1px"
-              borderColor="gray.200"
-              flexWrap="wrap"
-            >
-              <HStack alignItems="center" spacing="6px" flexWrap="wrap">
-                <PageSize
-                  noOfRows={noOfRows}
-                  onChange={onPageSizeChange}
-                  value={filter.maxResultCount}
-                />
-                <Spacer w="12px" />
-                <ShowingItemText
-                  skipCount={filter.skipCount}
-                  maxResultCount={filter.maxResultCount}
-                  totalCount={data?.totalCount ?? 0}
-                />
-              </HStack>
-              <Pagination
-                total={data?.totalCount ?? 0}
-                pageSize={filter.maxResultCount}
-                current={currentPage}
-                onChange={onPageChange}
-                hideOnSinglePage
+            </Box>
+          </EmptyWrapper>
+          <HStack
+            p={['20px 30px 20px 30px', '0px 30px 20px 30px']}
+            justifyContent={['center', 'space-between']}
+            borderBottom="1px"
+            borderColor="gray.200"
+            flexWrap="wrap"
+          >
+            <HStack alignItems="center" spacing="6px" flexWrap="wrap">
+              <PageSize
+                noOfRows={noOfRows}
+                onChange={onPageSizeChange}
+                value={filter.maxResultCount}
+              />
+              <Spacer w="12px" />
+              <ShowingItemText
+                skipCount={filter.skipCount}
+                maxResultCount={filter.maxResultCount}
+                totalCount={data?.totalCount ?? 0}
               />
             </HStack>
-          </>
-        )}
+            <Pagination
+              total={data?.totalCount ?? 0}
+              pageSize={filter.maxResultCount}
+              current={currentPage}
+              onChange={onPageChange}
+              hideOnSinglePage
+              data-testid="pagination"
+            />
+          </HStack>
+        </>
       </Box>
       <ModalBoard
         isOpen={isOpen}
@@ -498,7 +560,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
         <WorkflowModal
           isOpen={isOpenWorkflow}
           onClose={() => setOpenWorkflow(false)}
-          workflow={requestWorkflow}
+          workflow={`CompOnly?id=${requestWorkflow}`}
         />
       )}
     </>

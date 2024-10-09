@@ -218,10 +218,9 @@ export const TablePostAndWFH = () => {
           w="100%"
           display="flex"
           flexDirection={['column', 'column', 'column', 'row', 'row']}
-          justifyContent={["flex-start","space-between"]}
-          alignItems={["flex-start"]}
+          justifyContent={['flex-start', 'space-between']}
+          alignItems={['flex-start']}
           pl={{ base: '24px' }}
- 
         >
           <InputGroup
             alignItems={'center'}
@@ -239,6 +238,7 @@ export const TablePostAndWFH = () => {
           </InputGroup>
           <Box w={['80%', '80%', '70%', '50%', '40%', '30%']}>
             <DateRangePicker
+              isDisabled={isLoading || isRefetching}
               startDate={startDate}
               endDate={endDate}
               handleStartDateChange={handleStartDateChange}
@@ -288,10 +288,11 @@ export const TablePostAndWFH = () => {
             alignItems={'center'}
           >
             <Box
-              p={{ base: '20px 24px'  }}
+              p={{ base: '20px 24px' }}
               overflowX={'scroll'}
               w={{
-                base:"100vw", lg:`calc(100vw - ${sideBarWidth}px)`
+                base: '100vw',
+                lg: `calc(100vw - ${sideBarWidth}px)`,
               }}
             >
               <Table

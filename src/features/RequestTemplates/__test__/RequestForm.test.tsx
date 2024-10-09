@@ -136,26 +136,31 @@ const inputDefinition: InputDefinition = {
       name: 'CurrentOffice',
       type: 'OfficeList',
       isRequired: true,
+      isTitle: true,
     },
     {
       name: 'DestinationOffice',
       type: 'OfficeList',
       isRequired: true,
+      isTitle: true,
     },
     {
       name: 'Content',
       type: 'RichText',
       isRequired: true,
+      isTitle: true,
     },
     {
       name: 'StartDate',
       type: 'DateTime',
       isRequired: true,
+      isTitle: true,
     },
     {
       name: 'EndDate',
       type: 'DateTime',
       isRequired: false,
+      isTitle: true,
     },
   ],
   id: '3a05ffba-3830-e0d4-e931-9381c70a3710',
@@ -190,7 +195,7 @@ describe('Request Template Form Components', () => {
 
     describe('Content Input', () => {
       it('should have a Content input when the form is loaded', () => {
-        expect(screen.getByPlaceholderText('Content')).toBeInTheDocument();
+        expect(screen.getByText('Content')).toBeInTheDocument();
       });
 
       it('should show an error message when no content is entered', async () => {
@@ -226,11 +231,7 @@ describe('Request Template Form Components', () => {
 
     describe('When all options are chosen and submitted', () => {
       it('should submit the form with the selected values', async () => {
-        userEvent.type(
-          screen.getByPlaceholderText('Content'),
-          'Is the Content'
-        );
-
+        userEvent.type(screen.getByText('Content'), 'Is the Content');
         // Select the start date
         const startPicker = screen.getByLabelText(/Start Date/i);
         userEvent.click(startPicker);

@@ -72,6 +72,7 @@ export const FilterAll = {
 export const UserRoles = {
   ADMIN: 'admin',
   DEFAULT_USER: 'DefaultUser',
+  DESIGNER: 'Designer',
 };
 
 export const UserAction = {
@@ -99,6 +100,8 @@ export const QueryKeys = {
   GET_USER_CURRENT_PROJECT: 'getUserCurrentProject',
   GET_STAKE_HOLDERS_FOR_FILTER: 'getStakeHoldersForFilter',
   GET_USER_LIST: 'getUserList',
+  GET_INPUT_DEFINITION: 'getInputDefinition',
+  GET_SETTING_LIST: 'getSettingList',
 };
 
 export const ColorThemeMode = {
@@ -106,13 +109,15 @@ export const ColorThemeMode = {
   DARK: 'dark',
 };
 
+export const GUID_ID_DEFAULT_VALUE = '00000000-0000-0000-0000-000000000000';
+
 export const DEFAULT_TASK_PER_PAGE = 10;
 export const TaskStatusesData = [
   { status: 'Pending', color: 'blue' },
   { status: 'Approved', color: 'green' },
   { status: 'Rejected', color: 'red' },
   { status: 'Faulted', color: 'yellow' },
-  { status: 'Cancelled', color: 'gray' },
+  { status: 'Canceled', color: 'gray' },
 ];
 
 export const OtherActionSignalStatus = {
@@ -144,3 +149,9 @@ export const LinkDocRedirect = {
 export const MaxFailedAccessAttempts = 5;
 
 export const UPDATED_BY_W2 = 'W2 Workflow';
+export const UserRoleLabelMapping = {
+  ADMIN: 'Admin',
+  DEFAULT_USER: 'Default User',
+  DESIGNER: 'Designer',
+  UNASSIGNED: 'N/A',
+};

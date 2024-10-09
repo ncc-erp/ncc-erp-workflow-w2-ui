@@ -17,6 +17,22 @@ export default defineConfig(({ mode }) => {
               target: process.env.VITE_PROXY_SERVER_URL,
               changeOrigin: true,
             },
+            '/CompOnly': {
+              target: process.env.VITE_PROXY_SERVER_URL,
+              changeOrigin: true,
+            },
+            '/_content': {
+              target: process.env.VITE_PROXY_SERVER_URL,
+              changeOrigin: true,
+            },
+            '/designer.config.json': {
+              target: process.env.VITE_PROXY_SERVER_URL,
+              changeOrigin: true,
+            },
+            '/v1': {
+              target: process.env.VITE_PROXY_SERVER_URL,
+              changeOrigin: true,
+            },
           }
         : {},
     },

@@ -17,13 +17,21 @@ export interface ITask {
   emailTo: string[];
   reason?: string;
   status: number;
+  title: string;
   workflowInstanceId: string;
   dynamicActionData?: string;
+  requestId?: string;
   creationTime: string;
   id: string;
   otherActionSignals?: IOtherActionSignals[];
   description?: string;
   authorName?: string;
+  settings?: ISettings;
+}
+
+export interface ISettings {
+  color: string;
+  titleTemplate: string;
 }
 
 export interface IStakeHolder {

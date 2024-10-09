@@ -9,6 +9,8 @@ import {
   RequestTemplateResult,
   WfhRequestFormParams,
   IRequestResult,
+  ICreateFormParams,
+  IUpdateInputFormParams,
 } from 'models/request';
 import {
   useCancelByPost,
@@ -27,7 +29,9 @@ export const useMyRequests = (filter: FilterRequestParams) => {
   return useGetListByPost<FilterRequestResult>(
     [QueryKeys.FILTER_REQUEST, filter],
     '/app/workflow-instance/list',
-    filter
+    filter,
+    {},
+    { refetchOnMount: true }
   );
 };
 
@@ -46,10 +50,12 @@ export const useCancelRequest = () => {
   return useCancelByPost(`/app/workflow-instance`);
 };
 
-export const useRequestTemplates = () => {
+export const useRequestTemplates = (isPublish?: boolean) => {
   return useGetListByPost<RequestTemplateResult>(
-    [QueryKeys.REQUEST_TEMPLATES],
-    '/app/workflow-definition/list-all'
+    [QueryKeys.REQUEST_TEMPLATES, isPublish],
+    isPublish
+      ? `/app/workflow-definition/list-all?isPublish=${isPublish}`
+      : `/app/workflow-definition/list-all`
   );
 };
 
@@ -73,6 +79,13 @@ export const useOffices = () => {
   return useGetOne<typeof officeList>(
     [QueryKeys.GET_OFFICES],
     '/app/external-resource/of-office'
+  );
+};
+
+export const useInputDefinition = () => {
+  return useGetOne(
+    [QueryKeys.GET_INPUT_DEFINITION],
+    '/app/external-resource/workflow-input-definition-property-types'
   );
 };
 
@@ -103,6 +116,22 @@ export const useNewRequestWorkflow = () => {
   return useCreate<IRequestFormParams, any>(
     '/app/workflow-instance/new-instance'
   );
+};
+
+export const useCreateWorkflowDefinition = () => {
+  return useCreate<ICreateFormParams, any>(
+    '/app/workflow-definition/workflow-definition'
+  );
+};
+
+export const useUpdateWorkflowInput = () => {
+  return useCreate<IUpdateInputFormParams, any>(
+    '/app/workflow-definition/save-workflow-input-definition'
+  );
+};
+
+export const useDeleteWorkflowDefinition = () => {
+  return useDelete(`/app/workflow-definition`);
 };
 
 export const useUserCurrentProject = (userEmail: string = '') => {

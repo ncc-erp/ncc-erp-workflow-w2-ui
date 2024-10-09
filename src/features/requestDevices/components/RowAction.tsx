@@ -7,7 +7,7 @@ import {
   Icon,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { RiSettings4Fill, RiDeleteBin6Fill } from 'react-icons/ri';
+import { RiSettings4Fill } from 'react-icons/ri';
 import { MdCancel } from 'react-icons/md';
 import { FaEye, FaRegMap } from 'react-icons/fa';
 import { ColorThemeMode } from 'common/constants';
@@ -15,15 +15,19 @@ import { ColorThemeMode } from 'common/constants';
 interface RowActionProps {
   onViewDetails: () => void;
   onCancel: () => void;
-  onDelete: () => void;
-  onViewWorkflow: () => void;
+  onViewWorkflow?: () => void;
+  actions?: {
+    cancel?: boolean;
+  };
 }
 
 export const RowAction = ({
   onCancel,
-  onDelete,
   onViewDetails,
   onViewWorkflow,
+  actions = {
+    cancel: false,
+  },
 }: RowActionProps) => {
   const bg = useColorModeValue(ColorThemeMode.LIGHT, ColorThemeMode.DARK);
   const color = useColorModeValue(ColorThemeMode.DARK, ColorThemeMode.LIGHT);
@@ -47,24 +51,23 @@ export const RowAction = ({
           <Icon color="gray.500" as={FaEye} />
           View
         </MenuItem>
-        <MenuItem
-          color={color}
-          display="flex"
-          gap="12px"
-          style={{ display: 'none' }}
-          onClick={onViewWorkflow}
-        >
-          <Icon color="gray.500" as={FaRegMap} />
-          Workflow
-        </MenuItem>
-        <MenuItem color={color} display="flex" gap="12px" onClick={onDelete}>
-          <Icon color="gray.500" as={RiDeleteBin6Fill} />
-          Delete
-        </MenuItem>
-        <MenuItem color={color} display="flex" gap="12px" onClick={onCancel}>
-          <Icon color="gray.500" as={MdCancel} />
-          Cancel
-        </MenuItem>
+        {onViewWorkflow && (
+          <MenuItem
+            color={color}
+            display="flex"
+            gap="12px"
+            onClick={onViewWorkflow}
+          >
+            <Icon color="gray.500" as={FaRegMap} />
+            Workflow
+          </MenuItem>
+        )}
+        {actions.cancel && (
+          <MenuItem color={color} display="flex" gap="12px" onClick={onCancel}>
+            <Icon color="gray.500" as={MdCancel} />
+            Cancel
+          </MenuItem>
+        )}
       </MenuList>
     </Menu>
   );

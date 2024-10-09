@@ -8,7 +8,6 @@ import {
   InputGroup,
   InputRightElement,
   Spacer,
-  Spinner,
   Wrap,
   WrapItem,
 } from '@chakra-ui/react';
@@ -20,7 +19,6 @@ import {
 } from '@tanstack/react-table';
 import {
   useCancelRequest,
-  useDeleteRequest,
   useMyRequests,
   useRequestTemplates,
 } from 'api/apiHooks/requestHooks';
@@ -35,7 +33,7 @@ import { RequestSortField, RequestStatus, SortDirection } from 'common/enums';
 import { RowAction } from 'features/requestDevices/components/RowAction';
 import { useCurrentUser } from 'hooks/useCurrentUser';
 import { useIsAdmin } from 'hooks/useIsAdmin';
-import { FilterRequestParams, Request } from 'models/request';
+import { FilterRequestParams, Request, Settings } from 'models/request';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { appConfigState } from 'stores/appConfig';
@@ -48,6 +46,8 @@ import { EmptyWrapper } from 'common/components/EmptyWrapper';
 import { ModalConfirm } from 'common/components/ModalConfirm';
 import { AiOutlineReload } from 'react-icons/ai';
 import styles from './style.module.scss';
+import OverflowText from 'common/components/OverflowText';
+import TextToolTip from 'common/components/textTooltip';
 
 const initialSorting: SortingState = [
   {
@@ -67,11 +67,12 @@ export const MyRequestTable = () => {
     RequestUser: currentUser?.sub[0],
     StakeHolder: '',
   };
+  const isPublish = true;
   const { sideBarWidth } = useRecoilValue(appConfigState);
   const [filter, setFilter] = useState<FilterRequestParams>(initialFilter);
   const [sorting, setSorting] = useState<SortingState>(initialSorting);
   const { data, isLoading, isRefetching, refetch } = useMyRequests(filter);
-  const { data: requestTemplateData } = useRequestTemplates();
+  const { data: requestTemplateData } = useRequestTemplates(isPublish);
   const { items: requests = [], totalCount = 0 } = data ?? {};
   const { items: requestTemplates = [] } = requestTemplateData ?? {};
   const { skipCount, maxResultCount } = filter;
@@ -80,14 +81,12 @@ export const MyRequestTable = () => {
   const isAdmin = useIsAdmin();
 
   const queryClient = useQueryClient();
-  const deleteRequestMutation = useDeleteRequest();
   const cancelRequestMutation = useCancelRequest();
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenDetails, setOpenDetails] = useState(false);
   const [isOpenWorkflow, setOpenWorkflow] = useState(false);
   const [modalTitle, setModalTitle] = useState('');
   const [modalDescription, setModalDescription] = useState('');
-  const [actionType, setActionType] = useState('');
   const [requestId, setRequestId] = useState('');
   const [requestDetails, setRequestDetails] = useState<Request>();
   const [requestWorkflow, setRequestWorkflow] = useState<string>('');
@@ -122,97 +121,148 @@ export const MyRequestTable = () => {
     return [defaultOptions, ...options];
   }, [requestTemplates]);
 
-  const myRequestColumns = useMemo(
-    () =>
-      [
-        columnHelper.accessor('workflowDefinitionDisplayName', {
-          id: 'workflowDefinitionDisplayName',
-          header: () => <Box>Request template</Box>,
-          enableSorting: false,
-          cell: (info) => <Box>{info.getValue()}</Box>,
-        }),
-        columnHelper.accessor('userRequestName', {
-          id: 'userRequestName',
-          header: () => <Box>Request user</Box>,
-          enableSorting: false,
-          cell: (info) => info.getValue(),
-        }),
-        columnHelper.accessor('currentStates', {
-          id: 'currentStates',
-          header: () => <Box textAlign="center">Current states</Box>,
-          enableSorting: false,
-          cell: (info) => {
-            const currentStates = info.getValue();
-            const formattedCurrentStates = currentStates.join(',\n');
-            return (
-              <div
-                dangerouslySetInnerHTML={{ __html: formattedCurrentStates }}
+  const myRequestColumns = useMemo(() => {
+    const displayColumn = columnHelper.accessor('shortTitle', {
+      id: 'shortTitle',
+      header: () => <Box textAlign="center">Title</Box>,
+      enableSorting: false,
+      cell: (info) => {
+        let colorCode: string = '#aabbcc';
+        if (
+          info.row.original.settings &&
+          typeof info.row.original.settings === 'object'
+        ) {
+          const settings = info.row.original.settings as Settings;
+          if (settings.color) {
+            colorCode = settings.color;
+          }
+        }
+        return (
+          <Box
+            style={{
+              display: 'flex',
+              alignItems: 'start',
+              flexDirection: 'column',
+              gap: '5px',
+              minWidth: '400px',
+            }}
+          >
+            <TextToolTip
+              title={info.row.original.shortTitle || ''}
+              maxLines={1}
+              type="LIST"
+              place="top"
+              data-testid="short-title-tooltip"
+            />
+            <Box
+              className={styles.titleTable}
+              style={{
+                backgroundColor: colorCode,
+              }}
+            >
+              <OverflowText
+                text={info.row.original.workflowDefinitionDisplayName}
+                maxLines={1}
               />
-            );
-          },
-        }),
-        columnHelper.accessor('stakeHolders', {
-          id: 'stakeHolders',
-          header: 'Stakeholders',
-          enableSorting: false,
-          cell: (info) => {
-            const stakeholders = info.getValue();
-            const formattedStakeholders = stakeholders.join(',\n');
-            return (
-              <div
-                dangerouslySetInnerHTML={{ __html: formattedStakeholders }}
-              />
-            );
-          },
-        }),
-        columnHelper.accessor('createdAt', {
-          id: 'createdAt',
-          header: 'Created at',
-          cell: (info) => formatDate(new Date(info.getValue())),
-          sortDescFirst: true,
-        }),
+            </Box>
+          </Box>
+        );
+      },
+    });
 
-        columnHelper.accessor('lastExecutedAt', {
-          id: 'lastExecutedAt',
-          header: 'Last executed at',
-          cell: (info) => formatDate(new Date(info.getValue())),
-          sortDescFirst: true,
-        }),
-        columnHelper.accessor('status', {
-          id: 'status',
-          header: 'Status',
-          enableSorting: false,
-          cell: (info) => {
-            const status = info.row.original.status;
-            return (
-              <Box display={'flex'}>
-                {
-                  <div className={`${styles.badge} ${styles[status]}`}>
-                    {info.getValue()}
-                  </div>
-                }
-              </Box>
-            );
-          },
-        }),
-        columnHelper.display({
-          id: 'actions',
-          enableSorting: false,
-          header: () => <Center w="full">Actions</Center>,
-          cell: (info) => (
-            <Center onClick={(e) => e.stopPropagation()}>
-              <RowAction
-                onCancel={onAction(info.row.original.id, 'canceled')}
-                onDelete={onAction(info.row.original.id, 'deleted')}
-                onViewDetails={onActionViewDetails(info.row.original)}
-                onViewWorkflow={onActionViewWorkflow(info.row.original.id)}
-              />
-            </Center>
-          ),
-        }),
-      ] as ColumnDef<Request>[],
-    [columnHelper]
-  );
+    const editorColumn = columnHelper.accessor('userRequestName', {
+      id: 'userRequestName',
+      header: () => <Box>Request user</Box>,
+      enableSorting: false,
+      cell: (info) => info.getValue(),
+    });
+
+    const coreColumn = [
+      columnHelper.accessor('currentStates', {
+        id: 'currentStates',
+        header: () => <Box textAlign="center">Current states</Box>,
+        enableSorting: false,
+        cell: (info) => {
+          const currentStates = info.getValue();
+          const formattedCurrentStates = currentStates.join(',\n');
+          return (
+            <div dangerouslySetInnerHTML={{ __html: formattedCurrentStates }} />
+          );
+        },
+      }),
+
+      columnHelper.accessor('stakeHolders', {
+        id: 'stakeHolders',
+        header: 'Stakeholders',
+        enableSorting: false,
+        cell: (info) => {
+          const stakeholders = info.getValue();
+          const formattedStakeholders = stakeholders.join(',\n');
+          return (
+            <div dangerouslySetInnerHTML={{ __html: formattedStakeholders }} />
+          );
+        },
+      }),
+      columnHelper.accessor('createdAt', {
+        id: 'createdAt',
+        header: 'Created at',
+        cell: (info) => formatDate(new Date(info.getValue())),
+        sortDescFirst: true,
+      }),
+
+      columnHelper.accessor('lastExecutedAt', {
+        id: 'lastExecutedAt',
+        header: 'Last executed at',
+        cell: (info) => formatDate(new Date(info.getValue())),
+        enableSorting: false,
+        sortDescFirst: true,
+      }),
+      columnHelper.accessor('status', {
+        id: 'status',
+        header: 'Status',
+        enableSorting: false,
+        cell: (info) => {
+          const status = info.row.original.status;
+          return (
+            <Box display={'flex'}>
+              {
+                <div className={`${styles.badge} ${styles[status]}`}>
+                  {info.getValue()}
+                </div>
+              }
+            </Box>
+          );
+        },
+      }),
+      columnHelper.display({
+        id: 'actions',
+        enableSorting: false,
+        header: () => <Center w="full">Actions</Center>,
+        cell: (info) => (
+          <Center onClick={(e) => e.stopPropagation()}>
+            <RowAction
+              onCancel={onAction(info.row.original.id, 'canceled')}
+              onViewDetails={onActionViewDetails(info.row.original)}
+              onViewWorkflow={onActionViewWorkflow(info.row.original.id)}
+              actions={{
+                cancel:
+                  (isAdmin &&
+                    info.row.original.status !== RequestStatus.Canceled) ||
+                  info.row.original.status === RequestStatus.Pending,
+              }}
+            />
+          </Center>
+        ),
+      }),
+    ] as ColumnDef<Request>[];
+
+    const result = [
+      displayColumn,
+      ...(isAdmin ? [editorColumn] : []),
+      ...coreColumn,
+    ] as ColumnDef<Request>[];
+    return result;
+  }, [columnHelper, isAdmin]);
 
   useEffect(() => {
     const { id, desc } = sorting?.[0] ?? {};
@@ -269,9 +319,8 @@ export const MyRequestTable = () => {
     setOpenWorkflow(true);
   };
 
-  const onAction = (requestId: string, type: 'deleted' | 'canceled') => () => {
+  const onAction = (requestId: string, type: 'canceled') => () => {
     setRequestId(requestId);
-    setActionType(type);
     setModalTitle(`Confirm ${type} request`);
     setModalDescription(`Request will be ${type}. Do you confirm that?`);
     setIsOpen(true);
@@ -281,35 +330,19 @@ export const MyRequestTable = () => {
     setIsOpen(false);
     if (requestId.length === 0) return;
 
-    const mutation =
-      actionType === 'deleted' ? deleteRequestMutation : cancelRequestMutation;
-    const successMessage =
-      actionType === 'deleted'
-        ? 'Deleted successfully!'
-        : 'Cancelled successfully!';
-    const errorMessage =
-      actionType === 'deleted' ? 'Delete failed!' : 'Cancel failed!';
-
     try {
-      await mutation.mutateAsync(requestId);
+      await cancelRequestMutation.mutateAsync(requestId);
       queryClient.invalidateQueries({ queryKey: [QueryKeys.FILTER_REQUEST] });
-      toast({ title: successMessage, status: 'success' });
+      toast({ title: 'Cancelled successfully!', status: 'success' });
     } catch (error) {
-      toast({ title: errorMessage, status: 'error' });
+      toast({ title: 'Cancel failed!', status: 'error' });
     }
   };
 
   return (
     <>
       <Box>
-        <HStack
-          w="full"
-          gap={3}
-          pl="24px"
-          pb="8px"
-          alignItems="flex-end"
-          flexWrap="wrap"
-        >
+        <HStack w="full" gap={3} pl="24px" pb="8px" alignItems="flex-end">
           <Box>
             <SelectField
               isDisabled={isLoading || isRefetching}
@@ -330,17 +363,19 @@ export const MyRequestTable = () => {
               options={statusOptions}
             />
           </Box>
-          {isAdmin && (
+          {isAdmin && !filter.RequestUser && (
             <Box w={'300px'}>
               <InputGroup>
                 <Input
-                  isDisabled={isLoading || isRefetching}
                   autoFocus
                   value={txtSearch}
                   type="text"
                   placeholder="Enter email"
                   fontSize="14px"
-                  onChange={(e) => setTxtSearch(e.target.value)}
+                  onChange={(e) =>
+                    !isLoading && !isRefetching && setTxtSearch(e.target.value)
+                  }
+                  data-testid="search-input"
                 />
                 <InputRightElement width="40px">
                   <TbSearch />
@@ -396,63 +431,64 @@ export const MyRequestTable = () => {
             </WrapItem>
           </Wrap>
         </Box>
-        {isLoading || isRefetching ? (
-          <Center h="200px">
-            <Spinner mx="auto" speed="0.65s" thickness="3px" size="xl" />
-          </Center>
-        ) : (
-          <EmptyWrapper
-            isEmpty={!requests.length}
-            h="200px"
-            fontSize="xs"
-            message={'No request found!'}
-          >
-            <Box
-              p="20px 30px 0px 24px"
-              w={{
-                base: '100vw',
-                lg: `calc(100vw - ${sideBarWidth}px)`,
-              }}
-            >
-              <Box w={'100%'} overflowX="auto" className={styles.tableContent}>
-                <Table
-                  columns={myRequestColumns}
-                  data={requests}
-                  sorting={sorting}
-                  onSortingChange={setSorting}
-                  onRowClick={onActionViewDetails}
-                  onRowHover={true}
-                />
-              </Box>
-            </Box>
-          </EmptyWrapper>
-        )}
-        <HStack
-          p="20px 30px 20px 30px"
-          justifyContent={['center', 'space-between']}
-          flexWrap="wrap"
+        <EmptyWrapper
+          isEmpty={!requests.length && !isRefetching && !isLoading}
+          h="200px"
+          fontSize="xs"
+          message={'No request found!'}
         >
-          <HStack alignItems="center" spacing="6px" flexWrap="wrap">
-            <PageSize
-              noOfRows={noOfRows}
-              onChange={onPageSizeChange}
-              isLoading={isLoading || isRefetching}
+          <Box
+            w={{
+              base: `calc(100vw - ${sideBarWidth}px)`,
+              lg: `calc(100vw - ${sideBarWidth}px)`,
+              xs: 'max-content',
+            }}
+            p={{ base: '10px 24px 0px' }}
+            data-testid="my-requests-view"
+          >
+            <Table
+              columns={myRequestColumns}
+              data={requests}
+              sorting={sorting}
+              onSortingChange={setSorting}
+              onRowClick={onActionViewDetails}
+              onRowHover={true}
+              isHighlight={true}
+              isLoading={isLoading}
+              isRefetching={isRefetching}
+              pageSize={filter.maxResultCount}
+              dataTestId="my-request-item"
             />
-            <Spacer w="5px" />
-            <ShowingItemText
-              skipCount={filter.skipCount}
-              maxResultCount={filter.maxResultCount}
-              totalCount={totalCount}
+          </Box>
+
+          <HStack
+            p="20px 30px 20px 30px"
+            justifyContent={['center', 'space-between']}
+            flexWrap="wrap"
+          >
+            <HStack alignItems="center" spacing="6px" flexWrap="wrap">
+              <PageSize
+                noOfRows={noOfRows}
+                onChange={onPageSizeChange}
+                isLoading={isLoading || isRefetching}
+              />
+              <Spacer w="5px" />
+              <ShowingItemText
+                skipCount={filter.skipCount}
+                maxResultCount={filter.maxResultCount}
+                totalCount={totalCount}
+              />
+            </HStack>
+            <Pagination
+              total={totalCount}
+              pageSize={filter.maxResultCount}
+              current={currentPage}
+              onChange={onPageChange}
+              hideOnSinglePage
+              data-testid="pagination"
             />
           </HStack>
-          <Pagination
-            total={totalCount}
-            pageSize={filter.maxResultCount}
-            current={currentPage}
-            onChange={onPageChange}
-            hideOnSinglePage
-          />
-        </HStack>
+        </EmptyWrapper>
       </Box>
       <ModalConfirm
         isOpen={isOpen}
@@ -472,7 +508,7 @@ export const MyRequestTable = () => {
         <WorkflowModal
           isOpen={isOpenWorkflow}
           onClose={() => setOpenWorkflow(false)}
-          workflow={requestWorkflow}
+          workflow={`CompOnly?id=${requestWorkflow}`}
         />
       )}
     </>

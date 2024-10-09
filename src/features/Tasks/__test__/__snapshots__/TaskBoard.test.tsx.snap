@@ -20,7 +20,34 @@ exports[`Request My Requests Page 1`] = `
       <div
         class="chakra-stack__item css-bdvyq0"
       >
+        <h2
+          class="chakra-heading css-x3ytmx"
+        >
+          Nhan Huynh Ba
+        </h2>
         <div>
+          <button
+            class="chakra-button css-fkrxci"
+            title="Log out"
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              fill="none"
+              height="20px"
+              stroke="currentColor"
+              stroke-width="1.5"
+              viewBox="0 0 24 24"
+              width="20px"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M5.636 5.636a9 9 0 1012.728 0M12 3v9"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
           <button
             class="chakra-button css-fkrxci"
             title="Release note"
@@ -434,6 +461,7 @@ exports[`Request My Requests Page 1`] = `
             </button>
             <div
               class="container css-ztxjyy"
+              data-testid="board-view"
             >
               <div
                 data-rfd-droppable-context-id=":r4:"
@@ -448,6 +476,7 @@ exports[`Request My Requests Page 1`] = `
                 </div>
                 <div
                   class="columnContent css-0"
+                  data-testid="board-col"
                 />
               </div>
               <div
@@ -463,6 +492,7 @@ exports[`Request My Requests Page 1`] = `
                 </div>
                 <div
                   class="columnContent css-0"
+                  data-testid="board-col"
                 />
               </div>
               <div
@@ -478,6 +508,7 @@ exports[`Request My Requests Page 1`] = `
                 </div>
                 <div
                   class="columnContent css-0"
+                  data-testid="board-col"
                 >
                   <div
                     class="css-11tqb05"
@@ -487,27 +518,38 @@ exports[`Request My Requests Page 1`] = `
                   >
                     <div
                       class="item itemRejected css-1lwj26n"
+                      data-testid="board-item"
                     >
                       <div
-                        class="css-nb2z2f"
+                        class="css-y3sjyp"
                       >
-                        <p
-                          class="chakra-text css-1e3dq3t"
+                        <div
+                          class="css-0"
+                          style="flex: 1;"
                         >
-                          ID: 
-                          6387F
-                        </p>
-                        <div>
-                          (
-                          2 months ago
-                          )
+                          <div
+                            class="css-0"
+                            data-testid="board-item-title"
+                            style="flex: 1;"
+                          >
+                            <p
+                              class="chakra-text css-e3cc90"
+                              data-tooltip-id="3a0e2"
+                              style="overflow: hidden; font-weight: 600; display: -webkit-box; text-overflow: ellipsis;"
+                            >
+                              3a0e2
+                            </p>
+                          </div>
                         </div>
-                      </div>
-                      <div
-                        class="title"
-                        style="background-color: rgb(0, 150, 136);"
-                      >
-                        Probationary Request
+                        <div
+                          class="css-0"
+                        >
+                          <div>
+                            (
+                            2 months ago
+                            )
+                          </div>
+                        </div>
                       </div>
                       <div
                         class="css-147dy5z"
@@ -517,8 +559,9 @@ exports[`Request My Requests Page 1`] = `
                         >
                           Request user:
                         </p>
-                         
-                        Ba Bi
+                        <div>
+                          Ba Bi
+                        </div>
                       </div>
                       <div
                         class="css-147dy5z"
@@ -531,14 +574,19 @@ exports[`Request My Requests Page 1`] = `
                         CEO Review
                       </div>
                       <div
-                        class="css-147dy5z"
+                        class="css-k008qs"
+                        style="flex-direction: row; justify-content: space-between; width: 100%; align-items: center;"
                       >
-                        <p
-                          class="chakra-text css-0"
+                        <div
+                          class="css-147dy5z"
                         >
-                          Assign:
-                        </p>
-                        nhan.huynhba
+                          <p
+                            class="chakra-text css-0"
+                          >
+                            Assign:
+                          </p>
+                          nhan.huynhba
+                        </div>
                       </div>
                       <div
                         class="cardFooter css-k008qs"
@@ -552,6 +600,12 @@ exports[`Request My Requests Page 1`] = `
                             Date:
                           </p>
                           10-10-2023 16:41
+                        </div>
+                        <div
+                          class="title"
+                          style="background-color: rgb(0, 150, 136);"
+                        >
+                          Probationary Request
                         </div>
                       </div>
                     </div>

@@ -4,9 +4,11 @@ export interface Request {
   id: string;
   workflowDefinitionId: string;
   workflowDefinitionDisplayName: string;
+  settings?: string;
   userRequestName: string;
   createdAt: string;
   lastExecutedAt: string;
+  shortTitle?: string;
   status: RequestStatus;
   stakeHolders: string[];
   currentStates: string[];
@@ -53,12 +55,31 @@ export interface RequestTemplate {
 export interface InputDefinition {
   workflowDefinitionId: string;
   propertyDefinitions: PropertyDefinition[];
+  settings?: Settings;
   id: string;
+  nameRequest?: string;
+}
+
+export interface Settings {
+  color: string;
+  titleTemplate: string;
+}
+
+export interface IJsonObject {
+  settings: Settings;
+  propertyDefinitions: PropertyDefinition[];
 }
 
 export interface PropertyDefinition {
   name: string;
   type: string;
+  isRequired: boolean;
+  isTitle?: boolean;
+  titleTemplate?: string;
+}
+
+export interface CreateWorkflowPropertyDefinition {
+  name: string;
   isRequired: boolean;
 }
 
@@ -92,6 +113,19 @@ export interface DeviceRequestFormParams {
 export interface IRequestFormParams {
   workflowDefinitionId?: string;
   input: object;
+}
+
+export interface ICreateFormParams {
+  name: string;
+  displayName: string;
+  tag: string;
+}
+
+export interface IUpdateInputFormParams {
+  id: string;
+  workflowDefinitionId?: string;
+  propertyDefinitions: PropertyDefinition[];
+  settings?: Settings;
 }
 
 export interface IRequestUser {

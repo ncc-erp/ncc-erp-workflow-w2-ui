@@ -136,49 +136,53 @@ const Login = () => {
           <Heading as="h1" size="md" textAlign="left" w="full" fontWeight={700}>
             Sign In
           </Heading>
-          <form
-            style={{ width: '100%' }}
-            onSubmit={handleSubmit(onLogin)}
-            data-testid="login-form"
-          >
-            <VStack spacing="14px">
-              <TextField
-                h="50px"
-                placeholder="Username or email address"
-                fontSize="sm"
-                error={errors.userNameOrEmailAddress?.message}
-                {...register('userNameOrEmailAddress', {
-                  required: 'The Username or email address field is required!',
-                })}
-              />
-              <PasswordField
-                h="50px"
-                placeholder="Password"
-                fontSize="sm"
-                error={errors.password?.message}
-                {...register('password', {
-                  required: 'The password field is required!',
-                })}
-                iconsProps={{
-                  w: '18px',
-                  h: '18px',
-                }}
-                buttonProps={{
-                  mr: '10px',
-                }}
-              />
-              <Button
-                mt="14px"
-                h="50px"
-                type="submit"
-                isLoading={isLoginLoading}
-                colorScheme="gray"
-                w="full"
-              >
-                Sign in
-              </Button>
-            </VStack>
-          </form>
+          {(import.meta.env.VITE_MODE == 'development' ||
+            import.meta.env.MODE !== 'production') && (
+            <form
+              style={{ width: '100%' }}
+              onSubmit={handleSubmit(onLogin)}
+              data-testid="login-form"
+            >
+              <VStack spacing="14px">
+                <TextField
+                  h="50px"
+                  placeholder="Username or email address"
+                  fontSize="sm"
+                  error={errors.userNameOrEmailAddress?.message}
+                  {...register('userNameOrEmailAddress', {
+                    required:
+                      'The Username or email address field is required!',
+                  })}
+                />
+                <PasswordField
+                  h="50px"
+                  placeholder="Password"
+                  fontSize="sm"
+                  error={errors.password?.message}
+                  {...register('password', {
+                    required: 'The password field is required!',
+                  })}
+                  iconsProps={{
+                    w: '18px',
+                    h: '18px',
+                  }}
+                  buttonProps={{
+                    mr: '10px',
+                  }}
+                />
+                <Button
+                  mt="14px"
+                  h="50px"
+                  type="submit"
+                  isLoading={isLoginLoading}
+                  colorScheme="gray"
+                  w="full"
+                >
+                  Sign in
+                </Button>
+              </VStack>
+            </form>
+          )}
           <Button
             isLoading={isLoginExternalLoading}
             onClick={handleLogin}
