@@ -18,13 +18,13 @@ export const Open: Story = {
   args: {
     isOpen: true,
     onClose: () => {},
-    workflowId: '234670987654',
+    workflow: '234670987654',
   },
 };
 export const Close: Story = {
   args: {
     isOpen: false,
     onClose: () => {},
-    workflowId: '234670987654',
+    workflow: '234670987654',
   },
 };

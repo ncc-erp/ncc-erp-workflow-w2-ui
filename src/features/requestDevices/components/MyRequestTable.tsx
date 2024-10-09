@@ -30,7 +30,7 @@ import { toast } from 'common/components/StandaloneToast';
 import { PageSize } from 'common/components/Table/PageSize';
 import { ShowingItemText } from 'common/components/Table/ShowingItemText';
 import { Table } from 'common/components/Table/Table';
-import { QueryKeys, noOfRows} from 'common/constants';
+import { QueryKeys, noOfRows } from 'common/constants';
 import { RequestSortField, RequestStatus, SortDirection } from 'common/enums';
 import { RowAction } from 'features/requestDevices/components/RowAction';
 import { useCurrentUser } from 'hooks/useCurrentUser';
@@ -48,8 +48,6 @@ import { EmptyWrapper } from 'common/components/EmptyWrapper';
 import { ModalConfirm } from 'common/components/ModalConfirm';
 import { AiOutlineReload } from 'react-icons/ai';
 import styles from './style.module.scss';
-
-
 
 const initialSorting: SortingState = [
   {
@@ -173,7 +171,7 @@ export const MyRequestTable = () => {
           cell: (info) => formatDate(new Date(info.getValue())),
           sortDescFirst: true,
         }),
-        
+
         columnHelper.accessor('lastExecutedAt', {
           id: 'lastExecutedAt',
           header: 'Last executed at',
@@ -187,15 +185,12 @@ export const MyRequestTable = () => {
           cell: (info) => {
             const status = info.row.original.status;
             return (
-              <Box display={"flex"}>
-                { (
-                  <div
-                    className={`${styles.badge} ${styles[status]}`}
-                  >
+              <Box display={'flex'}>
+                {
+                  <div className={`${styles.badge} ${styles[status]}`}>
                     {info.getValue()}
-
                   </div>
-                )}
+                }
               </Box>
             );
           },
@@ -415,7 +410,8 @@ export const MyRequestTable = () => {
             <Box
               p="20px 30px 0px 24px"
               w={{
-                base:"100vw", lg:`calc(100vw - ${sideBarWidth}px)`
+                base: '100vw',
+                lg: `calc(100vw - ${sideBarWidth}px)`,
               }}
             >
               <Box w={'100%'} overflowX="auto" className={styles.tableContent}>
@@ -476,7 +472,7 @@ export const MyRequestTable = () => {
         <WorkflowModal
           isOpen={isOpenWorkflow}
           onClose={() => setOpenWorkflow(false)}
-          workflowId={requestWorkflow}
+          workflow={requestWorkflow}
         />
       )}
     </>

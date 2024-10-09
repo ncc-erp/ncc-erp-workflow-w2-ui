@@ -131,9 +131,9 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
         enableSorting: false,
         cell: (info) => info.getValue(),
       }),
-      columnHelper.accessor('description',{
-        id: "description",
-        header:"Current State",
+      columnHelper.accessor('description', {
+        id: 'description',
+        header: 'Current State',
         enableSorting: false,
         cell: (info) => info.getValue(),
       }),
@@ -154,8 +154,8 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
         cell: (info) => {
           const status = info.row.original.status;
           return (
-            <Box display={"flex"} >
-              {(
+            <Box display={'flex'}>
+              {
                 <div
                   className={`${styles.badge} ${
                     status === TaskStatus.Pending
@@ -169,7 +169,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
                 >
                   {Object.keys(TaskStatus)[info.getValue()]}
                 </div>
-              )}
+              }
             </Box>
           );
         },
@@ -434,7 +434,8 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
                 p="10px 20px"
                 //overflowX="auto"
                 w={{
-                  base:"100vw", lg:`calc(100vw - ${sideBarWidth}px)`
+                  base: '100vw',
+                  lg: `calc(100vw - ${sideBarWidth}px)`,
                 }}
               >
                 <Box
@@ -497,7 +498,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
         <WorkflowModal
           isOpen={isOpenWorkflow}
           onClose={() => setOpenWorkflow(false)}
-          workflowId={requestWorkflow}
+          workflow={requestWorkflow}
         />
       )}
     </>

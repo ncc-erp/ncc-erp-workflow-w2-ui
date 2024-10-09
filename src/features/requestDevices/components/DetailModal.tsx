@@ -22,7 +22,12 @@ import { useGetRequestDetail, useUserList } from 'api/apiHooks/requestHooks';
 import { useCallback, useMemo, useState } from 'react';
 import { RequestInput } from 'features/Tasks/components/RequestInput';
 import { TextGroup } from 'common/components/TextGroup/TextGroup';
-import { isObjectEmpty, formatDate, getColorByStatus, convertToCase } from 'utils';
+import {
+  isObjectEmpty,
+  formatDate,
+  getColorByStatus,
+  convertToCase,
+} from 'utils';
 import { WorkflowModal } from 'common/components/WorkflowModal';
 import { RequestStatus } from 'common/enums';
 import { UPDATED_BY_W2 } from 'common/constants';
@@ -47,10 +52,10 @@ interface IDynamicReviewProps {
 export const RequestDetailModal = ({
   isOpen,
   onClose,
-  requestDetail
+  requestDetail,
 }: IDetailModalProps) => {
   const { data, isLoading } = useGetRequestDetail(requestDetail.id);
-  
+
   const { data: users } = useUserList();
 
   const [requestWorkflow, setRequestWorkflow] = useState<string>('');
@@ -60,7 +65,7 @@ export const RequestDetailModal = ({
     setRequestWorkflow(workflowId);
     setOpenWorkflow(true);
   };
-  
+
   const { inputRequestDetail, inputRequestUser, tasks } = useMemo(() => {
     const { typeRequest, input, tasks, workInstanceId } = data || {};
     const { RequestUser, Request } = input || {};
@@ -109,7 +114,9 @@ export const RequestDetailModal = ({
 
     const filterOtherTask: IDynamicReviewProps[] = tasks.map((x) => {
       return {
-        title: `${x.description || 'No name'} (${x.updatedBy?.split("@").shift()})`,
+        title: `${x.description || 'No name'} (${x.updatedBy
+          ?.split('@')
+          .shift()})`,
         items: convertToDynamicArray(x.dynamicActionData),
       };
     });
@@ -156,7 +163,6 @@ export const RequestDetailModal = ({
     );
   }
 
-  
   const convertToDynamicArray = (payload: string | null | undefined) => {
     if (!payload) return [];
 
@@ -309,9 +315,7 @@ export const RequestDetailModal = ({
                 {rejectReason && (
                   <TextGroup label="Reason" content={rejectReason} />
                 )}
-                {!rejectReason && (
-                  <TextGroup label="" content="" />
-                )}
+                {!rejectReason && <TextGroup label="" content="" />}
                 {getUserReject && (
                   <TextGroup
                     label="Rejected by"
@@ -328,7 +332,7 @@ export const RequestDetailModal = ({
         <WorkflowModal
           isOpen={isOpenWorkflow}
           onClose={() => setOpenWorkflow(false)}
-          workflowId={requestWorkflow}
+          workflow={requestWorkflow}
         />
       )}
     </>
