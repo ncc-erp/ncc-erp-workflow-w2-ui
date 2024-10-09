@@ -443,6 +443,7 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
     <>
       <Box position={'relative'}>
         <IconButton
+          isDisabled={loadPending || isLoading || loadApproved || loadRejected}
           isRound={true}
           variant="solid"
           aria-label="Done"
