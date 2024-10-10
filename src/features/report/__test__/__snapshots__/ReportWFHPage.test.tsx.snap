@@ -221,6 +221,7 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
                 >
                   <input
                     class="datePicker disabled"
+                    disabled=""
                     placeholder="End Date"
                     type="text"
                     value=""
@@ -380,7 +381,7 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
               class="css-0"
             >
               <tr
-                class="css-1zgccc"
+                class="css-1bgkdca"
               >
                 <td
                   class="css-xk16pm"
@@ -500,56 +501,58 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
                 class="chakra-form-control css-0"
                 role="group"
               >
-                <div
-                  class="chakra-select__wrapper css-bo0or5"
-                >
-                  <select
-                    class="chakra-select css-1y1ernp"
-                    id="field-:r3:"
-                  >
-                    <option
-                      value="10"
-                    >
-                      10
-                    </option>
-                    <option
-                      value="25"
-                    >
-                      25
-                    </option>
-                    <option
-                      selected=""
-                      value="50"
-                    >
-                      50
-                    </option>
-                    <option
-                      value="100"
-                    >
-                      100
-                    </option>
-                  </select>
+                <div>
                   <div
-                    class="chakra-select__icon-wrapper css-10n8c1x"
+                    class="chakra-select__wrapper css-bo0or5"
                   >
-                    <svg
-                      aria-hidden="true"
-                      class="chakra-icon chakra-select__icon css-13otjrl"
-                      fill="currentColor"
-                      focusable="false"
-                      height="1em"
-                      role="presentation"
-                      stroke="currentColor"
-                      stroke-width="0"
-                      style="color: currentColor; width: 1em; height: 1em;"
-                      viewBox="0 0 24 24"
-                      width="1em"
-                      xmlns="http://www.w3.org/2000/svg"
+                    <select
+                      class="chakra-select css-1y1ernp"
+                      id="field-:r3:"
                     >
-                      <path
-                        d="M12 14L8 10H16L12 14Z"
-                      />
-                    </svg>
+                      <option
+                        value="10"
+                      >
+                        10
+                      </option>
+                      <option
+                        value="25"
+                      >
+                        25
+                      </option>
+                      <option
+                        selected=""
+                        value="50"
+                      >
+                        50
+                      </option>
+                      <option
+                        value="100"
+                      >
+                        100
+                      </option>
+                    </select>
+                    <div
+                      class="chakra-select__icon-wrapper css-10n8c1x"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        class="chakra-icon chakra-select__icon css-13otjrl"
+                        fill="currentColor"
+                        focusable="false"
+                        height="1em"
+                        role="presentation"
+                        stroke="currentColor"
+                        stroke-width="0"
+                        style="color: currentColor; width: 1em; height: 1em;"
+                        viewBox="0 0 24 24"
+                        width="1em"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M12 14L8 10H16L12 14Z"
+                        />
+                      </svg>
+                    </div>
                   </div>
                 </div>
               </div>
