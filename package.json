@@ -13,7 +13,7 @@
     "mock-api": "nodemon src/mock/main.js",
     "prepare": "husky install",
     "preinstall": "npx only-allow pnpm",
-    "test": "jest --verbose --coverage -u",
+    "test": "jest --verbose --coverage",
     "test:watch": "jest --watch",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
