@@ -34,7 +34,7 @@ jobs:
         run: pnpm install
 
       - name: Run tests
-        run: pnpm test --no-cache
+        run: pnpm run test --no-cache
 
       - name: Post coverage comment to pull request
         uses: actions/github-script@v5
