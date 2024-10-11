@@ -237,16 +237,15 @@ describe('Request Template Form Components', () => {
         userEvent.click(startPicker);
         const startDateToSelect = new Date(2023, 9, 18);
         const startDay = startDateToSelect.getDate();
-
         // Wait for the start date to appear and select it
-        await waitFor(() =>
-          userEvent.click(screen.getByText(startDay.toString()))
-        );
+        await waitFor(() => {
+          screen.getByText(startDay.toString());
+        });
+        userEvent.click(screen.getByText(startDay.toString()));
 
         // Select the end date
         const endPicker = screen.getByLabelText(/End Date/i);
         userEvent.click(endPicker);
-
         // Wait for the end date to appear and select it
         await waitFor(() => {
           screen.getByText(startDay.toString());
