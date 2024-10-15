@@ -381,7 +381,12 @@ export const TaskDetailModal = ({
 
   return (
     <>
-      <Modal isOpen={isOpen} onClose={onClose} blockScrollOnMount={false}>
+      <Modal
+        isOpen={isOpen}
+        onClose={onClose}
+        blockScrollOnMount={false}
+        returnFocusOnClose={false}
+      >
         <ModalOverlay />
         <ModalContent p="10px" maxW="700px">
           <ModalHeader>

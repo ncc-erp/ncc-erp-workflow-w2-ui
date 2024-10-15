@@ -84,6 +84,13 @@
   color: #ffffff;
   font-weight: 600;
   text-align: center;
+
+  &.badgeCalendar {
+    max-width: 100%;
+    width: fit-content;
+    border-radius: 10px;
+    color: #ffffff;
+  }
 }
 
 .statusPending {
@@ -152,6 +159,20 @@
     &:hover {
       background: var(--chakra-colors-blackButton-100);
     }
+  }
+}
+
+.dayHeaderCustomClass{
+  height: 41px;
+  line-height: 36px;
+  
+  &.dark{
+    background-color: rgba(255, 255, 255, 0.16);
+    color: #1A202C;
+  }
+  &.light{
+    background-color: #5f656d;
+    color: #f7fafc;
   }
 }
 

@@ -59,3 +59,15 @@ export const formatDateForm = (date: FormParamsValue) => {
     return datesFormatted;
   }
 };
+
+export const getFirstLastDayOfCurrentMonth = (
+  type: 'first' | 'last',
+  currentDate: Date = new Date()
+) => {
+  const date = new Date(currentDate);
+  date.setMonth(
+    type === 'first' ? currentDate.getMonth() : currentDate.getMonth() + 1
+  );
+  date.setDate(type === 'first' ? 1 : 0);
+  return formatDate(date, 'dd/MM/yyyy');
+};
