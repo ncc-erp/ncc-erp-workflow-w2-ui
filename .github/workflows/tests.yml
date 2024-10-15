@@ -19,6 +19,10 @@ jobs:
       packages: read
 
     steps:
+      - name: Set Timezone to GMT+7
+        run: |
+          sudo timedatectl set-timezone Asia/Ho_Chi_Minh
+
       - name: Checkout repository
         uses: actions/checkout@v2
 
