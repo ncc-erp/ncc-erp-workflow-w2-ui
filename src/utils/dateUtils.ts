@@ -60,14 +60,21 @@ export const formatDateForm = (date: FormParamsValue) => {
   }
 };
 
-export const getFirstLastDayOfCurrentMonth = (
-  type: 'first' | 'last',
+export const getFirstAndLastDayOfCurrentMonth = (
   currentDate: Date = new Date()
 ) => {
-  const date = new Date(currentDate);
-  date.setMonth(
-    type === 'first' ? currentDate.getMonth() : currentDate.getMonth() + 1
+  const firstDay = new Date(
+    currentDate.getFullYear(),
+    currentDate.getMonth(),
+    1
   );
-  date.setDate(type === 'first' ? 1 : 0);
-  return formatDate(date, 'dd/MM/yyyy');
+  const lastDay = new Date(
+    currentDate.getFullYear(),
+    currentDate.getMonth() + 1,
+    0
+  );
+  return {
+    firstDay: formatDate(firstDay, 'dd/MM/yyyy'),
+    lastDay: formatDate(lastDay, 'dd/MM/yyyy'),
+  };
 };

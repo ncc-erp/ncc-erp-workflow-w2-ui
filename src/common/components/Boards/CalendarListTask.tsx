@@ -10,7 +10,7 @@ import { ITask } from 'models/request';
 import { ColorThemeMode, TaskStatus } from 'common/constants';
 import TableSkeleton from '../Table/TableSkeleton';
 import { getDaysInMonth } from 'date-fns';
-import { getFirstLastDayOfCurrentMonth } from 'utils/dateUtils';
+import { getFirstAndLastDayOfCurrentMonth } from 'utils/dateUtils';
 import OverflowText from '../OverflowText';
 import { RefObject } from '@fullcalendar/core/preact.js';
 import theme from 'themes/theme';
@@ -28,9 +28,10 @@ const skeletonEvents = (date: Date) => {
 };
 
 const getDateRange = (date: Date) => {
+  const { firstDay, lastDay } = getFirstAndLastDayOfCurrentMonth(date);
   return {
-    dateStart: getFirstLastDayOfCurrentMonth('first', date),
-    dateEnd: getFirstLastDayOfCurrentMonth('last', date),
+    dateStart: firstDay,
+    dateEnd: lastDay,
   };
 };
 
@@ -263,20 +264,14 @@ export const CalendarListTask = ({
                 const selectDate = new Date(arg.start);
                 selectDate.setDate(selectDate.getDate() + 6);
 
-                const dateStart = getFirstLastDayOfCurrentMonth(
-                  'first',
-                  selectDate
-                );
-                const dateEnd = getFirstLastDayOfCurrentMonth(
-                  'last',
-                  selectDate
-                );
+                const { firstDay, lastDay } =
+                  getFirstAndLastDayOfCurrentMonth(selectDate);
 
                 setFilter({
                   ...filter,
                   dates: undefined,
-                  dateStart,
-                  dateEnd,
+                  dateStart: firstDay,
+                  dateEnd: lastDay,
                 });
               }}
             />
