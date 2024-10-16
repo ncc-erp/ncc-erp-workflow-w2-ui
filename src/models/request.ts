@@ -74,6 +74,7 @@ export interface PropertyDefinition {
   name: string;
   type: string;
   isRequired: boolean;
+  isStartDay?: boolean;
   isTitle?: boolean;
   titleTemplate?: string;
 }
@@ -158,6 +159,7 @@ export interface ITask {
   description?: string;
   authorName?: string;
   updatedBy?: string;
+  title?: string;
 }
 
 export interface IRequestResult {

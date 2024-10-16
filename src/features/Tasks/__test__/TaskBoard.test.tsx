@@ -265,6 +265,9 @@ jest.mock('utils/getAllTaskPagination', () => ({
     }),
 }));
 
+jest.mock('@fullcalendar/react', () => () => <div />);
+jest.mock('@fullcalendar/daygrid', () => jest.fn());
+
 jest.mock('hooks/useCurrentUser', () => ({
   __esModule: true,
   useCurrentUser: jest.fn().mockReturnValue({

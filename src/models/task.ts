@@ -27,6 +27,7 @@ export interface ITask {
   description?: string;
   authorName?: string;
   settings?: ISettings;
+  startDay?: string;
 }
 
 export interface ISettings {
@@ -52,6 +53,8 @@ export interface FilterTasks {
   emailRequest?: string;
   emailAssign?: string;
   dates?: string;
+  dateStart?: string;
+  dateEnd?: string;
 }
 
 export interface IRequestUser {
@@ -117,4 +120,32 @@ export interface IInfinityTaskResponse {
 
 export interface ITaskPage {
   data: ITaskResponse;
+}
+
+export interface IEventInfo {
+  timeText: string;
+  event: {
+    title: string;
+    extendedProps: {
+      author: string;
+      authorName: string;
+      creationTime: string;
+      description: string;
+      dynamicActionData: string;
+      email: string | null;
+      emailTo: string[];
+      name: string;
+      otherActionSignals: string | null;
+      reason: string;
+      requestId: string;
+      settings: {
+        color: string;
+        titleTemplate: string;
+      };
+      status: number;
+      updatedBy: string | null;
+      workflowDefinitionId: string;
+      workflowInstanceId: string;
+    };
+  };
 }
