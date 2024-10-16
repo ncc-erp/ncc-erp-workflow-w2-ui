@@ -13,6 +13,7 @@ import { getDaysInMonth } from 'date-fns';
 import { getFirstLastDayOfCurrentMonth } from 'utils/dateUtils';
 import OverflowText from '../OverflowText';
 import { RefObject } from '@fullcalendar/core/preact.js';
+import theme from 'themes/theme';
 
 const skeletonEvents = (date: Date) => {
   const firstDayOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
@@ -24,6 +25,13 @@ const skeletonEvents = (date: Date) => {
       firstDayOfMonth.getDate() + index
     ),
   }));
+};
+
+const getDateRange = (date: Date) => {
+  return {
+    dateStart: getFirstLastDayOfCurrentMonth('first', date),
+    dateEnd: getFirstLastDayOfCurrentMonth('last', date),
+  };
 };
 
 interface Props {
@@ -40,18 +48,10 @@ export const CalendarListTask = ({
   openDetailModal,
 }: Props): JSX.Element => {
   const calendarRef = useRef<IFullCalendarSubProps>(null);
-  const [filter, setFilter] = useState<FilterTasks>(
-    (() => {
-      const dateStart = getFirstLastDayOfCurrentMonth('first', new Date());
-      const dateEnd = getFirstLastDayOfCurrentMonth('last', new Date());
-      return {
-        ...filters,
-        dates: undefined,
-        dateStart,
-        dateEnd,
-      };
-    })()
-  );
+  const [filter, setFilter] = useState<FilterTasks>(() => {
+    const { dateStart, dateEnd } = getDateRange(new Date());
+    return { ...filters, dates: undefined, dateStart, dateEnd };
+  });
   const color = useColorModeValue(ColorThemeMode.DARK, ColorThemeMode.LIGHT);
   const { data, refetch, isLoading, isRefetching } = useGetTasks({ ...filter });
   const [finalData, setFinalData] = useState<TaskResult>();
@@ -76,15 +76,32 @@ export const CalendarListTask = ({
   }, [data, isRefetching]);
 
   useEffect(() => {
-    const dateStart = getFirstLastDayOfCurrentMonth('first', new Date());
-    const dateEnd = getFirstLastDayOfCurrentMonth('last', new Date());
-    setFilter({
-      ...filters,
-      dates: undefined,
-      dateStart,
-      dateEnd,
-    });
+    const { dateStart, dateEnd } = getDateRange(new Date());
+    setFilter({ ...filters, dates: undefined, dateStart, dateEnd });
   }, [filters]);
+
+  useEffect(() => {
+    const table = (
+      calendarRef.current?.elRef.current as HTMLElement
+    ).querySelector('.fc-scrollgrid') as HTMLElement;
+    const td = (
+      calendarRef.current?.elRef.current as HTMLElement
+    ).querySelector('.fc-theme-standard td') as HTMLElement;
+    const th = (
+      calendarRef.current?.elRef.current as HTMLElement
+    ).querySelector('.fc-scrollgrid-section-header th') as HTMLElement;
+
+    if (color === ColorThemeMode.DARK) {
+      table.style.borderColor = theme.colors.secondary;
+      td.style.borderColor = theme.colors.secondary;
+      th.style.borderColor = theme.colors.secondary;
+    } else {
+      table.style.borderColor = theme.colors.borderColor;
+      td.style.borderColor = theme.colors.borderColor;
+      th.style.borderColor = theme.colors.borderColor;
+      th.style.backgroundColor = 'transparent';
+    }
+  }, [color]);
 
   useEffect(() => {
     const prevButton = (
@@ -121,7 +138,7 @@ export const CalendarListTask = ({
           <div style={{ cursor: 'pointer', width: '100%' }}>
             <div
               style={{
-                backgroundColor: '#d4e6f091',
+                backgroundColor: theme.colors.blue[600],
                 fontWeight: '600',
                 fontSize: '12px',
                 display: 'flex',
@@ -213,6 +230,9 @@ export const CalendarListTask = ({
               }
               eventContent={renderEventContent}
               dayHeaderClassNames={`${styles.dayHeaderCustomClass} ${
+                color === ColorThemeMode.LIGHT ? styles.light : styles.dark
+              }`}
+              dayCellClassNames={`${styles.dayCellCustomClass} ${
                 color === ColorThemeMode.LIGHT ? styles.light : styles.dark
               }`}
               dayCellDidMount={(arg: { el: HTMLElement }) => {

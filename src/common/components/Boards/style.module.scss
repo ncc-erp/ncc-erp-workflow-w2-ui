@@ -162,17 +162,29 @@
   }
 }
 
-.dayHeaderCustomClass{
+.dayHeaderCustomClass {
   height: 41px;
   line-height: 36px;
-  
-  &.dark{
-    background-color: rgba(255, 255, 255, 0.16);
-    color: #1A202C;
+  border-right: 1px solid transparent !important;
+  &.dark {
+    background-color: var(--chakra-colors-secondary);
+    color: var(--chakra-colors-quarty);
   }
-  &.light{
-    background-color: #5f656d;
-    color: #f7fafc;
+  &.light {
+    border: none !important;
+    border-right: 1px solid var(--chakra-colors-chakra-border-color) !important;
+    border-bottom: 1px solid var(--chakra-colors-chakra-border-color) !important;
+    background-color: var(--chakra-colors-chakra-border-color);;
+    color: var(--chakra-colors-light);
+  }
+}
+
+.dayCellCustomClass {
+  &.dark {
+    border: 1px solid var(--chakra-colors-secondary) !important;
+  }
+  &.light {
+    border: 1px solid var(--chakra-colors-chakra-border-color) !important;
   }
 }
 
