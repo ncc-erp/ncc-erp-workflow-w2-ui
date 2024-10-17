@@ -49,6 +49,7 @@ export interface RequestTemplate {
   isPublished: boolean;
   isLatest: boolean;
   inputDefinition: InputDefinition;
+  defineJson: string;
   id: string;
 }
 
@@ -58,6 +59,11 @@ export interface InputDefinition {
   settings?: Settings;
   id: string;
   nameRequest?: string;
+  defineJson: string | IDefineJsonObject;
+}
+
+export interface IDefineJsonObject {
+  definitionId: string;
 }
 
 export interface Settings {
@@ -125,6 +131,7 @@ export interface IUpdateInputFormParams {
   id: string;
   workflowDefinitionId?: string;
   propertyDefinitions: PropertyDefinition[];
+  defineJson?: string | IDefineJsonObject;
   settings?: Settings;
 }
 

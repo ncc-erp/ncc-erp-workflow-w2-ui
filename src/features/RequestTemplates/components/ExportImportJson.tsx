@@ -38,10 +38,15 @@ const ExportImportJson: React.FC<ExportImportJsonProps> = ({
   });
   const exportData = useMemo(() => {
     return {
-      settings: inputDefinition?.settings,
+      settings: inputDefinition?.settings ?? null,
+      defineJson:
+        inputDefinition?.defineJson &&
+        typeof inputDefinition?.defineJson === 'string'
+          ? JSON.parse(inputDefinition.defineJson)
+          : inputDefinition?.defineJson,
       propertyDefinitions: fields,
     };
-  }, [fields, inputDefinition?.settings]);
+  }, [fields, inputDefinition?.defineJson, inputDefinition?.settings]);
 
   useEffect(() => {
     if (inputDefinition) {
