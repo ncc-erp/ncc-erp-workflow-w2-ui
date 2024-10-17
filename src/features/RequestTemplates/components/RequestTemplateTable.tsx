@@ -83,19 +83,11 @@ export const RequestTemplateTable = ({
 
   const handleTogglePublish = useCallback(
     async (workflowId: string, isPublished: boolean) => {
-      if (isPublished) {
-        const payload = {
-          workflowId,
-          isPublished: false,
-        };
-        await updatePublishStatus.mutateAsync(payload);
-      } else {
-        const payload = {
-          workflowId,
-          isPublished: true,
-        };
-        await updatePublishStatus.mutateAsync(payload);
-      }
+      const payload = {
+        workflowId,
+        isPublished: !isPublished,
+      };
+      await updatePublishStatus.mutateAsync(payload);
       refetch();
     },
     [updatePublishStatus, refetch]
