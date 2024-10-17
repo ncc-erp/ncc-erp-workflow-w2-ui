@@ -169,6 +169,7 @@ export const TaskDetailModal = ({
         console.error(error.response.data.error.message);
       });
     clear();
+    refetch();
     refetchRejected();
     refetchPending();
     setIsLoadingBtnApprove(false);
@@ -192,6 +193,7 @@ export const TaskDetailModal = ({
         console.error(error.response.data.error.message);
       });
     clear();
+    refetch();
     refetchApproved();
     refetchPending();
     setIsLoadingBtnApprove(false);
@@ -252,12 +254,20 @@ export const TaskDetailModal = ({
     if (isOpen) {
       setIsLoadingBtnApprove(false);
       setIsLoadingBtnReject(false);
-      setDynamicForm({
-        hasDynamicForm: false,
-        dynamicForm: '',
-      });
+      if (isRejected) {
+        setDynamicForm({
+          hasDynamicForm: false,
+          dynamicForm: '',
+        });
+      } else {
+        const { dynamicActionData } = tasks || {};
+        setDynamicForm({
+          hasDynamicForm: !!dynamicActionData,
+          dynamicForm: dynamicActionData || '',
+        });
+      }
     }
-  }, [isOpen]);
+  }, [isOpen, isRejected, tasks]);
 
   const convertToDynamicArray = (payload: string | null | undefined) => {
     if (!payload) return [];

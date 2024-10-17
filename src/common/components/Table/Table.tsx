@@ -44,6 +44,7 @@ interface TableProps<D> {
   isLoading?: boolean;
   isRefetching?: boolean;
   pageSize?: number;
+  dataTestId?: string;
 }
 
 const DEFAULT_SKELETON_AMOUNT = 5;
@@ -59,12 +60,17 @@ export const Table = <D,>({
   isLoading,
   isRefetching,
   pageSize,
+  dataTestId,
 }: TableProps<D>) => {
   const table = useReactTable({
     data,
     columns,
     manualSorting: true,
     debugTable: true,
+    defaultColumn: {
+      size: 0,
+      minSize: 0,
+    },
     enableSortingRemoval: false,
     state: {
       sorting,
@@ -94,10 +100,18 @@ export const Table = <D,>({
         {table.getHeaderGroups().map((headerGroup) => (
           <Tr key={headerGroup.id} bg={theme.colors.borderColor}>
             {headerGroup.headers.map((header, index) => {
-              const isWorkflowDefinitionDisplayName =
-                header.id === 'workflowDefinitionDisplayName';
-              const headerWidth = '20%';
-              const headerLoadingWidth = '35%';
+              const DEFAULT_COLUMN_LOADING_WIDTH = '35%';
+
+              const getThWidth = () => {
+                const columnCustomSize = header.getSize();
+                return isLoading
+                  ? columnCustomSize > 0
+                    ? columnCustomSize
+                    : DEFAULT_COLUMN_LOADING_WIDTH
+                  : columnCustomSize > 0
+                  ? columnCustomSize
+                  : 'auto';
+              };
 
               return (
                 <Th
@@ -117,11 +131,7 @@ export const Table = <D,>({
                   background="secondaryColor"
                   textAlign="center"
                   style={{
-                    width: isWorkflowDefinitionDisplayName
-                      ? headerWidth
-                      : isLoading
-                      ? headerLoadingWidth
-                      : 'auto',
+                    width: getThWidth(),
                   }}
                   whiteSpace={['normal', 'normal', 'normal', 'nowrap']}
                   cursor={header.column.getCanSort() ? 'pointer' : 'initial'}
@@ -222,6 +232,7 @@ export const Table = <D,>({
                   }
                 }}
                 animation={`${fadeIn} 1s cubic-bezier(0.390, 0.575, 0.565, 1.000)`}
+                data-testid={dataTestId}
               >
                 {row.getVisibleCells().map((cell) => {
                   return (

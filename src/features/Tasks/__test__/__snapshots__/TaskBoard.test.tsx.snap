@@ -140,45 +140,47 @@ exports[`Request My Requests Page 1`] = `
                 class="chakra-form-control css-0"
                 role="group"
               >
-                <div
-                  class="chakra-select__wrapper css-42b2qy"
-                >
-                  <select
-                    class="chakra-select css-e1p5t"
-                    id="field-:r0:"
-                  >
-                    <option
-                      value=""
-                    >
-                      All types
-                    </option>
-                    <option
-                      value="3a05daee-8f55-1e4c-9ac3-443c04309b77"
-                    >
-                      Change Office Request
-                    </option>
-                  </select>
+                <div>
                   <div
-                    class="chakra-select__icon-wrapper css-162mkon"
+                    class="chakra-select__wrapper css-42b2qy"
                   >
-                    <svg
-                      aria-hidden="true"
-                      class="chakra-icon chakra-select__icon css-13otjrl"
-                      fill="currentColor"
-                      focusable="false"
-                      height="1em"
-                      role="presentation"
-                      stroke="currentColor"
-                      stroke-width="0"
-                      style="color: currentColor; width: 1em; height: 1em;"
-                      viewBox="0 0 24 24"
-                      width="1em"
-                      xmlns="http://www.w3.org/2000/svg"
+                    <select
+                      class="chakra-select css-e1p5t"
+                      id="field-:r0:"
                     >
-                      <path
-                        d="M12 14L8 10H16L12 14Z"
-                      />
-                    </svg>
+                      <option
+                        value=""
+                      >
+                        All types
+                      </option>
+                      <option
+                        value="3a05daee-8f55-1e4c-9ac3-443c04309b77"
+                      >
+                        Change Office Request
+                      </option>
+                    </select>
+                    <div
+                      class="chakra-select__icon-wrapper css-162mkon"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        class="chakra-icon chakra-select__icon css-13otjrl"
+                        fill="currentColor"
+                        focusable="false"
+                        height="1em"
+                        role="presentation"
+                        stroke="currentColor"
+                        stroke-width="0"
+                        style="color: currentColor; width: 1em; height: 1em;"
+                        viewBox="0 0 24 24"
+                        width="1em"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M12 14L8 10H16L12 14Z"
+                        />
+                      </svg>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -190,55 +192,57 @@ exports[`Request My Requests Page 1`] = `
                 class="chakra-form-control css-0"
                 role="group"
               >
-                <div
-                  class="chakra-select__wrapper css-42b2qy"
-                >
-                  <select
-                    class="chakra-select css-e1p5t"
-                    id="field-:r1:"
-                  >
-                    <option
-                      value="-1"
-                    >
-                      All status
-                    </option>
-                    <option
-                      value="0"
-                    >
-                      Pending
-                    </option>
-                    <option
-                      value="1"
-                    >
-                      Approved
-                    </option>
-                    <option
-                      value="2"
-                    >
-                      Rejected
-                    </option>
-                  </select>
+                <div>
                   <div
-                    class="chakra-select__icon-wrapper css-162mkon"
+                    class="chakra-select__wrapper css-42b2qy"
                   >
-                    <svg
-                      aria-hidden="true"
-                      class="chakra-icon chakra-select__icon css-13otjrl"
-                      fill="currentColor"
-                      focusable="false"
-                      height="1em"
-                      role="presentation"
-                      stroke="currentColor"
-                      stroke-width="0"
-                      style="color: currentColor; width: 1em; height: 1em;"
-                      viewBox="0 0 24 24"
-                      width="1em"
-                      xmlns="http://www.w3.org/2000/svg"
+                    <select
+                      class="chakra-select css-e1p5t"
+                      id="field-:r1:"
                     >
-                      <path
-                        d="M12 14L8 10H16L12 14Z"
-                      />
-                    </svg>
+                      <option
+                        value="-1"
+                      >
+                        All status
+                      </option>
+                      <option
+                        value="0"
+                      >
+                        Pending
+                      </option>
+                      <option
+                        value="1"
+                      >
+                        Approved
+                      </option>
+                      <option
+                        value="2"
+                      >
+                        Rejected
+                      </option>
+                    </select>
+                    <div
+                      class="chakra-select__icon-wrapper css-162mkon"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        class="chakra-icon chakra-select__icon css-13otjrl"
+                        fill="currentColor"
+                        focusable="false"
+                        height="1em"
+                        role="presentation"
+                        stroke="currentColor"
+                        stroke-width="0"
+                        style="color: currentColor; width: 1em; height: 1em;"
+                        viewBox="0 0 24 24"
+                        width="1em"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M12 14L8 10H16L12 14Z"
+                        />
+                      </svg>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -250,55 +254,47 @@ exports[`Request My Requests Page 1`] = `
                 class="chakra-form-control css-0"
                 role="group"
               >
-                <div
-                  class="chakra-select__wrapper css-42b2qy"
-                >
-                  <select
-                    class="chakra-select css-e1p5t"
-                    id="field-:r2:"
-                  >
-                    <option
-                      value=""
-                    >
-                      All date
-                    </option>
-                    <option
-                      value="15/9/2023"
-                    >
-                      1 week
-                    </option>
-                    <option
-                      value="15/9/2023"
-                    >
-                      1 month
-                    </option>
-                    <option
-                      value="15/9/2023"
-                    >
-                      3 months
-                    </option>
-                  </select>
+                <div>
                   <div
-                    class="chakra-select__icon-wrapper css-162mkon"
+                    class="chakra-select__wrapper css-42b2qy"
                   >
-                    <svg
-                      aria-hidden="true"
-                      class="chakra-icon chakra-select__icon css-13otjrl"
-                      fill="currentColor"
-                      focusable="false"
-                      height="1em"
-                      role="presentation"
-                      stroke="currentColor"
-                      stroke-width="0"
-                      style="color: currentColor; width: 1em; height: 1em;"
-                      viewBox="0 0 24 24"
-                      width="1em"
-                      xmlns="http://www.w3.org/2000/svg"
+                    <select
+                      class="chakra-select css-e1p5t"
+                      id="field-:r2:"
                     >
-                      <path
-                        d="M12 14L8 10H16L12 14Z"
-                      />
-                    </svg>
+                      <option
+                        value=""
+                      >
+                        All date
+                      </option>
+                      <option
+                        value="15/9/2023"
+                      >
+                        1 week
+                      </option>
+                    </select>
+                    <div
+                      class="chakra-select__icon-wrapper css-162mkon"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        class="chakra-icon chakra-select__icon css-13otjrl"
+                        fill="currentColor"
+                        focusable="false"
+                        height="1em"
+                        role="presentation"
+                        stroke="currentColor"
+                        stroke-width="0"
+                        style="color: currentColor; width: 1em; height: 1em;"
+                        viewBox="0 0 24 24"
+                        width="1em"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M12 14L8 10H16L12 14Z"
+                        />
+                      </svg>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -461,6 +457,7 @@ exports[`Request My Requests Page 1`] = `
             </button>
             <div
               class="container css-ztxjyy"
+              data-testid="board-view"
             >
               <div
                 data-rfd-droppable-context-id=":r4:"
@@ -475,6 +472,7 @@ exports[`Request My Requests Page 1`] = `
                 </div>
                 <div
                   class="columnContent css-0"
+                  data-testid="board-col"
                 />
               </div>
               <div
@@ -490,6 +488,7 @@ exports[`Request My Requests Page 1`] = `
                 </div>
                 <div
                   class="columnContent css-0"
+                  data-testid="board-col"
                 />
               </div>
               <div
@@ -505,6 +504,7 @@ exports[`Request My Requests Page 1`] = `
                 </div>
                 <div
                   class="columnContent css-0"
+                  data-testid="board-col"
                 >
                   <div
                     class="css-11tqb05"
@@ -514,6 +514,7 @@ exports[`Request My Requests Page 1`] = `
                   >
                     <div
                       class="item itemRejected css-1lwj26n"
+                      data-testid="board-item"
                     >
                       <div
                         class="css-y3sjyp"

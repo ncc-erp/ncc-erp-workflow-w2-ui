@@ -443,6 +443,7 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
     <>
       <Box position={'relative'}>
         <IconButton
+          isDisabled={loadPending || isLoading || loadApproved || loadRejected}
           isRound={true}
           variant="solid"
           aria-label="Done"
@@ -485,6 +486,7 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
           <Box
             className={styles.container}
             p={isLargeScreen ? '10px 24px' : '10px 3px'}
+            data-testid="board-view"
           >
             {Object.values(state).map((el, ind) => (
               <Droppable key={ind} droppableId={`${ind}`}>
@@ -502,10 +504,11 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
                       {getQuantityTasks(ind)}
                     </div>
 
-                    <Box className={styles.columnContent}>
+                    <Box
+                      className={styles.columnContent}
+                      data-testid="board-col"
+                    >
                       {!loadingStates[ind].value &&
-                      !rejectTaskMutation.isLoading &&
-                      !approveTaskMutation.isLoading &&
                       !loadPending &&
                       !loadApproved &&
                       !loadRejected &&
@@ -544,6 +547,7 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
                                   }}
                                 >
                                   <Box
+                                    data-testid="board-item"
                                     animation={`${fadeIn} 1s cubic-bezier(0.390, 0.575, 0.565, 1.000)`}
                                     className={`${styles.item} ${
                                       ind === BoardColumnStatus.Pending
@@ -565,8 +569,12 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
                                     >
                                       <Box style={{ flex: 1 }}>
                                         <TextToolTip
+                                          data-testid="board-item-title"
+                                          data-id={item.id}
                                           maxLines={1}
-                                          title={item.title}
+                                          title={
+                                            item?.settings?.titleTemplate || ''
+                                          }
                                           id={formatShortId(item.id)}
                                           type="BOARD"
                                         />

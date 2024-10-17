@@ -4,9 +4,11 @@ import {
   createColumnHelper,
 } from '@tanstack/react-table';
 import {
+  Badge,
   Box,
   Center,
   HStack,
+  IconButton,
   Input,
   InputGroup,
   InputRightElement,
@@ -14,7 +16,7 @@ import {
 } from '@chakra-ui/react';
 import { Table } from 'common/components/Table/Table';
 import { SortDirection, UserSortField } from 'common/enums';
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Pagination } from 'common/components/Pagination';
 import { noOfRows } from 'common/constants';
 import { PageSize } from 'common/components/Table/PageSize';
@@ -23,17 +25,22 @@ import { EmptyWrapper } from 'common/components/EmptyWrapper';
 import { useRecoilValue } from 'recoil';
 import { appConfigState } from 'stores/appConfig';
 import { FilterUserParams, UserIdentity } from 'models/userIdentity';
-import { useUserIdentity } from 'api/apiHooks/userIdentityHooks';
+import { useRoles, useUserIdentity } from 'api/apiHooks/userIdentityHooks';
 import { RowAction } from './RowAction';
 import { UserModal } from './UserModal';
 import useDebounced from 'hooks/useDebounced';
 import { TbSearch } from 'react-icons/tb';
+import { convertToCase } from 'utils';
+import { SelectField } from 'common/components/SelectField';
+import { AiOutlineReload } from 'react-icons/ai';
+import { UserRoleLabelMapping } from '../../../common/constants';
 
 const initialFilter: FilterUserParams = {
   filter: '',
   maxResultCount: +noOfRows[0].value,
   skipCount: 0,
   sorting: [UserSortField.userName, 'asc'].join(' '),
+  roles: '',
 };
 
 const initialSorting: SortingState = [
@@ -47,7 +54,9 @@ export const UserManagementTable = () => {
   const { sideBarWidth } = useRecoilValue(appConfigState);
   const [filterUser, setFilterUser] = useState<FilterUserParams>(initialFilter);
   const [sorting, setSorting] = useState<SortingState>(initialSorting);
-  const { data, isLoading } = useUserIdentity(filterUser);
+  const { data, isLoading, refetch, isRefetching } =
+    useUserIdentity(filterUser);
+  const { data: roles } = useRoles();
   const { items: requests = [], totalCount = 0 } = data ?? {};
   const columnHelper = createColumnHelper<UserIdentity>();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -55,6 +64,32 @@ export const UserManagementTable = () => {
   const [user, setUser] = useState<UserIdentity>();
   const [txtSearch, setTxtSearch] = useState('');
   const txtSearchDebounced = useDebounced(txtSearch, 500);
+
+  const onUserListFilterChange = useCallback(
+    (key: 'sorting' | 'roles' | 'filter', value?: string) => {
+      setFilterUser((filterUser) => ({
+        ...filterUser,
+        [key]: value,
+        skipCount: 0,
+      }));
+    },
+    []
+  );
+
+  const userRolesOptions = useMemo(() => {
+    if (!roles || !roles.items) return [];
+
+    const filterRoles = roles.items.map((x) => {
+      return {
+        value: x.name,
+        label: convertToCase(x.name),
+      };
+    });
+    const result = Array.from(
+      new Set(filterRoles.map((x) => JSON.stringify(x)))
+    ).map((x) => JSON.parse(x));
+    return [{ value: '', label: 'All Roles' }, ...result];
+  }, [roles]);
 
   const userColumns = useMemo(
     () =>
@@ -64,7 +99,14 @@ export const UserManagementTable = () => {
           header: () => <Box>User name</Box>,
           enableSorting: true,
           sortDescFirst: true,
-          cell: (info) => <Box>{info.getValue()}</Box>,
+          cell: (info) => (
+            <Box>
+              {!info.row.original.isActive && (
+                <Badge colorScheme="red">Disabled</Badge>
+              )}{' '}
+              {info.getValue()}
+            </Box>
+          ),
         }),
         columnHelper.accessor('email', {
           id: 'email',
@@ -77,6 +119,31 @@ export const UserManagementTable = () => {
           header: 'Phone number',
           enableSorting: true,
           cell: (info) => info.getValue(),
+        }),
+        columnHelper.accessor('roles', {
+          id: 'roles',
+          header: 'Roles',
+          enableSorting: true,
+          cell: (info) => {
+            const roles = info.getValue();
+            if (Array.isArray(roles) && roles.length > 0) {
+              return roles
+                .map((role) => {
+                  switch (role) {
+                    case 'admin':
+                      return UserRoleLabelMapping.ADMIN;
+                    case 'DefaultUser':
+                      return UserRoleLabelMapping.DEFAULT_USER;
+                    case 'Designer':
+                      return UserRoleLabelMapping.DESIGNER;
+                    default:
+                      return;
+                  }
+                })
+                .join(', ');
+            }
+            return UserRoleLabelMapping.UNASSIGNED;
+          },
         }),
         columnHelper.display({
           id: 'actions',
@@ -116,6 +183,7 @@ export const UserManagementTable = () => {
     setFilterUser((filterUser) => ({
       ...filterUser,
       filter: txtSearchDebounced,
+      skipCount: 0,
     }));
   }, [txtSearchDebounced]);
 
@@ -157,6 +225,7 @@ export const UserManagementTable = () => {
           <HStack w="full" pl="24px" alignItems="flex-end" flexWrap="wrap">
             <InputGroup w={{ base: '48%', sm: '30%', lg: '20%' }}>
               <Input
+                isDisabled={isLoading || isRefetching}
                 type="text"
                 placeholder="Enter email"
                 fontSize={{ base: '10px', sm: '12px', lg: '14px' }}
@@ -168,7 +237,28 @@ export const UserManagementTable = () => {
                 <TbSearch />
               </InputRightElement>
             </InputGroup>
+            <Box>
+              <SelectField
+                isDisabled={isLoading || isRefetching}
+                size="sm"
+                rounded="md"
+                mb={2}
+                onChange={(e) =>
+                  onUserListFilterChange('roles', e.target.value)
+                }
+                options={userRolesOptions}
+              />
+            </Box>
           </HStack>
+          <IconButton
+            isDisabled={isLoading || isRefetching}
+            isRound={true}
+            variant="solid"
+            aria-label="Done"
+            fontSize="20px"
+            icon={<AiOutlineReload />}
+            onClick={() => refetch()}
+          />
         </HStack>
         <EmptyWrapper
           isEmpty={!requests.length && !isLoading}
@@ -184,6 +274,7 @@ export const UserManagementTable = () => {
               lg: `calc(100vw - ${sideBarWidth}px)`,
               xs: 'max-content',
             }}
+            data-testid="list-user-manager-settings-view"
           >
             <Table
               columns={userColumns}
@@ -192,6 +283,9 @@ export const UserManagementTable = () => {
               onSortingChange={setSorting}
               isLoading={isLoading}
               pageSize={filterUser.maxResultCount}
+              onRowHover={true}
+              isHighlight={true}
+              dataTestId="user-manager-item"
             />
           </Box>
         </EmptyWrapper>
@@ -228,6 +322,7 @@ export const UserManagementTable = () => {
             current={currentPage}
             onChange={onPageChange}
             hideOnSinglePage
+            data-testid="pagination"
           />
         </HStack>
         {user && (

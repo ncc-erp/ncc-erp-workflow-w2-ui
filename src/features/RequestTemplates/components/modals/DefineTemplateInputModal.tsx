@@ -8,11 +8,11 @@ import {
   ModalHeader,
   ModalOverlay,
 } from '@chakra-ui/react';
-import { InputDefinition, Settings } from 'models/request';
+import { IJsonObject, InputDefinition, Settings } from 'models/request';
 import DefineInputForm from '../forms/DefineInputForm';
 import styles from '../style.module.scss';
-import { ColorSettingForm } from '../forms/ColorSettingForm';
-import { useEffect, useState } from 'react';
+import { SettingForm } from '../forms/SettingForm';
+import { useCallback, useEffect, useState } from 'react';
 import ExportImportJson from '../ExportImportJson';
 interface DefineTemplateInputModalProps {
   isOpen: boolean;
@@ -29,22 +29,53 @@ export const DefineTemplateInputModal = ({
   requestId,
   workflowName,
 }: DefineTemplateInputModalProps) => {
-  const colorCode = '#aabbcc';
-  const [colorSettings, setColorSettings] = useState<Settings>({
+  const [updatedInputDefinition, setUpdatedInputDefinition] = useState<
+    InputDefinition | undefined
+  >(inputDefinition);
+  const [settings, setSettings] = useState<Settings>({
     color: '#aabbcc',
+    titleTemplate: '',
   });
-  const onColorSubmit = (color: string) => {
-    setColorSettings({ color: color ?? colorCode });
+  const [isChangedBySubmitSettings, setIsChangedBySubmitSettings] =
+    useState<boolean>(false);
+
+  const onSubmitSettings = (color: string, title: string) => {
+    const settings: Settings = { color, titleTemplate: title };
+    setSettings(settings);
+    setIsChangedBySubmitSettings(true);
   };
 
   useEffect(() => {
-    setColorSettings({ color: inputDefinition?.settings?.color ?? colorCode });
+    if (!isOpen) {
+      setIsChangedBySubmitSettings(false);
+    }
+  }, [isOpen]);
+
+  useEffect(() => {
+    setUpdatedInputDefinition(inputDefinition);
   }, [inputDefinition]);
+
+  const handleChangeData = useCallback((jsonObject: IJsonObject) => {
+    setUpdatedInputDefinition((prevDefinition) => {
+      const updatedData = {
+        ...prevDefinition,
+        ...jsonObject,
+        workflowDefinitionId: prevDefinition?.workflowDefinitionId ?? '',
+        id: prevDefinition?.id ?? '',
+        propertyDefinitions: jsonObject?.propertyDefinitions,
+      };
+      if (JSON.stringify(prevDefinition) !== JSON.stringify(updatedData)) {
+        return updatedData;
+      }
+      return prevDefinition;
+    });
+    setSettings(jsonObject?.settings);
+  }, []);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={true}>
       <ModalOverlay />
-      <ModalContent className={styles.customModal}>
+      <ModalContent className={styles.customModal} style={{ maxHeight: '80%' }}>
         <Grid
           templateColumns="1fr auto"
           alignItems="center"
@@ -57,22 +88,24 @@ export const DefineTemplateInputModal = ({
           <ExportImportJson
             workflowName={workflowName}
             requestId={requestId}
-            inputDefinition={inputDefinition}
-            onClose={onClose}
-          />
-          <ColorSettingForm
-            inputDefinition={inputDefinition}
-            OnColorSubmit={onColorSubmit}
+            inputDefinition={updatedInputDefinition}
+            onChangeData={handleChangeData}
           />
         </Grid>
+        <Divider></Divider>
+        <SettingForm
+          inputDefinition={updatedInputDefinition}
+          onSubmitSettings={onSubmitSettings}
+        />
         <Divider></Divider>
         <ModalCloseButton />
         <ModalBody className={styles.customModalBody}>
           <DefineInputForm
             requestId={requestId}
-            inputDefinition={inputDefinition}
+            inputDefinition={updatedInputDefinition}
             onCloseModal={onClose}
-            settings={colorSettings}
+            settingsToSet={settings}
+            isChangedBySubmitSettings={isChangedBySubmitSettings}
           />
         </ModalBody>
       </ModalContent>

@@ -6,9 +6,10 @@ export interface InputWrapperProps {
   label?: string;
   error?: string;
   isRequired?: boolean;
+  name?: string;
 }
 
-export const InputWrapper = ({ children, label, error, isRequired }: InputWrapperProps) => {
+export const InputWrapper = ({ children, label, error, name, isRequired }: InputWrapperProps) => {
   const isInvalid = !!error;
 
   return (
@@ -18,7 +19,7 @@ export const InputWrapper = ({ children, label, error, isRequired }: InputWrappe
           {label}
         </FormLabel>
       )}
-      {children}
+      <div data-testid={name}>{children}</div>
       {error && <FormErrorMessage>{error}</FormErrorMessage>}
     </FormControl>
   );

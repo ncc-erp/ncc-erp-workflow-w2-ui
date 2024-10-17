@@ -29,6 +29,16 @@ jest.mock('utils/subtractTime.ts', () => ({
   subtractTime: jest.fn().mockReturnValue('15/9/2023'),
 }));
 
+jest.mock('common/constants.ts', () => {
+  const actualConstants = jest.requireActual('common/constants.ts');
+  return {
+    ...actualConstants,
+    FilterDate: {
+      W1: '1 week',
+    },
+  };
+});
+
 jest.mock('api/apiHooks/requestHooks', () => ({
   useRequestTemplates: jest.fn().mockReturnValue({
     isLoading: false,

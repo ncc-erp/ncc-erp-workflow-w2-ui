@@ -238,6 +238,7 @@ export const TablePostAndWFH = () => {
           </InputGroup>
           <Box w={['80%', '80%', '70%', '50%', '40%', '30%']}>
             <DateRangePicker
+              isDisabled={isLoading || isRefetching}
               startDate={startDate}
               endDate={endDate}
               handleStartDateChange={handleStartDateChange}

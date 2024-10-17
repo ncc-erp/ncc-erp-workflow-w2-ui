@@ -13,7 +13,6 @@ export const RequestInput = ({ inputRequestDetail }: IRequestProps) => {
         if (!value) {
           return null;
         }
-
         if (typeof value === 'object') {
           const { displayName } = value as { displayName?: string };
           if (displayName) {
