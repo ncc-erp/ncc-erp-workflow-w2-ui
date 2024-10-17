@@ -142,3 +142,8 @@ export const useUserCurrentProject = (userEmail: string = '') => {
       : '/app/external-resource/current-user-working-project'
   );
 };
+export const useUpdateWorkflowPublishStatus = () => {
+  return useCreate<{ workflowId: string }, { isPublished: boolean }>(
+    '/app/workflow-definition/change-workflow-status'
+  );
+};
