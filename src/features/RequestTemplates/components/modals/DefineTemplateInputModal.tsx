@@ -54,9 +54,9 @@ export const DefineTemplateInputModal = ({
   useEffect(() => {
     setUpdatedInputDefinition(inputDefinition);
   }, [inputDefinition]);
-
   const handleChangeData = useCallback((jsonObject: IJsonObject) => {
-    setUpdatedInputDefinition((prevDefinition) => {
+    setUpdatedInputDefinition((prevDefinition: InputDefinition | undefined) => {
+      if (!prevDefinition) return undefined;
       const updatedData = {
         ...prevDefinition,
         ...jsonObject,

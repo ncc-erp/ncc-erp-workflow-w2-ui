@@ -46,7 +46,7 @@ const ImportJsonForm = ({
   };
 
   const onSubmit = async () => {
-    const defaultKeys = ['settings', 'propertyDefinitions'];
+    const defaultKeys = ['settings', 'defineJson', 'propertyDefinitions'];
     const jsonObject = JSON.parse(importedData);
     const keysOfData = Object.keys(jsonObject);
 

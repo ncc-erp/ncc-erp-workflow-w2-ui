@@ -149,15 +149,20 @@ export const RequestTemplateTable = ({
         enableSorting: false,
         header: () => <Center w="full">Designer</Center>,
         cell: (info) => {
-          const { definitionId, inputDefinition, name, isPublished } =
-            info.row.original;
+          const {
+            definitionId,
+            inputDefinition,
+            name,
+            defineJson,
+            isPublished,
+          } = info.row.original;
           return (
             <Center>
               <RowAction
                 onDelete={onConfirmDeleteWorkflow(definitionId)}
                 onDefineInput={onDefineInputWorkflow(
                   definitionId,
-                  { ...inputDefinition, nameRequest: name },
+                  { ...inputDefinition, nameRequest: name, defineJson },
                   name
                 )}
                 onViewWorkflow={onActionViewWorkflow(definitionId)}

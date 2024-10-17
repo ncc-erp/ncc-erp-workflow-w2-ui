@@ -164,6 +164,7 @@ const inputDefinition: InputDefinition = {
     },
   ],
   id: '3a05ffba-3830-e0d4-e931-9381c70a3710',
+  defineJson: '',
 };
 
 describe('Request Template Form Components', () => {
