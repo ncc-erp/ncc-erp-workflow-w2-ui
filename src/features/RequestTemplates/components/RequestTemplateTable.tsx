@@ -10,14 +10,17 @@ import {
   RequestTemplate,
   RequestTemplateResult,
 } from 'models/request';
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { RiAddFill } from 'react-icons/ri';
 import { useRecoilValue } from 'recoil';
 import { appConfigState } from 'stores/appConfig';
 import { RowAction } from './RowAction';
 import { CreateTemplateModal } from './modals/CreateTemplateModal';
 import { RequestTemplateModal } from './modals/RequestTemplateModal';
-import { useDeleteWorkflowDefinition } from 'api/apiHooks/requestHooks';
+import {
+  useDeleteWorkflowDefinition,
+  useUpdateWorkflowPublishStatus,
+} from 'api/apiHooks/requestHooks';
 import { ModalConfirm } from 'common/components/ModalConfirm';
 import { DefineTemplateInputModal } from './modals/DefineTemplateInputModal';
 
@@ -50,6 +53,8 @@ export const RequestTemplateTable = ({
   const { sideBarWidth } = useRecoilValue(appConfigState);
   const columnHelper = createColumnHelper<RequestTemplate>();
   const deleteWorkflowDefinitionMutation = useDeleteWorkflowDefinition();
+  const updatePublishStatus = useUpdateWorkflowPublishStatus();
+
   const onConfirmDeleteWorkflow = (workflowId: string) => () => {
     setIsModalConfirmOpen(true);
     setRequestId(workflowId);
@@ -76,7 +81,25 @@ export const RequestTemplateTable = ({
     setRequestWorkflow(workflowId);
     setOpenWorkflow(true);
   };
-
+  const handleTogglePublish = useCallback(
+    async (workflowId: string, isPublished: boolean) => {
+      if (isPublished) {
+        const payload = {
+          workflowId,
+          isPublished: false,
+        };
+        await updatePublishStatus.mutateAsync(payload);
+      } else {
+        const payload = {
+          workflowId,
+          isPublished: true,
+        };
+        await updatePublishStatus.mutateAsync(payload);
+      }
+      refetch();
+    },
+    [updatePublishStatus, refetch]
+  );
   const myRequestColumns = useMemo(() => {
     const displayColumn = columnHelper.accessor('displayName', {
       id: 'displayName',
@@ -133,7 +156,8 @@ export const RequestTemplateTable = ({
         enableSorting: false,
         header: () => <Center w="full">Designer</Center>,
         cell: (info) => {
-          const { definitionId, inputDefinition, name } = info.row.original;
+          const { definitionId, inputDefinition, name, isPublished } =
+            info.row.original;
           return (
             <Center>
               <RowAction
@@ -144,6 +168,10 @@ export const RequestTemplateTable = ({
                   name
                 )}
                 onViewWorkflow={onActionViewWorkflow(definitionId)}
+                onTogglePublish={() =>
+                  handleTogglePublish(definitionId, isPublished)
+                }
+                isPublished={isPublished}
               />
             </Center>
           );
@@ -158,7 +186,7 @@ export const RequestTemplateTable = ({
     ] as ColumnDef<RequestTemplate>[];
 
     return result;
-  }, [columnHelper, isAdmin]);
+  }, [columnHelper, isAdmin, handleTogglePublish]);
 
   const onAction =
     (

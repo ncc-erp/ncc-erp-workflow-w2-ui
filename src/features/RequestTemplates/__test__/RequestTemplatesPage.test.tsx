@@ -70,6 +70,9 @@ jest.mock('api/apiHooks/requestHooks', () => ({
   useDeleteWorkflowDefinition: jest.fn(() => ({
     mutateAsync: jest.fn(),
   })),
+  useUpdateWorkflowPublishStatus: jest.fn(() => ({
+    mutateAsync: jest.fn(),
+  })),
 }));
 
 describe('Request Template Page', () => {
@@ -90,7 +93,6 @@ describe('Request Template Page', () => {
 
   describe('should behave as expected when total is 1 and items are "Change Office Request"', () => {
     const queryClient: QueryClient = new QueryClient();
-
     beforeEach(() => {
       render(
         <QueryClientProvider client={queryClient}>

@@ -524,7 +524,7 @@ exports[`Request My Requests Page 1`] = `
                         >
                           <div
                             class="css-0"
-                            style="flex: 1;"
+                            style="flex: 1; display: flex; width: 100%;"
                           >
                             <p
                               class="chakra-text css-e3cc90"
@@ -597,7 +597,7 @@ exports[`Request My Requests Page 1`] = `
                         </div>
                         <div
                           class="title"
-                          style="background-color: rgb(0, 150, 136);"
+                          style="background-color: rgb(170, 187, 204);"
                         >
                           Probationary Request
                         </div>

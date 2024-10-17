@@ -42,7 +42,7 @@ exports[`Request My Requests Page 1`] = `
               class="css-1y39i0r"
             >
               <th
-                class="css-1d8mdkw"
+                class="css-avwfu8"
                 colspan="1"
                 style="width: auto;"
               >
@@ -57,7 +57,7 @@ exports[`Request My Requests Page 1`] = `
                 </div>
               </th>
               <th
-                class="css-1d8mdkw"
+                class="css-avwfu8"
                 colspan="1"
                 style="width: auto;"
               >
@@ -72,7 +72,7 @@ exports[`Request My Requests Page 1`] = `
                 </div>
               </th>
               <th
-                class="css-1d8mdkw"
+                class="css-avwfu8"
                 colspan="1"
                 style="width: auto;"
               >
@@ -83,7 +83,7 @@ exports[`Request My Requests Page 1`] = `
                 </div>
               </th>
               <th
-                class="css-1d8mdkw"
+                class="css-avwfu8"
                 colspan="1"
                 style="width: auto;"
               >
@@ -94,7 +94,7 @@ exports[`Request My Requests Page 1`] = `
                 </div>
               </th>
               <th
-                class="css-1d8mdkw"
+                class="css-avwfu8"
                 colspan="1"
                 style="width: auto;"
               >
@@ -105,7 +105,7 @@ exports[`Request My Requests Page 1`] = `
                 </div>
               </th>
               <th
-                class="css-1d8mdkw"
+                class="css-avwfu8"
                 colspan="1"
                 style="width: auto;"
               >
@@ -116,7 +116,7 @@ exports[`Request My Requests Page 1`] = `
                 </div>
               </th>
               <th
-                class="css-1d8mdkw"
+                class="css-avwfu8"
                 colspan="1"
                 style="width: auto;"
               >
@@ -127,7 +127,7 @@ exports[`Request My Requests Page 1`] = `
                 </div>
               </th>
               <th
-                class="css-1d8mdkw"
+                class="css-avwfu8"
                 colspan="1"
                 style="width: auto;"
               >
@@ -147,7 +147,7 @@ exports[`Request My Requests Page 1`] = `
             class="css-0"
           >
             <tr
-              class="css-1zgccc"
+              class="css-1bgkdca"
             >
               <td
                 class="css-xk16pm"
@@ -167,17 +167,17 @@ exports[`Request My Requests Page 1`] = `
                 >
                   <div
                     class="css-0"
-                    style="flex: 1;"
+                    style="flex: 1; display: flex; width: 100%;"
                   >
                     <p
                       class="chakra-text css-e3cc90"
                       data-tooltip-id=""
-                      style="overflow: hidden; text-overflow: ellipsis; font-weight: 600; display: -webkit-box;"
+                      style="overflow: hidden; text-overflow: ellipsis; font-weight: 600; display: inline-block; flex: 1; width: 0px; white-space: nowrap; margin: 0px;"
                     />
                   </div>
                   <div
                     class="titleBoard css-0"
-                    style="background-color: rgb(0, 150, 136);"
+                    style="background-color: rgb(170, 187, 204);"
                   >
                     <div
                       style="overflow: hidden; text-overflow: ellipsis; display: -webkit-box;"
