@@ -9,15 +9,18 @@ import {
 } from '@chakra-ui/react';
 import styles from '../style.module.scss';
 import CreateForm from '../forms/CreateForm';
+import { IJsonObject } from 'models/request';
 interface RequestTemplateModalProps {
   isOpen: boolean;
   onClose: () => void;
+  workflowCreateData?: IJsonObject;
   OnCreateSuccess: (workflowId: string) => void;
 }
 
 export const CreateTemplateModal = ({
   isOpen,
   onClose,
+  workflowCreateData,
   OnCreateSuccess,
 }: RequestTemplateModalProps) => {
   return (
@@ -28,7 +31,11 @@ export const CreateTemplateModal = ({
         <Divider></Divider>
         <ModalCloseButton />
         <ModalBody>
-          <CreateForm onCloseModal={onClose} onSuccess={OnCreateSuccess} />
+          <CreateForm
+            onCloseModal={onClose}
+            onSuccess={OnCreateSuccess}
+            workflowCreateData={workflowCreateData}
+          />
         </ModalBody>
       </ModalContent>
     </Modal>

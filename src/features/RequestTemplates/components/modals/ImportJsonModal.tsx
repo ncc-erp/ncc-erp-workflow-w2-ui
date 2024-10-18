@@ -12,7 +12,6 @@ interface ImportJsonModalProps {
   isOpen: boolean;
   onClose: () => void;
   id: string | undefined;
-  workflowDefinitionId: string;
   onchangeData: (jsonObject: IJsonObject) => void;
 }
 
