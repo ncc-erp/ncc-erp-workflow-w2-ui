@@ -54,6 +54,7 @@ export const FilterDate = {
 export const DislayValue = {
   BOARD: 0,
   LIST: 1,
+  CALENDAR: 2,
 };
 
 export const UnitTime = {
@@ -112,6 +113,7 @@ export const ColorThemeMode = {
 export const GUID_ID_DEFAULT_VALUE = '00000000-0000-0000-0000-000000000000';
 
 export const DEFAULT_TASK_PER_PAGE = 10;
+export const CALENDAR_VIEW_DEFAULT_TASK_PER_PAGE = 1000;
 export const TaskStatusesData = [
   { status: 'Pending', color: 'blue' },
   { status: 'Approved', color: 'green' },
