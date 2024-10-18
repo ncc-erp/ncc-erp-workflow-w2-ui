@@ -1,4 +1,9 @@
-import { Button } from '@chakra-ui/react';
+import {
+  Button,
+  SpaceProps,
+  ThemingProps,
+  TypographyProps,
+} from '@chakra-ui/react';
 import React, { useEffect, useMemo, useState } from 'react';
 import { ImportJsonModal } from './modals/ImportJsonModal';
 import { useFieldArray, useForm } from 'react-hook-form';
@@ -7,16 +12,25 @@ import { IJsonObject, InputDefinition } from 'models/request';
 interface FormParams {
   items: PropertyDefinition[];
 }
+
+export enum EButtonType {
+  EXPORT = 'export',
+  IMPORT = 'import',
+}
 interface ExportImportJsonProps {
-  requestId: string;
   inputDefinition?: InputDefinition;
-  workflowName: string;
+  workflowName?: string;
+  buttonStyleObj?: {
+    [key in EButtonType]?: TypographyProps & ThemingProps & SpaceProps;
+  };
+  hiddenButton?: Array<EButtonType>;
   onChangeData: (jsonObject: IJsonObject) => void;
 }
 const ExportImportJson: React.FC<ExportImportJsonProps> = ({
-  requestId,
   inputDefinition,
   workflowName,
+  buttonStyleObj,
+  hiddenButton,
   onChangeData,
 }) => {
   const [isImportJsonModalOpen, setIsImportJsonModalOpen] =
@@ -65,7 +79,7 @@ const ExportImportJson: React.FC<ExportImportJsonProps> = ({
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = `${workflowName}.json`;
+    link.download = `${workflowName ?? 'workflow'}.json`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -81,17 +95,30 @@ const ExportImportJson: React.FC<ExportImportJsonProps> = ({
     <div>
       <ImportJsonModal
         id={inputDefinition?.id}
-        workflowDefinitionId={requestId}
         isOpen={isImportJsonModalOpen}
         onClose={onCloseModal}
         onchangeData={onChangeData}
       />
-      <Button onClick={handleExport} colorScheme="red" m={2}>
-        Export
-      </Button>
-      <Button onClick={onOpenImportJsonModal} colorScheme="green" m={2}>
-        Import
-      </Button>
+      {!hiddenButton?.includes(EButtonType.EXPORT) && (
+        <Button
+          onClick={handleExport}
+          colorScheme="red"
+          m={2}
+          {...buttonStyleObj?.export}
+        >
+          Export
+        </Button>
+      )}
+      {!hiddenButton?.includes(EButtonType.IMPORT) && (
+        <Button
+          onClick={onOpenImportJsonModal}
+          colorScheme="green"
+          m={2}
+          {...buttonStyleObj?.import}
+        >
+          Import
+        </Button>
+      )}
     </div>
   );
 };

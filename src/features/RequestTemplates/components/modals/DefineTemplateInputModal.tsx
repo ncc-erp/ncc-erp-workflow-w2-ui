@@ -87,7 +87,6 @@ export const DefineTemplateInputModal = ({
           <ModalHeader fontSize="md">Define Workflow Input</ModalHeader>
           <ExportImportJson
             workflowName={workflowName}
-            requestId={requestId}
             inputDefinition={updatedInputDefinition}
             onChangeData={handleChangeData}
           />

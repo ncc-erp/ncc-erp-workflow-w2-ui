@@ -76,7 +76,7 @@ const ImportJsonForm = ({
   return (
     <Box padding="20px">
       <ModalHeader fontSize="xl" paddingLeft="0px">
-        Import Workflow Input
+        Import Workflow
       </ModalHeader>
       <InputGroup>
         <InputLeftElement pointerEvents="none" />
