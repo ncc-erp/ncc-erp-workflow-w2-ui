@@ -94,6 +94,15 @@ const DefineInputForm = ({
       id: inputDefinition?.id || GUID_ID_DEFAULT_VALUE,
       workflowDefinitionId: requestId,
       propertyDefinitions: data.items,
+      defineJson:
+        inputDefinition?.defineJson &&
+        typeof inputDefinition?.defineJson !== 'string'
+          ? JSON.stringify({
+              ...inputDefinition.defineJson,
+              displayName: inputDefinition.requestDisplayName,
+              name: inputDefinition.nameRequest,
+            })
+          : inputDefinition?.defineJson,
       settings: isChangedBySubmitSettings
         ? settingsToSet
         : inputDefinition?.settings,
