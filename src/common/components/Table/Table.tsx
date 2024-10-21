@@ -233,7 +233,7 @@ export const Table = <D,>({
                 }}
                 animation={`${fadeIn} 1s cubic-bezier(0.390, 0.575, 0.565, 1.000)`}
                 data-testid={dataTestId}
-                data-id={row.id}
+                data-id={(row.original as any).id}
               >
                 {row.getVisibleCells().map((cell) => {
                   return (
