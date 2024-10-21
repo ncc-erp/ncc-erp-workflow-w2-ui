@@ -29,7 +29,7 @@ import { convertToCase } from 'utils';
 
 interface CreateFormProps {
   inputDefinition?: InputDefinition;
-  workflowCreateData?: IJsonObject;
+  workflowCreateData?: IJsonObject | null;
   onCloseModal: () => void;
   onSuccess: (workflowId: string) => void;
 }
@@ -70,11 +70,12 @@ const CreateForm = ({
       workflowCreateData &&
       typeof workflowCreateData.defineJson !== 'string'
     ) {
-      Object.entries(
-        workflowCreateData.defineJson as IDefineJsonObject
-      ).forEach(([key, value]) => {
-        setValue(key, value);
-      });
+      const formKeys = CreateWorkflowPropertyField.map((field) => field.name);
+      Object.entries(workflowCreateData.defineJson as IDefineJsonObject)
+        .filter(([key]) => formKeys.includes(key))
+        .forEach(([key, value]) => {
+          setValue(key, value);
+        });
     }
   }, [workflowCreateData, setValue]);
   const { mutateAsync: createMutate } = useCreateWorkflowDefinition();
@@ -99,6 +100,8 @@ const CreateForm = ({
           typeof workflowCreateData?.defineJson !== 'string'
             ? JSON.stringify({
                 ...workflowCreateData.defineJson,
+                name: data.name,
+                displayName: data.displayName,
               })
             : workflowCreateData?.defineJson,
       },

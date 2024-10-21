@@ -13,7 +13,7 @@ import { IJsonObject } from 'models/request';
 interface RequestTemplateModalProps {
   isOpen: boolean;
   onClose: () => void;
-  workflowCreateData?: IJsonObject;
+  workflowCreateData?: IJsonObject | null;
   OnCreateSuccess: (workflowId: string) => void;
 }
 

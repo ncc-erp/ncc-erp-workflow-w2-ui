@@ -63,7 +63,7 @@ const ImportJsonForm = ({
     }
     try {
       toast({
-        description: 'Import workflow input data successfully!',
+        description: 'Import workflow data successfully!',
         status: 'success',
       });
       onCloseModal();

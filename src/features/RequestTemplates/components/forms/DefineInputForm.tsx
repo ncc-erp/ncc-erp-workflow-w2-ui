@@ -99,9 +99,8 @@ const DefineInputForm = ({
         typeof inputDefinition?.defineJson !== 'string'
           ? JSON.stringify({
               ...inputDefinition.defineJson,
-              definitionId: requestId,
               displayName: inputDefinition.requestDisplayName,
-              name: inputDefinition.nameRequest
+              name: inputDefinition.nameRequest,
             })
           : inputDefinition?.defineJson,
       settings: isChangedBySubmitSettings
