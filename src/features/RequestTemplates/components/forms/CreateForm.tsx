@@ -20,13 +20,16 @@ import { toast } from 'common/components/StandaloneToast';
 import {
   CreateWorkflowPropertyDefinition,
   ICreateFormParams,
+  IDefineJsonObject,
+  IJsonObject,
   InputDefinition,
 } from 'models/request';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { convertToCase } from 'utils';
 
 interface CreateFormProps {
   inputDefinition?: InputDefinition;
+  workflowCreateData?: IJsonObject | null;
   onCloseModal: () => void;
   onSuccess: (workflowId: string) => void;
 }
@@ -47,15 +50,34 @@ const CreateWorkflowPropertyField: CreateWorkflowPropertyDefinition[] = [
   },
 ];
 
-const CreateForm = ({ onCloseModal, onSuccess }: CreateFormProps) => {
+const CreateForm = ({
+  onCloseModal,
+  onSuccess,
+  workflowCreateData,
+}: CreateFormProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm<FormParams>({
     criteriaMode: 'all',
   });
+
+  useEffect(() => {
+    if (
+      workflowCreateData &&
+      typeof workflowCreateData.defineJson !== 'string'
+    ) {
+      const formKeys = CreateWorkflowPropertyField.map((field) => field.name);
+      Object.entries(workflowCreateData.defineJson as IDefineJsonObject)
+        .filter(([key]) => formKeys.includes(key))
+        .forEach(([key, value]) => {
+          setValue(key, value);
+        });
+    }
+  }, [workflowCreateData, setValue]);
   const { mutateAsync: createMutate } = useCreateWorkflowDefinition();
   const { refetch } = useRequestTemplates();
   const onSubmit = async (data: FormParams) => {
@@ -65,6 +87,24 @@ const CreateForm = ({ onCloseModal, onSuccess }: CreateFormProps) => {
       name: data.name as string,
       displayName: data.displayName as string,
       tag: data.tag as string,
+      workflowCreateData: {
+        propertyDefinitions: workflowCreateData?.propertyDefinitions ?? [
+          { name: '', type: 'Text', isRequired: false },
+        ],
+        settings: workflowCreateData?.settings ?? {
+          color: '#aabbcc',
+          titleTemplate: '',
+        },
+        defineJson:
+          workflowCreateData?.defineJson &&
+          typeof workflowCreateData?.defineJson !== 'string'
+            ? JSON.stringify({
+                ...workflowCreateData.defineJson,
+                name: data.name,
+                displayName: data.displayName,
+              })
+            : workflowCreateData?.defineJson,
+      },
     };
 
     await createMutate(payload).then((definitionId) => {
@@ -80,11 +120,11 @@ const CreateForm = ({ onCloseModal, onSuccess }: CreateFormProps) => {
   };
 
   const getField = (Field: CreateWorkflowPropertyDefinition) => {
-    const fieldname = Field?.name ? Field.name : '';
+    const fieldName = Field?.name ? Field.name : '';
     return (
       <FormControl key={Field?.name}>
         <FormLabel fontSize={16} my={1} fontWeight="normal">
-          {convertToCase(fieldname)}
+          {convertToCase(fieldName)}
           {Field?.isRequired ? (
             <FormHelperText my={1} style={{ color: 'red' }} as="span">
               {' '}
@@ -96,17 +136,17 @@ const CreateForm = ({ onCloseModal, onSuccess }: CreateFormProps) => {
         </FormLabel>
         <TextField
           h="50px"
-          placeholder={convertToCase(fieldname)}
+          placeholder={convertToCase(fieldName)}
           fontSize="sm"
-          {...register(fieldname, {
+          {...register(fieldName, {
             required: Field?.isRequired
-              ? `${convertToCase(fieldname)} is Required!`
+              ? `${convertToCase(fieldName)} is Required!`
               : false,
           })}
         />
         <ErrorMessage
           errors={errors}
-          name={fieldname}
+          name={fieldName}
           render={({ message }) => <ErrorDisplay message={message} />}
         />
       </FormControl>

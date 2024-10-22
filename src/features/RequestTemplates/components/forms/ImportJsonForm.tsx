@@ -46,7 +46,7 @@ const ImportJsonForm = ({
   };
 
   const onSubmit = async () => {
-    const defaultKeys = ['settings', 'propertyDefinitions'];
+    const defaultKeys = ['settings', 'defineJson', 'propertyDefinitions'];
     const jsonObject = JSON.parse(importedData);
     const keysOfData = Object.keys(jsonObject);
 
@@ -63,7 +63,7 @@ const ImportJsonForm = ({
     }
     try {
       toast({
-        description: 'Import workflow input data successfully!',
+        description: 'Import workflow data successfully!',
         status: 'success',
       });
       onCloseModal();
@@ -76,7 +76,7 @@ const ImportJsonForm = ({
   return (
     <Box padding="20px">
       <ModalHeader fontSize="xl" paddingLeft="0px">
-        Import Workflow Input
+        Import Workflow
       </ModalHeader>
       <InputGroup>
         <InputLeftElement pointerEvents="none" />

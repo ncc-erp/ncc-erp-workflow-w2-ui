@@ -548,6 +548,8 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
                                 >
                                   <Box
                                     data-testid="board-item"
+                                    data-id={item.id}
+                                    data-instance-id={item.workflowInstanceId}
                                     animation={`${fadeIn} 1s cubic-bezier(0.390, 0.575, 0.565, 1.000)`}
                                     className={`${styles.item} ${
                                       ind === BoardColumnStatus.Pending
@@ -570,7 +572,6 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
                                       <Box style={{ flex: 1 }}>
                                         <TextToolTip
                                           data-testid="board-item-title"
-                                          data-id={item.id}
                                           maxLines={1}
                                           title={
                                             item?.settings?.titleTemplate || ''

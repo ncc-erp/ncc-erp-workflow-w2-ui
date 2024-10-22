@@ -6,6 +6,7 @@ import { Table } from 'common/components/Table/Table';
 import { WorkflowModal } from 'common/components/WorkflowModal';
 import { useIsAdmin } from 'hooks/useIsAdmin';
 import {
+  IJsonObject,
   InputDefinition,
   RequestTemplate,
   RequestTemplateResult,
@@ -23,6 +24,7 @@ import {
 } from 'api/apiHooks/requestHooks';
 import { ModalConfirm } from 'common/components/ModalConfirm';
 import { DefineTemplateInputModal } from './modals/DefineTemplateInputModal';
+import ExportImportJson, { EButtonType } from './ExportImportJson';
 
 interface RequestTemplateTableProps {
   data: RequestTemplateResult;
@@ -54,6 +56,8 @@ export const RequestTemplateTable = ({
   const columnHelper = createColumnHelper<RequestTemplate>();
   const deleteWorkflowDefinitionMutation = useDeleteWorkflowDefinition();
   const updatePublishStatus = useUpdateWorkflowPublishStatus();
+  const [workflowCreateData, setWorkflowCreateData] =
+    useState<IJsonObject | null>(null);
   const onConfirmDeleteWorkflow = (workflowId: string) => () => {
     setIsModalConfirmOpen(true);
     setRequestId(workflowId);
@@ -149,15 +153,26 @@ export const RequestTemplateTable = ({
         enableSorting: false,
         header: () => <Center w="full">Designer</Center>,
         cell: (info) => {
-          const { definitionId, inputDefinition, name, isPublished } =
-            info.row.original;
+          const {
+            definitionId,
+            inputDefinition,
+            name,
+            displayName,
+            defineJson,
+            isPublished,
+          } = info.row.original;
           return (
             <Center>
               <RowAction
                 onDelete={onConfirmDeleteWorkflow(definitionId)}
                 onDefineInput={onDefineInputWorkflow(
                   definitionId,
-                  { ...inputDefinition, nameRequest: name },
+                  {
+                    ...inputDefinition,
+                    nameRequest: name,
+                    requestDisplayName: displayName,
+                    defineJson,
+                  },
                   name
                 )}
                 onViewWorkflow={onActionViewWorkflow(definitionId)}
@@ -197,6 +212,7 @@ export const RequestTemplateTable = ({
     };
 
   const onCloseModal = () => {
+    setWorkflowCreateData(null);
     setIsModalOpen(false);
     setIsModalConfirmOpen(false);
     setIsCreateModalOpen(false);
@@ -207,10 +223,15 @@ export const RequestTemplateTable = ({
     setIsCreateModalOpen(true);
   };
 
+  const handleImportJson = useCallback((jsonObject: IJsonObject) => {
+    setWorkflowCreateData(jsonObject);
+    onOpenCreateModal();
+  }, []);
+
   return (
     <Box>
       {isAdmin && (
-        <Box px={6}>
+        <Box px={6} display={'flex'} columnGap={'0.5rem'}>
           <Button
             isDisabled={isLoading}
             size="md"
@@ -221,6 +242,19 @@ export const RequestTemplateTable = ({
           >
             Create
           </Button>
+          <ExportImportJson
+            buttonStyleObj={{
+              import: {
+                colorScheme: 'blue',
+                m: '0',
+                fontSize: '14px',
+                fontWeight: '500',
+              },
+            }}
+            hiddenButton={[EButtonType.EXPORT]}
+            inputDefinition={undefined}
+            onChangeData={handleImportJson}
+          />
         </Box>
       )}
 
@@ -255,6 +289,7 @@ export const RequestTemplateTable = ({
       <CreateTemplateModal
         isOpen={isCreateModalOpen}
         onClose={onCloseModal}
+        workflowCreateData={workflowCreateData}
         OnCreateSuccess={(workflowId) => {
           setRequestWorkflow(workflowId);
           setOpenWorkflow(true);
