@@ -28,6 +28,7 @@ import {
   TbBrandMastercard,
   TbUserCog,
   TbSettingsBolt,
+  TbUserShield,
 } from 'react-icons/tb';
 import { BiLogOutCircle } from 'react-icons/bi';
 import { VscKebabVertical } from 'react-icons/vsc';
@@ -73,6 +74,11 @@ export const SideBarContent = ({ isLargeScreen }: SideBarContentProps) => {
       text: 'Tasks',
       icon: TbLayoutBoard,
     },
+    {
+      to: '/roles',
+      text: 'Roles',
+      icon: TbUserShield,
+    },
   ];
 
   const AdminNavList = [
@@ -93,6 +99,7 @@ export const SideBarContent = ({ isLargeScreen }: SideBarContentProps) => {
         },
       ],
     },
+
     // {
     //   to: '/report',
     //   text: 'Report',
