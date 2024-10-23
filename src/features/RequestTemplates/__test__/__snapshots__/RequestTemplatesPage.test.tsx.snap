@@ -171,6 +171,7 @@ exports[`Request Template Page should match snapshot when rendering 1`] = `
             >
               <tr
                 class="css-1mmrbq3"
+                data-id="3a0e24fb-ebd4-bd23-f2a9-7e447230098e"
                 data-testid="request-template-item"
               >
                 <td

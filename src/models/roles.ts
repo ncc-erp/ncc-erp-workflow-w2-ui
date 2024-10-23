@@ -12,6 +12,10 @@ export interface ListResult<T> {
   items: T[];
 }
 export type RolesList = ListResult<Roles>;
-export interface RolePermission {
-  roleName: string;
+export interface RoleResponse {
+  items: Roles[];
+}
+export interface CreateRoleRequest {
+  name: string;
+  permissionNames: string[];
 }

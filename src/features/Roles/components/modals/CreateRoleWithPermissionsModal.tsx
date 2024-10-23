@@ -8,12 +8,13 @@ import {
   ModalOverlay,
 } from '@chakra-ui/react';
 import CreateRoleWithPermissionsForm from '../forms/CreateRoleWithPermissionsForm';
+import { Permissions } from 'models/permissions';
 
 interface CreateRoleModalProps {
   isOpen: boolean;
   onClose: () => void;
   OnCreateSuccess: (roleName: string, selectedPermissions: string[]) => void;
-  permissions: { id: number; name: string }[];
+  permissions: Permissions[];
 }
 
 export const CreateRoleModal = ({
