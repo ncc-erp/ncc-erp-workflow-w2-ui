@@ -1,5 +1,5 @@
-import { CreateRoleRequest, RoleResponse } from 'models/roles';
-import { useCreate, useGetList } from '.';
+import { CreateRoleRequest, Role, RoleResponse } from 'models/roles';
+import { useCreate, useGetList, useGetOneIfValid, useUpdateRoles } from '.';
 import { QueryKeys } from 'common/constants';
 import { Permissions } from 'models/permissions';
 
@@ -14,4 +14,14 @@ export const useGetAllPermissions = () => {
 };
 export const useCreateRole = () => {
   return useCreate<CreateRoleRequest, RoleResponse>('/app/roles');
+};
+export const useGetOneRole = (id: string | null) => {
+  return useGetOneIfValid<Role>(
+    [QueryKeys.GET_SINGLE_ROLE],
+    id,
+    `/app/roles/roles/${id}`
+  );
+};
+export const useUpdateRole = () => {
+  return useUpdateRoles('/app/roles');
 };

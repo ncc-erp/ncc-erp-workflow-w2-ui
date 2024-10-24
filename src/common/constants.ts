@@ -104,6 +104,7 @@ export const QueryKeys = {
   GET_SETTING_LIST: 'getSettingList',
   GET_ROLES_LIST: 'roles',
   GET_PERMISSIONS_LIST: 'getPermissionsList',
+  GET_SINGLE_ROLE: 'getSingleRole',
 };
 
 export const ColorThemeMode = {

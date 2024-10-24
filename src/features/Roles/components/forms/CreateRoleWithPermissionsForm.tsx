@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useLayoutEffect, useState } from 'react';
 import {
   Button,
   FormControl,
@@ -8,35 +8,39 @@ import {
 } from '@chakra-ui/react';
 import PermissionCheckbox from 'common/components/PermissionCheckbox';
 import { Permissions } from 'models/permissions';
+import { Role } from 'models/roles';
 
 interface CreateRoleWithPermissionsProps {
   onClose: () => void;
-  onSuccess: (roleName: string, selectedPermissions: string[]) => void;
+  onSubmit: (roleName: string, selectedPermissions: string[]) => void;
   permissions: Permissions[];
   isOpen: boolean;
+  initialRoleName?: string;
+  role?: Role;
 }
 
 const CreateRoleWithPermissionsForm: React.FC<
   CreateRoleWithPermissionsProps
-> = ({ onClose, onSuccess, permissions }) => {
-  const [roleName, setRoleName] = useState('');
+> = ({ onClose, onSubmit, permissions, initialRoleName = '', role }) => {
+  const [roleName, setRoleName] = useState(initialRoleName);
   const [selectedPermissions, setSelectedPermissions] = useState<string[]>([]);
+
+  useLayoutEffect(() => {
+    setRoleName(initialRoleName);
+  }, [initialRoleName]);
 
   const handleCheckboxChange = (updatedSelection: string[]) => {
     setSelectedPermissions(updatedSelection);
   };
 
-  const handleCreate = () => {
-    onSuccess(roleName, selectedPermissions);
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    onSubmit(roleName, selectedPermissions);
     onClose();
   };
+
   return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        handleCreate();
-      }}
-    >
+    <form onSubmit={handleSubmit}>
       <VStack spacing="14px">
         <FormControl mb={3}>
           <FormLabel fontWeight={500}>Role Name</FormLabel>
@@ -54,14 +58,13 @@ const CreateRoleWithPermissionsForm: React.FC<
         <FormControl>
           <PermissionCheckbox
             permission={permissions}
-            selectedPermissions={selectedPermissions}
             onChange={handleCheckboxChange}
             style={{ fontSize: '16px', color: 'black' }}
+            role={role}
           />
         </FormControl>
-
         <Button mt="14px" type="submit" width="full">
-          Create
+          {role ? 'Update' : 'Create'}
         </Button>
       </VStack>
     </form>

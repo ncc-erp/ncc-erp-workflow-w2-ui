@@ -2,34 +2,43 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import {
   useGetAllRoles,
   useGetAllPermissions,
+  useGetOneRole,
   useCreateRole,
+  useUpdateRole,
 } from 'api/apiHooks/roleHook';
 import { RolesBoard } from '../components/RolesBoard';
 
-// Mô phỏng các hooks
 jest.mock('api/apiHooks/roleHook', () => ({
   useGetAllRoles: jest.fn(),
   useGetAllPermissions: jest.fn(),
+  useGetOneRole: jest.fn(),
   useCreateRole: jest.fn(),
+  useUpdateRole: jest.fn(),
 }));
 
 beforeAll(() => {
+  // Mock window.matchMedia to avoid errors
   window.matchMedia = jest.fn().mockImplementation((query) => ({
     matches: false,
     media: query,
     onchange: null,
     addListener: jest.fn(),
     removeListener: jest.fn(),
+    addEventListener: jest.fn(),
+    removeEventListener: jest.fn(),
+    dispatchEvent: jest.fn(),
   }));
 });
 
 describe('RolesBoard', () => {
   const mockRefetch = jest.fn();
-  const mockCreateRole = jest.fn();
   const rolesData = { items: [{ id: '1', name: 'Admin', isDefault: false }] };
   const permissionsData = [
     { id: '1', name: 'View', code: 'VIEW', creationTime: '2024-01-01' },
   ];
+
+  const createRoleMock = jest.fn();
+  const updateRoleMock = jest.fn();
 
   beforeEach(() => {
     (useGetAllRoles as jest.Mock).mockReturnValue({
@@ -39,7 +48,12 @@ describe('RolesBoard', () => {
     (useGetAllPermissions as jest.Mock).mockReturnValue({
       data: permissionsData,
     });
-    (useCreateRole as jest.Mock).mockReturnValue({ mutate: mockCreateRole });
+    (useGetOneRole as jest.Mock).mockReturnValue({
+      data: rolesData.items[0], // Giả lập role đã được chọn
+      refetch: jest.fn(),
+    });
+    (useCreateRole as jest.Mock).mockReturnValue({ mutate: createRoleMock });
+    (useUpdateRole as jest.Mock).mockReturnValue({ mutate: updateRoleMock });
   });
 
   afterEach(() => {
@@ -57,6 +71,7 @@ describe('RolesBoard', () => {
     fireEvent.click(screen.getByText('Create'));
     expect(screen.getByText('Create Role')).toBeInTheDocument();
   });
+
   test('displays a message when there are no roles', () => {
     (useGetAllRoles as jest.Mock).mockReturnValue({
       data: { items: [] },
@@ -64,13 +79,5 @@ describe('RolesBoard', () => {
     });
     render(<RolesBoard />);
     expect(screen.getByText('No roles found!')).toBeInTheDocument();
-  });
-
-  // Test mới để kiểm tra không có nút edit
-  test('does not render edit button', () => {
-    render(<RolesBoard />);
-    expect(
-      screen.queryByRole('button', { name: /edit/i })
-    ).not.toBeInTheDocument();
   });
 });

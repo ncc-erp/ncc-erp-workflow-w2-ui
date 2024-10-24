@@ -1,23 +1,23 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Tree } from 'antd';
 import type { TreeDataNode, TreeProps } from 'antd';
 import { Permissions } from 'models/permissions';
+import { Role } from 'models/roles';
 interface PermissionCheckboxProps {
   permission: Permissions[];
-  selectedPermissions: string[];
   onChange: (updatedSelection: string[]) => void;
   style?: React.CSSProperties;
+  role?: Role;
 }
 
 const PermissionCheckbox: React.FC<PermissionCheckboxProps> = ({
   permission,
-  selectedPermissions,
   onChange,
   style,
+  role,
 }) => {
   const [expandedKeys, setExpandedKeys] = useState<React.Key[]>([]);
-  const [checkedKeys, setCheckedKeys] =
-    useState<React.Key[]>(selectedPermissions);
+  const [checkedKeys, setCheckedKeys] = useState<React.Key[]>();
   const [autoExpandParent, setAutoExpandParent] = useState<boolean>(true);
   const [selectedKeys, setSelectedKeys] = useState<React.Key[]>([]);
 
@@ -32,6 +32,16 @@ const PermissionCheckbox: React.FC<PermissionCheckboxProps> = ({
       })) || [],
   }));
 
+  useEffect(() => {
+    const newCheckedKeys: React.Key[] = [];
+    role?.permissions?.forEach((perm) => {
+      perm.children?.forEach((child) => {
+        newCheckedKeys.push(child.id);
+      });
+    });
+    setCheckedKeys(newCheckedKeys);
+  }, [role, permission]);
+
   const onExpand: TreeProps['onExpand'] = (expandedKeysValue) => {
     setExpandedKeys(expandedKeysValue);
     setAutoExpandParent(false);
@@ -41,28 +51,26 @@ const PermissionCheckbox: React.FC<PermissionCheckboxProps> = ({
     const newCheckedKeys = checkedKeysValue as React.Key[];
     setCheckedKeys(newCheckedKeys);
 
-    const selectedPermissionNames = newCheckedKeys
-      .flatMap((key) => {
-        const parentPermission = permission.find(
-          (permission) => permission.id === key
-        );
-        if (parentPermission) {
-          return parentPermission.name;
-        }
-        return permission.flatMap(
-          (permission) =>
-            permission.children
-              ?.map((child) => (child.id === key ? child.name : null))
-              .filter(Boolean) || []
-        );
-      })
-      .filter(Boolean) as string[];
+    const selectedPermissionNames: Set<string> = new Set();
 
-    onChange(selectedPermissionNames);
+    newCheckedKeys.forEach((key) => {
+      const parentPermission = permission.find((perm) => perm.id === key);
+      parentPermission
+        ? selectedPermissionNames.add(parentPermission.name)
+        : permission.forEach((perm) => {
+            const child = perm.children?.find((child) => child.id === key);
+            child &&
+              (selectedPermissionNames.add(child.name),
+              selectedPermissionNames.add(perm.name));
+          });
+    });
+    onChange(Array.from(selectedPermissionNames));
   };
+
   const onSelect: TreeProps['onSelect'] = (selectedKeysValue) => {
     setSelectedKeys(selectedKeysValue);
   };
+
   return (
     <Tree
       checkable

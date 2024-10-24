@@ -1,26 +1,66 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { CreateRoleModal } from '../components/modals/CreateRoleWithPermissionsModal';
+import {
+  useCreateRole,
+  useGetOneRole,
+  useUpdateRole,
+} from 'api/apiHooks/roleHook';
+
+jest.mock('api/apiHooks/roleHook');
+jest.mock('common/components/StandaloneToast');
 
 describe('CreateRoleModal', () => {
-  const mockOnCreateSuccess = jest.fn();
+  const mockOnSuccess = jest.fn();
+  const mockCreateRole = jest.fn();
+  const mockUpdateRole = jest.fn();
 
-  test('renders modal and handles create role', () => {
+  beforeEach(() => {
+    (useCreateRole as jest.Mock).mockReturnValue({ mutate: mockCreateRole });
+    (useUpdateRole as jest.Mock).mockReturnValue({ mutate: mockUpdateRole });
+    (useGetOneRole as jest.Mock).mockReturnValue({ data: undefined });
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  test('handles create role', async () => {
     render(
       <CreateRoleModal
         isOpen={true}
         onClose={() => {}}
-        OnCreateSuccess={mockOnCreateSuccess}
+        selectedRoleId={null}
         permissions={[]}
+        onSuccess={mockOnSuccess}
       />
     );
 
-    expect(screen.getByText('Create Role')).toBeInTheDocument();
+    fireEvent.change(screen.getByLabelText('Role Name'), {
+      target: { value: 'New Role' },
+    });
+    fireEvent.click(screen.getByText('Create'));
 
-    // Simulate filling the form and creating a role
-    const roleNameInput = screen.getByLabelText('Role Name'); // Adjust based on your form inputs
-    fireEvent.change(roleNameInput, { target: { value: 'New Role' } });
-    fireEvent.click(screen.getByText('Create')); // Assuming there is a button to create the role
+    expect(mockCreateRole).toHaveBeenCalledWith({
+      name: 'New Role',
+      permissionNames: [],
+    });
+  });
 
-    expect(mockOnCreateSuccess).toHaveBeenCalledWith('New Role', []);
+  test('handles edit role', async () => {
+    (useGetOneRole as jest.Mock).mockReturnValue({
+      data: { name: 'Existing Role' },
+    });
+
+    render(
+      <CreateRoleModal
+        isOpen={true}
+        onClose={() => {}}
+        selectedRoleId="123"
+        permissions={[]}
+        onSuccess={mockOnSuccess}
+      />
+    );
+
+    expect(screen.getByLabelText('Role Name')).toHaveValue('Existing Role');
   });
 });

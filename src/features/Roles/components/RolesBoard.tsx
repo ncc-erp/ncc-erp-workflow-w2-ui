@@ -5,46 +5,54 @@ import { Table } from 'common/components/Table/Table';
 import { useMemo, useState } from 'react';
 import { CreateRoleModal } from './modals/CreateRoleWithPermissionsModal';
 import { Roles } from 'models/roles';
-import {
-  useCreateRole,
-  useGetAllPermissions,
-  useGetAllRoles,
-} from 'api/apiHooks/roleHook';
+import { AiOutlineEdit } from 'react-icons/ai';
+import { useGetAllPermissions, useGetAllRoles } from 'api/apiHooks/roleHook';
+
 export const RolesBoard = () => {
   const { data: rolesData, refetch: refetchRoles } = useGetAllRoles();
   const { data: permissionsData } = useGetAllPermissions();
-  const { mutate: createRole } = useCreateRole();
-  const isLoading = false;
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [selectedRoleId, setSelectedRoleId] = useState<string | null>(null);
+
   const myColumns: ColumnDef<Roles>[] = useMemo(
     () => [
       {
         accessorKey: 'name',
         header: 'Role Name',
         cell: (info) => info.getValue(),
+        enableSorting: false,
+      },
+      {
+        accessorKey: 'action',
+        header: 'Action',
+        cell: ({ row }) => (
+          <span onClick={() => handleEdit(row.original)}>
+            <AiOutlineEdit style={{ cursor: 'pointer', color: 'black' }} />
+          </span>
+        ),
+        enableSorting: false,
       },
     ],
     []
   );
-  const handleCreateSuccess = (name: string, permissionNames: string[]) => {
-    const newRole = {
-      name,
-      permissionNames,
-    };
-    createRole(newRole, {
-      onSuccess: () => {
-        refetchRoles();
-        setIsModalOpen(false);
-      },
-    });
-  };
 
   const onOpenCreateModal = () => {
+    setSelectedRoleId(null);
     setIsModalOpen(true);
   };
 
   const onCloseModal = () => {
     setIsModalOpen(false);
+    setSelectedRoleId(null);
+    refetchRoles();
+  };
+
+  const handleEdit = (role: Roles) => {
+    setSelectedRoleId(role.id);
+    setIsModalOpen(true);
+  };
+  const handleModalSuccess = () => {
+    refetchRoles();
   };
   return (
     <Box>
@@ -60,7 +68,7 @@ export const RolesBoard = () => {
         </Button>
       </Box>
       <EmptyWrapper
-        isEmpty={!rolesData?.items.length && !isLoading}
+        isEmpty={!rolesData?.items.length}
         h="200px"
         fontSize="xs"
         message={'No roles found!'}
@@ -74,19 +82,22 @@ export const RolesBoard = () => {
           <Table
             columns={myColumns}
             data={rolesData?.items || []}
-            isLoading={isLoading}
+            isLoading={false}
             onRowHover={true}
             isHighlight={true}
             dataTestId="roles-item"
           />
         </Box>
       </EmptyWrapper>
-      <CreateRoleModal
-        isOpen={isModalOpen}
-        onClose={onCloseModal}
-        OnCreateSuccess={handleCreateSuccess}
-        permissions={Array.isArray(permissionsData) ? permissionsData : []}
-      />
+      {isModalOpen && (
+        <CreateRoleModal
+          isOpen={isModalOpen}
+          onSuccess={handleModalSuccess}
+          onClose={onCloseModal}
+          permissions={Array.isArray(permissionsData) ? permissionsData : []}
+          selectedRoleId={selectedRoleId}
+        />
+      )}
     </Box>
   );
 };
