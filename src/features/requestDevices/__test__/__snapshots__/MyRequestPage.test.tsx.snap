@@ -490,6 +490,7 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
             >
               <tr
                 class="css-1mmrbq3"
+                data-id="3a0e24f1-b739-1627-f78a-cb2bdd068279"
                 data-testid="my-request-item"
               >
                 <td
@@ -694,6 +695,7 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
               </tr>
               <tr
                 class="css-1mmrbq3"
+                data-id="3a0e24d9-7768-89cf-6ad3-9003fd4ac3ae"
                 data-testid="my-request-item"
               >
                 <td

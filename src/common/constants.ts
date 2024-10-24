@@ -102,6 +102,9 @@ export const QueryKeys = {
   GET_USER_LIST: 'getUserList',
   GET_INPUT_DEFINITION: 'getInputDefinition',
   GET_SETTING_LIST: 'getSettingList',
+  GET_ROLES_LIST: 'roles',
+  GET_PERMISSIONS_LIST: 'getPermissionsList',
+  GET_SINGLE_ROLE: 'getSingleRole',
 };
 
 export const ColorThemeMode = {

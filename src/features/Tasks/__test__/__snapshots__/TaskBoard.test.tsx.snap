@@ -514,6 +514,8 @@ exports[`Request My Requests Page 1`] = `
                   >
                     <div
                       class="item itemRejected css-1lwj26n"
+                      data-id="3a0e2b22-fcfd-82fb-cb31-fff19f66387f"
+                      data-instance-id="3a0e2b21-6ea7-959e-fe4c-e5954ead2832"
                       data-testid="board-item"
                     >
                       <div
@@ -525,7 +527,6 @@ exports[`Request My Requests Page 1`] = `
                         >
                           <div
                             class="css-0"
-                            data-id="3a0e2b22-fcfd-82fb-cb31-fff19f66387f"
                             data-testid="board-item-title"
                             style="flex: 1; display: flex; width: 100%;"
                           >
