@@ -9,7 +9,7 @@ export const useGetAllRoles = () => {
 export const useGetAllPermissions = () => {
   return useGetList<Permissions>(
     [QueryKeys.GET_PERMISSIONS_LIST],
-    '/app/roles/permissions/all'
+    '/app/roles/permissions'
   );
 };
 export const useCreateRole = () => {
@@ -19,7 +19,7 @@ export const useGetOneRole = (id: string | null) => {
   return useGetOneIfValid<Role>(
     [QueryKeys.GET_SINGLE_ROLE],
     id,
-    `/app/roles/roles/${id}`
+    `/app/roles/${id}`
   );
 };
 export const useUpdateRole = () => {

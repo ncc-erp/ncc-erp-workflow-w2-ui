@@ -56,12 +56,12 @@ const PermissionCheckbox: React.FC<PermissionCheckboxProps> = ({
     newCheckedKeys.forEach((key) => {
       const parentPermission = permission.find((perm) => perm.id === key);
       parentPermission
-        ? selectedPermissionNames.add(parentPermission.name)
+        ? selectedPermissionNames.add(parentPermission.code)
         : permission.forEach((perm) => {
             const child = perm.children?.find((child) => child.id === key);
             child &&
-              (selectedPermissionNames.add(child.name),
-              selectedPermissionNames.add(perm.name));
+              (selectedPermissionNames.add(child.code),
+              selectedPermissionNames.add(perm.code));
           });
     });
     onChange(Array.from(selectedPermissionNames));

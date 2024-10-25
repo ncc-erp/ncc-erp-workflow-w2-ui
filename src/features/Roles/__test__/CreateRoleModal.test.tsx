@@ -42,7 +42,7 @@ describe('CreateRoleModal', () => {
 
     expect(mockCreateRole).toHaveBeenCalledWith({
       name: 'New Role',
-      permissionNames: [],
+      permissionCodes: [],
     });
   });
 

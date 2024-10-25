@@ -51,17 +51,12 @@ export const CreateRoleModal = ({
     selectedPermissions: string[]
   ) => {
     try {
-      if (selectedRoleId) {
-        await updateRole({
-          id: selectedRoleId,
-          data: { name: roleName, permissionNames: selectedPermissions },
-        });
-      } else {
-        await createRole({
-          name: roleName,
-          permissionNames: selectedPermissions,
-        });
-      }
+      await (selectedRoleId
+        ? updateRole({
+            id: selectedRoleId,
+            data: { name: roleName, permissionCodes: selectedPermissions },
+          })
+        : createRole({ name: roleName, permissionCodes: selectedPermissions }));
       toast({
         description: `Role ${
           selectedRoleId ? 'updated' : 'created'

@@ -17,7 +17,7 @@ export interface RoleResponse {
 }
 export interface CreateRoleRequest {
   name: string;
-  permissionNames: string[];
+  permissionCodes: string[];
 }
 export interface ChildPermission {
   id: string;
