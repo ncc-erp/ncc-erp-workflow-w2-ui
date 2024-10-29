@@ -37,10 +37,12 @@ import { userState } from 'stores/user';
 import { useSetAppConfig } from 'stores/appConfig';
 import { useNavigate } from 'react-router-dom';
 import { useIsAdmin } from 'hooks/useIsAdmin';
+import { useUserPermissions } from 'hooks/useUserPermissions';
 import Logo from 'assets/images/ncc_logo.png';
 import { ColorThemeMode, LinkDocRedirect } from 'common/constants';
 import { removeItem } from 'utils';
 import { LocalStorageKeys } from 'common/enums';
+import { Permissions } from 'common/constants';
 import {
   HiOutlineDocumentArrowUp,
   HiOutlineDocumentText,
@@ -58,26 +60,32 @@ export const SideBarContent = ({ isLargeScreen }: SideBarContentProps) => {
   const color = useColorModeValue(ColorThemeMode.DARK, ColorThemeMode.LIGHT);
 
   const isAdmin = useIsAdmin();
+  const { renderIfAllowed, hasPermission } = useUserPermissions();
+
   const NavList = [
     {
       to: '/request-templates',
       text: 'Request templates',
       icon: TbAppsFilled,
+      permission: Permissions.WORKFLOW_DEFINITIONS,
     },
     {
       to: '/my-requests',
       text: isAdmin ? 'Requests' : 'My requests',
       icon: TbArticleFilledFilled,
+      permission: Permissions.WORKFLOW_INSTANCES,
     },
     {
       to: '/tasks',
       text: 'Tasks',
       icon: TbLayoutBoard,
+      permission: Permissions.TASKS,
     },
     {
       to: '/roles',
       text: 'Roles',
       icon: TbUserShield,
+      permission: Permissions.ROLES,
     },
   ];
 
@@ -91,11 +99,13 @@ export const SideBarContent = ({ isLargeScreen }: SideBarContentProps) => {
           to: '/administration/user-management',
           text: 'User management',
           icon: TbBrandMastercard,
+          permission: Permissions.USERS,
         },
         {
           to: '/administration/settings',
           text: 'Settings',
           icon: TbSettingsBolt,
+          permission: Permissions.SETTINGS,
         },
       ],
     },
@@ -150,13 +160,20 @@ export const SideBarContent = ({ isLargeScreen }: SideBarContentProps) => {
           },
         }}
       >
-        {NavList.map((nav) => (
-          <NavLink key={nav.to} {...nav} onClick={onCloseSideBar} />
-        ))}
+        {NavList.map((nav) =>
+          renderIfAllowed(
+            nav.permission,
+            <NavLink key={nav.to} {...nav} onClick={onCloseSideBar} />
+          )
+        )}
         {isAdmin && (
           <>
-            {AdminNavList?.map((adminNav) => {
-              return (
+            {AdminNavList.map((adminNav) => {
+              const hasAdminPermission = [
+                Permissions.USERS,
+                Permissions.SETTINGS,
+              ].some(hasPermission);
+              return hasAdminPermission ? (
                 <Accordion
                   allowToggle
                   borderColor={'transparent'}
@@ -199,7 +216,8 @@ export const SideBarContent = ({ isLargeScreen }: SideBarContentProps) => {
                     </AccordionButton>
                     <AccordionPanel p={0} pl={7}>
                       {adminNav.subMenu.map((item) => {
-                        return (
+                        return renderIfAllowed(
+                          item.permission,
                           <Box mt={1} key={item.to}>
                             <NavLink {...item} onClick={onCloseSideBar} />
                           </Box>
@@ -208,7 +226,7 @@ export const SideBarContent = ({ isLargeScreen }: SideBarContentProps) => {
                     </AccordionPanel>
                   </AccordionItem>
                 </Accordion>
-              );
+              ) : null;
             })}
           </>
         )}

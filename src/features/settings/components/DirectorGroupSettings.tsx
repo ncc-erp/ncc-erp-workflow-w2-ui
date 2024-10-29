@@ -25,6 +25,8 @@ import { toast } from 'common/components/StandaloneToast';
 import QueryString from 'qs';
 import { SettingForm } from './SettingForm';
 import { HttpStatusCode } from 'axios';
+import { Permissions } from 'common/constants';
+import { useUserPermissions } from 'hooks/useUserPermissions';
 
 const initialFilter: IFilterSettingParams = {
   settingCode: ESettingCode.DIRECTOR,
@@ -56,6 +58,7 @@ export const DirectorSettings = () => {
   );
   const [isUpdateStatus, setIsUpdateStatus] = useState(false);
   const columnHelper = createColumnHelper<ISettingValue>();
+  const { hasPermission } = useUserPermissions();
 
   const handleSubmit = async ({ email, code, name }: ISettingValue) => {
     if (isCreating) return;
@@ -167,25 +170,29 @@ export const DirectorSettings = () => {
         enableSorting: false,
         cell: (info) => info.getValue(),
       }),
-      columnHelper.display({
-        id: 'actions',
-        enableSorting: false,
-        size: 50,
-        header: () => <Center w="full">Actions</Center>,
-        cell: (info) => (
-          <Center>
-            <RowAction
-              onEdit={onAction(info.row.original, 'Edit')}
-              onDelete={onAction(info.row.original, 'Delete')}
-              disableDeleteButton={
-                info.row.original.code === formik.values.code
-              }
-            />
-          </Center>
-        ),
-      }),
+      ...(hasPermission(Permissions.UPDATE_SETTINGS)
+        ? [
+            columnHelper.display({
+              id: 'actions',
+              enableSorting: false,
+              size: 50,
+              header: () => <Center w="full">Actions</Center>,
+              cell: (info) => (
+                <Center>
+                  <RowAction
+                    onEdit={onAction(info.row.original, 'Edit')}
+                    onDelete={onAction(info.row.original, 'Delete')}
+                    disableDeleteButton={
+                      info.row.original.code === formik.values.code
+                    }
+                  />
+                </Center>
+              ),
+            }),
+          ]
+        : []),
     ] as ColumnDef<ISettingValue>[];
-  }, [columnHelper, deleteMutate, formik, refetch]);
+  }, [columnHelper, deleteMutate, formik, refetch, hasPermission]);
 
   return (
     <>

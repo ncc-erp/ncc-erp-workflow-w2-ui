@@ -25,6 +25,8 @@ import {
 import { ModalConfirm } from 'common/components/ModalConfirm';
 import { DefineTemplateInputModal } from './modals/DefineTemplateInputModal';
 import ExportImportJson, { EButtonType } from './ExportImportJson';
+import { useUserPermissions } from 'hooks/useUserPermissions';
+import { Permissions } from 'common/constants';
 
 interface RequestTemplateTableProps {
   data: RequestTemplateResult;
@@ -51,6 +53,7 @@ export const RequestTemplateTable = ({
   const [isModalDefineInputOpen, setIsModalDefineInputOpen] = useState(false);
   const [isModalConfirmOpen, setIsModalConfirmOpen] = useState(false);
   const isAdmin = useIsAdmin();
+  const { renderIfAllowed, hasPermission } = useUserPermissions();
 
   const { sideBarWidth } = useRecoilValue(appConfigState);
   const columnHelper = createColumnHelper<RequestTemplate>();
@@ -190,11 +193,13 @@ export const RequestTemplateTable = ({
     const result = [
       displayColumn,
       ...(isAdmin ? editorColumn : []),
-      actionColumn,
+      ...(hasPermission(Permissions.CREATE_WORKFLOW_INSTANCE)
+        ? [actionColumn]
+        : []),
     ] as ColumnDef<RequestTemplate>[];
 
     return result;
-  }, [columnHelper, isAdmin, handleTogglePublish]);
+  }, [columnHelper, isAdmin, handleTogglePublish, hasPermission]);
 
   const onAction =
     (
@@ -230,33 +235,35 @@ export const RequestTemplateTable = ({
 
   return (
     <Box>
-      {isAdmin && (
-        <Box px={6} display={'flex'} columnGap={'0.5rem'}>
-          <Button
-            isDisabled={isLoading}
-            size="md"
-            fontSize="sm"
-            fontWeight="medium"
-            colorScheme="green"
-            onClick={onOpenCreateModal}
-          >
-            Create
-          </Button>
-          <ExportImportJson
-            buttonStyleObj={{
-              import: {
-                colorScheme: 'blue',
-                m: '0',
-                fontSize: '14px',
-                fontWeight: '500',
-              },
-            }}
-            hiddenButton={[EButtonType.EXPORT]}
-            inputDefinition={undefined}
-            onChangeData={handleImportJson}
-          />
-        </Box>
-      )}
+      {isAdmin &&
+        renderIfAllowed(
+          Permissions.CREATE_WORKFLOW_DEFINITION,
+          <Box px={6} display="flex" columnGap="0.5rem">
+            <Button
+              isDisabled={isLoading}
+              size="md"
+              fontSize="sm"
+              fontWeight="medium"
+              colorScheme="green"
+              onClick={onOpenCreateModal}
+            >
+              Create
+            </Button>
+            <ExportImportJson
+              buttonStyleObj={{
+                import: {
+                  colorScheme: 'blue',
+                  m: '0',
+                  fontSize: '14px',
+                  fontWeight: '500',
+                },
+              }}
+              hiddenButton={[EButtonType.EXPORT]}
+              inputDefinition={undefined}
+              onChangeData={handleImportJson}
+            />
+          </Box>
+        )}
 
       <EmptyWrapper
         isEmpty={!items.length && !isLoading}

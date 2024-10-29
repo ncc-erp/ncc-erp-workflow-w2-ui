@@ -158,3 +158,35 @@ export const UserRoleLabelMapping = {
   DESIGNER: 'Designer',
   UNASSIGNED: 'N/A',
 };
+export const Permissions = {
+  WORKFLOW_DEFINITIONS: 'WorkflowDefinitions',
+  VIEW_WORKFLOW_DEFINITIONS: 'WorkflowDefinitions.View',
+  CREATE_WORKFLOW_DEFINITION: 'WorkflowDefinitions.Create',
+  UPDATE_WORKFLOW_DEFINITION_STATUS: 'WorkflowDefinitions.UpdateStatus',
+  DELETE_WORKFLOW_DEFINITION: 'WorkflowDefinitions.Delete',
+
+  WORKFLOW_INSTANCES: 'WorkflowInstances',
+  VIEW_WORKFLOW_INSTANCES: 'WorkflowInstances.View',
+  CREATE_WORKFLOW_INSTANCE: 'WorkflowInstances.Create',
+  CANCEL_WORKFLOW_INSTANCE: 'WorkflowInstances.Cancel',
+
+  TASKS: 'Tasks',
+  VIEW_TASKS: 'Tasks.View',
+  UPDATE_TASK_STATUS: 'Tasks.UpdateStatus',
+  ASSIGN_TASK: 'Tasks.Assign',
+
+  ADMIN: 'Admin',
+  USERS: 'Users',
+  VIEW_USERS: 'Users.View',
+  UPDATE_USER: 'Users.Update',
+
+  SETTINGS: 'Settings',
+  VIEW_SETTINGS: 'Settings.View',
+  CREATE_SETTINGS: 'Settings.Create',
+  UPDATE_SETTINGS: 'Settings.Update',
+
+  ROLES: 'Roles',
+  VIEW_ROLES: 'Roles.View',
+  CREATE_ROLE: 'Roles.Create',
+  UPDATE_ROLE: 'Roles.Update',
+};
