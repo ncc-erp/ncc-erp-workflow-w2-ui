@@ -42,24 +42,30 @@ export const RowAction = ({
         icon={<Icon color="gray.500" fontSize="lg" as={RiSettings4Fill} />}
       />
       <MenuList minW="100px" bg={bg}>
-        <MenuItem
-          color={color}
-          display="flex"
-          gap="12px"
-          onClick={onDefineInput}
-        >
-          <Icon color="gray.500" as={FaEye} />
-          Define Input
-        </MenuItem>
-        <MenuItem
-          color={color}
-          display="flex"
-          gap="12px"
-          onClick={onViewWorkflow}
-        >
-          <Icon color="gray.500" as={FaRegMap} />
-          Edit Workflow
-        </MenuItem>
+        {renderIfAllowed(
+          Permissions.DEFINE_INPUT,
+          <MenuItem
+            color={color}
+            display="flex"
+            gap="12px"
+            onClick={onDefineInput}
+          >
+            <Icon color="gray.500" as={FaEye} />
+            Define Input
+          </MenuItem>
+        )}
+        {renderIfAllowed(
+          Permissions.EDIT_WORKFLOW_DEFINITION,
+          <MenuItem
+            color={color}
+            display="flex"
+            gap="12px"
+            onClick={onViewWorkflow}
+          >
+            <Icon color="gray.500" as={FaRegMap} />
+            Edit Workflow
+          </MenuItem>
+        )}
         {renderIfAllowed(
           Permissions.UPDATE_WORKFLOW_DEFINITION_STATUS,
           <MenuItem
