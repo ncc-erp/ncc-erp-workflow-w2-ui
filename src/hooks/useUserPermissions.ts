@@ -4,6 +4,8 @@ export const useUserPermissions = () => {
   const user = useCurrentUser();
 
   const hasPermission = (permission: string) => {
+    console.log(user?.permissions?.includes(permission));
+
     return user?.permissions?.includes(permission);
   };
 

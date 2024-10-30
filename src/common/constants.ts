@@ -186,6 +186,7 @@ export const Permissions = {
   VIEW_SETTINGS: 'Settings.View',
   CREATE_SETTINGS: 'Settings.Create',
   UPDATE_SETTINGS: 'Settings.Update',
+  DELETE_SETTINGS: 'Settings.Delete',
 
   ROLES: 'Roles',
   VIEW_ROLES: 'Roles.View',

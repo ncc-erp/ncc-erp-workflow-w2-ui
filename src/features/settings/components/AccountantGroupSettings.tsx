@@ -116,7 +116,7 @@ export const AccountantSettings = () => {
         enableSorting: false,
         cell: (info) => info.getValue(),
       }),
-      ...(hasPermission(Permissions.UPDATE_SETTINGS)
+      ...(hasPermission(Permissions.DELETE_SETTINGS)
         ? [
             columnHelper.display({
               id: 'actions',

@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Button,
   FormControl,
@@ -24,10 +24,22 @@ const CreateRoleWithPermissionsForm: React.FC<
 > = ({ onClose, onSubmit, permissions, initialRoleName = '', role }) => {
   const [roleName, setRoleName] = useState(initialRoleName);
   const [selectedPermissions, setSelectedPermissions] = useState<string[]>([]);
+  const [codePermissions, setCodePermissions] = useState<string[]>([]);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     setRoleName(initialRoleName);
   }, [initialRoleName]);
+
+  useEffect(() => {
+    const newCodePermissions: string[] = [];
+    role?.permissions?.forEach((perm) => {
+      codePermissions.push(perm.code);
+      perm.children?.forEach((child) => {
+        codePermissions.push(child.code);
+      });
+    });
+    setCodePermissions(newCodePermissions);
+  }, [role, codePermissions]);
 
   const handleCheckboxChange = (updatedSelection: string[]) => {
     setSelectedPermissions(updatedSelection);
@@ -35,7 +47,10 @@ const CreateRoleWithPermissionsForm: React.FC<
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit(roleName, selectedPermissions);
+    onSubmit(
+      roleName,
+      selectedPermissions.length > 0 ? selectedPermissions : codePermissions
+    );
     onClose();
   };
 
