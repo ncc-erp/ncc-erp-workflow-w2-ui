@@ -45,6 +45,7 @@ export const UserModal = ({
           initialValues={initialValues}
           userId={user.id}
           onClose={onClose}
+          isOpen={isOpen}
         />
       ),
       [UserAction.PERMISSIONS]: <></>,

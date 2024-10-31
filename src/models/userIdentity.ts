@@ -33,6 +33,7 @@ export interface ModalUserParams {
   lockoutEnabled: boolean;
   roleNames: string[];
   password?: string;
+  customPermissionCodes?: string[];
 }
 export interface FilterUserParams {
   filter: string;

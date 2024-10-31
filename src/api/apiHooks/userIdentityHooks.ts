@@ -5,7 +5,7 @@ import {
   UserIdentity,
 } from 'models/userIdentity';
 import { useGetList, useGetOne, useUpdate } from '.';
-import { RolesList } from 'models/roles';
+import { Role, RolesList } from 'models/roles';
 import { QueryKeys } from 'common/constants';
 
 export const useRoles = () => {
@@ -29,8 +29,15 @@ export const useRoleByUserId = (userId: string) => {
 
 export const useUpdateUser = (userId: string, user: ModalUserParams) => {
   return useUpdate<string, ModalUserParams, UserIdentity>(
-    `/identity/users`,
+    `/app/users`,
     userId,
     user
+  );
+};
+
+export const useUserPermissions = (id: string) => {
+  return useGetOne<Role>(
+    [QueryKeys.GET_USER_PERMISSIONS],
+    `/app/users/${id}/permissions`
   );
 };

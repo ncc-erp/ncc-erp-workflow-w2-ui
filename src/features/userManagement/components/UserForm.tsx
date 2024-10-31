@@ -10,8 +10,13 @@ import {
   Tabs,
 } from '@chakra-ui/react';
 import { useQueryClient } from '@tanstack/react-query';
-import { useUpdateUser } from 'api/apiHooks/userIdentityHooks';
+import { useGetAllPermissions } from 'api/apiHooks/roleHook';
+import {
+  useUpdateUser,
+  useUserPermissions,
+} from 'api/apiHooks/userIdentityHooks';
 import { PasswordField } from 'common/components/PasswordField';
+import PermissionCheckbox from 'common/components/PermissionCheckbox';
 import { toast } from 'common/components/StandaloneToast';
 import { TextField } from 'common/components/TextField';
 import { QueryKeys, UserRoles } from 'common/constants';
@@ -24,22 +29,43 @@ interface UserFormProps {
   initialValues: ModalUserParams;
   userId: string;
   onClose: () => void;
+  isOpen: boolean;
 }
 
-const UserForm = ({ initialValues, userId, onClose }: UserFormProps) => {
+const UserForm = ({
+  initialValues,
+  userId,
+  onClose,
+  isOpen,
+}: UserFormProps) => {
   const [userValues, setUserValues] = useState(initialValues);
   const [passwordConfirm, setPasswordConfirm] = useState('');
   const [passwordError, setPasswordError] = useState('');
-
+  const { data: permissionsData } = useGetAllPermissions();
+  const [updatedPermissions, setUpdatedPermissions] = useState<string[]>([]);
+  const [codePermissions, setCodePermissions] = useState<string[]>([]);
   const handlePasswordConfirmChange = (e: ChangeEvent<HTMLInputElement>) => {
     setPasswordConfirm(e.target.value);
   };
-
+  const { data: permissions, refetch } = useUserPermissions(userId);
   const { mutate, isLoading, isSuccess, isError } = useUpdateUser(
     userId,
     userValues
   );
   const queryClient = useQueryClient();
+  useEffect(() => {
+    if (isOpen) {
+      refetch();
+    }
+    const newCodePermissions: string[] = [];
+    permissions?.permissions?.forEach((perm) => {
+      newCodePermissions.push(perm.code);
+      perm.children?.forEach((child) => {
+        newCodePermissions.push(child.code);
+      });
+    });
+    setCodePermissions(newCodePermissions);
+  }, [isOpen, refetch, permissions]);
 
   const handleSubmit = async (values: ModalUserParams) => {
     if (values.password !== undefined && values.password !== passwordConfirm) {
@@ -48,7 +74,12 @@ const UserForm = ({ initialValues, userId, onClose }: UserFormProps) => {
     } else {
       setPasswordError('');
     }
-    setUserValues(values);
+    const updatedValues = {
+      ...values,
+      customPermissionCodes:
+        updatedPermissions.length > 0 ? updatedPermissions : codePermissions,
+    };
+    setUserValues(updatedValues);
     await mutate();
   };
 
@@ -97,6 +128,9 @@ const UserForm = ({ initialValues, userId, onClose }: UserFormProps) => {
       {convertToCase(role)}
     </Checkbox>
   );
+  const handlePermissionChange = (updatedSelection: string[]) => {
+    setUpdatedPermissions(updatedSelection);
+  };
 
   return (
     <Tabs size="md" variant="enclosed">
@@ -106,6 +140,9 @@ const UserForm = ({ initialValues, userId, onClose }: UserFormProps) => {
         </Tab>
         <Tab fontSize="16px" fontWeight="medium">
           Roles
+        </Tab>
+        <Tab fontSize="16px" fontWeight="medium">
+          Permissions
         </Tab>
       </TabList>
       <form onSubmit={formik.handleSubmit}>
@@ -239,6 +276,14 @@ const UserForm = ({ initialValues, userId, onClose }: UserFormProps) => {
                 renderCheckbox(role, index)
               )}
             </Stack>
+          </TabPanel>
+          <TabPanel p="0">
+            <PermissionCheckbox
+              permission={Array.isArray(permissionsData) ? permissionsData : []}
+              onChange={handlePermissionChange}
+              style={{ fontSize: '14px', marginTop: '20px' }}
+              role={permissions ? permissions : undefined}
+            />
           </TabPanel>
         </TabPanels>
         <Divider></Divider>
