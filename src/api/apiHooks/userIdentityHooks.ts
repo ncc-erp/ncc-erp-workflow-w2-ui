@@ -9,7 +9,7 @@ import { Role, RolesList } from 'models/roles';
 import { QueryKeys } from 'common/constants';
 
 export const useRoles = () => {
-  return useGetOne<RolesList>([QueryKeys.GET_ALL_ROLES], '/identity/roles/all');
+  return useGetOne<RolesList>([QueryKeys.GET_ALL_ROLES], '/app/roles');
 };
 
 export const useUserIdentity = (filter: FilterUserParams) => {
@@ -23,7 +23,7 @@ export const useUserIdentity = (filter: FilterUserParams) => {
 export const useRoleByUserId = (userId: string) => {
   return useGetList<RolesList>(
     [QueryKeys.GET_ROLE_BY_USER, userId],
-    `/identity/users/${userId}/roles`
+    `/app/users/${userId}/roles`
   );
 };
 
