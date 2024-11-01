@@ -167,6 +167,7 @@ export const Permissions = {
   DELETE_WORKFLOW_DEFINITION: 'WorkflowDefinitions.Delete',
   DEFINE_INPUT: 'WorkflowDefinitions.DefineInput',
   EDIT_WORKFLOW_DEFINITION: 'WorkflowDefinitions.Edit',
+  IMPORT_WORKFLOW_DEFINITION: 'WorkflowDefinitions.Import',
 
   WORKFLOW_INSTANCES: 'WorkflowInstances',
   VIEW_WORKFLOW_INSTANCES: 'WorkflowInstances.View',

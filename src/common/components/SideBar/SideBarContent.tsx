@@ -166,70 +166,70 @@ export const SideBarContent = ({ isLargeScreen }: SideBarContentProps) => {
             <NavLink key={nav.to} {...nav} onClick={onCloseSideBar} />
           )
         )}
-        {isAdmin && (
-          <>
-            {AdminNavList.map((adminNav) => {
-              const hasAdminPermission = [
-                Permissions.USERS,
-                Permissions.SETTINGS,
-              ].some(hasPermission);
-              return hasAdminPermission ? (
-                <Accordion
-                  allowToggle
-                  borderColor={'transparent'}
-                  w={'100%'}
-                  key={adminNav.to}
-                >
-                  <AccordionItem>
-                    <AccordionButton
-                      borderRadius={'0.375rem'}
-                      p={0}
-                      _hover={{
-                        backgroundColor: 'gray.200',
-                        color: 'gray.700',
-                      }}
-                      _activeLink={{
-                        backgroundColor: 'gray.200',
-                        color: 'gray.700',
-                      }}
+        {/*{isAdmin && (*/}
+        <>
+          {AdminNavList.map((adminNav) => {
+            const hasAdminPermission = [
+              Permissions.USERS,
+              Permissions.SETTINGS,
+            ].some(hasPermission);
+            return hasAdminPermission ? (
+              <Accordion
+                allowToggle
+                borderColor={'transparent'}
+                w={'100%'}
+                key={adminNav.to}
+              >
+                <AccordionItem>
+                  <AccordionButton
+                    borderRadius={'0.375rem'}
+                    p={0}
+                    _hover={{
+                      backgroundColor: 'gray.200',
+                      color: 'gray.700',
+                    }}
+                    _activeLink={{
+                      backgroundColor: 'gray.200',
+                      color: 'gray.700',
+                    }}
+                  >
+                    <Link
+                      px="8px"
+                      py="6px"
+                      w="full"
+                      fontWeight="600"
+                      display="flex"
+                      alignItems="center"
+                      gap="12px"
+                      fontSize="sm"
+                      rounded="md"
+                      textDecoration="none !important"
                     >
-                      <Link
-                        px="8px"
-                        py="6px"
-                        w="full"
-                        fontWeight="600"
-                        display="flex"
-                        alignItems="center"
-                        gap="12px"
-                        fontSize="sm"
-                        rounded="md"
-                        textDecoration="none !important"
-                      >
-                        <Icon
-                          textColor="gray.500"
-                          fontSize="xl"
-                          as={adminNav.icon}
-                        />
-                        {adminNav.text}
-                      </Link>
-                      <AccordionIcon />
-                    </AccordionButton>
-                    <AccordionPanel p={0} pl={7}>
-                      {adminNav.subMenu.map((item) => {
-                        return renderIfAllowed(
-                          item.permission,
-                          <Box mt={1} key={item.to}>
-                            <NavLink {...item} onClick={onCloseSideBar} />
-                          </Box>
-                        );
-                      })}
-                    </AccordionPanel>
-                  </AccordionItem>
-                </Accordion>
-              ) : null;
-            })}
-          </>
-        )}
+                      <Icon
+                        textColor="gray.500"
+                        fontSize="xl"
+                        as={adminNav.icon}
+                      />
+                      {adminNav.text}
+                    </Link>
+                    <AccordionIcon />
+                  </AccordionButton>
+                  <AccordionPanel p={0} pl={7}>
+                    {adminNav.subMenu.map((item) => {
+                      return renderIfAllowed(
+                        item.permission,
+                        <Box mt={1} key={item.to}>
+                          <NavLink {...item} onClick={onCloseSideBar} />
+                        </Box>
+                      );
+                    })}
+                  </AccordionPanel>
+                </AccordionItem>
+              </Accordion>
+            ) : null;
+          })}
+        </>
+        {/*)}*/}
       </VStack>
       <HStack borderTopColor="gray.200" px="12px" py="16px" spacing="12px">
         <Text fontSize="sm" fontWeight={600} noOfLines={1}>

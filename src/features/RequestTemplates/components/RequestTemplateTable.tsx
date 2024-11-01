@@ -192,7 +192,9 @@ export const RequestTemplateTable = ({
 
     const result = [
       displayColumn,
-      ...(isAdmin ? editorColumn : []),
+      ...//isAdmin ?
+      editorColumn,
+      //: []
       ...(hasPermission(Permissions.CREATE_WORKFLOW_INSTANCE)
         ? [actionColumn]
         : []),
@@ -235,10 +237,11 @@ export const RequestTemplateTable = ({
 
   return (
     <Box>
-      {isAdmin &&
-        renderIfAllowed(
-          Permissions.CREATE_WORKFLOW_DEFINITION,
-          <Box px={6} display="flex" columnGap="0.5rem">
+      {
+        //  isAdmin &&
+        <Box px={6} display="flex" columnGap="0.5rem">
+          {renderIfAllowed(
+            Permissions.CREATE_WORKFLOW_DEFINITION,
             <Button
               isDisabled={isLoading}
               size="md"
@@ -249,6 +252,10 @@ export const RequestTemplateTable = ({
             >
               Create
             </Button>
+          )}
+
+          {renderIfAllowed(
+            Permissions.IMPORT_WORKFLOW_DEFINITION,
             <ExportImportJson
               buttonStyleObj={{
                 import: {
@@ -262,8 +269,9 @@ export const RequestTemplateTable = ({
               inputDefinition={undefined}
               onChangeData={handleImportJson}
             />
-          </Box>
-        )}
+          )}
+        </Box>
+      }
 
       <EmptyWrapper
         isEmpty={!items.length && !isLoading}

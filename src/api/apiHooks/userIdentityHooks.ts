@@ -37,7 +37,7 @@ export const useUpdateUser = (userId: string, user: ModalUserParams) => {
 
 export const useUserPermissions = (id: string) => {
   return useGetOne<Role>(
-    [QueryKeys.GET_USER_PERMISSIONS],
+    [QueryKeys.GET_USER_PERMISSIONS, id],
     `/app/users/${id}/permissions`
   );
 };

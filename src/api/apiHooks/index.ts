@@ -153,6 +153,7 @@ export const getAllTask = async (filter: FilterTasks) => {
   const result: ITaskResponse = await axios.post('app/task/list', filter);
   return result;
 };
+
 export const useUpdateRoles = (url: string) => {
   const axios = useAxios();
 
@@ -165,7 +166,8 @@ export const useUpdateRoles = (url: string) => {
   };
   return useMutation(mutate);
 };
-export const useGetOneIfValid = <T>(
+
+export const useFetchResourceById = <T>(
   key: QueryKey,
   id: string | null,
   url?: string,
@@ -175,6 +177,7 @@ export const useGetOneIfValid = <T>(
   return useQuery(
     key,
     async () => {
+      if (!url) throw new Error('URL is required');
       const data: T = await axios.get(`${url}`, config);
       return data;
     },

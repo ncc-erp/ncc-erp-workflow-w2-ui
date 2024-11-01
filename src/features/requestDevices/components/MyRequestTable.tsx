@@ -28,11 +28,11 @@ import { toast } from 'common/components/StandaloneToast';
 import { PageSize } from 'common/components/Table/PageSize';
 import { ShowingItemText } from 'common/components/Table/ShowingItemText';
 import { Table } from 'common/components/Table/Table';
-import { QueryKeys, noOfRows } from 'common/constants';
+import { Permissions, QueryKeys, noOfRows } from 'common/constants';
 import { RequestSortField, RequestStatus, SortDirection } from 'common/enums';
 import { RowAction } from 'features/requestDevices/components/RowAction';
 import { useCurrentUser } from 'hooks/useCurrentUser';
-import { useIsAdmin } from 'hooks/useIsAdmin';
+//import { useIsAdmin } from 'hooks/useIsAdmin';
 import { FilterRequestParams, Request, Settings } from 'models/request';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useRecoilValue } from 'recoil';
@@ -48,6 +48,7 @@ import { AiOutlineReload } from 'react-icons/ai';
 import styles from './style.module.scss';
 import OverflowText from 'common/components/OverflowText';
 import TextToolTip from 'common/components/textTooltip';
+import { useUserPermissions } from 'hooks/useUserPermissions';
 
 const initialSorting: SortingState = [
   {
@@ -78,8 +79,8 @@ export const MyRequestTable = () => {
   const { skipCount, maxResultCount } = filter;
   const currentPage = (maxResultCount + skipCount) / maxResultCount;
   const columnHelper = createColumnHelper<Request>();
-  const isAdmin = useIsAdmin();
-
+  //  const isAdmin = useIsAdmin();
+  const { hasPermission } = useUserPermissions();
   const queryClient = useQueryClient();
   const cancelRequestMutation = useCancelRequest();
   const [isOpen, setIsOpen] = useState(false);
@@ -246,7 +247,8 @@ export const MyRequestTable = () => {
               onViewWorkflow={onActionViewWorkflow(info.row.original.id)}
               actions={{
                 cancel:
-                  (isAdmin &&
+                  //isAdmin &&
+                  (hasPermission(Permissions.CANCEL_WORKFLOW_INSTANCE) &&
                     info.row.original.status !== RequestStatus.Canceled) ||
                   info.row.original.status === RequestStatus.Pending,
               }}
@@ -258,11 +260,11 @@ export const MyRequestTable = () => {
 
     const result = [
       displayColumn,
-      ...(isAdmin ? [editorColumn] : []),
+      ...[editorColumn],
       ...coreColumn,
     ] as ColumnDef<Request>[];
     return result;
-  }, [columnHelper, isAdmin]);
+  }, [columnHelper, hasPermission]);
 
   useEffect(() => {
     const { id, desc } = sorting?.[0] ?? {};
@@ -363,29 +365,35 @@ export const MyRequestTable = () => {
               options={statusOptions}
             />
           </Box>
-          {isAdmin && !filter.RequestUser && (
-            <Box w={'300px'}>
-              <InputGroup>
-                <Input
-                  autoFocus
-                  value={txtSearch}
-                  type="text"
-                  placeholder="Enter email"
-                  fontSize="14px"
-                  onChange={(e) =>
-                    !isLoading && !isRefetching && setTxtSearch(e.target.value)
-                  }
-                  data-testid="search-input"
-                />
-                <InputRightElement width="40px">
-                  <TbSearch />
-                </InputRightElement>
-              </InputGroup>
-            </Box>
-          )}
+          {
+            //  isAdmin &&
+            !filter.RequestUser && (
+              <Box w={'300px'}>
+                <InputGroup>
+                  <Input
+                    autoFocus
+                    value={txtSearch}
+                    type="text"
+                    placeholder="Enter email"
+                    fontSize="14px"
+                    onChange={(e) =>
+                      !isLoading &&
+                      !isRefetching &&
+                      setTxtSearch(e.target.value)
+                    }
+                    data-testid="search-input"
+                  />
+                  <InputRightElement width="40px">
+                    <TbSearch />
+                  </InputRightElement>
+                </InputGroup>
+              </Box>
+            )
+          }
         </HStack>
         <Wrap px="24px" pt="8px" justify="space-between">
-          {isAdmin && (
+          {
+            //  isAdmin &&
             <WrapItem>
               <Button
                 isDisabled={isLoading || isRefetching}
@@ -408,7 +416,7 @@ export const MyRequestTable = () => {
                 Only my request
               </Button>
             </WrapItem>
-          )}
+          }
         </Wrap>
         <Box position={'relative'}>
           <Wrap

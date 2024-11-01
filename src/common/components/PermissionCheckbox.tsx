@@ -3,6 +3,7 @@ import { Tree } from 'antd';
 import type { TreeDataNode, TreeProps } from 'antd';
 import { Permissions } from 'models/permissions';
 import { Role } from 'models/roles';
+
 interface PermissionCheckboxProps {
   permission: Permissions[];
   onChange: (updatedSelection: string[]) => void;

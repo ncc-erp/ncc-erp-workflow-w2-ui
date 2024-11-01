@@ -325,7 +325,6 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
                           Reject
                         </MenuItem>
                         {info.row.original.otherActionSignals &&
-                          info.row.original.otherActionSignals.length > 0 &&
                           info.row.original.otherActionSignals.map(
                             (el, index) => (
                               <MenuItem
