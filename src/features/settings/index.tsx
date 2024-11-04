@@ -10,11 +10,17 @@ import { AccountantSettings } from './components/AccountantGroupSettings';
 import { useUserPermissions } from 'hooks/useUserPermissions';
 import { Permissions } from 'common/constants';
 import NotFound from 'common/components/NotFound';
+import { useMemo } from 'react';
 
 const SettingsComponent = () => {
   const { hasPermission } = useUserPermissions();
 
-  return hasPermission(Permissions.VIEW_SETTINGS) ? (
+  const canViewSettings = useMemo(
+    () => hasPermission(Permissions.VIEW_SETTINGS),
+    [hasPermission]
+  );
+
+  return canViewSettings ? (
     <Page>
       <Page.Header>
         <Page.HeaderLeft>

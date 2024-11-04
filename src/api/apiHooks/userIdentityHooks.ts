@@ -21,7 +21,7 @@ export const useUserIdentity = (filter: FilterUserParams) => {
 };
 
 export const useRoleByUserId = (userId: string) => {
-  return useGetList<RolesList>(
+  return useGetList<Role>(
     [QueryKeys.GET_ROLE_BY_USER, userId],
     `/app/users/${userId}/roles`
   );

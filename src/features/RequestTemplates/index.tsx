@@ -10,11 +10,16 @@ const RequestTemplates = () => {
   const { data, isLoading, refetch } = useRequestTemplates();
   const { hasPermission } = useUserPermissions();
 
+  const canViewTemplates = useMemo(
+    () => hasPermission(Permissions.VIEW_WORKFLOW_DEFINITIONS),
+    [hasPermission]
+  );
+
   const temp = useMemo(() => {
     return data;
   }, [data]);
 
-  return hasPermission(Permissions.VIEW_WORKFLOW_DEFINITIONS) ? (
+  return canViewTemplates ? (
     <Page>
       <Page.Header>
         <Page.HeaderLeft>

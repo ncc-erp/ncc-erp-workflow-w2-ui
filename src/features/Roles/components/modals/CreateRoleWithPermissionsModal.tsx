@@ -9,7 +9,6 @@ import {
 } from '@chakra-ui/react';
 import CreateRoleWithPermissionsForm from '../forms/CreateRoleWithPermissionsForm';
 import { Permissions } from 'models/permissions';
-import { toast } from 'common/components/StandaloneToast';
 import {
   useGetOneRole,
   useCreateRole,
@@ -50,35 +49,18 @@ export const CreateRoleModal = ({
     roleName: string,
     selectedPermissions: string[]
   ) => {
-    try {
-      await (selectedRoleId
-        ? updateRole({
-            id: selectedRoleId,
-            data: { name: roleName, permissionCodes: selectedPermissions },
-          })
-        : createRole({ name: roleName, permissionCodes: selectedPermissions }));
-      toast({
-        description: `Role ${
-          selectedRoleId ? 'updated' : 'created'
-        } successfully.`,
-        status: 'success',
-        duration: 3000,
-        isClosable: true,
-      });
-      onSuccess();
-      onClose();
-    } catch (error) {
-      toast({
-        description: `Failed to ${
-          selectedRoleId ? 'updated' : 'created'
-        }the role.`,
-        status: 'error',
-        duration: 3000,
-        isClosable: true,
-      });
-    }
+    selectedRoleId
+      ? await updateRole({
+          id: selectedRoleId,
+          data: { name: roleName, permissionCodes: selectedPermissions },
+        })
+      : await createRole({
+          name: roleName,
+          permissionCodes: selectedPermissions,
+        });
+    onSuccess();
+    onClose();
   };
-
   return (
     <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={true}>
       <ModalOverlay />

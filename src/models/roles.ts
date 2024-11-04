@@ -1,20 +1,20 @@
-export interface Roles {
+export interface Role {
+  id: string;
   name: string;
   isDefault: boolean;
   isStatic: boolean;
   isPublic: boolean;
   concurrencyStamp: string;
-  id: string;
+  permissions: Permission[];
   extraProperties: object;
 }
 
 export interface ListResult<T> {
   items: T[];
 }
-export type RolesList = ListResult<Roles>;
-export interface RoleResponse {
-  items: Roles[];
-}
+export type RolesList = ListResult<Role>;
+
+export type RoleResponse = ListResult<Role>;
 export interface CreateRoleRequest {
   name: string;
   permissionCodes: string[];
@@ -32,19 +32,4 @@ export interface Permission {
   code: string;
   creationTime: string;
   children?: ChildPermission[];
-}
-
-export interface Role {
-  extraProperties: {
-    additionalProp1: string;
-    additionalProp2: string;
-    additionalProp3: string;
-  };
-  id: string;
-  name: string;
-  isDefault: boolean;
-  isStatic: boolean;
-  isPublic: boolean;
-  concurrencyStamp: string;
-  permissions: Permission[];
 }

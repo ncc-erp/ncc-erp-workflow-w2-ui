@@ -36,6 +36,7 @@ import { AiOutlineReload } from 'react-icons/ai';
 import { UserRoleLabelMapping } from '../../../common/constants';
 import { useUserPermissions } from 'hooks/useUserPermissions';
 import { Permissions } from 'common/constants';
+import { useGetAllRoles } from 'api/apiHooks/roleHook';
 const initialFilter: FilterUserParams = {
   filter: '',
   maxResultCount: +noOfRows[0].value,
@@ -66,6 +67,7 @@ export const UserManagementTable = () => {
   const [txtSearch, setTxtSearch] = useState('');
   const txtSearchDebounced = useDebounced(txtSearch, 500);
   const { hasPermission } = useUserPermissions();
+  const { data: rolesData } = useGetAllRoles();
   const onUserListFilterChange = useCallback(
     (key: 'sorting' | 'roles' | 'filter', value?: string) => {
       setFilterUser((filterUser) => ({
@@ -130,16 +132,10 @@ export const UserManagementTable = () => {
             if (Array.isArray(roles) && roles.length > 0) {
               return roles
                 .map((role) => {
-                  switch (role) {
-                    case 'admin':
-                      return UserRoleLabelMapping.ADMIN;
-                    case 'DefaultUser':
-                      return UserRoleLabelMapping.DEFAULT_USER;
-                    case 'Designer':
-                      return UserRoleLabelMapping.DESIGNER;
-                    default:
-                      return;
-                  }
+                  const foundRole = rolesData?.items?.find(
+                    (r) => r.name === role
+                  );
+                  return foundRole ? foundRole.name : role;
                 })
                 .join(', ');
             }
@@ -162,7 +158,7 @@ export const UserManagementTable = () => {
             ),
           }),
       ].filter(Boolean) as ColumnDef<UserIdentity>[],
-    [columnHelper, hasPermission]
+    [columnHelper, hasPermission, rolesData?.items]
   );
 
   const currentPage = useMemo(() => {

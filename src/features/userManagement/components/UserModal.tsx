@@ -25,7 +25,7 @@ export const UserModal = ({
   user,
 }: IUserModalProps) => {
   const { data: rolesList } = useRoleByUserId(user.id);
-
+  const itemsArray = Object.values(rolesList || {});
   let initialValues: ModalUserParams;
   let UserComponent;
   if (rolesList) {
@@ -37,7 +37,7 @@ export const UserModal = ({
       phoneNumber: user?.phoneNumber,
       isActive: user?.isActive,
       lockoutEnabled: user?.lockoutEnabled,
-      roleNames: rolesList?.items.map((role) => role.name),
+      roleNames: itemsArray?.map((role) => role.name),
     };
     UserComponent = {
       [UserAction.EDIT]: (

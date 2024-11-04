@@ -25,6 +25,7 @@ const CreateRoleWithPermissionsForm: React.FC<
   const [roleName, setRoleName] = useState(initialRoleName);
   const [selectedPermissions, setSelectedPermissions] = useState<string[]>([]);
   const [codePermissions, setCodePermissions] = useState<string[]>([]);
+  const [isTreeModified, setIsTreeModified] = useState(false);
 
   useEffect(() => {
     setRoleName(initialRoleName);
@@ -43,14 +44,15 @@ const CreateRoleWithPermissionsForm: React.FC<
 
   const handleCheckboxChange = (updatedSelection: string[]) => {
     setSelectedPermissions(updatedSelection);
+    setIsTreeModified(true);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit(
-      roleName,
-      selectedPermissions.length > 0 ? selectedPermissions : codePermissions
-    );
+    const permissionsToSubmit = isTreeModified
+      ? selectedPermissions
+      : codePermissions;
+    onSubmit(roleName, permissionsToSubmit);
     onClose();
   };
 

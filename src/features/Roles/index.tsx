@@ -3,11 +3,17 @@ import { RolesBoard } from './components/RolesBoard';
 import { useUserPermissions } from 'hooks/useUserPermissions';
 import { Permissions } from 'common/constants';
 import NotFound from 'common/components/NotFound';
+import { useMemo } from 'react';
 
 const Roles = () => {
   const { hasPermission } = useUserPermissions();
 
-  return hasPermission(Permissions.VIEW_ROLES) ? (
+  const canViewRoles = useMemo(
+    () => hasPermission(Permissions.VIEW_ROLES),
+    [hasPermission]
+  );
+
+  return canViewRoles ? (
     <Page>
       <Page.Header>
         <Page.HeaderLeft>

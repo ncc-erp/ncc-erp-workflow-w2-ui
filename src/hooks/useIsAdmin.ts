@@ -11,9 +11,7 @@ export function useIsAdmin() {
     }
     return null;
   }, [token]);
-  const isAdmin = decodedToken
-    ? decodedToken.role[0] === UserRoles.ADMIN
-    : false;
+  const isAdmin = decodedToken?.role?.[0] === UserRoles.ADMIN;
 
   return isAdmin;
 }

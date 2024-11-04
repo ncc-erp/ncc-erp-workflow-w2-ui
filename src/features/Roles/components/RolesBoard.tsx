@@ -4,7 +4,7 @@ import { EmptyWrapper } from 'common/components/EmptyWrapper';
 import { Table } from 'common/components/Table/Table';
 import { useMemo, useState } from 'react';
 import { CreateRoleModal } from './modals/CreateRoleWithPermissionsModal';
-import { Roles } from 'models/roles';
+import { Role } from 'models/roles';
 import { AiOutlineEdit } from 'react-icons/ai';
 import { useGetAllPermissions, useGetAllRoles } from 'api/apiHooks/roleHook';
 import { useUserPermissions } from 'hooks/useUserPermissions';
@@ -17,7 +17,7 @@ export const RolesBoard = () => {
   const [selectedRoleId, setSelectedRoleId] = useState<string | null>(null);
   const { renderIfAllowed, hasPermission } = useUserPermissions();
 
-  const myColumns: ColumnDef<Roles>[] = useMemo(() => {
+  const myColumns: ColumnDef<Role>[] = useMemo(() => {
     return [
       {
         accessorKey: 'name',
@@ -30,7 +30,7 @@ export const RolesBoard = () => {
             {
               accessorKey: 'action',
               header: 'Action',
-              cell: ({ row }: { row: { original: Roles } }) => (
+              cell: ({ row }: { row: { original: Role } }) => (
                 <span onClick={() => handleEdit(row.original)}>
                   <AiOutlineEdit
                     style={{ cursor: 'pointer', color: 'black' }}
@@ -55,7 +55,7 @@ export const RolesBoard = () => {
     refetchRoles();
   };
 
-  const handleEdit = (role: Roles) => {
+  const handleEdit = (role: Role) => {
     setSelectedRoleId(role.id);
     setIsModalOpen(true);
   };

@@ -4,7 +4,10 @@ export const useUserPermissions = () => {
   const user = useCurrentUser();
 
   const hasPermission = (permission: string) => {
-    return user?.permissions?.includes(permission);
+    if (!user) {
+      return false;
+    }
+    return user.permissions?.includes(permission);
   };
 
   const renderIfAllowed = (permission: string, element: JSX.Element) => {
