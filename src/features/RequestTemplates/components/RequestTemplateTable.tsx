@@ -59,6 +59,12 @@ export const RequestTemplateTable = ({
   const columnHelper = createColumnHelper<RequestTemplate>();
   const deleteWorkflowDefinitionMutation = useDeleteWorkflowDefinition();
   const updatePublishStatus = useUpdateWorkflowPublishStatus();
+  const canViewDesignerColumn = hasPermission([
+    Permissions.DEFINE_INPUT,
+    Permissions.EDIT_WORKFLOW_DEFINITION,
+    Permissions.UPDATE_WORKFLOW_DEFINITION_STATUS,
+    Permissions.DELETE_WORKFLOW_DEFINITION,
+  ]);
   const [workflowCreateData, setWorkflowCreateData] =
     useState<IJsonObject | null>(null);
   const onConfirmDeleteWorkflow = (workflowId: string) => () => {
@@ -151,43 +157,47 @@ export const RequestTemplateTable = ({
         enableSorting: false,
         cell: (info) => info.getValue().toString(),
       }),
-      columnHelper.display({
-        id: 'designer',
-        enableSorting: false,
-        header: () => <Center w="full">Designer</Center>,
-        cell: (info) => {
-          const {
-            definitionId,
-            inputDefinition,
-            name,
-            displayName,
-            defineJson,
-            isPublished,
-          } = info.row.original;
-          return (
-            <Center>
-              <RowAction
-                onDelete={onConfirmDeleteWorkflow(definitionId)}
-                onDefineInput={onDefineInputWorkflow(
+      ...(canViewDesignerColumn
+        ? [
+            columnHelper.display({
+              id: 'designer',
+              enableSorting: false,
+              header: () => <Center w="full">Designer</Center>,
+              cell: (info) => {
+                const {
                   definitionId,
-                  {
-                    ...inputDefinition,
-                    nameRequest: name,
-                    requestDisplayName: displayName,
-                    defineJson,
-                  },
-                  name
-                )}
-                onViewWorkflow={onActionViewWorkflow(definitionId)}
-                onTogglePublish={() =>
-                  handleTogglePublish(definitionId, isPublished)
-                }
-                isPublished={isPublished}
-              />
-            </Center>
-          );
-        },
-      }),
+                  inputDefinition,
+                  name,
+                  displayName,
+                  defineJson,
+                  isPublished,
+                } = info.row.original;
+                return (
+                  <Center>
+                    <RowAction
+                      onDelete={onConfirmDeleteWorkflow(definitionId)}
+                      onDefineInput={onDefineInputWorkflow(
+                        definitionId,
+                        {
+                          ...inputDefinition,
+                          nameRequest: name,
+                          requestDisplayName: displayName,
+                          defineJson,
+                        },
+                        name
+                      )}
+                      onViewWorkflow={onActionViewWorkflow(definitionId)}
+                      onTogglePublish={() =>
+                        handleTogglePublish(definitionId, isPublished)
+                      }
+                      isPublished={isPublished}
+                    />
+                  </Center>
+                );
+              },
+            }),
+          ]
+        : []),
     ];
 
     const result = [
@@ -201,7 +211,13 @@ export const RequestTemplateTable = ({
     ] as ColumnDef<RequestTemplate>[];
 
     return result;
-  }, [columnHelper, isAdmin, handleTogglePublish, hasPermission]);
+  }, [
+    columnHelper,
+    isAdmin,
+    handleTogglePublish,
+    hasPermission,
+    canViewDesignerColumn,
+  ]);
 
   const onAction =
     (
