@@ -151,47 +151,4 @@ describe('My Request Page', () => {
     );
     expect(container).toMatchSnapshot();
   });
-
-  //  describe('should behave as expected when total is 2 and items are "Office Equipment Request" and "WFH Request"', () => {
-  //    const queryClient: QueryClient = new QueryClient();
-  //    beforeEach(() => {
-  //      render(
-  //        <QueryClientProvider client={queryClient}>
-  //          <RecoilRoot>
-  //            <Router>
-  //              <MyRequests />
-  //            </Router>
-  //          </RecoilRoot>
-  //        </QueryClientProvider>
-  //      );
-  //    });
-
-  //    //it("should display the title 'Requests'", () => {
-  //    //  expect(
-  //    //    screen.getByRole('heading', { level: 1, name: 'Requests' })
-  //    //  ).toBeInTheDocument();
-  //    //});
-
-  //    //it('should display the correct number of buttons on the screen', async () => {
-  //    //  const buttonList = await screen.findAllByRole('button');
-  //    //  expect(buttonList).toHaveLength(totalCount + 6);
-  //    //});
-
-  //    //it('should handle selecting rows per page', async () => {
-  //    //  const options: string[] = ['10', '25', '50', '100'];
-  //    //  for (const option of options) {
-  //    //    const valueOption = screen.getByText(option);
-  //    //    userEvent.click(valueOption);
-  //    //    await screen.findByText(option);
-  //    //  }
-  //    //});
-  //    //it('should display the search email', async () => {
-  //    //  await screen.findByPlaceholderText('Enter email');
-  //    //});
-
-  //    //it('should display the correct three number of selects on the screen', async () => {
-  //    //  const selectList = await screen.findAllByRole('combobox');
-  //    //  expect(selectList).toHaveLength(3);
-  //    //});
-  //  });
 });

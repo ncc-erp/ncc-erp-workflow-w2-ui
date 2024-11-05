@@ -90,26 +90,4 @@ describe('Request Template Page', () => {
     );
     expect(container).toMatchSnapshot();
   });
-
-  describe('should behave as expected when total is 1 and items are "Change Office Request"', () => {
-    //const queryClient: QueryClient = new QueryClient();
-    //beforeEach(() => {
-    //  render(
-    //    <QueryClientProvider client={queryClient}>
-    //      <RecoilRoot>
-    //        <Router>
-    //          <RequestTemplates />
-    //        </Router>
-    //      </RecoilRoot>
-    //    </QueryClientProvider>
-    //  );
-    //});
-    //it("should display the title 'Request Templates'", () => {
-    //  expect(screen.getByText(/Request Templates/i)).toBeInTheDocument();
-    //});
-    //it('should display the correct number of buttons on the screen', async () => {
-    //  const buttonList = await screen.findAllByRole('button');
-    //  expect(buttonList).toHaveLength(totalCount + 4);
-    //});
-  });
 });
