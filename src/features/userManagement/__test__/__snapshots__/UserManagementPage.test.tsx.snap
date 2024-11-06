@@ -340,6 +340,7 @@ exports[`Request My Requests Page 1`] = `
             >
               <tr
                 class="css-1mmrbq3"
+                data-id="3a0522ba-55ac-e721-2020-8c24bc3e1856"
                 data-testid="user-manager-item"
               >
                 <td
