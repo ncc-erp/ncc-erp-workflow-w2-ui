@@ -4,11 +4,11 @@ export const useUserPermissions = () => {
   const user = useCurrentUser();
 
   const hasPermission = (permission: string | string[]) => {
-    return !user
-      ? false
-      : Array.isArray(permission)
-      ? permission.some((perm) => user.permissions?.includes(perm))
-      : user.permissions?.includes(permission);
+    if (!user) return false;
+    if (Array.isArray(permission)) {
+      return permission.some((perm) => user.permissions?.includes(perm));
+    }
+    return user.permissions?.includes(permission);
   };
 
   const renderIfAllowed = (permission: string, element: JSX.Element) => {
