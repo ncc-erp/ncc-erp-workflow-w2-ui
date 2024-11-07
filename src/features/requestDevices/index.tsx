@@ -1,10 +1,21 @@
 import Page from 'common/components/Page';
 import { useIsAdmin } from 'hooks/useIsAdmin';
 import { MyRequestTable } from './components/MyRequestTable';
+import { useUserPermissions } from 'hooks/useUserPermissions';
+import { Permissions } from 'common/constants';
+import NotFound from 'common/components/NotFound';
+import { useMemo } from 'react';
 
 const MyRequests = () => {
   const isAdmin = useIsAdmin();
-  return (
+  const { hasPermission } = useUserPermissions();
+
+  const canViewRequests = useMemo(
+    () => hasPermission(Permissions.VIEW_WORKFLOW_INSTANCES),
+    [hasPermission]
+  );
+
+  return canViewRequests ? (
     <Page>
       <Page.Header>
         <Page.HeaderLeft>
@@ -16,6 +27,8 @@ const MyRequests = () => {
         <MyRequestTable />
       </Page.Body>
     </Page>
+  ) : (
+    <NotFound />
   );
 };
 

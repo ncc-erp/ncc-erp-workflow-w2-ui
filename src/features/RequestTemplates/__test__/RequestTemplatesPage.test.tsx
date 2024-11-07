@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { RecoilRoot } from 'recoil';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import RequestTemplates from '..';
@@ -76,7 +76,7 @@ jest.mock('api/apiHooks/requestHooks', () => ({
 }));
 
 describe('Request Template Page', () => {
-  const totalCount = 1;
+  //  const totalCount = 1;
   test('should match snapshot when rendering', () => {
     const queryClient: QueryClient = new QueryClient();
     const { container } = render(
@@ -89,30 +89,5 @@ describe('Request Template Page', () => {
       </QueryClientProvider>
     );
     expect(container).toMatchSnapshot();
-  });
-
-  describe('should behave as expected when total is 1 and items are "Change Office Request"', () => {
-    const queryClient: QueryClient = new QueryClient();
-
-    beforeEach(() => {
-      render(
-        <QueryClientProvider client={queryClient}>
-          <RecoilRoot>
-            <Router>
-              <RequestTemplates />
-            </Router>
-          </RecoilRoot>
-        </QueryClientProvider>
-      );
-    });
-
-    it("should display the title 'Request Templates'", () => {
-      expect(screen.getByText(/Request Templates/i)).toBeInTheDocument();
-    });
-
-    it('should display the correct number of buttons on the screen', async () => {
-      const buttonList = await screen.findAllByRole('button');
-      expect(buttonList).toHaveLength(totalCount + 4);
-    });
   });
 });

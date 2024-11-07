@@ -153,3 +153,36 @@ export const getAllTask = async (filter: FilterTasks) => {
   const result: ITaskResponse = await axios.post('app/task/list', filter);
   return result;
 };
+
+export const useUpdateRoles = (url: string) => {
+  const axios = useAxios();
+
+  const mutate = async (params: {
+    id: string;
+    data?: Record<string, string | string[]>;
+  }) => {
+    const { id, data } = params;
+    await axios.put(`${url}/${id}`, data);
+  };
+  return useMutation(mutate);
+};
+
+export const useFetchResourceById = <T>(
+  key: QueryKey,
+  id: string | null,
+  url?: string,
+  config?: AxiosRequestConfig
+) => {
+  const axios = useAxios();
+  return useQuery(
+    key,
+    async () => {
+      if (!url) throw new Error('URL is required');
+      const data: T = await axios.get(`${url}`, config);
+      return data;
+    },
+    {
+      enabled: Boolean(id),
+    }
+  );
+};

@@ -102,6 +102,10 @@ export const QueryKeys = {
   GET_USER_LIST: 'getUserList',
   GET_INPUT_DEFINITION: 'getInputDefinition',
   GET_SETTING_LIST: 'getSettingList',
+  GET_ROLES_LIST: 'roles',
+  GET_PERMISSIONS_LIST: 'getPermissionsList',
+  GET_SINGLE_ROLE: 'getSingleRole',
+  GET_USER_PERMISSIONS: 'getUserPermissions',
 };
 
 export const ColorThemeMode = {
@@ -154,4 +158,40 @@ export const UserRoleLabelMapping = {
   DEFAULT_USER: 'Default User',
   DESIGNER: 'Designer',
   UNASSIGNED: 'N/A',
+};
+export const Permissions = {
+  WORKFLOW_DEFINITIONS: 'WorkflowDefinitions',
+  VIEW_WORKFLOW_DEFINITIONS: 'WorkflowDefinitions.View',
+  CREATE_WORKFLOW_DEFINITION: 'WorkflowDefinitions.Create',
+  UPDATE_WORKFLOW_DEFINITION_STATUS: 'WorkflowDefinitions.UpdateStatus',
+  DELETE_WORKFLOW_DEFINITION: 'WorkflowDefinitions.Delete',
+  DEFINE_INPUT: 'WorkflowDefinitions.DefineInput',
+  EDIT_WORKFLOW_DEFINITION: 'WorkflowDefinitions.Edit',
+  IMPORT_WORKFLOW_DEFINITION: 'WorkflowDefinitions.Import',
+
+  WORKFLOW_INSTANCES: 'WorkflowInstances',
+  VIEW_WORKFLOW_INSTANCES: 'WorkflowInstances.View',
+  CREATE_WORKFLOW_INSTANCE: 'WorkflowInstances.Create',
+  CANCEL_WORKFLOW_INSTANCE: 'WorkflowInstances.Cancel',
+
+  TASKS: 'Tasks',
+  VIEW_TASKS: 'Tasks.View',
+  UPDATE_TASK_STATUS: 'Tasks.UpdateStatus',
+  ASSIGN_TASK: 'Tasks.Assign',
+
+  ADMIN: 'Admin',
+  USERS: 'Users',
+  VIEW_USERS: 'Users.View',
+  UPDATE_USER: 'Users.Update',
+
+  SETTINGS: 'Settings',
+  VIEW_SETTINGS: 'Settings.View',
+  CREATE_SETTINGS: 'Settings.Create',
+  UPDATE_SETTINGS: 'Settings.Update',
+  DELETE_SETTINGS: 'Settings.Delete',
+
+  ROLES: 'Roles',
+  VIEW_ROLES: 'Roles.View',
+  CREATE_ROLE: 'Roles.Create',
+  UPDATE_ROLE: 'Roles.Update',
 };

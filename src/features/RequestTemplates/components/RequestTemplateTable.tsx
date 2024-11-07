@@ -25,6 +25,8 @@ import {
 import { ModalConfirm } from 'common/components/ModalConfirm';
 import { DefineTemplateInputModal } from './modals/DefineTemplateInputModal';
 import ExportImportJson, { EButtonType } from './ExportImportJson';
+import { useUserPermissions } from 'hooks/useUserPermissions';
+import { Permissions } from 'common/constants';
 
 interface RequestTemplateTableProps {
   data: RequestTemplateResult;
@@ -51,11 +53,18 @@ export const RequestTemplateTable = ({
   const [isModalDefineInputOpen, setIsModalDefineInputOpen] = useState(false);
   const [isModalConfirmOpen, setIsModalConfirmOpen] = useState(false);
   const isAdmin = useIsAdmin();
+  const { renderIfAllowed, hasPermission } = useUserPermissions();
 
   const { sideBarWidth } = useRecoilValue(appConfigState);
   const columnHelper = createColumnHelper<RequestTemplate>();
   const deleteWorkflowDefinitionMutation = useDeleteWorkflowDefinition();
   const updatePublishStatus = useUpdateWorkflowPublishStatus();
+  const canViewDesignerColumn = hasPermission([
+    Permissions.DEFINE_INPUT,
+    Permissions.EDIT_WORKFLOW_DEFINITION,
+    Permissions.UPDATE_WORKFLOW_DEFINITION_STATUS,
+    Permissions.DELETE_WORKFLOW_DEFINITION,
+  ]);
   const [workflowCreateData, setWorkflowCreateData] =
     useState<IJsonObject | null>(null);
   const onConfirmDeleteWorkflow = (workflowId: string) => () => {
@@ -148,53 +157,67 @@ export const RequestTemplateTable = ({
         enableSorting: false,
         cell: (info) => info.getValue().toString(),
       }),
-      columnHelper.display({
-        id: 'designer',
-        enableSorting: false,
-        header: () => <Center w="full">Designer</Center>,
-        cell: (info) => {
-          const {
-            definitionId,
-            inputDefinition,
-            name,
-            displayName,
-            defineJson,
-            isPublished,
-          } = info.row.original;
-          return (
-            <Center>
-              <RowAction
-                onDelete={onConfirmDeleteWorkflow(definitionId)}
-                onDefineInput={onDefineInputWorkflow(
+      ...(canViewDesignerColumn
+        ? [
+            columnHelper.display({
+              id: 'designer',
+              enableSorting: false,
+              header: () => <Center w="full">Designer</Center>,
+              cell: (info) => {
+                const {
                   definitionId,
-                  {
-                    ...inputDefinition,
-                    nameRequest: name,
-                    requestDisplayName: displayName,
-                    defineJson,
-                  },
-                  name
-                )}
-                onViewWorkflow={onActionViewWorkflow(definitionId)}
-                onTogglePublish={() =>
-                  handleTogglePublish(definitionId, isPublished)
-                }
-                isPublished={isPublished}
-              />
-            </Center>
-          );
-        },
-      }),
+                  inputDefinition,
+                  name,
+                  displayName,
+                  defineJson,
+                  isPublished,
+                } = info.row.original;
+                return (
+                  <Center>
+                    <RowAction
+                      onDelete={onConfirmDeleteWorkflow(definitionId)}
+                      onDefineInput={onDefineInputWorkflow(
+                        definitionId,
+                        {
+                          ...inputDefinition,
+                          nameRequest: name,
+                          requestDisplayName: displayName,
+                          defineJson,
+                        },
+                        name
+                      )}
+                      onViewWorkflow={onActionViewWorkflow(definitionId)}
+                      onTogglePublish={() =>
+                        handleTogglePublish(definitionId, isPublished)
+                      }
+                      isPublished={isPublished}
+                    />
+                  </Center>
+                );
+              },
+            }),
+          ]
+        : []),
     ];
 
     const result = [
       displayColumn,
-      ...(isAdmin ? editorColumn : []),
-      actionColumn,
+      ...//isAdmin ?
+      editorColumn,
+      //: []
+      ...(hasPermission(Permissions.CREATE_WORKFLOW_INSTANCE)
+        ? [actionColumn]
+        : []),
     ] as ColumnDef<RequestTemplate>[];
 
     return result;
-  }, [columnHelper, isAdmin, handleTogglePublish]);
+  }, [
+    columnHelper,
+    isAdmin,
+    handleTogglePublish,
+    hasPermission,
+    canViewDesignerColumn,
+  ]);
 
   const onAction =
     (
@@ -230,33 +253,41 @@ export const RequestTemplateTable = ({
 
   return (
     <Box>
-      {isAdmin && (
-        <Box px={6} display={'flex'} columnGap={'0.5rem'}>
-          <Button
-            isDisabled={isLoading}
-            size="md"
-            fontSize="sm"
-            fontWeight="medium"
-            colorScheme="green"
-            onClick={onOpenCreateModal}
-          >
-            Create
-          </Button>
-          <ExportImportJson
-            buttonStyleObj={{
-              import: {
-                colorScheme: 'blue',
-                m: '0',
-                fontSize: '14px',
-                fontWeight: '500',
-              },
-            }}
-            hiddenButton={[EButtonType.EXPORT]}
-            inputDefinition={undefined}
-            onChangeData={handleImportJson}
-          />
+      {
+        //  isAdmin &&
+        <Box px={6} display="flex" columnGap="0.5rem">
+          {renderIfAllowed(
+            Permissions.CREATE_WORKFLOW_DEFINITION,
+            <Button
+              isDisabled={isLoading}
+              size="md"
+              fontSize="sm"
+              fontWeight="medium"
+              colorScheme="green"
+              onClick={onOpenCreateModal}
+            >
+              Create
+            </Button>
+          )}
+
+          {renderIfAllowed(
+            Permissions.IMPORT_WORKFLOW_DEFINITION,
+            <ExportImportJson
+              buttonStyleObj={{
+                import: {
+                  colorScheme: 'blue',
+                  m: '0',
+                  fontSize: '14px',
+                  fontWeight: '500',
+                },
+              }}
+              hiddenButton={[EButtonType.EXPORT]}
+              inputDefinition={undefined}
+              onChangeData={handleImportJson}
+            />
+          )}
         </Box>
-      )}
+      }
 
       <EmptyWrapper
         isEmpty={!items.length && !isLoading}

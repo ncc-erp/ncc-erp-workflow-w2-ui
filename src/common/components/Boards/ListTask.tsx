@@ -27,6 +27,7 @@ import { ShowingItemText } from 'common/components/Table/ShowingItemText';
 import { Table } from 'common/components/Table/Table';
 import {
   OtherActionSignalStatus,
+  Permissions,
   TaskStatus,
   noOfRows,
 } from 'common/constants';
@@ -47,6 +48,7 @@ import { useClearCacheTask } from './useClearCacheTask';
 import { WorkflowModal } from 'common/components/WorkflowModal';
 import OverflowText from '../OverflowText';
 import TextToolTip from '../textTooltip';
+import { useUserPermissions } from 'hooks/useUserPermissions';
 
 interface Props {
   filters: FilterTasks;
@@ -73,6 +75,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
   );
   const [loadStatus, setLoadStatus] = useState<boolean>(false);
   const actionTaskMutation = useActionTask();
+  const { renderIfAllowed } = useUserPermissions();
   const [isActionLoading, setIsActionLoading] = useState({
     isLoading: false,
     id: '',
@@ -280,9 +283,10 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
                     <Icon color="gray.500" as={RiMapFill} />
                     Workflow
                   </MenuItem>
-
-                  {info.row.original.status === TaskStatus.Pending &&
-                    info.row.original.emailTo.includes(user.email) && (
+                  {renderIfAllowed(
+                    Permissions.UPDATE_TASK_STATUS,
+                    info.row.original.status === TaskStatus.Pending &&
+                      info.row.original.emailTo.includes(user.email) ? (
                       <>
                         <MenuItem
                           display="flex"
@@ -321,36 +325,35 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
                           Reject
                         </MenuItem>
                         {info.row.original.otherActionSignals &&
-                          info.row.original?.otherActionSignals?.length > 0 &&
                           info.row.original.otherActionSignals.map(
-                            (el, index) => {
-                              return (
-                                <MenuItem
-                                  display="flex"
-                                  gap="12px"
-                                  isDisabled={
-                                    el.status !==
-                                    OtherActionSignalStatus.PENDING
-                                  }
-                                  key={index}
-                                  onClick={() => {
-                                    onActionClick(
-                                      info.row.original.id,
-                                      el.otherActionSignal
-                                    );
-                                  }}
-                                >
-                                  <Icon
-                                    color="gray.500"
-                                    as={BsFillFilterCircleFill}
-                                  />
-                                  {el.otherActionSignal}
-                                </MenuItem>
-                              );
-                            }
+                            (el, index) => (
+                              <MenuItem
+                                display="flex"
+                                gap="12px"
+                                isDisabled={
+                                  el.status !== OtherActionSignalStatus.PENDING
+                                }
+                                key={index}
+                                onClick={() => {
+                                  onActionClick(
+                                    info.row.original.id,
+                                    el.otherActionSignal
+                                  );
+                                }}
+                              >
+                                <Icon
+                                  color="gray.500"
+                                  as={BsFillFilterCircleFill}
+                                />
+                                {el.otherActionSignal}
+                              </MenuItem>
+                            )
                           )}
                       </>
-                    )}
+                    ) : (
+                      <></>
+                    )
+                  )}
                 </MenuList>
               </Menu>
             </Center>
@@ -367,6 +370,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
     openDetailModal,
     refetch,
     user.email,
+    renderIfAllowed,
   ]);
 
   const handleClose = useCallback(() => {

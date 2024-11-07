@@ -34,7 +34,9 @@ import { convertToCase } from 'utils';
 import { SelectField } from 'common/components/SelectField';
 import { AiOutlineReload } from 'react-icons/ai';
 import { UserRoleLabelMapping } from '../../../common/constants';
-
+import { useUserPermissions } from 'hooks/useUserPermissions';
+import { Permissions } from 'common/constants';
+import { useGetAllRoles } from 'api/apiHooks/roleHook';
 const initialFilter: FilterUserParams = {
   filter: '',
   maxResultCount: +noOfRows[0].value,
@@ -64,7 +66,8 @@ export const UserManagementTable = () => {
   const [user, setUser] = useState<UserIdentity>();
   const [txtSearch, setTxtSearch] = useState('');
   const txtSearchDebounced = useDebounced(txtSearch, 500);
-
+  const { hasPermission } = useUserPermissions();
+  const { data: rolesData } = useGetAllRoles();
   const onUserListFilterChange = useCallback(
     (key: 'sorting' | 'roles' | 'filter', value?: string) => {
       setFilterUser((filterUser) => ({
@@ -129,38 +132,33 @@ export const UserManagementTable = () => {
             if (Array.isArray(roles) && roles.length > 0) {
               return roles
                 .map((role) => {
-                  switch (role) {
-                    case 'admin':
-                      return UserRoleLabelMapping.ADMIN;
-                    case 'DefaultUser':
-                      return UserRoleLabelMapping.DEFAULT_USER;
-                    case 'Designer':
-                      return UserRoleLabelMapping.DESIGNER;
-                    default:
-                      return;
-                  }
+                  const foundRole = rolesData?.items?.find(
+                    (r) => r.name === role
+                  );
+                  return foundRole ? foundRole.name : role;
                 })
                 .join(', ');
             }
             return UserRoleLabelMapping.UNASSIGNED;
           },
         }),
-        columnHelper.display({
-          id: 'actions',
-          enableSorting: false,
-          header: () => <Center w="full">Actions</Center>,
-          cell: (info) => (
-            <Center>
-              <RowAction
-                onEdit={onAction(info.row.original, 'Edit')}
-                onPermissions={onAction(info.row.original, 'Permissions')}
-                onDelete={onAction(info.row.original, 'Delete')}
-              />
-            </Center>
-          ),
-        }),
-      ] as ColumnDef<UserIdentity>[],
-    [columnHelper]
+        hasPermission(Permissions.UPDATE_USER) &&
+          columnHelper.display({
+            id: 'actions',
+            enableSorting: false,
+            header: () => <Center w="full">Actions</Center>,
+            cell: (info) => (
+              <Center>
+                <RowAction
+                  onEdit={onAction(info.row.original, 'Edit')}
+                  onPermissions={onAction(info.row.original, 'Permissions')}
+                  onDelete={onAction(info.row.original, 'Delete')}
+                />
+              </Center>
+            ),
+          }),
+      ].filter(Boolean) as ColumnDef<UserIdentity>[],
+    [columnHelper, hasPermission, rolesData?.items]
   );
 
   const currentPage = useMemo(() => {

@@ -10,11 +10,17 @@ import {
   Tabs,
 } from '@chakra-ui/react';
 import { useQueryClient } from '@tanstack/react-query';
-import { useUpdateUser } from 'api/apiHooks/userIdentityHooks';
+import { useGetAllPermissions, useGetAllRoles } from 'api/apiHooks/roleHook';
+import {
+  useRoleByUserId,
+  useUpdateUser,
+  useUserPermissions,
+} from 'api/apiHooks/userIdentityHooks';
 import { PasswordField } from 'common/components/PasswordField';
+import PermissionCheckbox from 'common/components/PermissionCheckbox';
 import { toast } from 'common/components/StandaloneToast';
 import { TextField } from 'common/components/TextField';
-import { QueryKeys, UserRoles } from 'common/constants';
+import { QueryKeys } from 'common/constants';
 import { useFormik } from 'formik';
 import { ModalUserParams } from 'models/userIdentity';
 import { ChangeEvent, useEffect, useState } from 'react';
@@ -24,22 +30,47 @@ interface UserFormProps {
   initialValues: ModalUserParams;
   userId: string;
   onClose: () => void;
+  isOpen: boolean;
 }
 
-const UserForm = ({ initialValues, userId, onClose }: UserFormProps) => {
+const UserForm = ({
+  initialValues,
+  userId,
+  onClose,
+  isOpen,
+}: UserFormProps) => {
   const [userValues, setUserValues] = useState(initialValues);
   const [passwordConfirm, setPasswordConfirm] = useState('');
   const [passwordError, setPasswordError] = useState('');
-
+  const { data: permissionsData } = useGetAllPermissions();
+  const [updatedPermissions, setUpdatedPermissions] = useState<string[]>([]);
+  const [codePermissions, setCodePermissions] = useState<string[]>([]);
+  const [isTreeModified, setIsTreeModified] = useState(false);
+  const { data: rolesData, refetch: refetchRoles } = useGetAllRoles();
+  const { data: rolesList } = useRoleByUserId(userId);
   const handlePasswordConfirmChange = (e: ChangeEvent<HTMLInputElement>) => {
     setPasswordConfirm(e.target.value);
   };
-
+  const { data: permissions, refetch } = useUserPermissions(userId);
   const { mutate, isLoading, isSuccess, isError } = useUpdateUser(
     userId,
     userValues
   );
   const queryClient = useQueryClient();
+  useEffect(() => {
+    if (isOpen) {
+      refetch();
+      refetchRoles();
+    }
+    const newCodePermissions: string[] = [];
+    permissions?.permissions?.forEach((perm) => {
+      newCodePermissions.push(perm.code);
+      perm.children?.forEach((child) => {
+        newCodePermissions.push(child.code);
+      });
+    });
+    setCodePermissions(newCodePermissions);
+  }, [isOpen, refetch, permissions, refetchRoles]);
 
   const handleSubmit = async (values: ModalUserParams) => {
     if (values.password !== undefined && values.password !== passwordConfirm) {
@@ -48,7 +79,15 @@ const UserForm = ({ initialValues, userId, onClose }: UserFormProps) => {
     } else {
       setPasswordError('');
     }
-    setUserValues(values);
+    const permissionsToSubmit = isTreeModified
+      ? updatedPermissions
+      : codePermissions;
+    const updatedValues = {
+      ...values,
+      customPermissionCodes: permissionsToSubmit,
+      roleNames: formik.values.roleNames,
+    };
+    setUserValues(updatedValues);
     await mutate();
   };
 
@@ -73,16 +112,22 @@ const UserForm = ({ initialValues, userId, onClose }: UserFormProps) => {
   }, [isSuccess, isError, onClose, queryClient, userId]);
 
   const handleChangeCheckbox = (field: string, value: boolean | string[]) => {
+    console.log(initialValues);
+    console.log(rolesList);
+
     formik.setFieldValue(field, value);
   };
 
   const handleChangeRolesCheckbox = (roleName: string, checked: boolean) => {
+    const currentRoleNames = Array.isArray(formik.values.roleNames)
+      ? formik.values.roleNames
+      : [];
     if (checked) {
-      handleChangeCheckbox('roleNames', [...formik.values.roleNames, roleName]);
+      if (!currentRoleNames.includes(roleName)) {
+        handleChangeCheckbox('roleNames', [...currentRoleNames, roleName]);
+      }
     } else {
-      const updatedRoles = formik.values.roleNames.filter(
-        (role) => role !== roleName
-      );
+      const updatedRoles = currentRoleNames.filter((role) => role !== roleName);
       handleChangeCheckbox('roleNames', updatedRoles);
     }
   };
@@ -91,12 +136,16 @@ const UserForm = ({ initialValues, userId, onClose }: UserFormProps) => {
     <Checkbox
       key={index}
       colorScheme="gray"
-      isChecked={formik.values.roleNames.includes(role)}
+      isChecked={formik?.values?.roleNames?.includes(role)}
       onChange={(e) => handleChangeRolesCheckbox(role, e.target.checked)}
     >
       {convertToCase(role)}
     </Checkbox>
   );
+  const handlePermissionChange = (updatedSelection: string[]) => {
+    setUpdatedPermissions(updatedSelection);
+    setIsTreeModified(true);
+  };
 
   return (
     <Tabs size="md" variant="enclosed">
@@ -106,6 +155,9 @@ const UserForm = ({ initialValues, userId, onClose }: UserFormProps) => {
         </Tab>
         <Tab fontSize="16px" fontWeight="medium">
           Roles
+        </Tab>
+        <Tab fontSize="16px" fontWeight="medium">
+          Permissions
         </Tab>
       </TabList>
       <form onSubmit={formik.handleSubmit}>
@@ -235,10 +287,18 @@ const UserForm = ({ initialValues, userId, onClose }: UserFormProps) => {
           </TabPanel>
           <TabPanel p="0">
             <Stack mt={6} mb={6} direction="column">
-              {Object.values(UserRoles).map((role, index) =>
-                renderCheckbox(role, index)
+              {rolesData?.items?.map((role, index) =>
+                renderCheckbox(role.name, index)
               )}
             </Stack>
+          </TabPanel>
+          <TabPanel p="0">
+            <PermissionCheckbox
+              permission={Array.isArray(permissionsData) ? permissionsData : []}
+              onChange={handlePermissionChange}
+              style={{ fontSize: '14px', marginTop: '20px' }}
+              role={permissions ? permissions : undefined}
+            />
           </TabPanel>
         </TabPanels>
         <Divider></Divider>
