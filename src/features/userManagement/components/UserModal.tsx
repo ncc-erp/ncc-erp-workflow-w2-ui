@@ -10,6 +10,7 @@ import { UserAction } from 'common/constants';
 import UserForm from './UserForm';
 import { ModalUserParams, UserIdentity } from 'models/userIdentity';
 import { useRoleByUserId } from 'api/apiHooks/userIdentityHooks';
+import { Role } from 'models/roles';
 
 interface IUserModalProps {
   isOpen: boolean;
@@ -25,7 +26,7 @@ export const UserModal = ({
   user,
 }: IUserModalProps) => {
   const { data: rolesList } = useRoleByUserId(user.id);
-  const itemsArray = Object.values(rolesList || {});
+  const itemsArray = Object.values(rolesList || []);
   let initialValues: ModalUserParams;
   let UserComponent;
   if (rolesList) {
@@ -37,7 +38,7 @@ export const UserModal = ({
       phoneNumber: user?.phoneNumber,
       isActive: user?.isActive,
       lockoutEnabled: user?.lockoutEnabled,
-      roleNames: itemsArray?.map((role) => role.name),
+      roleNames: itemsArray[0]?.map((role: Role) => role.name).join(', '),
     };
     UserComponent = {
       [UserAction.EDIT]: (

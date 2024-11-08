@@ -17,6 +17,7 @@ import {
   DislayValue,
   FilterAll,
   FilterDate,
+  Permissions,
   TaskStatus,
 } from 'common/constants';
 import { FilterTasks } from 'models/task';
@@ -34,6 +35,7 @@ import { BsCardText } from 'react-icons/bs';
 import { ITask } from 'models/request';
 import { useDynamicDataTask } from 'api/apiHooks/taskHooks';
 import { useMediaQuery } from 'hooks/useMediaQuery';
+import { useUserPermissions } from 'hooks/useUserPermissions';
 
 const initialFilter: FilterTasks = {
   skipCount: 0,
@@ -94,6 +96,7 @@ export const TasksBoard = () => {
   const isAdmin = useIsAdmin();
   const dynamicDataTaskMutation = useDynamicDataTask();
   const { data: requestTemplateData } = useRequestTemplates(isPublish);
+  const { renderIfAllowed } = useUserPermissions();
   const requestTemplates = useMemo(() => {
     if (requestTemplateData?.items) {
       return requestTemplateData.items;
@@ -241,25 +244,27 @@ export const TasksBoard = () => {
           </Box>
         </Flex>
       </Flex>
-      <Flex gap={1} px="24px">
-        {isAdmin && (
-          <Wrap>
-            <WrapItem>
-              <Button
-                size={'md'}
-                colorScheme={isMyTask ? 'green' : 'gray'}
-                onClick={() => setIsMyTask(!isMyTask)}
-                fontSize="sm"
-                fontWeight="medium"
-                mr={2}
-              >
-                Only my task
-              </Button>
-            </WrapItem>
-          </Wrap>
-        )}
-      </Flex>
-
+      {renderIfAllowed(
+        Permissions.VIEW_ALL_TASKS,
+        <Flex gap={1} px="24px">
+          {isAdmin && (
+            <Wrap>
+              <WrapItem>
+                <Button
+                  size={'md'}
+                  colorScheme={isMyTask ? 'green' : 'gray'}
+                  onClick={() => setIsMyTask(!isMyTask)}
+                  fontSize="sm"
+                  fontWeight="medium"
+                  mr={2}
+                >
+                  Only my task
+                </Button>
+              </WrapItem>
+            </Wrap>
+          )}
+        </Flex>
+      )}
       <Box position={'relative'}>
         <Wrap
           spacing={2}

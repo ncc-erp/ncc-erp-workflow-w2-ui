@@ -79,8 +79,7 @@ export const MyRequestTable = () => {
   const { skipCount, maxResultCount } = filter;
   const currentPage = (maxResultCount + skipCount) / maxResultCount;
   const columnHelper = createColumnHelper<Request>();
-  //  const isAdmin = useIsAdmin();
-  const { hasPermission } = useUserPermissions();
+  const { hasPermission, renderIfAllowed } = useUserPermissions();
   const queryClient = useQueryClient();
   const cancelRequestMutation = useCancelRequest();
   const [isOpen, setIsOpen] = useState(false);
@@ -391,33 +390,35 @@ export const MyRequestTable = () => {
             )
           }
         </HStack>
-        <Wrap px="24px" pt="8px" justify="space-between">
-          {
-            //  isAdmin &&
-            <WrapItem>
-              <Button
-                isDisabled={isLoading || isRefetching}
-                size={'md'}
-                colorScheme={filter.RequestUser ? 'green' : 'gray'}
-                onClick={() => {
-                  if (filter.RequestUser) {
-                    setFilter({ ...filter, RequestUser: '' });
-                  } else {
-                    setFilter({
-                      ...filter,
-                      RequestUser: currentUser?.sub[0],
-                    });
-                  }
-                }}
-                fontSize="sm"
-                fontWeight="medium"
-                mr={2}
-              >
-                Only my request
-              </Button>
-            </WrapItem>
-          }
-        </Wrap>
+        {renderIfAllowed(
+          Permissions.VIEW_ALL_WORKFLOW_INSTANCES,
+          <Wrap px="24px" pt="8px" justify="space-between">
+            {
+              <WrapItem>
+                <Button
+                  isDisabled={isLoading || isRefetching}
+                  size={'md'}
+                  colorScheme={filter.RequestUser ? 'green' : 'gray'}
+                  onClick={() => {
+                    if (filter.RequestUser) {
+                      setFilter({ ...filter, RequestUser: '' });
+                    } else {
+                      setFilter({
+                        ...filter,
+                        RequestUser: currentUser?.sub[0],
+                      });
+                    }
+                  }}
+                  fontSize="sm"
+                  fontWeight="medium"
+                  mr={2}
+                >
+                  Only my request
+                </Button>
+              </WrapItem>
+            }
+          </Wrap>
+        )}
         <Box position={'relative'}>
           <Wrap
             spacing={2}

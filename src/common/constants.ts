@@ -171,11 +171,13 @@ export const Permissions = {
 
   WORKFLOW_INSTANCES: 'WorkflowInstances',
   VIEW_WORKFLOW_INSTANCES: 'WorkflowInstances.View',
+  VIEW_ALL_WORKFLOW_INSTANCES: 'WorkflowInstances.ViewAll',
   CREATE_WORKFLOW_INSTANCE: 'WorkflowInstances.Create',
   CANCEL_WORKFLOW_INSTANCE: 'WorkflowInstances.Cancel',
 
   TASKS: 'Tasks',
   VIEW_TASKS: 'Tasks.View',
+  VIEW_ALL_TASKS: 'Tasks.ViewAll',
   UPDATE_TASK_STATUS: 'Tasks.UpdateStatus',
   ASSIGN_TASK: 'Tasks.Assign',
 
