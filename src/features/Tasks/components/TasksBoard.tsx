@@ -81,6 +81,7 @@ export const OptionsDisplay = [
 export const TasksBoard = () => {
   const isLargeScreen = useMediaQuery('(min-width: 768px)');
   const user = useCurrentUser();
+  const isPublish = true;
   const [modalState, setModalState] = useState(initialModalStatus);
   const [filter, setFilter] = useState<FilterTasks>({
     ...initialFilter,
@@ -92,8 +93,7 @@ export const TasksBoard = () => {
   const txtSearchDebounced = useDebounced(txtSearch, 500);
   const isAdmin = useIsAdmin();
   const dynamicDataTaskMutation = useDynamicDataTask();
-
-  const { data: requestTemplateData } = useRequestTemplates();
+  const { data: requestTemplateData } = useRequestTemplates(isPublish);
   const requestTemplates = useMemo(() => {
     if (requestTemplateData?.items) {
       return requestTemplateData.items;

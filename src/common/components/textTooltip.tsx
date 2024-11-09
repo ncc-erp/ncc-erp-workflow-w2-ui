@@ -18,6 +18,7 @@ const TextToolTip = ({
   type,
   width,
   place = 'bottom',
+  ...props
 }: TextToolTipProps) => {
   const [isTooltipVisible, setIsTooltipVisible] = useState<boolean>(
     type === 'LIST'
@@ -64,6 +65,7 @@ const TextToolTip = ({
       style={
         width ? { width: width } : { flex: 1, display: 'flex', width: '100%' }
       }
+      {...props}
     >
       <Text
         ref={textRef}

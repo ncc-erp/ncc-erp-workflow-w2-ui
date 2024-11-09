@@ -70,6 +70,9 @@ jest.mock('api/apiHooks/requestHooks', () => ({
   useDeleteWorkflowDefinition: jest.fn(() => ({
     mutateAsync: jest.fn(),
   })),
+  useUpdateWorkflowPublishStatus: jest.fn(() => ({
+    mutateAsync: jest.fn(),
+  })),
 }));
 
 describe('Request Template Page', () => {

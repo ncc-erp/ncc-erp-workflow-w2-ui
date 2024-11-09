@@ -13,7 +13,7 @@ import {
 } from '@chakra-ui/react';
 import { SelectField } from 'common/components/SelectField';
 import { TextField } from 'common/components/TextField';
-import { useFieldArray, useForm } from 'react-hook-form';
+import { Controller, useFieldArray, useForm } from 'react-hook-form';
 
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -33,13 +33,14 @@ import {
   PropertyDefinition,
   Settings,
 } from 'models/request';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface DefineInputFormProps {
   inputDefinition?: InputDefinition;
   requestId: string;
   onCloseModal: () => void;
-  settings: Settings;
+  settingsToSet: Settings;
+  isChangedBySubmitSettings: boolean;
 }
 
 interface FormParams {
@@ -50,7 +51,8 @@ const DefineInputForm = ({
   inputDefinition,
   onCloseModal,
   requestId,
-  settings,
+  settingsToSet,
+  isChangedBySubmitSettings,
 }: DefineInputFormProps) => {
   const { data: inputType } = useInputDefinition();
   const { mutateAsync: updateMutate } = useUpdateWorkflowInput();
@@ -59,8 +61,8 @@ const DefineInputForm = ({
   const {
     register,
     handleSubmit,
-    watch,
     control,
+    reset,
     formState: { errors },
   } = useForm<FormParams>({
     criteriaMode: 'all',
@@ -75,6 +77,16 @@ const DefineInputForm = ({
     name: 'items',
   });
 
+  useEffect(() => {
+    if (inputDefinition) {
+      reset({
+        items: inputDefinition?.propertyDefinitions || [
+          { name: '', type: 'Text', isRequired: false },
+        ],
+      });
+    }
+  }, [inputDefinition, reset]);
+
   const onSubmit = async (data: FormParams) => {
     setIsLoading(true);
 
@@ -82,7 +94,18 @@ const DefineInputForm = ({
       id: inputDefinition?.id || GUID_ID_DEFAULT_VALUE,
       workflowDefinitionId: requestId,
       propertyDefinitions: data.items,
-      settings,
+      defineJson:
+        inputDefinition?.defineJson &&
+        typeof inputDefinition?.defineJson !== 'string'
+          ? JSON.stringify({
+              ...inputDefinition.defineJson,
+              displayName: inputDefinition.requestDisplayName,
+              name: inputDefinition.nameRequest,
+            })
+          : inputDefinition?.defineJson,
+      settings: isChangedBySubmitSettings
+        ? settingsToSet
+        : inputDefinition?.settings,
     };
 
     await updateMutate(payload);
@@ -97,10 +120,9 @@ const DefineInputForm = ({
   };
 
   const onAddField = () => {
-    append({ name: '', isTitle: false, type: 'Text', isRequired: false });
+    append({ name: '', type: 'Text', isRequired: false });
   };
 
-  const items = watch('items');
   const renderFormContent = () => {
     return fields?.map((Field: PropertyDefinition, index: number) => {
       return (
@@ -161,24 +183,17 @@ const DefineInputForm = ({
                 Required
               </FormLabel>
               <Center h="40px" mr={3}>
-                <Checkbox
-                  size="lg"
-                  {...register(`items.${index}.isRequired`)}
+                <Controller
+                  name={`items.${index}.isRequired`}
+                  control={control}
+                  render={({ field }) => (
+                    <Checkbox
+                      size="lg"
+                      isChecked={field.value}
+                      onChange={(e) => field.onChange(e.target.checked)}
+                    />
+                  )}
                 />
-              </Center>
-            </FormControl>
-
-            <FormControl mb="20px">
-              <FormLabel
-                textAlign="center"
-                fontSize={16}
-                mb={1}
-                fontWeight="normal"
-              >
-                IsTitle
-              </FormLabel>
-              <Center h="40px" mr={3}>
-                <Checkbox size="lg" {...register(`items.${index}.isTitle`)} />
               </Center>
             </FormControl>
             <Button
@@ -191,31 +206,6 @@ const DefineInputForm = ({
               Remove
             </Button>
           </HStack>
-          {items[index].isTitle && (
-            <FormControl
-              style={{
-                display: 'flex',
-                gap: '4px',
-                alignItems: 'center',
-                marginBottom: '20px',
-              }}
-            >
-              <FormLabel
-                textAlign="center"
-                fontSize={16}
-                mb={1}
-                fontWeight="normal"
-              >
-                Title
-              </FormLabel>
-              <TextField
-                h="40px"
-                w="500px"
-                fontSize="sm"
-                {...register(`items.${index}.titleTemplate`)}
-              />
-            </FormControl>
-          )}
           <Divider my={1} />
         </>
       );
@@ -226,24 +216,29 @@ const DefineInputForm = ({
     <form
       style={{ width: '100%', marginBottom: '20px' }}
       onSubmit={handleSubmit(onSubmit)}
+      data-testid="define-input-form"
     >
       <VStack spacing="14px" alignItems="flex-start">
         {renderFormContent()}
 
-        <Button colorScheme="blue" onClick={onAddField}>
+        <Button
+          colorScheme="blue"
+          onClick={onAddField}
+          data-testid="button-add-field"
+        >
           Add Field
         </Button>
-        <Button
-          mt="14px"
-          h="50px"
-          type="submit"
-          isLoading={isLoading}
-          w="full"
-          colorScheme="gray"
-        >
-          Save
-        </Button>
       </VStack>
+      <Button
+        mt="14px"
+        h="50px"
+        type="submit"
+        isLoading={isLoading}
+        w="full"
+        colorScheme="gray"
+      >
+        Save
+      </Button>
     </form>
   );
 };

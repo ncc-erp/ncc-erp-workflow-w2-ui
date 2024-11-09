@@ -47,7 +47,6 @@ import { useClearCacheTask } from './useClearCacheTask';
 import { WorkflowModal } from 'common/components/WorkflowModal';
 import OverflowText from '../OverflowText';
 import TextToolTip from '../textTooltip';
-import { Settings } from 'models/request';
 
 interface Props {
   filters: FilterTasks;
@@ -140,16 +139,9 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
         header: () => <Box textAlign="center">Title</Box>,
         enableSorting: false,
         cell: (info) => {
-          let colorCode: string = '#aabbcc';
-          if (
-            info.row.original.settings &&
-            typeof info.row.original.settings === 'object'
-          ) {
-            const settings = info.row.original.settings as Settings;
-            if (settings.color) {
-              colorCode = settings.color;
-            }
-          }
+          const { settings } = info.row.original;
+          const color: string = settings?.color || '#aabbcc';
+          const titleTemplate: string = settings?.titleTemplate || '';
           return (
             <>
               <Box
@@ -162,7 +154,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
                 }}
               >
                 <TextToolTip
-                  title={info.row.original.title || ''}
+                  title={titleTemplate}
                   maxLines={1}
                   type="LIST"
                   place="top"
@@ -171,7 +163,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
                 <Box
                   className={styles.titleBoard}
                   style={{
-                    backgroundColor: colorCode,
+                    backgroundColor: color,
                   }}
                 >
                   <OverflowText text={info.row.original.name} maxLines={1} />
@@ -479,6 +471,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
     <>
       <Box position={'relative'}>
         <IconButton
+          isDisabled={isLoading || isRefetching}
           isRound={true}
           variant="solid"
           aria-label="Done"
@@ -488,6 +481,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
           top={'-40px'}
           icon={<AiOutlineReload />}
           onClick={() => refetch()}
+          data-testid="task-actions-menu-button"
         />
         <>
           <EmptyWrapper
@@ -503,6 +497,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
                 base: '100vw',
                 lg: `calc(100vw - ${sideBarWidth}px)`,
               }}
+              data-testid="list-tasks-view"
             >
               <Box w={'100%'} overflowX="auto" className={styles.tableContent}>
                 <Table
@@ -510,9 +505,11 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
                   columns={taskColumns}
                   data={displayData ?? []}
                   onRowHover={true}
+                  isHighlight={true}
                   isLoading={isLoading}
                   isRefetching={isRefetching}
                   pageSize={filter.maxResultCount}
+                  dataTestId="task-item"
                 />
               </Box>
             </Box>
@@ -543,6 +540,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
               current={currentPage}
               onChange={onPageChange}
               hideOnSinglePage
+              data-testid="pagination"
             />
           </HStack>
         </>

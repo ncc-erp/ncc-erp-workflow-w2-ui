@@ -135,50 +135,52 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
               class="chakra-form-control css-0"
               role="group"
             >
-              <div
-                class="chakra-select__wrapper css-42b2qy"
-              >
-                <select
-                  class="chakra-select css-lcm62o"
-                  id="field-:r0:"
-                >
-                  <option
-                    value=""
-                  >
-                    All types
-                  </option>
-                  <option
-                    value="3a0b89d4-93b5-232f-964d-ffa129064cc6"
-                  >
-                    Office Equipment Request
-                  </option>
-                  <option
-                    value="3a059dc6-a381-3cc5-b6ff-7a6559d1adf7"
-                  >
-                    WFH Request
-                  </option>
-                </select>
+              <div>
                 <div
-                  class="chakra-select__icon-wrapper css-162mkon"
+                  class="chakra-select__wrapper css-42b2qy"
                 >
-                  <svg
-                    aria-hidden="true"
-                    class="chakra-icon chakra-select__icon css-13otjrl"
-                    fill="currentColor"
-                    focusable="false"
-                    height="1em"
-                    role="presentation"
-                    stroke="currentColor"
-                    stroke-width="0"
-                    style="color: currentColor; width: 1em; height: 1em;"
-                    viewBox="0 0 24 24"
-                    width="1em"
-                    xmlns="http://www.w3.org/2000/svg"
+                  <select
+                    class="chakra-select css-lcm62o"
+                    id="field-:r0:"
                   >
-                    <path
-                      d="M12 14L8 10H16L12 14Z"
-                    />
-                  </svg>
+                    <option
+                      value=""
+                    >
+                      All types
+                    </option>
+                    <option
+                      value="3a0b89d4-93b5-232f-964d-ffa129064cc6"
+                    >
+                      Office Equipment Request
+                    </option>
+                    <option
+                      value="3a059dc6-a381-3cc5-b6ff-7a6559d1adf7"
+                    >
+                      WFH Request
+                    </option>
+                  </select>
+                  <div
+                    class="chakra-select__icon-wrapper css-162mkon"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="chakra-icon chakra-select__icon css-13otjrl"
+                      fill="currentColor"
+                      focusable="false"
+                      height="1em"
+                      role="presentation"
+                      stroke="currentColor"
+                      stroke-width="0"
+                      style="color: currentColor; width: 1em; height: 1em;"
+                      viewBox="0 0 24 24"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M12 14L8 10H16L12 14Z"
+                      />
+                    </svg>
+                  </div>
                 </div>
               </div>
             </div>
@@ -190,60 +192,62 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
               class="chakra-form-control css-0"
               role="group"
             >
-              <div
-                class="chakra-select__wrapper css-42b2qy"
-              >
-                <select
-                  class="chakra-select css-lcm62o"
-                  id="field-:r1:"
-                >
-                  <option
-                    value=""
-                  >
-                    All status
-                  </option>
-                  <option
-                    value="Approved"
-                  >
-                    Approved
-                  </option>
-                  <option
-                    value="Rejected"
-                  >
-                    Rejected
-                  </option>
-                  <option
-                    value="Pending"
-                  >
-                    Pending
-                  </option>
-                  <option
-                    value="Canceled"
-                  >
-                    Canceled
-                  </option>
-                </select>
+              <div>
                 <div
-                  class="chakra-select__icon-wrapper css-162mkon"
+                  class="chakra-select__wrapper css-42b2qy"
                 >
-                  <svg
-                    aria-hidden="true"
-                    class="chakra-icon chakra-select__icon css-13otjrl"
-                    fill="currentColor"
-                    focusable="false"
-                    height="1em"
-                    role="presentation"
-                    stroke="currentColor"
-                    stroke-width="0"
-                    style="color: currentColor; width: 1em; height: 1em;"
-                    viewBox="0 0 24 24"
-                    width="1em"
-                    xmlns="http://www.w3.org/2000/svg"
+                  <select
+                    class="chakra-select css-lcm62o"
+                    id="field-:r1:"
                   >
-                    <path
-                      d="M12 14L8 10H16L12 14Z"
-                    />
-                  </svg>
+                    <option
+                      value=""
+                    >
+                      All status
+                    </option>
+                    <option
+                      value="Approved"
+                    >
+                      Approved
+                    </option>
+                    <option
+                      value="Rejected"
+                    >
+                      Rejected
+                    </option>
+                    <option
+                      value="Pending"
+                    >
+                      Pending
+                    </option>
+                    <option
+                      value="Canceled"
+                    >
+                      Canceled
+                    </option>
+                  </select>
+                  <div
+                    class="chakra-select__icon-wrapper css-162mkon"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="chakra-icon chakra-select__icon css-13otjrl"
+                      fill="currentColor"
+                      focusable="false"
+                      height="1em"
+                      role="presentation"
+                      stroke="currentColor"
+                      stroke-width="0"
+                      style="color: currentColor; width: 1em; height: 1em;"
+                      viewBox="0 0 24 24"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M12 14L8 10H16L12 14Z"
+                      />
+                    </svg>
+                  </div>
                 </div>
               </div>
             </div>
@@ -257,6 +261,7 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
             >
               <input
                 class="chakra-input css-1kuy7z7"
+                data-testid="search-input"
                 placeholder="Enter email"
                 type="text"
                 value=""
@@ -348,6 +353,7 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
         </div>
         <div
           class="css-jpzvhs"
+          data-testid="my-requests-view"
         >
           <table
             class="chakra-table css-zy166a"
@@ -359,7 +365,7 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                 class="css-1y39i0r"
               >
                 <th
-                  class="css-1d8mdkw"
+                  class="css-avwfu8"
                   colspan="1"
                   style="width: auto;"
                 >
@@ -374,7 +380,7 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                   </div>
                 </th>
                 <th
-                  class="css-1d8mdkw"
+                  class="css-avwfu8"
                   colspan="1"
                   style="width: auto;"
                 >
@@ -389,7 +395,7 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                   </div>
                 </th>
                 <th
-                  class="css-1d8mdkw"
+                  class="css-avwfu8"
                   colspan="1"
                   style="width: auto;"
                 >
@@ -404,7 +410,7 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                   </div>
                 </th>
                 <th
-                  class="css-1d8mdkw"
+                  class="css-avwfu8"
                   colspan="1"
                   style="width: auto;"
                 >
@@ -415,7 +421,7 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                   </div>
                 </th>
                 <th
-                  class="css-1efk6hr"
+                  class="css-175w36i"
                   colspan="1"
                   style="width: auto;"
                 >
@@ -441,7 +447,7 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                   </div>
                 </th>
                 <th
-                  class="css-1d8mdkw"
+                  class="css-avwfu8"
                   colspan="1"
                   style="width: auto;"
                 >
@@ -452,7 +458,7 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                   </div>
                 </th>
                 <th
-                  class="css-1d8mdkw"
+                  class="css-avwfu8"
                   colspan="1"
                   style="width: auto;"
                 >
@@ -463,7 +469,7 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                   </div>
                 </th>
                 <th
-                  class="css-1d8mdkw"
+                  class="css-avwfu8"
                   colspan="1"
                   style="width: auto;"
                 >
@@ -483,7 +489,9 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
               class="css-0"
             >
               <tr
-                class="css-6spsxz"
+                class="css-1mmrbq3"
+                data-id="3a0e24f1-b739-1627-f78a-cb2bdd068279"
+                data-testid="my-request-item"
               >
                 <td
                   class="css-xk16pm"
@@ -494,17 +502,18 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                   >
                     <div
                       class="css-0"
-                      style="flex: 1;"
+                      data-testid="short-title-tooltip"
+                      style="flex: 1; display: flex; width: 100%;"
                     >
                       <p
                         class="chakra-text css-e3cc90"
                         data-tooltip-id=""
-                        style="overflow: hidden; text-overflow: ellipsis; font-weight: 600; display: -webkit-box;"
+                        style="overflow: hidden; text-overflow: ellipsis; font-weight: 600; display: inline-block; flex: 1; width: 0px; white-space: nowrap; margin: 0px;"
                       />
                     </div>
                     <div
                       class="titleTable css-0"
-                      style="background-color: rgb(242, 112, 36);"
+                      style="background-color: rgb(170, 187, 204);"
                     >
                       <div
                         style="overflow: hidden; text-overflow: ellipsis; display: -webkit-box;"
@@ -685,7 +694,9 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                 </td>
               </tr>
               <tr
-                class="css-6spsxz"
+                class="css-1mmrbq3"
+                data-id="3a0e24d9-7768-89cf-6ad3-9003fd4ac3ae"
+                data-testid="my-request-item"
               >
                 <td
                   class="css-xk16pm"
@@ -696,17 +707,18 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                   >
                     <div
                       class="css-0"
-                      style="flex: 1;"
+                      data-testid="short-title-tooltip"
+                      style="flex: 1; display: flex; width: 100%;"
                     >
                       <p
                         class="chakra-text css-e3cc90"
                         data-tooltip-id=""
-                        style="overflow: hidden; text-overflow: ellipsis; font-weight: 600; display: -webkit-box;"
+                        style="overflow: hidden; text-overflow: ellipsis; font-weight: 600; display: inline-block; flex: 1; width: 0px; white-space: nowrap; margin: 0px;"
                       />
                     </div>
                     <div
                       class="titleTable css-0"
-                      style="background-color: rgb(208, 0, 219);"
+                      style="background-color: rgb(170, 187, 204);"
                     >
                       <div
                         style="overflow: hidden; text-overflow: ellipsis; display: -webkit-box;"
@@ -903,55 +915,57 @@ exports[`My Request Page should match snapshot when rendering 1`] = `
                 class="chakra-form-control css-0"
                 role="group"
               >
-                <div
-                  class="chakra-select__wrapper css-bo0or5"
-                >
-                  <select
-                    class="chakra-select css-1y1ernp"
-                    id="field-:rc:"
-                  >
-                    <option
-                      value="10"
-                    >
-                      10
-                    </option>
-                    <option
-                      value="25"
-                    >
-                      25
-                    </option>
-                    <option
-                      value="50"
-                    >
-                      50
-                    </option>
-                    <option
-                      value="100"
-                    >
-                      100
-                    </option>
-                  </select>
+                <div>
                   <div
-                    class="chakra-select__icon-wrapper css-10n8c1x"
+                    class="chakra-select__wrapper css-bo0or5"
                   >
-                    <svg
-                      aria-hidden="true"
-                      class="chakra-icon chakra-select__icon css-13otjrl"
-                      fill="currentColor"
-                      focusable="false"
-                      height="1em"
-                      role="presentation"
-                      stroke="currentColor"
-                      stroke-width="0"
-                      style="color: currentColor; width: 1em; height: 1em;"
-                      viewBox="0 0 24 24"
-                      width="1em"
-                      xmlns="http://www.w3.org/2000/svg"
+                    <select
+                      class="chakra-select css-1y1ernp"
+                      id="field-:rc:"
                     >
-                      <path
-                        d="M12 14L8 10H16L12 14Z"
-                      />
-                    </svg>
+                      <option
+                        value="10"
+                      >
+                        10
+                      </option>
+                      <option
+                        value="25"
+                      >
+                        25
+                      </option>
+                      <option
+                        value="50"
+                      >
+                        50
+                      </option>
+                      <option
+                        value="100"
+                      >
+                        100
+                      </option>
+                    </select>
+                    <div
+                      class="chakra-select__icon-wrapper css-10n8c1x"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        class="chakra-icon chakra-select__icon css-13otjrl"
+                        fill="currentColor"
+                        focusable="false"
+                        height="1em"
+                        role="presentation"
+                        stroke="currentColor"
+                        stroke-width="0"
+                        style="color: currentColor; width: 1em; height: 1em;"
+                        viewBox="0 0 24 24"
+                        width="1em"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M12 14L8 10H16L12 14Z"
+                        />
+                      </svg>
+                    </div>
                   </div>
                 </div>
               </div>

@@ -72,6 +72,7 @@ export const FilterAll = {
 export const UserRoles = {
   ADMIN: 'admin',
   DEFAULT_USER: 'DefaultUser',
+  DESIGNER: 'Designer',
 };
 
 export const UserAction = {
@@ -100,6 +101,7 @@ export const QueryKeys = {
   GET_STAKE_HOLDERS_FOR_FILTER: 'getStakeHoldersForFilter',
   GET_USER_LIST: 'getUserList',
   GET_INPUT_DEFINITION: 'getInputDefinition',
+  GET_SETTING_LIST: 'getSettingList',
 };
 
 export const ColorThemeMode = {
@@ -147,3 +149,9 @@ export const LinkDocRedirect = {
 export const MaxFailedAccessAttempts = 5;
 
 export const UPDATED_BY_W2 = 'W2 Workflow';
+export const UserRoleLabelMapping = {
+  ADMIN: 'Admin',
+  DEFAULT_USER: 'Default User',
+  DESIGNER: 'Designer',
+  UNASSIGNED: 'N/A',
+};

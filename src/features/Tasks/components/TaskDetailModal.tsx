@@ -38,7 +38,6 @@ import {
   formatDate,
   getStatusByIndex,
   isObjectEmpty,
-  isValidJSON,
   subtractTime,
 } from 'utils';
 import { RequestInput } from './RequestInput';
@@ -170,6 +169,7 @@ export const TaskDetailModal = ({
         console.error(error.response.data.error.message);
       });
     clear();
+    refetch();
     refetchRejected();
     refetchPending();
     setIsLoadingBtnApprove(false);
@@ -193,6 +193,7 @@ export const TaskDetailModal = ({
         console.error(error.response.data.error.message);
       });
     clear();
+    refetch();
     refetchApproved();
     refetchPending();
     setIsLoadingBtnApprove(false);
@@ -253,17 +254,30 @@ export const TaskDetailModal = ({
     if (isOpen) {
       setIsLoadingBtnApprove(false);
       setIsLoadingBtnReject(false);
-      if (
-        data?.tasks?.dynamicActionData &&
-        isValidJSON(data?.tasks?.dynamicActionData)
-      ) {
+      if (isRejected) {
         setDynamicForm({
-          hasDynamicForm: true,
-          dynamicForm: data?.tasks?.dynamicActionData || '',
+          hasDynamicForm: false,
+          dynamicForm: '',
+        });
+      } else {
+        const { dynamicActionData } = tasks || {};
+        setDynamicForm({
+          hasDynamicForm: !!dynamicActionData,
+          dynamicForm: dynamicActionData || '',
         });
       }
+      // master keep
+      // if (
+      //   data?.tasks?.dynamicActionData &&
+      //   isValidJSON(data?.tasks?.dynamicActionData)
+      // ) {
+      //   setDynamicForm({
+      //     hasDynamicForm: true,
+      //     dynamicForm: data?.tasks?.dynamicActionData || '',
+      //   });
+      // }
     }
-  }, [isOpen, data?.tasks?.dynamicActionData]);
+  }, [isOpen, isRejected, tasks]);
 
   const convertToDynamicArray = (payload: string | null | undefined) => {
     if (!payload) return [];

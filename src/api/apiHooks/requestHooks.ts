@@ -50,10 +50,12 @@ export const useCancelRequest = () => {
   return useCancelByPost(`/app/workflow-instance`);
 };
 
-export const useRequestTemplates = () => {
+export const useRequestTemplates = (isPublish?: boolean) => {
   return useGetListByPost<RequestTemplateResult>(
-    [QueryKeys.REQUEST_TEMPLATES],
-    '/app/workflow-definition/list-all'
+    [QueryKeys.REQUEST_TEMPLATES, isPublish],
+    isPublish
+      ? `/app/workflow-definition/list-all?isPublish=${isPublish}`
+      : `/app/workflow-definition/list-all`
   );
 };
 
@@ -138,5 +140,10 @@ export const useUserCurrentProject = (userEmail: string = '') => {
     userEmail != ''
       ? `/app/external-resource/current-user-working-project?email=${userEmail}`
       : '/app/external-resource/current-user-working-project'
+  );
+};
+export const useUpdateWorkflowPublishStatus = () => {
+  return useCreate<{ workflowId: string }, { isPublished: boolean }>(
+    '/app/workflow-definition/change-workflow-status'
   );
 };

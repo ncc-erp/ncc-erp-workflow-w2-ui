@@ -49,6 +49,7 @@ export interface RequestTemplate {
   isPublished: boolean;
   isLatest: boolean;
   inputDefinition: InputDefinition;
+  defineJson: string;
   id: string;
 }
 
@@ -58,10 +59,23 @@ export interface InputDefinition {
   settings?: Settings;
   id: string;
   nameRequest?: string;
+  requestDisplayName?: string;
+  defineJson: string | IDefineJsonObject;
+}
+
+export interface IDefineJsonObject {
+  definitionId: string;
 }
 
 export interface Settings {
-  color?: string;
+  color: string;
+  titleTemplate: string;
+}
+
+export interface IJsonObject {
+  settings: Settings;
+  propertyDefinitions: PropertyDefinition[];
+  defineJson?: string | IDefineJsonObject;
 }
 
 export interface PropertyDefinition {
@@ -113,12 +127,14 @@ export interface ICreateFormParams {
   name: string;
   displayName: string;
   tag: string;
+  workflowCreateData?: IJsonObject;
 }
 
 export interface IUpdateInputFormParams {
   id: string;
   workflowDefinitionId?: string;
   propertyDefinitions: PropertyDefinition[];
+  defineJson?: string | IDefineJsonObject;
   settings?: Settings;
 }
 

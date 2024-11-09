@@ -1,31 +1,47 @@
-import { Button } from '@chakra-ui/react';
-import React, { useMemo, useState } from 'react';
+import {
+  Button,
+  SpaceProps,
+  ThemingProps,
+  TypographyProps,
+} from '@chakra-ui/react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { ImportJsonModal } from './modals/ImportJsonModal';
 import { useFieldArray, useForm } from 'react-hook-form';
-import { InputDefinition } from 'models/request';
+import { IJsonObject, InputDefinition } from 'models/request';
 
 interface FormParams {
   items: PropertyDefinition[];
 }
+
+export enum EButtonType {
+  EXPORT = 'export',
+  IMPORT = 'import',
+}
 interface ExportImportJsonProps {
-  requestId: string;
   inputDefinition?: InputDefinition;
-  onClose: () => void;
-  workflowName: string;
+  workflowName?: string;
+  buttonStyleObj?: {
+    [key in EButtonType]?: TypographyProps & ThemingProps & SpaceProps;
+  };
+  hiddenButton?: Array<EButtonType>;
+  onChangeData: (jsonObject: IJsonObject) => void;
 }
 const ExportImportJson: React.FC<ExportImportJsonProps> = ({
-  requestId,
   inputDefinition,
-  onClose,
   workflowName,
+  buttonStyleObj,
+  hiddenButton,
+  onChangeData,
 }) => {
   const [isImportJsonModalOpen, setIsImportJsonModalOpen] =
     useState<boolean>(false);
+  const [inputDefinitionUpdated, setInputDefinitionUpdated] =
+    useState(inputDefinition);
 
-  const { control } = useForm<FormParams>({
+  const { control, reset } = useForm<FormParams>({
     criteriaMode: 'all',
     defaultValues: {
-      items: inputDefinition?.propertyDefinitions || [
+      items: inputDefinitionUpdated?.propertyDefinitions || [
         { name: '', type: 'Text', isRequired: false },
       ],
     },
@@ -36,12 +52,26 @@ const ExportImportJson: React.FC<ExportImportJsonProps> = ({
   });
   const exportData = useMemo(() => {
     return {
-      settings: {
-        color: inputDefinition?.settings?.color ?? '#aabbcc',
-      },
+      settings: inputDefinition?.settings ?? null,
+      defineJson:
+        inputDefinition?.defineJson &&
+        typeof inputDefinition?.defineJson === 'string'
+          ? JSON.parse(inputDefinition.defineJson)
+          : inputDefinition?.defineJson,
       propertyDefinitions: fields,
     };
-  }, [fields, inputDefinition?.settings?.color]);
+  }, [fields, inputDefinition?.defineJson, inputDefinition?.settings]);
+
+  useEffect(() => {
+    if (inputDefinition) {
+      setInputDefinitionUpdated(inputDefinition);
+    }
+    reset({
+      items: inputDefinition?.propertyDefinitions || [
+        { name: '', type: 'Text', isRequired: false },
+      ],
+    });
+  }, [inputDefinition, reset]);
 
   const handleExport = () => {
     const jsonString = JSON.stringify(exportData, null, 2);
@@ -49,7 +79,7 @@ const ExportImportJson: React.FC<ExportImportJsonProps> = ({
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = `${workflowName}.json`;
+    link.download = `${workflowName ?? 'workflow'}.json`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -57,21 +87,38 @@ const ExportImportJson: React.FC<ExportImportJsonProps> = ({
   const onOpenImportJsonModal = () => {
     setIsImportJsonModalOpen(true);
   };
+  const onCloseModal = () => {
+    setIsImportJsonModalOpen(false);
+  };
 
   return (
     <div>
       <ImportJsonModal
         id={inputDefinition?.id}
-        workflowDefinitionId={requestId}
         isOpen={isImportJsonModalOpen}
-        onClose={onClose}
+        onClose={onCloseModal}
+        onchangeData={onChangeData}
       />
-      <Button onClick={handleExport} colorScheme="red" m={2}>
-        Export
-      </Button>
-      <Button onClick={onOpenImportJsonModal} colorScheme="green" m={2}>
-        Import
-      </Button>
+      {!hiddenButton?.includes(EButtonType.EXPORT) && (
+        <Button
+          onClick={handleExport}
+          colorScheme="red"
+          m={2}
+          {...buttonStyleObj?.export}
+        >
+          Export
+        </Button>
+      )}
+      {!hiddenButton?.includes(EButtonType.IMPORT) && (
+        <Button
+          onClick={onOpenImportJsonModal}
+          colorScheme="green"
+          m={2}
+          {...buttonStyleObj?.import}
+        >
+          Import
+        </Button>
+      )}
     </div>
   );
 };

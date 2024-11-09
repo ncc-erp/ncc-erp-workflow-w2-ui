@@ -9,19 +9,23 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import { ColorThemeMode } from 'common/constants';
-import { FaEye, FaRegMap } from 'react-icons/fa';
+import { FaCheckCircle, FaRegEyeSlash, FaEye, FaRegMap } from 'react-icons/fa';
 import { RiDeleteBin6Fill, RiSettings4Fill } from 'react-icons/ri';
 
 interface RowActionProps {
   onDefineInput: () => void;
   onDelete: () => void;
   onViewWorkflow: () => void;
+  isPublished: boolean;
+  onTogglePublish: () => void;
 }
 
 export const RowAction = ({
   onDelete,
   onDefineInput,
   onViewWorkflow,
+  isPublished,
+  onTogglePublish,
 }: RowActionProps) => {
   const bg = useColorModeValue(ColorThemeMode.LIGHT, ColorThemeMode.DARK);
   const color = useColorModeValue(ColorThemeMode.DARK, ColorThemeMode.LIGHT);
@@ -53,6 +57,18 @@ export const RowAction = ({
         >
           <Icon color="gray.500" as={FaRegMap} />
           Edit Workflow
+        </MenuItem>
+        <MenuItem
+          color={color}
+          display="flex"
+          gap="12px"
+          onClick={onTogglePublish}
+        >
+          <Icon
+            color="gray.500"
+            as={isPublished ? FaRegEyeSlash : FaCheckCircle}
+          />
+          {isPublished ? 'Unpublish' : 'Publish'}
         </MenuItem>
         <MenuItem color={color} display="flex" gap="12px" onClick={onDelete}>
           <Icon color="gray.500" as={RiDeleteBin6Fill} />
