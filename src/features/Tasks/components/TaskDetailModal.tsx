@@ -38,7 +38,6 @@ import {
   formatDate,
   getStatusByIndex,
   isObjectEmpty,
-  isValidJSON,
   subtractTime,
 } from 'utils';
 import { RequestInput } from './RequestInput';
