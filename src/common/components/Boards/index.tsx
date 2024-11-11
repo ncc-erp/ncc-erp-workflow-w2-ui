@@ -79,7 +79,6 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
     isLoading: loadPending,
     fetchNextPage: fetchNextPagePending,
     refetch: refetchPending,
-    isRefetching: isRefetchingPending,
     hasNextPage: hasNextPagePending,
     isFetchingNextPage: isFetchingNextPagePending,
   } = useGetAllTask({ ...filter }, TaskStatus.Pending);
@@ -89,7 +88,6 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
     isLoading: loadApproved,
     fetchNextPage: fetchNextPageApproved,
     refetch: refetchApproved,
-    isRefetching: isRefetchingApproved,
     hasNextPage: hasNextPageApproved,
     isFetchingNextPage: isFetchingNextPageApproved,
   } = useGetAllTask({ ...filter }, TaskStatus.Approved);
@@ -99,7 +97,6 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
     isLoading: loadRejected,
     fetchNextPage: fetchNextPageRejected,
     refetch: refetchRejected,
-    isRefetching: isRefetchingRejected,
     hasNextPage: hasNextPageRejected,
     isFetchingNextPage: isFetchingNextPageRejected,
   } = useGetAllTask({ ...filter }, TaskStatus.Rejected);
@@ -511,10 +508,7 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
                       {!loadingStates[ind].value &&
                       !loadPending &&
                       !loadApproved &&
-                      !loadRejected &&
-                      !isRefetchingPending &&
-                      !isRefetchingApproved &&
-                      !isRefetchingRejected ? (
+                      !loadRejected ? (
                         el.map((item, index) => {
                           const isDisabled =
                             +item.status !== +TaskStatus.Pending ||
