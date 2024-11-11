@@ -399,16 +399,14 @@ export const MyRequestTable = () => {
                   isDisabled={isLoading || isRefetching}
                   size={'md'}
                   colorScheme={filter.RequestUser ? 'green' : 'gray'}
-                  onClick={() => {
-                    if (filter.RequestUser) {
-                      setFilter({ ...filter, RequestUser: '' });
-                    } else {
-                      setFilter({
-                        ...filter,
-                        RequestUser: currentUser?.sub[0],
-                      });
-                    }
-                  }}
+                  onClick={() =>
+                    setFilter({
+                      ...filter,
+                      RequestUser: filter.RequestUser
+                        ? ''
+                        : currentUser?.sub[0],
+                    })
+                  }
                   fontSize="sm"
                   fontWeight="medium"
                   mr={2}
