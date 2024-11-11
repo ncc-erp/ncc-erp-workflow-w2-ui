@@ -42,6 +42,7 @@ import {
 import { IUser } from 'models/user';
 import moment from 'moment';
 import { ChangeEvent, useMemo, useState } from 'react';
+import { NumericField } from 'common/components/NumericField';
 import { convertToCase } from 'utils';
 import { formatDateForm } from 'utils/dateUtils';
 
@@ -452,6 +453,41 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
                   </div>
                 );
               }}
+            />
+            <ErrorMessage
+              errors={errors}
+              name={fieldname}
+              render={({ message }) => <ErrorDisplay message={message} />}
+            />
+          </FormControl>
+        );
+
+      case 'Numeric':
+        formParams[fieldname] = formParams[fieldname] ?? '';
+        return (
+          <FormControl key={Field?.name}>
+            <FormLabel fontSize={16} my={1} fontWeight="normal">
+              {convertToCase(fieldname)}
+              {Field?.isRequired ? (
+                <FormHelperText my={1} style={{ color: 'red' }} as="span">
+                  {' '}
+                  *
+                </FormHelperText>
+              ) : (
+                ''
+              )}
+            </FormLabel>
+            <NumericField
+              h="50px"
+              placeholder={fieldname}
+              fontSize="sm"
+              value={formParams[fieldname] as string}
+              {...register(fieldname, {
+                required: Field?.isRequired
+                  ? `${fieldname} is Required`
+                  : false,
+                onChange: (e) => handleChangeValue(e, fieldname),
+              })}
             />
             <ErrorMessage
               errors={errors}
