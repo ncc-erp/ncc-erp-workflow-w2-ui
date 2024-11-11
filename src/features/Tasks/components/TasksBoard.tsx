@@ -90,7 +90,7 @@ export const TasksBoard = () => {
     emailAssign: user.email,
   });
   const [txtSearch, setTxtSearch] = useState<string>('');
-  const [isMyTask, setIsMyTask] = useState<boolean>(true);
+  const [showOnlyMyTask, setShowOnlyMyTask] = useState<boolean>(true);
   const [display, setDisplay] = useState<number>(0);
   const txtSearchDebounced = useDebounced(txtSearch, 500);
   const isAdmin = useIsAdmin();
@@ -183,12 +183,12 @@ export const TasksBoard = () => {
   }, [onTemplateStatusChange, txtSearchDebounced]);
 
   useEffect(() => {
-    if (isMyTask) {
+    if (showOnlyMyTask) {
       onTemplateStatusChange('emailAssign', user.email);
     } else {
       onTemplateStatusChange('emailAssign', '');
     }
-  }, [isMyTask, onTemplateStatusChange, user.email]);
+  }, [showOnlyMyTask, onTemplateStatusChange, user.email]);
 
   return (
     <Flex flexDirection={'column'} gap={2} w={['100vw', 'auto']}>
@@ -248,20 +248,18 @@ export const TasksBoard = () => {
         Permissions.VIEW_ALL_TASKS,
         <Flex gap={1} px="24px">
           {isAdmin && (
-            <Wrap>
-              <WrapItem>
-                <Button
-                  size={'md'}
-                  colorScheme={isMyTask ? 'green' : 'gray'}
-                  onClick={() => setIsMyTask(!isMyTask)}
-                  fontSize="sm"
-                  fontWeight="medium"
-                  mr={2}
-                >
-                  Only my task
-                </Button>
-              </WrapItem>
-            </Wrap>
+            <WrapItem>
+              <Button
+                size="md"
+                colorScheme={showOnlyMyTask ? 'green' : 'gray'}
+                onClick={() => setShowOnlyMyTask(!showOnlyMyTask)}
+                fontSize="sm"
+                fontWeight="medium"
+                mr={2}
+              >
+                Only my task
+              </Button>
+            </WrapItem>
           )}
         </Flex>
       )}

@@ -1,37 +1,21 @@
-import { Box, Heading, Text } from '@chakra-ui/react';
-import styled from '@emotion/styled';
+import { Center, VStack, Heading, Text, Icon, Box } from '@chakra-ui/react';
 import { FaExclamationTriangle } from 'react-icons/fa';
-
-const NotFoundContainer = styled(Box)`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  text-align: center;
-  background-color: #f0f4f8;
-  color: #333;
-`;
-
-const IconWrapper = styled(Box)`
-  font-size: 60px;
-  color: #e53e3e;
-  margin-bottom: 20px;
-`;
 
 const NotFound = () => {
   return (
-    <NotFoundContainer>
-      <IconWrapper>
-        <FaExclamationTriangle />
-      </IconWrapper>
-      <Heading as="h1" size="2xl" mb={4}>
-        404
-      </Heading>
-      <Text fontSize="lg" mb={6}>
-        Oops! The page you’re looking for doesn’t exist.
-      </Text>
-    </NotFoundContainer>
+    <Center height="100vh" bg="gray.100" color="gray.800" textAlign="center">
+      <VStack spacing={5}>
+        <Box fontSize="60px" color="red.500">
+          <Icon as={FaExclamationTriangle} />
+        </Box>
+        <Heading as="h1" size="2xl">
+          404
+        </Heading>
+        <Text fontSize="lg">
+          Oops! The page you’re looking for doesn’t exist.
+        </Text>
+      </VStack>
+    </Center>
   );
 };
 
