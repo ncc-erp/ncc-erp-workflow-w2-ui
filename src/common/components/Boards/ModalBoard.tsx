@@ -87,10 +87,14 @@ const ModalBoard = ({
   }, [reset, showDynamicForm]);
 
   const dynamicFormParse = useMemo(() => {
-    if (showDynamicForm) {
-      return JSON.parse(dynamicForm);
+    try {
+      if (showDynamicForm && dynamicForm.length > 0) {
+        return JSON.parse(dynamicForm);
+      }
+    } catch (error) {
+      console.error('Invalid JSON format:', error);
+      return [];
     }
-    return {};
   }, [dynamicForm, showDynamicForm]);
 
   useEffect(() => {

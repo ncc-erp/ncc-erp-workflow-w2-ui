@@ -36,7 +36,6 @@ import { useRecoilValue } from 'recoil';
 import { userState } from 'stores/user';
 import { useSetAppConfig } from 'stores/appConfig';
 import { useNavigate } from 'react-router-dom';
-import { useIsAdmin } from 'hooks/useIsAdmin';
 import { useUserPermissions } from 'hooks/useUserPermissions';
 import Logo from 'assets/images/ncc_logo.png';
 import { ColorThemeMode, LinkDocRedirect } from 'common/constants';
@@ -59,7 +58,6 @@ export const SideBarContent = ({ isLargeScreen }: SideBarContentProps) => {
   const bg = useColorModeValue(ColorThemeMode.LIGHT, ColorThemeMode.DARK);
   const color = useColorModeValue(ColorThemeMode.DARK, ColorThemeMode.LIGHT);
 
-  const isAdmin = useIsAdmin();
   const { renderIfAllowed, hasPermission } = useUserPermissions();
 
   const NavList = [
@@ -71,21 +69,17 @@ export const SideBarContent = ({ isLargeScreen }: SideBarContentProps) => {
     },
     {
       to: '/my-requests',
-      text: isAdmin ? 'Requests' : 'My requests',
+      text: hasPermission(Permissions.VIEW_ALL_WORKFLOW_INSTANCES)
+        ? 'Requests'
+        : 'My requests',
       icon: TbArticleFilledFilled,
       permission: Permissions.WORKFLOW_INSTANCES,
     },
     {
       to: '/tasks',
-      text: 'Tasks',
+      text: hasPermission(Permissions.VIEW_ALL_TASKS) ? 'Tasks' : 'My tasks',
       icon: TbLayoutBoard,
       permission: Permissions.TASKS,
-    },
-    {
-      to: '/roles',
-      text: 'Roles',
-      icon: TbUserShield,
-      permission: Permissions.ROLES,
     },
   ];
 
@@ -106,6 +100,12 @@ export const SideBarContent = ({ isLargeScreen }: SideBarContentProps) => {
           text: 'Settings',
           icon: TbSettingsBolt,
           permission: Permissions.SETTINGS,
+        },
+        {
+          to: '/roles',
+          text: 'Roles',
+          icon: TbUserShield,
+          permission: Permissions.ROLES,
         },
       ],
     },
@@ -166,12 +166,12 @@ export const SideBarContent = ({ isLargeScreen }: SideBarContentProps) => {
             <NavLink key={nav.to} {...nav} onClick={onCloseSideBar} />
           )
         )}
-        {/*{isAdmin && (*/}
         <>
           {AdminNavList.map((adminNav) => {
             const hasAdminPermission = [
               Permissions.USERS,
               Permissions.SETTINGS,
+              Permissions.ROLES,
             ].some(hasPermission);
             return hasAdminPermission ? (
               <Accordion
@@ -229,7 +229,6 @@ export const SideBarContent = ({ isLargeScreen }: SideBarContentProps) => {
             ) : null;
           })}
         </>
-        {/*)}*/}
       </VStack>
       <HStack borderTopColor="gray.200" px="12px" py="16px" spacing="12px">
         <Text fontSize="sm" fontWeight={600} noOfLines={1}>
