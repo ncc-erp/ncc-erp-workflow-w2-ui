@@ -24,7 +24,6 @@ import {
 } from 'api/apiHooks/requestHooks';
 import { ModalConfirm } from 'common/components/ModalConfirm';
 import { DefineTemplateInputModal } from './modals/DefineTemplateInputModal';
-import { toast } from 'common/components/StandaloneToast';
 import ExportImportJson, { EButtonType } from './ExportImportJson';
 
 interface RequestTemplateTableProps {
@@ -205,17 +204,6 @@ export const RequestTemplateTable = ({
       inputDefinition: InputDefinition
     ) =>
     () => {
-      if (
-        !inputDefinition ||
-        !inputDefinition.propertyDefinitions?.length ||
-        !inputDefinition?.propertyDefinitions?.[0]?.name
-      ) {
-        toast({
-          title: 'Please define input for the workflow!',
-          status: 'warning',
-        });
-        return;
-      }
       setIsModalOpen(true);
       setRequestId(requestId);
       setModalTitle(displayName);
