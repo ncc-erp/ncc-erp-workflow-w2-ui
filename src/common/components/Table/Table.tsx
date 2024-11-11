@@ -46,9 +46,7 @@ interface TableProps<D> {
   pageSize?: number;
   dataTestId?: string;
 }
-interface RowOriginalType {
-  id: string | number;
-}
+
 const DEFAULT_SKELETON_AMOUNT = 5;
 
 export const Table = <D,>({
@@ -235,7 +233,8 @@ export const Table = <D,>({
                 }}
                 animation={`${fadeIn} 1s cubic-bezier(0.390, 0.575, 0.565, 1.000)`}
                 data-testid={dataTestId}
-                data-id={(row.original as RowOriginalType).id}
+                /* eslint-disable @typescript-eslint/no-explicit-any */
+                data-id={(row.original as any).id}
               >
                 {row.getVisibleCells().map((cell) => {
                   return (

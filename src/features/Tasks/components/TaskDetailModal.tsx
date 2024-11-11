@@ -269,6 +269,16 @@ export const TaskDetailModal = ({
           dynamicForm: dynamicActionData || '',
         });
       }
+      // master keep
+      // if (
+      //   data?.tasks?.dynamicActionData &&
+      //   isValidJSON(data?.tasks?.dynamicActionData)
+      // ) {
+      //   setDynamicForm({
+      //     hasDynamicForm: true,
+      //     dynamicForm: data?.tasks?.dynamicActionData || '',
+      //   });
+      // }
     }
   }, [isOpen, isRejected, tasks]);
 
