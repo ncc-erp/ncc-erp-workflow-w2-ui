@@ -7,6 +7,10 @@ export interface Role {
   concurrencyStamp: string;
   permissions: Permission[];
   extraProperties: object;
+  users: {
+    id: string;
+    name: string;
+  }[];
 }
 
 export interface ListResult<T> {
