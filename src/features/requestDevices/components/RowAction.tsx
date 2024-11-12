@@ -66,7 +66,7 @@ export const RowAction = ({
         )}
         {actions.cancel &&
           renderIfAllowed(
-            Permissions.CREATE_SETTINGS,
+            Permissions.CANCEL_WORKFLOW_INSTANCE,
             <MenuItem
               color={color}
               display="flex"
