@@ -1,5 +1,11 @@
 import { CreateRoleRequest, Role, RoleResponse } from 'models/roles';
-import { useCreate, useGetList, useFetchResourceById, useUpdateRoles } from '.';
+import {
+  useCreate,
+  useGetList,
+  useFetchResourceById,
+  useUpdateRoles,
+  useDelete,
+} from '.';
 import { QueryKeys } from 'common/constants';
 import { Permissions } from 'models/permissions';
 
@@ -28,4 +34,7 @@ export const useGetOneRole = (id: string | null) => {
 
 export const useUpdateRole = () => {
   return useUpdateRoles('/app/roles');
+};
+export const useDeleteRole = () => {
+  return useDelete(`/app/roles`);
 };
