@@ -42,7 +42,7 @@ const initialFilter: FilterUserParams = {
   maxResultCount: +noOfRows[0].value,
   skipCount: 0,
   sorting: [UserSortField.userName, 'asc'].join(' '),
-  roles: '',
+  role: '',
 };
 
 const initialSorting: SortingState = [
@@ -69,10 +69,10 @@ export const UserManagementTable = () => {
   const { hasPermission } = useUserPermissions();
   const { data: rolesData } = useGetAllRoles();
   const onUserListFilterChange = useCallback(
-    (key: 'sorting' | 'roles' | 'filter', value?: string) => {
+    (key: 'sorting' | 'role' | 'filter', value?: string) => {
       setFilterUser((filterUser) => ({
         ...filterUser,
-        [key]: value,
+        [key]: value === 'empty' ? 'empty' : value,
         skipCount: 0,
       }));
     },
@@ -91,7 +91,11 @@ export const UserManagementTable = () => {
     const result = Array.from(
       new Set(filterRoles.map((x) => JSON.stringify(x)))
     ).map((x) => JSON.parse(x));
-    return [{ value: '', label: 'All Roles' }, ...result];
+    return [
+      { value: '', label: 'All Roles' },
+      { value: 'empty', label: 'No Role' },
+      ...result,
+    ];
   }, [roles]);
 
   const userColumns = useMemo(
@@ -241,9 +245,7 @@ export const UserManagementTable = () => {
                 size="sm"
                 rounded="md"
                 mb={2}
-                onChange={(e) =>
-                  onUserListFilterChange('roles', e.target.value)
-                }
+                onChange={(e) => onUserListFilterChange('role', e.target.value)}
                 options={userRolesOptions}
               />
             </Box>
