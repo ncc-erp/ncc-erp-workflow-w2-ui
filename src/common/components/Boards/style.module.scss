@@ -84,6 +84,13 @@
   color: #ffffff;
   font-weight: 600;
   text-align: center;
+
+  &.badgeCalendar {
+    max-width: 100%;
+    width: fit-content;
+    border-radius: 10px;
+    color: #ffffff;
+  }
 }
 
 .statusPending {
@@ -152,6 +159,32 @@
     &:hover {
       background: var(--chakra-colors-blackButton-100);
     }
+  }
+}
+
+.dayHeaderCustomClass {
+  height: 41px;
+  line-height: 36px;
+  border-right: 1px solid transparent !important;
+  &.dark {
+    background-color: var(--chakra-colors-secondary);
+    color: var(--chakra-colors-quarty);
+  }
+  &.light {
+    border: none !important;
+    border-right: 1px solid var(--chakra-colors-chakra-border-color) !important;
+    border-bottom: 1px solid var(--chakra-colors-chakra-border-color) !important;
+    background-color: var(--chakra-colors-chakra-border-color);;
+    color: var(--chakra-colors-light);
+  }
+}
+
+.dayCellCustomClass {
+  &.dark {
+    border: 1px solid var(--chakra-colors-secondary) !important;
+  }
+  &.light {
+    border: 1px solid var(--chakra-colors-chakra-border-color) !important;
   }
 }
 

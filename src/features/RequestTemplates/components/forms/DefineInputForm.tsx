@@ -62,13 +62,15 @@ const DefineInputForm = ({
     register,
     handleSubmit,
     control,
+    watch,
+    setValue,
     reset,
     formState: { errors },
   } = useForm<FormParams>({
     criteriaMode: 'all',
     defaultValues: {
       items: inputDefinition?.propertyDefinitions || [
-        { name: '', type: 'Text', isRequired: false },
+        { name: '', type: 'Text', isRequired: false, isStartDay: false },
       ],
     },
   });
@@ -120,15 +122,29 @@ const DefineInputForm = ({
   };
 
   const onAddField = () => {
-    append({ name: '', type: 'Text', isRequired: false });
+    append({ name: '', type: 'Text', isRequired: false, isStartDay: false });
+  };
+
+  const handleIsStartDayChange = (index: number, isChecked: boolean) => {
+    fields.forEach((_, idx) => {
+      if (idx !== index) {
+        setValue(`items.${idx}.isStartDay`, false);
+      }
+    });
+    setValue(`items.${index}.isStartDay`, isChecked);
   };
 
   const renderFormContent = () => {
     return fields?.map((Field: PropertyDefinition, index: number) => {
       return (
         <>
-          <HStack alignItems="flex-end" key={Field?.name + index} mb={1}>
-            <FormControl>
+          <HStack
+            alignItems="flex-end"
+            key={Field?.name + index}
+            mb={1}
+            w={'100%'}
+          >
+            <FormControl flexShrink={2}>
               <FormLabel fontSize={16} mb={1} fontWeight="normal">
                 Property Name
                 <FormHelperText mb={1} as="span">
@@ -138,7 +154,7 @@ const DefineInputForm = ({
               </FormLabel>
               <TextField
                 h="40px"
-                w="210px"
+                w="258px"
                 fontSize="sm"
                 {...register(`items.${index}.name`, {
                   required: `Name is Required`,
@@ -173,7 +189,7 @@ const DefineInputForm = ({
               )}
             </FormControl>
 
-            <FormControl mb="20px">
+            <FormControl mb="20px" w={'fit-content'}>
               <FormLabel
                 textAlign="center"
                 fontSize={16}
@@ -196,10 +212,42 @@ const DefineInputForm = ({
                 />
               </Center>
             </FormControl>
+
+            {watch(`items.${index}.type`) === 'DateTime' && (
+              <FormControl mb="20px" w={'fit-content'}>
+                <FormLabel
+                  textAlign="center"
+                  fontSize={16}
+                  mb={1}
+                  whiteSpace="nowrap"
+                  fontWeight="normal"
+                >
+                  Is Start Day
+                </FormLabel>
+                <Center h="40px" mr={3}>
+                  <Controller
+                    name={`items.${index}.isStartDay`}
+                    control={control}
+                    render={({ field }) => (
+                      <Checkbox
+                        size="lg"
+                        isChecked={field.value}
+                        onChange={(e) =>
+                          handleIsStartDayChange(index, e.target.checked)
+                        }
+                      />
+                    )}
+                  />
+                </Center>
+              </FormControl>
+            )}
+
             <Button
               colorScheme="red"
               mb="20px"
               w="250px"
+              flexShrink="0"
+              flexBasis="100px"
               isDisabled={!(fields.length > 1)}
               onClick={() => remove(index)}
             >

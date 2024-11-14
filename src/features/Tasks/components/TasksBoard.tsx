@@ -13,6 +13,7 @@ import { useRequestTemplates } from 'api/apiHooks/requestHooks';
 import Boards from 'common/components/Boards';
 import { SelectField } from 'common/components/SelectField';
 import {
+  CALENDAR_VIEW_DEFAULT_TASK_PER_PAGE,
   DEFAULT_TASK_PER_PAGE,
   DislayValue,
   FilterAll,
@@ -29,11 +30,12 @@ import { useCurrentUser } from 'hooks/useCurrentUser';
 import { subtractTime } from 'utils/subtractTime';
 import { ListTask } from '../../../common/components/Boards/ListTask';
 import { TaskDetailModal } from './TaskDetailModal';
-import { FaTable } from 'react-icons/fa';
+import { FaRegCalendarAlt, FaTable } from 'react-icons/fa';
 import { BsCardText } from 'react-icons/bs';
 import { ITask } from 'models/request';
 import { useDynamicDataTask } from 'api/apiHooks/taskHooks';
 import { useMediaQuery } from 'hooks/useMediaQuery';
+import CalendarListTask from 'common/components/Boards/CalendarListTask';
 
 const initialFilter: FilterTasks = {
   skipCount: 0,
@@ -75,6 +77,11 @@ export const OptionsDisplay = [
     value: DislayValue.LIST,
     label: 'List Items',
     icon: <FaTable />,
+  },
+  {
+    value: DislayValue.CALENDAR,
+    label: 'Calendar list Items',
+    icon: <FaRegCalendarAlt />,
   },
 ];
 
@@ -292,6 +299,15 @@ export const TasksBoard = () => {
             filters={filter}
             openDetailModal={openModal}
             status={filter?.status || -1}
+          />
+        )}
+        {display === DislayValue.CALENDAR && isLargeScreen && (
+          <CalendarListTask
+            filters={{
+              ...filter,
+              maxResultCount: CALENDAR_VIEW_DEFAULT_TASK_PER_PAGE,
+            }}
+            openDetailModal={openModal}
           />
         )}
       </Box>
