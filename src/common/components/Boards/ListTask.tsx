@@ -456,7 +456,6 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
       return {
         ...item,
         id: item.requestId || item.id,
-        workflowInstanceId: item.workflowInstanceId,
       };
     });
   }, [data]);
