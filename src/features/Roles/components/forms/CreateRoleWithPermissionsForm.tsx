@@ -10,13 +10,21 @@ import {
   Tab,
   TabPanel,
   TabPanels,
+  IconButton,
+  HStack,
 } from '@chakra-ui/react';
 import PermissionCheckbox from 'common/components/PermissionCheckbox';
 import { Permissions } from 'models/permissions';
 import { Role } from 'models/roles';
 import { Avatar } from '@chakra-ui/react';
 import { ModalConfirm } from 'common/components/ModalConfirm';
-import { useDeleteRole, useGetAllRoles } from 'api/apiHooks/roleHook';
+import {
+  useDeleteRole,
+  useRemoveUserFromRole,
+  useGetAllRoles,
+  useGetOneRole,
+} from 'api/apiHooks/roleHook';
+import { DeleteIcon } from '@chakra-ui/icons';
 
 interface CreateRoleWithPermissionsProps {
   onClose: () => void;
@@ -37,6 +45,10 @@ const CreateRoleWithPermissionsForm: React.FC<
   const [roleIdToDelete, setRoleIdToDelete] = useState<string | null>(null);
   const { mutate: deleteRole } = useDeleteRole();
   const { refetch: refetchRoles } = useGetAllRoles();
+  const { mutate: deleteRoleUser } = useRemoveUserFromRole();
+  const { data: selectedRole } = useGetOneRole(role?.id || '');
+
+  const [users, setUsers] = useState(selectedRole?.users || []);
 
   const handleOpenModal = (id: string) => {
     setRoleIdToDelete(id);
@@ -51,6 +63,12 @@ const CreateRoleWithPermissionsForm: React.FC<
   useEffect(() => {
     setRoleName(initialRoleName);
   }, [initialRoleName]);
+
+  useEffect(() => {
+    if (selectedRole) {
+      setUsers(selectedRole.users);
+    }
+  }, [selectedRole]);
 
   const handleCheckboxChange = (updatedSelection: string[]) => {
     setSelectedPermissions(updatedSelection);
@@ -80,6 +98,11 @@ const CreateRoleWithPermissionsForm: React.FC<
     }
     setIsModalOpen(false);
     onClose();
+  };
+
+  const handleDeleteUser = async (roleId: string, userId: string) => {
+    await deleteRoleUser({ roleId, userId });
+    setUsers((prevUsers) => prevUsers.filter((user) => user.id !== userId));
   };
 
   return (
@@ -114,7 +137,7 @@ const CreateRoleWithPermissionsForm: React.FC<
             </Tab>
           </TabList>
           <TabPanels>
-            <TabPanel style={{ maxHeight: '300px' }}>
+            <TabPanel>
               <FormControl>
                 <PermissionCheckbox
                   permission={permissions}
@@ -132,9 +155,15 @@ const CreateRoleWithPermissionsForm: React.FC<
                 marginTop: '20px',
               }}
             >
-              {role?.users?.length ? (
-                role.users.map((user) => (
-                  <VStack key={user.id} align="start" spacing="4px">
+              {users.length ? (
+                users.map((user) => (
+                  <HStack
+                    key={user.id}
+                    spacing="4px"
+                    justify="space-between"
+                    width="100%"
+                    paddingRight="10px"
+                  >
                     <div
                       style={{
                         display: 'flex',
@@ -145,7 +174,18 @@ const CreateRoleWithPermissionsForm: React.FC<
                       <Avatar name={user.name} size="sm" mr="8px" />
                       <div style={{ fontSize: '14px' }}>{user.name}</div>
                     </div>
-                  </VStack>
+                    <IconButton
+                      aria-label="Delete user"
+                      icon={<DeleteIcon />}
+                      size="sm"
+                      colorScheme="red"
+                      onClick={() => {
+                        if (selectedRole) {
+                          handleDeleteUser(selectedRole.id, user.id);
+                        }
+                      }}
+                    />
+                  </HStack>
                 ))
               ) : (
                 <VStack

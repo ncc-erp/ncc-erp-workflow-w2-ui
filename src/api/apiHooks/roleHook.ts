@@ -5,6 +5,7 @@ import {
   useFetchResourceById,
   useUpdateRoles,
   useDelete,
+  useDeleteUserOnRole,
 } from '.';
 import { QueryKeys } from 'common/constants';
 import { Permissions } from 'models/permissions';
@@ -37,4 +38,7 @@ export const useUpdateRole = () => {
 };
 export const useDeleteRole = () => {
   return useDelete(`/app/roles`);
+};
+export const useRemoveUserFromRole = () => {
+  return useDeleteUserOnRole('/app/roles');
 };

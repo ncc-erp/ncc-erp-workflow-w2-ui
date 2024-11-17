@@ -186,3 +186,19 @@ export const useFetchResourceById = <T>(
     }
   );
 };
+export const useDeleteUserOnRole = (baseURL: string) => {
+  const axios = useAxios();
+
+  const mutate = async ({
+    roleId,
+    userId,
+  }: {
+    roleId: string;
+    userId: string;
+  }) => {
+    const url = `${baseURL}/${roleId}/users/${userId}`;
+    await axios.delete(url);
+  };
+
+  return useMutation(mutate);
+};

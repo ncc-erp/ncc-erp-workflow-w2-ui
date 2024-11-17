@@ -156,9 +156,9 @@ const UserForm = ({
         <Tab fontSize="16px" fontWeight="medium">
           Roles
         </Tab>
-        <Tab fontSize="16px" fontWeight="medium">
+        {/*<Tab fontSize="16px" fontWeight="medium">
           Permissions
-        </Tab>
+        </Tab>*/}
       </TabList>
       <form onSubmit={formik.handleSubmit}>
         <TabPanels>
