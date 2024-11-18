@@ -35,12 +35,21 @@ export const DefineTemplateInputModal = ({
   const [settings, setSettings] = useState<Settings>({
     color: '#aabbcc',
     titleTemplate: '',
+    isSendKomuMessage: false,
   });
   const [isChangedBySubmitSettings, setIsChangedBySubmitSettings] =
     useState<boolean>(false);
 
-  const onSubmitSettings = (color: string, title: string) => {
-    const settings: Settings = { color, titleTemplate: title };
+  const onSubmitSettings = (
+    color: string,
+    title: string,
+    isSendKomuMessage: boolean
+  ) => {
+    const settings: Settings = {
+      color,
+      titleTemplate: title,
+      isSendKomuMessage,
+    };
     setSettings(settings);
     setIsChangedBySubmitSettings(true);
   };
@@ -54,6 +63,7 @@ export const DefineTemplateInputModal = ({
   useEffect(() => {
     setUpdatedInputDefinition(inputDefinition);
   }, [inputDefinition]);
+
   const handleChangeData = useCallback((jsonObject: IJsonObject) => {
     setUpdatedInputDefinition((prevDefinition: InputDefinition | undefined) => {
       if (!prevDefinition) return undefined;
