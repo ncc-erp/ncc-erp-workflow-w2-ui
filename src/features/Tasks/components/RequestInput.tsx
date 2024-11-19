@@ -32,6 +32,7 @@ export const RequestInput = ({ inputRequestDetail }: IRequestProps) => {
               label={convertToCase(key)}
               content={extractContent(value)}
               dates={dates}
+              isMarkdown
             />
           );
         }

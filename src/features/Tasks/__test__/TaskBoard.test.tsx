@@ -9,6 +9,9 @@ jest.mock('../../../api/apiHooks/index', () => ({
   useAxios: jest.fn(),
 }));
 
+jest.mock('@uiw/react-md-editor', () => jest.fn());
+jest.mock('@uiw/react-markdown-preview', () => jest.fn());
+
 jest.mock('../../../api/axiosInstant', () => ({
   VITE_API_BASE_URL: '/api',
 }));

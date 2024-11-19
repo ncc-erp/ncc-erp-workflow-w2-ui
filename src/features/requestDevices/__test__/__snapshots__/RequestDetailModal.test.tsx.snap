@@ -119,7 +119,9 @@ exports[`My Request Detail should match snapshot when rendering 1`] = `
                   <p
                     class="content "
                   >
-                    Đà Nẵng
+                    <div>
+                      Mocked MarkdownEditor
+                    </div>
                   </p>
                 </div>
                 <div
@@ -133,7 +135,9 @@ exports[`My Request Detail should match snapshot when rendering 1`] = `
                   <p
                     class="content "
                   >
-                    test current state
+                    <div>
+                      Mocked MarkdownEditor
+                    </div>
                   </p>
                 </div>
                 <div
@@ -147,7 +151,9 @@ exports[`My Request Detail should match snapshot when rendering 1`] = `
                   <p
                     class="content "
                   >
-                    test
+                    <div>
+                      Mocked MarkdownEditor
+                    </div>
                   </p>
                 </div>
               </div>

@@ -308,7 +308,7 @@ export const RequestDetailModal = ({
                 />
 
                 {rejectReason && (
-                  <TextGroup label="Reason" content={rejectReason} />
+                  <TextGroup label="Reason" content={rejectReason} isMarkdown />
                 )}
                 {!rejectReason && <TextGroup label="" content="" />}
                 {getUserReject && (

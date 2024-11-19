@@ -15,6 +15,14 @@ jest.mock('common/components/WorkflowModal', () => ({
   VITE_PROXY_SERVER_URL: 'http://localhost:4433',
 }));
 
+jest.mock('@uiw/react-md-editor', () => jest.fn());
+jest.mock('@uiw/react-markdown-preview', () => jest.fn());
+
+jest.mock('common/components/MarkdownEditor', () => ({
+  __esModule: true,
+  default: () => <div>Mocked MarkdownEditor</div>,
+}));
+
 jest.mock('api/apiHooks/requestHooks', () => ({
   useGetRequestDetail: jest.fn().mockReturnValue({
     isLoading: false,

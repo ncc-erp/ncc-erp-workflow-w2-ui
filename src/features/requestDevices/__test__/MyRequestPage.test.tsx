@@ -24,6 +24,9 @@ jest.mock('hooks/useMediaQuery', () => ({
   useMediaQuery: jest.fn().mockReturnValue(true),
 }));
 
+jest.mock('@uiw/react-md-editor', () => jest.fn());
+jest.mock('@uiw/react-markdown-preview', () => jest.fn());
+
 jest.mock('api/apiHooks/requestHooks', () => ({
   useMyRequests: jest.fn().mockReturnValue({
     isLoading: false,

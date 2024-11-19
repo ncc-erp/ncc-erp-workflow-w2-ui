@@ -14,7 +14,6 @@ import {
   useUserList,
   useUserProjects,
 } from 'api/apiHooks/requestHooks';
-import { TextareaField } from 'common/components/TextareaField';
 import { TextField } from 'common/components/TextField';
 import { Controller, useForm } from 'react-hook-form';
 import MultiDatePicker, { DateObject } from 'react-multi-date-picker';
@@ -45,6 +44,7 @@ import { ChangeEvent, useMemo, useState } from 'react';
 import { NumericField } from 'common/components/NumericField';
 import { convertToCase } from 'utils';
 import { formatDateForm } from 'utils/dateUtils';
+import MarkdownEditor from 'common/components/MarkdownEditor';
 
 interface RequestFormProps {
   inputDefinition?: InputDefinition;
@@ -116,11 +116,13 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
   };
 
   const handleChangeValue = (
-    e: ChangeEvent<HTMLSelectElement | HTMLInputElement | HTMLTextAreaElement>,
+    e:
+      | ChangeEvent<HTMLSelectElement | HTMLInputElement | HTMLTextAreaElement>
+      | string,
     variable: string
   ) => {
     const updatedFormParams = { ...formParams };
-    updatedFormParams[variable] = e.target.value;
+    updatedFormParams[variable] = typeof e === 'string' ? e : e.target.value;
     setFormParams(updatedFormParams);
   };
 
@@ -320,14 +322,25 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
                 ''
               )}
             </FormLabel>
-            <TextareaField
-              value={formParams[fieldname] as string}
-              {...register(fieldname, {
+
+            <Controller
+              name={fieldname}
+              control={control}
+              rules={{
                 required: Field?.isRequired
                   ? `${fieldname} is Required`
                   : false,
-                onChange: (e) => handleChangeValue(e, fieldname),
-              })}
+              }}
+              render={({ field }) => (
+                <MarkdownEditor
+                  {...field}
+                  onChange={(value) => {
+                    field.onChange(value ?? '');
+                    handleChangeValue(value ?? '', fieldname);
+                  }}
+                  value={field.value?.toString()}
+                />
+              )}
             />
             <ErrorMessage
               errors={errors}

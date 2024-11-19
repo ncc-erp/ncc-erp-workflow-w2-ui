@@ -51,6 +51,7 @@ import ModalBoard from 'common/components/Boards/ModalBoard';
 import { useClearCacheTask } from 'common/components/Boards/useClearCacheTask';
 import { FilterTasks } from 'models/task';
 import { useCurrentUser } from 'hooks/useCurrentUser';
+import MarkdownEditor from 'common/components/MarkdownEditor';
 
 const initialFilter: FilterTasks = {
   skipCount: 0,
@@ -328,7 +329,9 @@ export const TaskDetailModal = ({
             {convertToCase(element.name)}:
           </Text>
           {filteredData.map((x) => (
-            <ListItem key={x}>{x}</ListItem>
+            <ListItem key={x}>
+              <MarkdownEditor key={x} source={x} type="preview" />
+            </ListItem>
           ))}
         </List>
       );
@@ -526,7 +529,11 @@ export const TaskDetailModal = ({
                   color={getStatusByIndex(tasks?.status).color}
                 />
                 {tasks?.reason && (
-                  <TextGroup label="Reason" content={tasks.reason} />
+                  <MarkdownEditor
+                    key={tasks.reason}
+                    source={tasks.reason}
+                    type="preview"
+                  />
                 )}
 
                 <TextGroup
@@ -561,6 +568,7 @@ export const TaskDetailModal = ({
         showDynamicForm={dynamicForm.hasDynamicForm}
         dynamicForm={dynamicForm.dynamicForm}
         setReason={setReason}
+        reason={reason}
         shortTitle={tasks?.title}
         isLoading={loadStatus}
         name={tasks?.name}

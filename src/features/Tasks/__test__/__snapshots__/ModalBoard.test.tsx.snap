@@ -69,9 +69,6 @@ exports[`Request My Requests Page 1`] = `
                      *
                   </span>
                 </p>
-                <textarea
-                  class="chakra-textarea css-0"
-                />
               </div>
             </div>
             <footer
