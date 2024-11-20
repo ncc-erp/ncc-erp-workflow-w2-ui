@@ -22,7 +22,7 @@ export const ImportJsonModal = ({
   onchangeData,
 }: ImportJsonModalProps) => {
   return (
-    <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={true}>
+    <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false}>
       <ModalOverlay />
       <ModalContent className={styles.customModal}>
         <ModalCloseButton />

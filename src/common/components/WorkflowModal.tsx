@@ -33,7 +33,7 @@ export const WorkflowModal = ({
   }, []);
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
+    <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false}>
       <ModalOverlay />
       <ModalContent p="5px" maxW="90vw" maxH="90vh" overflow="hidden">
         <ModalHeader>
