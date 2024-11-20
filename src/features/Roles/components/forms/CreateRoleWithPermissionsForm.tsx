@@ -25,6 +25,8 @@ import {
   useGetOneRole,
 } from 'api/apiHooks/roleHook';
 import { DeleteIcon } from '@chakra-ui/icons';
+import { useUserPermissions } from 'hooks/useUserPermissions';
+import { Permissions as PermissionConstants } from 'common/constants';
 
 interface CreateRoleWithPermissionsProps {
   onClose: () => void;
@@ -47,6 +49,7 @@ const CreateRoleWithPermissionsForm: React.FC<
   const { refetch: refetchRoles } = useGetAllRoles();
   const { mutate: deleteRoleUser } = useRemoveUserFromRole();
   const { data: selectedRole } = useGetOneRole(role?.id || '');
+  const { renderIfAllowed } = useUserPermissions();
 
   const [users, setUsers] = useState(selectedRole?.users || []);
 
@@ -104,6 +107,7 @@ const CreateRoleWithPermissionsForm: React.FC<
     await deleteRoleUser({ roleId, userId });
     setUsers((prevUsers) => prevUsers.filter((user) => user.id !== userId));
   };
+  console.log(PermissionConstants.DELETE_ROLE);
 
   return (
     <form onSubmit={handleSubmit} style={{ position: 'relative' }}>
@@ -174,17 +178,20 @@ const CreateRoleWithPermissionsForm: React.FC<
                       <Avatar name={user.name} size="sm" mr="8px" />
                       <div style={{ fontSize: '14px' }}>{user.name}</div>
                     </div>
-                    <IconButton
-                      aria-label="Delete user"
-                      icon={<DeleteIcon />}
-                      size="sm"
-                      colorScheme="red"
-                      onClick={() => {
-                        if (selectedRole) {
-                          handleDeleteUser(selectedRole.id, user.id);
-                        }
-                      }}
-                    />
+                    {renderIfAllowed(
+                      PermissionConstants.DELETE_USER_ON_ROLE,
+                      <IconButton
+                        aria-label="Delete user"
+                        icon={<DeleteIcon />}
+                        size="sm"
+                        colorScheme="red"
+                        onClick={() => {
+                          if (selectedRole) {
+                            handleDeleteUser(selectedRole.id, user.id);
+                          }
+                        }}
+                      />
+                    )}
                   </HStack>
                 ))
               ) : (
@@ -196,12 +203,15 @@ const CreateRoleWithPermissionsForm: React.FC<
                   }}
                 >
                   <div>No users available</div>
-                  <Button
-                    colorScheme="red"
-                    onClick={() => role && handleOpenModal(role.id)}
-                  >
-                    Delete Role
-                  </Button>
+                  {renderIfAllowed(
+                    PermissionConstants.DELETE_ROLE,
+                    <Button
+                      colorScheme="red"
+                      onClick={() => role && handleOpenModal(role.id)}
+                    >
+                      Delete Role
+                    </Button>
+                  )}
                 </VStack>
               )}
             </TabPanel>
