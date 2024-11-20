@@ -196,4 +196,6 @@ export const Permissions = {
   VIEW_ROLES: 'Roles.View',
   CREATE_ROLE: 'Roles.Create',
   UPDATE_ROLE: 'Roles.Update',
+  DELETE_ROLE: 'Roles.Delete',
+  DELETE_USER_ON_ROLE: 'Roles.DeleteUserOnRole',
 };
