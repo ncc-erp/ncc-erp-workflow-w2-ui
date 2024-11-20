@@ -735,6 +735,7 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
         onConfirm={isExternal ? handleConfirmExternal : handleDrop}
         showReason={isRejected}
         setReason={setReason}
+        reason={reason}
         showDynamicForm={dynamicForm.hasDynamicForm}
         dynamicForm={dynamicForm.dynamicForm}
         isDisabled={isRejected && !reason}

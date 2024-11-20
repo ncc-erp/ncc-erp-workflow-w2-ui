@@ -551,6 +551,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
         onConfirm={handleConfirm}
         showReason={dataForm.status === TaskStatus.Rejected}
         setReason={setReason}
+        reason={reason}
         isDisabled={dataForm.status === TaskStatus.Rejected && !reason}
         isLoading={loadStatus}
         showDynamicForm={dynamicForm.hasDynamicForm}

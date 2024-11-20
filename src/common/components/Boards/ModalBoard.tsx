@@ -14,11 +14,9 @@ import {
   FormLabel,
   Spinner,
   Text,
-  Textarea,
   VStack,
 } from '@chakra-ui/react';
 import { Controller, useForm } from 'react-hook-form';
-import { TextareaField } from '../TextareaField';
 import { ErrorMessage } from '@hookform/error-message';
 import { ErrorDisplay } from '../ErrorDisplay';
 import { renderColor } from 'utils/getColorTypeRequest';
@@ -28,6 +26,7 @@ import { DateObject } from 'react-multi-date-picker';
 import { formatDateForm } from 'utils/dateUtils';
 import { convertToCase, toDisplayName } from 'utils/convertToCase';
 import { parse } from 'date-fns';
+import MarkdownEditor from '../MarkdownEditor';
 
 interface ModalBoardProps {
   isOpen: boolean;
@@ -39,6 +38,7 @@ interface ModalBoardProps {
   isDisabled?: boolean;
   isLoading?: boolean;
   setReason: (data: string) => void;
+  reason?: string;
   shortTitle?: string;
   id?: string;
   name?: string;
@@ -69,10 +69,10 @@ const ModalBoard = ({
   shortTitle,
   name,
   requestUser,
+  reason,
 }: ModalBoardProps): JSX.Element => {
   const cancelRef = useRef(null);
   const {
-    register,
     handleSubmit,
     reset,
     control,
@@ -143,13 +143,18 @@ const ModalBoard = ({
               )}
             />
           ) : (
-            <TextareaField
+            <Controller
               defaultValue={element.defaultValue as string}
-              {...register(element.name as string, {
-                required: element.isRequired
+              name={element.name as string}
+              control={control}
+              rules={{
+                required: element?.isRequired
                   ? `${convertToCase(element.name as string)} is Required`
                   : false,
-              })}
+              }}
+              render={({ field }) => (
+                <MarkdownEditor {...field} value={field.value?.toString()} />
+              )}
             />
           )}
           <ErrorMessage
@@ -263,7 +268,11 @@ const ModalBoard = ({
                     Reason
                     <span style={{ color: 'red' }}> *</span>
                   </Text>
-                  <Textarea onChange={(e) => setReason(e.target.value)} />
+                  <MarkdownEditor
+                    onChange={(value) => setReason(value || '')}
+                    value={reason}
+                    type="editor"
+                  />
                 </Box>
               )}
             </AlertDialogBody>

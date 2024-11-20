@@ -229,20 +229,6 @@ exports[`Request Template Form Components should match snapshot when rendering 1
             *
           </span>
         </label>
-        <div
-          class="chakra-form-control css-0"
-          role="group"
-        >
-          <div
-            data-testid="Content"
-          >
-            <textarea
-              class="chakra-textarea css-0"
-              id="field-:r3:"
-              name="Content"
-            />
-          </div>
-        </div>
       </div>
       <div
         class="chakra-form-control css-0"
@@ -251,12 +237,12 @@ exports[`Request Template Form Components should match snapshot when rendering 1
         <label
           class="chakra-form__label css-c5n4e2"
           for="StartDate"
-          id="field-:r4:-label"
+          id="field-:r3:-label"
         >
           Start Date
           <span
             class="chakra-form__helper-text css-1jd2nkm"
-            id="field-:r4:-helptext"
+            id="field-:r3:-helptext"
             style="color: red;"
           >
              
@@ -290,7 +276,7 @@ exports[`Request Template Form Components should match snapshot when rendering 1
         <label
           class="chakra-form__label css-c5n4e2"
           for="EndDate"
-          id="field-:r5:-label"
+          id="field-:r4:-label"
         >
           End Date
         </label>

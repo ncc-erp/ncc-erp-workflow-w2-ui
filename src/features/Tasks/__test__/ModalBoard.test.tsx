@@ -14,6 +14,9 @@ import ModalBoard from 'common/components/Boards/ModalBoard';
 
 // }))
 
+jest.mock('@uiw/react-md-editor', () => jest.fn());
+jest.mock('@uiw/react-markdown-preview', () => jest.fn());
+
 test('Request My Requests Page', () => {
   const queryClient: QueryClient = new QueryClient();
   const { baseElement } = render(
@@ -24,6 +27,7 @@ test('Request My Requests Page', () => {
         onConfirm={() => jest.fn()}
         showReason={true}
         setReason={() => jest.fn()}
+        reason=""
         showDynamicForm={false}
         dynamicForm=""
         isDisabled={false}
