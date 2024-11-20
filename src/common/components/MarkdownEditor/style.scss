@@ -1,0 +1,25 @@
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+button.button-upload {
+  border: none;
+  height: 20px;
+  line-height: 14px;
+  background: none;
+  padding: 4px;
+  margin: 0 1px;
+  border-radius: 2px;
+  text-transform: none;
+  font-weight: normal;
+  overflow: visible;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.3s;
+  white-space: nowrap;
+  color: var(--color-fg-default);
+
+  &:disabled {
+    color: var(--color-fg-default) !important;
+  }
+}
