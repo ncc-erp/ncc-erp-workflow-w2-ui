@@ -62,7 +62,7 @@ export const CreateRoleModal = ({
     onClose();
   };
   return (
-    <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={true}>
+    <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false}>
       <ModalOverlay />
       <ModalContent style={{ minWidth: '20%' }}>
         <ModalHeader fontSize="lg">
