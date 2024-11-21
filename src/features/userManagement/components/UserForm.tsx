@@ -12,7 +12,6 @@ import {
 import { useQueryClient } from '@tanstack/react-query';
 import { useGetAllPermissions, useGetAllRoles } from 'api/apiHooks/roleHook';
 import {
-  useRoleByUserId,
   useUpdateUser,
   useUserPermissions,
 } from 'api/apiHooks/userIdentityHooks';
@@ -47,7 +46,6 @@ const UserForm = ({
   const [codePermissions, setCodePermissions] = useState<string[]>([]);
   const [isTreeModified, setIsTreeModified] = useState(false);
   const { data: rolesData, refetch: refetchRoles } = useGetAllRoles();
-  const { data: rolesList } = useRoleByUserId(userId);
   const handlePasswordConfirmChange = (e: ChangeEvent<HTMLInputElement>) => {
     setPasswordConfirm(e.target.value);
   };
@@ -82,10 +80,15 @@ const UserForm = ({
     const permissionsToSubmit = isTreeModified
       ? updatedPermissions
       : codePermissions;
+
+    const roleNamesArray = Array.isArray(formik.values.roleNames)
+      ? formik.values.roleNames
+      : [formik.values.roleNames];
+
     const updatedValues = {
       ...values,
       customPermissionCodes: permissionsToSubmit,
-      roleNames: formik.values.roleNames,
+      roleNames: roleNamesArray,
     };
     setUserValues(updatedValues);
     await mutate();
@@ -112,9 +115,6 @@ const UserForm = ({
   }, [isSuccess, isError, onClose, queryClient, userId]);
 
   const handleChangeCheckbox = (field: string, value: boolean | string[]) => {
-    console.log(initialValues);
-    console.log(rolesList);
-
     formik.setFieldValue(field, value);
   };
 
