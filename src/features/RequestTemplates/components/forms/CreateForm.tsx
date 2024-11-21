@@ -94,6 +94,7 @@ const CreateForm = ({
         settings: workflowCreateData?.settings ?? {
           color: '#aabbcc',
           titleTemplate: '',
+          isSendKomuMessage: false,
         },
         defineJson:
           workflowCreateData?.defineJson &&

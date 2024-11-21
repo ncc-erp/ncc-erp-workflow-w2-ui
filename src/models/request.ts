@@ -70,6 +70,7 @@ export interface IDefineJsonObject {
 export interface Settings {
   color: string;
   titleTemplate: string;
+  isSendKomuMessage: boolean;
 }
 
 export interface IJsonObject {
