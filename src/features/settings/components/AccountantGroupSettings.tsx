@@ -23,6 +23,8 @@ import {
 import { toast } from 'common/components/StandaloneToast';
 import QueryString from 'qs';
 import { SettingForm } from './SettingForm';
+import { useUserPermissions } from 'hooks/useUserPermissions';
+import { Permissions } from 'common/constants';
 
 const initialFilter: IFilterSettingParams = {
   settingCode: ESettingCode.ACCOUNTANT,
@@ -46,7 +48,7 @@ export const AccountantSettings = () => {
     [data]
   );
   const columnHelper = createColumnHelper<UserIdentity>();
-
+  const { hasPermission } = useUserPermissions();
   const handleSubmit = async ({ email }: ISettingValue) => {
     if (isCreating) return;
     const errors = await formik.validateForm();
@@ -114,19 +116,23 @@ export const AccountantSettings = () => {
         enableSorting: false,
         cell: (info) => info.getValue(),
       }),
-      columnHelper.display({
-        id: 'actions',
-        size: 50,
-        enableSorting: false,
-        header: () => <Center w="full">Actions</Center>,
-        cell: (info) => (
-          <Center>
-            <RowAction onDelete={onAction(info.row.original, 'Delete')} />
-          </Center>
-        ),
-      }),
+      ...(hasPermission(Permissions.DELETE_SETTINGS)
+        ? [
+            columnHelper.display({
+              id: 'actions',
+              size: 50,
+              enableSorting: false,
+              header: () => <Center w="full">Actions</Center>,
+              cell: (info) => (
+                <Center>
+                  <RowAction onDelete={onAction(info.row.original, 'Delete')} />
+                </Center>
+              ),
+            }),
+          ]
+        : []),
     ] as ColumnDef<ISettingValue>[];
-  }, [columnHelper, deleteMutate, refetch]);
+  }, [columnHelper, deleteMutate, refetch, hasPermission]);
 
   return (
     <>

@@ -1,28 +1,28 @@
 import Page from 'common/components/Page';
-import { UserManagementTable } from './components/UserManagementTable';
+import { RolesBoard } from './components/RolesBoard';
 import { useUserPermissions } from 'hooks/useUserPermissions';
 import { Permissions } from 'common/constants';
 import NotFound from 'common/components/NotFound';
 import { useMemo } from 'react';
 
-const UserManagement = () => {
+const Roles = () => {
   const { hasPermission } = useUserPermissions();
 
-  const canViewUsers = useMemo(
-    () => hasPermission(Permissions.VIEW_USERS),
+  const canViewRoles = useMemo(
+    () => hasPermission(Permissions.VIEW_ROLES),
     [hasPermission]
   );
 
-  return canViewUsers ? (
+  return canViewRoles ? (
     <Page>
       <Page.Header>
         <Page.HeaderLeft>
-          <Page.Heading>User management</Page.Heading>
+          <Page.Heading>Roles Board</Page.Heading>
         </Page.HeaderLeft>
         <Page.HeaderRight />
       </Page.Header>
       <Page.Body>
-        <UserManagementTable />
+        <RolesBoard />
       </Page.Body>
     </Page>
   ) : (
@@ -30,4 +30,4 @@ const UserManagement = () => {
   );
 };
 
-export default UserManagement;
+export default Roles;

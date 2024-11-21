@@ -10,6 +10,7 @@ import { UserAction } from 'common/constants';
 import UserForm from './UserForm';
 import { ModalUserParams, UserIdentity } from 'models/userIdentity';
 import { useRoleByUserId } from 'api/apiHooks/userIdentityHooks';
+import { Role } from 'models/roles';
 
 interface IUserModalProps {
   isOpen: boolean;
@@ -25,7 +26,7 @@ export const UserModal = ({
   user,
 }: IUserModalProps) => {
   const { data: rolesList } = useRoleByUserId(user.id);
-
+  const itemsArray = Object.values(rolesList || []);
   let initialValues: ModalUserParams;
   let UserComponent;
   if (rolesList) {
@@ -37,7 +38,7 @@ export const UserModal = ({
       phoneNumber: user?.phoneNumber,
       isActive: user?.isActive,
       lockoutEnabled: user?.lockoutEnabled,
-      roleNames: rolesList?.items.map((role) => role.name),
+      roleNames: itemsArray[0]?.map((role: Role) => role.name).join(', '),
     };
     UserComponent = {
       [UserAction.EDIT]: (
@@ -45,6 +46,7 @@ export const UserModal = ({
           initialValues={initialValues}
           userId={user.id}
           onClose={onClose}
+          isOpen={isOpen}
         />
       ),
       [UserAction.PERMISSIONS]: <></>,
@@ -53,7 +55,7 @@ export const UserModal = ({
   }
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={true}>
+    <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false}>
       <ModalOverlay />
       <ModalContent mx="8px">
         <ModalHeader fontSize="18px">{modalTitle} user</ModalHeader>

@@ -28,6 +28,7 @@ import {
   TbBrandMastercard,
   TbUserCog,
   TbSettingsBolt,
+  TbUserShield,
 } from 'react-icons/tb';
 import { BiLogOutCircle } from 'react-icons/bi';
 import { VscKebabVertical } from 'react-icons/vsc';
@@ -35,11 +36,12 @@ import { useRecoilValue } from 'recoil';
 import { userState } from 'stores/user';
 import { useSetAppConfig } from 'stores/appConfig';
 import { useNavigate } from 'react-router-dom';
-import { useIsAdmin } from 'hooks/useIsAdmin';
+import { useUserPermissions } from 'hooks/useUserPermissions';
 import Logo from 'assets/images/ncc_logo.png';
 import { ColorThemeMode, LinkDocRedirect } from 'common/constants';
 import { removeItem } from 'utils';
 import { LocalStorageKeys } from 'common/enums';
+import { Permissions } from 'common/constants';
 import {
   HiOutlineDocumentArrowUp,
   HiOutlineDocumentText,
@@ -56,22 +58,28 @@ export const SideBarContent = ({ isLargeScreen }: SideBarContentProps) => {
   const bg = useColorModeValue(ColorThemeMode.LIGHT, ColorThemeMode.DARK);
   const color = useColorModeValue(ColorThemeMode.DARK, ColorThemeMode.LIGHT);
 
-  const isAdmin = useIsAdmin();
+  const { renderIfAllowed, hasPermission } = useUserPermissions();
+
   const NavList = [
     {
       to: '/request-templates',
       text: 'Request templates',
       icon: TbAppsFilled,
+      permission: Permissions.WORKFLOW_DEFINITIONS,
     },
     {
       to: '/my-requests',
-      text: isAdmin ? 'Requests' : 'My requests',
+      text: hasPermission(Permissions.VIEW_ALL_WORKFLOW_INSTANCES)
+        ? 'Requests'
+        : 'My requests',
       icon: TbArticleFilledFilled,
+      permission: Permissions.WORKFLOW_INSTANCES,
     },
     {
       to: '/tasks',
-      text: 'Tasks',
+      text: hasPermission(Permissions.VIEW_ALL_TASKS) ? 'Tasks' : 'My tasks',
       icon: TbLayoutBoard,
+      permission: Permissions.TASKS,
     },
   ];
 
@@ -85,14 +93,23 @@ export const SideBarContent = ({ isLargeScreen }: SideBarContentProps) => {
           to: '/administration/user-management',
           text: 'User management',
           icon: TbBrandMastercard,
+          permission: Permissions.USERS,
         },
         {
           to: '/administration/settings',
           text: 'Settings',
           icon: TbSettingsBolt,
+          permission: Permissions.SETTINGS,
+        },
+        {
+          to: '/roles',
+          text: 'Roles',
+          icon: TbUserShield,
+          permission: Permissions.ROLES,
         },
       ],
     },
+
     // {
     //   to: '/report',
     //   text: 'Report',
@@ -143,68 +160,75 @@ export const SideBarContent = ({ isLargeScreen }: SideBarContentProps) => {
           },
         }}
       >
-        {NavList.map((nav) => (
-          <NavLink key={nav.to} {...nav} onClick={onCloseSideBar} />
-        ))}
-        {isAdmin && (
-          <>
-            {AdminNavList?.map((adminNav) => {
-              return (
-                <Accordion
-                  allowToggle
-                  borderColor={'transparent'}
-                  w={'100%'}
-                  key={adminNav.to}
-                >
-                  <AccordionItem>
-                    <AccordionButton
-                      borderRadius={'0.375rem'}
-                      p={0}
-                      _hover={{
-                        backgroundColor: 'gray.200',
-                        color: 'gray.700',
-                      }}
-                      _activeLink={{
-                        backgroundColor: 'gray.200',
-                        color: 'gray.700',
-                      }}
-                    >
-                      <Link
-                        px="8px"
-                        py="6px"
-                        w="full"
-                        fontWeight="600"
-                        display="flex"
-                        alignItems="center"
-                        gap="12px"
-                        fontSize="sm"
-                        rounded="md"
-                        textDecoration="none !important"
-                      >
-                        <Icon
-                          textColor="gray.500"
-                          fontSize="xl"
-                          as={adminNav.icon}
-                        />
-                        {adminNav.text}
-                      </Link>
-                      <AccordionIcon />
-                    </AccordionButton>
-                    <AccordionPanel p={0} pl={7}>
-                      {adminNav.subMenu.map((item) => {
-                        return (
-                          <Box mt={1} key={item.to}>
-                            <NavLink {...item} onClick={onCloseSideBar} />
-                          </Box>
-                        );
-                      })}
-                    </AccordionPanel>
-                  </AccordionItem>
-                </Accordion>
-              );
-            })}
-          </>
+        {NavList.map((nav) =>
+          renderIfAllowed(
+            nav.permission,
+            <NavLink key={nav.to} {...nav} onClick={onCloseSideBar} />
+          )
         )}
+        <>
+          {AdminNavList.map((adminNav) => {
+            const hasAdminPermission = [
+              Permissions.USERS,
+              Permissions.SETTINGS,
+              Permissions.ROLES,
+            ].some(hasPermission);
+            return hasAdminPermission ? (
+              <Accordion
+                allowToggle
+                borderColor={'transparent'}
+                w={'100%'}
+                key={adminNav.to}
+              >
+                <AccordionItem>
+                  <AccordionButton
+                    borderRadius={'0.375rem'}
+                    p={0}
+                    _hover={{
+                      backgroundColor: 'gray.200',
+                      color: 'gray.700',
+                    }}
+                    _activeLink={{
+                      backgroundColor: 'gray.200',
+                      color: 'gray.700',
+                    }}
+                  >
+                    <Link
+                      px="8px"
+                      py="6px"
+                      w="full"
+                      fontWeight="600"
+                      display="flex"
+                      alignItems="center"
+                      gap="12px"
+                      fontSize="sm"
+                      rounded="md"
+                      textDecoration="none !important"
+                    >
+                      <Icon
+                        textColor="gray.500"
+                        fontSize="xl"
+                        as={adminNav.icon}
+                      />
+                      {adminNav.text}
+                    </Link>
+                    <AccordionIcon />
+                  </AccordionButton>
+                  <AccordionPanel p={0} pl={7}>
+                    {adminNav.subMenu.map((item) => {
+                      return renderIfAllowed(
+                        item.permission,
+                        <Box mt={1} key={item.to}>
+                          <NavLink {...item} onClick={onCloseSideBar} />
+                        </Box>
+                      );
+                    })}
+                  </AccordionPanel>
+                </AccordionItem>
+              </Accordion>
+            ) : null;
+          })}
+        </>
       </VStack>
       <HStack borderTopColor="gray.200" px="12px" py="16px" spacing="12px">
         <Text fontSize="sm" fontWeight={600} noOfLines={1}>

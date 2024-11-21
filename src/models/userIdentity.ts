@@ -33,13 +33,14 @@ export interface ModalUserParams {
   lockoutEnabled: boolean;
   roleNames: string[];
   password?: string;
+  customPermissionCodes?: string[];
 }
 export interface FilterUserParams {
   filter: string;
   maxResultCount: number;
   skipCount: number;
   sorting: string;
-  roles: string;
+  role: string;
 }
 
 export interface ListResult<T> {

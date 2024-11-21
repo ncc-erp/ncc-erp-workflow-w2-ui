@@ -10,7 +10,8 @@ import {
 import { RiSettings4Fill } from 'react-icons/ri';
 import { MdCancel } from 'react-icons/md';
 import { FaEye, FaRegMap } from 'react-icons/fa';
-import { ColorThemeMode } from 'common/constants';
+import { ColorThemeMode, Permissions } from 'common/constants';
+import { useUserPermissions } from 'hooks/useUserPermissions';
 
 interface RowActionProps {
   onViewDetails: () => void;
@@ -31,6 +32,7 @@ export const RowAction = ({
 }: RowActionProps) => {
   const bg = useColorModeValue(ColorThemeMode.LIGHT, ColorThemeMode.DARK);
   const color = useColorModeValue(ColorThemeMode.DARK, ColorThemeMode.LIGHT);
+  const { renderIfAllowed } = useUserPermissions();
 
   return (
     <Menu>
@@ -62,12 +64,19 @@ export const RowAction = ({
             Workflow
           </MenuItem>
         )}
-        {actions.cancel && (
-          <MenuItem color={color} display="flex" gap="12px" onClick={onCancel}>
-            <Icon color="gray.500" as={MdCancel} />
-            Cancel
-          </MenuItem>
-        )}
+        {actions.cancel &&
+          renderIfAllowed(
+            Permissions.CANCEL_WORKFLOW_INSTANCE,
+            <MenuItem
+              color={color}
+              display="flex"
+              gap="12px"
+              onClick={onCancel}
+            >
+              <Icon color="gray.500" as={MdCancel} />
+              Cancel
+            </MenuItem>
+          )}
       </MenuList>
     </Menu>
   );

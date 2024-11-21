@@ -15,7 +15,7 @@ export const CurrentUser = () => {
       top="30px"
       right={isLargeScreen ? '270px' : '54px'}
     >
-      {currentUser?.given_name[0] || currentUser?.email}
+      {currentUser?.given_name || currentUser?.email}
     </Heading>
   );
 };

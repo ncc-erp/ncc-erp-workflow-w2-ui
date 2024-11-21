@@ -66,7 +66,7 @@ export const DetailModal = ({
   }, [posts]);
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={true}>
+    <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false}>
       <ModalOverlay />
       <ModalContent p="10px" maxW="800px" pb={5}>
         <ModalHeader fontSize="18px">

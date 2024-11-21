@@ -32,6 +32,7 @@ import {
   ColorThemeMode,
   ExternalAction,
   OtherActionSignalStatus,
+  Permissions,
   TaskStatus,
 } from 'common/constants';
 import { ETaskStatus } from 'common/enums';
@@ -55,6 +56,7 @@ import { useClearCacheTask } from './useClearCacheTask';
 import { useNavigate } from 'react-router';
 import { useMediaQuery } from 'hooks/useMediaQuery';
 import TextToolTip from '../textTooltip';
+import { useUserPermissions } from 'hooks/useUserPermissions';
 
 const fadeIn = keyframes`
   from { opacity: 0; }
@@ -73,6 +75,7 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
   const [requestUser, setRequestUser] = useState<string>('');
   const [name, setName] = useState<string>('');
   const actionTaskMutation = useActionTask();
+  const { hasPermission } = useUserPermissions();
 
   const {
     data: listPending,
@@ -518,7 +521,11 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
                               key={item.id}
                               draggableId={item.id}
                               index={index}
-                              isDragDisabled={isDisabled}
+                              isDragDisabled={
+                                hasPermission(Permissions.UPDATE_TASK_STATUS)
+                                  ? isDisabled
+                                  : true
+                              }
                             >
                               {(provided) => (
                                 <Box

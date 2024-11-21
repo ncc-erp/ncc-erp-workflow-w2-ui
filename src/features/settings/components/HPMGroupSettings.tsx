@@ -25,6 +25,8 @@ import QueryString from 'qs';
 import { toast } from 'common/components/StandaloneToast';
 import { SettingForm } from './SettingForm';
 import { HttpStatusCode } from 'axios';
+import { Permissions } from 'common/constants';
+import { useUserPermissions } from 'hooks/useUserPermissions';
 
 const initialFilter: IFilterSettingParams = {
   settingCode: ESettingCode.HPM,
@@ -37,7 +39,7 @@ const initialValues = {
 export const HPMSettings = () => {
   const { sideBarWidth } = useRecoilValue(appConfigState);
   const { data, isLoading, refetch } = useGetSettingList(initialFilter);
-
+  const { hasPermission } = useUserPermissions();
   const { mutateAsync: createMutate, isLoading: isCreating } =
     useCreateSetting();
   const { mutateAsync: deleteMutate } = useDeleteSetting();
@@ -117,19 +119,23 @@ export const HPMSettings = () => {
         enableSorting: false,
         cell: (info) => info.getValue(),
       }),
-      columnHelper.display({
-        id: 'actions',
-        size: 50,
-        enableSorting: false,
-        header: () => <Center w="full">Actions</Center>,
-        cell: (info) => (
-          <Center>
-            <RowAction onDelete={onAction(info.row.original, 'Delete')} />
-          </Center>
-        ),
-      }),
+      ...(hasPermission(Permissions.DELETE_SETTINGS)
+        ? [
+            columnHelper.display({
+              id: 'actions',
+              size: 50,
+              enableSorting: false,
+              header: () => <Center w="full">Actions</Center>,
+              cell: (info) => (
+                <Center>
+                  <RowAction onDelete={onAction(info.row.original, 'Delete')} />
+                </Center>
+              ),
+            }),
+          ]
+        : []),
     ] as ColumnDef<ISettingValue>[];
-  }, [columnHelper, deleteMutate, refetch]);
+  }, [columnHelper, deleteMutate, refetch, hasPermission]);
 
   return (
     <>

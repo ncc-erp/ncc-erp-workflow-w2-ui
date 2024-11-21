@@ -26,7 +26,7 @@ export const RequestTemplateModal = ({
   inputDefinition,
 }: RequestTemplateModalProps) => {
   return (
-    <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={true}>
+    <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false}>
       <ModalOverlay />
       <ModalContent className={styles.customModal}>
         <ModalHeader fontSize="md">{displayName}</ModalHeader>

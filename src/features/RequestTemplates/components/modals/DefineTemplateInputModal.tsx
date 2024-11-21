@@ -73,7 +73,7 @@ export const DefineTemplateInputModal = ({
   }, []);
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={true}>
+    <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false}>
       <ModalOverlay />
       <ModalContent className={styles.customModal} style={{ maxHeight: '80%' }}>
         <Grid

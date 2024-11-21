@@ -30,6 +30,7 @@ export const ModalConfirm = ({
       onClose={onClose}
       isOpen={isOpen}
       motionPreset="slideInBottom"
+      closeOnOverlayClick={false}
     >
       <ModalOverlay />
       <ModalContent>

@@ -9,6 +9,7 @@ export interface User {
   hasPassword: boolean;
   concurrencyStamp: string;
   extraProperties: Record<string, unknown>;
+  permissions: string[];
 }
 
 export interface LoginParams {
