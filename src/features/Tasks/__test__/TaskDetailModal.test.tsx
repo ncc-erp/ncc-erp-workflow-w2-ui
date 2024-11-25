@@ -10,9 +10,9 @@ jest.mock('../../../api/axiosInstant', () => ({
   VITE_API_BASE_URL: '/api',
 }));
 
-//jest.mock('common/components/WorkflowModal', () => ({
+// jest.mock('common/components/WorkflowModal', () => ({
 //  VITE_PROXY_SERVER_URL: 'http://localhost:4433'
-//}));
+// }));
 
 jest.mock('hooks/useIsAdmin', () => ({
   useIsAdmin: jest.fn().mockReturnValue(true),
@@ -125,6 +125,8 @@ jest.mock('api/apiHooks/taskHooks', () => ({
           },
           startDate: '04/10/2023',
           endDate: '01/02/2024',
+          image:
+            'https://cdn-api.mezon.vn/dev-nccerp/w2/upload/sake20.jpg,https://cdn-api.mezon.vn/dev-nccerp/w2/upload/sake14.jpg',
         },
         RequestUser: {
           email: 'long.vodinhhoang@ncc.asia',
@@ -140,6 +142,10 @@ jest.mock('api/apiHooks/taskHooks', () => ({
       },
     },
   }),
+}));
+
+jest.mock('api/apiHooks/index', () => ({
+  useDownloadFile: jest.fn(() => jest.fn()),
 }));
 
 test('Task Detail Modal', () => {
