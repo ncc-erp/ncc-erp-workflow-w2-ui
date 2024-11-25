@@ -153,16 +153,22 @@ const UserForm = ({
     }
   };
 
-  const renderCheckbox = (role: string, index: number) => (
-    <Checkbox
-      key={index}
-      colorScheme="gray"
-      isChecked={formik?.values?.roleNames?.includes(role)}
-      onChange={(e) => handleChangeRolesCheckbox(role, e.target.checked)}
-    >
-      {convertToCase(role)}
-    </Checkbox>
-  );
+  const renderCheckbox = (role: string, index: number) => {
+    const roleNamesArray = Array.isArray(formik.values.roleNames)
+      ? formik.values.roleNames
+      : formik.values.roleNames.split(',').map((role) => role.trim());
+
+    return (
+      <Checkbox
+        key={index}
+        colorScheme="gray"
+        isChecked={roleNamesArray?.some((r) => r === role)}
+        onChange={(e) => handleChangeRolesCheckbox(role, e.target.checked)}
+      >
+        {convertToCase(role)}
+      </Checkbox>
+    );
+  };
 
   const handlePermissionChange = (updatedSelection: string[]) => {
     setUpdatedPermissions(updatedSelection);
