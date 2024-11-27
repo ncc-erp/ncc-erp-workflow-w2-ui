@@ -12,28 +12,21 @@ export const ReleaseItem = ({ data }: { data: IReleaseContent }) => {
 
   useEffect(() => {
     if (contentRef.current) {
-      // Check line height of the box
-      const contentHeight = contentRef.current.scrollHeight;
+      // Check line height of the box minus 32px (padding pixel)
+      const contentHeight =
+        parseFloat(getComputedStyle(contentRef.current).height || '0') - 32;
+
       const maxHeight =
         parseFloat(getComputedStyle(contentRef.current).lineHeight || '0') *
         MaxReleaseContentLine;
+
       setIsOverflowing(contentHeight > maxHeight);
     }
   }, [data]);
 
   return (
     <Box p={6} borderRadius="md" border="1px" borderColor="gray.400">
-      <Box
-        ref={contentRef}
-        overflow="hidden"
-        textOverflow="ellipsis"
-        whiteSpace="pre-wrap"
-        style={{
-          display: '-webkit-box',
-          WebkitBoxOrient: 'vertical',
-          WebkitLineClamp: isExpanded ? undefined : MaxReleaseContentLine, // Adjust the line clamp
-        }}
-      >
+      <Box>
         <Flex alignItems="center" justifyContent="space-between">
           <Heading size="lg" fontWeight="semibold">
             {data.tag_name}
@@ -41,92 +34,111 @@ export const ReleaseItem = ({ data }: { data: IReleaseContent }) => {
           <Text>{moment(data.created_at).format('DD-MM-YYYY')}</Text>
         </Flex>
 
-        {data?.body ? (
-          <Markdown
-            options={{
-              overrides: {
-                a: {
-                  component: (props) => (
-                    <a
-                      href={props.href}
-                      target="_blank"
-                      rel="noreferrer noopener"
-                      style={{ color: '#0969DA', textDecoration: 'underline' }}
-                    >
-                      #{props.href?.match(/pull\/(\d+)/)?.[1] || props.href}
-                    </a>
-                  ),
-                },
-                p: {
-                  component: (props) => (
-                    <Box mt="1rem">
-                      <Text size="md">{props.children}</Text>
-                    </Box>
-                  ),
-                },
-                h2: {
-                  component: (props) => (
-                    <Box mt="1rem" mb="1rem">
-                      <Heading pb="1rem" size="md">
-                        {props.children}
-                      </Heading>
-                      <Box borderTop="1px" borderColor="gray.200" />
-                    </Box>
-                  ),
-                },
+        <Box
+          overflow="hidden"
+          textOverflow="ellipsis"
+          whiteSpace="pre-wrap"
+          style={{
+            display: '-webkit-box',
+            WebkitBoxOrient: 'vertical',
+            WebkitLineClamp: isExpanded ? undefined : MaxReleaseContentLine, // Adjust the line clamp
+          }}
+          ref={contentRef}
+        >
+          {data?.body ? (
+            <Markdown
+              options={{
+                overrides: {
+                  a: {
+                    component: (props) => (
+                      <a
+                        href={props.href}
+                        target="_blank"
+                        rel="noreferrer noopener"
+                        style={{
+                          color: '#0969DA',
+                          textDecoration: 'underline',
+                        }}
+                      >
+                        #{props.href?.match(/pull\/(\d+)/)?.[1] || props.href}
+                      </a>
+                    ),
+                  },
+                  p: {
+                    component: (props) => (
+                      <Box mt="1rem">
+                        <Text size="md">{props.children}</Text>
+                      </Box>
+                    ),
+                  },
+                  h2: {
+                    component: (props) => (
+                      <Box mt="1rem" mb="1rem">
+                        <Heading pb="1rem" size="md">
+                          {props.children}
+                        </Heading>
+                        <Box borderTop="1px" borderColor="gray.200" />
+                      </Box>
+                    ),
+                  },
 
-                li: {
-                  component: ({ children }: { children: React.ReactNode }) => {
-                    // Handles children to make text starting with "@" bold
-                    const processedChildren = Children.map(
+                  li: {
+                    component: ({
                       children,
-                      (child) => {
-                        if (typeof child === 'string') {
-                          // Split words and wrap words starting with "@"
-                          const regex = /(@[\w-]+)/g;
-                          const parts = child
-                            .split(regex)
-                            .map((part, index) => {
-                              if (part.startsWith('@')) {
-                                const username = part.slice(1); // Remove @ sign
-                                return (
-                                  <a
-                                    key={index}
-                                    href={`https://github.com/${username}`}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    style={{
-                                      fontWeight: '600',
-                                      textDecoration: 'underline',
-                                      color: 'none',
-                                    }}
-                                  >
-                                    {part}
-                                  </a>
-                                );
-                              }
+                    }: {
+                      children: React.ReactNode;
+                    }) => {
+                      // Handles children to make text starting with "@" bold
+                      const processedChildren = Children.map(
+                        children,
+                        (child) => {
+                          if (typeof child === 'string') {
+                            // Split words and wrap words starting with "@"
+                            const regex = /(@[\w-]+)/g;
+                            const parts = child
+                              .split(regex)
+                              .map((part, index) => {
+                                if (part.startsWith('@')) {
+                                  const username = part.slice(1); // Remove @ sign
+                                  return (
+                                    <a
+                                      key={index}
+                                      href={`https://github.com/${username}`}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      style={{
+                                        fontWeight: '600',
+                                        textDecoration: 'underline',
+                                        color: 'none',
+                                      }}
+                                    >
+                                      {part}
+                                    </a>
+                                  );
+                                }
 
-                              return part;
-                            });
+                                return part;
+                              });
 
-                          return <>{parts}</>;
+                            return <>{parts}</>;
+                          }
+
+                          // Keep non-string nodes
+                          return child;
                         }
+                      );
 
-                        // Keep non-string nodes
-                        return child;
-                      }
-                    );
-
-                    return <li>{processedChildren}</li>;
+                      return <li>{processedChildren}</li>;
+                    },
                   },
                 },
-              },
-            }}
-            children={data.body}
-          />
-        ) : (
-          <></>
-        )}
+              }}
+              children={data.body}
+            />
+          ) : (
+            <></>
+          )}
+        </Box>
       </Box>
 
       {isOverflowing && (
