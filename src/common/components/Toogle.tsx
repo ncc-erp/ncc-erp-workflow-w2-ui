@@ -30,15 +30,13 @@ export const Toggle = () => {
         title="Log out"
         hidden={isLargeScreen ? false : true}
       >
-       <HiOutlinePower size="20px" />
+        <HiOutlinePower size="20px" />
       </Button>
       <Button
         mr={2}
         padding={0}
         borderRadius={20}
-        onClick={() => {
-          window.open(LinkDocRedirect.RELEASE_DOCS, '_blank');
-        }}
+        onClick={onNavigate('/release-content')}
         title="Release note"
         bg="transparent"
         hidden={isLargeScreen ? false : true}

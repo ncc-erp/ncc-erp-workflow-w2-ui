@@ -15,6 +15,7 @@ import UserManagement from 'features/userManagement';
 import Tasks from 'features/Tasks';
 import SettingsComponent from 'features/settings';
 import Roles from 'features/Roles';
+import ReleaseContent from 'features/releaseContent';
 
 const NotFound = lazy(() => import('common/components/NotFound'));
 const routeList: RouteObject[] = [
@@ -43,6 +44,14 @@ const routeList: RouteObject[] = [
         element: (
           <WrapperRouteComponent>
             <MyRequests />
+          </WrapperRouteComponent>
+        ),
+      },
+      {
+        path: 'release-content',
+        element: (
+          <WrapperRouteComponent>
+            <ReleaseContent />
           </WrapperRouteComponent>
         ),
       },

@@ -33,6 +33,15 @@ export default defineConfig(({ mode }) => {
               target: process.env.VITE_PROXY_SERVER_URL,
               changeOrigin: true,
             },
+            '/git': {
+              target: 'https://api.github.com',
+              changeOrigin: true,
+              rewrite: (path) =>
+                path.replace(
+                  /^\/git/,
+                  '/repos/ncc-erp/ncc-erp-workflow-w2-ui/releases'
+                ),
+            },
           }
         : {},
     },
