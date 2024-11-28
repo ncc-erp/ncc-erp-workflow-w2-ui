@@ -49,15 +49,6 @@ export const useGetOne = <T>(
   return useQuery(key, () => getData());
 };
 
-export const useFetchGithubReleasePage = <T>(key: QueryKey) => {
-  const getData = async () => {
-    const response = await fetch(`/git`, {});
-    return response.json();
-  };
-
-  return useQuery<T>(key, () => getData());
-};
-
 export const useGetList = <T, D = object | string>(
   key: QueryKey,
   url: string,
