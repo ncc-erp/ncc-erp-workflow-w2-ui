@@ -60,7 +60,10 @@ export const ReleaseItem = ({ data }: { data: IReleaseContent }) => {
                           textDecoration: 'underline',
                         }}
                       >
-                        #{props.href?.match(/pull\/(\d+)/)?.[1] || props.href}
+                        #
+                        {props.href?.match(/pull\/(\d+)/)?.[1] ||
+                          props.href?.match(/compare\/(.+)/)?.[1] ||
+                          props.href}
                       </a>
                     ),
                   },
@@ -77,7 +80,7 @@ export const ReleaseItem = ({ data }: { data: IReleaseContent }) => {
                         <Heading pb="1rem" size="md">
                           {props.children}
                         </Heading>
-                        <Box borderTop="1px" borderColor="gray.200" />
+                        <Box borderTop="2px" borderColor="gray.200" />
                       </Box>
                     ),
                   },
@@ -128,7 +131,16 @@ export const ReleaseItem = ({ data }: { data: IReleaseContent }) => {
                         }
                       );
 
-                      return <li>{processedChildren}</li>;
+                      return (
+                        <li
+                          style={{
+                            paddingLeft: '4px',
+                            listStylePosition: 'inside',
+                          }}
+                        >
+                          {processedChildren}
+                        </li>
+                      );
                     },
                   },
                 },
