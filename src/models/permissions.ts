@@ -5,8 +5,3 @@ export interface Permissions {
   creationTime: string;
   children?: Permissions[];
 }
-export interface CreatePermissionInput {
-  name: string;
-  code: string;
-  parentId?: string;
-}

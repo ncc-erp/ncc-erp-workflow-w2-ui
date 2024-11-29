@@ -198,10 +198,4 @@ export const Permissions = {
   UPDATE_ROLE: 'Roles.Update',
   DELETE_ROLE: 'Roles.Delete',
   DELETE_USER_ON_ROLE: 'Roles.DeleteUserOnRole',
-
-  PERMISSIONS: 'Permissions',
-  VIEW_PERMISSIONS: 'Permissions.View',
-  CREATE_PERMISSION: 'Permissions.Create',
-  UPDATE_PERMISSION: 'Permissions.Update',
-  DELETE_PERMISSION: 'Permissions.Delete',
 };
