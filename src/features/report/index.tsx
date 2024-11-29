@@ -1,14 +1,19 @@
 import Page from 'common/components/Page';
-import { Navigate } from 'react-router-dom';
-import { useIsAdmin } from 'hooks/useIsAdmin';
 import { TablePostAndWFH } from './components/PostAndWFHTable';
+import { useUserPermissions } from 'hooks/useUserPermissions';
+import { useMemo } from 'react';
+import { Permissions } from 'common/constants';
+import NotFound from 'common/components/NotFound';
 
 const PostAndWFH = () => {
-  const isAdmin = useIsAdmin();
+  const { hasPermission } = useUserPermissions();
 
-  return !isAdmin ? (
-    <Navigate to="/" />
-  ) : (
+  const isHasPermission = useMemo(
+    () => hasPermission(Permissions.VIEW_WFH_REPORTS),
+    [hasPermission]
+  );
+
+  return isHasPermission ? (
     <Page>
       <Page.Header>
         <Page.HeaderLeft>
@@ -20,6 +25,8 @@ const PostAndWFH = () => {
         <TablePostAndWFH />
       </Page.Body>
     </Page>
+  ) : (
+    <NotFound />
   );
 };
 

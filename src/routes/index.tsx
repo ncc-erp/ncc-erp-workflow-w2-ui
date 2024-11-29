@@ -15,6 +15,7 @@ import UserManagement from 'features/userManagement';
 import Tasks from 'features/Tasks';
 import SettingsComponent from 'features/settings';
 import Roles from 'features/Roles';
+import PostAndWFH from 'features/report';
 
 const NotFound = lazy(() => import('common/components/NotFound'));
 const routeList: RouteObject[] = [
@@ -96,14 +97,25 @@ const routeList: RouteObject[] = [
           </WrapperRouteComponent>
         ),
       },
-      // {
-      //   path: 'report-wfh',
-      //   element: (
-      //     <WrapperRouteComponent>
-      //       <PostAndWFH />
-      //     </WrapperRouteComponent>
-      //   ),
-      // },
+
+      {
+        path: 'report',
+        element: (
+          <WrapperRouteComponent>
+            <Outlet />
+          </WrapperRouteComponent>
+        ),
+        children: [
+          {
+            path: 'report-wfh',
+            element: (
+              <WrapperRouteComponent>
+                <PostAndWFH />
+              </WrapperRouteComponent>
+            ),
+          },
+        ],
+      },
       {
         path: '*',
         element: (

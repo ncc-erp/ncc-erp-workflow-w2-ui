@@ -1,15 +1,12 @@
 import {
   Box,
   Button,
-  Center,
   HStack,
   IconButton,
   Input,
   InputGroup,
   InputRightElement,
   Spacer,
-  Spinner,
-  Text,
   Wrap,
   WrapItem,
 } from '@chakra-ui/react';
@@ -18,10 +15,15 @@ import { Pagination } from 'common/components/Pagination';
 import { PageSize } from 'common/components/Table/PageSize';
 import { ShowingItemText } from 'common/components/Table/ShowingItemText';
 import { Table } from 'common/components/Table/Table';
-import { noOfRows } from 'common/constants';
-import { SortDirection, WfhSortField } from 'common/enums';
+import {
+  FilterAll,
+  TaskStatus,
+  WFHFilterDate,
+  noOfRows,
+} from 'common/constants';
+import { ETaskStatus, SortDirection, WfhSortField } from 'common/enums';
 import { FilterWfhParams, IPostAndWFH } from 'models/report';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { appConfigState } from 'stores/appConfig';
 
@@ -38,23 +40,24 @@ import { FaDownload } from 'react-icons/fa';
 import { TbSearch } from 'react-icons/tb';
 import { formatDate } from 'utils';
 import { handleExportExcelFile } from 'utils/handleExportExcelFile';
-import { DetailModal } from './DetailModal';
-import { RowAction } from './RowAction';
 import styles from './styles.module.scss';
 import { AiOutlineReload } from 'react-icons/ai';
+import { SelectField } from 'common/components/SelectField';
+import { TFilterTask } from 'common/types';
 
 const initialFilter: FilterWfhParams = {
   maxResultCount: +noOfRows[2].value,
   skipCount: 0,
-  sorting: [WfhSortField.totalMissingPosts, 'desc'].join(' '),
+  sorting: [WfhSortField.creationTime, 'desc'].join(' '),
   keySearch: '',
+  status: -1,
   startDate: null,
   endDate: null,
 };
 
 const initialSorting: SortingState = [
   {
-    id: WfhSortField.totalMissingPosts,
+    id: WfhSortField.creationTime,
     desc: true,
   },
 ];
@@ -71,8 +74,82 @@ export const TablePostAndWFH = () => {
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
   const endDatePicker = useRef<ReactDatePicker | null>(null);
-  const [isOpenModal, setOpenModal] = useState(false);
-  const [reportDetail, setReportDetail] = useState<IPostAndWFH>();
+
+  const wfhColumns = useMemo(
+    () =>
+      [
+        columnHelper.accessor('email', {
+          id: 'email',
+          enableSorting: true,
+          sortDescFirst: true,
+          minSize: 300,
+          header: () => <Box>Email address</Box>,
+          cell: (info) => <Box>{info.getValue()}</Box>,
+        }),
+        columnHelper.accessor('reason', {
+          id: 'reason',
+          enableSorting: false,
+          sortDescFirst: true,
+          header: () => <Box>Reason</Box>,
+          cell: (info) => <Box>{info.getValue() ?? '-'}</Box>,
+        }),
+        columnHelper.accessor('status', {
+          id: 'status',
+          header: 'Status',
+          size: 50,
+          enableSorting: false,
+          cell: (info) => {
+            const status =
+              info.getValue() === ETaskStatus.Approved
+                ? 'Approved'
+                : info.getValue() === ETaskStatus.Rejected
+                ? 'Rejected'
+                : 'Pending';
+            return (
+              <Box>
+                <div className={`${styles.badge} ${styles[status]}`}>
+                  {status}
+                </div>
+              </Box>
+            );
+          },
+        }),
+        columnHelper.accessor('remoteDate', {
+          id: 'remoteDate',
+          header: 'Remote Date',
+          size: 80,
+          cell: (info) => {
+            const remoteDate = info.getValue().toString() ?? '';
+            return (
+              <Box>
+                {remoteDate
+                  ? `${remoteDate?.substring(0, 4)}-${remoteDate?.substring(
+                      4,
+                      6
+                    )}-${remoteDate?.substring(6)}`
+                  : '-'}
+              </Box>
+            );
+          },
+          sortDescFirst: false,
+        }),
+        columnHelper.accessor('creationTime', {
+          id: 'creationTime',
+          header: 'Created At',
+          size: 150,
+          cell: (info) => (
+            <Box>{info.getValue() ? formatDate(info.getValue()!) : '-'}</Box>
+          ),
+          sortDescFirst: false,
+        }),
+      ] as ColumnDef<IPostAndWFH>[],
+    [columnHelper]
+  );
+
+  const currentPage = useMemo(() => {
+    const { skipCount, maxResultCount } = filter;
+    return (maxResultCount + skipCount) / maxResultCount;
+  }, [filter]);
 
   const handleStartDateChange = (date: Date) => {
     setStartDate(date);
@@ -94,93 +171,6 @@ export const TablePostAndWFH = () => {
     }
   };
 
-  useEffect(() => {
-    if (startDate && endDate && startDate !== endDate) {
-      setFilter((filter) => ({
-        ...filter,
-        startDate: formatDate(startDate, 'MM/dd/yyyy'),
-        endDate: formatDate(endDate, 'MM/dd/yyyy'),
-      }));
-    } else {
-      setFilter((filter) => ({
-        ...filter,
-        startDate: null,
-        endDate: null,
-      }));
-    }
-  }, [startDate, endDate]);
-
-  const onAction = (report: IPostAndWFH) => () => {
-    setReportDetail(report);
-    setOpenModal(true);
-  };
-
-  const onCloseModal = () => {
-    setOpenModal(false);
-  };
-
-  const wfhColumns = useMemo(
-    () =>
-      [
-        columnHelper.accessor('email', {
-          id: 'email',
-          enableSorting: true,
-          sortDescFirst: true,
-          header: () => <Box>Email address</Box>,
-          cell: (info) => <Box>{info.getValue()}</Box>,
-        }),
-        columnHelper.accessor('totalDays', {
-          id: 'totalDays',
-          enableSorting: true,
-          header: 'Number of requests for WFH',
-          cell: (info) => info.getValue(),
-        }),
-        columnHelper.accessor('totalMissingPosts', {
-          id: 'totalMissingPosts',
-          header: 'Number of missing posts',
-          cell: (info) => {
-            const count = info.getValue();
-            return (
-              <Text
-                color={count && count > 0 ? 'red' : ''}
-                size="sm"
-                fontWeight={count && count > 0 ? 'medium' : 'normal'}
-              >
-                {count}
-              </Text>
-            );
-          },
-        }),
-        columnHelper.display({
-          id: 'actions',
-          enableSorting: false,
-          header: () => <Center w="full">Actions</Center>,
-          cell: (info) => (
-            <Center onClick={(e) => e.stopPropagation()}>
-              <RowAction onViewDetails={onAction(info.row.original)} />
-            </Center>
-          ),
-        }),
-      ] as ColumnDef<IPostAndWFH>[],
-    [columnHelper]
-  );
-
-  const currentPage = useMemo(() => {
-    const { skipCount, maxResultCount } = filter;
-    return (maxResultCount + skipCount) / maxResultCount;
-  }, [filter]);
-
-  useEffect(() => {
-    const { id, desc } = sorting?.[0] ?? {};
-    const sort = `${id} ${desc ? SortDirection.desc : SortDirection.asc}`;
-
-    setFilter((filter) => ({
-      ...filter,
-      sorting: sort,
-      skipCount: 0,
-    }));
-  }, [sorting]);
-
   const onPageChange = (page: number) => {
     setFilter((filter) => ({
       ...filter,
@@ -196,6 +186,82 @@ export const TablePostAndWFH = () => {
     }));
   };
 
+  const statusOptions = useMemo(() => {
+    const defaultOptions = {
+      value: -1,
+      label: FilterAll.STATUS,
+    };
+
+    const options = Object.entries(TaskStatus).map(([key, value]) => ({
+      value,
+      label: key,
+    }));
+
+    return [defaultOptions, ...options];
+  }, []);
+
+  const onTemplateStatusChange = useCallback(
+    (key: TFilterTask, value?: string) => {
+      switch (key) {
+        case 'status':
+          setFilter((filter) => ({
+            ...filter,
+            status: value ? +value : -1,
+            skipCount: 0,
+          }));
+          break;
+
+        case 'dates':
+          {
+            const today = new Date();
+            let start: Date | null = null;
+            let end: Date | null = null;
+
+            switch (value) {
+              case WFHFilterDate.CM:
+                start = new Date(today.getFullYear(), today.getMonth(), 1);
+                end = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+                break;
+              case WFHFilterDate.M2:
+                start = new Date(today.getFullYear(), today.getMonth(), 1);
+                end = new Date(today.getFullYear(), today.getMonth() + 2, 0);
+                break;
+              case WFHFilterDate.M3:
+                start = new Date(today.getFullYear(), today.getMonth(), 1);
+                end = new Date(today.getFullYear(), today.getMonth() + 3, 0);
+                break;
+            }
+
+            setStartDate(start);
+            setEndDate(end);
+            setFilter((filter) => ({
+              ...filter,
+              startDate: start ? formatDate(start, 'yyyy-MM-dd') : null,
+              endDate: end ? formatDate(end, 'yyyy-MM-dd') : null,
+              dates: value,
+              skipCount: 0,
+            }));
+          }
+          break;
+      }
+    },
+    []
+  );
+
+  const dateOptions = useMemo(() => {
+    const defaultOptions = {
+      value: '',
+      label: FilterAll.DATE,
+    };
+
+    const options = Object.values(WFHFilterDate).map((value) => ({
+      value: value,
+      label: value,
+    }));
+
+    return [defaultOptions, ...options];
+  }, []);
+
   useEffect(() => {
     setFilter((filter) => ({
       ...filter,
@@ -203,29 +269,48 @@ export const TablePostAndWFH = () => {
     }));
   }, [txtSearchDebounced]);
 
-  const exportData = wfhList
-    .filter((item) => item.totalMissingPosts !== 0)
-    .map((item) => ({
-      email: item.email,
-      totalDays: item.totalDays,
-      totalMissingPosts: item.totalMissingPosts,
+  useEffect(() => {
+    const { id, desc } = sorting?.[0] ?? {};
+    const sort = `${id} ${desc ? SortDirection.desc : SortDirection.asc}`;
+
+    setFilter((filter) => ({
+      ...filter,
+      sorting: sort,
+      skipCount: 0,
     }));
+  }, [sorting]);
+
+  useEffect(() => {
+    if (startDate && endDate && startDate !== endDate) {
+      setFilter((filter) => ({
+        ...filter,
+        startDate: formatDate(startDate, 'yyyy-MM-dd'),
+        endDate: formatDate(endDate, 'yyyy-MM-dd'),
+      }));
+    } else {
+      setFilter((filter) => ({
+        ...filter,
+        startDate: null,
+        endDate: null,
+        dates: FilterAll.DATE,
+      }));
+    }
+  }, [startDate, endDate]);
+
+  const exportData = wfhList.map((item) => ({
+    id: item.id,
+    email: item.email,
+    reason: item.reason,
+    status: item.status,
+    remoteDate: item.remoteDate,
+    creationTime: item.creationTime,
+  }));
 
   return (
     <>
       <Box width={'100%'}>
-        <HStack
-          w="100%"
-          display="flex"
-          flexDirection={['column', 'column', 'column', 'row', 'row']}
-          justifyContent={['flex-start', 'space-between']}
-          alignItems={['flex-start']}
-          pl={{ base: '24px' }}
-        >
-          <InputGroup
-            alignItems={'center'}
-            w={['90%', '80%', '70%', '40%', '30%', '30%']}
-          >
+        <HStack w="100%" display="flex" px={'24px'} gap={'1rem'}>
+          <InputGroup alignItems={'center'} maxW={'200px'}>
             <Input
               type="text"
               placeholder="Enter email"
@@ -236,7 +321,27 @@ export const TablePostAndWFH = () => {
               <TbSearch />
             </InputRightElement>
           </InputGroup>
-          <Box w={['80%', '80%', '70%', '50%', '40%', '30%']}>
+          <Box>
+            <SelectField
+              value={filter?.status as number}
+              size="sm"
+              rounded="md"
+              cursor="pointer"
+              onChange={(e) => onTemplateStatusChange('status', e.target.value)}
+              options={statusOptions}
+            />
+          </Box>
+          <Box>
+            <SelectField
+              value={filter.dates}
+              size="sm"
+              rounded="md"
+              cursor="pointer"
+              onChange={(e) => onTemplateStatusChange('dates', e.target.value)}
+              options={dateOptions}
+            />
+          </Box>
+          <Box>
             <DateRangePicker
               isDisabled={isLoading || isRefetching}
               startDate={startDate}
@@ -246,101 +351,90 @@ export const TablePostAndWFH = () => {
               endDatePicker={endDatePicker}
             />
           </Box>
-        </HStack>
-        <Wrap pt={'12px'} pr={'16px'} justify="flex-end">
-          <WrapItem>
-            <div className={styles.btnExport}>
-              <Button
+          <Wrap ml={'auto'}>
+            <WrapItem>
+              <div className={styles.btnExport}>
+                <Button
+                  isDisabled={isLoading || isRefetching}
+                  onClick={() =>
+                    handleExportExcelFile({
+                      exportData: exportData,
+                      type: 'WFH',
+                    })
+                  }
+                >
+                  <FaDownload />
+                </Button>
+              </div>
+            </WrapItem>
+            <WrapItem>
+              <IconButton
                 isDisabled={isLoading || isRefetching}
-                onClick={() =>
-                  handleExportExcelFile({ exportData: exportData, type: 'WFH' })
-                }
-              >
-                <FaDownload />
-              </Button>
-            </div>
-          </WrapItem>
-          <WrapItem>
-            <IconButton
-              isDisabled={isLoading || isRefetching}
-              isRound={true}
-              variant="solid"
-              aria-label="Done"
-              fontSize="20px"
-              icon={<AiOutlineReload />}
-              onClick={() => refetch()}
-            />
-          </WrapItem>
-        </Wrap>
-
-        {isLoading || isRefetching ? (
-          <Center h="200px">
-            <Spinner mx="auto" speed="0.65s" thickness="3px" size="xl" />
-          </Center>
-        ) : (
-          <EmptyWrapper
-            isEmpty={!wfhList.length}
-            h="200px"
-            fontSize="xs"
-            message={'No request found!'}
-            display={'flex'}
-            justifyContent={'center'}
-            alignItems={'center'}
-          >
-            <Box
-              p={{ base: '20px 24px' }}
-              overflowX={'scroll'}
-              w={{
-                base: '100vw',
-                lg: `calc(100vw - ${sideBarWidth}px)`,
-              }}
-            >
-              <Table
-                columns={wfhColumns}
-                onRowClick={onAction}
-                data={wfhList}
-                onSortingChange={setSorting}
-                sorting={sorting}
-                onRowHover={true}
+                isRound={true}
+                variant="solid"
+                aria-label="Done"
+                fontSize="20px"
+                icon={<AiOutlineReload />}
+                onClick={() => refetch()}
               />
-            </Box>
-          </EmptyWrapper>
-        )}
-        <HStack
-          p="20px 30px 20px 30px"
-          justifyContent="space-between"
-          flexWrap="wrap"
+            </WrapItem>
+          </Wrap>
+        </HStack>
+
+        <EmptyWrapper
+          isEmpty={!wfhList.length && !isLoading && !isRefetching}
+          h="200px"
+          fontSize="xs"
+          message={'No request found!'}
+          display={'flex'}
+          justifyContent={'center'}
+          alignItems={'center'}
         >
-          <HStack alignItems="center" spacing="6px" flexWrap="wrap">
-            <PageSize
-              noOfRows={noOfRows}
-              onChange={onPageSizeChange}
-              defaultValue={+noOfRows[2].value}
+          <Box
+            p={{ base: '20px 24px' }}
+            overflowX={'auto'}
+            w={{
+              base: '100vw',
+              lg: `calc(100vw - ${sideBarWidth}px)`,
+            }}
+          >
+            <Table
+              columns={wfhColumns}
+              data={wfhList}
+              onSortingChange={setSorting}
+              sorting={sorting}
+              onRowHover={true}
+              isLoading={isLoading || isRefetching}
             />
-            <Spacer w="12px" />
-            <ShowingItemText
-              skipCount={filter.skipCount}
-              maxResultCount={filter.maxResultCount}
-              totalCount={totalCount}
+          </Box>
+        </EmptyWrapper>
+
+        {!isLoading && !isRefetching && (
+          <HStack
+            p="20px 30px 20px 30px"
+            justifyContent="space-between"
+            flexWrap="wrap"
+          >
+            <HStack alignItems="center" spacing="6px" flexWrap="wrap">
+              <PageSize
+                noOfRows={noOfRows}
+                onChange={onPageSizeChange}
+                defaultValue={+noOfRows[2].value}
+              />
+              <Spacer w="12px" />
+              <ShowingItemText
+                skipCount={filter.skipCount}
+                maxResultCount={filter.maxResultCount}
+                totalCount={totalCount}
+              />
+            </HStack>
+            <Pagination
+              total={totalCount}
+              pageSize={filter.maxResultCount}
+              current={currentPage}
+              onChange={onPageChange}
             />
           </HStack>
-          <Pagination
-            total={totalCount}
-            pageSize={filter.maxResultCount}
-            current={currentPage}
-            onChange={onPageChange}
-            hideOnSinglePage
-          />
-        </HStack>
-
-        {reportDetail && (
-          <DetailModal
-            isOpen={isOpenModal}
-            onClose={onCloseModal}
-            reportDetail={reportDetail}
-            startDate={startDate}
-            endDate={endDate}
-          />
         )}
       </Box>
     </>

@@ -28,12 +28,12 @@ export interface IRequest {
 }
 
 export interface IPostAndWFH {
+  id: number;
   email: string;
-  totalDays: number;
-  totalMissingPosts: number;
-  posts?: IPost[];
-  requests?: IRequest[];
-  requestDates?: string[];
+  reason?: string;
+  status: number;
+  remoteDate: string;
+  creationTime: string;
 }
 
 export interface IRender {
@@ -127,6 +127,8 @@ export interface FilterWfhParams {
   keySearch: string;
   startDate?: string | null;
   endDate?: string | null;
+  status?: number;
+  dates?: string;
 }
 
 export interface ListResult<T> {

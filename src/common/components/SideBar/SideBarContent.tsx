@@ -29,6 +29,8 @@ import {
   TbUserCog,
   TbSettingsBolt,
   TbUserShield,
+  TbHomeEdit,
+  TbReportSearch,
 } from 'react-icons/tb';
 import { BiLogOutCircle } from 'react-icons/bi';
 import { VscKebabVertical } from 'react-icons/vsc';
@@ -109,19 +111,19 @@ export const SideBarContent = ({ isLargeScreen }: SideBarContentProps) => {
         },
       ],
     },
-
-    // {
-    //   to: '/report',
-    //   text: 'Report',
-    //   icon: TbSpeakerphone,
-    //   subMenu: [
-    //     {
-    //       to: '/report-wfh',
-    //       text: 'Report WFH',
-    //       icon: TbHomeEdit,
-    //     },
-    //   ],
-    // },
+    {
+      to: '/report',
+      text: 'Report',
+      icon: TbReportSearch,
+      subMenu: [
+        {
+          to: '/report/report-wfh',
+          text: 'Report WFH',
+          icon: TbHomeEdit,
+          permission: Permissions.WFH_REPORTS,
+        },
+      ],
+    },
   ];
 
   const user = useRecoilValue(userState);
