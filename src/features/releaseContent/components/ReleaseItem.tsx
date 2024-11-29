@@ -2,7 +2,6 @@ import { Box, Button, Flex, Heading, Text } from '@chakra-ui/react';
 import { MaxReleaseContentLine } from 'common/constants';
 import Markdown from 'markdown-to-jsx';
 import { IReleaseContent } from 'models/request';
-import moment from 'moment';
 import { Children, useEffect, useRef, useState } from 'react';
 
 export const ReleaseItem = ({ data }: { data: IReleaseContent }) => {
@@ -24,6 +23,20 @@ export const ReleaseItem = ({ data }: { data: IReleaseContent }) => {
     }
   }, [data]);
 
+  const mapChangeLogUrl = (input: string): string | null => {
+    const regex =
+      /github\.com\/(?:ncc-erp\/)?([\w-]+)\/compare\/([\w.]+\.\.\.[\w.]+)/;
+    const match = input.match(regex);
+
+    if (match) {
+      const repository = match[1];
+      const versions = match[2];
+      return `${repository}/${versions}`;
+    }
+
+    return null;
+  };
+
   return (
     <Box p={6} borderRadius="md" border="1px" borderColor="gray.400">
       <Box>
@@ -31,7 +44,6 @@ export const ReleaseItem = ({ data }: { data: IReleaseContent }) => {
           <Heading size="lg" fontWeight="semibold">
             {data.tag_name}
           </Heading>
-          <Text>{moment(data.created_at).format('DD-MM-YYYY')}</Text>
         </Flex>
 
         <Box
@@ -62,14 +74,14 @@ export const ReleaseItem = ({ data }: { data: IReleaseContent }) => {
                       >
                         #
                         {props.href?.match(/pull\/(\d+)/)?.[1] ||
-                          props.href?.match(/compare\/(.+)/)?.[1] ||
+                          mapChangeLogUrl(props.href) ||
                           props.href}
                       </a>
                     ),
                   },
                   p: {
                     component: (props) => (
-                      <Box mt="1rem">
+                      <Box mt="1rem" mb="1rem">
                         <Text size="md">{props.children}</Text>
                       </Box>
                     ),
