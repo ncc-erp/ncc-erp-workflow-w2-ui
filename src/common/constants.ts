@@ -83,6 +83,7 @@ export const UserAction = {
 };
 
 export const QueryKeys = {
+  GET_RELEASE_CONTENT: 'getReleaseContent',
   GET_ALL_ROLES: 'getAllRoles',
   GET_ROLE_BY_USER: 'getRoleByUserId',
   FILTER_USER: 'filterUser',
@@ -205,3 +206,5 @@ export const Permissions = {
   UPDATE_PERMISSION: 'Permissions.Update',
   DELETE_PERMISSION: 'Permissions.Delete',
 };
+
+export const MaxReleaseContentLine = 8;
