@@ -1,4 +1,4 @@
-import { Box, FormControl, FormLabel } from '@chakra-ui/react';
+import { Box, Checkbox, FormControl, FormLabel } from '@chakra-ui/react';
 import { useEffect, useState, useRef } from 'react';
 import { InputDefinition } from 'models/request';
 import debounce from 'lodash.debounce';
@@ -7,7 +7,11 @@ import { ColorPicker } from 'antd';
 import { AggregationColor } from 'antd/es/color-picker/color';
 
 interface SettingFormProps {
-  onSubmitSettings: (colorCode: string, title: string) => void;
+  onSubmitSettings: (
+    colorCode: string,
+    title: string,
+    isSendKomuMessage: boolean
+  ) => void;
   inputDefinition?: InputDefinition;
 }
 
@@ -19,32 +23,51 @@ export const SettingForm = ({
     colorCode: '#aabbcc',
     nameRequest: 'Name request',
     title: '',
+    isSendKomuMessage: false,
   });
 
   const debouncedSubmitRef = useRef(
     debounce(
-      (color: string, title: string) => onSubmitSettings(color, title),
+      (color: string, title: string, isSendKomuMessage: boolean) =>
+        onSubmitSettings(color, title, isSendKomuMessage),
       300
     )
   );
 
   useEffect(() => {
-    debouncedSubmitRef.current = debounce((color: string, title: string) => {
-      onSubmitSettings(color, title);
-    }, 300);
+    debouncedSubmitRef.current = debounce(
+      (color: string, title: string, isSendKomuMessage: boolean) => {
+        onSubmitSettings(color, title, isSendKomuMessage);
+      },
+      300
+    );
   }, [onSubmitSettings]);
 
   const handleChange = (
-    event: React.ChangeEvent<HTMLInputElement> | AggregationColor
+    event: React.ChangeEvent<HTMLInputElement> | AggregationColor,
+    name: string
   ) => {
     setFormState((prevState) => {
-      const isColorChange = 'toHex' in event;
       const newState = {
         ...prevState,
-        colorCode: isColorChange ? `#${event.toHex()}` : prevState.colorCode,
-        title: !isColorChange ? event.target.value : prevState.title,
+        colorCode:
+          name === 'colorCode'
+            ? `#${(event as AggregationColor).toHex()}`
+            : prevState.colorCode,
+        title:
+          name === 'title'
+            ? (event as React.ChangeEvent<HTMLInputElement>).target.value
+            : prevState.title,
+        isSendKomuMessage:
+          name === 'isSendKomuMessage'
+            ? (event as React.ChangeEvent<HTMLInputElement>).target.checked
+            : prevState.isSendKomuMessage,
       };
-      debouncedSubmitRef.current(newState.colorCode, newState.title);
+      debouncedSubmitRef.current(
+        newState.colorCode,
+        newState.title,
+        newState.isSendKomuMessage
+      );
       return newState;
     });
   };
@@ -57,6 +80,7 @@ export const SettingForm = ({
         colorCode: settings?.color ?? '#aabbcc',
         title: settings?.titleTemplate ?? '',
         nameRequest: nameRequest ?? 'Name request',
+        isSendKomuMessage: settings?.isSendKomuMessage ?? false,
       });
     }
   }, [inputDefinition]);
@@ -95,13 +119,30 @@ export const SettingForm = ({
         </Box>
         <ColorPicker
           value={formState.colorCode}
-          onChange={handleChange}
+          onChange={(e) => handleChange(e, 'colorCode')}
           style={{
             marginLeft: '10px',
             cursor: 'pointer',
             borderColor: '#E2E8F0',
           }}
           getPopupContainer={(trigger) => trigger}
+        />
+      </FormControl>
+      <FormControl style={{ display: 'flex', alignItems: 'center' }}>
+        <FormLabel
+          textAlign="left"
+          fontSize={16}
+          mb={1}
+          fontWeight="normal"
+          mr={3}
+        >
+          Send Komu Message:
+        </FormLabel>
+        <Checkbox
+          size="lg"
+          isChecked={formState.isSendKomuMessage}
+          name="isSendKomuMessage"
+          onChange={(e) => handleChange(e, 'isSendKomuMessage')}
         />
       </FormControl>
       <FormControl style={{ display: 'flex', alignItems: 'center' }}>
@@ -120,7 +161,7 @@ export const SettingForm = ({
           fontSize="sm"
           name="title"
           value={formState.title}
-          onChange={handleChange}
+          onChange={(e) => handleChange(e, 'title')}
         />
       </FormControl>
     </FormControl>

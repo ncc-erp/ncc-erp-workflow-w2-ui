@@ -34,8 +34,9 @@ export enum UserSortField {
 }
 
 export enum WfhSortField {
-  email = 'Email',
-  totalMissingPosts = 'totalMissingPosts',
+  email = 'email',
+  creationTime = 'creationTime',
+  remoteDate = 'remoteDate',
 }
 
 export enum SortDirection {

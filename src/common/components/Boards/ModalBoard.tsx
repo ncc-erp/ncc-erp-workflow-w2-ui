@@ -192,6 +192,7 @@ const ModalBoard = ({
         leastDestructiveRef={cancelRef}
         onClose={onClose}
         autoFocus={false}
+        closeOnOverlayClick={false}
       >
         <AlertDialogOverlay>
           <AlertDialogContent>

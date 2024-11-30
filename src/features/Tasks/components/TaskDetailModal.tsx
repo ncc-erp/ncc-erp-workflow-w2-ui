@@ -29,6 +29,7 @@ import { WorkflowModal } from 'common/components/WorkflowModal';
 import {
   DEFAULT_TASK_PER_PAGE,
   OtherActionSignalStatus,
+  Permissions,
   TaskStatus,
   UPDATED_BY_W2,
 } from 'common/constants';
@@ -51,6 +52,7 @@ import ModalBoard from 'common/components/Boards/ModalBoard';
 import { useClearCacheTask } from 'common/components/Boards/useClearCacheTask';
 import { FilterTasks } from 'models/task';
 import { useCurrentUser } from 'hooks/useCurrentUser';
+import { useUserPermissions } from 'hooks/useUserPermissions';
 
 const initialFilter: FilterTasks = {
   skipCount: 0,
@@ -104,6 +106,7 @@ export const TaskDetailModal = ({
 
   const [requestWorkflow, setRequestWorkflow] = useState<string>('');
   const [isOpenWorkflow, setOpenWorkflow] = useState(false);
+  const { renderIfAllowed } = useUserPermissions();
 
   const onActionViewWorkflow = (workflowId: string) => () => {
     setRequestWorkflow(workflowId);
@@ -376,7 +379,7 @@ export const TaskDetailModal = ({
 
   if (hasGetTaskLoading) {
     return (
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false}>
         <ModalOverlay />
         <ModalContent p="10px" maxW="700px">
           <ModalBody>
@@ -391,7 +394,12 @@ export const TaskDetailModal = ({
 
   return (
     <>
-      <Modal isOpen={isOpen} onClose={onClose} blockScrollOnMount={false}>
+      <Modal
+        isOpen={isOpen}
+        onClose={onClose}
+        blockScrollOnMount={false}
+        closeOnOverlayClick={false}
+      >
         <ModalOverlay />
         <ModalContent p="10px" maxW="700px">
           <ModalHeader>
@@ -444,31 +452,34 @@ export const TaskDetailModal = ({
                       );
                     })}
               </div>
-              <div className={styles.listBtnActionTask}>
-                {tasks?.status === TaskStatus.Approved ||
-                tasks?.status === TaskStatus.Rejected ? null : (
-                  <>
-                    <Button
-                      colorScheme="green"
-                      isLoading={isLoadingBtnApprove}
-                      onClick={handleApproveClick}
-                      mt={2}
-                      className={styles.btnApproveTask}
-                    >
-                      Approve
-                    </Button>
-                    <Button
-                      colorScheme="red"
-                      isLoading={isLoadingBtnReject}
-                      onClick={handleRejectClick}
-                      mt={2}
-                      className={styles.btnRejectTask}
-                    >
-                      Reject
-                    </Button>
-                  </>
-                )}
-              </div>
+              {renderIfAllowed(
+                Permissions.UPDATE_TASK_STATUS,
+                <div className={styles.listBtnActionTask}>
+                  {tasks?.status === TaskStatus.Approved ||
+                  tasks?.status === TaskStatus.Rejected ? null : (
+                    <>
+                      <Button
+                        colorScheme="green"
+                        isLoading={isLoadingBtnApprove}
+                        onClick={handleApproveClick}
+                        mt={2}
+                        className={styles.btnApproveTask}
+                      >
+                        Approve
+                      </Button>
+                      <Button
+                        colorScheme="red"
+                        isLoading={isLoadingBtnReject}
+                        onClick={handleRejectClick}
+                        mt={2}
+                        className={styles.btnRejectTask}
+                      >
+                        Reject
+                      </Button>
+                    </>
+                  )}
+                </div>
+              )}
             </div>
           </ModalHeader>
           <ModalCloseButton mt="15px" mr="10px" />

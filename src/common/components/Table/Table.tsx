@@ -235,6 +235,7 @@ export const Table = <D,>({
                 data-testid={dataTestId}
                 /* eslint-disable @typescript-eslint/no-explicit-any */
                 data-id={(row.original as any).id}
+                data-instance-id={(row.original as any).workflowInstanceId}
               >
                 {row.getVisibleCells().map((cell) => {
                   return (

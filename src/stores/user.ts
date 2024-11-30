@@ -12,6 +12,7 @@ const initialState: User = {
   hasPassword: false,
   concurrencyStamp: '',
   extraProperties: {},
+  permissions: [],
 };
 
 export const userState = atom({

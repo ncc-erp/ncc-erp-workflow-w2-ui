@@ -43,6 +43,7 @@
     "framer-motion": "^10.16.4",
     "js-cookie": "^3.0.5",
     "lodash.debounce": "^4.0.8",
+    "markdown-to-jsx": "^7.7.0",
     "moment": "^2.29.4",
     "node-sass": "^9.0.0",
     "oidc-client": "^1.11.5",

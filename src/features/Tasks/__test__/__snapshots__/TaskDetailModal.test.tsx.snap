@@ -81,22 +81,6 @@ exports[`Task Detail Modal 1`] = `
                   class="spinner"
                 />
               </div>
-              <div
-                class="listBtnActionTask"
-              >
-                <button
-                  class="chakra-button btnApproveTask css-12eh3jv"
-                  type="button"
-                >
-                  Approve
-                </button>
-                <button
-                  class="chakra-button btnRejectTask css-12eh3jv"
-                  type="button"
-                >
-                  Reject
-                </button>
-              </div>
             </div>
           </header>
           <button

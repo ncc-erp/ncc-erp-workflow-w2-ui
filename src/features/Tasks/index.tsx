@@ -1,8 +1,13 @@
 import Page from 'common/components/Page';
 import { TasksBoard } from './components/TasksBoard';
+import { useUserPermissions } from 'hooks/useUserPermissions';
+import { Permissions } from 'common/constants';
+import NotFound from 'common/components/NotFound';
 
 const Tasks = () => {
-  return (
+  const { hasPermission } = useUserPermissions();
+
+  return hasPermission(Permissions.VIEW_TASKS) ? (
     <Page>
       <Page.Header>
         <Page.HeaderLeft>
@@ -14,6 +19,8 @@ const Tasks = () => {
         <TasksBoard />
       </Page.Body>
     </Page>
+  ) : (
+    <NotFound />
   );
 };
 

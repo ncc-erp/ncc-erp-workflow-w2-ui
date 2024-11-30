@@ -17,6 +17,7 @@ import {
   DislayValue,
   FilterAll,
   FilterDate,
+  Permissions,
   TaskStatus,
 } from 'common/constants';
 import { FilterTasks } from 'models/task';
@@ -34,6 +35,7 @@ import { BsCardText } from 'react-icons/bs';
 import { ITask } from 'models/request';
 import { useDynamicDataTask } from 'api/apiHooks/taskHooks';
 import { useMediaQuery } from 'hooks/useMediaQuery';
+import { useUserPermissions } from 'hooks/useUserPermissions';
 
 const initialFilter: FilterTasks = {
   skipCount: 0,
@@ -88,12 +90,13 @@ export const TasksBoard = () => {
     emailAssign: user.email,
   });
   const [txtSearch, setTxtSearch] = useState<string>('');
-  const [isMyTask, setIsMyTask] = useState<boolean>(true);
+  const [showOnlyMyTask, setShowOnlyMyTask] = useState<boolean>(true);
   const [display, setDisplay] = useState<number>(0);
   const txtSearchDebounced = useDebounced(txtSearch, 500);
   const isAdmin = useIsAdmin();
   const dynamicDataTaskMutation = useDynamicDataTask();
   const { data: requestTemplateData } = useRequestTemplates(isPublish);
+  const { renderIfAllowed } = useUserPermissions();
   const requestTemplates = useMemo(() => {
     if (requestTemplateData?.items) {
       return requestTemplateData.items;
@@ -180,12 +183,12 @@ export const TasksBoard = () => {
   }, [onTemplateStatusChange, txtSearchDebounced]);
 
   useEffect(() => {
-    if (isMyTask) {
+    if (showOnlyMyTask) {
       onTemplateStatusChange('emailAssign', user.email);
     } else {
       onTemplateStatusChange('emailAssign', '');
     }
-  }, [isMyTask, onTemplateStatusChange, user.email]);
+  }, [showOnlyMyTask, onTemplateStatusChange, user.email]);
 
   return (
     <Flex flexDirection={'column'} gap={2} w={['100vw', 'auto']}>
@@ -241,14 +244,15 @@ export const TasksBoard = () => {
           </Box>
         </Flex>
       </Flex>
-      <Flex gap={1} px="24px">
-        {isAdmin && (
-          <Wrap>
+      {renderIfAllowed(
+        Permissions.VIEW_ALL_TASKS,
+        <Flex gap={1} px="24px">
+          {isAdmin && (
             <WrapItem>
               <Button
-                size={'md'}
-                colorScheme={isMyTask ? 'green' : 'gray'}
-                onClick={() => setIsMyTask(!isMyTask)}
+                size="md"
+                colorScheme={showOnlyMyTask ? 'green' : 'gray'}
+                onClick={() => setShowOnlyMyTask(!showOnlyMyTask)}
                 fontSize="sm"
                 fontWeight="medium"
                 mr={2}
@@ -256,10 +260,9 @@ export const TasksBoard = () => {
                 Only my task
               </Button>
             </WrapItem>
-          </Wrap>
-        )}
-      </Flex>
-
+          )}
+        </Flex>
+      )}
       <Box position={'relative'}>
         <Wrap
           spacing={2}

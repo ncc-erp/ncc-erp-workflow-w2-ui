@@ -32,6 +32,7 @@ import {
   ColorThemeMode,
   ExternalAction,
   OtherActionSignalStatus,
+  Permissions,
   TaskStatus,
 } from 'common/constants';
 import { ETaskStatus } from 'common/enums';
@@ -55,6 +56,7 @@ import { useClearCacheTask } from './useClearCacheTask';
 import { useNavigate } from 'react-router';
 import { useMediaQuery } from 'hooks/useMediaQuery';
 import TextToolTip from '../textTooltip';
+import { useUserPermissions } from 'hooks/useUserPermissions';
 
 const fadeIn = keyframes`
   from { opacity: 0; }
@@ -73,13 +75,13 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
   const [requestUser, setRequestUser] = useState<string>('');
   const [name, setName] = useState<string>('');
   const actionTaskMutation = useActionTask();
+  const { hasPermission } = useUserPermissions();
 
   const {
     data: listPending,
     isLoading: loadPending,
     fetchNextPage: fetchNextPagePending,
     refetch: refetchPending,
-    isRefetching: isRefetchingPending,
     hasNextPage: hasNextPagePending,
     isFetchingNextPage: isFetchingNextPagePending,
   } = useGetAllTask({ ...filter }, TaskStatus.Pending);
@@ -89,7 +91,6 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
     isLoading: loadApproved,
     fetchNextPage: fetchNextPageApproved,
     refetch: refetchApproved,
-    isRefetching: isRefetchingApproved,
     hasNextPage: hasNextPageApproved,
     isFetchingNextPage: isFetchingNextPageApproved,
   } = useGetAllTask({ ...filter }, TaskStatus.Approved);
@@ -99,7 +100,6 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
     isLoading: loadRejected,
     fetchNextPage: fetchNextPageRejected,
     refetch: refetchRejected,
-    isRefetching: isRefetchingRejected,
     hasNextPage: hasNextPageRejected,
     isFetchingNextPage: isFetchingNextPageRejected,
   } = useGetAllTask({ ...filter }, TaskStatus.Rejected);
@@ -511,10 +511,7 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
                       {!loadingStates[ind].value &&
                       !loadPending &&
                       !loadApproved &&
-                      !loadRejected &&
-                      !isRefetchingPending &&
-                      !isRefetchingApproved &&
-                      !isRefetchingRejected ? (
+                      !loadRejected ? (
                         el.map((item, index) => {
                           const isDisabled =
                             +item.status !== +TaskStatus.Pending ||
@@ -524,7 +521,11 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
                               key={item.id}
                               draggableId={item.id}
                               index={index}
-                              isDragDisabled={isDisabled}
+                              isDragDisabled={
+                                hasPermission(Permissions.UPDATE_TASK_STATUS)
+                                  ? isDisabled
+                                  : true
+                              }
                             >
                               {(provided) => (
                                 <Box

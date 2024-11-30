@@ -51,6 +51,12 @@ export const FilterDate = {
   // Y1: '1 years',
 };
 
+export const WFHFilterDate = {
+  CM: 'current month',
+  M2: '2 month',
+  M3: '3 months',
+};
+
 export const DislayValue = {
   BOARD: 0,
   LIST: 1,
@@ -83,6 +89,7 @@ export const UserAction = {
 };
 
 export const QueryKeys = {
+  GET_RELEASE_CONTENT: 'getReleaseContent',
   GET_ALL_ROLES: 'getAllRoles',
   GET_ROLE_BY_USER: 'getRoleByUserId',
   FILTER_USER: 'filterUser',
@@ -102,6 +109,10 @@ export const QueryKeys = {
   GET_USER_LIST: 'getUserList',
   GET_INPUT_DEFINITION: 'getInputDefinition',
   GET_SETTING_LIST: 'getSettingList',
+  GET_ROLES_LIST: 'roles',
+  GET_PERMISSIONS_LIST: 'getPermissionsList',
+  GET_SINGLE_ROLE: 'getSingleRole',
+  GET_USER_PERMISSIONS: 'getUserPermissions',
 };
 
 export const ColorThemeMode = {
@@ -155,3 +166,54 @@ export const UserRoleLabelMapping = {
   DESIGNER: 'Designer',
   UNASSIGNED: 'N/A',
 };
+export const Permissions = {
+  WORKFLOW_DEFINITIONS: 'WorkflowDefinitions',
+  VIEW_WORKFLOW_DEFINITIONS: 'WorkflowDefinitions.View',
+  CREATE_WORKFLOW_DEFINITION: 'WorkflowDefinitions.Create',
+  UPDATE_WORKFLOW_DEFINITION_STATUS: 'WorkflowDefinitions.UpdateStatus',
+  DELETE_WORKFLOW_DEFINITION: 'WorkflowDefinitions.Delete',
+  DEFINE_INPUT: 'WorkflowDefinitions.DefineInput',
+  EDIT_WORKFLOW_DEFINITION: 'WorkflowDefinitions.Edit',
+  IMPORT_WORKFLOW_DEFINITION: 'WorkflowDefinitions.Import',
+
+  WORKFLOW_INSTANCES: 'WorkflowInstances',
+  VIEW_WORKFLOW_INSTANCES: 'WorkflowInstances.View',
+  VIEW_ALL_WORKFLOW_INSTANCES: 'WorkflowInstances.ViewAll',
+  CREATE_WORKFLOW_INSTANCE: 'WorkflowInstances.Create',
+  CANCEL_WORKFLOW_INSTANCE: 'WorkflowInstances.Cancel',
+
+  WFH_REPORTS: 'WFHReport',
+  VIEW_WFH_REPORTS: 'WFHReport.View',
+
+  TASKS: 'Tasks',
+  VIEW_TASKS: 'Tasks.View',
+  VIEW_ALL_TASKS: 'Tasks.ViewAll',
+  UPDATE_TASK_STATUS: 'Tasks.UpdateStatus',
+  ASSIGN_TASK: 'Tasks.Assign',
+
+  ADMIN: 'Admin',
+  USERS: 'Users',
+  VIEW_USERS: 'Users.View',
+  UPDATE_USER: 'Users.Update',
+
+  SETTINGS: 'Settings',
+  VIEW_SETTINGS: 'Settings.View',
+  CREATE_SETTINGS: 'Settings.Create',
+  UPDATE_SETTINGS: 'Settings.Update',
+  DELETE_SETTINGS: 'Settings.Delete',
+
+  ROLES: 'Roles',
+  VIEW_ROLES: 'Roles.View',
+  CREATE_ROLE: 'Roles.Create',
+  UPDATE_ROLE: 'Roles.Update',
+  DELETE_ROLE: 'Roles.Delete',
+  DELETE_USER_ON_ROLE: 'Roles.DeleteUserOnRole',
+
+  PERMISSIONS: 'Permissions',
+  VIEW_PERMISSIONS: 'Permissions.View',
+  CREATE_PERMISSION: 'Permissions.Create',
+  UPDATE_PERMISSION: 'Permissions.Update',
+  DELETE_PERMISSION: 'Permissions.Delete',
+};
+
+export const MaxReleaseContentLine = 8;

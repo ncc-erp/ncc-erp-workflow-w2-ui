@@ -200,7 +200,12 @@ export const RequestDetailModal = ({
 
   return (
     <>
-      <Modal isOpen={isOpen} onClose={onClose} blockScrollOnMount={false}>
+      <Modal
+        isOpen={isOpen}
+        onClose={onClose}
+        blockScrollOnMount={false}
+        closeOnOverlayClick={false}
+      >
         <ModalOverlay />
         <ModalContent p="10px" maxW="700px">
           <ModalHeader>
