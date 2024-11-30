@@ -29,6 +29,7 @@ import {
   TbUserCog,
   TbSettingsBolt,
   TbUserShield,
+  TbShieldLock,
 } from 'react-icons/tb';
 import { BiLogOutCircle } from 'react-icons/bi';
 import { VscKebabVertical } from 'react-icons/vsc';
@@ -102,10 +103,16 @@ export const SideBarContent = ({ isLargeScreen }: SideBarContentProps) => {
           permission: Permissions.SETTINGS,
         },
         {
-          to: '/roles',
+          to: '/administration/roles',
           text: 'Roles',
           icon: TbUserShield,
           permission: Permissions.ROLES,
+        },
+        {
+          to: '/administration/permissions',
+          text: 'Manage permissions',
+          icon: TbShieldLock,
+          permission: Permissions.PERMISSIONS,
         },
       ],
     },
@@ -172,6 +179,7 @@ export const SideBarContent = ({ isLargeScreen }: SideBarContentProps) => {
               Permissions.USERS,
               Permissions.SETTINGS,
               Permissions.ROLES,
+              Permissions.PERMISSIONS,
             ].some(hasPermission);
             return hasAdminPermission ? (
               <Accordion

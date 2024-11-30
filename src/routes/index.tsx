@@ -15,6 +15,7 @@ import UserManagement from 'features/userManagement';
 import Tasks from 'features/Tasks';
 import SettingsComponent from 'features/settings';
 import Roles from 'features/Roles';
+import Permissions from 'features/Permissions';
 import ReleaseContent from 'features/releaseContent';
 
 const NotFound = lazy(() => import('common/components/NotFound'));
@@ -87,6 +88,22 @@ const routeList: RouteObject[] = [
               </WrapperRouteComponent>
             ),
           },
+          {
+            path: 'roles',
+            element: (
+              <WrapperRouteComponent>
+                <Roles />
+              </WrapperRouteComponent>
+            ),
+          },
+          {
+            path: 'permissions',
+            element: (
+              <WrapperRouteComponent>
+                <Permissions />
+              </WrapperRouteComponent>
+            ),
+          },
         ],
       },
       {
@@ -94,14 +111,6 @@ const routeList: RouteObject[] = [
         element: (
           <WrapperRouteComponent>
             <Tasks />
-          </WrapperRouteComponent>
-        ),
-      },
-      {
-        path: 'roles',
-        element: (
-          <WrapperRouteComponent>
-            <Roles />
           </WrapperRouteComponent>
         ),
       },

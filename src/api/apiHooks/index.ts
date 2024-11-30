@@ -166,7 +166,17 @@ export const useUpdateRoles = (url: string) => {
   };
   return useMutation(mutate);
 };
-
+export const useUpdatePermissionData = (url: string) => {
+  const axios = useAxios();
+  const mutate = async (params: {
+    id: string;
+    data?: Record<string, string | string | undefined>;
+  }) => {
+    const { id, data } = params;
+    await axios.put(`${url}/${id}`, data);
+  };
+  return useMutation(mutate);
+};
 export const useFetchResourceById = <T>(
   key: QueryKey,
   id: string | null,
