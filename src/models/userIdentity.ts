@@ -26,12 +26,11 @@ export interface UserIdentity {
 export interface ModalUserParams {
   userName: string;
   name: string;
-  surname: string;
   email: string;
   phoneNumber: string;
   isActive: boolean;
   lockoutEnabled: boolean;
-  roleNames: string[];
+  roleNames: string[] | string;
   password?: string;
   customPermissionCodes?: string[];
 }
