@@ -13,8 +13,14 @@ import { RouterProvider } from 'react-router-dom';
 import router from 'routes/index';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { ToastContainer } from 'common/components/StandaloneToast';
+import ReactGA from 'react-ga4';
 
 const manager = createLocalStorageManager('chakra-ui-color-mode');
+
+const isProduction = import.meta.env.MODE === 'production';
+if (isProduction) {
+  ReactGA.initialize(import.meta.env.VITE_GA_TRACKING_ID as string);
+}
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
