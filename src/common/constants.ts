@@ -51,6 +51,12 @@ export const FilterDate = {
   // Y1: '1 years',
 };
 
+export const WFHFilterDate = {
+  CM: 'current month',
+  M2: '2 month',
+  M3: '3 months',
+};
+
 export const DislayValue = {
   BOARD: 0,
   LIST: 1,
@@ -175,6 +181,9 @@ export const Permissions = {
   VIEW_ALL_WORKFLOW_INSTANCES: 'WorkflowInstances.ViewAll',
   CREATE_WORKFLOW_INSTANCE: 'WorkflowInstances.Create',
   CANCEL_WORKFLOW_INSTANCE: 'WorkflowInstances.Cancel',
+
+  WFH_REPORTS: 'WFHReport',
+  VIEW_WFH_REPORTS: 'WFHReport.View',
 
   TASKS: 'Tasks',
   VIEW_TASKS: 'Tasks.View',

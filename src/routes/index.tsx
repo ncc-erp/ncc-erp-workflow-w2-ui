@@ -15,6 +15,7 @@ import UserManagement from 'features/userManagement';
 import Tasks from 'features/Tasks';
 import SettingsComponent from 'features/settings';
 import Roles from 'features/Roles';
+import PostAndWFH from 'features/report';
 import Permissions from 'features/Permissions';
 import ReleaseContent from 'features/releaseContent';
 
@@ -114,14 +115,33 @@ const routeList: RouteObject[] = [
           </WrapperRouteComponent>
         ),
       },
-      // {
-      //   path: 'report-wfh',
-      //   element: (
-      //     <WrapperRouteComponent>
-      //       <PostAndWFH />
-      //     </WrapperRouteComponent>
-      //   ),
-      // },
+      {
+        path: 'roles',
+        element: (
+          <WrapperRouteComponent>
+            <Roles />
+          </WrapperRouteComponent>
+        ),
+      },
+
+      {
+        path: 'report',
+        element: (
+          <WrapperRouteComponent>
+            <Outlet />
+          </WrapperRouteComponent>
+        ),
+        children: [
+          {
+            path: 'report-wfh',
+            element: (
+              <WrapperRouteComponent>
+                <PostAndWFH />
+              </WrapperRouteComponent>
+            ),
+          },
+        ],
+      },
       {
         path: '*',
         element: (

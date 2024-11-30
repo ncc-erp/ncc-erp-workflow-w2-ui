@@ -1,7 +1,6 @@
 import DatePicker from 'react-datepicker';
 import styles from './styles.module.scss';
-import { Box, Text } from '@chakra-ui/react';
-import { FaCalendar } from 'react-icons/fa';
+import { Box } from '@chakra-ui/react';
 import classNames from 'classnames';
 
 interface IDateRangePickerProps {
@@ -22,13 +21,7 @@ const DateRangePicker = ({
   isDisabled,
 }: IDateRangePickerProps) => {
   return (
-    <Box width={'auto'} display="flex" gap={'3px'} alignItems="center">
-      <div style={{ width: '16px', height: '16px' }}>
-        <FaCalendar className={styles.icon} />
-      </div>
-      <Text ml={2} mr={2} fontSize="sm">
-        From
-      </Text>
+    <Box width={'auto'} display="flex" gap={'1rem'} alignItems="center">
       <DatePicker
         disabled={isDisabled}
         selected={startDate}
@@ -45,9 +38,6 @@ const DateRangePicker = ({
         clearButtonClassName={styles.btnClear}
         onChangeRaw={(e) => e.preventDefault()}
       />
-      <Text mr={2} fontSize="sm">
-        To
-      </Text>
       <DatePicker
         disabled={isDisabled || !startDate}
         selected={endDate}
