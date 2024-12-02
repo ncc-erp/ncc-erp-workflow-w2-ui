@@ -24,8 +24,6 @@ import {
 import { ETaskStatus, SortDirection, WfhSortField } from 'common/enums';
 import { FilterWfhParams, IPostAndWFH } from 'models/report';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useRecoilValue } from 'recoil';
-import { appConfigState } from 'stores/appConfig';
 
 import {
   ColumnDef,
@@ -46,13 +44,19 @@ import { SelectField } from 'common/components/SelectField';
 import { TFilterTask } from 'common/types';
 
 const initialFilter: FilterWfhParams = {
-  maxResultCount: +noOfRows[2].value,
+  maxResultCount: +noOfRows[0].value,
   skipCount: 0,
   sorting: [WfhSortField.creationTime, 'desc'].join(' '),
   keySearch: '',
-  status: -1,
-  startDate: null,
-  endDate: null,
+  status: TaskStatus.Approved,
+  startDate: formatDate(
+    new Date(new Date().getFullYear(), new Date().getMonth(), 1),
+    'yyyy-MM-dd'
+  ),
+  endDate: formatDate(
+    new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0),
+    'yyyy-MM-dd'
+  ),
 };
 
 const initialSorting: SortingState = [
@@ -66,13 +70,16 @@ export const TablePostAndWFH = () => {
   const [filter, setFilter] = useState<FilterWfhParams>(initialFilter);
   const [sorting, setSorting] = useState<SortingState>(initialSorting);
   const columnHelper = createColumnHelper<IPostAndWFH>();
-  const { sideBarWidth } = useRecoilValue(appConfigState);
   const { data, isLoading, isRefetching, refetch } = useWfhList(filter);
   const { items: wfhList = [], totalCount = 0 } = data ?? {};
   const [txtSearch, setTxtSearch] = useState('');
   const txtSearchDebounced = useDebounced(txtSearch, 500);
-  const [startDate, setStartDate] = useState<Date | null>(null);
-  const [endDate, setEndDate] = useState<Date | null>(null);
+  const [startDate, setStartDate] = useState<Date | null>(
+    initialFilter.startDate ? new Date(initialFilter.startDate) : null
+  );
+  const [endDate, setEndDate] = useState<Date | null>(
+    initialFilter.endDate ? new Date(initialFilter.endDate) : null
+  );
   const endDatePicker = useRef<ReactDatePicker | null>(null);
 
   const wfhColumns = useMemo(
@@ -248,6 +255,74 @@ export const TablePostAndWFH = () => {
     []
   );
 
+  const setDateRangeByStartDateAndEndDate = useCallback(
+    (startDateInput: Date, endDateInput: Date) => {
+      const today = new Date();
+      const startDateInputFormatted = formatDate(startDateInput, 'yyyy-MM-dd');
+      const endDateInputFormatted = formatDate(endDateInput, 'yyyy-MM-dd');
+      let startFormatted = formatDate(
+        new Date(today.getFullYear(), today.getMonth(), 1),
+        'yyyy-MM-dd'
+      );
+      let endFormatted = formatDate(
+        new Date(today.getFullYear(), today.getMonth() + 1, 0),
+        'yyyy-MM-dd'
+      );
+
+      if (
+        startDateInputFormatted == startFormatted &&
+        endDateInputFormatted == endFormatted
+      ) {
+        setFilter((filter) => ({
+          ...filter,
+          dates: WFHFilterDate.CM,
+        }));
+      } else {
+        startFormatted = formatDate(
+          new Date(today.getFullYear(), today.getMonth(), 1),
+          'yyyy-MM-dd'
+        );
+        endFormatted = formatDate(
+          new Date(today.getFullYear(), today.getMonth() + 2, 0),
+          'yyyy-MM-dd'
+        );
+        if (
+          startDateInputFormatted == startFormatted &&
+          endDateInputFormatted == endFormatted
+        ) {
+          setFilter((filter) => ({
+            ...filter,
+            dates: WFHFilterDate.M2,
+          }));
+        } else {
+          startFormatted = formatDate(
+            new Date(today.getFullYear(), today.getMonth(), 1),
+            'yyyy-MM-dd'
+          );
+          endFormatted = formatDate(
+            new Date(today.getFullYear(), today.getMonth() + 3, 0),
+            'yyyy-MM-dd'
+          );
+          if (
+            startDateInputFormatted == startFormatted &&
+            endDateInputFormatted == endFormatted
+          ) {
+            setFilter((filter) => ({
+              ...filter,
+              dates: WFHFilterDate.M3,
+            }));
+          } else {
+            setFilter((filter) => ({
+              ...filter,
+              dates: FilterAll.DATE,
+            }));
+          }
+        }
+      }
+    },
+    []
+  );
+
   const dateOptions = useMemo(() => {
     const defaultOptions = {
       value: '',
@@ -287,6 +362,8 @@ export const TablePostAndWFH = () => {
         startDate: formatDate(startDate, 'yyyy-MM-dd'),
         endDate: formatDate(endDate, 'yyyy-MM-dd'),
       }));
+
+      setDateRangeByStartDateAndEndDate(startDate, endDate);
     } else {
       setFilter((filter) => ({
         ...filter,
@@ -295,7 +372,7 @@ export const TablePostAndWFH = () => {
         dates: FilterAll.DATE,
       }));
     }
-  }, [startDate, endDate]);
+  }, [startDate, endDate, setDateRangeByStartDateAndEndDate]);
 
   const exportData = wfhList.map((item) => ({
     id: item.id,
@@ -390,14 +467,7 @@ export const TablePostAndWFH = () => {
           justifyContent={'center'}
           alignItems={'center'}
         >
-          <Box
-            p={{ base: '20px 24px' }}
-            overflowX={'auto'}
-            w={{
-              base: '100vw',
-              lg: `calc(100vw - ${sideBarWidth}px)`,
-            }}
-          >
+          <Box p={{ base: '20px 24px' }} overflowX={'auto'} w={'100%'}>
             <Table
               columns={wfhColumns}
               data={wfhList}
@@ -419,7 +489,7 @@ export const TablePostAndWFH = () => {
               <PageSize
                 noOfRows={noOfRows}
                 onChange={onPageSizeChange}
-                defaultValue={+noOfRows[2].value}
+                defaultValue={filter.maxResultCount}
               />
               <Spacer w="12px" />
               <ShowingItemText
