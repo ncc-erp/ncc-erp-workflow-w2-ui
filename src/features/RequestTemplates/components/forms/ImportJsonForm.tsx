@@ -32,7 +32,6 @@ const ImportJsonForm = ({
         const content = e.target.result as string;
         try {
           const jsonData = JSON.parse(content);
-          jsonData.defineJson.isPublished = false;
           setImportedData(JSON.stringify(jsonData, null, 2));
         } catch (error) {
           setImportedData('');
