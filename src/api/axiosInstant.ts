@@ -8,6 +8,7 @@ import Axios, {
 import { toast } from 'common/components/StandaloneToast';
 import { getItem } from 'utils';
 import { LocalStorageKeys } from 'common/enums';
+import * as Sentry from '@sentry/react';
 
 const { VITE_API_BASE_URL } = import.meta.env;
 
@@ -41,6 +42,7 @@ axios.interceptors.response.use(
     return response;
   },
   (error: AxiosError | Error) => {
+    Sentry.captureException(error);
     if (isAxiosError(error)) {
       const { data } = (error.response as AxiosResponse) ?? {};
       const { message } = error;

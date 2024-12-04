@@ -13,6 +13,7 @@ import { RouterProvider } from 'react-router-dom';
 import router from 'routes/index';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { ToastContainer } from 'common/components/StandaloneToast';
+import './utils/sentry';
 
 const manager = createLocalStorageManager('chakra-ui-color-mode');
 
