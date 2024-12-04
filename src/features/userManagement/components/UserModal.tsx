@@ -33,7 +33,6 @@ export const UserModal = ({
     initialValues = {
       userName: user?.userName,
       name: user?.name,
-      surname: user?.surname,
       email: user?.email,
       phoneNumber: user?.phoneNumber,
       isActive: user?.isActive,
