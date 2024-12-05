@@ -97,8 +97,8 @@ const CreateRoleWithPermissionsForm: React.FC<
   const handleConfirmDelete = async () => {
     if (roleIdToDelete) {
       await deleteRole(roleIdToDelete);
-      await refetchRoles();
     }
+    await refetchRoles();
     setIsModalOpen(false);
     onClose();
   };
@@ -107,7 +107,6 @@ const CreateRoleWithPermissionsForm: React.FC<
     await deleteRoleUser({ roleId, userId });
     setUsers((prevUsers) => prevUsers.filter((user) => user.id !== userId));
   };
-  console.log(PermissionConstants.DELETE_ROLE);
 
   return (
     <form onSubmit={handleSubmit} style={{ position: 'relative' }}>

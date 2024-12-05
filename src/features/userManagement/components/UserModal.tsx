@@ -33,12 +33,11 @@ export const UserModal = ({
     initialValues = {
       userName: user?.userName,
       name: user?.name,
-      surname: user?.surname,
       email: user?.email,
       phoneNumber: user?.phoneNumber,
       isActive: user?.isActive,
       lockoutEnabled: user?.lockoutEnabled,
-      roleNames: itemsArray[0]?.map((role: Role) => role.name).join(', '),
+      roleNames: itemsArray[0]?.map((role: Role) => role.name),
     };
     UserComponent = {
       [UserAction.EDIT]: (
