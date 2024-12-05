@@ -238,22 +238,23 @@ export const MyRequestTable = () => {
         id: 'actions',
         enableSorting: false,
         header: () => <Center w="full">Actions</Center>,
-        cell: (info) => (
-          <Center onClick={(e) => e.stopPropagation()}>
-            <RowAction
-              onCancel={onAction(info.row.original.id, 'canceled')}
-              onViewDetails={onActionViewDetails(info.row.original)}
-              onViewWorkflow={onActionViewWorkflow(info.row.original.id)}
-              actions={{
-                cancel:
-                  //isAdmin &&
-                  (hasPermission(Permissions.CANCEL_WORKFLOW_INSTANCE) &&
-                    info.row.original.status !== RequestStatus.Canceled) ||
-                  info.row.original.status === RequestStatus.Pending,
-              }}
-            />
-          </Center>
-        ),
+        cell: (info) => {
+          return (
+            // eslint-disable-next-line{}
+            <Center onClick={(e) => e.stopPropagation()}>
+              <RowAction
+                onCancel={onAction(info.row.original.id, 'canceled')}
+                onViewDetails={onActionViewDetails(info.row.original)}
+                onViewWorkflow={onActionViewWorkflow(info.row.original.id)}
+                actions={{
+                  cancel:
+                    hasPermission(Permissions.CANCEL_WORKFLOW_INSTANCE) &&
+                    info.row.original.status === RequestStatus.Pending,
+                }}
+              />
+            </Center>
+          );
+        },
       }),
     ] as ColumnDef<Request>[];
 

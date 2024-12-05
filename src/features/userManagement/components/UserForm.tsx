@@ -157,7 +157,6 @@ const UserForm = ({
     const roleNamesArray = Array.isArray(formik.values.roleNames)
       ? formik.values.roleNames
       : formik.values.roleNames.split(',').map((role) => role.trim());
-
     return (
       <Checkbox
         key={index}
