@@ -11,6 +11,7 @@ import UserForm from './UserForm';
 import { ModalUserParams, UserIdentity } from 'models/userIdentity';
 import { useRoleByUserId } from 'api/apiHooks/userIdentityHooks';
 import { Role } from 'models/roles';
+import styles from './style.module.scss';
 
 interface IUserModalProps {
   isOpen: boolean;
@@ -33,12 +34,11 @@ export const UserModal = ({
     initialValues = {
       userName: user?.userName,
       name: user?.name,
-      surname: user?.surname,
       email: user?.email,
       phoneNumber: user?.phoneNumber,
       isActive: user?.isActive,
       lockoutEnabled: user?.lockoutEnabled,
-      roleNames: itemsArray[0]?.map((role: Role) => role.name).join(', '),
+      roleNames: itemsArray[0]?.map((role: Role) => role.name),
     };
     UserComponent = {
       [UserAction.EDIT]: (
@@ -57,7 +57,7 @@ export const UserModal = ({
   return (
     <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false}>
       <ModalOverlay />
-      <ModalContent mx="8px">
+      <ModalContent className={styles.modalContent}>
         <ModalHeader fontSize="18px">{modalTitle} user</ModalHeader>
         <ModalCloseButton />
         {UserComponent && <ModalBody>{UserComponent[modalTitle]}</ModalBody>}

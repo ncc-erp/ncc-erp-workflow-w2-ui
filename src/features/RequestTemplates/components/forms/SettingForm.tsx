@@ -89,6 +89,7 @@ export const SettingForm = ({
     <FormControl
       mb="10px"
       ml={5}
+      mr={5}
       display="flex"
       flexDirection="column"
       gap={3}
@@ -157,7 +158,7 @@ export const SettingForm = ({
         </FormLabel>
         <TextField
           h="40px"
-          w="500px"
+          maxWidth="500px"
           fontSize="sm"
           name="title"
           value={formState.title}

@@ -18,10 +18,38 @@
   margin-bottom: 10px !important;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 576px) {
   .wrapper > div {
     width: 46%;
   }
+}
+
+@media (max-width: 768px) {
+  .modalContent {
+    width: 90vw !important;
+  }
+
+  .requestFilterBar {
+    justify-content: start !important;
+  }
+}
+
+.modalContent {
+  padding: 10px !important;
+  max-width: 700px !important;
+}
+
+.requestFilterBar {
+  display: flex;
+  padding-right: 30px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.coreColumnRow {
+  word-wrap: break-word;
+  word-break: break-word;
+  white-space: normal;
 }
 
 .modalBody {
