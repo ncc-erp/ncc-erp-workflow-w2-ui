@@ -1,4 +1,4 @@
-import { Center, CenterProps } from '@chakra-ui/react';
+import { Box, Center, CenterProps } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 
 interface EmptyWrapperProps extends CenterProps {
@@ -13,5 +13,9 @@ export const EmptyWrapper = ({
   message = 'empty',
   ...props
 }: EmptyWrapperProps) => {
-  return isEmpty ? <Center {...props}>{message}</Center> : <>{children}</>;
+  return isEmpty ? (
+    <Center {...props}>{message}</Center>
+  ) : (
+    <Box maxWidth={'100vw'}>{children}</Box>
+  );
 };

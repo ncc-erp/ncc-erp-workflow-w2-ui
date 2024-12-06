@@ -15,10 +15,19 @@
     width: 100%;
     margin-bottom: 10px !important;
 }
-@media (min-width: 768px) {
+@media (min-width: 576px) {
     .wrapper > div {
         width: 46%;
     }
+}
+@media (max-width: 768px) {
+  .modalContent {
+    width: 90vw !important;
+  }
+}
+.modalContent {
+  padding: 10px !important;
+  max-width: 700px !important;
 }
 .modalBody {
     max-height: 70vh;

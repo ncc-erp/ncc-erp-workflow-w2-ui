@@ -15,6 +15,7 @@ import {
   useUpdateRole,
 } from 'api/apiHooks/roleHook';
 import { useEffect } from 'react';
+import styles from '../style.module.scss';
 
 interface CreateRoleModalProps {
   isOpen: boolean;
@@ -64,7 +65,7 @@ export const CreateRoleModal = ({
   return (
     <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false}>
       <ModalOverlay />
-      <ModalContent style={{ minWidth: '20%' }}>
+      <ModalContent className={styles.modalContent}>
         <ModalHeader fontSize="lg">
           {selectedRoleId ? 'Edit Role' : 'Create Role'}
         </ModalHeader>
