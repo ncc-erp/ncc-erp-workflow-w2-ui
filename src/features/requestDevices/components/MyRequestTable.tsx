@@ -33,22 +33,22 @@ import { RequestSortField, RequestStatus, SortDirection } from 'common/enums';
 import { RowAction } from 'features/requestDevices/components/RowAction';
 import { useCurrentUser } from 'hooks/useCurrentUser';
 //import { useIsAdmin } from 'hooks/useIsAdmin';
+import { EmptyWrapper } from 'common/components/EmptyWrapper';
+import { ModalConfirm } from 'common/components/ModalConfirm';
+import OverflowText from 'common/components/OverflowText';
+import TextToolTip from 'common/components/textTooltip';
+import { WorkflowModal } from 'common/components/WorkflowModal';
+import useDebounced from 'hooks/useDebounced';
+import { useUserPermissions } from 'hooks/useUserPermissions';
 import { FilterRequestParams, Request, Settings } from 'models/request';
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { AiOutlineReload } from 'react-icons/ai';
+import { TbSearch } from 'react-icons/tb';
 import { useRecoilValue } from 'recoil';
 import { appConfigState } from 'stores/appConfig';
 import { formatDate } from 'utils';
 import { RequestDetailModal } from './DetailModal';
-import { WorkflowModal } from 'common/components/WorkflowModal';
-import { TbSearch } from 'react-icons/tb';
-import useDebounced from 'hooks/useDebounced';
-import { EmptyWrapper } from 'common/components/EmptyWrapper';
-import { ModalConfirm } from 'common/components/ModalConfirm';
-import { AiOutlineReload } from 'react-icons/ai';
 import styles from './style.module.scss';
-import OverflowText from 'common/components/OverflowText';
-import TextToolTip from 'common/components/textTooltip';
-import { useUserPermissions } from 'hooks/useUserPermissions';
 
 const initialSorting: SortingState = [
   {
@@ -186,7 +186,10 @@ export const MyRequestTable = () => {
           const currentStates = info.getValue();
           const formattedCurrentStates = currentStates.join(',\n');
           return (
-            <div dangerouslySetInnerHTML={{ __html: formattedCurrentStates }} />
+            <div
+              className={styles.coreColumnRow}
+              dangerouslySetInnerHTML={{ __html: formattedCurrentStates }}
+            />
           );
         },
       }),
@@ -199,7 +202,10 @@ export const MyRequestTable = () => {
           const stakeholders = info.getValue();
           const formattedStakeholders = stakeholders.join(',\n');
           return (
-            <div dangerouslySetInnerHTML={{ __html: formattedStakeholders }} />
+            <div
+              className={styles.coreColumnRow}
+              dangerouslySetInnerHTML={{ __html: formattedStakeholders }}
+            />
           );
         },
       }),
@@ -391,41 +397,35 @@ export const MyRequestTable = () => {
             )
           }
         </HStack>
-        {renderIfAllowed(
-          Permissions.VIEW_ALL_WORKFLOW_INSTANCES,
-          <Wrap px="24px" pt="8px" justify="space-between">
-            {
-              <WrapItem>
-                <Button
-                  isDisabled={isLoading || isRefetching}
-                  size={'md'}
-                  colorScheme={filter.RequestUser ? 'green' : 'gray'}
-                  onClick={() =>
-                    setFilter({
-                      ...filter,
-                      RequestUser: filter.RequestUser
-                        ? ''
-                        : currentUser?.sub[0],
-                    })
-                  }
-                  fontSize="sm"
-                  fontWeight="medium"
-                  mr={2}
-                >
-                  Only my request
-                </Button>
-              </WrapItem>
-            }
-          </Wrap>
-        )}
-        <Box position={'relative'}>
-          <Wrap
-            spacing={2}
-            px="24px"
-            position={'absolute'}
-            right="10px"
-            top={-8}
-          >
+        <Box className={styles.requestFilterBar}>
+          {renderIfAllowed(
+            Permissions.VIEW_ALL_WORKFLOW_INSTANCES,
+            <Wrap px="24px" justify="space-between">
+              {
+                <WrapItem>
+                  <Button
+                    isDisabled={isLoading || isRefetching}
+                    size={'md'}
+                    colorScheme={filter.RequestUser ? 'green' : 'gray'}
+                    onClick={() =>
+                      setFilter({
+                        ...filter,
+                        RequestUser: filter.RequestUser
+                          ? ''
+                          : currentUser?.sub[0],
+                      })
+                    }
+                    fontSize="sm"
+                    fontWeight="medium"
+                    mr={2}
+                  >
+                    Only my request
+                  </Button>
+                </WrapItem>
+              }
+            </Wrap>
+          )}
+          <Wrap spacing={2}>
             <WrapItem>
               <IconButton
                 isDisabled={isLoading || isRefetching}

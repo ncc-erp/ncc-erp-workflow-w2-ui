@@ -392,162 +392,170 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
           </div>
         </div>
         <div
-          class="css-wq2f8h"
+          class="css-b8r4vz"
         >
-          <table
-            class="chakra-table css-zy166a"
+          <div
+            class="css-wq2f8h"
           >
-            <thead
-              class="css-0"
+            <div
+              class="chakra-table__container css-zipzvv"
             >
-              <tr
-                class="css-1y39i0r"
+              <table
+                class="chakra-table css-zy166a"
               >
-                <th
-                  class="css-175w36i"
-                  colspan="1"
-                  style="width: 300px;"
+                <thead
+                  class="css-0"
                 >
-                  <div
-                    class="css-1qe39um"
+                  <tr
+                    class="css-1y39i0r"
                   >
-                    <div
-                      class="css-0"
+                    <th
+                      class="css-175w36i"
+                      colspan="1"
+                      style="width: 300px;"
                     >
-                      Email address
-                    </div>
-                    <span
-                      style="width: 16px;"
-                    />
-                  </div>
-                </th>
-                <th
-                  class="css-avwfu8"
-                  colspan="1"
-                  style="width: auto;"
-                >
-                  <div
-                    class="css-alaj7i"
-                  >
-                    <div
-                      class="css-0"
+                      <div
+                        class="css-1qe39um"
+                      >
+                        <div
+                          class="css-0"
+                        >
+                          Email address
+                        </div>
+                        <span
+                          style="width: 16px;"
+                        />
+                      </div>
+                    </th>
+                    <th
+                      class="css-avwfu8"
+                      colspan="1"
+                      style="width: auto;"
                     >
-                      Reason
-                    </div>
-                  </div>
-                </th>
-                <th
-                  class="css-avwfu8"
-                  colspan="1"
-                  style="width: 50px;"
-                >
-                  <div
-                    class="css-alaj7i"
-                  >
-                    Status
-                  </div>
-                </th>
-                <th
-                  class="css-175w36i"
-                  colspan="1"
-                  style="width: 80px;"
-                >
-                  <div
-                    class="css-1qe39um"
-                  >
-                    Remote Date
-                    <span
-                      style="width: 16px;"
-                    />
-                  </div>
-                </th>
-                <th
-                  class="css-175w36i"
-                  colspan="1"
-                  style="width: 150px;"
-                >
-                  <div
-                    class="css-1qe39um"
-                  >
-                    Created At
-                    <svg
-                      class="chakra-icon css-1pr7mfq"
-                      fill="currentColor"
-                      focusable="false"
-                      height="1em"
-                      stroke="currentColor"
-                      stroke-width="0"
-                      viewBox="0 0 512 512"
-                      width="1em"
-                      xmlns="http://www.w3.org/2000/svg"
+                      <div
+                        class="css-alaj7i"
+                      >
+                        <div
+                          class="css-0"
+                        >
+                          Reason
+                        </div>
+                      </div>
+                    </th>
+                    <th
+                      class="css-avwfu8"
+                      colspan="1"
+                      style="width: 50px;"
                     >
-                      <path
-                        d="M128 192l128 128 128-128z"
-                      />
-                    </svg>
-                  </div>
-                </th>
-              </tr>
-            </thead>
-            <tbody
-              class="css-0"
-            >
-              <tr
-                class="css-1bgkdca"
-                data-id="3a16854b-80bf-aed5-4252-7be0b33d10d2"
-              >
-                <td
-                  class="css-xk16pm"
-                >
-                  <div
-                    class="css-0"
-                  >
-                    manh.nguyenvan@ncc.asia
-                  </div>
-                </td>
-                <td
-                  class="css-xk16pm"
-                >
-                  <div
-                    class="css-0"
-                  >
-                    Crudelis synagoga alias earum.
-                  </div>
-                </td>
-                <td
-                  class="css-xk16pm"
-                >
-                  <div
-                    class="css-0"
-                  >
-                    <div
-                      class="badge Approved"
+                      <div
+                        class="css-alaj7i"
+                      >
+                        Status
+                      </div>
+                    </th>
+                    <th
+                      class="css-175w36i"
+                      colspan="1"
+                      style="width: 80px;"
                     >
-                      Approved
-                    </div>
-                  </div>
-                </td>
-                <td
-                  class="css-xk16pm"
+                      <div
+                        class="css-1qe39um"
+                      >
+                        Remote Date
+                        <span
+                          style="width: 16px;"
+                        />
+                      </div>
+                    </th>
+                    <th
+                      class="css-175w36i"
+                      colspan="1"
+                      style="width: 150px;"
+                    >
+                      <div
+                        class="css-1qe39um"
+                      >
+                        Created At
+                        <svg
+                          class="chakra-icon css-1pr7mfq"
+                          fill="currentColor"
+                          focusable="false"
+                          height="1em"
+                          stroke="currentColor"
+                          stroke-width="0"
+                          viewBox="0 0 512 512"
+                          width="1em"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M128 192l128 128 128-128z"
+                          />
+                        </svg>
+                      </div>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody
+                  class="css-0"
                 >
-                  <div
-                    class="css-0"
+                  <tr
+                    class="css-1bgkdca"
+                    data-id="3a16854b-80bf-aed5-4252-7be0b33d10d2"
                   >
-                    2024-12-15
-                  </div>
-                </td>
-                <td
-                  class="css-xk16pm"
-                >
-                  <div
-                    class="css-0"
-                  >
-                    28-11-2024 21:13
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+                    <td
+                      class="css-xk16pm"
+                    >
+                      <div
+                        class="css-0"
+                      >
+                        manh.nguyenvan@ncc.asia
+                      </div>
+                    </td>
+                    <td
+                      class="css-xk16pm"
+                    >
+                      <div
+                        class="css-0"
+                      >
+                        Crudelis synagoga alias earum.
+                      </div>
+                    </td>
+                    <td
+                      class="css-xk16pm"
+                    >
+                      <div
+                        class="css-0"
+                      >
+                        <div
+                          class="badge Approved"
+                        >
+                          Approved
+                        </div>
+                      </div>
+                    </td>
+                    <td
+                      class="css-xk16pm"
+                    >
+                      <div
+                        class="css-0"
+                      >
+                        2024-12-15
+                      </div>
+                    </td>
+                    <td
+                      class="css-xk16pm"
+                    >
+                      <div
+                        class="css-0"
+                      >
+                        28-11-2024 21:13
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
         <div
           class="chakra-stack css-148qy46"

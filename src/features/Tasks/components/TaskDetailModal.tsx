@@ -401,7 +401,7 @@ export const TaskDetailModal = ({
         closeOnOverlayClick={false}
       >
         <ModalOverlay />
-        <ModalContent p="10px" maxW="700px">
+        <ModalContent className={styles.modalContent}>
           <ModalHeader>
             <HStack>
               <Image h="45px" src={Logo} />
@@ -416,7 +416,8 @@ export const TaskDetailModal = ({
             </HStack>
             <div className={styles.listActionContainer}>
               <Button
-                className={styles.btnWFDetail}
+                width="fit-content"
+                fontSize={['12px', '16px']}
                 onClick={onActionViewWorkflow(
                   data?.tasks.workflowInstanceId as string
                 )}
@@ -459,6 +460,7 @@ export const TaskDetailModal = ({
                   tasks?.status === TaskStatus.Rejected ? null : (
                     <>
                       <Button
+                        fontSize={['12px', '16px']}
                         colorScheme="green"
                         isLoading={isLoadingBtnApprove}
                         onClick={handleApproveClick}
@@ -468,6 +470,7 @@ export const TaskDetailModal = ({
                         Approve
                       </Button>
                       <Button
+                        fontSize={['12px', '16px']}
                         colorScheme="red"
                         isLoading={isLoadingBtnReject}
                         onClick={handleRejectClick}

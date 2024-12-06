@@ -207,7 +207,7 @@ export const RequestDetailModal = ({
         closeOnOverlayClick={false}
       >
         <ModalOverlay />
-        <ModalContent p="10px" maxW="700px">
+        <ModalContent className={styles.modalContent}>
           <ModalHeader>
             <HStack>
               <Image h="45px" src={Logo} />

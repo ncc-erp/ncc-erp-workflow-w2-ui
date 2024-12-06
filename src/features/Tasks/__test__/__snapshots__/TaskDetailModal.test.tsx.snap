@@ -33,7 +33,7 @@ exports[`Task Detail Modal 1`] = `
           aria-describedby="chakra-modal--body-:r0:"
           aria-labelledby="chakra-modal--header-:r0:"
           aria-modal="true"
-          class="chakra-modal__content css-ctar5y"
+          class="chakra-modal__content modalContent css-6yiygt"
           id="chakra-modal-:r0:"
           role="dialog"
           style="opacity: 0; transform: scale(0.95) translateZ(0);"
@@ -69,7 +69,7 @@ exports[`Task Detail Modal 1`] = `
               class="listActionContainer"
             >
               <button
-                class="chakra-button btnWFDetail css-12eh3jv"
+                class="chakra-button css-ijq2e4"
                 type="button"
               >
                 View Workflow Detail
