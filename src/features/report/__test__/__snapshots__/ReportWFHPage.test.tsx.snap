@@ -305,7 +305,13 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
                     class="datePicker"
                     placeholder="Start Date"
                     type="text"
-                    value=""
+                    value="01/12/2024"
+                  />
+                  <button
+                    aria-label="Close"
+                    class="react-datepicker__close-icon btnClear"
+                    tabindex="-1"
+                    type="button"
                   />
                 </div>
               </div>
@@ -316,11 +322,10 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
                   class="react-datepicker__input-container"
                 >
                   <input
-                    class="datePicker disabled"
-                    disabled=""
+                    class="datePicker"
                     placeholder="End Date"
                     type="text"
-                    value=""
+                    value="31/12/2024"
                   />
                 </div>
               </div>
@@ -390,7 +395,7 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
           class="css-b8r4vz"
         >
           <div
-            class="css-189fxbb"
+            class="css-wq2f8h"
           >
             <div
               class="chakra-table__container css-zipzvv"
@@ -579,6 +584,7 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
                       id="field-:r2:"
                     >
                       <option
+                        selected=""
                         value="10"
                       >
                         10
@@ -589,7 +595,6 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
                         25
                       </option>
                       <option
-                        selected=""
                         value="50"
                       >
                         50
