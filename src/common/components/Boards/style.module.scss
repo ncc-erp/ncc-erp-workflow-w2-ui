@@ -53,6 +53,10 @@
       padding-right: 8px;
       padding-left: 8px;
       border-radius: 16px;
+      word-wrap: break-word;
+      word-break: break-word;
+      height: fit-content;
+      width: fit-content;
     }
     .person {
       color: var(--chakra-colors-blackButton-500);
