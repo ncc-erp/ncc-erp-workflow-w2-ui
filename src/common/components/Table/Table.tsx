@@ -25,6 +25,7 @@ import { useState } from 'react';
 import { IoMdArrowDropdown, IoMdArrowDropup } from 'react-icons/io';
 import theme from 'themes/theme';
 import TableSkeleton from './TableSkeleton';
+import styles from './style.module.scss';
 
 const fadeIn = keyframes`
   from { opacity: 0; }
@@ -96,7 +97,7 @@ export const Table = <D,>({
   };
 
   return (
-    <TableContainer>
+    <TableContainer className={styles.tableContainer}>
       <TableComponent border={`1px solid ${theme.colors.borderColor}`}>
         <Thead>
           {table.getHeaderGroups().map((headerGroup) => (

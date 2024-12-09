@@ -38,7 +38,7 @@ exports[`Request My Requests Page 1`] = `
           class="tableContent css-kge0eu"
         >
           <div
-            class="chakra-table__container css-zipzvv"
+            class="chakra-table__container tableContainer css-zipzvv"
           >
             <table
               class="chakra-table css-zy166a"
