@@ -398,7 +398,7 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
             class="css-wq2f8h"
           >
             <div
-              class="chakra-table__container css-zipzvv"
+              class="chakra-table__container tableContainer css-zipzvv"
             >
               <table
                 class="chakra-table css-zy166a"
