@@ -11,7 +11,8 @@ import {
 import { ColorThemeMode, Permissions } from 'common/constants';
 import { useUserPermissions } from 'hooks/useUserPermissions';
 import { FaCheckCircle, FaRegEyeSlash, FaEye, FaRegMap } from 'react-icons/fa';
-import { RiDeleteBin6Fill, RiSettings4Fill } from 'react-icons/ri';
+import { HiDotsVertical } from 'react-icons/hi';
+import { RiDeleteBin6Fill } from 'react-icons/ri';
 
 interface RowActionProps {
   onDefineInput: () => void;
@@ -38,8 +39,16 @@ export const RowAction = ({
         as={IconButton}
         aria-label=""
         variant="ghost"
-        size="sm"
-        icon={<Icon color="gray.500" fontSize="lg" as={RiSettings4Fill} />}
+        size="md"
+        icon={
+          <Icon
+            height={'24px'}
+            width={'24px'}
+            color="gray.500"
+            fontSize="lg"
+            as={HiDotsVertical}
+          />
+        }
       />
       <MenuList minW="100px" bg={bg}>
         {renderIfAllowed(

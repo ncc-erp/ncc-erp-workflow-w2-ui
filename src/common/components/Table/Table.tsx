@@ -82,7 +82,6 @@ export const Table = <D,>({
   });
   const color = useColorModeValue(ColorThemeMode.DARK, ColorThemeMode.LIGHT);
   const isLargeScreen = useMediaQuery('(min-width: 1024px)');
-
   const [columnHovered, setColumnHovered] = useState<Array<boolean>>([]);
   const handleMouseEnter = (index: number) => {
     const newColumnHovered = [...columnHovered];
@@ -97,7 +96,16 @@ export const Table = <D,>({
   };
 
   return (
-    <TableContainer className={styles.tableContainer}>
+    <TableContainer
+      sx={{
+        '&::-webkit-scrollbar': {
+          width: '0',
+          marginTop: '4px',
+          height: '6px',
+        },
+      }}
+      className={styles.tableContainer}
+    >
       <TableComponent border={`1px solid ${theme.colors.borderColor}`}>
         <Thead>
           {table.getHeaderGroups().map((headerGroup) => (
@@ -123,15 +131,21 @@ export const Table = <D,>({
                     textTransform="none"
                     fontWeight={600}
                     fontSize={{
-                      base: '10px',
-                      sm: '12px',
+                      base: '12px',
+                      sm: '14px',
                       lg: 'sm',
                       xl: 'sm',
                     }}
-                    border={`1px solid ${theme.colors.borderColor}`}
+                    height={'48px'}
+                    borderTop={`1px solid ${theme.colors.borderColor}`}
+                    borderBottom={`1px solid ${theme.colors.borderColor}`}
                     color={color}
                     px={['2px', '8px']}
-                    background="secondaryColor"
+                    background={
+                      color === 'light'
+                        ? theme.colors.TableHeaderLight
+                        : theme.colors.TableHeaderDark
+                    }
                     textAlign="center"
                     style={{
                       width: getThWidth(),
@@ -203,8 +217,7 @@ export const Table = <D,>({
                     {table.getAllColumns().map((_column, colIndex) => (
                       <Td
                         key={colIndex}
-                        fontSize={['10px', '12px', '12px', '14px']}
-                        borderRight="1px"
+                        fontSize={['12px', '12px', '12px', '14px']}
                         borderColor={theme.colors.borderColor}
                       >
                         <TableSkeleton />
@@ -245,8 +258,8 @@ export const Table = <D,>({
                       <Td
                         key={cell.id}
                         fontSize={['10px', '12px', '12px', '14px']}
-                        borderRight="1px"
                         borderColor={theme.colors.borderColor}
+                        height={'72px'}
                         px="6px"
                       >
                         {flexRender(

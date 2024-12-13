@@ -20,7 +20,6 @@ export const PageSize = ({
   isLoading,
 }: PageSizeProps) => {
   const color = useColorModeValue(ColorThemeMode.DARK, ColorThemeMode.LIGHT);
-  const bg = useColorModeValue(ColorThemeMode.LIGHT, ColorThemeMode.DARK);
 
   const handleChange = (event: ChangeEvent<HTMLSelectElement>) => {
     onChange(+event?.target.value);
@@ -39,13 +38,12 @@ export const PageSize = ({
         defaultValue={defaultValue}
         value={value}
         options={noOfRows}
-        variant="ghost"
+        variant="outline"
         size="xs"
         mt="-3px"
         ml="5px"
         fontSize="sm"
         onChange={handleChange}
-        background={bg}
         color={color}
       />
     </HStack>
