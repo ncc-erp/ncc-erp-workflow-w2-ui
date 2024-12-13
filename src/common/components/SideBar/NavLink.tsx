@@ -23,17 +23,18 @@ export const NavLink = ({ to, text, icon, onClick }: NavLinkProps) => {
       fontSize="sm"
       rounded="md"
       textDecoration="none"
+      color={'#BEC0C9'}
       onClick={onClick}
       _hover={{
-        backgroundColor: 'gray.200',
-        color: 'gray.700',
+        backgroundColor: 'rgba(255, 255, 255, 0.1)',
+        color: '#F0F1F5',
       }}
       _activeLink={{
-        backgroundColor: 'gray.200',
-        color: 'gray.700',
+        backgroundColor: 'rgba(255, 255, 255, 0.1)',
+        color: '#F0F1F5',
       }}
     >
-      <Icon textColor="gray.500" as={icon} fontSize="xl" />
+      <Icon as={icon} fontSize="xl" />
       {text}
     </Link>
   );
