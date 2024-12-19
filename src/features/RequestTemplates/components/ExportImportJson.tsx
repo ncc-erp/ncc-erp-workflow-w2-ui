@@ -25,6 +25,7 @@ interface ExportImportJsonProps {
   };
   hiddenButton?: Array<EButtonType>;
   onChangeData: (jsonObject: IJsonObject) => void;
+  isPublishWfStatus?: boolean;
 }
 const ExportImportJson: React.FC<ExportImportJsonProps> = ({
   inputDefinition,
@@ -32,6 +33,7 @@ const ExportImportJson: React.FC<ExportImportJsonProps> = ({
   buttonStyleObj,
   hiddenButton,
   onChangeData,
+  isPublishWfStatus = false,
 }) => {
   const [isImportJsonModalOpen, setIsImportJsonModalOpen] =
     useState<boolean>(false);
@@ -98,6 +100,7 @@ const ExportImportJson: React.FC<ExportImportJsonProps> = ({
         isOpen={isImportJsonModalOpen}
         onClose={onCloseModal}
         onchangeData={onChangeData}
+        isPublishWfStatus={isPublishWfStatus}
       />
       {!hiddenButton?.includes(EButtonType.EXPORT) && (
         <Button

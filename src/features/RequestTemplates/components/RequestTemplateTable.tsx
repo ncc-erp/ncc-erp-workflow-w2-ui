@@ -68,6 +68,7 @@ export const RequestTemplateTable = ({
   ]);
   const [workflowCreateData, setWorkflowCreateData] =
     useState<IJsonObject | null>(null);
+  const [isPublishWfStatus, setisPublishWfStatus] = useState<boolean>(false);
   const onConfirmDeleteWorkflow = (workflowId: string) => () => {
     setIsModalConfirmOpen(true);
     setRequestId(workflowId);
@@ -76,12 +77,18 @@ export const RequestTemplateTable = ({
   };
 
   const onDefineInputWorkflow =
-    (workflowId: string, inputDefinition: InputDefinition, name: string) =>
+    (
+      workflowId: string,
+      inputDefinition: InputDefinition,
+      name: string,
+      isPublish: boolean
+    ) =>
     () => {
       setIsModalDefineInputOpen(true);
       setRequestId(workflowId);
       setModalInputDefinition(inputDefinition);
       setModalTitle(name);
+      setisPublishWfStatus(isPublish);
     };
 
   const onDeleteWorkflow = async () => {
@@ -185,7 +192,8 @@ export const RequestTemplateTable = ({
                           requestDisplayName: displayName,
                           defineJson,
                         },
-                        name
+                        name,
+                        isPublished
                       )}
                       onViewWorkflow={onActionViewWorkflow(definitionId)}
                       onTogglePublish={() =>
@@ -345,6 +353,7 @@ export const RequestTemplateTable = ({
         inputDefinition={inputDefinition}
         isOpen={isModalDefineInputOpen}
         onClose={onCloseModal}
+        isPublishWfStatus={isPublishWfStatus}
       />
 
       <RequestTemplateModal
