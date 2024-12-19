@@ -97,6 +97,7 @@ export const TablePostAndWFH = () => {
           id: 'reason',
           enableSorting: false,
           sortDescFirst: true,
+          maxSize: 500,
           header: () => <Box>Reason</Box>,
           cell: (info) => (
             <Box
