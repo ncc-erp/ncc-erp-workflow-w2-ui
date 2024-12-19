@@ -212,3 +212,23 @@ export const useDeleteUserOnRole = (baseURL: string) => {
 
   return useMutation(mutate);
 };
+
+export const useDownloadFile = () => {
+  const axios = useAxios();
+  const downloadFile = async (fileName: string) => {
+    const presignedUrl: string = await axios.get(
+      `/app/file/presigned-url?fileName=${fileName}`
+    );
+    const file = await fetch(presignedUrl);
+    const blob = await file.blob();
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = fileName;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  };
+
+  return downloadFile;
+};

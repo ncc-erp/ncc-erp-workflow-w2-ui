@@ -127,6 +127,9 @@ jest.mock('api/apiHooks/requestHooks', () => ({
   useNewRequestWorkflow: jest.fn(() => ({
     mutateAsync: jest.fn(),
   })),
+  useUploadFile: jest.fn(() => ({
+    mutateAsync: jest.fn(),
+  })),
 }));
 
 const inputDefinition: InputDefinition = {
