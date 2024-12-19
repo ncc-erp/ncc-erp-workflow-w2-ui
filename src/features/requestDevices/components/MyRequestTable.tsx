@@ -425,7 +425,7 @@ export const MyRequestTable = () => {
               }
             </Wrap>
           )}
-          <Wrap spacing={2}>
+          <Wrap spacing={2} className={styles.requestFilterItem}>
             <WrapItem>
               <IconButton
                 isDisabled={isLoading || isRefetching}
@@ -470,7 +470,8 @@ export const MyRequestTable = () => {
           </Box>
 
           <HStack
-            p="20px 30px 20px 30px"
+            m="20px 30px 20px 30px"
+            zIndex={-999}
             justifyContent={['center', 'space-between']}
             flexWrap="wrap"
           >

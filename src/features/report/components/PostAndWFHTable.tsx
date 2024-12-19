@@ -99,7 +99,16 @@ export const TablePostAndWFH = () => {
           sortDescFirst: true,
           maxSize: 500,
           header: () => <Box>Reason</Box>,
-          cell: (info) => <Box>{info.getValue() ?? '-'}</Box>,
+          cell: (info) => (
+            <Box
+              sx={{
+                wordWrap: 'break-word',
+                whiteSpace: 'normal',
+              }}
+            >
+              {info.getValue() ?? '-'}
+            </Box>
+          ),
         }),
         columnHelper.accessor('status', {
           id: 'status',

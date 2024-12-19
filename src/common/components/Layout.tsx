@@ -6,10 +6,14 @@ const Layout = () => {
   const isLargeScreen = useMediaQuery('(min-width: 1024px)');
   return (
     <Flex>
-      <SideNav 
-        isLargeScreen={isLargeScreen}
-      />
-      <Box flex={1}>
+      <SideNav isLargeScreen={isLargeScreen} />
+      <Box
+        style={{
+          width: '100% !important',
+          overflowX: 'hidden',
+        }}
+        flex={1}
+      >
         <Outlet />
       </Box>
     </Flex>

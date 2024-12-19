@@ -41,11 +41,18 @@
 
 .requestFilterBar {
   display: flex;
-  padding-right: 30px;
   justify-content: space-between;
   align-items: center;
 }
 
+
+.requestFilterItem {
+  flex: 1;
+  display: flex;
+  padding: 0 30px;
+  justify-content: end;
+  align-items: center;
+}
 .coreColumnRow {
   word-wrap: break-word;
   word-break: break-word;
