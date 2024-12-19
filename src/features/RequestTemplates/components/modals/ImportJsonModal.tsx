@@ -13,6 +13,7 @@ interface ImportJsonModalProps {
   onClose: () => void;
   id: string | undefined;
   onchangeData: (jsonObject: IJsonObject) => void;
+  isPublishWfStatus: boolean;
 }
 
 export const ImportJsonModal = ({
@@ -20,6 +21,7 @@ export const ImportJsonModal = ({
   onClose,
   id,
   onchangeData,
+  isPublishWfStatus,
 }: ImportJsonModalProps) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false}>
@@ -31,6 +33,7 @@ export const ImportJsonModal = ({
             id={id}
             onCloseModal={onClose}
             onChangeData={onchangeData}
+            isPublishWfStatus={isPublishWfStatus}
           />
         </ModalBody>
       </ModalContent>

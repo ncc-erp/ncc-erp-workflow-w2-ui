@@ -20,6 +20,7 @@ interface DefineTemplateInputModalProps {
   onClose: () => void;
   inputDefinition?: InputDefinition;
   workflowName: string;
+  isPublishWfStatus: boolean;
 }
 
 export const DefineTemplateInputModal = ({
@@ -28,6 +29,7 @@ export const DefineTemplateInputModal = ({
   inputDefinition,
   requestId,
   workflowName,
+  isPublishWfStatus,
 }: DefineTemplateInputModalProps) => {
   const [updatedInputDefinition, setUpdatedInputDefinition] = useState<
     InputDefinition | undefined
@@ -99,6 +101,7 @@ export const DefineTemplateInputModal = ({
             workflowName={workflowName}
             inputDefinition={updatedInputDefinition}
             onChangeData={handleChangeData}
+            isPublishWfStatus={isPublishWfStatus}
           />
         </Grid>
         <Divider></Divider>
