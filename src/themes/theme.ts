@@ -54,7 +54,9 @@ export const theme = extendTheme({
       500: '#d2d2d2',
       600: '#585858',
     },
-    borderColor: 'var(--chakra-colors-chakra-border-color)',
+    borderColor: '#E2E8F0',
+    TableHeaderLight: '#1A202C',
+    TableHeaderDark: '#F2F4F7',
   },
   components: {
     Menu: menuTheme,
