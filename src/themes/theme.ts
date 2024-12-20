@@ -57,10 +57,42 @@ export const theme = extendTheme({
     borderColor: '#E2E8F0',
     TableHeaderLight: '#1A202C',
     TableHeaderDark: '#F2F4F7',
+    wine: {
+      800: '#45263A',
+    },
+    stone: {
+      50: '#F2F4F7',
+      100: '#F0F1F5',
+      200: '#EAECF0',
+      300: '#E2E8F0',
+      400: '#D0D5DD',
+      500: '#BEC0C9',
+      600: '#4D526D',
+      700: '#344054',
+      800: '#2A2D3D',
+      900: '#212330',
+      950: '#171923',
+    },
+    stoneAlpha: {
+      '200/20': '#EAECF033',
+    },
+    ruby: {
+      700: '#E53E3E',
+      800: '#EC4755',
+      900: '#B43A3F',
+    },
   },
   components: {
     Menu: menuTheme,
     Drawer: drawerTheme,
+  },
+  semanticTokens: {
+    colors: {
+      sidebarBg: {
+        default: 'wine.800',
+        _dark: 'stone.900',
+      },
+    },
   },
 });
 
