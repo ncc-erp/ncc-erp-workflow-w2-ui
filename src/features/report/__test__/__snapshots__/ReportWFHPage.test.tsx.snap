@@ -338,7 +338,7 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
             class="css-wq2f8h"
           >
             <div
-              class="chakra-table__container tableContainer css-1v4o0b3"
+              class="chakra-table__container tableContainer css-nkv5sy"
             >
               <table
                 class="chakra-table css-1392dy8"
@@ -439,7 +439,7 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
                   class="css-0"
                 >
                   <tr
-                    class="css-1bgkdca"
+                    class="css-jt9dp6"
                     data-id="3a16854b-80bf-aed5-4252-7be0b33d10d2"
                   >
                     <td

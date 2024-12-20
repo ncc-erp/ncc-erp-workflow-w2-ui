@@ -129,7 +129,7 @@ export const SideBarContent = ({ isLargeScreen }: SideBarContentProps) => {
 
   return (
     <VStack
-      bg={'#45263A'}
+      bg="sidebarBg"
       h="100vh"
       alignItems="stretch"
       display={'flex'}
@@ -198,15 +198,18 @@ export const SideBarContent = ({ isLargeScreen }: SideBarContentProps) => {
                     <AccordionButton
                       borderRadius={'0.375rem'}
                       p={0}
+                      border="1px transparent solid"
                       _hover={{
                         backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                        color: '#F0F1F5',
+                        color: 'stone.100',
+                        borderColor: 'stoneAlpha.200/20',
                       }}
                       _activeLink={{
                         backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                        color: '#F0F1F5',
+                        color: 'stone.100',
+                        borderColor: 'stoneAlpha.200/20',
                       }}
-                      color={'#BEC0C9'}
+                      color="stone.500"
                     >
                       <Link
                         px="8px"
@@ -217,7 +220,6 @@ export const SideBarContent = ({ isLargeScreen }: SideBarContentProps) => {
                         alignItems="center"
                         gap="12px"
                         fontSize="sm"
-                        color={'#F0F1F5'}
                         rounded="md"
                         textDecoration="none !important"
                       >
@@ -263,7 +265,7 @@ export const SideBarContent = ({ isLargeScreen }: SideBarContentProps) => {
             mr={2}
             onClick={onNavigate('/release-content')}
             title="Release note"
-            color={'#F0F1F5'}
+            color={'stone.100'}
             bg="transparent"
             _hover={{
               backgroundColor: 'rgba(255, 255, 255, 0.1)',
@@ -284,7 +286,7 @@ export const SideBarContent = ({ isLargeScreen }: SideBarContentProps) => {
             onClick={() => {
               window.open(LinkDocRedirect.USER_GUIDE_DOCS, '_blank');
             }}
-            color={'#F0F1F5'}
+            color={'stone.100'}
             title="User guide"
             _hover={{
               backgroundColor: 'rgba(255, 255, 255, 0.1)',

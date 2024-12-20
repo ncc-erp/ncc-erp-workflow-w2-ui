@@ -81,6 +81,18 @@ export const Table = <D,>({
     getCoreRowModel: getCoreRowModel(),
   });
   const color = useColorModeValue(ColorThemeMode.DARK, ColorThemeMode.LIGHT);
+  const borderColor = useColorModeValue(
+    theme.colors.borderLight,
+    theme.colors.borderDark
+  );
+  const itemTableHover = useColorModeValue(
+    theme.colors.hoverTableItemLight,
+    theme.colors.hoverTableItemDark
+  );
+  const itemTableColor = useColorModeValue(
+    theme.colors.colorTableItemLight,
+    theme.colors.colorTableItemDark
+  );
   const isLargeScreen = useMediaQuery('(min-width: 1024px)');
   const [columnHovered, setColumnHovered] = useState<Array<boolean>>([]);
   const handleMouseEnter = (index: number) => {
@@ -94,7 +106,7 @@ export const Table = <D,>({
     newColumnHovered[index] = false;
     setColumnHovered(newColumnHovered);
   };
-
+  console.log('borderColor', borderColor);
   return (
     <TableContainer
       sx={{
@@ -105,11 +117,12 @@ export const Table = <D,>({
         },
       }}
       className={styles.tableContainer}
+      border={`1px solid ${borderColor}`}
     >
-      <TableComponent border={`1px solid ${theme.colors.borderColor}`}>
+      <TableComponent border={`1px solid ${borderColor}`}>
         <Thead>
           {table.getHeaderGroups().map((headerGroup) => (
-            <Tr key={headerGroup.id} bg={theme.colors.borderColor}>
+            <Tr key={headerGroup.id} bg={borderColor}>
               {headerGroup.headers.map((header, index) => {
                 const DEFAULT_COLUMN_LOADING_WIDTH = '35%';
 
@@ -137,8 +150,8 @@ export const Table = <D,>({
                       xl: 'sm',
                     }}
                     height={'48px'}
-                    borderTop={`1px solid ${theme.colors.borderColor}`}
-                    borderBottom={`1px solid ${theme.colors.borderColor}`}
+                    borderTop={`1px solid ${borderColor}`}
+                    borderBottom={`1px solid ${borderColor}`}
                     color={color}
                     px={['2px', '8px']}
                     background={
@@ -218,7 +231,7 @@ export const Table = <D,>({
                       <Td
                         key={colIndex}
                         fontSize={['12px', '12px', '12px', '14px']}
-                        borderColor={theme.colors.borderColor}
+                        borderColor={borderColor}
                       >
                         <TableSkeleton />
                       </Td>
@@ -233,12 +246,12 @@ export const Table = <D,>({
                 <Tr
                   key={row.id}
                   cursor={onRowHover ? 'pointer' : 'initial'}
+                  color={itemTableColor}
                   _hover={
                     isHighlight
                       ? {
-                          background: theme.colors.secondary,
+                          background: itemTableHover,
                           transition: 'background-color 0.5s ease',
-                          color: '#333',
                         }
                       : {}
                   }
@@ -258,7 +271,7 @@ export const Table = <D,>({
                       <Td
                         key={cell.id}
                         fontSize={['10px', '12px', '12px', '14px']}
-                        borderColor={theme.colors.borderColor}
+                        borderColor={borderColor}
                         height={'72px'}
                         px="6px"
                       >

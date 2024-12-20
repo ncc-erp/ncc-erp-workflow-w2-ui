@@ -38,7 +38,7 @@ exports[`Request My Requests Page 1`] = `
           class="tableContent css-kge0eu"
         >
           <div
-            class="chakra-table__container tableContainer css-1v4o0b3"
+            class="chakra-table__container tableContainer css-nkv5sy"
           >
             <table
               class="chakra-table css-1392dy8"
@@ -155,7 +155,7 @@ exports[`Request My Requests Page 1`] = `
                 class="css-0"
               >
                 <tr
-                  class="css-1mmrbq3"
+                  class="css-1i4d0ta"
                   data-id="3a0e2b21-7143-224b-f17f-6d0ca4f7d274"
                   data-instance-id="3a0e2b21-6ea7-959e-fe4c-e5954ead2832"
                   data-testid="task-item"
