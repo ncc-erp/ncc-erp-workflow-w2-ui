@@ -13,6 +13,7 @@ import { useUserPermissions } from 'hooks/useUserPermissions';
 import { FaCheckCircle, FaRegEyeSlash, FaEye, FaRegMap } from 'react-icons/fa';
 import { HiDotsVertical } from 'react-icons/hi';
 import { RiDeleteBin6Fill } from 'react-icons/ri';
+import theme from 'themes/theme';
 
 interface RowActionProps {
   onDefineInput: () => void;
@@ -30,8 +31,19 @@ export const RowAction = ({
   onTogglePublish,
 }: RowActionProps) => {
   const bg = useColorModeValue(ColorThemeMode.LIGHT, ColorThemeMode.DARK);
-  const color = useColorModeValue(ColorThemeMode.DARK, ColorThemeMode.LIGHT);
   const { renderIfAllowed } = useUserPermissions();
+  const bgMenuItem = useColorModeValue(
+    theme.colors.actionMenuDarkBg,
+    theme.colors.actionMenuLightBg
+  );
+  const hoverBgMenuItem = useColorModeValue(
+    theme.colors.actionMenuBgDarkHover,
+    theme.colors.actionMenuBgLightHover
+  );
+  const textColerMenuItem = useColorModeValue(
+    theme.colors.actionMenuDarkText,
+    theme.colors.actionMenuLightText
+  );
 
   return (
     <Menu>
@@ -54,9 +66,14 @@ export const RowAction = ({
         {renderIfAllowed(
           Permissions.DEFINE_INPUT,
           <MenuItem
-            color={color}
             display="flex"
             gap="12px"
+            background={bgMenuItem}
+            color={textColerMenuItem}
+            _hover={{
+              bg: hoverBgMenuItem,
+              color: textColerMenuItem,
+            }}
             onClick={onDefineInput}
           >
             <Icon color="gray.500" as={FaEye} />
@@ -66,10 +83,15 @@ export const RowAction = ({
         {renderIfAllowed(
           Permissions.EDIT_WORKFLOW_DEFINITION,
           <MenuItem
-            color={color}
             display="flex"
             gap="12px"
             onClick={onViewWorkflow}
+            background={bgMenuItem}
+            color={textColerMenuItem}
+            _hover={{
+              bg: hoverBgMenuItem,
+              color: textColerMenuItem,
+            }}
           >
             <Icon color="gray.500" as={FaRegMap} />
             Edit Workflow
@@ -78,10 +100,15 @@ export const RowAction = ({
         {renderIfAllowed(
           Permissions.UPDATE_WORKFLOW_DEFINITION_STATUS,
           <MenuItem
-            color={color}
             display="flex"
             gap="12px"
             onClick={onTogglePublish}
+            background={bgMenuItem}
+            color={textColerMenuItem}
+            _hover={{
+              bg: hoverBgMenuItem,
+              color: textColerMenuItem,
+            }}
           >
             <Icon
               color="gray.500"
@@ -92,7 +119,17 @@ export const RowAction = ({
         )}
         {renderIfAllowed(
           Permissions.DELETE_WORKFLOW_DEFINITION,
-          <MenuItem color={color} display="flex" gap="12px" onClick={onDelete}>
+          <MenuItem
+            display="flex"
+            gap="12px"
+            onClick={onDelete}
+            background={bgMenuItem}
+            color={textColerMenuItem}
+            _hover={{
+              bg: hoverBgMenuItem,
+              color: textColerMenuItem,
+            }}
+          >
             <Icon color="gray.500" as={RiDeleteBin6Fill} />
             Delete
           </MenuItem>

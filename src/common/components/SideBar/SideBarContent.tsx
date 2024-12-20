@@ -220,7 +220,6 @@ export const SideBarContent = ({ isLargeScreen }: SideBarContentProps) => {
                         alignItems="center"
                         gap="12px"
                         fontSize="sm"
-                        color={'stone.100'}
                         rounded="md"
                         textDecoration="none !important"
                       >
