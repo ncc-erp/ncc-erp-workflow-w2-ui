@@ -10,7 +10,8 @@ export const PageHeader = ({ children, ...props }: PageHeaderProps) => {
     <HStack
       px="24px"
       py="20px"
-      h="78px"
+      h="87px"
+      mb={'10px'}
       alignItems="center"
       display="flex"
       justifyContent="space-between"

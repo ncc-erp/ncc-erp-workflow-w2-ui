@@ -23,7 +23,6 @@ import {
 import { EmptyWrapper } from 'common/components/EmptyWrapper';
 import { Pagination } from 'common/components/Pagination';
 import { PageSize } from 'common/components/Table/PageSize';
-import { ShowingItemText } from 'common/components/Table/ShowingItemText';
 import { Table } from 'common/components/Table/Table';
 import {
   OtherActionSignalStatus,
@@ -49,6 +48,8 @@ import { WorkflowModal } from 'common/components/WorkflowModal';
 import OverflowText from '../OverflowText';
 import TextToolTip from '../textTooltip';
 import { useUserPermissions } from 'hooks/useUserPermissions';
+import { useMediaQuery } from 'hooks/useMediaQuery';
+import { PaginationMobile } from '../PaginationMobile';
 
 interface Props {
   filters: FilterTasks;
@@ -64,6 +65,8 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
   const [filter, setFilter] = useState<FilterTasks>(filters);
   const columnHelper = createColumnHelper<ITask>();
   const { sideBarWidth } = useRecoilValue(appConfigState);
+  const isLargeScreen = useMediaQuery('(min-width: 1024px)');
+
   const user = useCurrentUser();
   const { data, refetch, isLoading, isRefetching } = useGetTasks({ ...filter });
   const approveTaskMutation = useApproveTask();
@@ -518,35 +521,48 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
               </Box>
             </Box>
           </EmptyWrapper>
-          <HStack
-            p={['20px 30px 20px 30px', '0px 30px 20px 30px']}
-            justifyContent={['center', 'space-between']}
-            borderBottom="1px"
-            borderColor="gray.200"
-            flexWrap="wrap"
-          >
-            <HStack alignItems="center" spacing="6px" flexWrap="wrap">
-              <PageSize
-                noOfRows={noOfRows}
-                onChange={onPageSizeChange}
-                value={filter.maxResultCount}
-              />
-              <Spacer w="12px" />
-              <ShowingItemText
-                skipCount={filter.skipCount}
-                maxResultCount={filter.maxResultCount}
-                totalCount={data?.totalCount ?? 0}
+          {isLargeScreen ? (
+            <HStack
+              p={['20px 30px 20px 30px', '20px 30px 20px 30px']}
+              justifyContent={['center', 'space-between']}
+              borderBottom="1px"
+              borderColor="gray.200"
+              flexWrap="wrap"
+            >
+              <HStack alignItems="center" spacing="6px" flexWrap="wrap">
+                <PageSize
+                  noOfRows={noOfRows}
+                  onChange={onPageSizeChange}
+                  value={filter.maxResultCount}
+                />
+                <Spacer w="12px" />
+              </HStack>
+              <Pagination
+                total={data?.totalCount ?? 0}
+                pageSize={filter.maxResultCount}
+                current={currentPage}
+                onChange={onPageChange}
+                hideOnSinglePage
+                data-testid="pagination"
               />
             </HStack>
-            <Pagination
-              total={data?.totalCount ?? 0}
-              pageSize={filter.maxResultCount}
-              current={currentPage}
-              onChange={onPageChange}
-              hideOnSinglePage
-              data-testid="pagination"
-            />
-          </HStack>
+          ) : (
+            <HStack
+              display={'flex'}
+              width={'100%'}
+              p={['0px 40px 20px 40px', '0px 40px 20px 40px']}
+              justifyContent={['center', 'space-between']}
+            >
+              <PaginationMobile
+                total={data?.totalCount ?? 0}
+                pageSize={filter.maxResultCount}
+                current={currentPage}
+                onChange={onPageChange}
+                hideOnSinglePage
+                data-testid="pagination"
+              />
+            </HStack>
+          )}
         </>
       </Box>
       <ModalBoard
