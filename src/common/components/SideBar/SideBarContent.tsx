@@ -129,7 +129,7 @@ export const SideBarContent = ({ isLargeScreen }: SideBarContentProps) => {
           to: '/report/report-wfh',
           text: 'Report WFH',
           icon: TbHomeEdit,
-          permission: Permissions.VIEW_WFH_REPORTS,
+          permission: Permissions.WFH_REPORTS,
         },
       ],
     },
@@ -243,7 +243,7 @@ export const SideBarContent = ({ isLargeScreen }: SideBarContentProps) => {
         </>
         <>
           {ReportNavList.map((reportNav) => {
-            const hasReportPermission = [Permissions.WFH_REPORTS].some(
+            const hasReportPermission = [Permissions.VIEW_WFH_REPORTS].some(
               hasPermission
             );
             return hasReportPermission ? (
