@@ -344,7 +344,7 @@ exports[`Request My Requests Page 1`] = `
       </div>
     </div>
     <div
-      class="chakra-stack css-m4cjlb"
+      class="chakra-stack css-1g7dtdu"
     >
       <div
         class="chakra-stack css-130amzp"
@@ -419,11 +419,6 @@ exports[`Request My Requests Page 1`] = `
         <div
           class="css-iz7l97"
         />
-        <p
-          class="chakra-text css-3z0v2v"
-        >
-          showing 1 to 1 of 1 entries
-        </p>
       </div>
     </div>
   </div>

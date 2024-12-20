@@ -20,7 +20,6 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Pagination } from 'common/components/Pagination';
 import { noOfRows } from 'common/constants';
 import { PageSize } from 'common/components/Table/PageSize';
-import { ShowingItemText } from 'common/components/Table/ShowingItemText';
 import { EmptyWrapper } from 'common/components/EmptyWrapper';
 import { useRecoilValue } from 'recoil';
 import { appConfigState } from 'stores/appConfig';
@@ -37,6 +36,8 @@ import { UserRoleLabelMapping } from '../../../common/constants';
 import { useUserPermissions } from 'hooks/useUserPermissions';
 import { Permissions } from 'common/constants';
 import { useGetAllRoles } from 'api/apiHooks/roleHook';
+import { PaginationMobile } from 'common/components/PaginationMobile';
+import { useMediaQuery } from 'hooks/useMediaQuery';
 const initialFilter: FilterUserParams = {
   filter: '',
   maxResultCount: +noOfRows[0].value,
@@ -56,6 +57,7 @@ export const UserManagementTable = () => {
   const { sideBarWidth } = useRecoilValue(appConfigState);
   const [filterUser, setFilterUser] = useState<FilterUserParams>(initialFilter);
   const [sorting, setSorting] = useState<SortingState>(initialSorting);
+  const isLargeScreen = useMediaQuery('(min-width: 1024px)');
   const { data, isLoading, refetch, isRefetching } =
     useUserIdentity(filterUser);
   const { data: roles } = useRoles();
@@ -301,29 +303,48 @@ export const UserManagementTable = () => {
           }}
           flexWrap="wrap"
         >
-          <HStack
-            alignItems="center"
-            spacing="6px"
-            flexWrap="wrap"
-            px={{ base: '10px', sm: '12px', lg: '0px' }}
-            pl={'-60px'}
-          >
-            <PageSize noOfRows={noOfRows} onChange={onPageSizeChange} />
-            <Spacer w="2px" />
-            <ShowingItemText
-              skipCount={filterUser.skipCount}
-              maxResultCount={filterUser.maxResultCount}
-              totalCount={totalCount}
-            />
-          </HStack>
-          <Pagination
-            total={totalCount}
-            pageSize={filterUser.maxResultCount}
-            current={currentPage}
-            onChange={onPageChange}
-            hideOnSinglePage
-            data-testid="pagination"
-          />
+          {isLargeScreen ? (
+            <HStack
+              p={['20px 30px 20px 30px', '20px 30px 20px 30px']}
+              justifyContent={['center', 'space-between']}
+              borderBottom="1px"
+              borderColor="gray.200"
+              flexWrap="wrap"
+            >
+              <HStack alignItems="center" spacing="6px" flexWrap="wrap">
+                <PageSize
+                  noOfRows={noOfRows}
+                  onChange={onPageSizeChange}
+                  value={filterUser.maxResultCount}
+                />
+                <Spacer w="12px" />
+              </HStack>
+              <Pagination
+                total={totalCount}
+                pageSize={filterUser.maxResultCount}
+                current={currentPage}
+                onChange={onPageChange}
+                hideOnSinglePage
+                data-testid="pagination"
+              />
+            </HStack>
+          ) : (
+            <HStack
+              display={'flex'}
+              width={'100%'}
+              p={['0px 40px 20px 40px', '0px 40px 20px 40px']}
+              justifyContent={['center', 'space-between']}
+            >
+              <PaginationMobile
+                total={data?.totalCount ?? 0}
+                pageSize={filterUser.maxResultCount}
+                current={currentPage}
+                onChange={onPageChange}
+                hideOnSinglePage
+                data-testid="pagination"
+              />
+            </HStack>
+          )}
         </HStack>
         {user && (
           <UserModal

@@ -138,23 +138,27 @@ export const SideBarContent = ({ isLargeScreen }: SideBarContentProps) => {
       spacing={0}
     >
       <Box>
-        <Box width={'100%'} padding={'8px 16px 20px 16px'}>
+        <Box
+          width={'100%'}
+          padding={isLargeScreen ? '20px 16px 0px 16px' : '8px 16px 0px 16px'}
+        >
           {isLargeScreen ? (
             <HStack
               cursor="pointer"
               alignItems="center"
-              py="20px"
-              px="16px"
+              height={'80px'}
               spacing="12px"
               onClick={onNavigate('/')}
             >
               <Image h="40px" src={Logo} />
-              <Heading color={'#ffffff'} fontSize="18px">
+              <Heading color={'#ffffff'} fontWeight={'500px'} fontSize="18px">
                 NCC Workflow
               </Heading>
             </HStack>
           ) : (
-            <CurrentUser isMobile={true} />
+            <HStack height={'80px'} spacing="12px">
+              <CurrentUser isMobile={true} />
+            </HStack>
           )}
         </Box>
 
@@ -213,6 +217,7 @@ export const SideBarContent = ({ isLargeScreen }: SideBarContentProps) => {
                         alignItems="center"
                         gap="12px"
                         fontSize="sm"
+                        color={'#F0F1F5'}
                         rounded="md"
                         textDecoration="none !important"
                       >

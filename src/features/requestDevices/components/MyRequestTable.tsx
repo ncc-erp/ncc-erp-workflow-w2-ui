@@ -26,7 +26,6 @@ import { Pagination } from 'common/components/Pagination';
 import { SelectField } from 'common/components/SelectField';
 import { toast } from 'common/components/StandaloneToast';
 import { PageSize } from 'common/components/Table/PageSize';
-import { ShowingItemText } from 'common/components/Table/ShowingItemText';
 import { Table } from 'common/components/Table/Table';
 import { Permissions, QueryKeys, noOfRows } from 'common/constants';
 import { RequestSortField, RequestStatus, SortDirection } from 'common/enums';
@@ -49,6 +48,8 @@ import { appConfigState } from 'stores/appConfig';
 import { formatDate } from 'utils';
 import { RequestDetailModal } from './DetailModal';
 import styles from './style.module.scss';
+import { useMediaQuery } from 'hooks/useMediaQuery';
+import { PaginationMobile } from 'common/components/PaginationMobile';
 
 const initialSorting: SortingState = [
   {
@@ -59,6 +60,7 @@ const initialSorting: SortingState = [
 
 export const MyRequestTable = () => {
   const currentUser = useCurrentUser();
+  const isLargeScreen = useMediaQuery('(min-width: 768px)');
   const initialFilter: FilterRequestParams = {
     Status: '',
     WorkflowDefinitionId: '',
@@ -74,7 +76,7 @@ export const MyRequestTable = () => {
   const [sorting, setSorting] = useState<SortingState>(initialSorting);
   const { data, isLoading, isRefetching, refetch } = useMyRequests(filter);
   const { data: requestTemplateData } = useRequestTemplates(isPublish);
-  const { items: requests = [], totalCount = 0 } = data ?? {};
+  const { items: requests = [] } = data ?? {};
   const { items: requestTemplates = [] } = requestTemplateData ?? {};
   const { skipCount, maxResultCount } = filter;
   const currentPage = (maxResultCount + skipCount) / maxResultCount;
@@ -469,34 +471,48 @@ export const MyRequestTable = () => {
             />
           </Box>
 
-          <HStack
-            m="20px 30px 20px 30px"
-            zIndex={-999}
-            justifyContent={['center', 'space-between']}
-            flexWrap="wrap"
-          >
-            <HStack alignItems="center" spacing="6px" flexWrap="wrap">
-              <PageSize
-                noOfRows={noOfRows}
-                onChange={onPageSizeChange}
-                isLoading={isLoading || isRefetching}
-              />
-              <Spacer w="5px" />
-              <ShowingItemText
-                skipCount={filter.skipCount}
-                maxResultCount={filter.maxResultCount}
-                totalCount={totalCount}
+          {isLargeScreen ? (
+            <HStack
+              p={['20px 30px 20px 30px', '20px 30px 20px 30px']}
+              justifyContent={['center', 'space-between']}
+              borderBottom="1px"
+              borderColor="gray.200"
+              flexWrap="wrap"
+            >
+              <HStack alignItems="center" spacing="6px" flexWrap="wrap">
+                <PageSize
+                  noOfRows={noOfRows}
+                  onChange={onPageSizeChange}
+                  value={filter.maxResultCount}
+                />
+                <Spacer w="12px" />
+              </HStack>
+              <Pagination
+                total={data?.totalCount ?? 0}
+                pageSize={filter.maxResultCount}
+                current={currentPage}
+                onChange={onPageChange}
+                hideOnSinglePage
+                data-testid="pagination"
               />
             </HStack>
-            <Pagination
-              total={totalCount}
-              pageSize={filter.maxResultCount}
-              current={currentPage}
-              onChange={onPageChange}
-              hideOnSinglePage
-              data-testid="pagination"
-            />
-          </HStack>
+          ) : (
+            <HStack
+              display={'flex'}
+              width={'100%'}
+              p={['0px 40px 20px 40px', '0px 40px 20px 40px']}
+              justifyContent={['center', 'space-between']}
+            >
+              <PaginationMobile
+                total={data?.totalCount ?? 0}
+                pageSize={filter.maxResultCount}
+                current={currentPage}
+                onChange={onPageChange}
+                hideOnSinglePage
+                data-testid="pagination"
+              />
+            </HStack>
+          )}
         </EmptyWrapper>
       </Box>
       <ModalConfirm

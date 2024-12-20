@@ -86,7 +86,7 @@ describe('WFH Page', () => {
 
     it('should display the correct number of buttons on the screen', async () => {
       const buttonList = await screen.findAllByRole('button');
-      expect(buttonList).toHaveLength(totalCount + 5);
+      expect(buttonList).toHaveLength(totalCount + 2);
     });
 
     it('should handle selecting rows per page', async () => {

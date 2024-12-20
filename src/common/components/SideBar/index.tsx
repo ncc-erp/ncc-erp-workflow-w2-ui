@@ -1,15 +1,6 @@
-import {
-  Box,
-  Drawer,
-  DrawerContent,
-  DrawerOverlay,
-  Icon,
-  IconButton,
-} from '@chakra-ui/react';
+import { Box, Drawer, DrawerContent, DrawerOverlay } from '@chakra-ui/react';
 import { SideBarContent } from 'common/components/SideBar/SideBarContent';
 import { useEffect, useRef } from 'react';
-import { HiMenuAlt2 } from 'react-icons/hi';
-import { IoCloseOutline } from 'react-icons/io5';
 import { useRecoilValue } from 'recoil';
 import { appConfigState, useSetAppConfig } from 'stores/appConfig';
 
@@ -21,7 +12,7 @@ export const SideNav = ({ isLargeScreen }: SideNavProps) => {
   const sideBarRef = useRef<HTMLDivElement>(null);
   const { openSideBar } = useRecoilValue(appConfigState);
   const { setSideBarWidth } = useSetAppConfig();
-  const { onCloseSideBar, onOpenSideBar } = useSetAppConfig();
+  const { onCloseSideBar } = useSetAppConfig();
   useEffect(() => {
     sideBarRef.current && setSideBarWidth(sideBarRef.current.offsetWidth);
   }, [setSideBarWidth, sideBarRef]);
@@ -29,7 +20,7 @@ export const SideNav = ({ isLargeScreen }: SideNavProps) => {
     <>
       <Box
         ref={sideBarRef}
-        minW={isLargeScreen ? '240px' : 'auto'}
+        minW={isLargeScreen ? '280px' : 'auto'}
         borderRightColor="gray.200"
         bgColor="gray.50"
         h="100vh"
@@ -41,24 +32,7 @@ export const SideNav = ({ isLargeScreen }: SideNavProps) => {
         {isLargeScreen ? (
           <SideBarContent isLargeScreen={isLargeScreen} />
         ) : (
-          <IconButton
-            size={{ base: 'md', md: 'sm' }}
-            aria-label=""
-            onClick={onOpenSideBar}
-            position={{ base: 'fixed' }}
-            rounded={{ base: 'md', md: 0 }}
-            variant="ghost"
-            bgColor="whiteAlpha.100"
-            backdropFilter="auto"
-            backdropBlur="4px"
-            border={{ base: '1px', md: 0 }}
-            borderColor="gray.100"
-            top="10px"
-            left="24px"
-            aspectRatio="1/1"
-          >
-            <Icon fontSize="xl" as={HiMenuAlt2} />
-          </IconButton>
+          <></>
         )}
       </Box>
       <Drawer
@@ -68,9 +42,9 @@ export const SideNav = ({ isLargeScreen }: SideNavProps) => {
         isOpen={openSideBar}
       >
         <DrawerOverlay />
-        <DrawerContent w="240px" position="relative">
+        <DrawerContent w="280px" position="relative">
           <SideBarContent isLargeScreen={isLargeScreen} />
-          <IconButton
+          {/* <IconButton
             aria-label=""
             position="absolute"
             variant="ghost"
@@ -80,7 +54,7 @@ export const SideNav = ({ isLargeScreen }: SideNavProps) => {
             onClick={onCloseSideBar}
           >
             <Icon fontSize="xl" as={IoCloseOutline} />
-          </IconButton>
+          </IconButton> */}
         </DrawerContent>
       </Drawer>
     </>
