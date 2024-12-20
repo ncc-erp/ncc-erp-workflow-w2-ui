@@ -11,7 +11,11 @@ interface PageProps extends BoxProps {
 }
 
 const Page = ({ children, ...props }: PageProps) => {
-  return <Box {...props}>{children}</Box>;
+  return (
+    <Box b {...props}>
+      {children}
+    </Box>
+  );
 };
 
 Page.Header = PageHeader;

@@ -2,19 +2,35 @@ import Page from 'common/components/Page';
 import { ReleaseContentBody } from './components/ReleaseContentBody';
 import { useMediaQuery } from 'hooks/useMediaQuery';
 import { useSetAppConfig } from 'stores/appConfig';
-import { Box, Heading, Icon, IconButton, Image } from '@chakra-ui/react';
+import {
+  Box,
+  Heading,
+  Icon,
+  IconButton,
+  Image,
+  useColorModeValue,
+} from '@chakra-ui/react';
 import { HiMenuAlt2 } from 'react-icons/hi';
 import Logo from 'assets/images/ncc_logo.png';
+import theme from 'themes/theme';
 
 const ReleaseContent = () => {
   const isLargeScreen = useMediaQuery('(min-width: 1024px)');
   const { onOpenSideBar } = useSetAppConfig();
+  const bg = useColorModeValue(theme.colors.white, theme.colors.quarty);
   return (
     <Page>
       {!isLargeScreen && (
         <Box
+          position={{ base: 'fixed' }}
+          top="0px"
+          left="0px"
+          right="0px"
           cursor="pointer"
+          zIndex={100}
+          backgroundColor={bg}
           px="16px"
+          pb={'20px'}
           pt={'20px'}
           display={'flex'}
           alignItems={'center'}
@@ -45,6 +61,7 @@ const ReleaseContent = () => {
         paddingBottom={isLargeScreen ? undefined : '0px'}
         height={isLargeScreen ? undefined : '60px'}
         margin={isLargeScreen ? undefined : '0px'}
+        marginTop={isLargeScreen ? '0px' : '50px'}
       >
         <Page.HeaderLeft>
           <Page.Heading>Releases Note</Page.Heading>

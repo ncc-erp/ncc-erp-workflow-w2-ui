@@ -5,11 +5,19 @@ import { useMemo } from 'react';
 import { useUserPermissions } from 'hooks/useUserPermissions';
 import { Permissions } from 'common/constants';
 import NotFound from 'common/components/NotFound';
-import { Box, Heading, Icon, IconButton, Image } from '@chakra-ui/react';
+import {
+  Box,
+  Heading,
+  Icon,
+  IconButton,
+  Image,
+  useColorModeValue,
+} from '@chakra-ui/react';
 import Logo from 'assets/images/ncc_logo.png';
 import { useMediaQuery } from 'hooks/useMediaQuery';
 import { HiMenuAlt2 } from 'react-icons/hi';
 import { useSetAppConfig } from 'stores/appConfig';
+import theme from 'themes/theme';
 
 export interface IFilterPagination {
   skipCount: number;
@@ -19,7 +27,7 @@ export interface IFilterPagination {
 const RequestTemplates = () => {
   const isLargeScreen = useMediaQuery('(min-width: 1024px)');
   const { onOpenSideBar } = useSetAppConfig();
-
+  const bg = useColorModeValue(theme.colors.white, theme.colors.quarty);
   const { data, isLoading, refetch } = useRequestTemplates(true);
   const { hasPermission } = useUserPermissions();
 
@@ -36,8 +44,15 @@ const RequestTemplates = () => {
     <Page>
       {!isLargeScreen && (
         <Box
+          position={{ base: 'fixed' }}
+          top="0px"
+          left="0px"
+          right="0px"
           cursor="pointer"
+          zIndex={100}
+          backgroundColor={bg}
           px="16px"
+          pb={'20px'}
           pt={'20px'}
           display={'flex'}
           alignItems={'center'}
@@ -68,6 +83,7 @@ const RequestTemplates = () => {
         paddingBottom={isLargeScreen ? undefined : '0px'}
         height={isLargeScreen ? undefined : '60px'}
         margin={isLargeScreen ? undefined : '0px'}
+        marginTop={isLargeScreen ? '0px' : '50px'}
       >
         <Page.HeaderLeft>
           <Page.Heading>Request Templates</Page.Heading>
