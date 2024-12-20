@@ -14,11 +14,13 @@ interface ImportJsonFormProps {
   onCloseModal: () => void;
   id: string | undefined;
   onChangeData: (jsonObject: IJsonObject) => void;
+  isPublishWfStatus: boolean;
 }
 
 const ImportJsonForm = ({
   onCloseModal,
   onChangeData,
+  isPublishWfStatus,
 }: ImportJsonFormProps) => {
   const [importedData, setImportedData] = useState<string>('');
 
@@ -32,7 +34,7 @@ const ImportJsonForm = ({
         const content = e.target.result as string;
         try {
           const jsonData = JSON.parse(content);
-          jsonData.defineJson.isPublished = false;
+          jsonData.defineJson.isPublished = isPublishWfStatus;
           setImportedData(JSON.stringify(jsonData, null, 2));
         } catch (error) {
           setImportedData('');
