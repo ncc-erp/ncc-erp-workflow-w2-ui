@@ -86,13 +86,8 @@ export const ReleaseContentBody = () => {
 
   if (isLoading) {
     return (
-      <Flex flexDirection={'column'} gap={2} w={['100vw', 'auto']}>
-        <Flex
-          px="24px"
-          gap={4}
-          flexDirection={'column'}
-          justifyContent="space-between"
-        >
+      <Flex flexDirection={'column'} gap={2}>
+        <Flex gap={4} flexDirection={'column'} justifyContent="space-between">
           {new Array(8).fill(null).map((_, ind) => (
             <Skeleton key={ind} height="100px" w={'100%'} />
           ))}
@@ -102,13 +97,8 @@ export const ReleaseContentBody = () => {
   }
 
   return (
-    <Flex flexDirection={'column'} gap={2} w={['100vw', 'auto']}>
-      <Flex
-        px="24px"
-        gap={2}
-        flexDirection={'column'}
-        justifyContent="space-between"
-      >
+    <Flex flexDirection={'column'} gap={2}>
+      <Flex gap={2} flexDirection={'column'} justifyContent="space-between">
         {releaseData?.map((x, index) => (
           <Box key={index}>
             <ReleaseItem data={x} />

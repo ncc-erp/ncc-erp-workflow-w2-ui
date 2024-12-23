@@ -191,7 +191,7 @@ const PermissionsTable = () => {
     setConfirmData(null);
   };
   return (
-    <Box p={5}>
+    <Box py={5}>
       <Box
         display="flex"
         justifyContent="space-between"

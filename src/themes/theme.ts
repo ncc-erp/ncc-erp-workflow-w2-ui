@@ -103,7 +103,14 @@ export const theme = extendTheme({
         default: 'wine.800',
         _dark: 'stone.900',
       },
+      border: {
+        default: 'stone.200',
+        _dark: 'stone.600',
+      },
     },
+  },
+  breakpoints: {
+    emd: '1024px',
   },
 });
 

@@ -140,10 +140,10 @@ export const HRSettings = () => {
 
   return (
     <>
-      <Box p="0px 24px" fontSize="14" fontWeight="bold">
+      <Box fontSize="14" fontWeight="bold">
         HR Group
       </Box>
-      <Box p="0px 24px" fontSize="14" fontWeight="bold">
+      <Box fontSize="14" fontWeight="bold">
         <SettingForm
           formik={formik}
           isLoading={isLoading}
@@ -159,7 +159,7 @@ export const HRSettings = () => {
           message={'No request found!'}
         >
           <Box
-            p={{ base: '10px 24px 24px 24px' }}
+            p={{ base: '10px 0px 24px 0px' }}
             overflowX={'auto'}
             w={{
               base: `calc(100vw - ${sideBarWidth}px)`,

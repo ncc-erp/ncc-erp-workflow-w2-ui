@@ -352,7 +352,7 @@ export const MyRequestTable = () => {
   return (
     <>
       <Box>
-        <HStack w="full" gap={3} pl="24px" pb="8px" alignItems="flex-end">
+        <HStack w="full" gap={3} pb="8px" alignItems="flex-end">
           <Box>
             <SelectField
               isDisabled={isLoading || isRefetching}
@@ -402,7 +402,7 @@ export const MyRequestTable = () => {
         <Box className={styles.requestFilterBar}>
           {renderIfAllowed(
             Permissions.VIEW_ALL_WORKFLOW_INSTANCES,
-            <Wrap px="24px" justify="space-between">
+            <Wrap justify="space-between">
               {
                 <WrapItem>
                   <Button
@@ -453,7 +453,7 @@ export const MyRequestTable = () => {
               lg: `calc(100vw - ${sideBarWidth}px)`,
               xs: 'max-content',
             }}
-            p={{ base: '10px 24px 0px' }}
+            pt="10px"
             data-testid="my-requests-view"
           >
             <Table
@@ -473,7 +473,7 @@ export const MyRequestTable = () => {
 
           {isLargeScreen ? (
             <HStack
-              p={['20px 30px 20px 30px', '20px 30px 20px 30px']}
+              py="20px"
               justifyContent={['center', 'space-between']}
               borderBottom="1px"
               borderColor="gray.200"
@@ -500,7 +500,7 @@ export const MyRequestTable = () => {
             <HStack
               display={'flex'}
               width={'100%'}
-              p={['0px 40px 20px 40px', '0px 40px 20px 40px']}
+              p={['0px 16px 20px 16px', '0px 16px 20px 16px']}
               justifyContent={['center', 'space-between']}
             >
               <PaginationMobile

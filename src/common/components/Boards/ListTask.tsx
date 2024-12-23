@@ -37,8 +37,6 @@ import { AiFillCheckCircle, AiOutlineReload } from 'react-icons/ai';
 import { BsFillFilterCircleFill } from 'react-icons/bs';
 import { MdCancel } from 'react-icons/md';
 import { RiEyeFill, RiSettings4Fill, RiMapFill } from 'react-icons/ri';
-import { useRecoilValue } from 'recoil';
-import { appConfigState } from 'stores/appConfig';
 import { formatDate } from 'utils';
 import { toast } from '../StandaloneToast';
 import ModalBoard from './ModalBoard';
@@ -64,7 +62,6 @@ const initDataForm = {
 export const ListTask = ({ filters, openDetailModal }: Props) => {
   const [filter, setFilter] = useState<FilterTasks>(filters);
   const columnHelper = createColumnHelper<ITask>();
-  const { sideBarWidth } = useRecoilValue(appConfigState);
   const isLargeScreen = useMediaQuery('(min-width: 1024px)');
 
   const user = useCurrentUser();
@@ -484,8 +481,8 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
           aria-label="Done"
           fontSize="20px"
           position={'absolute'}
-          right={['20px', 25]}
-          top={'-40px'}
+          right="0"
+          top={'-48px'}
           icon={<AiOutlineReload />}
           onClick={() => refetch()}
           data-testid="task-actions-menu-button"
@@ -497,15 +494,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
             fontSize="xs"
             message={'No request found!'}
           >
-            <Box
-              p="10px 20px"
-              //overflowX="auto"
-              w={{
-                base: '100vw',
-                lg: `calc(100vw - ${sideBarWidth}px)`,
-              }}
-              data-testid="list-tasks-view"
-            >
+            <Box py="10px" data-testid="list-tasks-view">
               <Box w={'100%'} overflowX="auto" className={styles.tableContent}>
                 <Table
                   onRowClick={openDetailModal}
@@ -523,7 +512,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
           </EmptyWrapper>
           {isLargeScreen ? (
             <HStack
-              p={['20px 30px 20px 30px', '20px 30px 20px 30px']}
+              py="20px"
               justifyContent={['center', 'space-between']}
               borderBottom="1px"
               borderColor="gray.200"
@@ -550,7 +539,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
             <HStack
               display={'flex'}
               width={'100%'}
-              p={['0px 40px 20px 40px', '0px 40px 20px 40px']}
+              p={['0px 16px 20px 16px', '0px 16px 20px 16px']}
               justifyContent={['center', 'space-between']}
             >
               <PaginationMobile
