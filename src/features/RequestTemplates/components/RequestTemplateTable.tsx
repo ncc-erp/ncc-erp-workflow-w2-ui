@@ -277,7 +277,7 @@ export const RequestTemplateTable = ({
   return (
     <Box>
       {isLargeScreen && (
-        <Box px={6} display="flex" mb={2} columnGap="0.5rem">
+        <Box px={7} display="flex" mb={2} columnGap="1rem">
           {renderIfAllowed(
             Permissions.CREATE_WORKFLOW_DEFINITION,
             <Button
@@ -331,7 +331,7 @@ export const RequestTemplateTable = ({
             lg: `calc(100vw - ${sideBarWidth}px)`,
             xs: 'max-content',
           }}
-          p={{ base: '10px 24px 0px' }}
+          p={{ base: '10px 28px 0px' }}
           paddingBottom={10}
           data-testid="list-request-templates-view"
         >

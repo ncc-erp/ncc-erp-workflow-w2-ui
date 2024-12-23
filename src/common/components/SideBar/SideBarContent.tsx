@@ -140,7 +140,7 @@ export const SideBarContent = ({ isLargeScreen }: SideBarContentProps) => {
       <Box>
         <Box
           width={'100%'}
-          padding={isLargeScreen ? '20px 16px 0px 16px' : '8px 16px 0px 16px'}
+          padding={isLargeScreen ? '0px 16px' : '8px 16px 0px 16px'}
         >
           {isLargeScreen ? (
             <HStack
@@ -164,6 +164,7 @@ export const SideBarContent = ({ isLargeScreen }: SideBarContentProps) => {
 
         <VStack
           p="12px"
+          my="12px"
           align="flex-start"
           spacing="4px"
           overflowY="auto"
