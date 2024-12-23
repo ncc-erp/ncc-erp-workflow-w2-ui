@@ -166,7 +166,7 @@ export const SideBarContent = ({ isLargeScreen }: SideBarContentProps) => {
           p="12px"
           my="12px"
           align="flex-start"
-          spacing="4px"
+          spacing="8px"
           overflowY="auto"
           sx={{
             '&::-webkit-scrollbar': {
@@ -199,6 +199,7 @@ export const SideBarContent = ({ isLargeScreen }: SideBarContentProps) => {
                     <AccordionButton
                       borderRadius={'0.375rem'}
                       p={0}
+                      pr="8px"
                       border="1px transparent solid"
                       _hover={{
                         backgroundColor: 'rgba(255, 255, 255, 0.1)',
@@ -211,29 +212,31 @@ export const SideBarContent = ({ isLargeScreen }: SideBarContentProps) => {
                         borderColor: 'stoneAlpha.200/20',
                       }}
                       color="stone.500"
+                      height="40px"
                     >
                       <Link
                         px="8px"
-                        py="6px"
+                        py="10px"
                         w="full"
-                        fontWeight="600"
+                        fontWeight="500"
                         display="flex"
                         alignItems="center"
                         gap="12px"
                         fontSize="sm"
                         rounded="md"
                         textDecoration="none !important"
+                        lineHeight="1.2"
                       >
                         <Icon fontSize="xl" as={adminNav.icon} />
                         {adminNav.text}
                       </Link>
                       <AccordionIcon />
                     </AccordionButton>
-                    <AccordionPanel p={0} pl={7}>
+                    <AccordionPanel p={0} pl={7} pt="2px">
                       {adminNav.subMenu.map((item) => {
                         return renderIfAllowed(
                           item.permission,
-                          <Box mt={1} key={item.to}>
+                          <Box mt={1.5} key={item.to}>
                             <NavLink {...item} onClick={onCloseSideBar} />
                           </Box>
                         );
@@ -251,56 +254,57 @@ export const SideBarContent = ({ isLargeScreen }: SideBarContentProps) => {
         width={'100%'}
         px="12px"
         py="16px"
-        spacing="12px"
         display={'flex'}
         flexDirection={'column'}
-        gap={'12px'}
+        gap={'24px'}
       >
         <Box
           width={'100%'}
           display={'flex'}
           flexDirection={'column'}
-          gap={'4px'}
+          gap={'8px'}
         >
           <Button
-            mr={2}
             onClick={onNavigate('/release-content')}
             title="Release note"
-            color={'stone.100'}
+            color="white"
             bg="transparent"
+            border="1px solid transparent"
             _hover={{
               backgroundColor: 'rgba(255, 255, 255, 0.1)',
+              borderColor: 'stoneAlpha.200/20',
             }}
             justifyContent={'flex-start'}
-            gap={'8px'}
+            gap={'12px'}
             alignItems={'center'}
             fontSize={'14px'}
             fontWeight={500}
-            padding={'4px 8px'}
+            padding={'10px 8px'}
           >
-            <HiDocumentArrowUp size="17px" />
+            <HiDocumentArrowUp size="20px" />
             <Text>Release note</Text>
           </Button>
 
           <Button
-            mr={2}
             onClick={() => {
               window.open(LinkDocRedirect.USER_GUIDE_DOCS, '_blank');
             }}
-            color={'stone.100'}
+            color="white"
             title="User guide"
+            border="1px solid transparent"
             _hover={{
               backgroundColor: 'rgba(255, 255, 255, 0.1)',
+              borderColor: 'stoneAlpha.200/20',
             }}
-            gap={'8px'}
+            gap={'12px'}
             bg="transparent"
             justifyContent={'flex-start'}
             alignItems={'center'}
             fontWeight={500}
-            padding={'4px 8px'}
+            padding={'10px 8px'}
             fontSize={'14px'}
           >
-            <FaQuestionCircle size="17px" />
+            <FaQuestionCircle size="20px" />
             <Text>User guide</Text>
           </Button>
         </Box>
@@ -316,20 +320,26 @@ export const SideBarContent = ({ isLargeScreen }: SideBarContentProps) => {
               onClick={onNavigate('/login', true)}
               bg="transparent"
               color={'#E53E3E'}
-              gap={'4px'}
-              padding={'4px 8px'}
+              gap={'12px'}
+              padding={'10px 8px'}
               alignItems={'center'}
               _hover={{
                 backgroundColor: 'rgba(255, 255, 255, 0.1)',
               }}
             >
-              <MdLogout size={16} />
+              <MdLogout size={20} />
               <Text fontWeight={500} fontSize={14}>
                 Log out
               </Text>
             </Button>
           </Box>
-          <Button size="md" borderRadius={20} onClick={() => toggleColorMode()}>
+          <Button
+            size="md"
+            fontSize="sm"
+            fontWeight="medium"
+            borderRadius={20}
+            onClick={() => toggleColorMode()}
+          >
             {colorMode === 'light' ? (
               <>
                 <FaMoon />
