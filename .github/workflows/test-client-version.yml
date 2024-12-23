@@ -48,4 +48,4 @@ jobs:
           VITE_CLIENT_VERSION: ${{ github.event.inputs.client_version }}
 
       - name: Compress build file
-        run: echo "VITE_CLIENT_VERSION=${{ github.event.inputs.client_version }}""
+        run: echo "VITE_CLIENT_VERSION=${{ github.event.inputs.client_version }}"
