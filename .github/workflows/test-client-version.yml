@@ -3,14 +3,14 @@ name: Deploy UI to server dev
 on:
   push:
     branches:
-      - develop
+      - feature/add-var-client-version
       
   workflow_dispatch:
     inputs:
       branch:
         description: 'Branch to deploy'
         required: true
-        default: 'develop'
+        default: 'feature/add-var-client-version'
       client_version:
         description: 'Client version'
         required: false
@@ -48,28 +48,4 @@ jobs:
           VITE_CLIENT_VERSION: ${{ github.event.inputs.client_version }}
 
       - name: Compress build file
-        run: zip -r fe.zip dist/
-
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: fe-build
-          path: fe.zip
-          retention-days: 1
-
-  deploy:
-    runs-on: w2-fe-dev
-    needs: 
-      - build
-    steps:
-      - name: Download Artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: fe-build
-
-      - name: Extract file to server
-        run: |
-          rm -rf /apps/ncc-erp-w2/workflow-w2-ui/*
-          unzip fe.zip -d /apps/ncc-erp-w2/workflow-w2-ui
-          rm -rf fe.zip
-  
+        run: echo "VITE_CLIENT_VERSION=${{ github.event.inputs.client_version }}""

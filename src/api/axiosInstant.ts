@@ -9,7 +9,7 @@ import { toast } from 'common/components/StandaloneToast';
 import { getItem } from 'utils';
 import { LocalStorageKeys } from 'common/enums';
 
-const { VITE_API_BASE_URL } = import.meta.env;
+const { VITE_API_BASE_URL, VITE_CLIENT_VERSION } = import.meta.env;
 
 const axios = Axios.create({
   baseURL: VITE_API_BASE_URL,
@@ -25,6 +25,7 @@ axios.interceptors.request.use((config) => {
     const accessHeader = `Bearer ${accessToken}`;
     if (config.headers != null) {
       config.headers.Authorization = accessHeader;
+      config.headers['client-version'] = VITE_CLIENT_VERSION;
     }
   }
   return config;

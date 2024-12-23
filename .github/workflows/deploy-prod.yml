@@ -2,6 +2,10 @@ name: Deploy UI to server prod
 
 on: 
   workflow_dispatch:
+    inputs:
+      client_version:
+        description: 'Client version'
+        required: true
 
 jobs:
   build:
@@ -30,6 +34,7 @@ jobs:
           VITE_AUTHORITY_URL : ${{secrets.VITE_AUTHORITY_URL_PROD}}
           VITE_API_BASE_URL : ${{secrets.VITE_API_BASE_URL_PROD}}
           VITE_API_ANT_URL : ${{secrets.VITE_API_ANT_URL_PROD}}
+          VITE_CLIENT_VERSION: ${{ github.event.inputs.client_version }}
 
       - name: Compress build file
         run: zip -r fe.zip dist/
