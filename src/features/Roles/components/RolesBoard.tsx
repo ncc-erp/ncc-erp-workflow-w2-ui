@@ -69,7 +69,7 @@ export const RolesBoard = () => {
         <Box>
           {renderIfAllowed(
             Permissions.CREATE_ROLE,
-            <Box px={6}>
+            <Box>
               <Button
                 size="md"
                 fontSize="sm"
@@ -90,7 +90,7 @@ export const RolesBoard = () => {
           >
             <Box
               w={{ base: '100%', lg: '100%', xs: 'max-content' }}
-              p={{ base: '10px 24px 0px' }}
+              pt="10px"
               paddingBottom={10}
             >
               <Table

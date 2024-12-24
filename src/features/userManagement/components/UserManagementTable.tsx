@@ -20,7 +20,6 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Pagination } from 'common/components/Pagination';
 import { noOfRows } from 'common/constants';
 import { PageSize } from 'common/components/Table/PageSize';
-import { ShowingItemText } from 'common/components/Table/ShowingItemText';
 import { EmptyWrapper } from 'common/components/EmptyWrapper';
 import { useRecoilValue } from 'recoil';
 import { appConfigState } from 'stores/appConfig';
@@ -37,6 +36,8 @@ import { UserRoleLabelMapping } from '../../../common/constants';
 import { useUserPermissions } from 'hooks/useUserPermissions';
 import { Permissions } from 'common/constants';
 import { useGetAllRoles } from 'api/apiHooks/roleHook';
+import { PaginationMobile } from 'common/components/PaginationMobile';
+import { useMediaQuery } from 'hooks/useMediaQuery';
 const initialFilter: FilterUserParams = {
   filter: '',
   maxResultCount: +noOfRows[0].value,
@@ -56,6 +57,7 @@ export const UserManagementTable = () => {
   const { sideBarWidth } = useRecoilValue(appConfigState);
   const [filterUser, setFilterUser] = useState<FilterUserParams>(initialFilter);
   const [sorting, setSorting] = useState<SortingState>(initialSorting);
+  const isLargeScreen = useMediaQuery('(min-width: 1024px)');
   const { data, isLoading, refetch, isRefetching } =
     useUserIdentity(filterUser);
   const { data: roles } = useRoles();
@@ -220,11 +222,11 @@ export const UserManagementTable = () => {
       <Box>
         <HStack
           w="full"
-          p="0px 24px 20px 0px"
+          pb="20px"
           justifyContent="space-between"
           display="flex"
         >
-          <HStack w="full" pl="24px" alignItems="flex-end" flexWrap="wrap">
+          <HStack w="full" alignItems="flex-end" flexWrap="wrap">
             <InputGroup w={{ base: '48%', sm: '30%', lg: '20%' }}>
               <Input
                 isDisabled={isLoading || isRefetching}
@@ -267,7 +269,7 @@ export const UserManagementTable = () => {
           message={'No request found!'}
         >
           <Box
-            p={{ base: '10px 24px 0px' }}
+            pt="10px"
             overflowX={'auto'}
             w={{
               base: `calc(100vw - ${sideBarWidth}px)`,
@@ -289,42 +291,48 @@ export const UserManagementTable = () => {
             />
           </Box>
         </EmptyWrapper>
-        <HStack
-          p={{
-            base: '0px 12px 20px 12px',
-            sm: '0px 30px 20px 30px',
-            lg: '26px 30px 20px 30px',
-          }}
-          justifyContent={{
-            base: 'center',
-            lg: 'space-between',
-          }}
-          flexWrap="wrap"
-        >
+        {isLargeScreen ? (
           <HStack
-            alignItems="center"
-            spacing="6px"
+            py="20px"
+            justifyContent={['center', 'space-between']}
+            borderBottom="1px"
+            borderColor="gray.200"
             flexWrap="wrap"
-            px={{ base: '10px', sm: '12px', lg: '0px' }}
-            pl={'-60px'}
           >
-            <PageSize noOfRows={noOfRows} onChange={onPageSizeChange} />
-            <Spacer w="2px" />
-            <ShowingItemText
-              skipCount={filterUser.skipCount}
-              maxResultCount={filterUser.maxResultCount}
-              totalCount={totalCount}
+            <HStack alignItems="center" spacing="6px" flexWrap="wrap">
+              <PageSize
+                noOfRows={noOfRows}
+                onChange={onPageSizeChange}
+                value={filterUser.maxResultCount}
+              />
+              <Spacer w="12px" />
+            </HStack>
+            <Pagination
+              total={totalCount}
+              pageSize={filterUser.maxResultCount}
+              current={currentPage}
+              onChange={onPageChange}
+              hideOnSinglePage
+              data-testid="pagination"
             />
           </HStack>
-          <Pagination
-            total={totalCount}
-            pageSize={filterUser.maxResultCount}
-            current={currentPage}
-            onChange={onPageChange}
-            hideOnSinglePage
-            data-testid="pagination"
-          />
-        </HStack>
+        ) : (
+          <HStack
+            display={'flex'}
+            width={'100%'}
+            p={['0px 16px 20px 16px', '0px 16px 20px 16px']}
+            justifyContent={['center', 'space-between']}
+          >
+            <PaginationMobile
+              total={data?.totalCount ?? 0}
+              pageSize={filterUser.maxResultCount}
+              current={currentPage}
+              onChange={onPageChange}
+              hideOnSinglePage
+              data-testid="pagination"
+            />
+          </HStack>
+        )}
         {user && (
           <UserModal
             isOpen={isModalOpen}

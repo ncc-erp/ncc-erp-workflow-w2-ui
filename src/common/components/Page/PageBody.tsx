@@ -6,5 +6,9 @@ interface PageProps extends BoxProps {
 }
 
 export const PageBody = ({ children, ...props }: PageProps) => {
-  return <Box {...props}>{children}</Box>;
+  return (
+    <Box px={{ base: '16px', emd: '28px' }} {...props}>
+      {children}
+    </Box>
+  );
 };

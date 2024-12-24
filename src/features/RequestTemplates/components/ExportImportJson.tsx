@@ -8,6 +8,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { ImportJsonModal } from './modals/ImportJsonModal';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { IJsonObject, InputDefinition } from 'models/request';
+import { TbFileImport } from 'react-icons/tb';
 
 interface FormParams {
   items: PropertyDefinition[];
@@ -115,9 +116,19 @@ const ExportImportJson: React.FC<ExportImportJsonProps> = ({
       {!hiddenButton?.includes(EButtonType.IMPORT) && (
         <Button
           onClick={onOpenImportJsonModal}
-          colorScheme="green"
+          variant={'outline'}
           m={2}
           {...buttonStyleObj?.import}
+          leftIcon={<TbFileImport size={20} />}
+          border={'1px solid #344054'}
+          fontWeight={'600'}
+          lineHeight={20}
+          height={'44px'}
+          width={'114px'}
+          fontSize={'14px'}
+          _hover={{
+            background: '#E2E8F0',
+          }}
         >
           Import
         </Button>

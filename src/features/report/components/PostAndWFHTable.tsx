@@ -13,7 +13,6 @@ import {
 import { useWfhList } from 'api/apiHooks/reportHooks';
 import { Pagination } from 'common/components/Pagination';
 import { PageSize } from 'common/components/Table/PageSize';
-import { ShowingItemText } from 'common/components/Table/ShowingItemText';
 import { Table } from 'common/components/Table/Table';
 import {
   FilterAll,
@@ -42,6 +41,8 @@ import styles from './styles.module.scss';
 import { AiOutlineReload } from 'react-icons/ai';
 import { SelectField } from 'common/components/SelectField';
 import { TFilterTask } from 'common/types';
+import { useMediaQuery } from 'hooks/useMediaQuery';
+import { PaginationMobile } from 'common/components/PaginationMobile';
 
 const initialFilter: FilterWfhParams = {
   maxResultCount: +noOfRows[0].value,
@@ -70,8 +71,9 @@ export const TablePostAndWFH = () => {
   const [filter, setFilter] = useState<FilterWfhParams>(initialFilter);
   const [sorting, setSorting] = useState<SortingState>(initialSorting);
   const columnHelper = createColumnHelper<IPostAndWFH>();
+  const isLargeScreen = useMediaQuery('(min-width: 1024px)');
   const { data, isLoading, isRefetching, refetch } = useWfhList(filter);
-  const { items: wfhList = [], totalCount = 0 } = data ?? {};
+  const { items: wfhList = [] } = data ?? {};
   const [txtSearch, setTxtSearch] = useState('');
   const txtSearchDebounced = useDebounced(txtSearch, 500);
   const [startDate, setStartDate] = useState<Date | null>(
@@ -396,7 +398,7 @@ export const TablePostAndWFH = () => {
   return (
     <>
       <Box width={'100%'}>
-        <HStack w="100%" display="flex" px={'24px'} gap={'1rem'}>
+        <HStack w="100%" display="flex" gap={'1rem'}>
           <InputGroup alignItems={'center'} maxW={'200px'}>
             <Input
               type="text"
@@ -477,7 +479,7 @@ export const TablePostAndWFH = () => {
           justifyContent={'center'}
           alignItems={'center'}
         >
-          <Box p={{ base: '20px 24px' }} overflowX={'auto'} w={'100%'}>
+          <Box p={{ base: '20px 0px' }} overflowX={'auto'} w={'100%'}>
             <Table
               columns={wfhColumns}
               data={wfhList}
@@ -490,31 +492,50 @@ export const TablePostAndWFH = () => {
         </EmptyWrapper>
 
         {!isLoading && !isRefetching && (
-          <HStack
-            p="20px 30px 20px 30px"
-            justifyContent="space-between"
-            flexWrap="wrap"
-          >
-            <HStack alignItems="center" spacing="6px" flexWrap="wrap">
-              <PageSize
-                noOfRows={noOfRows}
-                onChange={onPageSizeChange}
-                defaultValue={filter.maxResultCount}
-              />
-              <Spacer w="12px" />
-              <ShowingItemText
-                skipCount={filter.skipCount}
-                maxResultCount={filter.maxResultCount}
-                totalCount={totalCount}
-              />
-            </HStack>
-            <Pagination
-              total={totalCount}
-              pageSize={filter.maxResultCount}
-              current={currentPage}
-              onChange={onPageChange}
-            />
-          </HStack>
+          <Box>
+            {isLargeScreen ? (
+              <HStack
+                py="20px"
+                justifyContent={['center', 'space-between']}
+                borderBottom="1px"
+                borderColor="gray.200"
+                flexWrap="wrap"
+              >
+                <HStack alignItems="center" spacing="6px" flexWrap="wrap">
+                  <PageSize
+                    noOfRows={noOfRows}
+                    onChange={onPageSizeChange}
+                    value={filter.maxResultCount}
+                  />
+                  <Spacer w="12px" />
+                </HStack>
+                <Pagination
+                  total={data?.totalCount ?? 0}
+                  pageSize={filter.maxResultCount}
+                  current={currentPage}
+                  onChange={onPageChange}
+                  hideOnSinglePage
+                  data-testid="pagination"
+                />
+              </HStack>
+            ) : (
+              <HStack
+                display={'flex'}
+                width={'100%'}
+                p={['0px 16px 20px 16px', '0px 16px 20px 16px']}
+                justifyContent={['center', 'space-between']}
+              >
+                <PaginationMobile
+                  total={data?.totalCount ?? 0}
+                  pageSize={filter.maxResultCount}
+                  current={currentPage}
+                  onChange={onPageChange}
+                  hideOnSinglePage
+                  data-testid="pagination"
+                />
+              </HStack>
+            )}
+          </Box>
         )}
       </Box>
     </>

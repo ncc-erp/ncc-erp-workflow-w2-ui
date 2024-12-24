@@ -1,15 +1,10 @@
-import { Box, Button, ButtonProps, useColorModeValue } from '@chakra-ui/react';
+import { Box, Button, ButtonProps } from '@chakra-ui/react';
 import PaginationComponent, {
   PaginationProps as PaginationComponentProps,
 } from 'rc-pagination';
-import {
-  FaAngleDoubleLeft,
-  FaAngleDoubleRight,
-  FaChevronLeft,
-  FaChevronRight,
-} from 'react-icons/fa';
-import { ColorThemeMode } from 'common/constants';
+import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import { useMediaQuery } from 'hooks/useMediaQuery';
+import { BsThreeDots } from 'react-icons/bs';
 
 interface PaginationProps extends PaginationComponentProps {
   itemRenderProps?: ButtonProps;
@@ -26,8 +21,6 @@ export const Pagination = ({
   ...paginationProps
 }: PaginationProps) => {
   const isLargeScreen = useMediaQuery('(min-width: 1281px)');
-  const bg = useColorModeValue(ColorThemeMode.DARK, ColorThemeMode.LIGHT);
-  const color = useColorModeValue(ColorThemeMode.LIGHT, ColorThemeMode.DARK);
 
   const isLastPage = (activePage: number) => {
     return (
@@ -43,67 +36,108 @@ export const Pagination = ({
         case 'jump-next':
           return (
             <Button
-              rounded={isLargeScreen ? 'sm' : 'xs'}
               variant="outline"
-              borderRadius={['8px', '8px']}
-              size={isLargeScreen ? 'sm' : 'xs'}
               aspectRatio="1/1"
+              borderRadius="0px"
+              borderLeft="0px"
+              bg="paginationBtnBg"
+              color="paginationText"
+              _active={{
+                backgroundColor: 'paginationBtnActiveBg',
+              }}
+              borderColor="border"
               {...buttonProps}
             >
-              <FaAngleDoubleRight />
+              <i>
+                <BsThreeDots size="14px" />
+              </i>
             </Button>
           );
         case 'jump-prev':
           return (
             <Button
-              rounded={isLargeScreen ? 'sm' : 'xs'}
               variant="outline"
-              borderRadius={['8px', '8px']}
-              size={isLargeScreen ? 'sm' : 'xs'}
               aspectRatio="1/1"
+              borderRadius="0px"
+              borderLeft="0px"
+              bg="paginationBtnBg"
+              color="paginationText"
+              _active={{
+                backgroundColor: 'paginationBtnActiveBg',
+              }}
+              borderColor="border"
               {...buttonProps}
             >
-              <FaAngleDoubleLeft />
+              <i>
+                <BsThreeDots size="14px" />
+              </i>
             </Button>
           );
         case 'prev':
           return (
             <Button
-              rounded={isLargeScreen ? 'sm' : 'xs'}
               variant="outline"
-              borderRadius={['8px', '8px']}
-              size={isLargeScreen ? 'sm' : 'xs'}
-              aspectRatio="1/1"
+              fontSize="sm"
+              bg="paginationBtnBg"
+              color="paginationText"
               {...buttonProps}
+              _active={{
+                backgroundColor: 'paginationBtnActiveBg',
+              }}
+              _disabled={{
+                color: 'disabledPage',
+              }}
               isDisabled={activePage === 1}
+              leftIcon={<FaArrowLeft />}
+              borderLeftRadius="8px"
+              borderRightRadius="0"
+              borderColor="border"
             >
-              <FaChevronLeft />
+              Previous
             </Button>
           );
         case 'next':
           return (
             <Button
-              rounded={isLargeScreen ? 'sm' : 'xs'}
               variant="outline"
-              borderRadius={['8px', '8px']}
-              size={isLargeScreen ? 'sm' : 'xs'}
-              aspectRatio="1/1"
+              fontSize="sm"
+              bg="paginationBtnBg"
+              color="paginationText"
               {...buttonProps}
               isDisabled={isLastPage(activePage as number)}
+              _active={{
+                backgroundColor: 'paginationBtnActiveBg',
+              }}
+              _disabled={{
+                color: 'disabledPage',
+              }}
+              rightIcon={<FaArrowRight />}
+              borderLeftRadius="0"
+              borderRightRadius="8px"
+              borderLeft="0px"
+              borderColor="border"
             >
-              <FaChevronRight />
+              Next
             </Button>
           );
         default:
           return (
             <Button
-              rounded={isLargeScreen ? 'sm' : 'xs'}
-              variant={activePage === current ? 'solid' : 'outline'}
-              background={activePage === current ? bg : undefined}
-              color={activePage === current ? color : undefined}
-              size={isLargeScreen ? 'sm' : 'xs'}
-              borderRadius={['8px', '8px']}
+              variant="outline"
+              background={
+                activePage === current
+                  ? 'paginationBtnActiveBg'
+                  : 'paginationBtnBg'
+              }
+              borderRadius="0px"
+              color="paginationText"
+              _active={{
+                backgroundColor: 'paginationBtnActiveBg',
+              }}
+              fontSize="sm"
               {...buttonProps}
+              borderLeft="0px"
+              borderColor="border"
             >
               {current}
             </Button>
@@ -114,7 +148,6 @@ export const Pagination = ({
     <Box
       display="flex"
       listStyleType="none"
-      gap={['5px', '5px']}
       current={current}
       as={PaginationComponent}
       itemRender={ItemRender(current, itemRenderProps)}

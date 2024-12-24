@@ -7,7 +7,7 @@ exports[`Request My Requests Page 1`] = `
   >
     <button
       aria-label="Done"
-      class="chakra-button css-1g6czxt"
+      class="chakra-button css-o35qbg"
       data-testid="task-actions-menu-button"
       type="button"
     >
@@ -31,26 +31,26 @@ exports[`Request My Requests Page 1`] = `
       class="css-b8r4vz"
     >
       <div
-        class="css-1t3mkjm"
+        class="css-9452eu"
         data-testid="list-tasks-view"
       >
         <div
           class="tableContent css-kge0eu"
         >
           <div
-            class="chakra-table__container tableContainer css-zipzvv"
+            class="chakra-table__container tableContainer css-nkv5sy"
           >
             <table
-              class="chakra-table css-zy166a"
+              class="chakra-table css-1392dy8"
             >
               <thead
                 class="css-0"
               >
                 <tr
-                  class="css-1y39i0r"
+                  class="css-1m3vi5u"
                 >
                   <th
-                    class="css-avwfu8"
+                    class="css-1akvfof"
                     colspan="1"
                     style="width: auto;"
                   >
@@ -65,7 +65,7 @@ exports[`Request My Requests Page 1`] = `
                     </div>
                   </th>
                   <th
-                    class="css-avwfu8"
+                    class="css-1akvfof"
                     colspan="1"
                     style="width: auto;"
                   >
@@ -80,7 +80,7 @@ exports[`Request My Requests Page 1`] = `
                     </div>
                   </th>
                   <th
-                    class="css-avwfu8"
+                    class="css-1akvfof"
                     colspan="1"
                     style="width: auto;"
                   >
@@ -91,7 +91,7 @@ exports[`Request My Requests Page 1`] = `
                     </div>
                   </th>
                   <th
-                    class="css-avwfu8"
+                    class="css-1akvfof"
                     colspan="1"
                     style="width: auto;"
                   >
@@ -102,7 +102,7 @@ exports[`Request My Requests Page 1`] = `
                     </div>
                   </th>
                   <th
-                    class="css-avwfu8"
+                    class="css-1akvfof"
                     colspan="1"
                     style="width: auto;"
                   >
@@ -113,7 +113,7 @@ exports[`Request My Requests Page 1`] = `
                     </div>
                   </th>
                   <th
-                    class="css-avwfu8"
+                    class="css-1akvfof"
                     colspan="1"
                     style="width: auto;"
                   >
@@ -124,7 +124,7 @@ exports[`Request My Requests Page 1`] = `
                     </div>
                   </th>
                   <th
-                    class="css-avwfu8"
+                    class="css-1akvfof"
                     colspan="1"
                     style="width: auto;"
                   >
@@ -135,7 +135,7 @@ exports[`Request My Requests Page 1`] = `
                     </div>
                   </th>
                   <th
-                    class="css-avwfu8"
+                    class="css-1akvfof"
                     colspan="1"
                     style="width: auto;"
                   >
@@ -155,13 +155,13 @@ exports[`Request My Requests Page 1`] = `
                 class="css-0"
               >
                 <tr
-                  class="css-1mmrbq3"
+                  class="css-1i4d0ta"
                   data-id="3a0e2b21-7143-224b-f17f-6d0ca4f7d274"
                   data-instance-id="3a0e2b21-6ea7-959e-fe4c-e5954ead2832"
                   data-testid="task-item"
                 >
                   <td
-                    class="css-xk16pm"
+                    class="css-8wz4m8"
                   >
                     <div
                       class="css-gmuwbf"
@@ -170,7 +170,7 @@ exports[`Request My Requests Page 1`] = `
                     </div>
                   </td>
                   <td
-                    class="css-xk16pm"
+                    class="css-8wz4m8"
                   >
                     <div
                       class="css-0"
@@ -199,7 +199,7 @@ exports[`Request My Requests Page 1`] = `
                     </div>
                   </td>
                   <td
-                    class="css-xk16pm"
+                    class="css-8wz4m8"
                   >
                     <div
                       class="css-0"
@@ -208,17 +208,17 @@ exports[`Request My Requests Page 1`] = `
                     </div>
                   </td>
                   <td
-                    class="css-xk16pm"
+                    class="css-8wz4m8"
                   >
                     PM Reviews
                   </td>
                   <td
-                    class="css-xk16pm"
+                    class="css-8wz4m8"
                   >
                     trang.danghuyen, long.vodinhhoang
                   </td>
                   <td
-                    class="css-xk16pm"
+                    class="css-8wz4m8"
                   >
                     <div
                       class="css-k008qs"
@@ -231,12 +231,12 @@ exports[`Request My Requests Page 1`] = `
                     </div>
                   </td>
                   <td
-                    class="css-xk16pm"
+                    class="css-8wz4m8"
                   >
                     10-10-2023 16:39
                   </td>
                   <td
-                    class="css-xk16pm"
+                    class="css-8wz4m8"
                   >
                     <div
                       class="css-h607p5"
@@ -291,7 +291,7 @@ exports[`Request My Requests Page 1`] = `
                             type="button"
                           >
                             <svg
-                              class="chakra-icon css-1vzdt75"
+                              class="chakra-icon css-13otjrl"
                               fill="currentColor"
                               focusable="false"
                               height="1em"
@@ -316,7 +316,7 @@ exports[`Request My Requests Page 1`] = `
                             type="button"
                           >
                             <svg
-                              class="chakra-icon css-zvw1k8"
+                              class="chakra-icon css-13otjrl"
                               fill="currentColor"
                               focusable="false"
                               height="1em"
@@ -344,18 +344,18 @@ exports[`Request My Requests Page 1`] = `
       </div>
     </div>
     <div
-      class="chakra-stack css-m4cjlb"
+      class="chakra-stack css-15ln14t"
     >
       <div
         class="chakra-stack css-130amzp"
       >
         <div
-          class="chakra-stack css-1hohgv6"
+          class="chakra-stack css-qlxuh7"
         >
           <p
-            class="chakra-text css-1ok354g"
+            class="chakra-text css-1ttuwaw"
           >
-            Rows per page
+            Rows per page:
           </p>
           <div
             class="chakra-form-control css-0"
@@ -363,10 +363,10 @@ exports[`Request My Requests Page 1`] = `
           >
             <div>
               <div
-                class="chakra-select__wrapper css-bo0or5"
+                class="chakra-select__wrapper css-j4et7t"
               >
                 <select
-                  class="chakra-select css-1y1ernp"
+                  class="chakra-select css-1hkiwm5"
                   id="field-:r9:"
                 >
                   <option
@@ -419,11 +419,6 @@ exports[`Request My Requests Page 1`] = `
         <div
           class="css-iz7l97"
         />
-        <p
-          class="chakra-text css-3z0v2v"
-        >
-          showing 1 to 1 of 1 entries
-        </p>
       </div>
     </div>
   </div>

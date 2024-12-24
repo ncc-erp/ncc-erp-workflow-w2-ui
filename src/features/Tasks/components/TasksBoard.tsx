@@ -191,8 +191,8 @@ export const TasksBoard = () => {
   }, [showOnlyMyTask, onTemplateStatusChange, user.email]);
 
   return (
-    <Flex flexDirection={'column'} gap={2} w={['100vw', 'auto']}>
-      <Flex px="24px" justifyContent="space-between">
+    <Flex flexDirection={'column'} gap={2}>
+      <Flex justifyContent="space-between">
         <Flex gap={3} flexDirection={['column', 'row']} flexWrap={'wrap'}>
           <Box>
             <SelectField
@@ -246,7 +246,7 @@ export const TasksBoard = () => {
       </Flex>
       {renderIfAllowed(
         Permissions.VIEW_ALL_TASKS,
-        <Flex gap={1} px="24px">
+        <Flex gap={1}>
           {isAdmin && (
             <WrapItem>
               <Button
@@ -266,10 +266,9 @@ export const TasksBoard = () => {
       <Box position={'relative'}>
         <Wrap
           spacing={2}
-          px="24px"
           position={'absolute'}
-          right={55}
-          top={-10}
+          right="48px"
+          top={-12}
           hidden={!isLargeScreen}
         >
           {OptionsDisplay.map((item) => (
