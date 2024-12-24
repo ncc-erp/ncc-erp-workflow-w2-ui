@@ -270,9 +270,10 @@ export const Table = <D,>({
                     return (
                       <Td
                         key={cell.id}
-                        fontSize={['10px', '12px', '12px', '14px']}
+                        fontSize={['12px', '12px', '12px', '14px']}
                         borderColor={borderColor}
                         height={'72px'}
+                        fontWeight="medium"
                         px="6px"
                       >
                         {flexRender(

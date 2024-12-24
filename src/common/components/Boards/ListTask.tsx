@@ -268,7 +268,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
                     gap="12px"
                     onClick={() => openDetailModal(info.row.original)()}
                   >
-                    <Icon color="blue.500" as={RiEyeFill} />
+                    <Icon as={RiEyeFill} />
                     View
                   </MenuItem>
                   <MenuItem
@@ -280,7 +280,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
                       )()
                     }
                   >
-                    <Icon color="gray.500" as={RiMapFill} />
+                    <Icon as={RiMapFill} />
                     Workflow
                   </MenuItem>
                   {renderIfAllowed(
@@ -307,7 +307,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
                             onOpen();
                           }}
                         >
-                          <Icon color="green.500" as={AiFillCheckCircle} />
+                          <Icon as={AiFillCheckCircle} />
                           Approve
                         </MenuItem>
                         <MenuItem
@@ -321,7 +321,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
                             onOpen();
                           }}
                         >
-                          <Icon color="red.500" as={MdCancel} />
+                          <Icon as={MdCancel} />
                           Reject
                         </MenuItem>
                         {info.row.original.otherActionSignals &&
@@ -341,10 +341,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
                                   );
                                 }}
                               >
-                                <Icon
-                                  color="gray.500"
-                                  as={BsFillFilterCircleFill}
-                                />
+                                <Icon as={BsFillFilterCircleFill} />
                                 {el.otherActionSignal}
                               </MenuItem>
                             )

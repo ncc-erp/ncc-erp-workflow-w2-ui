@@ -43,7 +43,7 @@ export const RowAction = ({
           renderIfAllowed(
             Permissions.UPDATE_SETTINGS,
             <MenuItem color={color} display="flex" gap="12px" onClick={onEdit}>
-              <Icon color="gray.500" as={RiEdit2Fill} />
+              <Icon as={RiEdit2Fill} />
               Edit
             </MenuItem>
           )}
@@ -56,7 +56,7 @@ export const RowAction = ({
             onClick={onDelete}
             isDisabled={disableDeleteButton}
           >
-            <Icon color="gray.500" as={RiDeleteBin6Fill} />
+            <Icon as={RiDeleteBin6Fill} />
             Delete
           </MenuItem>
         )}

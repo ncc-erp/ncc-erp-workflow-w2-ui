@@ -23,8 +23,8 @@ interface RowActionProps {
 
 export const RowAction = ({
   onEdit, // onPermissions,
-} // onDelete,
-: RowActionProps) => {
+  // onDelete,
+}: RowActionProps) => {
   const bg = useColorModeValue(ColorThemeMode.LIGHT, ColorThemeMode.DARK);
   const color = useColorModeValue(ColorThemeMode.DARK, ColorThemeMode.LIGHT);
 
@@ -41,7 +41,7 @@ export const RowAction = ({
       </MenuButton>
       <MenuList minW="100px" bg={bg}>
         <MenuItem color={color} display="flex" gap="12px" onClick={onEdit}>
-          <Icon color="gray.500" as={RiEdit2Fill} />
+          <Icon as={RiEdit2Fill} />
           Edit
         </MenuItem>
         {/* <MenuItem

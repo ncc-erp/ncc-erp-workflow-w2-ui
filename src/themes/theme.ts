@@ -124,6 +124,10 @@ export const theme = extendTheme({
         default: 'stone.700',
         _dark: 'stone.400',
       },
+      actionBtnBg: {
+        default: 'stone.400',
+        _dark: 'stone.700',
+      },
     },
   },
   breakpoints: {

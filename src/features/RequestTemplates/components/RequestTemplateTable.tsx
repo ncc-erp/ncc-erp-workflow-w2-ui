@@ -136,8 +136,8 @@ export const RequestTemplateTable = ({
               )}
               aria-label="Popup modal"
               icon={<RiAddFill />}
-              backgroundColor="stone.400"
-              color="stone.700"
+              backgroundColor="actionBtnBg"
+              color="paginationText"
             />
           </Center>
         );
