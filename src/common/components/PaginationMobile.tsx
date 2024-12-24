@@ -1,4 +1,4 @@
-import { Box, Button, ButtonProps, Flex } from '@chakra-ui/react';
+import { Box, ButtonProps, Flex, IconButton } from '@chakra-ui/react';
 import { PaginationProps as PaginationComponentProps } from 'rc-pagination';
 import { useCallback, useMemo } from 'react';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
@@ -48,31 +48,28 @@ export const PaginationMobile = ({
       alignItems={'center'}
       pt={4}
     >
-      <Button
-        rounded={'xs'}
+      <IconButton
+        rounded="lg"
         variant="outline"
         _active={{
-          backgroundColor: '#F2F4F7',
+          backgroundColor: 'stone.50',
         }}
-        borderRadius={'8px'}
-        height={'40px'}
+        _disabled={{
+          color: 'disabledPage',
+        }}
         isDisabled={current === 1}
         onClick={onChangePrev}
+        aria-label="prev"
+        color="paginationText"
       >
         <FaArrowLeft />
-      </Button>
-      <Box
-        style={{
-          fontWeight: 400,
-          fontSize: '12px',
-        }}
-      >
+      </IconButton>
+      <Box fontWeight="normal" fontSize="xs" color="paginationText">
         Page{' '}
         <span
           style={{
             fontWeight: 500,
           }}
-          color="#344054"
         >
           {current}
         </span>{' '}
@@ -81,24 +78,26 @@ export const PaginationMobile = ({
           style={{
             fontWeight: 500,
           }}
-          color="#344054"
         >
           {totalPage}
         </span>
       </Box>
-      <Button
-        rounded={'xs'}
+      <IconButton
+        rounded="lg"
         variant="outline"
         isDisabled={isLastPage(current as number)}
-        borderRadius={'8px'}
-        height={'40px'}
         _active={{
-          backgroundColor: '#F2F4F7',
+          backgroundColor: 'stone.50',
+        }}
+        _disabled={{
+          color: 'disabledPage',
         }}
         onClick={onChangeNext}
+        aria-label="next"
+        color="paginationText"
       >
         <FaArrowRight />
-      </Button>
+      </IconButton>
     </Flex>
   );
 };

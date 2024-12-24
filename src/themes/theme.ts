@@ -71,6 +71,7 @@ export const theme = extendTheme({
     wine: {
       800: '#45263A',
     },
+    disabledPageLight: '#98A2B3',
     stone: {
       50: '#F2F4F7',
       100: '#F0F1F5',
@@ -103,7 +104,34 @@ export const theme = extendTheme({
         default: 'wine.800',
         _dark: 'stone.900',
       },
+      border: {
+        default: 'stone.300',
+        _dark: 'stone.600',
+      },
+      paginationBtnBg: {
+        default: 'white',
+        _dark: 'stone.900',
+      },
+      paginationBtnActiveBg: {
+        default: 'stone.50',
+        _dark: 'stone.800',
+      },
+      disabledPage: {
+        default: 'disabledPageLight',
+        _dark: 'stone.600',
+      },
+      paginationText: {
+        default: 'stone.700',
+        _dark: 'stone.400',
+      },
+      actionBtnBg: {
+        default: 'stone.400',
+        _dark: 'stone.700',
+      },
     },
+  },
+  breakpoints: {
+    emd: '1024px',
   },
 });
 

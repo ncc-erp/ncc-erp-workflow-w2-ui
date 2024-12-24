@@ -36,50 +36,62 @@ export const Pagination = ({
         case 'jump-next':
           return (
             <Button
-              rounded={isLargeScreen ? 'sm' : 'xs'}
               variant="outline"
-              size={isLargeScreen ? 'sm' : 'xs'}
               aspectRatio="1/1"
               borderRadius="0px"
               borderLeft="0px"
+              bg="paginationBtnBg"
+              color="paginationText"
               _active={{
-                backgroundColor: '#F2F4F7',
+                backgroundColor: 'paginationBtnActiveBg',
               }}
+              borderColor="border"
               {...buttonProps}
             >
-              <BsThreeDots />
+              <i>
+                <BsThreeDots size="14px" />
+              </i>
             </Button>
           );
         case 'jump-prev':
           return (
             <Button
-              rounded={isLargeScreen ? 'sm' : 'xs'}
               variant="outline"
-              size={isLargeScreen ? 'sm' : 'xs'}
               aspectRatio="1/1"
               borderRadius="0px"
               borderLeft="0px"
+              bg="paginationBtnBg"
+              color="paginationText"
               _active={{
-                backgroundColor: '#F2F4F7',
+                backgroundColor: 'paginationBtnActiveBg',
               }}
+              borderColor="border"
               {...buttonProps}
             >
-              <BsThreeDots />
+              <i>
+                <BsThreeDots size="14px" />
+              </i>
             </Button>
           );
         case 'prev':
           return (
             <Button
-              rounded={isLargeScreen ? 'sm' : 'xs'}
               variant="outline"
-              size={isLargeScreen ? 'sm' : 'xs'}
+              fontSize="sm"
+              bg="paginationBtnBg"
+              color="paginationText"
               {...buttonProps}
               _active={{
-                backgroundColor: '#F2F4F7',
+                backgroundColor: 'paginationBtnActiveBg',
+              }}
+              _disabled={{
+                color: 'disabledPage',
               }}
               isDisabled={activePage === 1}
               leftIcon={<FaArrowLeft />}
               borderLeftRadius="8px"
+              borderRightRadius="0"
+              borderColor="border"
             >
               Previous
             </Button>
@@ -87,17 +99,23 @@ export const Pagination = ({
         case 'next':
           return (
             <Button
-              rounded={isLargeScreen ? 'sm' : 'xs'}
               variant="outline"
-              size={isLargeScreen ? 'sm' : 'xs'}
+              fontSize="sm"
+              bg="paginationBtnBg"
+              color="paginationText"
               {...buttonProps}
               isDisabled={isLastPage(activePage as number)}
               _active={{
-                backgroundColor: '#F2F4F7',
+                backgroundColor: 'paginationBtnActiveBg',
+              }}
+              _disabled={{
+                color: 'disabledPage',
               }}
               rightIcon={<FaArrowRight />}
+              borderLeftRadius="0"
               borderRightRadius="8px"
               borderLeft="0px"
+              borderColor="border"
             >
               Next
             </Button>
@@ -105,16 +123,21 @@ export const Pagination = ({
         default:
           return (
             <Button
-              rounded={isLargeScreen ? 'sm' : 'xs'}
-              variant={activePage === current ? 'solid' : 'outline'}
-              background={activePage === current ? '#F2F4F7' : undefined}
-              size={isLargeScreen ? 'sm' : 'xs'}
+              variant="outline"
+              background={
+                activePage === current
+                  ? 'paginationBtnActiveBg'
+                  : 'paginationBtnBg'
+              }
               borderRadius="0px"
+              color="paginationText"
               _active={{
-                backgroundColor: '#F2F4F7',
+                backgroundColor: 'paginationBtnActiveBg',
               }}
+              fontSize="sm"
               {...buttonProps}
               borderLeft="0px"
+              borderColor="border"
             >
               {current}
             </Button>
@@ -125,8 +148,6 @@ export const Pagination = ({
     <Box
       display="flex"
       listStyleType="none"
-      shadow={'xs'}
-      borderRadius="8px"
       current={current}
       as={PaginationComponent}
       itemRender={ItemRender(current, itemRenderProps)}

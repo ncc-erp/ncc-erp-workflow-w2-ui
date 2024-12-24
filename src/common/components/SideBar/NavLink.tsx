@@ -14,9 +14,9 @@ export const NavLink = ({ to, text, icon, onClick }: NavLinkProps) => {
       as={NavLinkComponent}
       to={to}
       px="8px"
-      py="6px"
+      py="10px"
       w="full"
-      fontWeight="600"
+      fontWeight="500"
       display="flex"
       alignItems="center"
       gap="12px"
@@ -25,6 +25,8 @@ export const NavLink = ({ to, text, icon, onClick }: NavLinkProps) => {
       textDecoration="none"
       color="stone.500"
       onClick={onClick}
+      height="40px"
+      lineHeight="1.2"
       border="1px transparent solid"
       _hover={{
         backgroundColor: 'rgba(255, 255, 255, 0.1)',

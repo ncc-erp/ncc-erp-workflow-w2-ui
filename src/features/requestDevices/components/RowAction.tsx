@@ -50,7 +50,7 @@ export const RowAction = ({
           gap="12px"
           onClick={onViewDetails}
         >
-          <Icon color="gray.500" as={FaEye} />
+          <Icon as={FaEye} />
           View
         </MenuItem>
         {onViewWorkflow && (
@@ -60,7 +60,7 @@ export const RowAction = ({
             gap="12px"
             onClick={onViewWorkflow}
           >
-            <Icon color="gray.500" as={FaRegMap} />
+            <Icon as={FaRegMap} />
             Workflow
           </MenuItem>
         )}
@@ -73,7 +73,7 @@ export const RowAction = ({
               gap="12px"
               onClick={onCancel}
             >
-              <Icon color="gray.500" as={MdCancel} />
+              <Icon as={MdCancel} />
               Cancel
             </MenuItem>
           )}

@@ -397,7 +397,7 @@ export const TablePostAndWFH = () => {
   return (
     <>
       <Box width={'100%'}>
-        <HStack w="100%" display="flex" px={'24px'} gap={'1rem'}>
+        <HStack w="100%" display="flex" gap={'1rem'}>
           <InputGroup alignItems={'center'} maxW={'200px'}>
             <Input
               type="text"
@@ -478,7 +478,7 @@ export const TablePostAndWFH = () => {
           justifyContent={'center'}
           alignItems={'center'}
         >
-          <Box p={{ base: '20px 24px' }} overflowX={'auto'} w={'100%'}>
+          <Box p={{ base: '20px 0px' }} overflowX={'auto'} w={'100%'}>
             <Table
               columns={wfhColumns}
               data={wfhList}
@@ -494,7 +494,7 @@ export const TablePostAndWFH = () => {
           <Box>
             {isLargeScreen ? (
               <HStack
-                p={['20px 30px 20px 30px', '20px 30px 20px 30px']}
+                py="20px"
                 justifyContent={['center', 'space-between']}
                 borderBottom="1px"
                 borderColor="gray.200"
@@ -521,7 +521,7 @@ export const TablePostAndWFH = () => {
               <HStack
                 display={'flex'}
                 width={'100%'}
-                p={['0px 40px 20px 40px', '0px 40px 20px 40px']}
+                p={['0px 16px 20px 16px', '0px 16px 20px 16px']}
                 justifyContent={['center', 'space-between']}
               >
                 <PaginationMobile

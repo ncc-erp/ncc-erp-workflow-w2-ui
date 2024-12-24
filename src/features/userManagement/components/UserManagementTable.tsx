@@ -222,11 +222,11 @@ export const UserManagementTable = () => {
       <Box>
         <HStack
           w="full"
-          p="0px 24px 20px 0px"
+          pb="20px"
           justifyContent="space-between"
           display="flex"
         >
-          <HStack w="full" pl="24px" alignItems="flex-end" flexWrap="wrap">
+          <HStack w="full" alignItems="flex-end" flexWrap="wrap">
             <InputGroup w={{ base: '48%', sm: '30%', lg: '20%' }}>
               <Input
                 isDisabled={isLoading || isRefetching}
@@ -269,7 +269,7 @@ export const UserManagementTable = () => {
           message={'No request found!'}
         >
           <Box
-            p={{ base: '10px 24px 0px' }}
+            pt="10px"
             overflowX={'auto'}
             w={{
               base: `calc(100vw - ${sideBarWidth}px)`,
@@ -291,61 +291,48 @@ export const UserManagementTable = () => {
             />
           </Box>
         </EmptyWrapper>
-        <HStack
-          p={{
-            base: '0px 12px 20px 12px',
-            sm: '0px 30px 20px 30px',
-            lg: '26px 30px 20px 30px',
-          }}
-          justifyContent={{
-            base: 'center',
-            lg: 'space-between',
-          }}
-          flexWrap="wrap"
-        >
-          {isLargeScreen ? (
-            <HStack
-              p={['20px 30px 20px 30px', '20px 30px 20px 30px']}
-              justifyContent={['center', 'space-between']}
-              borderBottom="1px"
-              borderColor="gray.200"
-              flexWrap="wrap"
-            >
-              <HStack alignItems="center" spacing="6px" flexWrap="wrap">
-                <PageSize
-                  noOfRows={noOfRows}
-                  onChange={onPageSizeChange}
-                  value={filterUser.maxResultCount}
-                />
-                <Spacer w="12px" />
-              </HStack>
-              <Pagination
-                total={totalCount}
-                pageSize={filterUser.maxResultCount}
-                current={currentPage}
-                onChange={onPageChange}
-                hideOnSinglePage
-                data-testid="pagination"
+        {isLargeScreen ? (
+          <HStack
+            py="20px"
+            justifyContent={['center', 'space-between']}
+            borderBottom="1px"
+            borderColor="gray.200"
+            flexWrap="wrap"
+          >
+            <HStack alignItems="center" spacing="6px" flexWrap="wrap">
+              <PageSize
+                noOfRows={noOfRows}
+                onChange={onPageSizeChange}
+                value={filterUser.maxResultCount}
               />
+              <Spacer w="12px" />
             </HStack>
-          ) : (
-            <HStack
-              display={'flex'}
-              width={'100%'}
-              p={['0px 40px 20px 40px', '0px 40px 20px 40px']}
-              justifyContent={['center', 'space-between']}
-            >
-              <PaginationMobile
-                total={data?.totalCount ?? 0}
-                pageSize={filterUser.maxResultCount}
-                current={currentPage}
-                onChange={onPageChange}
-                hideOnSinglePage
-                data-testid="pagination"
-              />
-            </HStack>
-          )}
-        </HStack>
+            <Pagination
+              total={totalCount}
+              pageSize={filterUser.maxResultCount}
+              current={currentPage}
+              onChange={onPageChange}
+              hideOnSinglePage
+              data-testid="pagination"
+            />
+          </HStack>
+        ) : (
+          <HStack
+            display={'flex'}
+            width={'100%'}
+            p={['0px 16px 20px 16px', '0px 16px 20px 16px']}
+            justifyContent={['center', 'space-between']}
+          >
+            <PaginationMobile
+              total={data?.totalCount ?? 0}
+              pageSize={filterUser.maxResultCount}
+              current={currentPage}
+              onChange={onPageChange}
+              hideOnSinglePage
+              data-testid="pagination"
+            />
+          </HStack>
+        )}
         {user && (
           <UserModal
             isOpen={isModalOpen}

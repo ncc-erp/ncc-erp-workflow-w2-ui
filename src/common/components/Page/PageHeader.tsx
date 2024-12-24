@@ -8,10 +8,9 @@ interface PageHeaderProps extends StackProps {
 export const PageHeader = ({ children, ...props }: PageHeaderProps) => {
   return (
     <HStack
-      px="24px"
-      py="20px"
-      h="87px"
-      mb={'10px'}
+      px={{ base: '16px', emd: '28px' }}
+      py="16px"
+      mb="18px"
       alignItems="center"
       display="flex"
       justifyContent="space-between"

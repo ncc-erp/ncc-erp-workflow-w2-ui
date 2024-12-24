@@ -44,6 +44,8 @@ export const CurrentUser = ({ isMobile }: CurrentUserProps) => {
       <Avatar
         name={currentUser?.given_name || currentUser?.email}
         src={currentUser?.avatar || ''}
+        w="54px"
+        h="54px"
       />
     </Flex>
   );

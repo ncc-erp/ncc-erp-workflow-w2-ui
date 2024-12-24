@@ -136,6 +136,8 @@ export const RequestTemplateTable = ({
               )}
               aria-label="Popup modal"
               icon={<RiAddFill />}
+              backgroundColor="actionBtnBg"
+              color="paginationText"
             />
           </Center>
         );
@@ -277,7 +279,7 @@ export const RequestTemplateTable = ({
   return (
     <Box>
       {isLargeScreen && (
-        <Box px={6} display="flex" mb={2} columnGap="0.5rem">
+        <Box display="flex" mb={2} columnGap="1rem">
           {renderIfAllowed(
             Permissions.CREATE_WORKFLOW_DEFINITION,
             <Button
@@ -331,7 +333,7 @@ export const RequestTemplateTable = ({
             lg: `calc(100vw - ${sideBarWidth}px)`,
             xs: 'max-content',
           }}
-          p={{ base: '10px 24px 0px' }}
+          py="10px"
           paddingBottom={10}
           data-testid="list-request-templates-view"
         >
