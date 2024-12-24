@@ -6,7 +6,7 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
     class="css-0"
   >
     <div
-      class="chakra-stack css-13yrala"
+      class="chakra-stack css-fuyzyd"
     >
       <div
         class="chakra-stack__item css-1stbcqi"
@@ -38,7 +38,7 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
             />
           </div>
           <span
-            class="chakra-avatar css-1ruhx4w"
+            class="chakra-avatar css-arwu2b"
           >
             <svg
               aria-label=" avatar"
@@ -60,13 +60,13 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
       </div>
     </div>
     <div
-      class="css-0"
+      class="css-1hufsii"
     >
       <div
         class="css-8atqhb"
       >
         <div
-          class="chakra-stack css-dg3tln"
+          class="chakra-stack css-hyd6jb"
         >
           <div
             class="chakra-input__group css-t95mde"
@@ -335,7 +335,7 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
           class="css-b8r4vz"
         >
           <div
-            class="css-wq2f8h"
+            class="css-sj5qli"
           >
             <div
               class="chakra-table__container tableContainer css-nkv5sy"
@@ -443,7 +443,7 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
                     data-id="3a16854b-80bf-aed5-4252-7be0b33d10d2"
                   >
                     <td
-                      class="css-33d1pd"
+                      class="css-8wz4m8"
                     >
                       <div
                         class="css-0"
@@ -452,7 +452,7 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
                       </div>
                     </td>
                     <td
-                      class="css-33d1pd"
+                      class="css-8wz4m8"
                     >
                       <div
                         class="css-1ltw3qa"
@@ -461,7 +461,7 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
                       </div>
                     </td>
                     <td
-                      class="css-33d1pd"
+                      class="css-8wz4m8"
                     >
                       <div
                         class="css-0"
@@ -474,7 +474,7 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
                       </div>
                     </td>
                     <td
-                      class="css-33d1pd"
+                      class="css-8wz4m8"
                     >
                       <div
                         class="css-0"
@@ -483,7 +483,7 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
                       </div>
                     </td>
                     <td
-                      class="css-33d1pd"
+                      class="css-8wz4m8"
                     >
                       <div
                         class="css-0"
@@ -501,18 +501,18 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
           class="css-0"
         >
           <div
-            class="chakra-stack css-1g7dtdu"
+            class="chakra-stack css-15ln14t"
           >
             <div
               class="chakra-stack css-130amzp"
             >
               <div
-                class="chakra-stack css-1hohgv6"
+                class="chakra-stack css-qlxuh7"
               >
                 <p
-                  class="chakra-text css-1ok354g"
+                  class="chakra-text css-1ttuwaw"
                 >
-                  Rows per page
+                  Rows per page:
                 </p>
                 <div
                   class="chakra-form-control css-0"
@@ -520,10 +520,10 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
                 >
                   <div>
                     <div
-                      class="chakra-select__wrapper css-bo0or5"
+                      class="chakra-select__wrapper css-j4et7t"
                     >
                       <select
-                        class="chakra-select css-lcm62o"
+                        class="chakra-select css-1hkiwm5"
                         id="field-:r2:"
                       >
                         <option
