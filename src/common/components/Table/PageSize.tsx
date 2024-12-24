@@ -26,12 +26,9 @@ export const PageSize = ({
   };
 
   return (
-    <HStack spacing={0}>
-      <Text
-        whiteSpace="nowrap"
-        fontSize={{ base: '10px', sm: 'xs', lg: '12px' }}
-      >
-        Rows per page
+    <HStack spacing="12px">
+      <Text whiteSpace="nowrap" fontSize="sm" color="paginationText">
+        Rows per page:
       </Text>
       <SelectField
         isDisabled={isLoading}
@@ -40,11 +37,11 @@ export const PageSize = ({
         options={noOfRows}
         variant="outline"
         size="xs"
-        mt="-3px"
-        ml="5px"
         fontSize="sm"
         onChange={handleChange}
         color={color}
+        borderColor="border"
+        bg="paginationBtnBg"
       />
     </HStack>
   );

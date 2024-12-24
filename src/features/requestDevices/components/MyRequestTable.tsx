@@ -475,8 +475,6 @@ export const MyRequestTable = () => {
             <HStack
               py="20px"
               justifyContent={['center', 'space-between']}
-              borderBottom="1px"
-              borderColor="gray.200"
               flexWrap="wrap"
             >
               <HStack alignItems="center" spacing="6px" flexWrap="wrap">
