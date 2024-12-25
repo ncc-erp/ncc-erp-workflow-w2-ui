@@ -11,6 +11,10 @@ on:
         description: 'Branch to deploy'
         required: true
         default: 'develop'
+      client_version:
+        description: 'Client version'
+        required: false
+        default: '1.0.0'
 
 jobs:
   build:
@@ -41,6 +45,7 @@ jobs:
           VITE_PROXY_SERVER_URL : ${{secrets.VITE_PROXY_SERVER_URL}}
           VITE_API_ANT_URL : ${{secrets.VITE_API_ANT_URL}}
           VITE_MODE : ${{secrets.VITE_MODE}}
+          VITE_CLIENT_VERSION: ${{github.event.inputs.client_version}}
 
       - name: Compress build file
         run: zip -r fe.zip dist/
