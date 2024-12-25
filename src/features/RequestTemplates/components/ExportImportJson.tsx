@@ -127,7 +127,10 @@ const ExportImportJson: React.FC<ExportImportJsonProps> = ({
           width={'114px'}
           fontSize={'14px'}
           _hover={{
-            background: '#E2E8F0',
+            background: 'stone.300',
+            _dark: {
+              background: 'stone.800',
+            },
           }}
         >
           Import

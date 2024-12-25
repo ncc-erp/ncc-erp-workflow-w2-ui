@@ -219,7 +219,7 @@ const PermissionsTable = () => {
           {Array.isArray(permissionsData) && permissionsData.length > 0 ? (
             permissionsData.map((parent) => (
               <React.Fragment key={parent.id}>
-                <Tr bg="gray.100">
+                <Tr bg="highlightRow">
                   <Td fontWeight="bold" fontSize={15}>
                     {parent.name}
                   </Td>

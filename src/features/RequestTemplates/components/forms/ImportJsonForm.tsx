@@ -106,6 +106,9 @@ const ImportJsonForm = ({
           backgroundColor="#F7FAFC"
           padding="10px"
           borderRadius="md"
+          _dark={{
+            backgroundColor: 'stone.900',
+          }}
         >
           {importedData ? importedData : 'No data imported !'}
         </Box>

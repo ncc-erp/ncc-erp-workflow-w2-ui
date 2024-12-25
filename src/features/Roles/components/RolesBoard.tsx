@@ -1,4 +1,4 @@
-import { Box, Button } from '@chakra-ui/react';
+import { Box, Button, Center, IconButton } from '@chakra-ui/react';
 import { ColumnDef } from '@tanstack/react-table';
 import { EmptyWrapper } from 'common/components/EmptyWrapper';
 import { Table } from 'common/components/Table/Table';
@@ -29,13 +29,17 @@ export const RolesBoard = () => {
         ? [
             {
               accessorKey: 'action',
-              header: 'Action',
+              header: () => <Center w="full">Action</Center>,
               cell: ({ row }: { row: { original: Role } }) => (
-                <span onClick={() => handleEdit(row.original)}>
-                  <AiOutlineEdit
-                    style={{ cursor: 'pointer', color: 'black' }}
+                <Center>
+                  <IconButton
+                    onClick={() => handleEdit(row.original)}
+                    aria-label="edit modal"
+                    icon={<AiOutlineEdit />}
+                    backgroundColor="actionBtnBg"
+                    color="paginationText"
                   />
-                </span>
+                </Center>
               ),
               enableSorting: false,
             },

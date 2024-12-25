@@ -128,6 +128,10 @@ export const theme = extendTheme({
         default: 'stone.400',
         _dark: 'stone.700',
       },
+      highlightRow: {
+        default: 'gray.100',
+        _dark: 'stone.900',
+      },
     },
   },
   breakpoints: {
