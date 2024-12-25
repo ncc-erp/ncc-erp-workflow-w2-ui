@@ -145,7 +145,9 @@ const CreateRoleWithPermissionsForm: React.FC<
                 <PermissionCheckbox
                   permission={permissions}
                   onChange={handleCheckboxChange}
-                  style={{ fontSize: '16px', color: 'black' }}
+                  style={{
+                    fontSize: '16px',
+                  }}
                   role={role}
                 />
               </FormControl>

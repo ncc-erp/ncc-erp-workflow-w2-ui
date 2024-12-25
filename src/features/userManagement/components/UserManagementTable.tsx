@@ -249,6 +249,7 @@ export const UserManagementTable = () => {
                 mb={2}
                 onChange={(e) => onUserListFilterChange('role', e.target.value)}
                 options={userRolesOptions}
+                minW="134px"
               />
             </Box>
           </HStack>

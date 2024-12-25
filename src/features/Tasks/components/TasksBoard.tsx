@@ -204,6 +204,7 @@ export const TasksBoard = () => {
                 onTemplateStatusChange('workflowDefinitionId', e.target.value)
               }
               options={requestTemplateOtions}
+              minW="296px"
             />
           </Box>
           <Box>

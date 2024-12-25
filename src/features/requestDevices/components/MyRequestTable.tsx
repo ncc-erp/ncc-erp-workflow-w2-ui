@@ -362,6 +362,7 @@ export const MyRequestTable = () => {
                 onTemplateStatusChange('WorkflowDefinitionId', e.target.value)
               }
               options={requestTemplateOtions}
+              minW="296px"
             />
           </Box>
           <Box>
