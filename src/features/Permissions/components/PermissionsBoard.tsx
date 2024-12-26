@@ -207,105 +207,107 @@ const PermissionsTable = () => {
           Create
         </Button>
       </Box>
-      <Table variant="simple">
-        <Thead>
-          <Tr>
-            <Th>Permission Group</Th>
-            <Th>Code</Th>
-            <Th>Actions</Th>
-          </Tr>
-        </Thead>
-        <Tbody>
-          {Array.isArray(permissionsData) && permissionsData.length > 0 ? (
-            permissionsData.map((parent) => (
-              <React.Fragment key={parent.id}>
-                <Tr bg="highlightRow">
-                  <Td fontWeight="bold" fontSize={15}>
-                    {parent.name}
-                  </Td>
-                  <Td fontSize={15}>{parent.code}</Td>
-                  <Td>
-                    {renderIfAllowed(
-                      Permissions.UPDATE_PERMISSION,
-                      <IconButton
-                        aria-label="Edit Parent"
-                        icon={<EditIcon />}
-                        colorScheme="yellow"
-                        onClick={() => handleEditPermission(parent)}
-                        size={'sm'}
-                        mr={2}
-                      />
-                    )}
-                    {renderIfAllowed(
-                      Permissions.DELETE_PERMISSION,
-                      parent.children && parent.children.length === 0 && (
+      <Box overflowX="auto">
+        <Table variant="simple">
+          <Thead>
+            <Tr>
+              <Th>Permission Group</Th>
+              <Th>Code</Th>
+              <Th textAlign="center">Actions</Th>
+            </Tr>
+          </Thead>
+          <Tbody>
+            {Array.isArray(permissionsData) && permissionsData.length > 0 ? (
+              permissionsData.map((parent) => (
+                <React.Fragment key={parent.id}>
+                  <Tr bg="highlightRow">
+                    <Td fontWeight="bold" fontSize={15}>
+                      {parent.name}
+                    </Td>
+                    <Td fontSize={15}>{parent.code}</Td>
+                    <Td>
+                      {renderIfAllowed(
+                        Permissions.UPDATE_PERMISSION,
                         <IconButton
-                          aria-label="Delete Parent"
-                          icon={<DeleteIcon />}
-                          colorScheme="red"
-                          onClick={() => handleOpenConfirm(parent.id)}
-                          mr={2}
+                          aria-label="Edit Parent"
+                          icon={<EditIcon />}
+                          colorScheme="yellow"
+                          onClick={() => handleEditPermission(parent)}
                           size={'sm'}
+                          mr={2}
                         />
-                      )
-                    )}
-                    {renderIfAllowed(
-                      Permissions.CREATE_PERMISSION,
-                      <IconButton
-                        aria-label="Add Child"
-                        icon={<AddIcon />}
-                        colorScheme="blue"
-                        onClick={() => handleAddChildPermission(parent.id)}
-                        size={'sm'}
-                      />
-                    )}
-                  </Td>
-                </Tr>
-                {Array.isArray(parent.children) &&
-                  parent.children.map((child: Permission) => (
-                    <Tr key={child.id}>
-                      <Td pl={8} fontSize={15}>
-                        {child.name}
-                      </Td>
-                      <Td fontSize={14}>{child.code}</Td>
-                      <Td>
-                        {renderIfAllowed(
-                          Permissions.UPDATE_PERMISSION,
+                      )}
+                      {renderIfAllowed(
+                        Permissions.DELETE_PERMISSION,
+                        parent.children && parent.children.length === 0 && (
                           <IconButton
-                            aria-label="Edit Child"
-                            icon={<EditIcon />}
-                            colorScheme="yellow"
-                            onClick={() =>
-                              handleEditPermission(child, parent.id)
-                            }
-                            size={'sm'}
-                            mr={2}
-                          />
-                        )}
-                        {renderIfAllowed(
-                          Permissions.DELETE_PERMISSION,
-                          <IconButton
-                            aria-label="Delete Child"
+                            aria-label="Delete Parent"
                             icon={<DeleteIcon />}
                             colorScheme="red"
-                            onClick={() => handleOpenConfirm(child.id)}
+                            onClick={() => handleOpenConfirm(parent.id)}
+                            mr={2}
                             size={'sm'}
                           />
-                        )}
-                      </Td>
-                    </Tr>
-                  ))}
-              </React.Fragment>
-            ))
-          ) : (
-            <Tr>
-              <Td textAlign={'center'} colSpan={3}>
-                No permissions available.
-              </Td>
-            </Tr>
-          )}
-        </Tbody>
-      </Table>
+                        )
+                      )}
+                      {renderIfAllowed(
+                        Permissions.CREATE_PERMISSION,
+                        <IconButton
+                          aria-label="Add Child"
+                          icon={<AddIcon />}
+                          colorScheme="blue"
+                          onClick={() => handleAddChildPermission(parent.id)}
+                          size={'sm'}
+                        />
+                      )}
+                    </Td>
+                  </Tr>
+                  {Array.isArray(parent.children) &&
+                    parent.children.map((child: Permission) => (
+                      <Tr key={child.id}>
+                        <Td pl={8} fontSize={15}>
+                          {child.name}
+                        </Td>
+                        <Td fontSize={14}>{child.code}</Td>
+                        <Td display="flex">
+                          {renderIfAllowed(
+                            Permissions.UPDATE_PERMISSION,
+                            <IconButton
+                              aria-label="Edit Child"
+                              icon={<EditIcon />}
+                              colorScheme="yellow"
+                              onClick={() =>
+                                handleEditPermission(child, parent.id)
+                              }
+                              size={'sm'}
+                              mr={2}
+                            />
+                          )}
+                          {renderIfAllowed(
+                            Permissions.DELETE_PERMISSION,
+                            <IconButton
+                              aria-label="Delete Child"
+                              icon={<DeleteIcon />}
+                              colorScheme="red"
+                              onClick={() => handleOpenConfirm(child.id)}
+                              size={'sm'}
+                            />
+                          )}
+                        </Td>
+                      </Tr>
+                    ))}
+                </React.Fragment>
+              ))
+            ) : (
+              <Tr>
+                <Td textAlign={'center'} colSpan={3}>
+                  No permissions available.
+                </Td>
+              </Tr>
+            )}
+          </Tbody>
+        </Table>
+      </Box>
       <Modal isOpen={isOpen} onClose={handleClose}>
         <ModalOverlay />
         <ModalContent>
