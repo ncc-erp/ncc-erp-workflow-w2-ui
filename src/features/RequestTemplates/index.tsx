@@ -15,12 +15,20 @@ export interface IFilterPagination {
 
 const RequestTemplates = () => {
   const isLargeScreen = useMediaQuery('(min-width: 1024px)');
-  const { data, isLoading, refetch } = useRequestTemplates(true);
   const { hasPermission } = useUserPermissions();
 
   const canViewTemplates = useMemo(
     () => hasPermission(Permissions.VIEW_WORKFLOW_DEFINITIONS),
     [hasPermission]
+  );
+
+  const canViewUnPublishedTemplates = useMemo(
+    () => hasPermission(Permissions.UPDATE_WORKFLOW_DEFINITION_STATUS),
+    [hasPermission]
+  );
+
+  const { data, isLoading, refetch } = useRequestTemplates(
+    !canViewUnPublishedTemplates
   );
 
   const temp = useMemo(() => {
