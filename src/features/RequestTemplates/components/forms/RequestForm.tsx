@@ -400,6 +400,16 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
                       selected={field.value as Date}
                       dateFormat="dd/MM/yyyy"
                       wrapperClassName={styles.wrapperCustom}
+                      popperModifiers={[
+                        {
+                          name: 'arrow',
+                          options: {
+                            padding: ({ popper }) => ({
+                              right: popper.width - 32,
+                            }),
+                          },
+                        },
+                      ]}
                     />
                   </div>
                 );
