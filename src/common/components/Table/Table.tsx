@@ -106,7 +106,7 @@ export const Table = <D,>({
     newColumnHovered[index] = false;
     setColumnHovered(newColumnHovered);
   };
-  console.log('borderColor', borderColor);
+
   return (
     <TableContainer
       sx={{

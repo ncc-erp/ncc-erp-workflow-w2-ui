@@ -1,38 +1,38 @@
 .datePicker {
-    border: 1px solid;
-    border-radius: 5px;
-    width: 140px;
-    padding: 8px 15px;
-    font-size: 15px;
-    background-color: inherit;
-    border-color: inherit;
-    &:hover {
-        border-color: var(--chakra-colors-gray-300);
-    }
-    @media (max-width: 1024px) {
-        width: 110px; /* Adjust for smaller screens */
-        padding: 8px 8px;
-    }
+  border: 1px solid;
+  border-radius: 6px;
+  width: 140px;
+  padding: 10px 12px;
+  font-size: 14px;
+  background-color: inherit;
+  border-color: inherit;
+  line-height: normal;
+  &:hover {
+    border-color: var(--chakra-colors-gray-300);
+  }
+  @media (max-width: 1024px) {
+    width: 110px; /* Adjust for smaller screens */
+  }
 
-    @media (max-width: 576px) {
-        width: 96px; /* Further adjustment for even smaller screens */
-        padding: 4px 8px;
-    }
+  @media (max-width: 576px) {
+    width: 96px; /* Further adjustment for even smaller screens */
+  }
 }
 
 .disabled {
-    cursor: not-allowed;
-    border-color: inherit;
-    opacity: 0.5;
+  cursor: not-allowed;
+  border-color: inherit;
+  opacity: 0.5;
 }
 
 .icon {
-    color: var(--chakra-colors-gray-500);
+  color: var(--chakra-colors-gray-500);
 }
 
 .btnClear {
-    margin-right: 10px;
-    &::after {
-        background-color: var(--chakra-colors-gray-400);
-    }
+  margin-right: 4px;
+  &::after {
+    background-color: transparent;
+    font-size: 24px;
+  }
 }

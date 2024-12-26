@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Flex,
   HStack,
   IconButton,
   Input,
@@ -397,9 +398,9 @@ export const TablePostAndWFH = () => {
 
   return (
     <>
-      <Box width={'100%'}>
-        <HStack w="100%" display="flex" gap={'1rem'}>
-          <InputGroup alignItems={'center'} maxW={'200px'}>
+      <Box>
+        <Flex gap={'1rem'} flexWrap={{ base: 'wrap', xl: 'unset' }}>
+          <InputGroup alignItems={'center'} flexBasis={{ xl: '200px' }}>
             <Input
               type="text"
               placeholder="Enter email"
@@ -410,7 +411,10 @@ export const TablePostAndWFH = () => {
               <TbSearch />
             </InputRightElement>
           </InputGroup>
-          <Box>
+          <Box
+            flex={{ base: 1, xl: 'unset' }}
+            flexBasis={{ base: '100%', sm: '0' }}
+          >
             <SelectField
               value={filter?.status as number}
               size="sm"
@@ -420,7 +424,10 @@ export const TablePostAndWFH = () => {
               options={statusOptions}
             />
           </Box>
-          <Box>
+          <Box
+            flex={{ base: 1, xl: 'unset' }}
+            flexBasis={{ base: '100%', sm: '0' }}
+          >
             <SelectField
               value={filter.dates}
               size="sm"
@@ -430,16 +437,24 @@ export const TablePostAndWFH = () => {
               options={dateOptions}
             />
           </Box>
-          <Box>
-            <DateRangePicker
-              isDisabled={isLoading || isRefetching}
-              startDate={startDate}
-              endDate={endDate}
-              handleStartDateChange={handleStartDateChange}
-              handleEndDateChange={handleEndDateChange}
-              endDatePicker={endDatePicker}
-            />
-          </Box>
+
+          <DateRangePicker
+            isDisabled={isLoading || isRefetching}
+            startDate={startDate}
+            endDate={endDate}
+            handleStartDateChange={handleStartDateChange}
+            handleEndDateChange={handleEndDateChange}
+            endDatePicker={endDatePicker}
+            w={{ base: 'full', xl: '284px' }}
+            startDateProps={{
+              wrapperClassName: styles.datepickerWrapper,
+              className: styles.datePicker,
+            }}
+            endDateProps={{
+              wrapperClassName: styles.datepickerWrapper,
+              className: styles.datePicker,
+            }}
+          />
           <Wrap ml={'auto'}>
             <WrapItem>
               <div className={styles.btnExport}>
@@ -468,7 +483,7 @@ export const TablePostAndWFH = () => {
               />
             </WrapItem>
           </Wrap>
-        </HStack>
+        </Flex>
 
         <EmptyWrapper
           isEmpty={!wfhList.length && !isLoading && !isRefetching}
