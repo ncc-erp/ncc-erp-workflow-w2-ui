@@ -118,7 +118,11 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
     return [
       columnHelper.accessor('requestId', {
         id: 'id',
-        header: () => <Box pl="16px">ID</Box>,
+        header: () => (
+          <Box textAlign="center" w="full">
+            ID
+          </Box>
+        ),
         enableSorting: false,
         sortDescFirst: true,
         cell: (info) => (

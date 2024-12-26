@@ -211,9 +211,11 @@ const PermissionsTable = () => {
         <Table variant="simple">
           <Thead>
             <Tr>
-              <Th>Permission Group</Th>
-              <Th>Code</Th>
-              <Th textAlign="center">Actions</Th>
+              <Th px={['8px', '12px']}>Permission Group</Th>
+              <Th px={['8px', '12px']}>Code</Th>
+              <Th px={['8px', '12px']} textAlign="center">
+                Actions
+              </Th>
             </Tr>
           </Thead>
           <Tbody>
@@ -221,11 +223,13 @@ const PermissionsTable = () => {
               permissionsData.map((parent) => (
                 <React.Fragment key={parent.id}>
                   <Tr bg="highlightRow">
-                    <Td fontWeight="bold" fontSize={15}>
+                    <Td fontWeight="bold" fontSize={15} px={['8px', '12px']}>
                       {parent.name}
                     </Td>
-                    <Td fontSize={15}>{parent.code}</Td>
-                    <Td>
+                    <Td fontSize={15} px={['8px', '12px']}>
+                      {parent.code}
+                    </Td>
+                    <Td px={['8px', '12px']}>
                       {renderIfAllowed(
                         Permissions.UPDATE_PERMISSION,
                         <IconButton
@@ -265,11 +269,13 @@ const PermissionsTable = () => {
                   {Array.isArray(parent.children) &&
                     parent.children.map((child: Permission) => (
                       <Tr key={child.id}>
-                        <Td pl={8} fontSize={15}>
+                        <Td px={['8px', '12px']} fontSize={15}>
                           {child.name}
                         </Td>
-                        <Td fontSize={14}>{child.code}</Td>
-                        <Td display="flex">
+                        <Td fontSize={14} px={['8px', '12px']}>
+                          {child.code}
+                        </Td>
+                        <Td display="flex" px={['8px', '12px']}>
                           {renderIfAllowed(
                             Permissions.UPDATE_PERMISSION,
                             <IconButton
