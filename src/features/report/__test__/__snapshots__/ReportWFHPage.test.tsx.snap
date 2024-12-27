@@ -63,13 +63,13 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
       class="css-1hufsii"
     >
       <div
-        class="css-8atqhb"
+        class="css-0"
       >
         <div
-          class="chakra-stack css-hyd6jb"
+          class="css-se3py7"
         >
           <div
-            class="chakra-input__group css-t95mde"
+            class="chakra-input__group css-5sgfsn"
             data-group="true"
           >
             <input
@@ -106,7 +106,7 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
             </div>
           </div>
           <div
-            class="css-0"
+            class="css-vvqeyi"
           >
             <div
               class="chakra-form-control css-0"
@@ -117,7 +117,7 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
                   class="chakra-select__wrapper css-42b2qy"
                 >
                   <select
-                    class="chakra-select css-e1p5t"
+                    class="chakra-select css-ws6us0"
                     id="field-:r0:"
                   >
                     <option
@@ -168,7 +168,7 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
             </div>
           </div>
           <div
-            class="css-0"
+            class="css-vvqeyi"
           >
             <div
               class="chakra-form-control css-0"
@@ -179,7 +179,7 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
                   class="chakra-select__wrapper css-42b2qy"
                 >
                   <select
-                    class="chakra-select css-e1p5t"
+                    class="chakra-select css-ws6us0"
                     id="field-:r1:"
                   >
                     <option
@@ -230,44 +230,40 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
             </div>
           </div>
           <div
-            class="css-0"
+            class="css-utn8yu"
           >
             <div
-              class="css-kfphmm"
+              class="react-datepicker-wrapper datepickerWrapper"
             >
               <div
-                class="react-datepicker-wrapper"
+                class="react-datepicker__input-container"
               >
-                <div
-                  class="react-datepicker__input-container"
-                >
-                  <input
-                    class="datePicker"
-                    placeholder="Start Date"
-                    type="text"
-                    value="01/12/2024"
-                  />
-                  <button
-                    aria-label="Close"
-                    class="react-datepicker__close-icon btnClear"
-                    tabindex="-1"
-                    type="button"
-                  />
-                </div>
+                <input
+                  class="datePicker datePicker"
+                  placeholder="Start Date"
+                  type="text"
+                  value="01/12/2024"
+                />
+                <button
+                  aria-label="Close"
+                  class="react-datepicker__close-icon btnClear"
+                  tabindex="-1"
+                  type="button"
+                />
               </div>
+            </div>
+            <div
+              class="react-datepicker-wrapper datepickerWrapper"
+            >
               <div
-                class="react-datepicker-wrapper"
+                class="react-datepicker__input-container"
               >
-                <div
-                  class="react-datepicker__input-container"
-                >
-                  <input
-                    class="datePicker"
-                    placeholder="End Date"
-                    type="text"
-                    value="31/12/2024"
-                  />
-                </div>
+                <input
+                  class="datePicker datePicker"
+                  placeholder="End Date"
+                  type="text"
+                  value="31/12/2024"
+                />
               </div>
             </div>
           </div>
@@ -350,7 +346,7 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
                     class="css-1m3vi5u"
                   >
                     <th
-                      class="css-190d9qq"
+                      class="css-1xf7e8q"
                       colspan="1"
                       style="width: 300px;"
                     >
@@ -368,7 +364,7 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
                       </div>
                     </th>
                     <th
-                      class="css-1akvfof"
+                      class="css-1dgr8ha"
                       colspan="1"
                       style="width: auto;"
                     >
@@ -383,7 +379,7 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
                       </div>
                     </th>
                     <th
-                      class="css-1akvfof"
+                      class="css-1dgr8ha"
                       colspan="1"
                       style="width: 50px;"
                     >
@@ -394,7 +390,7 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
                       </div>
                     </th>
                     <th
-                      class="css-190d9qq"
+                      class="css-1xf7e8q"
                       colspan="1"
                       style="width: 80px;"
                     >
@@ -408,7 +404,7 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
                       </div>
                     </th>
                     <th
-                      class="css-190d9qq"
+                      class="css-1xf7e8q"
                       colspan="1"
                       style="width: 150px;"
                     >
@@ -443,7 +439,7 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
                     data-id="3a16854b-80bf-aed5-4252-7be0b33d10d2"
                   >
                     <td
-                      class="css-8wz4m8"
+                      class="css-e5b623"
                     >
                       <div
                         class="css-0"
@@ -452,7 +448,7 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
                       </div>
                     </td>
                     <td
-                      class="css-8wz4m8"
+                      class="css-e5b623"
                     >
                       <div
                         class="css-1ltw3qa"
@@ -461,7 +457,7 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
                       </div>
                     </td>
                     <td
-                      class="css-8wz4m8"
+                      class="css-e5b623"
                     >
                       <div
                         class="css-0"
@@ -474,7 +470,7 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
                       </div>
                     </td>
                     <td
-                      class="css-8wz4m8"
+                      class="css-e5b623"
                     >
                       <div
                         class="css-0"
@@ -483,7 +479,7 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
                       </div>
                     </td>
                     <td
-                      class="css-8wz4m8"
+                      class="css-e5b623"
                     >
                       <div
                         class="css-0"
@@ -523,7 +519,7 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
                       class="chakra-select__wrapper css-j4et7t"
                     >
                       <select
-                        class="chakra-select css-1hkiwm5"
+                        class="chakra-select css-1rzctvu"
                         id="field-:r2:"
                       >
                         <option
