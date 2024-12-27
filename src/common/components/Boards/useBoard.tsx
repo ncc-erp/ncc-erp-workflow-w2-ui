@@ -60,7 +60,6 @@ const useBoard = () => {
   const getListStyle = (isDraggingOver: boolean): React.CSSProperties => ({
     background: isDraggingOver ? 'lightblue' : bg,
     padding: grid,
-    width: '100%',
     height: 720,
     borderRadius: 8,
   });
