@@ -1,6 +1,7 @@
 import {
+  Box,
   Divider,
-  Grid,
+  Flex,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -10,7 +11,6 @@ import {
 } from '@chakra-ui/react';
 import { IJsonObject, InputDefinition, Settings } from 'models/request';
 import DefineInputForm from '../forms/DefineInputForm';
-import styles from '../style.module.scss';
 import { SettingForm } from '../forms/SettingForm';
 import { useCallback, useEffect, useState } from 'react';
 import ExportImportJson from '../ExportImportJson';
@@ -85,33 +85,46 @@ export const DefineTemplateInputModal = ({
   }, []);
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false}>
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      closeOnOverlayClick={false}
+      size={['full', '2xl', '2xl', '4xl']}
+      scrollBehavior="inside"
+      motionPreset="slideInBottom"
+    >
       <ModalOverlay />
-      <ModalContent className={styles.customModal} style={{ maxHeight: '80%' }}>
-        <Grid
-          templateColumns="1fr auto"
+      <ModalContent>
+        <Flex
           alignItems="center"
-          gap={4}
-          paddingRight={32}
-          marginTop={2}
-          marginBottom={2}
+          gap={['4px', '12px']}
+          py={['16px', '24px']}
+          px={['16px', '24px']}
         >
-          <ModalHeader fontSize="md">Define Workflow Input</ModalHeader>
-          <ExportImportJson
-            workflowName={workflowName}
+          <Box>
+            <ModalHeader fontSize={['sm', 'md']} p={0}>
+              Define Workflow Input
+            </ModalHeader>
+          </Box>
+          <Box ml="auto">
+            <ExportImportJson
+              workflowName={workflowName}
+              inputDefinition={updatedInputDefinition}
+              onChangeData={handleChangeData}
+              isPublishWfStatus={isPublishWfStatus}
+            />
+          </Box>
+          <Box>
+            <ModalCloseButton position="static" />
+          </Box>
+        </Flex>
+        <Divider />
+        <ModalBody px={['16px', '24px']}>
+          <SettingForm
             inputDefinition={updatedInputDefinition}
-            onChangeData={handleChangeData}
-            isPublishWfStatus={isPublishWfStatus}
+            onSubmitSettings={onSubmitSettings}
           />
-        </Grid>
-        <Divider></Divider>
-        <SettingForm
-          inputDefinition={updatedInputDefinition}
-          onSubmitSettings={onSubmitSettings}
-        />
-        <Divider></Divider>
-        <ModalCloseButton />
-        <ModalBody className={styles.customModalBody}>
+          <Divider mb="20px" />
           <DefineInputForm
             requestId={requestId}
             inputDefinition={updatedInputDefinition}

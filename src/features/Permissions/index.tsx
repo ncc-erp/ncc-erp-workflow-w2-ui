@@ -24,7 +24,7 @@ const Permission = () => {
         marginTop={isLargeScreen ? '0px' : '50px'}
       >
         <Page.HeaderLeft>
-          <Page.Heading>Permissons Board</Page.Heading>
+          <Page.Heading>Permissions Board</Page.Heading>
         </Page.HeaderLeft>
         <Page.HeaderRight />
       </Page.Header>

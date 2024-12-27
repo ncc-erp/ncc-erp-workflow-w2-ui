@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   Center,
+  Flex,
   HStack,
   IconButton,
   Input,
@@ -352,8 +353,14 @@ export const MyRequestTable = () => {
   return (
     <>
       <Box>
-        <HStack w="full" gap={3} pb="8px" alignItems="flex-end">
-          <Box>
+        <Flex
+          w="full"
+          gap={3}
+          pb="8px"
+          flexDirection={['column', 'row']}
+          alignItems={['unset', 'flex-end']}
+        >
+          <Box flexBasis={{ sm: '296px' }}>
             <SelectField
               isDisabled={isLoading || isRefetching}
               size="sm"
@@ -362,7 +369,6 @@ export const MyRequestTable = () => {
                 onTemplateStatusChange('WorkflowDefinitionId', e.target.value)
               }
               options={requestTemplateOtions}
-              minW="296px"
             />
           </Box>
           <Box>
@@ -399,7 +405,7 @@ export const MyRequestTable = () => {
               </Box>
             )
           }
-        </HStack>
+        </Flex>
         <Box className={styles.requestFilterBar}>
           {renderIfAllowed(
             Permissions.VIEW_ALL_WORKFLOW_INSTANCES,

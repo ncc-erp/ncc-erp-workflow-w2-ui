@@ -21,6 +21,7 @@ export const SelectField = forwardRef(
           rounded="md"
           h="40px"
           icon={<Icon as={RiArrowDropDownFill} />}
+          isTruncated
           {...inputProps}
         >
           {options.map(({ value, label }) => (

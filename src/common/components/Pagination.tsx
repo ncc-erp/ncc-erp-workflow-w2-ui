@@ -153,6 +153,7 @@ export const Pagination = ({
       itemRender={ItemRender(current, itemRenderProps)}
       {...paginationProps}
       showLessItems={isLargeScreen ? false : true}
+      showTitle={false}
     />
   );
 };

@@ -1,5 +1,7 @@
 import {
   Button,
+  Flex,
+  IconButton,
   SpaceProps,
   ThemingProps,
   TypographyProps,
@@ -8,6 +10,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { ImportJsonModal } from './modals/ImportJsonModal';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { IJsonObject, InputDefinition } from 'models/request';
+import { BiExport } from 'react-icons/bi';
 import { TbFileImport } from 'react-icons/tb';
 
 interface FormParams {
@@ -95,7 +98,7 @@ const ExportImportJson: React.FC<ExportImportJsonProps> = ({
   };
 
   return (
-    <div>
+    <Flex gap="4px">
       <ImportJsonModal
         id={inputDefinition?.id}
         isOpen={isImportJsonModalOpen}
@@ -104,39 +107,57 @@ const ExportImportJson: React.FC<ExportImportJsonProps> = ({
         isPublishWfStatus={isPublishWfStatus}
       />
       {!hiddenButton?.includes(EButtonType.EXPORT) && (
-        <Button
-          onClick={handleExport}
-          colorScheme="red"
-          m={2}
-          {...buttonStyleObj?.export}
-        >
-          Export
-        </Button>
+        <>
+          <Button
+            onClick={handleExport}
+            colorScheme="red"
+            {...buttonStyleObj?.export}
+            size={['xs', 'md']}
+            display={['none', 'flex']}
+          >
+            Export
+          </Button>
+          <IconButton
+            onClick={handleExport}
+            aria-label="Export"
+            variant="ghost"
+            size="sm"
+            icon={<BiExport size={18} />}
+            display={['flex', 'none']}
+          />
+        </>
       )}
       {!hiddenButton?.includes(EButtonType.IMPORT) && (
-        <Button
-          onClick={onOpenImportJsonModal}
-          variant={'outline'}
-          m={2}
-          {...buttonStyleObj?.import}
-          leftIcon={<TbFileImport size={20} />}
-          border={'1px solid #344054'}
-          fontWeight={'600'}
-          lineHeight={20}
-          height={'44px'}
-          width={'114px'}
-          fontSize={'14px'}
-          _hover={{
-            background: 'stone.300',
-            _dark: {
-              background: 'stone.800',
-            },
-          }}
-        >
-          Import
-        </Button>
+        <>
+          <Button
+            onClick={onOpenImportJsonModal}
+            variant={'outline'}
+            {...buttonStyleObj?.import}
+            leftIcon={<TbFileImport />}
+            border={'1px solid #344054'}
+            fontWeight={'600'}
+            _hover={{
+              background: 'stone.300',
+              _dark: {
+                background: 'stone.800',
+              },
+            }}
+            size={['xs', 'md']}
+            display={['none', 'flex']}
+          >
+            Import
+          </Button>
+          <IconButton
+            onClick={onOpenImportJsonModal}
+            aria-label="Import"
+            variant="ghost"
+            size="sm"
+            icon={<TbFileImport size={18} />}
+            display={['flex', 'none']}
+          />
+        </>
       )}
-    </div>
+    </Flex>
   );
 };
 

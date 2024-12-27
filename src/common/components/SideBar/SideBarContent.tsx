@@ -134,121 +134,119 @@ export const SideBarContent = ({ isLargeScreen }: SideBarContentProps) => {
       alignItems="stretch"
       display={'flex'}
       flexDirection={'column'}
-      justifyContent={'space-between'}
       spacing={0}
     >
-      <Box>
-        <Box
-          width={'100%'}
-          padding={isLargeScreen ? '0px 16px' : '8px 16px 0px 16px'}
-        >
-          {isLargeScreen ? (
-            <HStack
-              cursor="pointer"
-              alignItems="center"
-              height={'80px'}
-              spacing="12px"
-              onClick={onNavigate('/')}
-            >
-              <Image h="40px" src={Logo} />
-              <Heading color={'#ffffff'} fontWeight={'500px'} fontSize="18px">
-                NCC Workflow
-              </Heading>
-            </HStack>
-          ) : (
-            <HStack height={'80px'} spacing="12px">
-              <CurrentUser isMobile={true} />
-            </HStack>
-          )}
-        </Box>
-
-        <VStack
-          p="12px"
-          my="12px"
-          align="flex-start"
-          spacing="8px"
-          overflowY="auto"
-          sx={{
-            '&::-webkit-scrollbar': {
-              width: '0',
-            },
-          }}
-        >
-          {NavList.map((nav) =>
-            renderIfAllowed(
-              nav.permission,
-              <NavLink key={nav.to} {...nav} onClick={onCloseSideBar} />
-            )
-          )}
-          <>
-            {AdminNavList.map((adminNav) => {
-              const hasAdminPermission = [
-                Permissions.USERS,
-                Permissions.SETTINGS,
-                Permissions.ROLES,
-                Permissions.PERMISSIONS,
-              ].some(hasPermission);
-              return hasAdminPermission ? (
-                <Accordion
-                  allowToggle
-                  borderColor={'transparent'}
-                  w={'100%'}
-                  key={adminNav.to}
-                >
-                  <AccordionItem>
-                    <AccordionButton
-                      borderRadius={'0.375rem'}
-                      p={0}
-                      pr="8px"
-                      border="1px transparent solid"
-                      _hover={{
-                        backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                        color: 'stone.100',
-                        borderColor: 'stoneAlpha.200/20',
-                      }}
-                      _activeLink={{
-                        backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                        color: 'stone.100',
-                        borderColor: 'stoneAlpha.200/20',
-                      }}
-                      color="stone.500"
-                      height="40px"
-                    >
-                      <Link
-                        px="8px"
-                        py="10px"
-                        w="full"
-                        fontWeight="500"
-                        display="flex"
-                        alignItems="center"
-                        gap="12px"
-                        fontSize="sm"
-                        rounded="md"
-                        textDecoration="none !important"
-                        lineHeight="1.2"
-                      >
-                        <Icon fontSize="xl" as={adminNav.icon} />
-                        {adminNav.text}
-                      </Link>
-                      <AccordionIcon />
-                    </AccordionButton>
-                    <AccordionPanel p={0} pl={7} pt="2px">
-                      {adminNav.subMenu.map((item) => {
-                        return renderIfAllowed(
-                          item.permission,
-                          <Box mt={1.5} key={item.to}>
-                            <NavLink {...item} onClick={onCloseSideBar} />
-                          </Box>
-                        );
-                      })}
-                    </AccordionPanel>
-                  </AccordionItem>
-                </Accordion>
-              ) : null;
-            })}
-          </>
-        </VStack>
+      <Box
+        width={'100%'}
+        padding={isLargeScreen ? '0px 16px' : '8px 16px 0px 16px'}
+      >
+        {isLargeScreen ? (
+          <HStack
+            cursor="pointer"
+            alignItems="center"
+            height={'80px'}
+            spacing="12px"
+            onClick={onNavigate('/')}
+          >
+            <Image h="40px" src={Logo} />
+            <Heading color={'#ffffff'} fontWeight={'500px'} fontSize="18px">
+              NCC Workflow
+            </Heading>
+          </HStack>
+        ) : (
+          <HStack height={'80px'} spacing="12px">
+            <CurrentUser isMobile={true} />
+          </HStack>
+        )}
       </Box>
+
+      <VStack
+        flex={1}
+        p="12px"
+        mt="12px"
+        align="flex-start"
+        spacing="8px"
+        overflowY="auto"
+        sx={{
+          '&::-webkit-scrollbar': {
+            width: 0,
+          },
+        }}
+      >
+        {NavList.map((nav) =>
+          renderIfAllowed(
+            nav.permission,
+            <NavLink key={nav.to} {...nav} onClick={onCloseSideBar} />
+          )
+        )}
+        <>
+          {AdminNavList.map((adminNav) => {
+            const hasAdminPermission = [
+              Permissions.USERS,
+              Permissions.SETTINGS,
+              Permissions.ROLES,
+              Permissions.PERMISSIONS,
+            ].some(hasPermission);
+            return hasAdminPermission ? (
+              <Accordion
+                allowToggle
+                borderColor={'transparent'}
+                w={'100%'}
+                key={adminNav.to}
+              >
+                <AccordionItem>
+                  <AccordionButton
+                    borderRadius={'0.375rem'}
+                    p={0}
+                    pr="8px"
+                    border="1px transparent solid"
+                    _hover={{
+                      backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                      color: 'stone.100',
+                      borderColor: 'stoneAlpha.200/20',
+                    }}
+                    _activeLink={{
+                      backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                      color: 'stone.100',
+                      borderColor: 'stoneAlpha.200/20',
+                    }}
+                    color="stone.500"
+                    height="40px"
+                  >
+                    <Link
+                      px="8px"
+                      py="10px"
+                      w="full"
+                      fontWeight="500"
+                      display="flex"
+                      alignItems="center"
+                      gap="12px"
+                      fontSize="sm"
+                      rounded="md"
+                      textDecoration="none !important"
+                      lineHeight="1.2"
+                    >
+                      <Icon fontSize="xl" as={adminNav.icon} />
+                      {adminNav.text}
+                    </Link>
+                    <AccordionIcon />
+                  </AccordionButton>
+                  <AccordionPanel p={0} pl={7} pt="2px">
+                    {adminNav.subMenu.map((item) => {
+                      return renderIfAllowed(
+                        item.permission,
+                        <Box mt={1.5} key={item.to}>
+                          <NavLink {...item} onClick={onCloseSideBar} />
+                        </Box>
+                      );
+                    })}
+                  </AccordionPanel>
+                </AccordionItem>
+              </Accordion>
+            ) : null;
+          })}
+        </>
+      </VStack>
 
       <VStack
         width={'100%'}

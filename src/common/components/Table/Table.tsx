@@ -106,7 +106,7 @@ export const Table = <D,>({
     newColumnHovered[index] = false;
     setColumnHovered(newColumnHovered);
   };
-  console.log('borderColor', borderColor);
+
   return (
     <TableContainer
       sx={{
@@ -149,11 +149,11 @@ export const Table = <D,>({
                       lg: 'sm',
                       xl: 'sm',
                     }}
-                    height={'48px'}
+                    height={['40px', '48px']}
                     borderTop={`1px solid ${borderColor}`}
                     borderBottom={`1px solid ${borderColor}`}
                     color={color}
-                    px={['2px', '8px']}
+                    px={['8px', '12px']}
                     background={
                       color === 'light'
                         ? theme.colors.TableHeaderLight
@@ -232,6 +232,7 @@ export const Table = <D,>({
                         key={colIndex}
                         fontSize={['12px', '12px', '12px', '14px']}
                         borderColor={borderColor}
+                        px={['8px', '12px']}
                       >
                         <TableSkeleton />
                       </Td>
@@ -274,7 +275,7 @@ export const Table = <D,>({
                         borderColor={borderColor}
                         height={'72px'}
                         fontWeight="medium"
-                        px="6px"
+                        px={['8px', '12px']}
                       >
                         {flexRender(
                           cell.column.columnDef.cell,

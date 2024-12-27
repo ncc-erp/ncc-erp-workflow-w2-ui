@@ -1,4 +1,4 @@
-import { Box, Checkbox, FormControl, FormLabel } from '@chakra-ui/react';
+import { Box, Checkbox, Flex, FormControl, FormLabel } from '@chakra-ui/react';
 import { useEffect, useState, useRef } from 'react';
 import { InputDefinition } from 'models/request';
 import debounce from 'lodash.debounce';
@@ -86,35 +86,25 @@ export const SettingForm = ({
   }, [inputDefinition]);
 
   return (
-    <FormControl
-      mb="10px"
-      ml={5}
-      mr={5}
-      display="flex"
-      flexDirection="column"
-      gap={3}
-      paddingTop={3}
-    >
-      <FormControl style={{ display: 'flex', alignItems: 'center' }}>
+    <Flex pt="16px" pb="24px" flexDirection="column" gap="12px">
+      <FormControl display="flex" alignItems="center">
         <FormLabel
           textAlign="left"
-          fontSize={16}
-          mb={1}
+          fontSize={['sm', 'md']}
           fontWeight="normal"
           mr={3}
+          mb={0}
         >
           Color:
         </FormLabel>
         <Box
-          style={{
-            backgroundColor: formState.colorCode,
-            padding: '2px 9px',
-            borderRadius: '12px',
-            textAlign: 'center',
-            fontSize: '12px',
-            fontWeight: '600',
-            color: '#ffffff',
-          }}
+          bg={formState.colorCode}
+          p="2px 8px"
+          borderRadius="full"
+          fontSize="xs"
+          textAlign="center"
+          fontWeight="semibold"
+          color="white"
         >
           {formState.nameRequest}
         </Box>
@@ -129,12 +119,12 @@ export const SettingForm = ({
           getPopupContainer={(trigger) => trigger}
         />
       </FormControl>
-      <FormControl style={{ display: 'flex', alignItems: 'center' }}>
+      <FormControl display="flex" alignItems="center">
         <FormLabel
           textAlign="left"
-          fontSize={16}
-          mb={1}
+          fontSize={['sm', 'md']}
           fontWeight="normal"
+          mb={0}
           mr={3}
         >
           Send Komu Message:
@@ -146,25 +136,27 @@ export const SettingForm = ({
           onChange={(e) => handleChange(e, 'isSendKomuMessage')}
         />
       </FormControl>
-      <FormControl style={{ display: 'flex', alignItems: 'center' }}>
+      <FormControl display="flex" alignItems="center">
         <FormLabel
           textAlign="left"
           fontSize={16}
-          mb={1}
           fontWeight="normal"
+          mb={0}
           mr={3}
         >
           Title:
         </FormLabel>
-        <TextField
-          h="40px"
-          maxWidth="500px"
-          fontSize="sm"
-          name="title"
-          value={formState.title}
-          onChange={(e) => handleChange(e, 'title')}
-        />
+        <Box flex="1">
+          <TextField
+            h="40px"
+            maxWidth="500px"
+            fontSize="sm"
+            name="title"
+            value={formState.title}
+            onChange={(e) => handleChange(e, 'title')}
+          />
+        </Box>
       </FormControl>
-    </FormControl>
+    </Flex>
   );
 };
