@@ -232,6 +232,7 @@ export const Table = <D,>({
                         key={colIndex}
                         fontSize={['12px', '12px', '12px', '14px']}
                         borderColor={borderColor}
+                        px={['8px', '12px']}
                       >
                         <TableSkeleton />
                       </Td>
