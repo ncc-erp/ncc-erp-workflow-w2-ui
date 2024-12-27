@@ -169,7 +169,7 @@ export const SideBarContent = ({ isLargeScreen }: SideBarContentProps) => {
         overflowY="auto"
         sx={{
           '&::-webkit-scrollbar': {
-            width: '4px',
+            width: 0,
           },
         }}
       >
