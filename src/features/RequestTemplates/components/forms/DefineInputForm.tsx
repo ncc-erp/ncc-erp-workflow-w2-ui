@@ -20,12 +20,11 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { ErrorMessage } from '@hookform/error-message';
 import {
   useInputDefinition,
-  useRequestTemplates,
   useUpdateWorkflowInput,
 } from 'api/apiHooks/requestHooks';
 import { ErrorDisplay } from 'common/components/ErrorDisplay';
 import { toast } from 'common/components/StandaloneToast';
-import { GUID_ID_DEFAULT_VALUE } from 'common/constants';
+import { GUID_ID_DEFAULT_VALUE, QueryKeys } from 'common/constants';
 import { option } from 'common/types';
 import {
   IUpdateInputFormParams,
@@ -34,6 +33,7 @@ import {
   Settings,
 } from 'models/request';
 import { Fragment, useEffect, useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface DefineInputFormProps {
   inputDefinition?: InputDefinition;
@@ -54,9 +54,9 @@ const DefineInputForm = ({
   settingsToSet,
   isChangedBySubmitSettings,
 }: DefineInputFormProps) => {
+  const queryClient = useQueryClient();
   const { data: inputType } = useInputDefinition();
   const { mutateAsync: updateMutate } = useUpdateWorkflowInput();
-  const { refetch } = useRequestTemplates();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const {
     register,
@@ -109,7 +109,7 @@ const DefineInputForm = ({
     };
 
     await updateMutate(payload);
-    refetch();
+    queryClient.invalidateQueries({ queryKey: [QueryKeys.REQUEST_TEMPLATES] });
 
     setIsLoading(false);
     toast({
