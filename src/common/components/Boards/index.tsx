@@ -564,7 +564,7 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
                                       alignItems={'flex-start'}
                                       w={'100%'}
                                     >
-                                      <Box style={{ flex: 1 }}>
+                                      <Box flex={1} maxWidth="50%">
                                         <TextToolTip
                                           data-testid="board-item-title"
                                           maxLines={1}
@@ -577,9 +577,9 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
                                       </Box>
 
                                       <Box>
-                                        <div>
+                                        <Text textAlign="end">
                                           ({getDayAgo(item?.creationTime)})
-                                        </div>
+                                        </Text>
                                       </Box>
                                     </Flex>
 
@@ -666,22 +666,25 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
                                           </Flex>
                                         )}
                                     </Flex>
-                                    <Flex className={styles.cardFooter}>
+                                    <Flex
+                                      className={styles.cardFooter}
+                                      gap="6px"
+                                      flexWrap="wrap"
+                                    >
                                       <Flex gap={2}>
                                         <Text>Date:</Text>
                                         {formatDate(
                                           new Date(item?.creationTime)
                                         )}
                                       </Flex>
-                                      <div
+                                      <Box
                                         className={styles.title}
-                                        style={{
-                                          backgroundColor:
-                                            item?.settings?.color ?? '#aabbcc',
-                                        }}
+                                        bg={item?.settings?.color ?? '#aabbcc'}
+                                        ml="auto"
+                                        textAlign="center"
                                       >
                                         {item.name}
-                                      </div>
+                                      </Box>
                                     </Flex>
                                   </Box>
                                 </Box>
