@@ -18,6 +18,7 @@ import Roles from 'features/Roles';
 import PostAndWFH from 'features/report';
 import Permissions from 'features/Permissions';
 import ReleaseContent from 'features/releaseContent';
+import { AuthProvider } from 'providers';
 
 const NotFound = lazy(() => import('common/components/NotFound'));
 const routeList: RouteObject[] = [
@@ -25,7 +26,9 @@ const routeList: RouteObject[] = [
     path: '/',
     element: (
       <WrapperRouteComponent auth={true}>
-        <Layout />
+        <AuthProvider>
+          <Layout />
+        </AuthProvider>
       </WrapperRouteComponent>
     ),
     children: [

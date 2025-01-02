@@ -1,5 +1,5 @@
 import { Heading } from '@chakra-ui/react';
-import { useCurrentUser } from 'hooks/useCurrentUser';
+import { useCurrentUser } from 'stores/user';
 import { useMediaQuery } from 'hooks/useMediaQuery';
 
 export const CurrentUser = () => {

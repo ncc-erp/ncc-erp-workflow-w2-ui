@@ -31,7 +31,7 @@ import {
   TaskStatus,
   noOfRows,
 } from 'common/constants';
-import { useCurrentUser } from 'hooks/useCurrentUser';
+import { useCurrentUser } from 'stores/user';
 import { FilterTasks, ITask } from 'models/task';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { AiFillCheckCircle, AiOutlineReload } from 'react-icons/ai';

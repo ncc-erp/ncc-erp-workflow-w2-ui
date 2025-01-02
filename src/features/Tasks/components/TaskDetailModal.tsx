@@ -51,7 +51,7 @@ import { BiPencil } from 'react-icons/bi';
 import ModalBoard from 'common/components/Boards/ModalBoard';
 import { useClearCacheTask } from 'common/components/Boards/useClearCacheTask';
 import { FilterTasks } from 'models/task';
-import { useCurrentUser } from 'hooks/useCurrentUser';
+import { useCurrentUser } from 'stores/user';
 import { useUserPermissions } from 'hooks/useUserPermissions';
 
 const initialFilter: FilterTasks = {

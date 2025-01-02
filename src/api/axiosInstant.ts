@@ -6,7 +6,7 @@ import Axios, {
   isAxiosError,
 } from 'axios';
 import { toast } from 'common/components/StandaloneToast';
-import { getItem } from 'utils';
+import { getItem, setItem, removeItem } from 'utils';
 import { LocalStorageKeys } from 'common/enums';
 
 const { VITE_API_BASE_URL } = import.meta.env;
@@ -42,13 +42,22 @@ axios.interceptors.response.use(
   },
   (error: AxiosError | Error) => {
     if (isAxiosError(error)) {
-      const { data } = (error.response as AxiosResponse) ?? {};
+      const { data, status } = (error.response as AxiosResponse) ?? {};
       const { message } = error;
       const errorMessage = data?.error?.message || message;
-      toast({
-        title: errorMessage,
-        status: 'error',
-      });
+
+      switch (status) {
+        case 401:
+          removeItem(LocalStorageKeys.accessToken);
+          setItem(LocalStorageKeys.prevURL, window.location.href);
+          window.location.replace('/login');
+          return;
+        default:
+          toast({
+            title: errorMessage,
+            status: 'error',
+          });
+      }
     }
     return Promise.reject(error);
   }

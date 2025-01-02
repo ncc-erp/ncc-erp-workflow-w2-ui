@@ -35,8 +35,6 @@ import {
 } from 'react-icons/tb';
 import { BiLogOutCircle } from 'react-icons/bi';
 import { VscKebabVertical } from 'react-icons/vsc';
-import { useRecoilValue } from 'recoil';
-import { userState } from 'stores/user';
 import { useSetAppConfig } from 'stores/appConfig';
 import { useNavigate } from 'react-router-dom';
 import { useUserPermissions } from 'hooks/useUserPermissions';
@@ -134,7 +132,7 @@ export const SideBarContent = ({ isLargeScreen }: SideBarContentProps) => {
       ],
     },
   ];
-  const user = useRecoilValue(userState);
+
   const navigate = useNavigate();
   const { onCloseSideBar } = useSetAppConfig();
 
@@ -299,9 +297,9 @@ export const SideBarContent = ({ isLargeScreen }: SideBarContentProps) => {
         </>
       </VStack>
       <HStack borderTopColor="gray.200" px="12px" py="16px" spacing="12px">
-        <Text fontSize="sm" fontWeight={600} noOfLines={1}>
+        {/* <Text fontSize="sm" fontWeight={600} noOfLines={1} isTruncated>
           {user.email}
-        </Text>
+        </Text> */}
         <Menu autoSelect={false} placement="top-end">
           <MenuButton
             ml="auto"

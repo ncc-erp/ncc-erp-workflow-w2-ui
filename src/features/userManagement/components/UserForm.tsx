@@ -27,7 +27,7 @@ import { toast } from 'common/components/StandaloneToast';
 import { TextField } from 'common/components/TextField';
 import { QueryKeys } from 'common/constants';
 import { useFormik } from 'formik';
-import { useCurrentUser } from 'hooks/useCurrentUser';
+import { useCurrentUser } from 'stores/user';
 import { ModalUserParams } from 'models/userIdentity';
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
