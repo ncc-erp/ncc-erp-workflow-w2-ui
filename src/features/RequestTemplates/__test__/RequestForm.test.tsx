@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import RequestForm from '../components/forms/RequestForm';
 import { InputDefinition } from 'models/request';
 import userEvent from '@testing-library/user-event';
+import { RecoilRoot } from 'recoil';
 
 jest.mock('../../../api/apiHooks/index', () => ({
   useAxios: jest.fn(),
@@ -173,10 +174,12 @@ describe('Request Template Form Components', () => {
   test('should match snapshot when rendering', () => {
     const { container } = render(
       <QueryClientProvider client={queryClient}>
-        <RequestForm
-          inputDefinition={inputDefinition}
-          onCloseModal={() => jest.fn()}
-        />
+        <RecoilRoot>
+          <RequestForm
+            inputDefinition={inputDefinition}
+            onCloseModal={() => jest.fn()}
+          />
+        </RecoilRoot>
       </QueryClientProvider>
     );
     expect(container).toMatchSnapshot();
@@ -186,10 +189,12 @@ describe('Request Template Form Components', () => {
     beforeEach(() => {
       render(
         <QueryClientProvider client={queryClient}>
-          <RequestForm
-            inputDefinition={inputDefinition}
-            onCloseModal={() => jest.fn()}
-          />
+          <RecoilRoot>
+            <RequestForm
+              inputDefinition={inputDefinition}
+              onCloseModal={() => jest.fn()}
+            />
+          </RecoilRoot>
         </QueryClientProvider>
       );
     });
