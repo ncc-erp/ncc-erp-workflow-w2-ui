@@ -1,6 +1,5 @@
 import { createContext, useContext } from 'react';
 import Axios, {
-  AxiosError,
   AxiosInstance,
   AxiosResponse,
   isAxiosError,
@@ -33,6 +32,20 @@ axios.interceptors.request.use((config) => {
 // response interceptor
 axios.interceptors.response.use(
   (response) => {
+    // Handle redirection (3xx responses)
+    if (response && response.status >= 300 && response.status < 400) {
+      const redirectUrl = response.headers['location']; // Extract redirect URL
+      if (redirectUrl) {
+        const urlParams = new URLSearchParams(new URL(redirectUrl).search);
+        const httpStatusCode = urlParams.get('httpStatusCode');
+
+        if (httpStatusCode === '410') {
+          console.log('Redirect URL contains httpStatusCode=410. Redirecting to login...');
+          window.location.href = '/login'; // Redirect to login page
+        }
+      }
+    }
+
     const data = response.data;
     if (response.status === 200) {
       return data;
@@ -40,7 +53,7 @@ axios.interceptors.response.use(
 
     return response;
   },
-  (error: AxiosError | Error) => {
+  (error) => {
     if (isAxiosError(error)) {
       const { data, status } = (error.response as AxiosResponse) ?? {};
       const { message } = error;

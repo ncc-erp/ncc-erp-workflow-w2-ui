@@ -19,6 +19,7 @@ import PostAndWFH from 'features/report';
 import Permissions from 'features/Permissions';
 import ReleaseContent from 'features/releaseContent';
 import { AuthProvider } from 'providers';
+import Error from 'features/Error';
 
 const NotFound = lazy(() => import('common/components/NotFound'));
 const routeList: RouteObject[] = [
@@ -156,6 +157,10 @@ const routeList: RouteObject[] = [
         ),
       },
     ],
+  },
+  {
+    path: 'Error',
+    element: <Error />,
   },
   {
     path: 'callback',
