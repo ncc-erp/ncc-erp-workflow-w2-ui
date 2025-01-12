@@ -21,7 +21,7 @@ jest.mock('hooks/useMediaQuery', () => ({
   useMediaQuery: jest.fn().mockReturnValue(true),
 }));
 
-jest.mock('hooks/useCurrentUser', () => ({
+jest.mock('stores/user', () => ({
   useCurrentUser: jest.fn().mockReturnValue({ email: 'bob@example.com' }),
 }));
 
@@ -265,7 +265,7 @@ jest.mock('utils/getAllTaskPagination', () => ({
     }),
 }));
 
-jest.mock('hooks/useCurrentUser', () => ({
+jest.mock('stores/user', () => ({
   __esModule: true,
   useCurrentUser: jest.fn().mockReturnValue({
     sub: [

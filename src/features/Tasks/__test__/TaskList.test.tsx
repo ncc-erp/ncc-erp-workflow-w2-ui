@@ -16,7 +16,7 @@ jest.mock('hooks/useIsAdmin', () => ({
   useIsAdmin: jest.fn().mockReturnValue(true),
 }));
 
-jest.mock('hooks/useCurrentUser', () => ({
+jest.mock('stores/user', () => ({
   useCurrentUser: jest.fn().mockReturnValue({ email: 'bob@example.com' }),
 }));
 

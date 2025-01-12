@@ -31,7 +31,7 @@ import { toast } from 'common/components/StandaloneToast';
 import { ColorThemeMode, WFH_FORMAT_DATE } from 'common/constants';
 import { option } from 'common/types';
 import { isWithinInterval, subWeeks } from 'date-fns';
-import { useCurrentUser } from 'hooks/useCurrentUser';
+import { useCurrentUser } from 'stores/user';
 import { IOffices } from 'models/office';
 import { IProjects } from 'models/project';
 import {

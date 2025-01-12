@@ -1,14 +1,9 @@
 export interface User {
-  userName: string;
+  sub: string[];
   name: string;
-  surname: string;
   email: string;
-  phoneNumber: string;
-  logged: boolean;
-  isExternal: boolean;
-  hasPassword: boolean;
-  concurrencyStamp: string;
-  extraProperties: Record<string, unknown>;
+  given_name: string;
+  role: string;
   permissions: string[];
 }
 

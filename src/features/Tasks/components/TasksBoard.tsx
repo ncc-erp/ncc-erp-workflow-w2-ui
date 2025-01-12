@@ -26,7 +26,7 @@ import { TFilterTask } from 'common/types';
 import { useIsAdmin } from 'hooks/useIsAdmin';
 import { TbSearch } from 'react-icons/tb';
 import useDebounced from 'hooks/useDebounced';
-import { useCurrentUser } from 'hooks/useCurrentUser';
+import { useCurrentUser } from 'stores/user';
 import { subtractTime } from 'utils/subtractTime';
 import { ListTask } from '../../../common/components/Boards/ListTask';
 import { TaskDetailModal } from './TaskDetailModal';

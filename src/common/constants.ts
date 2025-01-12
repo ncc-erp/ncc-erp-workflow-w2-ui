@@ -113,6 +113,7 @@ export const QueryKeys = {
   GET_PERMISSIONS_LIST: 'getPermissionsList',
   GET_SINGLE_ROLE: 'getSingleRole',
   GET_USER_PERMISSIONS: 'getUserPermissions',
+  GET_USER_INFO: 'getUserInfo',
 };
 
 export const ColorThemeMode = {
