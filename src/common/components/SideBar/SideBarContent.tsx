@@ -102,6 +102,8 @@ export const SideBarContent = ({ isLargeScreen }: SideBarContentProps) => {
         },
       ],
     },
+  ];
+  const ReportNavList = [
     {
       to: '/report',
       text: 'Report',
@@ -111,7 +113,7 @@ export const SideBarContent = ({ isLargeScreen }: SideBarContentProps) => {
           to: '/report/report-wfh',
           text: 'Report WFH',
           icon: TbHomeEdit,
-          permission: Permissions.WFH_REPORTS,
+          permission: Permissions.VIEW_WFH_REPORTS,
         },
       ],
     },
@@ -240,6 +242,63 @@ export const SideBarContent = ({ isLargeScreen }: SideBarContentProps) => {
                         </Box>
                       );
                     })}
+                  </AccordionPanel>
+                </AccordionItem>
+              </Accordion>
+            ) : null;
+          })}
+        </>
+        <>
+          {ReportNavList.map((reportNav) => {
+            const hasReportPermission = [Permissions.WFH_REPORTS].some(
+              hasPermission
+            );
+            return hasReportPermission ? (
+              <Accordion
+                allowToggle
+                borderColor="transparent"
+                w="100%"
+                key={reportNav.to}
+              >
+                <AccordionItem>
+                  <AccordionButton
+                    borderRadius="0.375rem"
+                    p={0}
+                    _hover={{
+                      backgroundColor: 'gray.200',
+                      color: 'gray.700',
+                    }}
+                  >
+                    <Link
+                      px="8px"
+                      py="6px"
+                      w="full"
+                      fontWeight="600"
+                      display="flex"
+                      alignItems="center"
+                      gap="12px"
+                      fontSize="sm"
+                      rounded="md"
+                      textDecoration="none !important"
+                    >
+                      <Icon
+                        textColor="gray.500"
+                        fontSize="xl"
+                        as={reportNav.icon}
+                      />
+                      {reportNav.text}
+                    </Link>
+                    <AccordionIcon />
+                  </AccordionButton>
+                  <AccordionPanel p={0} pl={7}>
+                    {reportNav.subMenu.map((item) =>
+                      renderIfAllowed(
+                        item.permission,
+                        <Box mt={1} key={item.to}>
+                          <NavLink {...item} onClick={onCloseSideBar} />
+                        </Box>
+                      )
+                    )}
                   </AccordionPanel>
                 </AccordionItem>
               </Accordion>

@@ -36,7 +36,7 @@ import {
   TaskStatus,
 } from 'common/constants';
 import { ETaskStatus } from 'common/enums';
-import { useCurrentUser } from 'hooks/useCurrentUser';
+import { useCurrentUser } from 'stores/user';
 import debounce from 'lodash.debounce';
 import { FetchNextPageFunction, FilterTasks, ITask } from 'models/task';
 import { useEffect, useMemo, useState } from 'react';

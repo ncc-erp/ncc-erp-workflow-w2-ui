@@ -1,6 +1,6 @@
 import { Box, Flex, Heading } from '@chakra-ui/react';
-import { useCurrentUser } from 'hooks/useCurrentUser';
 import { Avatar } from '@chakra-ui/react';
+import { useCurrentUser } from 'stores/user';
 
 interface CurrentUserProps {
   isMobile?: boolean;
@@ -43,7 +43,8 @@ export const CurrentUser = ({ isMobile }: CurrentUserProps) => {
       </Flex>
       <Avatar
         name={currentUser?.given_name || currentUser?.email}
-        src={currentUser?.avatar || ''}
+        // src={currentUser?.avatar || ''}
+        src=""
         w="54px"
         h="54px"
       />

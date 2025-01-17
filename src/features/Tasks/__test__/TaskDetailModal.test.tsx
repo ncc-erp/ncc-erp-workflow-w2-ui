@@ -1,6 +1,7 @@
 import { render } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { TaskDetailModal } from '../components/TaskDetailModal';
+import { RecoilRoot } from 'recoil';
 
 jest.mock('../../../api/apiHooks/index', () => ({
   useAxios: jest.fn(),
@@ -147,12 +148,14 @@ test('Task Detail Modal', () => {
 
   const { baseElement } = render(
     <QueryClientProvider client={queryClient}>
-      <TaskDetailModal
-        isOpen={true}
-        onClose={() => jest.fn()}
-        taskId="3a0d3d06-ffbb-0487-b6e4-9b3488ecec70"
-        otherTasks={undefined}
-      />
+      <RecoilRoot>
+        <TaskDetailModal
+          isOpen={true}
+          onClose={() => jest.fn()}
+          taskId="3a0d3d06-ffbb-0487-b6e4-9b3488ecec70"
+          otherTasks={undefined}
+        />
+      </RecoilRoot>
     </QueryClientProvider>
   );
   expect(baseElement).toMatchSnapshot();

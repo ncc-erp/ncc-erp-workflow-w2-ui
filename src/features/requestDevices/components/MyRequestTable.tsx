@@ -31,7 +31,7 @@ import { Table } from 'common/components/Table/Table';
 import { Permissions, QueryKeys, noOfRows } from 'common/constants';
 import { RequestSortField, RequestStatus, SortDirection } from 'common/enums';
 import { RowAction } from 'features/requestDevices/components/RowAction';
-import { useCurrentUser } from 'hooks/useCurrentUser';
+import { useCurrentUser } from 'stores/user';
 //import { useIsAdmin } from 'hooks/useIsAdmin';
 import { EmptyWrapper } from 'common/components/EmptyWrapper';
 import { ModalConfirm } from 'common/components/ModalConfirm';

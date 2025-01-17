@@ -1,4 +1,4 @@
-import { useCurrentUser } from './useCurrentUser';
+import { useCurrentUser } from 'stores/user';
 
 export const useUserPermissions = () => {
   const user = useCurrentUser();

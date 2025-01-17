@@ -242,7 +242,7 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
                   class="datePicker datePicker"
                   placeholder="Start Date"
                   type="text"
-                  value="01/12/2024"
+                  value="01/01/2025"
                 />
                 <button
                   aria-label="Close"
@@ -262,7 +262,7 @@ exports[`WFH Page should match snapshot when rendering 1`] = `
                   class="datePicker datePicker"
                   placeholder="End Date"
                   type="text"
-                  value="31/12/2024"
+                  value="31/01/2025"
                 />
               </div>
             </div>
