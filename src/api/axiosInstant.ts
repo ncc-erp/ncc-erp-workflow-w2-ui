@@ -14,6 +14,8 @@ const axios = Axios.create({
   },
 });
 
+// Configure maxRedirects globally
+axios.defaults.maxRedirects = 0;
 axios.interceptors.request.use((config) => {
   const accessToken: string | null = getItem(LocalStorageKeys.accessToken);
   if (accessToken != null) {
@@ -30,16 +32,15 @@ axios.interceptors.request.use((config) => {
 axios.interceptors.response.use(
   (response) => {
     // Handle redirection (3xx responses)
+    console.log('response', response);
     if (response && response.status >= 300 && response.status < 400) {
       const redirectUrl = response.headers['location']; // Extract redirect URL
       if (redirectUrl) {
-        const urlParams = new URLSearchParams(new URL(redirectUrl).search);
+        const urlParams = new URLSearchParams(new URL(`http://localhost${redirectUrl}`).search);
         const httpStatusCode = urlParams.get('httpStatusCode');
 
         if (httpStatusCode === '410') {
-          console.log(
-            'Redirect URL contains httpStatusCode=410. Redirecting to login...'
-          );
+          console.log('Redirect URL contains httpStatusCode=410. Redirecting to login...');
           window.location.href = '/login'; // Redirect to login page
         }
       }
@@ -53,6 +54,23 @@ axios.interceptors.response.use(
     return response;
   },
   (error) => {
+    console.log('response error', error);
+    // Handle redirection (3xx responses)
+    if (error?.response && error?.response.status >= 300 && error?.response.status < 400) {
+      const redirectUrl = error?.response.headers['location']; // Extract redirect URL
+      if (redirectUrl) {
+        const urlParams = new URLSearchParams(new URL(`http://localhost${redirectUrl}`).search);
+        const httpStatusCode = urlParams.get('httpStatusCode');
+
+        if (httpStatusCode === '410') {
+          console.log(
+            'Redirect URL contains httpStatusCode=410. Redirecting to login...'
+          );
+          window.location.href = '/login'; // Redirect to login page
+        }
+      }
+    }
+
     if (isAxiosError(error)) {
       const { data, status } = (error.response as AxiosResponse) ?? {};
       const { message } = error;
