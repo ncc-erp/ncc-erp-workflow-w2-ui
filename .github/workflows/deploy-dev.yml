@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - develop
-      
+
   workflow_dispatch:
     inputs:
       branch:
@@ -37,21 +37,21 @@ jobs:
 
       - name: Build project
         run: pnpm run build
-        env: 
-          VITE_OAUTH_CLIENT_ID : ${{secrets.VITE_OAUTH_CLIENT_ID}}
-          VITE_GOOGLE_LOGIN_REDIRECT : ${{secrets.VITE_GOOGLE_LOGIN_REDIRECT}}
-          VITE_AUTHORITY_URL : ${{secrets.VITE_AUTHORITY_URL}}
-          VITE_API_BASE_URL : ${{secrets.VITE_API_BASE_URL}}
-          VITE_PROXY_SERVER_URL : ${{secrets.VITE_PROXY_SERVER_URL}}
-          VITE_API_ANT_URL : ${{secrets.VITE_API_ANT_URL}}
-          VITE_MODE : ${{secrets.VITE_MODE}}
+        env:
+          VITE_OAUTH_CLIENT_ID: ${{secrets.VITE_OAUTH_CLIENT_ID}}
+          VITE_GOOGLE_LOGIN_REDIRECT: ${{secrets.VITE_GOOGLE_LOGIN_REDIRECT}}
+          VITE_AUTHORITY_URL: ${{secrets.VITE_AUTHORITY_URL}}
+          VITE_API_BASE_URL: ${{secrets.VITE_API_BASE_URL}}
+          VITE_PROXY_SERVER_URL: ${{secrets.VITE_PROXY_SERVER_URL}}
+          VITE_API_ANT_URL: ${{secrets.VITE_API_ANT_URL}}
+          VITE_MODE: ${{secrets.VITE_MODE}}
           VITE_CLIENT_VERSION: ${{github.event.inputs.client_version}}
 
       - name: Compress build file
         run: zip -r fe.zip dist/
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: fe-build
           path: fe.zip
@@ -59,11 +59,11 @@ jobs:
 
   deploy:
     runs-on: w2-fe-dev
-    needs: 
+    needs:
       - build
     steps:
       - name: Download Artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: fe-build
 
@@ -72,4 +72,3 @@ jobs:
           rm -rf /apps/ncc-erp-w2/workflow-w2-ui/*
           unzip fe.zip -d /apps/ncc-erp-w2/workflow-w2-ui
           rm -rf fe.zip
-  
