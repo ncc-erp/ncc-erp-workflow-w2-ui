@@ -6,7 +6,6 @@ const Error = () => {
   // 401. clear, logout
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  console.log('searchParams', searchParams);
 
   // httpStatusCode
   if (searchParams.get('httpStatusCode') == '401') {
