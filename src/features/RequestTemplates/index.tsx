@@ -44,7 +44,14 @@ const RequestTemplates = () => {
       removeItem(LocalStorageKeys.accessToken);
       navigate('/login');
     }
-  }, 1000)
+  }, 1000);
+
+  setTimeout(() => {
+    if (!canViewTemplates) {
+      removeItem(LocalStorageKeys.accessToken);
+      navigate('/login');
+    }
+  }, 1000);
   return canViewTemplates ? (
     <Page>
       {!isLargeScreen && <MobileHeader />}
