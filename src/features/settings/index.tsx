@@ -11,10 +11,12 @@ import { useUserPermissions } from 'hooks/useUserPermissions';
 import { Permissions } from 'common/constants';
 import NotFound from 'common/components/NotFound';
 import { useMemo } from 'react';
+import { useMediaQuery } from 'hooks/useMediaQuery';
+import { MobileHeader } from 'common/components/MobileHeader';
 
 const SettingsComponent = () => {
   const { hasPermission } = useUserPermissions();
-
+  const isLargeScreen = useMediaQuery('(min-width: 1024px)');
   const canViewSettings = useMemo(
     () => hasPermission(Permissions.VIEW_SETTINGS),
     [hasPermission]
@@ -22,7 +24,13 @@ const SettingsComponent = () => {
 
   return canViewSettings ? (
     <Page>
-      <Page.Header>
+      {!isLargeScreen && <MobileHeader />}
+      <Page.Header
+        paddingBottom={isLargeScreen ? undefined : '0px'}
+        height={isLargeScreen ? undefined : '60px'}
+        margin={isLargeScreen ? undefined : '0px'}
+        marginTop={isLargeScreen ? '0px' : '50px'}
+      >
         <Page.HeaderLeft>
           <Page.Heading>Settings</Page.Heading>
         </Page.HeaderLeft>

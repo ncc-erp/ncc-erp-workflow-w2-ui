@@ -1,9 +1,10 @@
-import { Spinner } from '@chakra-ui/react';
+import { Spinner, useColorModeValue } from '@chakra-ui/react';
 import { InputWrapperProps } from 'common/components/InputWrapper';
 import { option } from 'common/types';
 import { useMemo, useState } from 'react';
 import { Control, Controller } from 'react-hook-form';
 import Select from 'react-select';
+import theme from 'themes/theme';
 
 type SelectFieldFieldProps = Omit<InputWrapperProps, 'children'> & {
   value: string;
@@ -27,6 +28,21 @@ export const SearchableSelectField = ({
   handleChange,
   isRequired,
 }: SelectFieldFieldProps) => {
+  const textColor = useColorModeValue(
+    theme.colors.stone['700'],
+    theme.colors.stone['300']
+  );
+
+  const menuListBg = useColorModeValue(
+    theme.colors.white,
+    theme.colors.gray['700']
+  );
+
+  const optionHoverBg = useColorModeValue(
+    theme.colors.blue['100'],
+    theme.colors.blue['400']
+  );
+
   const initValue = useMemo(() => {
     const option = options.find((el) => {
       if (value && el?.value) {
@@ -76,6 +92,65 @@ export const SearchableSelectField = ({
           }}
           value={displayValue}
           options={options}
+          styles={{
+            control: (base, props) => {
+              return {
+                ...base,
+                backgroundColor: 'transparent',
+                borderColor: 'inherit',
+                boxShadow: props.isFocused
+                  ? `0 0 0 1px ${theme.colors.blue['300']}`
+                  : undefined,
+                '&:hover': {
+                  borderColor: props.isFocused
+                    ? theme.colors.blue['300']
+                    : undefined,
+                },
+              };
+            },
+            singleValue: (base) => {
+              return {
+                ...base,
+                color: textColor,
+              };
+            },
+            input: (base) => {
+              return {
+                ...base,
+                color: textColor,
+              };
+            },
+            dropdownIndicator: (base) => {
+              return {
+                ...base,
+                color: textColor,
+              };
+            },
+            indicatorSeparator: (base) => {
+              return {
+                ...base,
+                backgroundColor: 'var(--chakra-colors-chakra-border-color)',
+              };
+            },
+            menuList: (base) => {
+              return {
+                ...base,
+                backgroundColor: menuListBg,
+              };
+            },
+            option: (base, props) => {
+              console.log(props.isSelected, props.data);
+
+              return {
+                ...base,
+                color: textColor,
+                '&:hover, &:focus': {
+                  backgroundColor: optionHoverBg,
+                },
+                backgroundColor: props.isFocused ? optionHoverBg : undefined,
+              };
+            },
+          }}
         />
       )}
     />

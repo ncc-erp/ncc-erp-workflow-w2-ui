@@ -35,7 +35,7 @@ export const RowAction = ({ onViewDetails }: IRowActionProps) => {
           gap="12px"
           onClick={onViewDetails}
         >
-          <Icon color="gray.500" as={FaEye} />
+          <Icon as={FaEye} />
           View
         </MenuItem>
       </MenuList>

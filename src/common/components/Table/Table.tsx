@@ -81,8 +81,19 @@ export const Table = <D,>({
     getCoreRowModel: getCoreRowModel(),
   });
   const color = useColorModeValue(ColorThemeMode.DARK, ColorThemeMode.LIGHT);
+  const borderColor = useColorModeValue(
+    theme.colors.borderLight,
+    theme.colors.borderDark
+  );
+  const itemTableHover = useColorModeValue(
+    theme.colors.hoverTableItemLight,
+    theme.colors.hoverTableItemDark
+  );
+  const itemTableColor = useColorModeValue(
+    theme.colors.colorTableItemLight,
+    theme.colors.colorTableItemDark
+  );
   const isLargeScreen = useMediaQuery('(min-width: 1024px)');
-
   const [columnHovered, setColumnHovered] = useState<Array<boolean>>([]);
   const handleMouseEnter = (index: number) => {
     const newColumnHovered = [...columnHovered];
@@ -97,11 +108,21 @@ export const Table = <D,>({
   };
 
   return (
-    <TableContainer className={styles.tableContainer}>
-      <TableComponent border={`1px solid ${theme.colors.borderColor}`}>
+    <TableContainer
+      sx={{
+        '&::-webkit-scrollbar': {
+          width: '0',
+          marginTop: '4px',
+          height: '6px',
+        },
+      }}
+      className={styles.tableContainer}
+      border={`1px solid ${borderColor}`}
+    >
+      <TableComponent border={`1px solid ${borderColor}`}>
         <Thead>
           {table.getHeaderGroups().map((headerGroup) => (
-            <Tr key={headerGroup.id} bg={theme.colors.borderColor}>
+            <Tr key={headerGroup.id} bg={borderColor}>
               {headerGroup.headers.map((header, index) => {
                 const DEFAULT_COLUMN_LOADING_WIDTH = '35%';
 
@@ -123,15 +144,21 @@ export const Table = <D,>({
                     textTransform="none"
                     fontWeight={600}
                     fontSize={{
-                      base: '10px',
-                      sm: '12px',
+                      base: '12px',
+                      sm: '14px',
                       lg: 'sm',
                       xl: 'sm',
                     }}
-                    border={`1px solid ${theme.colors.borderColor}`}
+                    height={['40px', '48px']}
+                    borderTop={`1px solid ${borderColor}`}
+                    borderBottom={`1px solid ${borderColor}`}
                     color={color}
-                    px={['2px', '8px']}
-                    background="secondaryColor"
+                    px={['8px', '12px']}
+                    background={
+                      color === 'light'
+                        ? theme.colors.TableHeaderLight
+                        : theme.colors.TableHeaderDark
+                    }
                     textAlign="center"
                     style={{
                       width: getThWidth(),
@@ -203,9 +230,9 @@ export const Table = <D,>({
                     {table.getAllColumns().map((_column, colIndex) => (
                       <Td
                         key={colIndex}
-                        fontSize={['10px', '12px', '12px', '14px']}
-                        borderRight="1px"
-                        borderColor={theme.colors.borderColor}
+                        fontSize={['12px', '12px', '12px', '14px']}
+                        borderColor={borderColor}
+                        px={['8px', '12px']}
                       >
                         <TableSkeleton />
                       </Td>
@@ -220,12 +247,12 @@ export const Table = <D,>({
                 <Tr
                   key={row.id}
                   cursor={onRowHover ? 'pointer' : 'initial'}
+                  color={itemTableColor}
                   _hover={
                     isHighlight
                       ? {
-                          background: theme.colors.secondary,
+                          background: itemTableHover,
                           transition: 'background-color 0.5s ease',
-                          color: '#333',
                         }
                       : {}
                   }
@@ -244,10 +271,11 @@ export const Table = <D,>({
                     return (
                       <Td
                         key={cell.id}
-                        fontSize={['10px', '12px', '12px', '14px']}
-                        borderRight="1px"
-                        borderColor={theme.colors.borderColor}
-                        px="6px"
+                        fontSize={['12px', '12px', '12px', '14px']}
+                        borderColor={borderColor}
+                        height={'72px'}
+                        fontWeight="medium"
+                        px={['8px', '12px']}
                       >
                         {flexRender(
                           cell.column.columnDef.cell,

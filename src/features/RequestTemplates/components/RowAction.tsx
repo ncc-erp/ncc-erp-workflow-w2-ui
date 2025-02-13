@@ -6,12 +6,12 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
-  useColorModeValue,
 } from '@chakra-ui/react';
-import { ColorThemeMode, Permissions } from 'common/constants';
+import { Permissions } from 'common/constants';
 import { useUserPermissions } from 'hooks/useUserPermissions';
 import { FaCheckCircle, FaRegEyeSlash, FaEye, FaRegMap } from 'react-icons/fa';
-import { RiDeleteBin6Fill, RiSettings4Fill } from 'react-icons/ri';
+import { HiDotsVertical } from 'react-icons/hi';
+import { RiDeleteBin6Fill } from 'react-icons/ri';
 
 interface RowActionProps {
   onDefineInput: () => void;
@@ -28,8 +28,6 @@ export const RowAction = ({
   isPublished,
   onTogglePublish,
 }: RowActionProps) => {
-  const bg = useColorModeValue(ColorThemeMode.LIGHT, ColorThemeMode.DARK);
-  const color = useColorModeValue(ColorThemeMode.DARK, ColorThemeMode.LIGHT);
   const { renderIfAllowed } = useUserPermissions();
 
   return (
@@ -38,53 +36,50 @@ export const RowAction = ({
         as={IconButton}
         aria-label=""
         variant="ghost"
-        size="sm"
-        icon={<Icon color="gray.500" fontSize="lg" as={RiSettings4Fill} />}
+        size="md"
+        color="paginationText"
+        _hover={{
+          bg: 'actionBtnBg',
+        }}
+        _active={{
+          bg: 'actionBtnBg',
+        }}
+        icon={
+          <Icon
+            height={'24px'}
+            width={'24px'}
+            color="paginationText"
+            fontSize="lg"
+            as={HiDotsVertical}
+          />
+        }
       />
-      <MenuList minW="100px" bg={bg}>
+      <MenuList minW="100px">
         {renderIfAllowed(
           Permissions.DEFINE_INPUT,
-          <MenuItem
-            color={color}
-            display="flex"
-            gap="12px"
-            onClick={onDefineInput}
-          >
-            <Icon color="gray.500" as={FaEye} />
+          <MenuItem display="flex" gap="12px" onClick={onDefineInput}>
+            <Icon as={FaEye} />
             Define Input
           </MenuItem>
         )}
         {renderIfAllowed(
           Permissions.EDIT_WORKFLOW_DEFINITION,
-          <MenuItem
-            color={color}
-            display="flex"
-            gap="12px"
-            onClick={onViewWorkflow}
-          >
-            <Icon color="gray.500" as={FaRegMap} />
+          <MenuItem display="flex" gap="12px" onClick={onViewWorkflow}>
+            <Icon as={FaRegMap} />
             Edit Workflow
           </MenuItem>
         )}
         {renderIfAllowed(
           Permissions.UPDATE_WORKFLOW_DEFINITION_STATUS,
-          <MenuItem
-            color={color}
-            display="flex"
-            gap="12px"
-            onClick={onTogglePublish}
-          >
-            <Icon
-              color="gray.500"
-              as={isPublished ? FaRegEyeSlash : FaCheckCircle}
-            />
+          <MenuItem display="flex" gap="12px" onClick={onTogglePublish}>
+            <Icon as={isPublished ? FaRegEyeSlash : FaCheckCircle} />
             {isPublished ? 'Unpublish' : 'Publish'}
           </MenuItem>
         )}
         {renderIfAllowed(
           Permissions.DELETE_WORKFLOW_DEFINITION,
-          <MenuItem color={color} display="flex" gap="12px" onClick={onDelete}>
-            <Icon color="gray.500" as={RiDeleteBin6Fill} />
+          <MenuItem display="flex" gap="12px" onClick={onDelete}>
+            <Icon as={RiDeleteBin6Fill} />
             Delete
           </MenuItem>
         )}

@@ -13,6 +13,7 @@ import { RouterProvider } from 'react-router-dom';
 import router from 'routes/index';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { ToastContainer } from 'common/components/StandaloneToast';
+import { AntThemeProvider } from 'themes/AntThemeProvider';
 
 const manager = createLocalStorageManager('chakra-ui-color-mode');
 
@@ -26,7 +27,9 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
               <ColorModeScript
                 initialColorMode={theme.config.initialColorMode}
               />
-              <RouterProvider router={router} />
+              <AntThemeProvider>
+                <RouterProvider router={router} />
+              </AntThemeProvider>
             </ChakraProvider>
             <ToastContainer />
           </RecoilRoot>

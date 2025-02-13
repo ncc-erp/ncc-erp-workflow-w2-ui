@@ -28,7 +28,12 @@ export const SettingForm = ({
       {renderIfAllowed(
         Permissions.CREATE_SETTINGS,
         <form onSubmit={formik.handleSubmit}>
-          <Flex gap="4" alignItems="flex-start">
+          <Flex
+            gap={[0, 4]}
+            alignItems="flex-start"
+            mt="3"
+            flexDirection={['column', 'row']}
+          >
             {settingCode === ESettingCode.DIRECTOR && (
               <>
                 <TextField
@@ -47,6 +52,7 @@ export const SettingForm = ({
                   onBlur={formik.handleBlur}
                   value={formik.values.name}
                   autoComplete="off"
+                  labelProps={{ mt: 0, mb: 2 }}
                 />
                 <TextField
                   h="10"
@@ -65,6 +71,7 @@ export const SettingForm = ({
                   onBlur={formik.handleBlur}
                   value={formik.values.code}
                   autoComplete="off"
+                  labelProps={{ mt: 0, mb: 2 }}
                 />
               </>
             )}
@@ -84,11 +91,12 @@ export const SettingForm = ({
               onBlur={formik.handleBlur}
               value={formik.values.email}
               autoComplete="off"
+              labelProps={{ mt: 0, mb: 2 }}
             />
             {isUpdateStatus && (
               <Button
                 size={'md'}
-                mt="46px"
+                mt={['8px', '32px']}
                 colorScheme="gray"
                 onClick={(e) => {
                   e.preventDefault();
@@ -96,7 +104,7 @@ export const SettingForm = ({
                 }}
                 fontSize="sm"
                 fontWeight="medium"
-                minW="70"
+                minW={['100%', '70px']}
                 isLoading={isLoading}
               >
                 Cancel
@@ -104,12 +112,12 @@ export const SettingForm = ({
             )}
             <Button
               size={'md'}
-              mt="46px"
+              mt={['8px', '32px']}
               colorScheme="green"
               type="submit"
               fontSize="sm"
               fontWeight="medium"
-              minW="70"
+              minW={['100%', '70px']}
               isLoading={isLoading || isCreating}
             >
               {isUpdateStatus ? 'Edit' : 'Add'}

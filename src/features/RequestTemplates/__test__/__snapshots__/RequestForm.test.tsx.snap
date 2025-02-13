@@ -44,18 +44,18 @@ exports[`Request Template Form Components should match snapshot when rendering 1
               class="css-1f43avz-a11yText-A11yText"
             />
             <div
-              class=" css-13cymwt-control"
+              class=" css-1kqtz5m-control"
             >
               <div
                 class=" css-1fdsijx-ValueContainer"
               >
                 <div
-                  class=" css-1dimb5e-singleValue"
+                  class=" css-1y6znip-singleValue"
                 >
                   Đà Nẵng
                 </div>
                 <div
-                  class=" css-qbdosj-Input"
+                  class=" css-1vspg3h-Input"
                   data-value=""
                 >
                   <input
@@ -80,11 +80,11 @@ exports[`Request Template Form Components should match snapshot when rendering 1
                 class=" css-1hb7zxy-IndicatorsContainer"
               >
                 <span
-                  class=" css-1u9des2-indicatorSeparator"
+                  class=" css-12hvpev-indicatorSeparator"
                 />
                 <div
                   aria-hidden="true"
-                  class=" css-1xc3v61-indicatorContainer"
+                  class=" css-196yvjw-indicatorContainer"
                 >
                   <svg
                     aria-hidden="true"
@@ -145,18 +145,18 @@ exports[`Request Template Form Components should match snapshot when rendering 1
               class="css-1f43avz-a11yText-A11yText"
             />
             <div
-              class=" css-13cymwt-control"
+              class=" css-1kqtz5m-control"
             >
               <div
                 class=" css-1fdsijx-ValueContainer"
               >
                 <div
-                  class=" css-1dimb5e-singleValue"
+                  class=" css-1y6znip-singleValue"
                 >
                   Đà Nẵng
                 </div>
                 <div
-                  class=" css-qbdosj-Input"
+                  class=" css-1vspg3h-Input"
                   data-value=""
                 >
                   <input
@@ -181,11 +181,11 @@ exports[`Request Template Form Components should match snapshot when rendering 1
                 class=" css-1hb7zxy-IndicatorsContainer"
               >
                 <span
-                  class=" css-1u9des2-indicatorSeparator"
+                  class=" css-12hvpev-indicatorSeparator"
                 />
                 <div
                   aria-hidden="true"
-                  class=" css-1xc3v61-indicatorContainer"
+                  class=" css-196yvjw-indicatorContainer"
                 >
                   <svg
                     aria-hidden="true"
