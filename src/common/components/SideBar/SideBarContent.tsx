@@ -27,9 +27,9 @@ import {
   TbAppsFilled,
   TbArticleFilledFilled,
   TbBrandMastercard,
-  TbHomeEdit,
+  // TbHomeEdit,
   TbLayoutBoard,
-  TbReportSearch,
+  // TbReportSearch,
   TbSettingsBolt,
   TbShieldLock,
   TbUserCog,
@@ -103,21 +103,21 @@ export const SideBarContent = ({ isLargeScreen }: SideBarContentProps) => {
       ],
     },
   ];
-  const ReportNavList = [
-    {
-      to: '/report',
-      text: 'Report',
-      icon: TbReportSearch,
-      subMenu: [
-        {
-          to: '/report/report-wfh',
-          text: 'Report WFH',
-          icon: TbHomeEdit,
-          permission: Permissions.VIEW_WFH_REPORTS,
-        },
-      ],
-    },
-  ];
+  // const ReportNavList = [
+    // {
+    //   to: '/report',
+    //   text: 'Report',
+    //   icon: TbReportSearch,
+    //   subMenu: [
+    //     {
+    //       to: '/report/report-wfh',
+    //       text: 'Report WFH',
+    //       icon: TbHomeEdit,
+    //       permission: Permissions.VIEW_WFH_REPORTS,
+    //     },
+    //   ],
+    // },
+  // ];
 
   const navigate = useNavigate();
   const { onCloseSideBar } = useSetAppConfig();
@@ -249,7 +249,7 @@ export const SideBarContent = ({ isLargeScreen }: SideBarContentProps) => {
           })}
         </>
         <>
-          {ReportNavList.map((reportNav) => {
+          {/* {ReportNavList.map((reportNav) => {
             const hasReportPermission = [Permissions.WFH_REPORTS].some(
               hasPermission
             );
@@ -303,7 +303,7 @@ export const SideBarContent = ({ isLargeScreen }: SideBarContentProps) => {
                 </AccordionItem>
               </Accordion>
             ) : null;
-          })}
+          })} */}
         </>
       </VStack>
 
