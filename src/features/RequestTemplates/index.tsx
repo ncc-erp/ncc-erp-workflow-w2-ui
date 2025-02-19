@@ -16,6 +16,8 @@ export interface IFilterPagination {
   maxResultCount: number;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+let failTokenRecheck: any = null;
 const RequestTemplates = () => {
   const isLargeScreen = useMediaQuery('(min-width: 1024px)');
   const { hasPermission } = useUserPermissions();
@@ -39,19 +41,15 @@ const RequestTemplates = () => {
     return data;
   }, [data]);
 
-  setTimeout(() => {
-    if (!canViewTemplates) {
+  // make sure no leak
+  failTokenRecheck && clearTimeout(failTokenRecheck)
+  failTokenRecheck = setTimeout(() => {
+    if (!hasPermission(Permissions.VIEW_WORKFLOW_DEFINITIONS)) {
       removeItem(LocalStorageKeys.accessToken);
       navigate('/login');
     }
   }, 1000);
 
-  setTimeout(() => {
-    if (!canViewTemplates) {
-      removeItem(LocalStorageKeys.accessToken);
-      navigate('/login');
-    }
-  }, 1000);
   return canViewTemplates ? (
     <Page>
       {!isLargeScreen && <MobileHeader />}
