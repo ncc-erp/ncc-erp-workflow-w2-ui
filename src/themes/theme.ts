@@ -16,8 +16,8 @@ export const theme = extendTheme({
     useSystemColorMode: false,
   },
   fonts: {
-    body: `'Montserrat'`,
-    heading: `'Montserrat'`,
+    body: `'Montserrat', serif`,
+    heading: `'Montserrat', serif`,
   },
   colors: {
     blackButton: {

@@ -25,7 +25,7 @@ export const CurrentUser = ({ isMobile }: CurrentUserProps) => {
             fontSize={'16px'}
             fontWeight={600}
             lineHeight={'24px'}
-            fontFamily={'Montserrat'}
+            // fontFamily={'Montserrat'}
             color={isMobile ? '#ffffff' : undefined}
           >
             {currentUser?.given_name || ''}
