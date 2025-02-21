@@ -1,8 +1,8 @@
-import '@fontsource/montserrat/800.css';
-import '@fontsource/montserrat/700.css';
-import '@fontsource/montserrat/600.css';
-import '@fontsource/montserrat/500.css';
-import '@fontsource/montserrat/400.css';
+// import '@fontsource/montserrat/800.css';
+// import '@fontsource/montserrat/700.css';
+// import '@fontsource/montserrat/600.css';
+// import '@fontsource/montserrat/500.css';
+// import '@fontsource/montserrat/400.css';
 import { extendTheme } from '@chakra-ui/react';
 import { menuTheme } from 'themes/menuTheme';
 import { drawerTheme } from 'themes/drawerTheme';
