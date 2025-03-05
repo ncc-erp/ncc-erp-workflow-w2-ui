@@ -114,6 +114,7 @@ export const QueryKeys = {
   GET_SINGLE_ROLE: 'getSingleRole',
   GET_USER_PERMISSIONS: 'getUserPermissions',
   GET_USER_INFO: 'getUserInfo',
+  GET_MEZON_AUTH_URL: 'getMezonAuthUrl',
 };
 
 export const ColorThemeMode = {

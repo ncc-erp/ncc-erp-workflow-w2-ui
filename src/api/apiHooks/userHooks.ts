@@ -4,6 +4,7 @@ import {
   LoginResult,
   LoginExternalResult,
   User,
+  LoginMezonPayload,
 } from 'models/user';
 import { useCreate, useGetOne } from 'api/apiHooks/index';
 import { QueryKeys } from 'common/constants';
@@ -16,6 +17,16 @@ export const useLoginExternal = () => {
   return useCreate<LoginExternalParams, LoginExternalResult>(
     `/app/external-resource/external-login`
   );
+};
+
+export const useLoginMezon = () => {
+  return useCreate<LoginMezonPayload, LoginExternalResult>(
+    `/app/external-resource/mezon-login`
+  );
+};
+
+export const useMezonAuthUrl = () => {
+  return useCreate<null, string>(`/app/external-resource/mezon-auth-url`);
 };
 
 export const useGetUserInfo = () => {
