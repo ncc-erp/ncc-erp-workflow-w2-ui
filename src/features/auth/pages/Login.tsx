@@ -5,23 +5,21 @@ import {
   Heading,
   Button,
   Grid,
-  Icon,
   useColorModeValue,
 } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 import LoginBackground from 'assets/images/login_background.jpg';
 import Logo from 'assets/images/w2_logo.png';
 import { PasswordField } from 'common/components/PasswordField';
-import { LoginExternalParams, LoginParams } from 'models/user';
-import { FcGoogle } from 'react-icons/fc';
+import { LoginParams } from 'models/user';
 import { TextField } from 'common/components/TextField';
-import { useLogin, useLoginExternal } from 'api/apiHooks/userHooks';
+import { useMezonAuthUrl, useLogin } from 'api/apiHooks/userHooks';
 import { LocalStorageKeys } from 'common/enums';
-import { userManager } from 'services/authService';
 import { getItem, setItem } from 'utils/localStorage';
 import { ColorThemeMode, MaxFailedAccessAttempts } from 'common/constants';
 import { useEffect } from 'react';
 import { toast } from 'common/components/StandaloneToast';
+import SvgMezon from 'assets/svg/mezon-logo-black.svg';
 
 const initialLoginParams: LoginParams = {
   userNameOrEmailAddress: '',
@@ -44,10 +42,8 @@ const Login = () => {
   }, []);
 
   const { mutateAsync: loginMutate, isLoading: isLoginLoading } = useLogin();
-  const {
-    mutateAsync: loginExternalMutate,
-    isLoading: isLoginExternalLoading,
-  } = useLoginExternal();
+  const { mutateAsync: getMezonAuthUrl, isLoading: isMezonLoginLoading } =
+    useMezonAuthUrl();
 
   const {
     handleSubmit,
@@ -88,27 +84,11 @@ const Login = () => {
     });
   };
 
-  const onLoginExternal = async ({
-    provider,
-    idToken,
-  }: LoginExternalParams) => {
-    const { token } = await loginExternalMutate({
-      provider,
-      idToken,
-    });
-    if (token) {
-      setItem(LocalStorageKeys.accessToken, token);
+  const handleLoginWithMezon = async () => {
+    const mezonAuthUrl = await getMezonAuthUrl(null);
+    if (mezonAuthUrl) {
+      window.location.href = mezonAuthUrl;
     }
-  };
-
-  const handleLogin = async () => {
-    const currentUser = await userManager.signinPopup();
-    await onLoginExternal({
-      provider: 'Google',
-      idToken: currentUser.id_token,
-    });
-    setItem(LocalStorageKeys.prevURL, '');
-    window.location.href = redirectURL ?? '/';
   };
 
   return (
@@ -136,7 +116,8 @@ const Login = () => {
           <Heading as="h1" size="md" textAlign="left" w="full" fontWeight={700}>
             Sign In
           </Heading>
-          {(import.meta.env.VITE_MODE == 'development' || import.meta.env.MODE !== 'production') && (
+          {(import.meta.env.VITE_MODE == 'development' ||
+            import.meta.env.MODE !== 'production') && (
             <form
               style={{ width: '100%' }}
               onSubmit={handleSubmit(onLogin)}
@@ -183,14 +164,17 @@ const Login = () => {
             </form>
           )}
           <Button
-            isLoading={isLoginExternalLoading}
-            onClick={handleLogin}
+            isLoading={isMezonLoginLoading}
+            onClick={handleLoginWithMezon}
             w="full"
             h="50px"
-            colorScheme="gray"
+            colorScheme="white"
+            background="black"
+            flexDirection="row"
+            gap={4}
           >
-            <Icon as={FcGoogle} mr="16px" filter="" fontSize="24px" />
-            Sign in with Google
+            <img src={SvgMezon} width={24} />
+            Sign in with Mezon
           </Button>
         </VStack>
       </VStack>

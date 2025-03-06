@@ -139,7 +139,7 @@ export const SearchableSelectField = ({
               };
             },
             option: (base, props) => {
-              console.log(props.isSelected, props.data);
+              // console.log(props.isSelected, props.data);
 
               return {
                 ...base,

@@ -18,6 +18,12 @@ export interface LoginExternalParams {
   idToken?: string;
 }
 
+export interface LoginMezonPayload {
+  code: string;
+  state: string;
+  scope?: string;
+}
+
 export interface LoginResult {
   token: string;
   accessFailedCount: number;
