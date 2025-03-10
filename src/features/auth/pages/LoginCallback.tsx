@@ -4,6 +4,7 @@ import { useEffect, useMemo } from 'react';
 import { useLocation } from 'react-router';
 import { getItem, setItem } from 'utils/localStorage';
 import { Spinner } from '@chakra-ui/react';
+import { userManager } from 'services/authService';
 
 const LoginCallback = () => {
   const location = useLocation();
@@ -35,6 +36,8 @@ const LoginCallback = () => {
 
     if (code && state) {
       handleLoginWithMezon(code, state);
+    } else {
+      userManager.signinPopupCallback();
     }
   }, [paramValues, loginWithMezon]);
 
