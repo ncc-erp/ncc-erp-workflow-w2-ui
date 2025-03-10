@@ -4,10 +4,10 @@ import {
   Center,
   Checkbox,
   Divider,
+  Flex,
   FormControl,
   FormHelperText,
   FormLabel,
-  HStack,
   Spinner,
   VStack,
 } from '@chakra-ui/react';
@@ -20,12 +20,11 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { ErrorMessage } from '@hookform/error-message';
 import {
   useInputDefinition,
-  useRequestTemplates,
   useUpdateWorkflowInput,
 } from 'api/apiHooks/requestHooks';
 import { ErrorDisplay } from 'common/components/ErrorDisplay';
 import { toast } from 'common/components/StandaloneToast';
-import { GUID_ID_DEFAULT_VALUE } from 'common/constants';
+import { GUID_ID_DEFAULT_VALUE, QueryKeys } from 'common/constants';
 import { option } from 'common/types';
 import {
   IUpdateInputFormParams,
@@ -33,7 +32,8 @@ import {
   PropertyDefinition,
   Settings,
 } from 'models/request';
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface DefineInputFormProps {
   inputDefinition?: InputDefinition;
@@ -54,9 +54,9 @@ const DefineInputForm = ({
   settingsToSet,
   isChangedBySubmitSettings,
 }: DefineInputFormProps) => {
+  const queryClient = useQueryClient();
   const { data: inputType } = useInputDefinition();
   const { mutateAsync: updateMutate } = useUpdateWorkflowInput();
-  const { refetch } = useRequestTemplates();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const {
     register,
@@ -109,7 +109,7 @@ const DefineInputForm = ({
     };
 
     await updateMutate(payload);
-    refetch();
+    queryClient.invalidateQueries({ queryKey: [QueryKeys.REQUEST_TEMPLATES] });
 
     setIsLoading(false);
     toast({
@@ -126,10 +126,16 @@ const DefineInputForm = ({
   const renderFormContent = () => {
     return fields?.map((Field: PropertyDefinition, index: number) => {
       return (
-        <>
-          <HStack alignItems="flex-end" key={Field?.name + index} mb={1}>
+        <Fragment key={Field?.name + index}>
+          <Flex
+            gap={[0, '8px']}
+            flexDirection={['column', 'row']}
+            mb={1}
+            w="full"
+            alignItems={['unset', 'flex-end']}
+          >
             <FormControl>
-              <FormLabel fontSize={16} mb={1} fontWeight="normal">
+              <FormLabel fontSize={['sm', 'md']} mb={1} fontWeight="normal">
                 Property Name
                 <FormHelperText mb={1} as="span">
                   {' '}
@@ -138,7 +144,7 @@ const DefineInputForm = ({
               </FormLabel>
               <TextField
                 h="40px"
-                w="210px"
+                w={['full', '210px']}
                 fontSize="sm"
                 {...register(`items.${index}.name`, {
                   required: `Name is Required`,
@@ -154,7 +160,7 @@ const DefineInputForm = ({
             </FormControl>
 
             <FormControl mb="20px">
-              <FormLabel fontSize={16} mb={1} fontWeight="normal">
+              <FormLabel fontSize={['sm', 'md']} mb={1} fontWeight="normal">
                 Property Type
               </FormLabel>
 
@@ -173,16 +179,23 @@ const DefineInputForm = ({
               )}
             </FormControl>
 
-            <FormControl mb="20px">
+            <FormControl
+              mb="20px"
+              display={['flex', 'block']}
+              alignItems="center"
+              gap="8px"
+              justifyContent="space-between"
+            >
               <FormLabel
-                textAlign="center"
-                fontSize={16}
+                textAlign={['left', 'center']}
+                fontSize={['sm', 'md']}
                 mb={1}
                 fontWeight="normal"
+                mr={0}
               >
                 Required
               </FormLabel>
-              <Center h="40px" mr={3}>
+              <Center h="40px">
                 <Controller
                   name={`items.${index}.isRequired`}
                   control={control}
@@ -198,16 +211,17 @@ const DefineInputForm = ({
             </FormControl>
             <Button
               colorScheme="red"
-              mb="20px"
-              w="250px"
+              mb={[0, '20px']}
+              w={['full', '250px']}
               isDisabled={!(fields.length > 1)}
               onClick={() => remove(index)}
+              fontSize={['sm', 'md']}
             >
               Remove
             </Button>
-          </HStack>
+          </Flex>
           <Divider my={1} />
-        </>
+        </Fragment>
       );
     });
   };
@@ -225,6 +239,8 @@ const DefineInputForm = ({
           colorScheme="blue"
           onClick={onAddField}
           data-testid="button-add-field"
+          w={['full', 'auto']}
+          fontSize={['sm', 'md']}
         >
           Add Field
         </Button>
@@ -236,6 +252,7 @@ const DefineInputForm = ({
         isLoading={isLoading}
         w="full"
         colorScheme="gray"
+        fontSize={['sm', 'md']}
       >
         Save
       </Button>

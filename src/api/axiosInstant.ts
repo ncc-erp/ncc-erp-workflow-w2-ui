@@ -1,14 +1,10 @@
 import { createContext, useContext } from 'react';
-import Axios, {
-  AxiosInstance,
-  AxiosResponse,
-  isAxiosError,
-} from 'axios';
+import Axios, { AxiosInstance, AxiosResponse, isAxiosError } from 'axios';
 import { toast } from 'common/components/StandaloneToast';
 import { getItem, setItem, removeItem } from 'utils';
 import { LocalStorageKeys } from 'common/enums';
 
-const { VITE_API_BASE_URL } = import.meta.env;
+const { VITE_API_BASE_URL, VITE_CLIENT_VERSION } = import.meta.env;
 
 const axios = Axios.create({
   baseURL: VITE_API_BASE_URL,
@@ -18,12 +14,15 @@ const axios = Axios.create({
   },
 });
 
+// Configure maxRedirects globally
+axios.defaults.maxRedirects = 0;
 axios.interceptors.request.use((config) => {
   const accessToken: string | null = getItem(LocalStorageKeys.accessToken);
   if (accessToken != null) {
     const accessHeader = `Bearer ${accessToken}`;
     if (config.headers != null) {
       config.headers.Authorization = accessHeader;
+      config.headers['client-version'] = VITE_CLIENT_VERSION;
     }
   }
   return config;
@@ -40,7 +39,9 @@ axios.interceptors.response.use(
         const httpStatusCode = urlParams.get('httpStatusCode');
 
         if (httpStatusCode === '410') {
-          console.log('Redirect URL contains httpStatusCode=410. Redirecting to login...');
+          console.log(
+            'Redirect URL contains httpStatusCode=410. Redirecting to login...'
+          );
           window.location.href = '/login'; // Redirect to login page
         }
       }

@@ -7,6 +7,7 @@ import {
   Badge,
   Box,
   Center,
+  Flex,
   HStack,
   IconButton,
   Input,
@@ -20,7 +21,6 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Pagination } from 'common/components/Pagination';
 import { noOfRows } from 'common/constants';
 import { PageSize } from 'common/components/Table/PageSize';
-import { ShowingItemText } from 'common/components/Table/ShowingItemText';
 import { EmptyWrapper } from 'common/components/EmptyWrapper';
 import { useRecoilValue } from 'recoil';
 import { appConfigState } from 'stores/appConfig';
@@ -37,6 +37,8 @@ import { UserRoleLabelMapping } from '../../../common/constants';
 import { useUserPermissions } from 'hooks/useUserPermissions';
 import { Permissions } from 'common/constants';
 import { useGetAllRoles } from 'api/apiHooks/roleHook';
+import { PaginationMobile } from 'common/components/PaginationMobile';
+import { useMediaQuery } from 'hooks/useMediaQuery';
 const initialFilter: FilterUserParams = {
   filter: '',
   maxResultCount: +noOfRows[0].value,
@@ -56,6 +58,7 @@ export const UserManagementTable = () => {
   const { sideBarWidth } = useRecoilValue(appConfigState);
   const [filterUser, setFilterUser] = useState<FilterUserParams>(initialFilter);
   const [sorting, setSorting] = useState<SortingState>(initialSorting);
+  const isLargeScreen = useMediaQuery('(min-width: 1024px)');
   const { data, isLoading, refetch, isRefetching } =
     useUserIdentity(filterUser);
   const { data: roles } = useRoles();
@@ -217,104 +220,87 @@ export const UserManagementTable = () => {
 
   return (
     <>
-      <Box>
-        <HStack
-          w="full"
-          p="0px 24px 20px 0px"
-          justifyContent="space-between"
-          display="flex"
-        >
-          <HStack w="full" pl="24px" alignItems="flex-end" flexWrap="wrap">
-            <InputGroup w={{ base: '48%', sm: '30%', lg: '20%' }}>
-              <Input
-                isDisabled={isLoading || isRefetching}
-                type="text"
-                placeholder="Enter email"
-                fontSize={{ base: '10px', sm: '12px', lg: '14px' }}
-                mb={2}
-                value={txtSearch}
-                onChange={(e) => setTxtSearch(e.target.value)}
-              />
-              <InputRightElement width="40px">
-                <TbSearch />
-              </InputRightElement>
-            </InputGroup>
-            <Box>
-              <SelectField
-                isDisabled={isLoading || isRefetching}
-                size="sm"
-                rounded="md"
-                mb={2}
-                onChange={(e) => onUserListFilterChange('role', e.target.value)}
-                options={userRolesOptions}
-              />
-            </Box>
-          </HStack>
-          <IconButton
-            isDisabled={isLoading || isRefetching}
-            isRound={true}
-            variant="solid"
-            aria-label="Done"
-            fontSize="20px"
-            icon={<AiOutlineReload />}
-            onClick={() => refetch()}
-          />
-        </HStack>
-        <EmptyWrapper
-          isEmpty={!requests.length && !isLoading}
-          h="200px"
-          fontSize="xs"
-          message={'No request found!'}
-        >
-          <Box
-            p={{ base: '10px 24px 0px' }}
-            overflowX={'auto'}
-            w={{
-              base: `calc(100vw - ${sideBarWidth}px)`,
-              lg: `calc(100vw - ${sideBarWidth}px)`,
-              xs: 'max-content',
-            }}
-            data-testid="list-user-manager-settings-view"
-          >
-            <Table
-              columns={userColumns}
-              data={requests}
-              sorting={sorting}
-              onSortingChange={setSorting}
-              isLoading={isLoading}
-              pageSize={filterUser.maxResultCount}
-              onRowHover={true}
-              isHighlight={true}
-              dataTestId="user-manager-item"
+      <Flex pb="8px" flexDirection={['column', 'row']} gap="8px">
+        <Flex flex={1} flexDirection={['column', 'row']} gap="8px">
+          <InputGroup flexBasis={{ sm: '296px' }}>
+            <Input
+              isDisabled={isLoading || isRefetching}
+              type="text"
+              placeholder="Enter email"
+              fontSize={{ base: '12px', lg: '14px' }}
+              value={txtSearch}
+              onChange={(e) => setTxtSearch(e.target.value)}
+            />
+            <InputRightElement width="40px">
+              <TbSearch />
+            </InputRightElement>
+          </InputGroup>
+          <Box>
+            <SelectField
+              isDisabled={isLoading || isRefetching}
+              size="sm"
+              rounded="md"
+              onChange={(e) => onUserListFilterChange('role', e.target.value)}
+              options={userRolesOptions}
+              minW="134px"
             />
           </Box>
-        </EmptyWrapper>
+        </Flex>
+        <IconButton
+          isDisabled={isLoading || isRefetching}
+          isRound={true}
+          variant="solid"
+          aria-label="Done"
+          fontSize="20px"
+          icon={<AiOutlineReload />}
+          onClick={() => refetch()}
+          ml="auto"
+        />
+      </Flex>
+      <EmptyWrapper
+        isEmpty={!requests.length && !isLoading}
+        h="200px"
+        fontSize="xs"
+        message={'No request found!'}
+      >
+        <Box
+          pt="10px"
+          overflowX={'auto'}
+          w={{
+            base: `calc(100vw - ${sideBarWidth}px)`,
+            lg: `calc(100vw - ${sideBarWidth}px)`,
+            xs: 'max-content',
+          }}
+          data-testid="list-user-manager-settings-view"
+        >
+          <Table
+            columns={userColumns}
+            data={requests}
+            sorting={sorting}
+            onSortingChange={setSorting}
+            isLoading={isLoading}
+            pageSize={filterUser.maxResultCount}
+            onRowHover={true}
+            isHighlight={true}
+            dataTestId="user-manager-item"
+          />
+        </Box>
+      </EmptyWrapper>
+      {isLargeScreen ? (
         <HStack
-          p={{
-            base: '0px 12px 20px 12px',
-            sm: '0px 30px 20px 30px',
-            lg: '26px 30px 20px 30px',
-          }}
-          justifyContent={{
-            base: 'center',
-            lg: 'space-between',
-          }}
+          py="20px"
+          justifyContent={['center', 'space-between']}
+          borderBottom="1px"
+          borderColor="gray.200"
           flexWrap="wrap"
         >
-          <HStack
-            alignItems="center"
-            spacing="6px"
-            flexWrap="wrap"
-            px={{ base: '10px', sm: '12px', lg: '0px' }}
-            pl={'-60px'}
-          >
-            <PageSize noOfRows={noOfRows} onChange={onPageSizeChange} />
-            <Spacer w="2px" />
-            <ShowingItemText
-              skipCount={filterUser.skipCount}
-              maxResultCount={filterUser.maxResultCount}
-              totalCount={totalCount}
+          <HStack alignItems="center" spacing="6px" flexWrap="wrap">
+            <PageSize
+              noOfRows={noOfRows}
+              onChange={onPageSizeChange}
+              value={filterUser.maxResultCount}
             />
+            <Spacer w="12px" />
           </HStack>
           <Pagination
             total={totalCount}
@@ -325,15 +311,31 @@ export const UserManagementTable = () => {
             data-testid="pagination"
           />
         </HStack>
-        {user && (
-          <UserModal
-            isOpen={isModalOpen}
-            onClose={onCloseModal}
-            user={user}
-            modalTitle={modalTitle}
+      ) : (
+        <HStack
+          display={'flex'}
+          width={'100%'}
+          p={['0px 16px 20px 16px', '0px 16px 20px 16px']}
+          justifyContent={['center', 'space-between']}
+        >
+          <PaginationMobile
+            total={data?.totalCount ?? 0}
+            pageSize={filterUser.maxResultCount}
+            current={currentPage}
+            onChange={onPageChange}
+            hideOnSinglePage
+            data-testid="pagination"
           />
-        )}
-      </Box>
+        </HStack>
+      )}
+      {user && (
+        <UserModal
+          isOpen={isModalOpen}
+          onClose={onCloseModal}
+          user={user}
+          modalTitle={modalTitle}
+        />
+      )}
     </>
   );
 };

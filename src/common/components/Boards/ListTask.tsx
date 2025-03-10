@@ -23,7 +23,6 @@ import {
 import { EmptyWrapper } from 'common/components/EmptyWrapper';
 import { Pagination } from 'common/components/Pagination';
 import { PageSize } from 'common/components/Table/PageSize';
-import { ShowingItemText } from 'common/components/Table/ShowingItemText';
 import { Table } from 'common/components/Table/Table';
 import {
   OtherActionSignalStatus,
@@ -38,8 +37,6 @@ import { AiFillCheckCircle, AiOutlineReload } from 'react-icons/ai';
 import { BsFillFilterCircleFill } from 'react-icons/bs';
 import { MdCancel } from 'react-icons/md';
 import { RiEyeFill, RiSettings4Fill, RiMapFill } from 'react-icons/ri';
-import { useRecoilValue } from 'recoil';
-import { appConfigState } from 'stores/appConfig';
 import { formatDate } from 'utils';
 import { toast } from '../StandaloneToast';
 import ModalBoard from './ModalBoard';
@@ -49,6 +46,8 @@ import { WorkflowModal } from 'common/components/WorkflowModal';
 import OverflowText from '../OverflowText';
 import TextToolTip from '../textTooltip';
 import { useUserPermissions } from 'hooks/useUserPermissions';
+import { useMediaQuery } from 'hooks/useMediaQuery';
+import { PaginationMobile } from '../PaginationMobile';
 
 interface Props {
   filters: FilterTasks;
@@ -63,7 +62,8 @@ const initDataForm = {
 export const ListTask = ({ filters, openDetailModal }: Props) => {
   const [filter, setFilter] = useState<FilterTasks>(filters);
   const columnHelper = createColumnHelper<ITask>();
-  const { sideBarWidth } = useRecoilValue(appConfigState);
+  const isLargeScreen = useMediaQuery('(min-width: 1024px)');
+
   const user = useCurrentUser();
   const { data, refetch, isLoading, isRefetching } = useGetTasks({ ...filter });
   const approveTaskMutation = useApproveTask();
@@ -118,7 +118,11 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
     return [
       columnHelper.accessor('requestId', {
         id: 'id',
-        header: () => <Box pl="16px">ID</Box>,
+        header: () => (
+          <Box textAlign="center" w="full">
+            ID
+          </Box>
+        ),
         enableSorting: false,
         sortDescFirst: true,
         cell: (info) => (
@@ -268,7 +272,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
                     gap="12px"
                     onClick={() => openDetailModal(info.row.original)()}
                   >
-                    <Icon color="blue.500" as={RiEyeFill} />
+                    <Icon as={RiEyeFill} />
                     View
                   </MenuItem>
                   <MenuItem
@@ -280,7 +284,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
                       )()
                     }
                   >
-                    <Icon color="gray.500" as={RiMapFill} />
+                    <Icon as={RiMapFill} />
                     Workflow
                   </MenuItem>
                   {renderIfAllowed(
@@ -307,7 +311,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
                             onOpen();
                           }}
                         >
-                          <Icon color="green.500" as={AiFillCheckCircle} />
+                          <Icon as={AiFillCheckCircle} />
                           Approve
                         </MenuItem>
                         <MenuItem
@@ -321,7 +325,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
                             onOpen();
                           }}
                         >
-                          <Icon color="red.500" as={MdCancel} />
+                          <Icon as={MdCancel} />
                           Reject
                         </MenuItem>
                         {info.row.original.otherActionSignals &&
@@ -341,10 +345,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
                                   );
                                 }}
                               >
-                                <Icon
-                                  color="gray.500"
-                                  as={BsFillFilterCircleFill}
-                                />
+                                <Icon as={BsFillFilterCircleFill} />
                                 {el.otherActionSignal}
                               </MenuItem>
                             )
@@ -481,8 +482,8 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
           aria-label="Done"
           fontSize="20px"
           position={'absolute'}
-          right={['20px', 25]}
-          top={'-40px'}
+          right="0"
+          top={'-48px'}
           icon={<AiOutlineReload />}
           onClick={() => refetch()}
           data-testid="task-actions-menu-button"
@@ -494,15 +495,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
             fontSize="xs"
             message={'No request found!'}
           >
-            <Box
-              p="10px 20px"
-              //overflowX="auto"
-              w={{
-                base: '100vw',
-                lg: `calc(100vw - ${sideBarWidth}px)`,
-              }}
-              data-testid="list-tasks-view"
-            >
+            <Box py="10px" data-testid="list-tasks-view">
               <Box w={'100%'} overflowX="auto" className={styles.tableContent}>
                 <Table
                   onRowClick={openDetailModal}
@@ -518,35 +511,48 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
               </Box>
             </Box>
           </EmptyWrapper>
-          <HStack
-            p={['20px 30px 20px 30px', '0px 30px 20px 30px']}
-            justifyContent={['center', 'space-between']}
-            borderBottom="1px"
-            borderColor="gray.200"
-            flexWrap="wrap"
-          >
-            <HStack alignItems="center" spacing="6px" flexWrap="wrap">
-              <PageSize
-                noOfRows={noOfRows}
-                onChange={onPageSizeChange}
-                value={filter.maxResultCount}
-              />
-              <Spacer w="12px" />
-              <ShowingItemText
-                skipCount={filter.skipCount}
-                maxResultCount={filter.maxResultCount}
-                totalCount={data?.totalCount ?? 0}
+          {isLargeScreen ? (
+            <HStack
+              py="20px"
+              justifyContent={['center', 'space-between']}
+              borderBottom="1px"
+              borderColor="gray.200"
+              flexWrap="wrap"
+            >
+              <HStack alignItems="center" spacing="6px" flexWrap="wrap">
+                <PageSize
+                  noOfRows={noOfRows}
+                  onChange={onPageSizeChange}
+                  value={filter.maxResultCount}
+                />
+                <Spacer w="12px" />
+              </HStack>
+              <Pagination
+                total={data?.totalCount ?? 0}
+                pageSize={filter.maxResultCount}
+                current={currentPage}
+                onChange={onPageChange}
+                hideOnSinglePage
+                data-testid="pagination"
               />
             </HStack>
-            <Pagination
-              total={data?.totalCount ?? 0}
-              pageSize={filter.maxResultCount}
-              current={currentPage}
-              onChange={onPageChange}
-              hideOnSinglePage
-              data-testid="pagination"
-            />
-          </HStack>
+          ) : (
+            <HStack
+              display={'flex'}
+              width={'100%'}
+              p={['0px 16px 20px 16px', '0px 16px 20px 16px']}
+              justifyContent={['center', 'space-between']}
+            >
+              <PaginationMobile
+                total={data?.totalCount ?? 0}
+                pageSize={filter.maxResultCount}
+                current={currentPage}
+                onChange={onPageChange}
+                hideOnSinglePage
+                data-testid="pagination"
+              />
+            </HStack>
+          )}
         </>
       </Box>
       <ModalBoard

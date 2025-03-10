@@ -54,7 +54,6 @@ import TaskSkeleton from './TaskSkeleton';
 import { isValidJSON } from 'utils';
 import { useClearCacheTask } from './useClearCacheTask';
 import { useNavigate } from 'react-router';
-import { useMediaQuery } from 'hooks/useMediaQuery';
 import TextToolTip from '../textTooltip';
 import { useUserPermissions } from 'hooks/useUserPermissions';
 
@@ -69,7 +68,6 @@ export interface BoardsProps {
 }
 
 const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
-  const isLargeScreen = useMediaQuery('(min-width: 1024px)');
   const [filter, setFilter] = useState<FilterTasks>(filters);
   const [shortTitle, setShortTitle] = useState<string>('');
   const [requestUser, setRequestUser] = useState<string>('');
@@ -449,8 +447,8 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
           aria-label="Done"
           fontSize="20px"
           position={'absolute'}
-          right={25}
-          top={'-40px'}
+          right="0"
+          top={'-48px'}
           icon={<AiOutlineReload />}
           onClick={debounce(async () => {
             if (!filter.status) return;
@@ -483,11 +481,7 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
         />
 
         <DragDropContext onDragEnd={onDragEnd}>
-          <Box
-            className={styles.container}
-            p={isLargeScreen ? '10px 24px' : '10px 3px'}
-            data-testid="board-view"
-          >
+          <Box className={styles.container} py="10px" data-testid="board-view">
             {Object.values(state).map((el, ind) => (
               <Droppable key={ind} droppableId={`${ind}`}>
                 {(provided, snapshot) => (
@@ -570,7 +564,7 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
                                       alignItems={'flex-start'}
                                       w={'100%'}
                                     >
-                                      <Box style={{ flex: 1 }}>
+                                      <Box flex={1} maxWidth="50%">
                                         <TextToolTip
                                           data-testid="board-item-title"
                                           maxLines={1}
@@ -583,9 +577,9 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
                                       </Box>
 
                                       <Box>
-                                        <div>
+                                        <Text textAlign="end">
                                           ({getDayAgo(item?.creationTime)})
-                                        </div>
+                                        </Text>
                                       </Box>
                                     </Flex>
 
@@ -672,22 +666,25 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
                                           </Flex>
                                         )}
                                     </Flex>
-                                    <Flex className={styles.cardFooter}>
+                                    <Flex
+                                      className={styles.cardFooter}
+                                      gap="6px"
+                                      flexWrap="wrap"
+                                    >
                                       <Flex gap={2}>
                                         <Text>Date:</Text>
                                         {formatDate(
                                           new Date(item?.creationTime)
                                         )}
                                       </Flex>
-                                      <div
+                                      <Box
                                         className={styles.title}
-                                        style={{
-                                          backgroundColor:
-                                            item?.settings?.color ?? '#aabbcc',
-                                        }}
+                                        bg={item?.settings?.color ?? '#aabbcc'}
+                                        ml="auto"
+                                        textAlign="center"
                                       >
                                         {item.name}
-                                      </div>
+                                      </Box>
                                     </Flex>
                                   </Box>
                                 </Box>

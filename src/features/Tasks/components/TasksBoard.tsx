@@ -191,62 +191,63 @@ export const TasksBoard = () => {
   }, [showOnlyMyTask, onTemplateStatusChange, user.email]);
 
   return (
-    <Flex flexDirection={'column'} gap={2} w={['100vw', 'auto']}>
-      <Flex px="24px" justifyContent="space-between">
-        <Flex gap={3} flexDirection={['column', 'row']} flexWrap={'wrap'}>
-          <Box>
-            <SelectField
-              cursor="pointer"
-              value={filter.workflowDefinitionId}
-              size="sm"
-              rounded="md"
-              onChange={(e) =>
-                onTemplateStatusChange('workflowDefinitionId', e.target.value)
-              }
-              options={requestTemplateOtions}
+    <Flex flexDirection={'column'} gap={2}>
+      <Flex gap={3} flexDirection={['column', 'row']} flexWrap={'wrap'}>
+        <Box flex={{ sm: 2, xl: 'unset' }} flexBasis={{ xl: '296px' }}>
+          <SelectField
+            cursor="pointer"
+            value={filter.workflowDefinitionId}
+            size="sm"
+            rounded="md"
+            onChange={(e) =>
+              onTemplateStatusChange('workflowDefinitionId', e.target.value)
+            }
+            options={requestTemplateOtions}
+          />
+        </Box>
+        <Box flex={{ sm: 1, xl: 'unset' }}>
+          <SelectField
+            value={filter?.status as number}
+            size="sm"
+            rounded="md"
+            cursor="pointer"
+            onChange={(e) => onTemplateStatusChange('status', e.target.value)}
+            options={statusOptions}
+          />
+        </Box>
+        <Box flex={{ sm: 1, xl: 'unset' }}>
+          <SelectField
+            value={filter.dates}
+            size="sm"
+            rounded="md"
+            cursor="pointer"
+            onChange={(e) => onTemplateStatusChange('dates', e.target.value)}
+            options={dateOptions}
+          />
+        </Box>
+        <Box
+          flex={{ sm: 2, xl: 'unset' }}
+          flexBasis={{ sm: '100%', xl: '296px' }}
+        >
+          <InputGroup>
+            <Input
+              autoFocus
+              value={txtSearch}
+              type="text"
+              placeholder="Enter email"
+              fontSize="14px"
+              mb={2}
+              onChange={(e) => setTxtSearch(e.target.value)}
             />
-          </Box>
-          <Box>
-            <SelectField
-              value={filter?.status as number}
-              size="sm"
-              rounded="md"
-              cursor="pointer"
-              onChange={(e) => onTemplateStatusChange('status', e.target.value)}
-              options={statusOptions}
-            />
-          </Box>
-          <Box>
-            <SelectField
-              value={filter.dates}
-              size="sm"
-              rounded="md"
-              cursor="pointer"
-              onChange={(e) => onTemplateStatusChange('dates', e.target.value)}
-              options={dateOptions}
-            />
-          </Box>
-          <Box w={'300px'}>
-            <InputGroup>
-              <Input
-                autoFocus
-                value={txtSearch}
-                type="text"
-                placeholder="Enter email"
-                fontSize="14px"
-                mb={2}
-                onChange={(e) => setTxtSearch(e.target.value)}
-              />
-              <InputRightElement width="40px">
-                <TbSearch />
-              </InputRightElement>
-            </InputGroup>
-          </Box>
-        </Flex>
+            <InputRightElement width="40px">
+              <TbSearch />
+            </InputRightElement>
+          </InputGroup>
+        </Box>
       </Flex>
       {renderIfAllowed(
         Permissions.VIEW_ALL_TASKS,
-        <Flex gap={1} px="24px">
+        <Flex gap={1}>
           {isAdmin && (
             <WrapItem>
               <Button
@@ -266,10 +267,9 @@ export const TasksBoard = () => {
       <Box position={'relative'}>
         <Wrap
           spacing={2}
-          px="24px"
           position={'absolute'}
-          right={55}
-          top={-10}
+          right="48px"
+          top={-12}
           hidden={!isLargeScreen}
         >
           {OptionsDisplay.map((item) => (

@@ -1,7 +1,6 @@
 import { Center, VStack, Heading, Text, Icon, Box } from '@chakra-ui/react';
 import { FaExclamationTriangle } from 'react-icons/fa';
 const NotFound = () => {
-
   return (
     <Center height="100vh" bg="gray.100" color="gray.800" textAlign="center">
       <VStack spacing={5}>

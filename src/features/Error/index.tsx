@@ -6,15 +6,14 @@ const Error = () => {
   // 401. clear, logout
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  console.log('searchParams', searchParams);
-  
+
   // httpStatusCode
-  if (searchParams.get('httpStatusCode') == '401' ) {
+  if (searchParams.get('httpStatusCode') == '401') {
     removeItem(LocalStorageKeys.accessToken);
-    navigate('/login')
+    navigate('/login');
   }
-  
-  return (<></>);
+
+  return <></>;
 };
 
 export default Error;

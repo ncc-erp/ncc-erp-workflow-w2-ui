@@ -14,26 +14,32 @@ export const NavLink = ({ to, text, icon, onClick }: NavLinkProps) => {
       as={NavLinkComponent}
       to={to}
       px="8px"
-      py="6px"
+      py="10px"
       w="full"
-      fontWeight="600"
+      fontWeight="500"
       display="flex"
       alignItems="center"
       gap="12px"
       fontSize="sm"
       rounded="md"
       textDecoration="none"
+      color="stone.500"
       onClick={onClick}
+      height="40px"
+      lineHeight="1.2"
+      border="1px transparent solid"
       _hover={{
-        backgroundColor: 'gray.200',
-        color: 'gray.700',
+        backgroundColor: 'rgba(255, 255, 255, 0.1)',
+        color: 'stone.100',
+        borderColor: 'stoneAlpha.200/20',
       }}
       _activeLink={{
-        backgroundColor: 'gray.200',
-        color: 'gray.700',
+        backgroundColor: 'rgba(255, 255, 255, 0.1)',
+        color: 'stone.100',
+        borderColor: 'stoneAlpha.200/20',
       }}
     >
-      <Icon textColor="gray.500" as={icon} fontSize="xl" />
+      <Icon as={icon} fontSize="xl" />
       {text}
     </Link>
   );

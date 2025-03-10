@@ -28,6 +28,8 @@ import { toast } from 'common/components/StandaloneToast';
 import ExportImportJson, { EButtonType } from './ExportImportJson';
 import { useUserPermissions } from 'hooks/useUserPermissions';
 import { Permissions } from 'common/constants';
+import { BiSolidPencil } from 'react-icons/bi';
+import { useMediaQuery } from 'hooks/useMediaQuery';
 
 interface RequestTemplateTableProps {
   data: RequestTemplateResult;
@@ -40,6 +42,7 @@ export const RequestTemplateTable = ({
   isLoading,
   refetch,
 }: RequestTemplateTableProps) => {
+  const isLargeScreen = useMediaQuery('(min-width: 1024px)');
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState<boolean>(false);
 
@@ -68,6 +71,7 @@ export const RequestTemplateTable = ({
   ]);
   const [workflowCreateData, setWorkflowCreateData] =
     useState<IJsonObject | null>(null);
+  const [isPublishWfStatus, setisPublishWfStatus] = useState<boolean>(false);
   const onConfirmDeleteWorkflow = (workflowId: string) => () => {
     setIsModalConfirmOpen(true);
     setRequestId(workflowId);
@@ -76,12 +80,18 @@ export const RequestTemplateTable = ({
   };
 
   const onDefineInputWorkflow =
-    (workflowId: string, inputDefinition: InputDefinition, name: string) =>
+    (
+      workflowId: string,
+      inputDefinition: InputDefinition,
+      name: string,
+      isPublish: boolean
+    ) =>
     () => {
       setIsModalDefineInputOpen(true);
       setRequestId(workflowId);
       setModalInputDefinition(inputDefinition);
       setModalTitle(name);
+      setisPublishWfStatus(isPublish);
     };
 
   const onDeleteWorkflow = async () => {
@@ -133,37 +143,21 @@ export const RequestTemplateTable = ({
               )}
               aria-label="Popup modal"
               icon={<RiAddFill />}
+              backgroundColor="actionBtnBg"
+              color="paginationText"
             />
           </Center>
         );
       },
     });
 
-    const editorColumn = [
-      columnHelper.accessor('name', {
-        id: 'name',
-        header: 'Name',
-        enableSorting: false,
-        cell: (info) => info.getValue(),
-      }),
-      columnHelper.accessor('version', {
-        id: 'version',
-        header: 'Version',
-        enableSorting: false,
-        cell: (info) => info.getValue(),
-      }),
-      columnHelper.accessor('isPublished', {
-        id: 'isPublished',
-        header: 'Published',
-        enableSorting: false,
-        cell: (info) => info.getValue().toString(),
-      }),
+    const editColumn = [
       ...(canViewDesignerColumn
         ? [
             columnHelper.display({
               id: 'designer',
               enableSorting: false,
-              header: () => <Center w="full">Designer</Center>,
+              header: () => <Center w="full">Edit</Center>,
               cell: (info) => {
                 const {
                   definitionId,
@@ -185,7 +179,8 @@ export const RequestTemplateTable = ({
                           requestDisplayName: displayName,
                           defineJson,
                         },
-                        name
+                        name,
+                        isPublished
                       )}
                       onViewWorkflow={onActionViewWorkflow(definitionId)}
                       onTogglePublish={() =>
@@ -201,6 +196,31 @@ export const RequestTemplateTable = ({
         : []),
     ];
 
+    const editorColumn = [
+      columnHelper.accessor('name', {
+        id: 'name',
+        header: 'Name',
+        enableSorting: false,
+        cell: (info) => info.getValue(),
+      }),
+      columnHelper.accessor('version', {
+        id: 'version',
+        header: () => <Center w="full">Version</Center>,
+        enableSorting: false,
+        cell: (info) => <Center w="full">{info.getValue()}</Center>,
+      }),
+      columnHelper.accessor('isPublished', {
+        id: 'isPublished',
+        header: () => <Center w="full">Published</Center>,
+        enableSorting: false,
+        cell: (info) => (
+          <Center w="full">
+            {info.getValue().toString() === 'true' ? 'Yes' : 'No'}
+          </Center>
+        ),
+      }),
+    ];
+
     const result = [
       displayColumn,
       ...//isAdmin ?
@@ -209,6 +229,7 @@ export const RequestTemplateTable = ({
       ...(hasPermission(Permissions.CREATE_WORKFLOW_INSTANCE)
         ? [actionColumn]
         : []),
+      ...editColumn,
     ] as ColumnDef<RequestTemplate>[];
 
     return result;
@@ -265,18 +286,25 @@ export const RequestTemplateTable = ({
 
   return (
     <Box>
-      {
-        //  isAdmin &&
-        <Box px={6} display="flex" columnGap="0.5rem">
+      {isLargeScreen && (
+        <Box display="flex" mb={2} columnGap="1rem">
           {renderIfAllowed(
             Permissions.CREATE_WORKFLOW_DEFINITION,
             <Button
+              leftIcon={<BiSolidPencil size={20} />}
               isDisabled={isLoading}
               size="md"
               fontSize="sm"
               fontWeight="medium"
-              colorScheme="green"
+              height={'44px'}
+              width={'114px'}
+              background={'#EC4755'}
               onClick={onOpenCreateModal}
+              color={'#ffffff'}
+              lineHeight={20}
+              _hover={{
+                background: '#B43A3F',
+              }}
             >
               Create
             </Button>
@@ -287,7 +315,6 @@ export const RequestTemplateTable = ({
             <ExportImportJson
               buttonStyleObj={{
                 import: {
-                  colorScheme: 'blue',
                   m: '0',
                   fontSize: '14px',
                   fontWeight: '500',
@@ -299,7 +326,7 @@ export const RequestTemplateTable = ({
             />
           )}
         </Box>
-      }
+      )}
 
       <EmptyWrapper
         isEmpty={!items.length && !isLoading}
@@ -314,7 +341,7 @@ export const RequestTemplateTable = ({
             lg: `calc(100vw - ${sideBarWidth}px)`,
             xs: 'max-content',
           }}
-          p={{ base: '10px 24px 0px' }}
+          py="10px"
           paddingBottom={10}
           data-testid="list-request-templates-view"
         >
@@ -345,6 +372,7 @@ export const RequestTemplateTable = ({
         inputDefinition={inputDefinition}
         isOpen={isModalDefineInputOpen}
         onClose={onCloseModal}
+        isPublishWfStatus={isPublishWfStatus}
       />
 
       <RequestTemplateModal
