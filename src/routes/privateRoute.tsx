@@ -7,7 +7,9 @@ const PrivateRoute = ({ children }: RouteProps) => {
   const accessToken: string | null = getItem(LocalStorageKeys.accessToken);
   const isUnauthorized = accessToken === null;
 
-  if (isUnauthorized) {
+  const isInMezon = getItem(LocalStorageKeys.isInMezon) === 'true';
+
+  if (isUnauthorized && !isInMezon) {
     setItem(LocalStorageKeys.prevURL, window.location.href);
     return <Navigate to="/login" />;
   }

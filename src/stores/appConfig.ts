@@ -5,6 +5,7 @@ import { AppConfig } from 'models/appConfig';
 const initialState: AppConfig = {
   openSideBar: false,
   sideBarWidth: 0,
+  isInMezon: false,
 };
 
 export const appConfigState = atom({
