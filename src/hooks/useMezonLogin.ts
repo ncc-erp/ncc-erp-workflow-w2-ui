@@ -1,27 +1,29 @@
-import { useEffect, useState } from 'react';
 import { useLoginMezonByHash } from 'api/apiHooks/userHooks';
 import { toast } from 'common/components/StandaloneToast';
+import { MaxFailedAccessAttempts } from 'common/constants';
 import { LocalStorageKeys } from 'common/enums';
-import { getItem, setItem } from 'utils/localStorage';
 import {
   MezonUserHash,
   MezonUserHashInfo,
   MezonUserProfile,
 } from 'models/user';
-import { appConfigState } from 'stores/appConfig';
-import { MaxFailedAccessAttempts } from 'common/constants';
-import { useSetRecoilState } from 'recoil';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
+import { getItem, setItem } from 'utils/localStorage';
 
 const { VITE_MEZON_APP_ID } = import.meta.env;
 
 export const useMezonLogin = () => {
+  const navigate = useNavigate();
+
   const redirectURL = getItem(LocalStorageKeys.prevURL) || '/';
+  const accessToken: string | null = getItem(LocalStorageKeys.accessToken);
+
   const [mezonUserProfile, setMezonUserProfile] =
     useState<MezonUserProfile | null>(null);
   const [userHashInfo, setUserHashInfo] = useState<MezonUserHashInfo>({
     web_app_data: '',
   });
-  const setAppConfig = useSetRecoilState(appConfigState);
 
   const {
     mutateAsync: loginMezonByHashMutate,
@@ -31,14 +33,18 @@ export const useMezonLogin = () => {
   const [loginMezonFailed, setLoginMezonFailed] = useState(false);
 
   useEffect(() => {
+    if (!accessToken) {
+      return;
+    }
+    navigate(redirectURL);
+  }, [accessToken, redirectURL, navigate]);
+
+  useEffect(() => {
     if (window.Mezon && window.Mezon.WebView) {
       window.Mezon.WebView.postEvent('PING', { message: 'PING' }, () => {});
 
       const handlePong = () => {
-        setAppConfig((prev) => ({
-          ...prev,
-          isInMezon: true,
-        }));
+        setItem(LocalStorageKeys.isInMezon, 'true');
       };
       /* eslint-disable  @typescript-eslint/no-explicit-any */
       const handleUserHash = async (_: any, userHashData: MezonUserHash) => {
@@ -67,7 +73,7 @@ export const useMezonLogin = () => {
         window.Mezon.WebView?.offEvent('CURRENT_USER_INFO', handleUserInfo);
       };
     }
-  }, [setAppConfig, setUserHashInfo, setMezonUserProfile]);
+  }, [setUserHashInfo, setMezonUserProfile]);
 
   useEffect(() => {
     if (!userHashInfo?.web_app_data || !mezonUserProfile?.user) {
@@ -86,7 +92,6 @@ export const useMezonLogin = () => {
 
         if (token) {
           setItem(LocalStorageKeys.accessToken, token);
-          setItem(LocalStorageKeys.isInMezon, 'true');
           setItem(LocalStorageKeys.prevURL, '');
           window.location.href = redirectURL;
           return;
@@ -111,13 +116,7 @@ export const useMezonLogin = () => {
     };
 
     loginMezonByHash();
-  }, [
-    userHashInfo,
-    mezonUserProfile,
-    loginMezonByHashMutate,
-    redirectURL,
-    setAppConfig,
-  ]);
+  }, [userHashInfo, mezonUserProfile, loginMezonByHashMutate, redirectURL]);
 
   return { isLoginMezonLoading, loginMezonFailed };
 };
