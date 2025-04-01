@@ -5,6 +5,7 @@ import {
   LoginExternalResult,
   User,
   LoginMezonPayload,
+  LoginMezonByHashParams,
 } from 'models/user';
 import { useCreate, useGetOne } from 'api/apiHooks/index';
 import { QueryKeys } from 'common/constants';
@@ -31,4 +32,10 @@ export const useMezonAuthUrl = () => {
 
 export const useGetUserInfo = () => {
   return useGetOne<User>([QueryKeys.GET_USER_INFO], '/app/auth/current-user');
+};
+
+export const useLoginMezonByHash = () => {
+  return useCreate<LoginMezonByHashParams, LoginResult>(
+    '/app/auth/login-mezon-by-hash'
+  );
 };

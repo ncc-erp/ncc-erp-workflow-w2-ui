@@ -42,9 +42,13 @@ import { CurrentUser } from '../CurrentUser';
 
 interface SideBarContentProps {
   isLargeScreen: boolean;
+  isInMezon: boolean;
 }
 
-export const SideBarContent = ({ isLargeScreen }: SideBarContentProps) => {
+export const SideBarContent = ({
+  isLargeScreen,
+  isInMezon,
+}: SideBarContentProps) => {
   const { colorMode, toggleColorMode } = useColorMode();
   const { renderIfAllowed, hasPermission } = useUserPermissions();
   const NavList = [
@@ -104,19 +108,19 @@ export const SideBarContent = ({ isLargeScreen }: SideBarContentProps) => {
     },
   ];
   // const ReportNavList = [
-    // {
-    //   to: '/report',
-    //   text: 'Report',
-    //   icon: TbReportSearch,
-    //   subMenu: [
-    //     {
-    //       to: '/report/report-wfh',
-    //       text: 'Report WFH',
-    //       icon: TbHomeEdit,
-    //       permission: Permissions.VIEW_WFH_REPORTS,
-    //     },
-    //   ],
-    // },
+  // {
+  //   to: '/report',
+  //   text: 'Report',
+  //   icon: TbReportSearch,
+  //   subMenu: [
+  //     {
+  //       to: '/report/report-wfh',
+  //       text: 'Report WFH',
+  //       icon: TbHomeEdit,
+  //       permission: Permissions.VIEW_WFH_REPORTS,
+  //     },
+  //   ],
+  // },
   // ];
 
   const navigate = useNavigate();
@@ -372,23 +376,25 @@ export const SideBarContent = ({ isLargeScreen }: SideBarContentProps) => {
           flexDirection={'row'}
         >
           <Box>
-            <Button
-              borderRadius={20}
-              onClick={onNavigate('/login', true)}
-              bg="transparent"
-              color={'#E53E3E'}
-              gap={'12px'}
-              padding={'10px 8px'}
-              alignItems={'center'}
-              _hover={{
-                backgroundColor: 'rgba(255, 255, 255, 0.1)',
-              }}
-            >
-              <MdLogout size={20} />
-              <Text fontWeight={500} fontSize={14}>
-                Log out
-              </Text>
-            </Button>
+            {!isInMezon ? (
+              <Button
+                borderRadius={20}
+                onClick={onNavigate('/login', true)}
+                bg="transparent"
+                color={'#E53E3E'}
+                gap={'12px'}
+                padding={'10px 8px'}
+                alignItems={'center'}
+                _hover={{
+                  backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                }}
+              >
+                <MdLogout size={20} />
+                <Text fontWeight={500} fontSize={14}>
+                  Log out
+                </Text>
+              </Button>
+            ) : null}
           </Box>
           <Button
             size="md"

@@ -43,3 +43,44 @@ export interface IUser {
   name: string;
   email: string;
 }
+
+export interface LoginMezonByHashParams {
+  userName: string;
+  userEmail: string;
+  dataCheck: string;
+  hashKey: string;
+}
+
+export interface MezonUser {
+  id: string;
+  username: string;
+  display_name: string;
+  avatar_url: string;
+  lang_tag: string;
+  metadata: string;
+  google_id: string;
+  online: boolean;
+  edge_count: number;
+  create_time: string;
+  update_time: string;
+  dob: string;
+}
+
+export interface Wallet {
+  value: number;
+}
+
+export interface MezonUserProfile {
+  user: MezonUser;
+  wallet: string;
+  email: string;
+  mezon_id: string;
+}
+
+export interface MezonUserHash {
+  message: MezonUserHashInfo;
+}
+
+export interface MezonUserHashInfo {
+  web_app_data: string;
+}
