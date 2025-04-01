@@ -49,4 +49,5 @@ export enum LocalStorageKeys {
   expireInSeconds = 'expireInSeconds',
   currentUser = 'currentUser',
   prevURL = 'prevURL',
+  isInMezon = 'isInMezon',
 }

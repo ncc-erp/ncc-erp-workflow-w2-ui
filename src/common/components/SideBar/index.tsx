@@ -10,7 +10,7 @@ interface SideNavProps {
 
 export const SideNav = ({ isLargeScreen }: SideNavProps) => {
   const sideBarRef = useRef<HTMLDivElement>(null);
-  const { openSideBar } = useRecoilValue(appConfigState);
+  const { openSideBar, isInMezon } = useRecoilValue(appConfigState);
   const { setSideBarWidth } = useSetAppConfig();
   const { onCloseSideBar } = useSetAppConfig();
   useEffect(() => {
@@ -30,7 +30,7 @@ export const SideNav = ({ isLargeScreen }: SideNavProps) => {
         left={0}
       >
         {isLargeScreen ? (
-          <SideBarContent isLargeScreen={isLargeScreen} />
+          <SideBarContent isLargeScreen={isLargeScreen} isInMezon={isInMezon} />
         ) : (
           <></>
         )}
@@ -43,7 +43,7 @@ export const SideNav = ({ isLargeScreen }: SideNavProps) => {
       >
         <DrawerOverlay />
         <DrawerContent w="280px" position="relative">
-          <SideBarContent isLargeScreen={isLargeScreen} />
+          <SideBarContent isLargeScreen={isLargeScreen} isInMezon={isInMezon} />
           {/* <IconButton
             aria-label=""
             position="absolute"
