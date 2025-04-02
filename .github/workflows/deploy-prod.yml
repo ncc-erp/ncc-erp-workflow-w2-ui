@@ -34,6 +34,7 @@ jobs:
           VITE_AUTHORITY_URL: ${{secrets.VITE_AUTHORITY_URL_PROD}}
           VITE_API_BASE_URL: ${{secrets.VITE_API_BASE_URL_PROD}}
           VITE_API_ANT_URL: ${{secrets.VITE_API_ANT_URL_PROD}}
+          VITE_MEZON_APP_ID: ${{secrets.VITE_MEZON_APP_ID_PROD}}
           VITE_CLIENT_VERSION: ${{github.event.inputs.client_version}}
 
       - name: Compress build file
