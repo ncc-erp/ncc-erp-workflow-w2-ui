@@ -69,7 +69,8 @@ jobs:
 
       - name: Extract file to server
         run: |
-          mkdir -p /apps/ncc-erp-w2/workflow-w2-ui
-          rm -rf /apps/ncc-erp-w2/workflow-w2-ui/*
-          unzip fe.zip -d /apps/ncc-erp-w2/workflow-w2-ui
+          mkdir -p ~/apps/ncc-erp-w2/workflow-w2-ui
+          rm -rf ~/apps/ncc-erp-w2/workflow-w2-ui/*
+          unzip fe.zip -d ~/apps/ncc-erp-w2/workflow-w2-ui
           rm -rf fe.zip
+
