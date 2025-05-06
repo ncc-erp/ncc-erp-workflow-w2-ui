@@ -58,7 +58,7 @@ jobs:
           retention-days: 1
 
   deploy:
-    runs-on: w2-fe-dev
+    runs-on: w2-fe-new
     needs:
       - build
     steps:
