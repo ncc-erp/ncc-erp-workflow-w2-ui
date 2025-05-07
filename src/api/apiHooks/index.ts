@@ -212,3 +212,16 @@ export const useDeleteUserOnRole = (baseURL: string) => {
 
   return useMutation(mutate);
 };
+
+export const useUpdateWebhooks = (url: string) => {
+  const axios = useAxios();
+
+  const mutate = async (params: {
+    id: string;
+    data?: Record<string, string | string[]>;
+  }) => {
+    const { id, data } = params;
+    return await axios.put(`${url}/${id}`, data);
+  };
+  return useMutation(mutate);
+}
