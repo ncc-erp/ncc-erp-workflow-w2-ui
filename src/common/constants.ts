@@ -115,6 +115,7 @@ export const QueryKeys = {
   GET_USER_PERMISSIONS: 'getUserPermissions',
   GET_USER_INFO: 'getUserInfo',
   GET_MEZON_AUTH_URL: 'getMezonAuthUrl',
+  GET_WEBHOOKS: 'getWebhooks',
 };
 
 export const ColorThemeMode = {
@@ -216,6 +217,18 @@ export const Permissions = {
   CREATE_PERMISSION: 'Permissions.Create',
   UPDATE_PERMISSION: 'Permissions.Update',
   DELETE_PERMISSION: 'Permissions.Delete',
+
+  WEBHOOKS: 'Webhooks',
+  VIEW_WEBHOOKS: 'Webhooks.View',
+  CREATE_WEBHOOK: 'Webhooks.Create',
+  UPDATE_WEBHOOK: 'Webhooks.Update',
+  DELETE_WEBHOOK: 'Webhooks.Delete',
 };
+
+export const EVENT_OPTIONS = [
+  'Request Created',
+  'Request Finished',
+  'Request Assigned',
+];
 
 export const MaxReleaseContentLine = 8;
