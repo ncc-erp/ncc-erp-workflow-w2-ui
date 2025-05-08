@@ -50,6 +50,13 @@ jest.mock('hooks/useUserPermissions', () => ({
 
 describe('WFH Page', () => {
   const totalCount: number = 1;
+  beforeAll(() => {
+    jest.useFakeTimers().setSystemTime(new Date('2025-03-01T00:00:00.000Z'));
+  });
+
+  afterAll(() => {
+    jest.useRealTimers();
+  });
   test('should match snapshot when rendering', () => {
     const queryClient: QueryClient = new QueryClient();
     const { container } = render(
