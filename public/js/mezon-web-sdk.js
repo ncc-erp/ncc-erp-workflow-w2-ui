@@ -1,3 +1,4 @@
+var Mezon = Mezon || {};
 (() => {
   var e = {
       d: (t, n) => {
@@ -8,10 +9,10 @@
       },
       o: (e, t) => Object.prototype.hasOwnProperty.call(e, t),
       r: (e) => {
-        'undefined' != typeof Symbol &&
-          Symbol.toStringTag &&
-          Object.defineProperty(e, Symbol.toStringTag, { value: 'Module' }),
-          Object.defineProperty(e, '__esModule', { value: !0 });
+        if (typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+          Object.defineProperty(e, Symbol.toStringTag, { value: 'Module' });
+        }
+        Object.defineProperty(e, '__esModule', { value: !0 });
       },
     },
     t = {};
@@ -40,107 +41,119 @@
       })(a || (a = {}));
     const s = new (class {
       constructor() {
-        (this.eventHandlers = {}),
-          (this.locationHash = ''),
-          (this.initParams = {}),
-          (this.isIframe = !1),
-          this.initData(),
-          this.initIframe();
+        this.eventHandlers = {};
+        this.locationHash = '';
+        this.initParams = {};
+        this.isIframe = !1;
+        this.initData();
+        this.initIframe();
       }
       postEvent(e, t, r) {
-        if (
-          (r || (r = function () {}),
-          console.log('[Mezon.WebView] > postEvent', e, t),
-          this.isIframe)
-        )
+        r ||= function () {};
+        console.log('[Mezon.WebView] > postEvent', e, t);
+        if (this.isIframe) {
           try {
             const a = n;
             window.parent.postMessage(
               JSON.stringify({ eventType: e, eventData: t }),
               a
-            ),
-              r();
+            );
+            r();
           } catch (e) {
             r(e);
           }
-        else r({ notAvailable: !0 });
+        } else {
+          r({ notAvailable: !0 });
+        }
       }
       receiveEvent(e, t) {
-        console.log('[Mezon.WebView] < receiveEvent', e, t),
-          this.callEventCallbacks(e, function (n) {
-            n(e, t);
-          });
+        console.log('[Mezon.WebView] < receiveEvent', e, t);
+        this.callEventCallbacks(e, (n) => {
+          n(e, t);
+        });
       }
       onEvent(e, t) {
-        Array.isArray(this.eventHandlers[e]) || (this.eventHandlers[e] = []),
-          -1 === this.eventHandlers[e].indexOf(t) &&
-            this.eventHandlers[e].push(t);
+        if (!Array.isArray(this.eventHandlers[e])) {
+          this.eventHandlers[e] = [];
+        }
+        if (!this.eventHandlers[e].includes(t)) {
+          this.eventHandlers[e].push(t);
+        }
       }
       offEvent(e, t) {
         if (!Array.isArray(this.eventHandlers[e])) return;
         const n = this.eventHandlers[e].indexOf(t);
-        -1 !== n && this.eventHandlers[e].splice(n, 1);
+        if (n !== -1) this.eventHandlers[e].splice(n, 1);
       }
       initData() {
-        (this.locationHash = window.location.hash.toString()),
-          (this.initParams = (function (e) {
-            var t = {};
-            if (!(e = e.replace(/^#/, '')).length) return t;
-            if (e.indexOf('=') < 0 && e.indexOf('?') < 0)
-              return (t._path = i(e)), t;
-            var n = e.indexOf('?');
-            if (n >= 0) {
-              var r = e.substr(0, n);
-              (t._path = i(r)), (e = e.substr(n + 1));
-            }
-            var a = (function (e) {
-              const t = {};
-              if (!e.length) return t;
-              const n = e.split('&');
-              let r, a, s, o;
-              for (r = 0; r < n.length; r++)
-                (a = n[r].split('=')),
-                  (s = i(a[0])),
-                  (o = null == a[1] ? null : i(a[1])),
-                  (t[s] = o);
-              return t;
-            })(e);
-            for (var s in a) t[s] = a[s];
+        this.locationHash = window.location.hash.toString();
+        this.initParams = (function (e) {
+          const t = {};
+          if (!(e = e.replace(/^#/, '')).length) return t;
+          if (e.indexOf('=') < 0 && e.indexOf('?') < 0) {
+            t._path = i(e);
             return t;
-          })(this.locationHash));
+          }
+          const n = e.indexOf('?');
+          if (n >= 0) {
+            const r = e.substr(0, n);
+            t._path = i(r);
+            e = e.substr(n + 1);
+          }
+          const a = (function (e) {
+            const t = {};
+            if (!e.length) return t;
+            const n = e.split('&');
+            for (let r = 0; r < n.length; r++) {
+              const a = n[r].split('=');
+              const s = i(a[0]);
+              const o = a[1] == null ? null : i(a[1]);
+              t[s] = o;
+            }
+            return t;
+          })(e);
+          for (const s in a) t[s] = a[s];
+          return t;
+        })(this.locationHash);
         const e = (function () {
           try {
             const e = window.sessionStorage.getItem('__mezon__initParams');
             return e ? JSON.parse(e) : null;
-          } catch (e) {}
-          return null;
+          } catch (e) {
+            return null;
+          }
         })();
-        if (e)
-          for (var t in e)
-            void 0 === this.initParams[t] && (this.initParams[t] = e[t]);
-        !(function (e, t) {
+        if (e) {
+          for (const t in e) {
+            if (this.initParams[t] === undefined) {
+              this.initParams[t] = e[t];
+            }
+          }
+        }
+        (function (e, t) {
           try {
-            return (
-              window.sessionStorage.setItem(
-                '__mezon__initParams',
-                JSON.stringify(t)
-              ),
-              !0
+            window.sessionStorage.setItem(
+              '__mezon__initParams',
+              JSON.stringify(t)
             );
-          } catch (e) {}
+            return !0;
+          } catch (e) {
+            return !1;
+          }
         })(0, this.initParams);
       }
       initIframe() {
         try {
-          const e = this;
           if (
-            ((this.isIframe = null != window.parent && window != window.parent),
+            ((this.isIframe =
+              window.parent != null && window !== window.parent),
             !this.isIframe)
-          )
+          ) {
             return;
-          this.handleMessage(),
-            (e.iFrameStyle = document.createElement('style')),
-            document.head.appendChild(e.iFrameStyle);
+          }
+          this.handleMessage();
+          this.iFrameStyle = document.createElement('style');
+          document.head.appendChild(this.iFrameStyle);
           try {
             window.parent.postMessage(
               JSON.stringify({
@@ -149,12 +162,15 @@
               }),
               '*'
             );
-          } catch (e) {}
-        } catch (e) {}
+          } catch (e) {
+            /* intentionally empty */
+          }
+        } catch (e) {
+          /* intentionally empty */
+        }
       }
       handleMessage() {
-        const e = this;
-        window.addEventListener('message', function (t) {
+        window.addEventListener('message', (t) => {
           if (t.source !== window.parent) return;
           let i = {};
           try {
@@ -162,12 +178,12 @@
           } catch (e) {
             return;
           }
-          if (i && i.eventType)
+          if (i && i.eventType) {
             switch (i.eventType) {
               case r.SetCustomStyle:
-                t.origin === n &&
-                  'string' == typeof i.eventData &&
-                  (e.iFrameStyle.innerHTML = i.eventData);
+                if (t.origin === n && typeof i.eventData === 'string') {
+                  this.iFrameStyle.innerHTML = i.eventData;
+                }
                 break;
               case r.ReloadIframe:
                 try {
@@ -181,23 +197,28 @@
                 location.reload();
                 break;
               default:
-                e.receiveEvent(i.eventType, i.eventData);
+                this.receiveEvent(i.eventType, i.eventData);
             }
+          }
         });
       }
       callEventCallbacks(e, t) {
         const n = this.eventHandlers[e];
-        if (void 0 !== n && n.length)
-          for (var r = 0; r < n.length; r++)
+        if (n !== undefined && n.length) {
+          for (let r = 0; r < n.length; r++) {
             try {
               t(n[r]);
             } catch (e) {
               console.error(e);
             }
+          }
+        }
       }
     })();
   })();
-  var n = (Mezon = 'undefined' == typeof Mezon ? {} : Mezon);
+  var n = typeof Mezon === 'undefined' ? (Mezon = {}) : Mezon;
   for (var r in t) n[r] = t[r];
-  t.__esModule && Object.defineProperty(n, '__esModule', { value: !0 });
+  if (t.__esModule) {
+    Object.defineProperty(n, '__esModule', { value: !0 });
+  }
 })();
