@@ -1,10 +1,11 @@
 import { ListResult } from "./report";
 
 export interface Webhook {
-    eventName: string;
+    webhookName: string;
+    eventNames: string[];
     url: string;
     id?: string;
-    IsActive: boolean;
+    IsActive?: boolean;
     CreationTime?: string;
 }
 

@@ -225,4 +225,10 @@ export const Permissions = {
   DELETE_WEBHOOK: 'Webhooks.Delete',
 };
 
+export const EVENT_OPTIONS = [
+  'Request Created',
+  'Request Finished',
+  'Request Assigned',
+];
+
 export const MaxReleaseContentLine = 8;

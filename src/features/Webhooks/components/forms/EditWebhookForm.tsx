@@ -5,68 +5,101 @@ import {
   ModalBody,
   ModalFooter,
   Textarea,
-  Select,
   FormErrorMessage,
+  Input,
+  Checkbox,
+  Stack,
 } from '@chakra-ui/react';
 import { useState } from 'react';
 import { Webhook } from 'models/webhook';
+import { EVENT_OPTIONS } from 'common/constants';
 
 interface EditWebhookModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: (webhookUrl: string, eventName: string) => void;
-  eventName: string;
+  onSubmit: (webhookUrl: string, webhookName: string, events: string[]) => void;
+  webhookName: string;
   url: string;
   webhook?: Webhook;
+  eventNames?: string[];
 }
 
 const EditWebhookForm: React.FC<EditWebhookModalProps> = ({
   onClose,
   onSubmit,
-  eventName,
+  webhookName,
   url,
+  eventNames = [],
 }) => {
-  const [event, setEvent] = useState(eventName);
+  const [name, setName] = useState(webhookName);
   const [webhookUrl, setWebhookUrl] = useState(url);
+  const [selectedEvents, setSelectedEvents] = useState<string[]>(
+    eventNames || []
+  );
   const [errors, setErrors] = useState<{
     webhookUrl: string | null;
-    eventName: string | null;
+    webhookName: string | null;
+    eventNames: string | null;
   }>({
     webhookUrl: null,
-    eventName: null,
+    webhookName: null,
+    eventNames: null,
   });
+
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    setSelectedEvents((prev) =>
+      prev.includes(value) ? prev.filter((v) => v !== value) : [...prev, value]
+    );
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const newErrors = {
       webhookUrl: webhookUrl.trim() ? null : 'Webhook URL is required',
-      eventName: event.trim() ? null : 'Event Name is required',
+      webhookName: name.trim() ? null : 'Webhook Name is required',
+      eventNames:
+        selectedEvents.length > 0 ? null : 'Select at least one event',
     };
     setErrors(newErrors);
-    if (newErrors.webhookUrl || newErrors.eventName) return;
-    if (webhookUrl && event) {
-      onSubmit(webhookUrl, event);
-      onClose();
-    }
+    if (newErrors.webhookUrl || newErrors.webhookName || newErrors.eventNames)
+      return;
+
+    onSubmit(webhookUrl, name, selectedEvents);
+    onClose();
   };
 
   return (
     <form onSubmit={handleSubmit}>
       <ModalBody>
-        <FormControl mb={4} isInvalid={!!errors.eventName}>
-          <FormLabel htmlFor="eventName">Event Name</FormLabel>
-          <Select
-            id="eventName"
-            value={event}
-            onChange={(e) => setEvent(e.target.value)}
-            placeholder="Select an event"
-          >
-            <option value="Request Created">Request Created</option>
-            <option value="Request Finished">Request Finished</option>
-            <option value="Request Assigned">Request Assigned</option>
-          </Select>
-          <FormErrorMessage>{errors.eventName}</FormErrorMessage>
+        <FormControl mb={4} isInvalid={!!errors.webhookName}>
+          <FormLabel htmlFor="webhookName">Webhook Name</FormLabel>
+          <Input
+            id="webhookName"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Webhook Name"
+          />
+          <FormErrorMessage>{errors.webhookName}</FormErrorMessage>
         </FormControl>
+
+        <FormControl mb={4} isInvalid={!!errors.eventNames}>
+          <FormLabel>Event Name</FormLabel>
+          <Stack spacing={2}>
+            {EVENT_OPTIONS.map((event) => (
+              <Checkbox
+                key={event}
+                value={event}
+                isChecked={selectedEvents.includes(event)}
+                onChange={handleCheckboxChange}
+              >
+                {event}
+              </Checkbox>
+            ))}
+          </Stack>
+          <FormErrorMessage>{errors.eventNames}</FormErrorMessage>
+        </FormControl>
+
         <FormControl isInvalid={!!errors.webhookUrl}>
           <FormLabel htmlFor="webhookUrl">Webhook URL</FormLabel>
           <Textarea

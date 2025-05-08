@@ -46,23 +46,27 @@ export const WebhooksBoard = () => {
     null
   );
   const [webhookUrl, setWebhookUrl] = useState<string>('');
-  const [webhookEventName, setWebhookEventName] = useState<string>('');
+  const [webhookName, setWebhookName] = useState<string>('');
+  const [eventNames, setEventNames] = useState<string[]>([]);
+  const maxUrlLength = 70;
 
   const myColumns: ColumnDef<Webhook>[] = useMemo(() => {
     return [
       {
-        accessorKey: 'eventName',
-        header: 'Event Name',
-        cell: (info) => info.row.original.eventName,
+        accessorKey: 'WebhookName',
+        header: () => <Box mr={6}>Webhook Name</Box>,
+        cell: (info) => <Box mr={6}>{info.row.original.webhookName}</Box>,
         enableSorting: false,
       },
       {
         accessorKey: 'url',
-        header: 'Webhook URL',
+        header: () => <Box px={6}>Webhook URL</Box>,
         cell: (info) => {
           const fullUrl = info.row.original.url;
           const truncatedUrl =
-            fullUrl.length > 90 ? `${fullUrl.slice(0, 90)}...` : fullUrl;
+            fullUrl.length > maxUrlLength
+              ? `${fullUrl.slice(0, maxUrlLength)}...`
+              : fullUrl;
 
           return (
             <Box
@@ -70,6 +74,7 @@ export const WebhooksBoard = () => {
               whiteSpace="nowrap"
               overflow="hidden"
               textOverflow="ellipsis"
+              px={6}
             >
               {truncatedUrl}
             </Box>
@@ -111,14 +116,17 @@ export const WebhooksBoard = () => {
   const onOpenCreateModal = () => {
     setSelectedWebhookId(null);
     setWebhookUrl('');
-    setWebhookEventName('');
+    setWebhookName('');
+    setEventNames([]);
     setIsModalOpen(true);
   };
 
   const handleEdit = (webhook: Webhook) => {
+    console.log('Editing webhook:', webhook);
     setSelectedWebhookId(webhook.id ?? null);
     setWebhookUrl(webhook.url);
-    setWebhookEventName(webhook.eventName);
+    setWebhookName(webhook.webhookName);
+    setEventNames(webhook.eventNames);
     setIsModalOpen(true);
   };
 
@@ -126,7 +134,8 @@ export const WebhooksBoard = () => {
     setIsModalOpen(false);
     setSelectedWebhookId(null);
     setWebhookUrl('');
-    setWebhookEventName('');
+    setWebhookName('');
+    setEventNames([]);
   };
 
   const handleDelete = (webhookId: string) => {
@@ -149,12 +158,16 @@ export const WebhooksBoard = () => {
     });
   };
 
-  const handleSubmit = async (url: string, eventName: string) => {
+  const handleSubmit = async (
+    url: string,
+    webhookName: string,
+    eventNames: string[]
+  ) => {
     if (selectedWebhookId) {
       updateWebhook(
         {
           id: selectedWebhookId,
-          data: { url, eventName },
+          data: { url, webhookName, eventNames },
         },
         {
           onSuccess: () => {
@@ -174,8 +187,8 @@ export const WebhooksBoard = () => {
       createWebhook(
         {
           url,
-          eventName,
-          IsActive: true,
+          webhookName,
+          eventNames,
         },
         {
           onSuccess: () => {
@@ -255,8 +268,9 @@ export const WebhooksBoard = () => {
                     isOpen={isModalOpen}
                     onClose={onCloseModal}
                     onSubmit={handleSubmit}
-                    eventName={webhookEventName}
+                    webhookName={webhookName}
                     url={webhookUrl}
+                    eventNames={eventNames}
                   />
                 </ModalBody>
               </ModalContent>
