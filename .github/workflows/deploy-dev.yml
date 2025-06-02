@@ -3,14 +3,14 @@ name: Deploy UI to server dev
 on:
   push:
     branches:
-      - develop
+      - feature/test-ci-cd
 
   workflow_dispatch:
     inputs:
       branch:
         description: 'Branch to deploy'
         required: true
-        default: 'develop'
+        default: 'feature/test-ci-cd'
       client_version:
         description: 'Client version'
         required: false

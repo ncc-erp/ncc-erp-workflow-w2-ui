@@ -156,7 +156,7 @@ export const SideBarContent = ({
           >
             <Image h="40px" src={Logo} />
             <Heading color={'#ffffff'} fontWeight={'500px'} fontSize="18px">
-              NCC Workflow
+              NCC Workflow_
             </Heading>
           </HStack>
         ) : (
