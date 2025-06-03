@@ -564,7 +564,7 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
                                       alignItems={'flex-start'}
                                       w={'100%'}
                                     >
-                                      <Box flex={1} maxWidth="50%">
+                                      <Box flex={1} maxWidth="80%">
                                         <TextToolTip
                                           data-testid="board-item-title"
                                           maxLines={1}
@@ -576,7 +576,7 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
                                         />
                                       </Box>
 
-                                      <Box>
+                                      <Box flexShrink={0}>
                                         <Text textAlign="end">
                                           ({getDayAgo(item?.creationTime)})
                                         </Text>
