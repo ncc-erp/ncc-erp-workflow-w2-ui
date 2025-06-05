@@ -288,6 +288,17 @@ const UserForm = ({
                 onBlur={formik.handleBlur}
                 value={formik.values.phoneNumber}
               />
+              <TextField
+                h="10"
+                label="Mezon User ID"
+                placeholder="Mezon User ID"
+                fontSize={15}
+                error={formik.errors.mezonUserId}
+                name="mezonUserId"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.mezonUserId}
+              />
               <Stack mt={5} mb={5} direction="column">
                 <Checkbox
                   size="md"

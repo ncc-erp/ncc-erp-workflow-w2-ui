@@ -149,6 +149,14 @@ export const UserManagementTable = () => {
             return UserRoleLabelMapping.UNASSIGNED;
           },
         }),
+        columnHelper.accessor('mezonUserId', {
+          id: 'mezonUserId',
+          header: 'Mezon User ID',
+          enableSorting: true,
+          cell: (info) => {
+            return info.getValue() || 'N/A';
+          },
+        }),
         hasPermission(Permissions.UPDATE_USER) &&
           columnHelper.display({
             id: 'actions',
