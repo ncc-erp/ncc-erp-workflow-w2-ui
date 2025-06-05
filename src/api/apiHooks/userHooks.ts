@@ -41,5 +41,5 @@ export const useLoginMezonByHash = () => {
 };
 
 export const useSyncUsers = () => {
-  return useCreate<null, string>(`/app/external-resource/sync-hrm-users`);
+  return useCreate<null, string>(`/app/users/sync-hrm`);
 };
