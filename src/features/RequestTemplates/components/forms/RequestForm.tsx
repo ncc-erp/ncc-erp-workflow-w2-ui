@@ -9,6 +9,7 @@ import {
 import {
   useNewRequestWorkflow,
   useOffices,
+  useUploadFile,
   useUserCurrentProject,
   useUserInfoWithBranch,
   useUserList,
@@ -78,6 +79,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
     criteriaMode: 'all',
   });
   const { mutateAsync: createMutate } = useNewRequestWorkflow();
+  const { mutateAsync: uploadMutate } = useUploadFile();
   const shortHeader: string = useMemo(() => {
     return (
       inputDefinition?.propertyDefinitions.find((item) => item.isTitle == true)
@@ -506,6 +508,45 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
             />
           </FormControl>
         );
+
+      case 'File':
+        formParams[fieldname] = formParams[fieldname] ?? '';
+        return (
+          <FormControl key={Field?.name}>
+            <FormLabel fontSize={16} my={1} fontWeight="normal">
+              {convertToCase(fieldname)}
+              {Field?.isRequired ? (
+                <FormHelperText my={1} style={{ color: 'red' }} as="span">
+                  {' '}
+                  *
+                </FormHelperText>
+              ) : (
+                ''
+              )}
+            </FormLabel>
+            <input
+              type="file"
+              multiple
+              style={{
+                border: '1px solid #E2E8F0',
+                borderRadius: '0.375rem',
+                padding: '0.5rem',
+                width: '100%',
+              }}
+              {...register(fieldname, {
+                required: Field?.isRequired
+                  ? `${fieldname} is Required`
+                  : false,
+                onChange: (e) => handleChangeFile(e, fieldname),
+              })}
+            />
+            <ErrorMessage
+              errors={errors}
+              name={fieldname}
+              render={({ message }) => <ErrorDisplay message={message} />}
+            />
+          </FormControl>
+        );
     }
   };
 
@@ -513,6 +554,25 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
     return Fields?.map(function (Field: PropertyDefinition) {
       return getField(Field);
     });
+  };
+
+  const handleChangeFile = async (
+    event: ChangeEvent<HTMLInputElement>,
+    variable: string
+  ) => {
+    const files = event.target.files;
+    if (!files || files.length === 0) {
+      console.error('No file selected');
+      return;
+    }
+    const formData = new FormData();
+    for (const file of files) {
+      formData.append('files', file);
+    }
+    const response = await uploadMutate(formData);
+    const updatedFormParams = { ...formParams };
+    updatedFormParams[variable] = response.urls;
+    setFormParams(updatedFormParams);
   };
 
   return (
