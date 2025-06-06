@@ -59,4 +59,6 @@ export default {
   },
   coverageReporters: ['html', ['text', { file: 'coverage.txt' }]],
   coverageDirectory: '<rootDir>/src/tests/coverage',
+  coveragePathIgnorePatterns: ['src/features/report/'],
+  modulePathIgnorePatterns: ['<rootDir>/src/features/report/'],
 };
