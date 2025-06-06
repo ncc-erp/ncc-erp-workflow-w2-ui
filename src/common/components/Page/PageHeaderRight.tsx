@@ -1,17 +1,18 @@
 import { Flex, StackItem } from '@chakra-ui/react';
 import { CurrentUser } from '../CurrentUser';
 import { useMediaQuery } from 'hooks/useMediaQuery';
-import { useIsAdmin } from 'hooks/useIsAdmin';
 import SyncButton from '../SyncButton';
+import { Permissions } from 'common/constants';
+import { useUserPermissions } from 'hooks/useUserPermissions';
 
 export const PageHeaderRight = () => {
   const isLargeScreen = useMediaQuery('(min-width: 1024px)');
-  const isAdmin = useIsAdmin();
+  const { hasPermission } = useUserPermissions();
 
   return (
     <StackItem justifySelf="flex-end">
       <Flex alignItems="center">
-        {isAdmin && <SyncButton />}
+        {hasPermission(Permissions.UPDATE_USER) && <SyncButton />}
         {isLargeScreen && <CurrentUser isMobile={false} />}
       </Flex>
     </StackItem>
