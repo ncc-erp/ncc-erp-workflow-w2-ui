@@ -21,6 +21,7 @@ export interface UserIdentity {
   id: string;
   extraProperties: object;
   roles: string[];
+  mezonUserId?: string;
 }
 
 export interface ModalUserParams {
@@ -33,6 +34,7 @@ export interface ModalUserParams {
   roleNames: string[] | string;
   password?: string;
   customPermissionCodes?: string[];
+  mezonUserId?: string;
 }
 export interface FilterUserParams {
   filter: string;
