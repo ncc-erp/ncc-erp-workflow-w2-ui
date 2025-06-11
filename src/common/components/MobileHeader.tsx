@@ -10,6 +10,7 @@ import { HiMenuAlt2 } from 'react-icons/hi';
 import Logo from 'assets/images/ncc_logo.png';
 import { useSetAppConfig } from 'stores/appConfig';
 import theme from 'themes/theme';
+import SyncButton from './SyncButton';
 
 export const MobileHeader = () => {
   const { onOpenSideBar } = useSetAppConfig();
@@ -49,6 +50,7 @@ export const MobileHeader = () => {
         <Image h="24px" src={Logo} />
         <Heading fontSize="18px">NCC Workflow</Heading>
       </Box>
+      <SyncButton />
     </Box>
   );
 };
