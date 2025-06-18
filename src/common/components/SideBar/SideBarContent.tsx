@@ -27,8 +27,10 @@ import {
   TbAppsFilled,
   TbArticleFilledFilled,
   TbBrandMastercard,
+  TbHomeEdit,
   // TbHomeEdit,
   TbLayoutBoard,
+  TbReportSearch,
   // TbReportSearch,
   TbSettingsBolt,
   TbShieldLock,
@@ -107,21 +109,21 @@ export const SideBarContent = ({
       ],
     },
   ];
-  // const ReportNavList = [
-  // {
-  //   to: '/report',
-  //   text: 'Report',
-  //   icon: TbReportSearch,
-  //   subMenu: [
-  //     {
-  //       to: '/report/report-wfh',
-  //       text: 'Report WFH',
-  //       icon: TbHomeEdit,
-  //       permission: Permissions.VIEW_WFH_REPORTS,
-  //     },
-  //   ],
-  // },
-  // ];
+  const ReportNavList = [
+  {
+    to: '/report',
+    text: 'Report',
+    icon: TbReportSearch,
+    subMenu: [
+      {
+        to: '/report/report-wfh',
+        text: 'Report WFH',
+        icon: TbHomeEdit,
+        permission: Permissions.VIEW_WFH_REPORTS,
+      },
+    ],
+  },
+  ];
 
   const navigate = useNavigate();
   const { onCloseSideBar } = useSetAppConfig();
@@ -253,7 +255,7 @@ export const SideBarContent = ({
           })}
         </>
         <>
-          {/* {ReportNavList.map((reportNav) => {
+          {ReportNavList.map((reportNav) => {
             const hasReportPermission = [Permissions.WFH_REPORTS].some(
               hasPermission
             );
@@ -266,12 +268,22 @@ export const SideBarContent = ({
               >
                 <AccordionItem>
                   <AccordionButton
-                    borderRadius="0.375rem"
+                      borderRadius={'0.375rem'}
                     p={0}
+                    pr="8px"
+                    border="1px transparent solid"
                     _hover={{
-                      backgroundColor: 'gray.200',
-                      color: 'gray.700',
+                      backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                      color: 'stone.100',
+                      borderColor: 'stoneAlpha.200/20',
                     }}
+                    _activeLink={{
+                      backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                      color: 'stone.100',
+                      borderColor: 'stoneAlpha.200/20',
+                    }}
+                    color="stone.500"
+                    height="40px"
                   >
                     <Link
                       px="8px"
@@ -286,7 +298,6 @@ export const SideBarContent = ({
                       textDecoration="none !important"
                     >
                       <Icon
-                        textColor="gray.500"
                         fontSize="xl"
                         as={reportNav.icon}
                       />
@@ -307,7 +318,7 @@ export const SideBarContent = ({
                 </AccordionItem>
               </Accordion>
             ) : null;
-          })} */}
+          })}
         </>
       </VStack>
 
