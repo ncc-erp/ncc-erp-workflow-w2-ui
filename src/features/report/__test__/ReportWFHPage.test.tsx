@@ -8,6 +8,11 @@ import { Permissions } from 'common/constants';
 
 jest.mock('../../../api/apiHooks/index', () => ({
   useAxios: jest.fn(),
+  useCreate: jest.fn(() => ({
+    mutateAsync: jest.fn(),
+    isLoading: false,
+    isError: false,
+  })),
 }));
 
 jest.mock('../../../api/axiosInstant', () => ({
@@ -86,7 +91,7 @@ describe('WFH Page', () => {
 
     it('should display the correct number of buttons on the screen', async () => {
       const buttonList = await screen.findAllByRole('button');
-      expect(buttonList).toHaveLength(totalCount + 2);
+      expect(buttonList).toHaveLength(totalCount + 3);
     });
 
     it('should handle selecting rows per page', async () => {
