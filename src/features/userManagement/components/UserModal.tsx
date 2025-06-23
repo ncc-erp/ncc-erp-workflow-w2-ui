@@ -39,6 +39,7 @@ export const UserModal = ({
       isActive: user?.isActive,
       lockoutEnabled: user?.lockoutEnabled,
       roleNames: itemsArray[0]?.map((role: Role) => role.name),
+      mezonUserId: user?.mezonUserId || '',
     };
     UserComponent = {
       [UserAction.EDIT]: (

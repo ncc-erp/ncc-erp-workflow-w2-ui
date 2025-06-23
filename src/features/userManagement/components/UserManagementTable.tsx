@@ -30,7 +30,7 @@ import { RowAction } from './RowAction';
 import { UserModal } from './UserModal';
 import useDebounced from 'hooks/useDebounced';
 import { TbSearch } from 'react-icons/tb';
-import { convertToCase } from 'utils';
+import { convertToCase, formatDate } from 'utils';
 import { SelectField } from 'common/components/SelectField';
 import { AiOutlineReload } from 'react-icons/ai';
 import { UserRoleLabelMapping } from '../../../common/constants';
@@ -148,6 +148,26 @@ export const UserManagementTable = () => {
             }
             return UserRoleLabelMapping.UNASSIGNED;
           },
+        }),
+        columnHelper.accessor('mezonUserId', {
+          id: 'mezonUserId',
+          header: 'Mezon User ID',
+          enableSorting: true,
+          cell: (info) => {
+            return info.getValue() || 'N/A';
+          },
+        }),
+        columnHelper.accessor('creationTime', {
+          id: 'creationTime',
+          header: 'Create time',
+          enableSorting: true,
+          cell: (info) => formatDate(info.getValue()),
+        }),
+        columnHelper.accessor('lastModificationTime', {
+          id: 'lastModificationTime',
+          header: 'Update time',
+          enableSorting: true,
+          cell: (info) => formatDate(info.getValue()),
         }),
         hasPermission(Permissions.UPDATE_USER) &&
           columnHelper.display({

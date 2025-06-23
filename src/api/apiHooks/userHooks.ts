@@ -39,3 +39,7 @@ export const useLoginMezonByHash = () => {
     '/app/auth/login-mezon-by-hash'
   );
 };
+
+export const useSyncUsers = () => {
+  return useCreate<null, string>(`/app/users/sync-hrm`);
+};

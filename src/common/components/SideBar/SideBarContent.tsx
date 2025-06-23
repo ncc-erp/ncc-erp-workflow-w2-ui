@@ -27,9 +27,9 @@ import {
   TbAppsFilled,
   TbArticleFilledFilled,
   TbBrandMastercard,
-  // TbHomeEdit,
+  TbHomeEdit,
   TbLayoutBoard,
-  // TbReportSearch,
+  TbReportSearch,
   TbSettingsBolt,
   TbShieldLock,
   TbUserCog,
@@ -52,6 +52,93 @@ export const SideBarContent = ({
 }: SideBarContentProps) => {
   const { colorMode, toggleColorMode } = useColorMode();
   const { renderIfAllowed, hasPermission } = useUserPermissions();
+  
+  const styles = {
+    commonHoverEffect: {
+      backgroundColor: 'rgba(255, 255, 255, 0.1)',
+      borderColor: 'stoneAlpha.200/20',
+    },
+    
+    accordionButton: {
+      borderRadius: '0.375rem',
+      p: 0,
+      pr: '8px',
+      border: '1px transparent solid',
+      _hover: {
+        backgroundColor: 'rgba(255, 255, 255, 0.1)',
+        borderColor: 'stoneAlpha.200/20',
+        color: 'stone.100',
+      },
+      _activeLink: {
+        backgroundColor: 'rgba(255, 255, 255, 0.1)',
+        borderColor: 'stoneAlpha.200/20',
+        color: 'stone.100',
+      },
+      color: 'stone.500',
+      height: '40px',
+    },
+
+    accordionContainer: {
+      allowToggle: true,
+      borderColor: 'transparent',
+      w: '100%',
+    },
+
+    accordionLinkBase: {
+      px: '8px',
+      w: 'full',
+      display: 'flex',
+      alignItems: 'center',
+      gap: '12px',
+      fontSize: 'sm',
+      rounded: 'md',
+      textDecoration: 'none !important',
+    },
+
+    adminLink: {
+      px: '8px',
+      py: '10px',
+      w: 'full',
+      fontWeight: '500',
+      display: 'flex',
+      alignItems: 'center',
+      gap: '12px',
+      fontSize: 'sm',
+      rounded: 'md',
+      textDecoration: 'none !important',
+      lineHeight: '1.2',
+    },
+
+    reportLink: {
+      px: '8px',
+      py: '6px',
+      w: 'full',
+      fontWeight: '600',
+      display: 'flex',
+      alignItems: 'center',
+      gap: '12px',
+      fontSize: 'sm',
+      rounded: 'md',
+      textDecoration: 'none !important',
+    },
+
+    footerButton: {
+      color: 'white',
+      bg: 'transparent',
+      border: '1px solid transparent',
+      _hover: {
+        backgroundColor: 'rgba(255, 255, 255, 0.1)',
+        borderColor: 'stoneAlpha.200/20',
+      },
+      justifyContent: 'flex-start',
+      gap: '12px',
+      alignItems: 'center',
+      fontSize: '14px',
+      fontWeight: 500,
+      padding: '10px 8px',
+    },
+  };
+
   const NavList = [
     {
       to: '/request-templates',
@@ -114,21 +201,21 @@ export const SideBarContent = ({
       ],
     },
   ];
-  // const ReportNavList = [
-  // {
-  //   to: '/report',
-  //   text: 'Report',
-  //   icon: TbReportSearch,
-  //   subMenu: [
-  //     {
-  //       to: '/report/report-wfh',
-  //       text: 'Report WFH',
-  //       icon: TbHomeEdit,
-  //       permission: Permissions.VIEW_WFH_REPORTS,
-  //     },
-  //   ],
-  // },
-  // ];
+  const ReportNavList = [
+  {
+    to: '/report',
+    text: 'Report',
+    icon: TbReportSearch,
+    subMenu: [
+      {
+        to: '/report/report-wfh',
+        text: 'Report WFH',
+        icon: TbHomeEdit,
+        permission: Permissions.VIEW_WFH_REPORTS,
+      },
+    ],
+  },
+  ];
 
   const navigate = useNavigate();
   const { onCloseSideBar } = useSetAppConfig();
@@ -203,42 +290,15 @@ export const SideBarContent = ({
             ].some(hasPermission);
             return hasAdminPermission ? (
               <Accordion
-                allowToggle
-                borderColor={'transparent'}
-                w={'100%'}
+                {...styles.accordionContainer}
                 key={adminNav.to}
               >
                 <AccordionItem>
                   <AccordionButton
-                    borderRadius={'0.375rem'}
-                    p={0}
-                    pr="8px"
-                    border="1px transparent solid"
-                    _hover={{
-                      backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                      color: 'stone.100',
-                      borderColor: 'stoneAlpha.200/20',
-                    }}
-                    _activeLink={{
-                      backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                      color: 'stone.100',
-                      borderColor: 'stoneAlpha.200/20',
-                    }}
-                    color="stone.500"
-                    height="40px"
+                    {...styles.accordionButton}
                   >
                     <Link
-                      px="8px"
-                      py="10px"
-                      w="full"
-                      fontWeight="500"
-                      display="flex"
-                      alignItems="center"
-                      gap="12px"
-                      fontSize="sm"
-                      rounded="md"
-                      textDecoration="none !important"
-                      lineHeight="1.2"
+                      {...styles.adminLink}
                     >
                       <Icon fontSize="xl" as={adminNav.icon} />
                       {adminNav.text}
@@ -261,40 +321,23 @@ export const SideBarContent = ({
           })}
         </>
         <>
-          {/* {ReportNavList.map((reportNav) => {
+          {ReportNavList.map((reportNav) => {
             const hasReportPermission = [Permissions.WFH_REPORTS].some(
               hasPermission
             );
             return hasReportPermission ? (
               <Accordion
-                allowToggle
-                borderColor="transparent"
-                w="100%"
+                {...styles.accordionContainer}
                 key={reportNav.to}
               >
                 <AccordionItem>
                   <AccordionButton
-                    borderRadius="0.375rem"
-                    p={0}
-                    _hover={{
-                      backgroundColor: 'gray.200',
-                      color: 'gray.700',
-                    }}
+                    {...styles.accordionButton}
                   >
                     <Link
-                      px="8px"
-                      py="6px"
-                      w="full"
-                      fontWeight="600"
-                      display="flex"
-                      alignItems="center"
-                      gap="12px"
-                      fontSize="sm"
-                      rounded="md"
-                      textDecoration="none !important"
+                      {...styles.reportLink}
                     >
                       <Icon
-                        textColor="gray.500"
                         fontSize="xl"
                         as={reportNav.icon}
                       />
@@ -315,7 +358,7 @@ export const SideBarContent = ({
                 </AccordionItem>
               </Accordion>
             ) : null;
-          })} */}
+          })}
         </>
       </VStack>
 
@@ -336,19 +379,7 @@ export const SideBarContent = ({
           <Button
             onClick={onNavigate('/release-content')}
             title="Release note"
-            color="white"
-            bg="transparent"
-            border="1px solid transparent"
-            _hover={{
-              backgroundColor: 'rgba(255, 255, 255, 0.1)',
-              borderColor: 'stoneAlpha.200/20',
-            }}
-            justifyContent={'flex-start'}
-            gap={'12px'}
-            alignItems={'center'}
-            fontSize={'14px'}
-            fontWeight={500}
-            padding={'10px 8px'}
+            {...styles.footerButton}
           >
             <HiDocumentArrowUp size="20px" />
             <Text>Release note</Text>
@@ -358,20 +389,8 @@ export const SideBarContent = ({
             onClick={() => {
               window.open(LinkDocRedirect.USER_GUIDE_DOCS, '_blank');
             }}
-            color="white"
             title="User guide"
-            border="1px solid transparent"
-            _hover={{
-              backgroundColor: 'rgba(255, 255, 255, 0.1)',
-              borderColor: 'stoneAlpha.200/20',
-            }}
-            gap={'12px'}
-            bg="transparent"
-            justifyContent={'flex-start'}
-            alignItems={'center'}
-            fontWeight={500}
-            padding={'10px 8px'}
-            fontSize={'14px'}
+            {...styles.footerButton}
           >
             <FaQuestionCircle size="20px" />
             <Text>User guide</Text>
