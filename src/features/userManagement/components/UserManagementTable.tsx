@@ -71,7 +71,7 @@ export const UserManagementTable = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [modalTitle, setModalTitle] = useState<string>('');
   const [user, setUser] = useState<UserIdentity>();
-  const [txtSearch, setTxtSearch] = useState('');
+  const [txtSearch, setTxtSearch] = useState(filterUser.filter || '');
   const txtSearchDebounced = useDebounced(txtSearch, 500);
   const { hasPermission } = useUserPermissions();
   const { data: rolesData } = useGetAllRoles();
