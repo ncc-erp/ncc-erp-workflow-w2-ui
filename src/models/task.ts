@@ -45,13 +45,14 @@ export interface IOtherActionSignals {
 }
 
 export interface FilterTasks {
-  status?: number | Array<number>;
+  status?: number | string | Array<number>;
   workflowDefinitionId?: string;
   maxResultCount: number;
   skipCount: number;
   emailRequest?: string;
   emailAssign?: string;
   dates?: string;
+  display?: number;
 }
 
 export interface IRequestUser {

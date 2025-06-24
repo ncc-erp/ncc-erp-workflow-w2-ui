@@ -64,11 +64,9 @@ const fadeIn = keyframes`
 export interface BoardsProps {
   filters: FilterTasks;
   openDetailModal: (task: ITask) => () => void;
-  status: number | Array<number>;
 }
 
 const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
-  const [filter, setFilter] = useState<FilterTasks>(filters);
   const [shortTitle, setShortTitle] = useState<string>('');
   const [requestUser, setRequestUser] = useState<string>('');
   const [name, setName] = useState<string>('');
@@ -82,7 +80,7 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
     refetch: refetchPending,
     hasNextPage: hasNextPagePending,
     isFetchingNextPage: isFetchingNextPagePending,
-  } = useGetAllTask({ ...filter }, TaskStatus.Pending);
+  } = useGetAllTask({ ...filters }, TaskStatus.Pending);
 
   const {
     data: listApproved,
@@ -91,7 +89,7 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
     refetch: refetchApproved,
     hasNextPage: hasNextPageApproved,
     isFetchingNextPage: isFetchingNextPageApproved,
-  } = useGetAllTask({ ...filter }, TaskStatus.Approved);
+  } = useGetAllTask({ ...filters }, TaskStatus.Approved);
 
   const {
     data: listRejected,
@@ -100,7 +98,7 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
     refetch: refetchRejected,
     hasNextPage: hasNextPageRejected,
     isFetchingNextPage: isFetchingNextPageRejected,
-  } = useGetAllTask({ ...filter }, TaskStatus.Rejected);
+  } = useGetAllTask({ ...filters }, TaskStatus.Rejected);
 
   const color = useColorModeValue(ColorThemeMode.DARK, ColorThemeMode.LIGHT);
   const bg = useColorModeValue(theme.colors.white, theme.colors.quarty);
@@ -235,10 +233,6 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
       ).items.filter((x) => x.status === TaskStatus.Rejected),
     });
   }, [listApproved, listPending, listRejected]);
-
-  useEffect(() => {
-    setFilter(filters);
-  }, [filters]);
 
   useEffect(() => {
     refetchPending(), refetchApproved(), refetchRejected();
@@ -451,10 +445,10 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
           top={'-48px'}
           icon={<AiOutlineReload />}
           onClick={debounce(async () => {
-            if (!filter.status) return;
+            if (!filters.status) return;
             setIsLoading(true);
             try {
-              switch (+filter?.status) {
+              switch (+filters?.status) {
                 case TaskStatus.Pending:
                   await refetchPending();
                   break;

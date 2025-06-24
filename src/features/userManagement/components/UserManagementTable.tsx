@@ -30,7 +30,7 @@ import { RowAction } from './RowAction';
 import { UserModal } from './UserModal';
 import useDebounced from 'hooks/useDebounced';
 import { TbSearch } from 'react-icons/tb';
-import { convertToCase, formatDate } from 'utils';
+import { convertToCase, formatDate, getSortingState } from 'utils';
 import { SelectField } from 'common/components/SelectField';
 import { AiOutlineReload } from 'react-icons/ai';
 import { UserRoleLabelMapping } from '../../../common/constants';
@@ -39,6 +39,7 @@ import { Permissions } from 'common/constants';
 import { useGetAllRoles } from 'api/apiHooks/roleHook';
 import { PaginationMobile } from 'common/components/PaginationMobile';
 import { useMediaQuery } from 'hooks/useMediaQuery';
+import { useSyncFilterQuery } from 'hooks/useSyncFilterQuery';
 const initialFilter: FilterUserParams = {
   filter: '',
   maxResultCount: +noOfRows[0].value,
@@ -56,8 +57,11 @@ const initialSorting: SortingState = [
 
 export const UserManagementTable = () => {
   const { sideBarWidth } = useRecoilValue(appConfigState);
-  const [filterUser, setFilterUser] = useState<FilterUserParams>(initialFilter);
-  const [sorting, setSorting] = useState<SortingState>(initialSorting);
+  const [filterUser, setFilterUser] =
+    useSyncFilterQuery<FilterUserParams>(initialFilter);
+  const [sorting, setSorting] = useState<SortingState>(() => {
+    return getSortingState(filterUser.sorting, initialSorting);
+  });
   const isLargeScreen = useMediaQuery('(min-width: 1024px)');
   const { data, isLoading, refetch, isRefetching } =
     useUserIdentity(filterUser);
@@ -67,7 +71,7 @@ export const UserManagementTable = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [modalTitle, setModalTitle] = useState<string>('');
   const [user, setUser] = useState<UserIdentity>();
-  const [txtSearch, setTxtSearch] = useState('');
+  const [txtSearch, setTxtSearch] = useState(filterUser.filter || '');
   const txtSearchDebounced = useDebounced(txtSearch, 500);
   const { hasPermission } = useUserPermissions();
   const { data: rolesData } = useGetAllRoles();
@@ -79,7 +83,7 @@ export const UserManagementTable = () => {
         skipCount: 0,
       }));
     },
-    []
+    [setFilterUser]
   );
 
   const userRolesOptions = useMemo(() => {
@@ -200,17 +204,20 @@ export const UserManagementTable = () => {
     setFilterUser((filter) => ({
       ...filter,
       sorting: sort,
-      skipCount: 0,
+      skipCount: sort !== filter.sorting ? 0 : filter.skipCount,
     }));
-  }, [sorting]);
+  }, [setFilterUser, sorting]);
 
   useEffect(() => {
-    setFilterUser((filterUser) => ({
-      ...filterUser,
-      filter: txtSearchDebounced,
-      skipCount: 0,
-    }));
-  }, [txtSearchDebounced]);
+    const paramsFilter = filterUser.filter ? filterUser.filter : '';
+    if (paramsFilter !== txtSearchDebounced) {
+      setFilterUser((filterUser) => ({
+        ...filterUser,
+        filter: txtSearchDebounced,
+        skipCount: 0,
+      }));
+    }
+  }, [setFilterUser, txtSearchDebounced, filterUser.filter]);
 
   const onPageChange = (page: number) => {
     setFilterUser((filter) => ({
@@ -257,6 +264,7 @@ export const UserManagementTable = () => {
           </InputGroup>
           <Box>
             <SelectField
+              value={filterUser.role || ''}
               isDisabled={isLoading || isRefetching}
               size="sm"
               rounded="md"

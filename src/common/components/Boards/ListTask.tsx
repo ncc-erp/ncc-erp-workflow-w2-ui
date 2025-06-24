@@ -32,7 +32,7 @@ import {
 } from 'common/constants';
 import { useCurrentUser } from 'stores/user';
 import { FilterTasks, ITask } from 'models/task';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { AiFillCheckCircle, AiOutlineReload } from 'react-icons/ai';
 import { BsFillFilterCircleFill } from 'react-icons/bs';
 import { MdCancel } from 'react-icons/md';
@@ -51,6 +51,7 @@ import { PaginationMobile } from '../PaginationMobile';
 
 interface Props {
   filters: FilterTasks;
+  setFilter: (filter: FilterTasks) => void;
   openDetailModal: (data: ITask) => () => void;
 }
 
@@ -59,13 +60,14 @@ const initDataForm = {
   taskId: '',
 };
 
-export const ListTask = ({ filters, openDetailModal }: Props) => {
-  const [filter, setFilter] = useState<FilterTasks>(filters);
+export const ListTask = ({ filters, setFilter, openDetailModal }: Props) => {
   const columnHelper = createColumnHelper<ITask>();
   const isLargeScreen = useMediaQuery('(min-width: 1024px)');
 
   const user = useCurrentUser();
-  const { data, refetch, isLoading, isRefetching } = useGetTasks({ ...filter });
+  const { data, refetch, isLoading, isRefetching } = useGetTasks({
+    ...filters,
+  });
   const approveTaskMutation = useApproveTask();
   const rejectTaskMutation = useRejectTask();
   const [reason, setReason] = useState<string>('');
@@ -434,11 +436,11 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
     (page: number) => {
       setFilter({
         ...filters,
-        skipCount: filter.maxResultCount * (page - 1),
-        maxResultCount: filter.maxResultCount,
+        skipCount: filters.maxResultCount * (page - 1),
+        maxResultCount: filters.maxResultCount,
       });
     },
-    [filter.maxResultCount, filters]
+    [filters, setFilter]
   );
 
   const onPageSizeChange = useCallback(
@@ -449,7 +451,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
         skipCount: 0,
       });
     },
-    [filters]
+    [filters, setFilter]
   );
 
   const displayData = useMemo(() => {
@@ -461,16 +463,10 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
     });
   }, [data]);
 
-  useEffect(() => {
-    setFilter({
-      ...filters,
-    });
-  }, [filters]);
-
   const currentPage = useMemo(() => {
-    const { skipCount, maxResultCount } = filter;
+    const { skipCount, maxResultCount } = filters;
     return (maxResultCount + skipCount) / maxResultCount;
-  }, [filter]);
+  }, [filters]);
 
   return (
     <>
@@ -505,7 +501,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
                   isHighlight={true}
                   isLoading={isLoading}
                   isRefetching={isRefetching}
-                  pageSize={filter.maxResultCount}
+                  pageSize={filters.maxResultCount}
                   dataTestId="task-item"
                 />
               </Box>
@@ -523,13 +519,13 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
                 <PageSize
                   noOfRows={noOfRows}
                   onChange={onPageSizeChange}
-                  value={filter.maxResultCount}
+                  value={filters.maxResultCount}
                 />
                 <Spacer w="12px" />
               </HStack>
               <Pagination
                 total={data?.totalCount ?? 0}
-                pageSize={filter.maxResultCount}
+                pageSize={filters.maxResultCount}
                 current={currentPage}
                 onChange={onPageChange}
                 hideOnSinglePage
@@ -545,7 +541,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
             >
               <PaginationMobile
                 total={data?.totalCount ?? 0}
-                pageSize={filter.maxResultCount}
+                pageSize={filters.maxResultCount}
                 current={currentPage}
                 onChange={onPageChange}
                 hideOnSinglePage

@@ -22,7 +22,6 @@ import {
 } from 'common/constants';
 import { FilterTasks } from 'models/task';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { TFilterTask } from 'common/types';
 import { useIsAdmin } from 'hooks/useIsAdmin';
 import { TbSearch } from 'react-icons/tb';
 import useDebounced from 'hooks/useDebounced';
@@ -36,6 +35,7 @@ import { ITask } from 'models/request';
 import { useDynamicDataTask } from 'api/apiHooks/taskHooks';
 import { useMediaQuery } from 'hooks/useMediaQuery';
 import { useUserPermissions } from 'hooks/useUserPermissions';
+import { useSyncFilterQuery } from 'hooks/useSyncFilterQuery';
 
 const initialFilter: FilterTasks = {
   skipCount: 0,
@@ -45,6 +45,7 @@ const initialFilter: FilterTasks = {
   dates: subtractTime('months', 1),
   emailRequest: '',
   emailAssign: '',
+  display: DislayValue.BOARD,
 };
 
 export type IOtherTasks = {
@@ -85,13 +86,13 @@ export const TasksBoard = () => {
   const user = useCurrentUser();
   const isPublish = true;
   const [modalState, setModalState] = useState(initialModalStatus);
-  const [filter, setFilter] = useState<FilterTasks>({
+  const [filter, setFilter] = useSyncFilterQuery<FilterTasks>({
     ...initialFilter,
     emailAssign: user.email,
+    display: DislayValue.BOARD,
   });
-  const [txtSearch, setTxtSearch] = useState<string>('');
-  const [showOnlyMyTask, setShowOnlyMyTask] = useState<boolean>(true);
-  const [display, setDisplay] = useState<number>(0);
+  const [txtSearch, setTxtSearch] = useState<string>(filter.emailRequest ?? '');
+  const showOnlyMyTask = filter.emailAssign === user.email;
   const txtSearchDebounced = useDebounced(txtSearch, 500);
   const isAdmin = useIsAdmin();
   const dynamicDataTaskMutation = useDynamicDataTask();
@@ -148,10 +149,10 @@ export const TasksBoard = () => {
   }, []);
 
   const onTemplateStatusChange = useCallback(
-    (key: TFilterTask, value?: string) => {
-      setFilter((filter) => ({ ...filter, [key]: value }));
+    (key: keyof FilterTasks, value?: string | number) => {
+      setFilter((filter) => ({ ...filter, [key]: value, skipCount: 0 }));
     },
-    []
+    [setFilter]
   );
 
   const openModal = useCallback(
@@ -179,16 +180,11 @@ export const TasksBoard = () => {
   }, [modalState]);
 
   useEffect(() => {
-    onTemplateStatusChange('emailRequest', txtSearchDebounced);
-  }, [onTemplateStatusChange, txtSearchDebounced]);
-
-  useEffect(() => {
-    if (showOnlyMyTask) {
-      onTemplateStatusChange('emailAssign', user.email);
-    } else {
-      onTemplateStatusChange('emailAssign', '');
+    const paramsEmailRequest = filter.emailRequest ? filter.emailRequest : '';
+    if (paramsEmailRequest !== txtSearchDebounced) {
+      onTemplateStatusChange('emailRequest', txtSearchDebounced);
     }
-  }, [showOnlyMyTask, onTemplateStatusChange, user.email]);
+  }, [onTemplateStatusChange, txtSearchDebounced, filter.emailRequest]);
 
   return (
     <Flex flexDirection={'column'} gap={2}>
@@ -253,7 +249,12 @@ export const TasksBoard = () => {
               <Button
                 size="md"
                 colorScheme={showOnlyMyTask ? 'green' : 'gray'}
-                onClick={() => setShowOnlyMyTask(!showOnlyMyTask)}
+                onClick={() =>
+                  onTemplateStatusChange(
+                    'emailAssign',
+                    showOnlyMyTask ? '' : user.email
+                  )
+                }
                 fontSize="sm"
                 fontWeight="medium"
                 mr={2}
@@ -276,25 +277,28 @@ export const TasksBoard = () => {
             <WrapItem key={item.value}>
               <IconButton
                 value={item.value}
-                colorScheme={item.value === display ? 'green' : 'gray'}
+                colorScheme={item.value === filter.display ? 'green' : 'gray'}
                 aria-label="Call Sage"
                 fontSize="20px"
                 icon={item.icon}
                 onClick={(e) => {
-                  setDisplay(+e.currentTarget.value);
+                  onTemplateStatusChange('display', +e.currentTarget.value);
                 }}
               />
             </WrapItem>
           ))}
         </Wrap>
-        {(display === DislayValue.LIST || !isLargeScreen) && (
-          <ListTask filters={filter} openDetailModal={openModal} />
-        )}
-        {display === DislayValue.BOARD && isLargeScreen && (
-          <Boards
+        {(filter.display === DislayValue.LIST || !isLargeScreen) && (
+          <ListTask
             filters={filter}
+            setFilter={setFilter}
             openDetailModal={openModal}
-            status={filter?.status || -1}
+          />
+        )}
+        {filter.display === DislayValue.BOARD && isLargeScreen && (
+          <Boards
+            filters={{ ...filter, status: filter.status + '' }}
+            openDetailModal={openModal}
           />
         )}
       </Box>

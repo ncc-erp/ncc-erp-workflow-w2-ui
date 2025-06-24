@@ -9,6 +9,7 @@ import { subtractTime } from './subtractTime';
 import { isValidJSON } from './isValidJson';
 import { isObjectEmpty } from './isObjectEmpty';
 import { validateWFHDates } from './validateWFHDates';
+import { getSortingState } from './getSortingState';
 
 export {
   convertToCase,
@@ -28,4 +29,5 @@ export {
   isValidJSON,
   isObjectEmpty,
   validateWFHDates,
+  getSortingState,
 };
