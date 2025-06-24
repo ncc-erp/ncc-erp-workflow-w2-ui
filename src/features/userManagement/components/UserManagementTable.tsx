@@ -264,6 +264,7 @@ export const UserManagementTable = () => {
           </InputGroup>
           <Box>
             <SelectField
+              value={filterUser.role || ''}
               isDisabled={isLoading || isRefetching}
               size="sm"
               rounded="md"
