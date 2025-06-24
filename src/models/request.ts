@@ -28,6 +28,7 @@ export interface FilterRequestParams {
   sorting: string;
   RequestUser?: string;
   StakeHolder?: string;
+  EmailRequest?: string;
 }
 
 export interface ListResult<T> {

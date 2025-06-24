@@ -46,11 +46,12 @@ import { AiOutlineReload } from 'react-icons/ai';
 import { TbSearch } from 'react-icons/tb';
 import { useRecoilValue } from 'recoil';
 import { appConfigState } from 'stores/appConfig';
-import { formatDate } from 'utils';
+import { formatDate, getSortingState } from 'utils';
 import { RequestDetailModal } from './DetailModal';
 import styles from './style.module.scss';
 import { useMediaQuery } from 'hooks/useMediaQuery';
 import { PaginationMobile } from 'common/components/PaginationMobile';
+import { useSyncFilterQuery } from 'hooks/useSyncFilterQuery';
 
 const initialSorting: SortingState = [
   {
@@ -62,19 +63,27 @@ const initialSorting: SortingState = [
 export const MyRequestTable = () => {
   const currentUser = useCurrentUser();
   const isLargeScreen = useMediaQuery('(min-width: 768px)');
-  const initialFilter: FilterRequestParams = {
-    Status: '',
-    WorkflowDefinitionId: '',
-    sorting: [RequestSortField.createdAt, 'desc'].join(' '),
-    skipCount: 0,
-    maxResultCount: +noOfRows[0].value,
-    RequestUser: currentUser?.sub[0],
-    StakeHolder: '',
-  };
   const isPublish = true;
   const { sideBarWidth } = useRecoilValue(appConfigState);
-  const [filter, setFilter] = useState<FilterRequestParams>(initialFilter);
-  const [sorting, setSorting] = useState<SortingState>(initialSorting);
+  const initialFilter: FilterRequestParams = useMemo(
+    () => ({
+      Status: '',
+      WorkflowDefinitionId: '',
+      sorting: [RequestSortField.createdAt, 'desc'].join(' '),
+      skipCount: 0,
+      maxResultCount: +noOfRows[0].value,
+      RequestUser: currentUser?.sub[0],
+      StakeHolder: '',
+      EmailRequest: '',
+    }),
+    [currentUser]
+  );
+
+  const [filter, setFilter] =
+    useSyncFilterQuery<FilterRequestParams>(initialFilter);
+  const [sorting, setSorting] = useState<SortingState>(() => {
+    return getSortingState(filter.sorting, initialSorting);
+  });
   const { data, isLoading, isRefetching, refetch } = useMyRequests(filter);
   const { data: requestTemplateData } = useRequestTemplates(isPublish);
   const { items: requests = [] } = data ?? {};
@@ -93,9 +102,8 @@ export const MyRequestTable = () => {
   const [requestId, setRequestId] = useState('');
   const [requestDetails, setRequestDetails] = useState<Request>();
   const [requestWorkflow, setRequestWorkflow] = useState<string>('');
-  const [txtSearch, setTxtSearch] = useState<string>('');
+  const [txtSearch, setTxtSearch] = useState<string>(filter.EmailRequest ?? '');
   const txtSearchDebounced = useDebounced(txtSearch, 500);
-
   const statusOptions = useMemo(() => {
     const defaultOptions = {
       value: '',
@@ -278,13 +286,12 @@ export const MyRequestTable = () => {
   useEffect(() => {
     const { id, desc } = sorting?.[0] ?? {};
     const sort = `${id} ${desc ? SortDirection.desc : SortDirection.asc}`;
-
     setFilter((filter) => ({
       ...filter,
       sorting: sort,
-      skipCount: 0,
+      skipCount: sort !== filter.sorting ? 0 : filter.skipCount,
     }));
-  }, [sorting]);
+  }, [setFilter, sorting]);
 
   const onPageChange = (page: number) => {
     setFilter((filter) => ({
@@ -313,12 +320,22 @@ export const MyRequestTable = () => {
     ) => {
       setFilter((filter) => ({ ...filter, [key]: value, skipCount: 0 }));
     },
-    []
+    [setFilter]
   );
 
+  const onToggleOnlyMyRequest = () =>
+    setFilter((filter) => ({
+      ...filter,
+      EmailRequest: '',
+      RequestUser: filter.RequestUser ? '' : currentUser?.sub[0],
+      skipCount: 0,
+    }));
   useEffect(() => {
-    onTemplateStatusChange('EmailRequest', txtSearchDebounced);
-  }, [onTemplateStatusChange, txtSearchDebounced]);
+    const paramsEmailRequest = filter.EmailRequest ? filter.EmailRequest : '';
+    if (paramsEmailRequest !== txtSearchDebounced) {
+      onTemplateStatusChange('EmailRequest', txtSearchDebounced);
+    }
+  }, [onTemplateStatusChange, txtSearchDebounced, filter.EmailRequest]);
 
   const onActionViewDetails = (request: Request) => () => {
     setRequestDetails(request);
@@ -365,6 +382,7 @@ export const MyRequestTable = () => {
               isDisabled={isLoading || isRefetching}
               size="sm"
               rounded="md"
+              value={filter.WorkflowDefinitionId}
               onChange={(e) =>
                 onTemplateStatusChange('WorkflowDefinitionId', e.target.value)
               }
@@ -376,6 +394,7 @@ export const MyRequestTable = () => {
               isDisabled={isLoading || isRefetching}
               size="sm"
               rounded="md"
+              value={filter.Status}
               onChange={(e) => onTemplateStatusChange('Status', e.target.value)}
               options={statusOptions}
             />
@@ -416,14 +435,7 @@ export const MyRequestTable = () => {
                     isDisabled={isLoading || isRefetching}
                     size={'md'}
                     colorScheme={filter.RequestUser ? 'green' : 'gray'}
-                    onClick={() =>
-                      setFilter({
-                        ...filter,
-                        RequestUser: filter.RequestUser
-                          ? ''
-                          : currentUser?.sub[0],
-                      })
-                    }
+                    onClick={onToggleOnlyMyRequest}
                     fontSize="sm"
                     fontWeight="medium"
                     mr={2}

@@ -74,7 +74,11 @@ test('Request My Requests Page', () => {
   const { container } = render(
     <QueryClientProvider client={queryClient}>
       <RecoilRoot>
-        <ListTask filters={filter} openDetailModal={() => jest.fn()} />
+        <ListTask
+          filters={filter}
+          openDetailModal={() => jest.fn()}
+          setFilter={() => jest.fn()}
+        />
       </RecoilRoot>
     </QueryClientProvider>
   );

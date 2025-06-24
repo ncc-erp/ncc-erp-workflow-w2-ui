@@ -36,7 +36,7 @@ import useDebounced from 'hooks/useDebounced';
 import ReactDatePicker from 'react-datepicker';
 import { FaDownload } from 'react-icons/fa';
 import { TbSearch } from 'react-icons/tb';
-import { formatDate } from 'utils';
+import { formatDate, getSortingState } from 'utils';
 import { handleExportExcelFile } from 'utils/handleExportExcelFile';
 import styles from './styles.module.scss';
 import { AiOutlineReload } from 'react-icons/ai';
@@ -44,6 +44,7 @@ import { SelectField } from 'common/components/SelectField';
 import { TFilterTask } from 'common/types';
 import { useMediaQuery } from 'hooks/useMediaQuery';
 import { PaginationMobile } from 'common/components/PaginationMobile';
+import { useSyncFilterQuery } from 'hooks/useSyncFilterQuery';
 
 const initialFilter: FilterWfhParams = {
   maxResultCount: +noOfRows[0].value,
@@ -59,6 +60,7 @@ const initialFilter: FilterWfhParams = {
     new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0),
     'yyyy-MM-dd'
   ),
+  dates: WFHFilterDate.CM,
 };
 
 const initialSorting: SortingState = [
@@ -69,19 +71,23 @@ const initialSorting: SortingState = [
 ];
 
 export const TablePostAndWFH = () => {
-  const [filter, setFilter] = useState<FilterWfhParams>(initialFilter);
-  const [sorting, setSorting] = useState<SortingState>(initialSorting);
+  const [filter, setFilter] =
+    useSyncFilterQuery<FilterWfhParams>(initialFilter);
+  const [sorting, setSorting] = useState<SortingState>(() => {
+    return getSortingState(filter.sorting, initialSorting);
+  });
+
   const columnHelper = createColumnHelper<IPostAndWFH>();
   const isLargeScreen = useMediaQuery('(min-width: 1024px)');
   const { data, isLoading, isRefetching, refetch } = useWfhList(filter);
   const { items: wfhList = [] } = data ?? {};
-  const [txtSearch, setTxtSearch] = useState('');
+  const [txtSearch, setTxtSearch] = useState(filter.keySearch);
   const txtSearchDebounced = useDebounced(txtSearch, 500);
   const [startDate, setStartDate] = useState<Date | null>(
-    initialFilter.startDate ? new Date(initialFilter.startDate) : null
+    filter.startDate ? new Date(filter.startDate) : null
   );
   const [endDate, setEndDate] = useState<Date | null>(
-    initialFilter.endDate ? new Date(initialFilter.endDate) : null
+    filter.endDate ? new Date(filter.endDate) : null
   );
   const endDatePicker = useRef<ReactDatePicker | null>(null);
 
@@ -189,6 +195,10 @@ export const TablePostAndWFH = () => {
     if (date && startDate && date >= startDate) {
       setEndDate(date);
     }
+    setFilter((filter) => ({
+      ...filter,
+      skipCount: 0,
+    }));
   };
 
   const onPageChange = (page: number) => {
@@ -265,7 +275,7 @@ export const TablePostAndWFH = () => {
           break;
       }
     },
-    []
+    [setFilter]
   );
 
   const setDateRangeByStartDateAndEndDate = useCallback(
@@ -333,7 +343,7 @@ export const TablePostAndWFH = () => {
         }
       }
     },
-    []
+    [setFilter]
   );
 
   const dateOptions = useMemo(() => {
@@ -351,11 +361,13 @@ export const TablePostAndWFH = () => {
   }, []);
 
   useEffect(() => {
+    const paramsKeySearch = filter.keySearch;
     setFilter((filter) => ({
       ...filter,
       keySearch: txtSearchDebounced,
+      skipCount: paramsKeySearch !== txtSearchDebounced ? 0 : filter.skipCount,
     }));
-  }, [txtSearchDebounced]);
+  }, [setFilter, txtSearchDebounced, filter.keySearch]);
 
   useEffect(() => {
     const { id, desc } = sorting?.[0] ?? {};
@@ -364,9 +376,9 @@ export const TablePostAndWFH = () => {
     setFilter((filter) => ({
       ...filter,
       sorting: sort,
-      skipCount: 0,
+      skipCount: sort !== filter.sorting ? 0 : filter.skipCount,
     }));
-  }, [sorting]);
+  }, [setFilter, sorting]);
 
   useEffect(() => {
     if (startDate && endDate && startDate !== endDate) {
@@ -385,7 +397,7 @@ export const TablePostAndWFH = () => {
         dates: FilterAll.DATE,
       }));
     }
-  }, [startDate, endDate, setDateRangeByStartDateAndEndDate]);
+  }, [startDate, endDate, setDateRangeByStartDateAndEndDate, setFilter]);
 
   const exportData = wfhList.map((item) => ({
     id: item.id,
@@ -395,7 +407,6 @@ export const TablePostAndWFH = () => {
     remoteDate: item.remoteDate,
     creationTime: item.creationTime,
   }));
-
   return (
     <>
       <Box>
@@ -405,6 +416,7 @@ export const TablePostAndWFH = () => {
               type="text"
               placeholder="Enter email"
               fontSize="14px"
+              value={txtSearch}
               onChange={(e) => setTxtSearch(e.target.value)}
             />
             <InputRightElement width="40px">
