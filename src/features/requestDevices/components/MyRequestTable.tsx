@@ -51,6 +51,7 @@ import { RequestDetailModal } from './DetailModal';
 import styles from './style.module.scss';
 import { useMediaQuery } from 'hooks/useMediaQuery';
 import { PaginationMobile } from 'common/components/PaginationMobile';
+import { CheckIcon } from '@chakra-ui/icons';
 
 const initialSorting: SortingState = [
   {
@@ -413,9 +414,10 @@ export const MyRequestTable = () => {
               {
                 <WrapItem>
                   <Button
+                    leftIcon={filter.RequestUser ? <CheckIcon /> : <></>}
                     isDisabled={isLoading || isRefetching}
                     size={'md'}
-                    colorScheme={filter.RequestUser ? 'green' : 'gray'}
+                    colorScheme={filter.RequestUser ? 'red' : 'gray'}
                     onClick={() =>
                       setFilter({
                         ...filter,

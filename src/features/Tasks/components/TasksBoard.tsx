@@ -36,6 +36,7 @@ import { ITask } from 'models/request';
 import { useDynamicDataTask } from 'api/apiHooks/taskHooks';
 import { useMediaQuery } from 'hooks/useMediaQuery';
 import { useUserPermissions } from 'hooks/useUserPermissions';
+import { CheckIcon } from '@chakra-ui/icons';
 
 const initialFilter: FilterTasks = {
   skipCount: 0,
@@ -252,10 +253,11 @@ export const TasksBoard = () => {
             <WrapItem>
               <Button
                 size="md"
-                colorScheme={showOnlyMyTask ? 'green' : 'gray'}
+                colorScheme={showOnlyMyTask ? 'red' : 'gray'}
                 onClick={() => setShowOnlyMyTask(!showOnlyMyTask)}
                 fontSize="sm"
                 fontWeight="medium"
+                leftIcon={showOnlyMyTask ? <CheckIcon /> : <></>}
                 mr={2}
               >
                 Only my task
