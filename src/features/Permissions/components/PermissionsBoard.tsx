@@ -33,6 +33,7 @@ import {
 import { ModalConfirm } from 'common/components/ModalConfirm';
 import { useUserPermissions } from 'hooks/useUserPermissions';
 import { Permissions } from 'common/constants';
+import { BiSolidPencil } from 'react-icons/bi';
 interface Permission {
   id: string;
   name: string;
@@ -199,10 +200,9 @@ const PermissionsTable = () => {
         mb={4}
       >
         <Button
-          colorScheme="blue"
-          leftIcon={<AddIcon boxSize={4} />}
+          leftIcon={<BiSolidPencil size={20} />}
           onClick={handleAddParentPermission}
-          size="md"
+          colorScheme="red"
         >
           Create
         </Button>

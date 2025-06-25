@@ -293,15 +293,8 @@ export const RequestTemplateTable = ({
             <Button
               leftIcon={<BiSolidPencil size={20} />}
               isDisabled={isLoading}
-              fontSize="sm"
-              fontWeight="medium"
-              background={'#EC4755'}
               onClick={onOpenCreateModal}
-              color={'#ffffff'}
-              lineHeight={20}
-              _hover={{
-                background: '#B43A3F',
-              }}
+              colorScheme="red"
             >
               Create
             </Button>
