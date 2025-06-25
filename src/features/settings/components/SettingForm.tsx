@@ -112,7 +112,7 @@ export const SettingForm = ({
             )}
             <Button
               size={'md'}
-              mt={['8px', '32px']}
+              mt={['8px', '30px']}
               colorScheme="green"
               type="submit"
               fontSize="sm"

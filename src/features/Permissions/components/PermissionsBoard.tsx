@@ -202,7 +202,7 @@ const PermissionsTable = () => {
           colorScheme="blue"
           leftIcon={<AddIcon boxSize={4} />}
           onClick={handleAddParentPermission}
-          size={'sm'}
+          size="md"
         >
           Create
         </Button>

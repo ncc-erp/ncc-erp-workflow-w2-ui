@@ -524,10 +524,9 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
         {renderFormContent(inputDefinition?.propertyDefinitions)}
         <Button
           mt="14px"
-          h="50px"
+          size="full"
           type="submit"
           isLoading={isLoading}
-          w="full"
           colorScheme="gray"
         >
           Save
