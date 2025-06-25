@@ -185,7 +185,7 @@ const CreateRoleWithPermissionsForm: React.FC<
                         aria-label="Delete user"
                         icon={<DeleteIcon />}
                         size="sm"
-                        colorScheme="red"
+                        variant="primary"
                         onClick={() => {
                           if (selectedRole) {
                             handleDeleteUser(selectedRole.id, user.id);
@@ -207,7 +207,7 @@ const CreateRoleWithPermissionsForm: React.FC<
                   {renderIfAllowed(
                     PermissionConstants.DELETE_ROLE,
                     <Button
-                      colorScheme="red"
+                      variant="primary"
                       onClick={() => role && handleOpenModal(role.id)}
                     >
                       Delete Role

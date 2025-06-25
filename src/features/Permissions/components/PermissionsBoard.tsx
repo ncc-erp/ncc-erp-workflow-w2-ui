@@ -202,7 +202,7 @@ const PermissionsTable = () => {
         <Button
           leftIcon={<BiSolidPencil size={20} />}
           onClick={handleAddParentPermission}
-          colorScheme="red"
+          variant="primary"
         >
           Create
         </Button>
@@ -247,7 +247,7 @@ const PermissionsTable = () => {
                           <IconButton
                             aria-label="Delete Parent"
                             icon={<DeleteIcon />}
-                            colorScheme="red"
+                            variant="primary"
                             onClick={() => handleOpenConfirm(parent.id)}
                             mr={2}
                             size={'sm'}
@@ -294,7 +294,7 @@ const PermissionsTable = () => {
                             <IconButton
                               aria-label="Delete Child"
                               icon={<DeleteIcon />}
-                              colorScheme="red"
+                              variant="primary"
                               onClick={() => handleOpenConfirm(child.id)}
                               size={'sm'}
                             />

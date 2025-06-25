@@ -471,7 +471,7 @@ export const TaskDetailModal = ({
                       </Button>
                       <Button
                         fontSize={['12px', '16px']}
-                        colorScheme="red"
+                        variant="primary"
                         isLoading={isLoadingBtnReject}
                         onClick={handleRejectClick}
                         mt={2}

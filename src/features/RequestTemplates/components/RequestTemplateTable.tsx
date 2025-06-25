@@ -294,7 +294,7 @@ export const RequestTemplateTable = ({
               leftIcon={<BiSolidPencil size={20} />}
               isDisabled={isLoading}
               onClick={onOpenCreateModal}
-              colorScheme="red"
+              variant="primary"
             >
               Create
             </Button>

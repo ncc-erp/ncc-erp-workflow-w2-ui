@@ -347,7 +347,7 @@ const UserForm = ({
             <Button colorScheme="gray" color="gray" onClick={() => onClose()}>
               Cancel
             </Button>
-            <Button colorScheme="red" type="submit" isLoading={isLoading}>
+            <Button variant="primary" type="submit" isLoading={isLoading}>
               Submit
             </Button>
           </Stack>

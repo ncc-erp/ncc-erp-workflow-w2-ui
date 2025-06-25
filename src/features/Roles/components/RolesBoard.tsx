@@ -77,7 +77,7 @@ export const RolesBoard = () => {
             <Box>
               <Button
                 leftIcon={<BiSolidPencil size={20} />}
-                colorScheme="red"
+                variant="primary"
                 onClick={onOpenCreateModal}
               >
                 Create

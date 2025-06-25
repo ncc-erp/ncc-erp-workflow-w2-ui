@@ -121,7 +121,7 @@ export const SettingForm = ({
               }
               size={'md'}
               mt={['8px', '30px']}
-              colorScheme="red"
+              variant="primary"
               type="submit"
               fontSize="sm"
               fontWeight="medium"

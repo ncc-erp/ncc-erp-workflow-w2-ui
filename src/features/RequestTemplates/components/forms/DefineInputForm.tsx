@@ -210,7 +210,7 @@ const DefineInputForm = ({
               </Center>
             </FormControl>
             <Button
-              colorScheme="red"
+              variant="primary"
               mb={[0, '20px']}
               w={['full', '250px']}
               isDisabled={!(fields.length > 1)}

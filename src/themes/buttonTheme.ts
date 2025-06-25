@@ -36,6 +36,15 @@ export const buttonTheme = {
       w: 'full',
     },
   },
+  variants: {
+    primary: {
+      bg: 'primary',
+      color: 'white',
+      _hover: {
+        background: '#B43A3F',
+      },
+    },
+  },
   defaultProps: {
     size: 'md',
   },

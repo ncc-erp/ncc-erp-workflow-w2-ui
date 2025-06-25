@@ -110,7 +110,7 @@ const ExportImportJson: React.FC<ExportImportJsonProps> = ({
         <>
           <Button
             onClick={handleExport}
-            colorScheme="red"
+            variant="primary"
             {...buttonStyleObj?.export}
             size={['xs', 'md']}
             display={['none', 'flex']}

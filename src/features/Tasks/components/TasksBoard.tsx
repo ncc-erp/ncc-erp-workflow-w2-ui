@@ -253,7 +253,7 @@ export const TasksBoard = () => {
             <WrapItem>
               <Button
                 size="md"
-                colorScheme={showOnlyMyTask ? 'red' : 'gray'}
+                colorScheme={showOnlyMyTask ? 'green' : 'gray'}
                 onClick={() => setShowOnlyMyTask(!showOnlyMyTask)}
                 fontSize="sm"
                 fontWeight="medium"

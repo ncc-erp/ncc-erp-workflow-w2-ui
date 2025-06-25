@@ -417,7 +417,7 @@ export const MyRequestTable = () => {
                     leftIcon={filter.RequestUser ? <CheckIcon /> : <></>}
                     isDisabled={isLoading || isRefetching}
                     size={'md'}
-                    colorScheme={filter.RequestUser ? 'red' : 'gray'}
+                    colorScheme={filter.RequestUser ? 'green' : 'gray'}
                     onClick={() =>
                       setFilter({
                         ...filter,
