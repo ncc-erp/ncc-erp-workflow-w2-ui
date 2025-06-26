@@ -540,14 +540,16 @@ export const TablePostAndWFH = () => {
                 p={['0px 16px 20px 16px', '0px 16px 20px 16px']}
                 justifyContent={['center', 'space-between']}
               >
-                <PaginationMobile
-                  total={data?.totalCount ?? 0}
-                  pageSize={filter.maxResultCount}
-                  current={currentPage}
-                  onChange={onPageChange}
-                  hideOnSinglePage
-                  data-testid="pagination"
-                />
+                {(data?.totalCount ?? 0) > 0 && (
+                  <PaginationMobile
+                    total={data?.totalCount ?? 0}
+                    pageSize={filter.maxResultCount}
+                    current={currentPage}
+                    onChange={onPageChange}
+                    hideOnSinglePage
+                    data-testid="pagination"
+                  />
+                )}
               </HStack>
             )}
           </Box>
