@@ -34,6 +34,7 @@ import {
   TbShieldLock,
   TbUserCog,
   TbUserShield,
+  TbBell,
 } from 'react-icons/tb';
 import { useNavigate } from 'react-router-dom';
 import { useSetAppConfig } from 'stores/appConfig';
@@ -191,6 +192,12 @@ export const SideBarContent = ({
           icon: TbShieldLock,
           permission: Permissions.PERMISSIONS,
         },
+        {
+          to: 'administration/webhooks',
+          text: 'Webhooks',
+          icon: TbBell,
+          permission: Permissions.WEBHOOKS,
+        },
       ],
     },
   ];
@@ -279,6 +286,7 @@ export const SideBarContent = ({
               Permissions.SETTINGS,
               Permissions.ROLES,
               Permissions.PERMISSIONS,
+              Permissions.WEBHOOKS,
             ].some(hasPermission);
             return hasAdminPermission ? (
               <Accordion
