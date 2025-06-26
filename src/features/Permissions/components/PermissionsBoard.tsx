@@ -33,6 +33,7 @@ import {
 import { ModalConfirm } from 'common/components/ModalConfirm';
 import { useUserPermissions } from 'hooks/useUserPermissions';
 import { Permissions } from 'common/constants';
+import { BiSolidPencil } from 'react-icons/bi';
 interface Permission {
   id: string;
   name: string;
@@ -199,10 +200,9 @@ const PermissionsTable = () => {
         mb={4}
       >
         <Button
-          colorScheme="blue"
-          leftIcon={<AddIcon boxSize={4} />}
+          leftIcon={<BiSolidPencil size={20} />}
           onClick={handleAddParentPermission}
-          size={'sm'}
+          variant="primary"
         >
           Create
         </Button>
@@ -247,7 +247,7 @@ const PermissionsTable = () => {
                           <IconButton
                             aria-label="Delete Parent"
                             icon={<DeleteIcon />}
-                            colorScheme="red"
+                            variant="primary"
                             onClick={() => handleOpenConfirm(parent.id)}
                             mr={2}
                             size={'sm'}
@@ -294,7 +294,7 @@ const PermissionsTable = () => {
                             <IconButton
                               aria-label="Delete Child"
                               icon={<DeleteIcon />}
-                              colorScheme="red"
+                              variant="primary"
                               onClick={() => handleOpenConfirm(child.id)}
                               size={'sm'}
                             />

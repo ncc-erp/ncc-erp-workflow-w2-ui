@@ -112,7 +112,7 @@ export const UserManagementTable = () => {
           cell: (info) => (
             <Box>
               {!info.row.original.isActive && (
-                <Badge colorScheme="red">Disabled</Badge>
+                <Badge variant="primary">Disabled</Badge>
               )}{' '}
               {info.getValue()}
             </Box>
