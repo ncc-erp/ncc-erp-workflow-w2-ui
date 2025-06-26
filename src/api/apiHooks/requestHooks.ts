@@ -147,3 +147,11 @@ export const useUpdateWorkflowPublishStatus = () => {
     '/app/workflow-definition/change-workflow-status'
   );
 };
+
+export const useUploadFile = () => {
+  return useCreate<FormData, { urls: string }>('/app/file/upload', {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+};
