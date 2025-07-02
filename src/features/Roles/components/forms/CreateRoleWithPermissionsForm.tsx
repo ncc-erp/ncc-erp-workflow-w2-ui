@@ -139,7 +139,7 @@ const CreateRoleWithPermissionsForm: React.FC<
               Users
             </Tab>
           </TabList>
-          <TabPanels>
+          <TabPanels maxH="40vh" overflowY="auto">
             <TabPanel>
               <FormControl>
                 <PermissionCheckbox
