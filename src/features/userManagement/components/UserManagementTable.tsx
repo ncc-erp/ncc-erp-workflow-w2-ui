@@ -237,6 +237,11 @@ export const UserManagementTable = () => {
   const onCloseModal = () => {
     setIsModalOpen(false);
   };
+  const handleRowClick = (user: UserIdentity) => () => {
+    setUser(user);
+    setIsModalOpen(true);
+    setModalTitle('Edit');
+  };
 
   return (
     <>
@@ -300,9 +305,10 @@ export const UserManagementTable = () => {
             onSortingChange={setSorting}
             isLoading={isLoading}
             pageSize={filterUser.maxResultCount}
-            onRowHover={true}
+            onRowHover={false}
             isHighlight={true}
             dataTestId="user-manager-item"
+            onRowClick={handleRowClick}
           />
         </Box>
       </EmptyWrapper>

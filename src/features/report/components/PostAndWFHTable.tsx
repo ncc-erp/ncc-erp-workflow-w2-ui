@@ -100,13 +100,15 @@ export const TablePostAndWFH = () => {
           id: 'reason',
           enableSorting: false,
           sortDescFirst: true,
-          maxSize: 500,
+          maxSize: 800,
           header: () => <Box>Reason</Box>,
           cell: (info) => (
             <Box
               sx={{
                 wordWrap: 'break-word',
                 whiteSpace: 'normal',
+                minWidth: { base: '200px', md: '400px' }, 
+                maxWidth: { base: '90vw', md: '800px' },
               }}
             >
               {info.getValue() ?? '-'}

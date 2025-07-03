@@ -36,6 +36,7 @@ export const RowAction = ({
         variant="ghost"
         size="sm"
         icon={<Icon color="gray.500" fontSize="lg" as={RiSettings4Fill} />}
+        onClick={(e) => e.stopPropagation()}
       >
         Actions
       </MenuButton>
