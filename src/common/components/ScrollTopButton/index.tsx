@@ -21,18 +21,19 @@ const ScrollTopButton = () => {
       <Button
         onClick={scrollToTop}
         position="fixed"
-        bottom="32px"
-        right="32px"
+        bottom={{base: '20px', md: '32px'}}
+        right={{ base: '50%', md: '32px' }}
+        transform={{ base: 'translateX(50%)', md: 'none' }}
         zIndex={1000}
         colorScheme="red"
         borderRadius="full"
         boxShadow="lg"
-        w="50px"
-        h="50px"
+        w= {{base: '20px', md: '50px'}}
+        h={{base: '40px', md: '50px'}}
         aria-label="Scroll to top"
         p="0"
       >
-        <ChevronUpIcon boxSize={6} />
+        <ChevronUpIcon boxSize={{base: 4, md: 6}} />
       </Button>
     )
   );
