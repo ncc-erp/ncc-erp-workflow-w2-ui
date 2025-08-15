@@ -312,50 +312,55 @@ export const UserManagementTable = () => {
           />
         </Box>
       </EmptyWrapper>
-      {isLargeScreen ? (
-        <HStack
-          py="20px"
-          justifyContent={['center', 'space-between']}
-          borderBottom="1px"
-          borderColor="gray.200"
-          flexWrap="wrap"
-        >
-          <HStack alignItems="center" spacing="6px" flexWrap="wrap">
-            <PageSize
-              noOfRows={noOfRows}
-              onChange={onPageSizeChange}
-              value={filterUser.maxResultCount}
-            />
-            <Spacer w="12px" />
-          </HStack>
-          <Pagination
-            total={totalCount}
-            pageSize={filterUser.maxResultCount}
-            current={currentPage}
-            onChange={onPageChange}
-            hideOnSinglePage
-            data-testid="pagination"
-          />
-        </HStack>
-      ) : (
-        <HStack
-          display={'flex'}
-          width={'100%'}
-          p={['0px 16px 20px 16px', '0px 16px 20px 16px']}
-          justifyContent={['center', 'space-between']}
-        >
-          {(data?.totalCount ?? 0) > 0 && (
-            <PaginationMobile
-              total={data?.totalCount ?? 0}
-              pageSize={filterUser.maxResultCount}
-              current={currentPage}
-              onChange={onPageChange}
-              hideOnSinglePage
-              data-testid="pagination"
-            />
+
+      {/* Pagination */}
+      {!isLoading && !isRefetching && (totalCount ?? 0) > 0 && (
+        <Box>
+          {isLargeScreen ? (
+            <HStack
+              py="20px"
+              justifyContent={['center', 'space-between']}
+              borderBottom="1px"
+              borderColor="gray.200"
+              flexWrap="wrap"
+            >
+              <HStack alignItems="center" spacing="6px" flexWrap="wrap">
+                <PageSize
+                  noOfRows={noOfRows}
+                  onChange={onPageSizeChange}
+                  value={filterUser.maxResultCount}
+                />
+                <Spacer w="12px" />
+              </HStack>
+              <Pagination
+                total={totalCount}
+                pageSize={filterUser.maxResultCount}
+                current={currentPage}
+                onChange={onPageChange}
+                hideOnSinglePage
+                data-testid="pagination"
+              />
+            </HStack>
+          ) : (
+            <HStack
+              display={'flex'}
+              width={'100%'}
+              p={['0px 16px 20px 16px', '0px 16px 20px 16px']}
+              justifyContent={['center', 'space-between']}
+            >
+              <PaginationMobile
+                total={totalCount ?? 0}
+                pageSize={filterUser.maxResultCount}
+                current={currentPage}
+                onChange={onPageChange}
+                hideOnSinglePage
+                data-testid="pagination"
+              />
+            </HStack>
           )}
-        </HStack>
+        </Box>
       )}
+
       {user && (
         <UserModal
           isOpen={isModalOpen}

@@ -107,7 +107,7 @@ export const TablePostAndWFH = () => {
               sx={{
                 wordWrap: 'break-word',
                 whiteSpace: 'normal',
-                minWidth: { base: '200px', md: '400px' }, 
+                minWidth: { base: '200px', md: '400px' },
                 maxWidth: { base: '90vw', md: '800px' },
               }}
             >
@@ -508,7 +508,8 @@ export const TablePostAndWFH = () => {
           </Box>
         </EmptyWrapper>
 
-        {!isLoading && !isRefetching && (
+        {/* Pagination */}
+        {!isLoading && !isRefetching && (data?.totalCount ?? 0) > 0 && (
           <Box>
             {isLargeScreen ? (
               <HStack
@@ -542,16 +543,14 @@ export const TablePostAndWFH = () => {
                 p={['0px 16px 20px 16px', '0px 16px 20px 16px']}
                 justifyContent={['center', 'space-between']}
               >
-                {(data?.totalCount ?? 0) > 0 && (
-                  <PaginationMobile
-                    total={data?.totalCount ?? 0}
-                    pageSize={filter.maxResultCount}
-                    current={currentPage}
-                    onChange={onPageChange}
-                    hideOnSinglePage
-                    data-testid="pagination"
-                  />
-                )}
+                <PaginationMobile
+                  total={data?.totalCount ?? 0}
+                  pageSize={filter.maxResultCount}
+                  current={currentPage}
+                  onChange={onPageChange}
+                  hideOnSinglePage
+                  data-testid="pagination"
+                />
               </HStack>
             )}
           </Box>
