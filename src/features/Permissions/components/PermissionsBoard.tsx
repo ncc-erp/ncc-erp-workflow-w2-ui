@@ -24,6 +24,7 @@ import {
   FormErrorMessage,
 } from '@chakra-ui/react';
 import { AddIcon, DeleteIcon, EditIcon } from '@chakra-ui/icons';
+import { useTranslation } from 'react-i18next'; // Import useTranslation
 import { useGetAllPermissions } from 'api/apiHooks/roleHook';
 import {
   useCreatePermission,
@@ -34,6 +35,7 @@ import { ModalConfirm } from 'common/components/ModalConfirm';
 import { useUserPermissions } from 'hooks/useUserPermissions';
 import { Permissions } from 'common/constants';
 import { BiSolidPencil } from 'react-icons/bi';
+
 interface Permission {
   id: string;
   name: string;
@@ -41,7 +43,9 @@ interface Permission {
   parentId?: string;
   children?: Permission[];
 }
+
 const PermissionsTable = () => {
+  const { t } = useTranslation(); // Initialize useTranslation
   const { renderIfAllowed } = useUserPermissions();
   const { data: permissionsData, refetch } = useGetAllPermissions();
   const { mutate: updatePermission } = useUpdatePermission();
@@ -66,18 +70,21 @@ const PermissionsTable = () => {
   });
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [confirmData, setConfirmData] = useState<string | null>(null);
+
   const handleAddParentPermission = () => {
     setModalType('parent');
     setSelectedParentId(null);
     setNewPermission({ name: '', code: '' });
     onOpen();
   };
+
   const handleAddChildPermission = (parentId: string) => {
     setModalType('child');
     setSelectedParentId(parentId);
     setNewPermission({ name: '', code: '' });
     onOpen();
   };
+
   const handleEditPermission = (permission: Permission, parentId?: string) => {
     setModalType('edit');
     setSelectedParentId(parentId || null);
@@ -85,18 +92,21 @@ const PermissionsTable = () => {
     setCurrentPermission(permission);
     onOpen();
   };
+
   const handleSavePermission = async () => {
     const newErrors = {
-      name: newPermission.name.trim() ? '' : 'Name is required.',
-      code: newPermission.code.trim() ? '' : 'Code is required.',
+      name: newPermission.name.trim() ? '' : t('permissions.nameRequired'),
+      code: newPermission.code.trim() ? '' : t('permissions.codeRequired'),
     };
     setErrors(newErrors);
     if (newErrors.name || newErrors.code) return;
+
     const payload = {
       name: newPermission.name,
       code: newPermission.code,
       parentId: selectedParentId ?? undefined,
     };
+
     if (modalType === 'edit' && currentPermission) {
       updatePermission(
         {
@@ -110,7 +120,7 @@ const PermissionsTable = () => {
         {
           onSuccess: () => {
             toast({
-              title: 'Permission updated successfully!',
+              title: t('permissions.updateSuccess'),
               status: 'success',
               duration: 3000,
               isClosable: true,
@@ -121,7 +131,7 @@ const PermissionsTable = () => {
           },
           onError: () => {
             toast({
-              title: 'Error updating permission.',
+              title: t('permissions.updateError'),
               status: 'error',
               duration: 3000,
               isClosable: true,
@@ -134,7 +144,7 @@ const PermissionsTable = () => {
       createPermission.mutate(payload, {
         onSuccess: () => {
           toast({
-            title: 'Permission created successfully!',
+            title: t('permissions.createSuccess'),
             status: 'success',
             duration: 3000,
             isClosable: true,
@@ -145,7 +155,7 @@ const PermissionsTable = () => {
         },
         onError: () => {
           toast({
-            title: 'Error creating permission.',
+            title: t('permissions.createError'),
             status: 'error',
             duration: 3000,
             isClosable: true,
@@ -155,11 +165,12 @@ const PermissionsTable = () => {
       });
     }
   };
+
   const handleDeletePermission = (permissionId: string) => {
     deleteMutate(permissionId, {
       onSuccess: () => {
         toast({
-          title: 'Permission deleted successfully!',
+          title: t('permissions.deleteSuccess'),
           status: 'success',
           duration: 3000,
           isClosable: true,
@@ -169,7 +180,7 @@ const PermissionsTable = () => {
       },
       onError: () => {
         toast({
-          title: 'Error deleting permission.',
+          title: t('permissions.deleteError'),
           status: 'error',
           duration: 3000,
           isClosable: true,
@@ -178,19 +189,23 @@ const PermissionsTable = () => {
       },
     });
   };
+
   const handleClose = () => {
     setNewPermission({ name: '', code: '' });
     setErrors({ name: null, code: null });
     onClose();
   };
+
   const handleOpenConfirm = (permissionId: string) => {
     setConfirmData(permissionId);
     setIsConfirmOpen(true);
   };
+
   const handleCloseConfirm = () => {
     setIsConfirmOpen(false);
     setConfirmData(null);
   };
+
   return (
     <Box py={5}>
       <Box
@@ -204,17 +219,17 @@ const PermissionsTable = () => {
           onClick={handleAddParentPermission}
           variant="primary"
         >
-          Create
+          {t('permissions.createPermission')}
         </Button>
       </Box>
       <Box overflowX="auto">
         <Table variant="simple">
           <Thead>
             <Tr>
-              <Th px={['8px', '12px']}>Permission Group</Th>
-              <Th px={['8px', '12px']}>Code</Th>
+              <Th px={['8px', '12px']}>{t('permissions.permissionGroup')}</Th>
+              <Th px={['8px', '12px']}>{t('permissions.code')}</Th>
               <Th px={['8px', '12px']} textAlign="center">
-                Actions
+                {t('permissions.actions')}
               </Th>
             </Tr>
           </Thead>
@@ -233,7 +248,7 @@ const PermissionsTable = () => {
                       {renderIfAllowed(
                         Permissions.UPDATE_PERMISSION,
                         <IconButton
-                          aria-label="Edit Parent"
+                          aria-label={t('permissions.edit')}
                           icon={<EditIcon />}
                           colorScheme="yellow"
                           onClick={() => handleEditPermission(parent)}
@@ -245,7 +260,7 @@ const PermissionsTable = () => {
                         Permissions.DELETE_PERMISSION,
                         parent.children && parent.children.length === 0 && (
                           <IconButton
-                            aria-label="Delete Parent"
+                            aria-label={t('permissions.delete')}
                             icon={<DeleteIcon />}
                             variant="primary"
                             onClick={() => handleOpenConfirm(parent.id)}
@@ -257,7 +272,7 @@ const PermissionsTable = () => {
                       {renderIfAllowed(
                         Permissions.CREATE_PERMISSION,
                         <IconButton
-                          aria-label="Add Child"
+                          aria-label={t('permissions.addChild')}
                           icon={<AddIcon />}
                           colorScheme="blue"
                           onClick={() => handleAddChildPermission(parent.id)}
@@ -279,7 +294,7 @@ const PermissionsTable = () => {
                           {renderIfAllowed(
                             Permissions.UPDATE_PERMISSION,
                             <IconButton
-                              aria-label="Edit Child"
+                              aria-label={t('permissions.edit')}
                               icon={<EditIcon />}
                               colorScheme="yellow"
                               onClick={() =>
@@ -292,7 +307,7 @@ const PermissionsTable = () => {
                           {renderIfAllowed(
                             Permissions.DELETE_PERMISSION,
                             <IconButton
-                              aria-label="Delete Child"
+                              aria-label={t('permissions.delete')}
                               icon={<DeleteIcon />}
                               variant="primary"
                               onClick={() => handleOpenConfirm(child.id)}
@@ -307,7 +322,7 @@ const PermissionsTable = () => {
             ) : (
               <Tr>
                 <Td textAlign={'center'} colSpan={3}>
-                  No permissions available.
+                  {t('permissions.noPermissionsFound')}
                 </Td>
               </Tr>
             )}
@@ -319,13 +334,13 @@ const PermissionsTable = () => {
         <ModalContent>
           <ModalHeader>
             {modalType === 'parent'
-              ? 'Add Parent Permission'
-              : 'Add Child Permission'}
+              ? t('permissions.addParentPermission')
+              : t('permissions.addChildPermission')}
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <FormControl mb={4} isInvalid={!!errors.name}>
-              <FormLabel>Name</FormLabel>
+              <FormLabel>{t('permissions.name')}</FormLabel>
               <Input
                 required
                 value={newPermission.name}
@@ -339,7 +354,7 @@ const PermissionsTable = () => {
               <FormErrorMessage>{errors.name}</FormErrorMessage>
             </FormControl>
             <FormControl isInvalid={!!errors.code}>
-              <FormLabel>Code</FormLabel>
+              <FormLabel>{t('permissions.code')}</FormLabel>
               <Input
                 required
                 value={newPermission.code}
@@ -355,17 +370,17 @@ const PermissionsTable = () => {
           </ModalBody>
           <ModalFooter>
             <Button colorScheme="blue" mr={3} onClick={handleSavePermission}>
-              Save
+              {t('common.save')}
             </Button>
             <Button variant="ghost" onClick={handleClose}>
-              Cancel
+              {t('common.cancel')}
             </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
       <ModalConfirm
-        title="Confirm Deletion"
-        description="Are you sure you want to delete this permission? This action cannot be undone."
+        title={t('permissions.confirmDelete')}
+        description={t('permissions.deleteConfirmation')}
         isOpen={isConfirmOpen}
         onClose={handleCloseConfirm}
         onConfirm={() => {
@@ -378,4 +393,5 @@ const PermissionsTable = () => {
     </Box>
   );
 };
+
 export default PermissionsTable;
