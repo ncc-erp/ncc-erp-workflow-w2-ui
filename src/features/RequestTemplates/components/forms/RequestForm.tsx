@@ -45,6 +45,7 @@ import { ChangeEvent, useMemo, useState } from 'react';
 import { NumericField } from 'common/components/NumericField';
 import { convertToCase } from 'utils';
 import { formatDateForm } from 'utils/dateUtils';
+import { useTranslation } from 'react-i18next';
 
 interface RequestFormProps {
   inputDefinition?: InputDefinition;
@@ -56,6 +57,7 @@ export type FormParams = Record<
 >;
 
 const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
+  const { t } = useTranslation();
   const currentUser = useCurrentUser();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -199,14 +201,14 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
         const month = dateObject.month.number;
         const year = dateObject.year;
         if (day === undefined || month === undefined || year === undefined) {
-          return 'Invalid Date';
+          return t('requestTemplates.validation.invalidDate');
         }
 
         const dateStr = `${year}-${createDateString(month)}-${createDateString(
           day
         )}`;
         if (!/^\d{4}-\d{1,2}-\d{1,2}$/.test(dateStr)) {
-          return 'Invalid date format (DD/MM/YYYY)';
+          return t('requestTemplates.validation.invalidDateFormat');
         }
         const dateToCheck = new Date(dateStr);
         const currentDate = new Date();
@@ -216,7 +218,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
           dateToCheck <= currentDate &&
           !isWithinInterval(dateToCheck, { start: lastWeek, end: currentDate })
         ) {
-          return 'Choose any dates in the past within last 7 days from today';
+          return t('requestTemplates.validation.chooseDatesWithin7Days');
         }
       }
     }
@@ -292,7 +294,9 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
               value={formParams[fieldname] as string}
               {...register(fieldname, {
                 required: Field?.isRequired
-                  ? `${fieldname} is Required`
+                  ? t('requestTemplates.forms.requestForm.fieldRequired', {
+                      field: convertToCase(fieldname),
+                    })
                   : false,
                 onChange: (e) => handleChangeValue(e, fieldname),
               })}
@@ -361,7 +365,11 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
               control={control}
               rules={{
                 required: Field?.isRequired
-                  ? `${fieldname.replace(/([A-Z])/g, ' $1')} is Required`
+                  ? t('requestTemplates.forms.requestForm.fieldRequired', {
+                      field: convertToCase(
+                        fieldname.replace(/([A-Z])/g, ' $1')
+                      ),
+                    })
                   : false,
                 validate: () => {
                   const startDate = watch('StartDate');
@@ -442,7 +450,9 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
               control={control}
               rules={{
                 required: Field?.isRequired
-                  ? `${fieldname} is Required`
+                  ? t('requestTemplates.forms.requestForm.fieldRequired', {
+                      field: convertToCase(fieldname),
+                    })
                   : false,
                 validate: validateMultiDatePicker,
               }}
@@ -494,7 +504,9 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
               value={formParams[fieldname] as string}
               {...register(fieldname, {
                 required: Field?.isRequired
-                  ? `${fieldname} is Required`
+                  ? t('requestTemplates.forms.requestForm.fieldRequired', {
+                      field: convertToCase(fieldname),
+                    })
                   : false,
                 onChange: (e) => handleChangeValue(e, fieldname),
               })}
@@ -529,7 +541,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
           isLoading={isLoading}
           colorScheme="gray"
         >
-          Save
+          {t('common.save')}
         </Button>
       </VStack>
     </form>

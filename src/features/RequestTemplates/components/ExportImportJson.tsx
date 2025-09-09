@@ -12,6 +12,7 @@ import { useFieldArray, useForm } from 'react-hook-form';
 import { IJsonObject, InputDefinition } from 'models/request';
 import { BiExport } from 'react-icons/bi';
 import { TbFileImport } from 'react-icons/tb';
+import { useTranslation } from 'react-i18next';
 
 interface FormParams {
   items: PropertyDefinition[];
@@ -39,6 +40,7 @@ const ExportImportJson: React.FC<ExportImportJsonProps> = ({
   onChangeData,
   isPublishWfStatus = false,
 }) => {
+  const { t } = useTranslation();
   const [isImportJsonModalOpen, setIsImportJsonModalOpen] =
     useState<boolean>(false);
   const [inputDefinitionUpdated, setInputDefinitionUpdated] =
@@ -115,11 +117,11 @@ const ExportImportJson: React.FC<ExportImportJsonProps> = ({
             size={['xs', 'md']}
             display={['none', 'flex']}
           >
-            Export
+            {t('requestTemplates.buttons.export')}
           </Button>
           <IconButton
             onClick={handleExport}
-            aria-label="Export"
+            aria-label={t('requestTemplates.ariaLabels.export')}
             variant="ghost"
             size="sm"
             icon={<BiExport size={18} />}
@@ -145,11 +147,11 @@ const ExportImportJson: React.FC<ExportImportJsonProps> = ({
             size={['xs', 'md']}
             display={['none', 'flex']}
           >
-            Import
+            {t('requestTemplates.buttons.import')}
           </Button>
           <IconButton
             onClick={onOpenImportJsonModal}
-            aria-label="Import"
+            aria-label={t('requestTemplates.ariaLabels.import')}
             variant="ghost"
             size="sm"
             icon={<TbFileImport size={18} />}

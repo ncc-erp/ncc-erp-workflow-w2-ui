@@ -40,6 +40,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSetAppConfig } from 'stores/appConfig';
 import { removeItem } from 'utils';
 import { CurrentUser } from '../CurrentUser';
+import { useTranslation } from 'react-i18next';
 
 interface SideBarContentProps {
   isLargeScreen: boolean;
@@ -50,15 +51,16 @@ export const SideBarContent = ({
   isLargeScreen,
   isInMezon,
 }: SideBarContentProps) => {
+  const { t } = useTranslation();
   const { colorMode, toggleColorMode } = useColorMode();
   const { renderIfAllowed, hasPermission } = useUserPermissions();
-  
+
   const styles = {
     commonHoverEffect: {
       backgroundColor: 'rgba(255, 255, 255, 0.1)',
       borderColor: 'stoneAlpha.200/20',
     },
-    
+
     accordionButton: {
       borderRadius: '0.375rem',
       p: 0,
@@ -142,7 +144,7 @@ export const SideBarContent = ({
   const NavList = [
     {
       to: '/request-templates',
-      text: 'Request templates',
+      text: t('requestTemplates.title'),
       icon: TbAppsFilled,
       permission: Permissions.WORKFLOW_DEFINITIONS,
     },
@@ -202,19 +204,19 @@ export const SideBarContent = ({
     },
   ];
   const ReportNavList = [
-  {
-    to: '/report',
-    text: 'Report',
-    icon: TbReportSearch,
-    subMenu: [
-      {
-        to: '/report/report-wfh',
-        text: 'Report WFH',
-        icon: TbHomeEdit,
-        permission: Permissions.VIEW_WFH_REPORTS,
-      },
-    ],
-  },
+    {
+      to: '/report',
+      text: 'Report',
+      icon: TbReportSearch,
+      subMenu: [
+        {
+          to: '/report/report-wfh',
+          text: 'Report WFH',
+          icon: TbHomeEdit,
+          permission: Permissions.VIEW_WFH_REPORTS,
+        },
+      ],
+    },
   ];
 
   const navigate = useNavigate();
@@ -289,17 +291,10 @@ export const SideBarContent = ({
               Permissions.WEBHOOKS,
             ].some(hasPermission);
             return hasAdminPermission ? (
-              <Accordion
-                {...styles.accordionContainer}
-                key={adminNav.to}
-              >
+              <Accordion {...styles.accordionContainer} key={adminNav.to}>
                 <AccordionItem>
-                  <AccordionButton
-                    {...styles.accordionButton}
-                  >
-                    <Link
-                      {...styles.adminLink}
-                    >
+                  <AccordionButton {...styles.accordionButton}>
+                    <Link {...styles.adminLink}>
                       <Icon fontSize="xl" as={adminNav.icon} />
                       {adminNav.text}
                     </Link>
@@ -326,21 +321,11 @@ export const SideBarContent = ({
               hasPermission
             );
             return hasReportPermission ? (
-              <Accordion
-                {...styles.accordionContainer}
-                key={reportNav.to}
-              >
+              <Accordion {...styles.accordionContainer} key={reportNav.to}>
                 <AccordionItem>
-                  <AccordionButton
-                    {...styles.accordionButton}
-                  >
-                    <Link
-                      {...styles.reportLink}
-                    >
-                      <Icon
-                        fontSize="xl"
-                        as={reportNav.icon}
-                      />
+                  <AccordionButton {...styles.accordionButton}>
+                    <Link {...styles.reportLink}>
+                      <Icon fontSize="xl" as={reportNav.icon} />
                       {reportNav.text}
                     </Link>
                     <AccordionIcon />

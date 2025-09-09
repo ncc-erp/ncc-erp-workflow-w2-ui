@@ -13,7 +13,8 @@
     "no": "Không",
     "loading": "Đang tải...",
     "success": "Thao tác thành công",
-    "error": "Đã xảy ra lỗi"
+    "error": "Đã xảy ra lỗi",
+    "remove": "Gỡ bỏ"
   },
   "auth": {
     "login": "Đăng nhập",
@@ -91,5 +92,89 @@
     "fullChangelog": "Nhật ký thay đổi đầy đủ",
     "tagName": "Phiên bản",
     "createdAt": "Ngày tạo"
+  },
+  "requestTemplates": {
+    "title": "Mẫu yêu cầu",
+    "buttons": {
+      "export": "Xuất",
+      "import": "Nhập",
+      "create": "Tạo mới",
+      "edit": "Chỉnh sửa",
+      "editWorkflow": "Chỉnh sửa Quy trình",
+      "delete": "Xóa",
+      "defineInput": "Định nghĩa đầu vào",
+      "viewWorkflow": "Xem quy trình",
+      "publish": "Công khai",
+      "unpublish": "Hủy công khai"
+    },
+    "ariaLabels": {
+      "export": "Xuất",
+      "import": "Nhập",
+      "create": "Tạo mới",
+      "edit": "Chỉnh sửa",
+      "delete": "Xóa",
+      "defineInput": "Định nghĩa đầu vào",
+      "viewWorkflow": "Xem quy trình",
+      "publish": "Công khai",
+      "unpublish": "Hủy công khai"
+    },
+    "import": {
+      "dataLabel": "Dữ liệu nhập:",
+      "noData": "Chưa có dữ liệu được nhập !"
+    },
+    "messages": {
+      "createWorkflowSuccess": "Tạo quy trình thành công",
+      "exportSuccess": "Quy trình đã được xuất thành công.",
+      "importSuccess": "Quy trình đã được nhập thành công.",
+      "importError": "Không thể phân tích JSON!",
+      "deleteWorkflowConfirmation": "Bạn có muốn xóa quy trình này không?",
+      "deleteWorkflowSuccess": "Quy trình đã được xóa thành công.",
+      "defineInputWarning": "Vui lòng định nghĩa đầu vào cho quy trình!",
+      "invalidJsonFormat": "Định dạng JSON không hợp lệ!",
+      "createRequestSuccess": "Tạo yêu cầu thành công"
+    },
+    "columns": {
+      "name": "Tên",
+      "version": "Phiên bản",
+      "published": "Đã công khai",
+      "actions": "Hành động",
+      "displayName": "Tên hiển thị",
+      "requestTemplate": "Mẫu yêu cầu"
+    },
+    "modals": {
+      "importWorkflow": "Nhập quy trình",
+      "defineWorkflowInput": "Định nghĩa đầu vào quy trình",
+      "createWorkflowDefinition": "Tạo định nghĩa quy trình"
+    },
+    "forms": {
+      "createForm": {
+        "fields": {
+          "name": "Tên",
+          "displayName": "Tên hiển thị",
+          "tag": "Thẻ"
+        }
+      },
+      "requestForm": {
+        "fieldRequired": "{{field}} là bắt buộc!"
+      },
+      "defineInput": {
+        "propertyName": "Tên thuộc tính",
+        "propertyType": "Loại thuộc tính",
+        "required": "Bắt buộc",
+        "addField": "Thêm trường",
+        "nameRequired": "Tên là bắt buộc."
+      },
+      "settings": {
+        "color": "Màu",
+        "sendKomuMessage": "Gửi tin nhắn Komu",
+        "title": "Tiêu đề",
+        "nameRequestDefault": "Tên yêu cầu"
+      }
+    },
+    "validation": {
+      "invalidDate": "Ngày không hợp lệ",
+      "invalidDateFormat": "Định dạng ngày không hợp lệ (DD/MM/YYYY)",
+      "chooseDatesWithin7Days": "Chọn ngày trong quá khứ trong vòng 7 ngày kể từ hôm nay"
+    }
   }
 }

@@ -14,6 +14,7 @@ import DefineInputForm from '../forms/DefineInputForm';
 import { SettingForm } from '../forms/SettingForm';
 import { useCallback, useEffect, useState } from 'react';
 import ExportImportJson from '../ExportImportJson';
+import { useTranslation } from 'react-i18next';
 interface DefineTemplateInputModalProps {
   isOpen: boolean;
   requestId: string;
@@ -31,6 +32,7 @@ export const DefineTemplateInputModal = ({
   workflowName,
   isPublishWfStatus,
 }: DefineTemplateInputModalProps) => {
+  const { t } = useTranslation();
   const [updatedInputDefinition, setUpdatedInputDefinition] = useState<
     InputDefinition | undefined
   >(inputDefinition);
@@ -103,7 +105,7 @@ export const DefineTemplateInputModal = ({
         >
           <Box>
             <ModalHeader fontSize={['sm', 'md']} p={0}>
-              Define Workflow Input
+              {t('requestTemplates.modals.defineWorkflowInput')}
             </ModalHeader>
           </Box>
           <Box ml="auto">

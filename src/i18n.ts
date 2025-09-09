@@ -8,6 +8,7 @@ i18n
   .use(LanguageDetector) // Detect user's language
   .use(initReactI18next) // Bind i18next to React
   .init({
+    lng: 'vi',
     fallbackLng: 'vi', // Default language
     supportedLngs: ['en', 'vi'], // Supported languages
     debug: true, // Enable debug logs

@@ -10,6 +10,7 @@ import {
 import styles from '../style.module.scss';
 import CreateForm from '../forms/CreateForm';
 import { IJsonObject } from 'models/request';
+import { useTranslation } from 'react-i18next';
 interface RequestTemplateModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -23,11 +24,14 @@ export const CreateTemplateModal = ({
   workflowCreateData,
   OnCreateSuccess,
 }: RequestTemplateModalProps) => {
+  const { t } = useTranslation();
   return (
     <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false}>
       <ModalOverlay />
       <ModalContent className={styles.customModal}>
-        <ModalHeader fontSize="md">Create Workflow Definition</ModalHeader>
+        <ModalHeader fontSize="md">
+          {t('requestTemplates.modals.createWorkflowDefinition')}
+        </ModalHeader>
         <Divider></Divider>
         <ModalCloseButton />
         <ModalBody>

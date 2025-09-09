@@ -5,6 +5,7 @@ import debounce from 'lodash.debounce';
 import { TextField } from 'common/components/TextField';
 import { ColorPicker } from 'antd';
 import { AggregationColor } from 'antd/es/color-picker/color';
+import { useTranslation } from 'react-i18next';
 
 interface SettingFormProps {
   onSubmitSettings: (
@@ -19,9 +20,10 @@ export const SettingForm = ({
   inputDefinition,
   onSubmitSettings,
 }: SettingFormProps) => {
+  const { t } = useTranslation();
   const [formState, setFormState] = useState({
     colorCode: '#aabbcc',
-    nameRequest: 'Name request',
+    nameRequest: t('requestTemplates.forms.settings.nameRequestDefault'),
     title: '',
     isSendKomuMessage: false,
   });
@@ -79,10 +81,13 @@ export const SettingForm = ({
       setFormState({
         colorCode: settings?.color ?? '#aabbcc',
         title: settings?.titleTemplate ?? '',
-        nameRequest: nameRequest ?? 'Name request',
+        nameRequest:
+          nameRequest ??
+          t('requestTemplates.forms.settings.nameRequestDefault'),
         isSendKomuMessage: settings?.isSendKomuMessage ?? false,
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputDefinition]);
 
   return (
@@ -95,7 +100,7 @@ export const SettingForm = ({
           mr={3}
           mb={0}
         >
-          Color:
+          {t('requestTemplates.forms.settings.color')}
         </FormLabel>
         <Box
           bg={formState.colorCode}
@@ -127,7 +132,7 @@ export const SettingForm = ({
           mb={0}
           mr={3}
         >
-          Send Komu Message:
+          {t('requestTemplates.forms.settings.sendKomuMessage')}
         </FormLabel>
         <Checkbox
           size="lg"
@@ -144,7 +149,7 @@ export const SettingForm = ({
           mb={0}
           mr={3}
         >
-          Title:
+          {t('requestTemplates.forms.settings.title')}
         </FormLabel>
         <Box flex="1">
           <TextField

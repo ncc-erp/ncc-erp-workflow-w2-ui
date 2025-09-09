@@ -12,6 +12,7 @@ import { useUserPermissions } from 'hooks/useUserPermissions';
 import { FaCheckCircle, FaRegEyeSlash, FaEye, FaRegMap } from 'react-icons/fa';
 import { HiDotsVertical } from 'react-icons/hi';
 import { RiDeleteBin6Fill } from 'react-icons/ri';
+import { useTranslation } from 'react-i18next';
 
 interface RowActionProps {
   onDefineInput: () => void;
@@ -29,7 +30,7 @@ export const RowAction = ({
   onTogglePublish,
 }: RowActionProps) => {
   const { renderIfAllowed } = useUserPermissions();
-
+  const { t } = useTranslation();
   return (
     <Menu>
       <MenuButton
@@ -59,28 +60,30 @@ export const RowAction = ({
           Permissions.DEFINE_INPUT,
           <MenuItem display="flex" gap="12px" onClick={onDefineInput}>
             <Icon as={FaEye} />
-            Define Input
+            {t('requestTemplates.buttons.defineInput')}
           </MenuItem>
         )}
         {renderIfAllowed(
           Permissions.EDIT_WORKFLOW_DEFINITION,
           <MenuItem display="flex" gap="12px" onClick={onViewWorkflow}>
             <Icon as={FaRegMap} />
-            Edit Workflow
+            {t('requestTemplates.buttons.editWorkflow')}
           </MenuItem>
         )}
         {renderIfAllowed(
           Permissions.UPDATE_WORKFLOW_DEFINITION_STATUS,
           <MenuItem display="flex" gap="12px" onClick={onTogglePublish}>
             <Icon as={isPublished ? FaRegEyeSlash : FaCheckCircle} />
-            {isPublished ? 'Unpublish' : 'Publish'}
+            {isPublished
+              ? t('requestTemplates.buttons.unpublish')
+              : t('requestTemplates.buttons.publish')}
           </MenuItem>
         )}
         {renderIfAllowed(
           Permissions.DELETE_WORKFLOW_DEFINITION,
           <MenuItem display="flex" gap="12px" onClick={onDelete}>
             <Icon as={RiDeleteBin6Fill} />
-            Delete
+            {t('requestTemplates.buttons.delete')}
           </MenuItem>
         )}
       </MenuList>

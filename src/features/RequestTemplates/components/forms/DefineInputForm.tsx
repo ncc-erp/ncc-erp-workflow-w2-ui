@@ -34,7 +34,7 @@ import {
 } from 'models/request';
 import { Fragment, useEffect, useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
-
+import { useTranslation } from 'react-i18next';
 interface DefineInputFormProps {
   inputDefinition?: InputDefinition;
   requestId: string;
@@ -54,6 +54,7 @@ const DefineInputForm = ({
   settingsToSet,
   isChangedBySubmitSettings,
 }: DefineInputFormProps) => {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const { data: inputType } = useInputDefinition();
   const { mutateAsync: updateMutate } = useUpdateWorkflowInput();
@@ -113,7 +114,7 @@ const DefineInputForm = ({
 
     setIsLoading(false);
     toast({
-      description: 'Create Request Successfully',
+      description: t('requestTemplates.messages.createRequestSuccess'),
       status: 'success',
     });
     onCloseModal();
@@ -136,7 +137,7 @@ const DefineInputForm = ({
           >
             <FormControl>
               <FormLabel fontSize={['sm', 'md']} mb={1} fontWeight="normal">
-                Property Name
+                {t('requestTemplates.forms.defineInput.propertyName')}
                 <FormHelperText mb={1} as="span">
                   {' '}
                   *
@@ -147,7 +148,9 @@ const DefineInputForm = ({
                 w={['full', '210px']}
                 fontSize="sm"
                 {...register(`items.${index}.name`, {
-                  required: `Name is Required`,
+                  required: t(
+                    'requestTemplates.forms.defineInput.nameRequired'
+                  ),
                 })}
               />
               <Box h="20px">
@@ -161,7 +164,7 @@ const DefineInputForm = ({
 
             <FormControl mb="20px">
               <FormLabel fontSize={['sm', 'md']} mb={1} fontWeight="normal">
-                Property Type
+                {t('requestTemplates.forms.defineInput.propertyType')}
               </FormLabel>
 
               {inputType ? (
@@ -193,7 +196,7 @@ const DefineInputForm = ({
                 fontWeight="normal"
                 mr={0}
               >
-                Required
+                {t('requestTemplates.forms.defineInput.required')}
               </FormLabel>
               <Center h="40px">
                 <Controller
@@ -216,7 +219,7 @@ const DefineInputForm = ({
               isDisabled={!(fields.length > 1)}
               onClick={() => remove(index)}
             >
-              Remove
+              {t('common.remove')}
             </Button>
           </Flex>
           <Divider my={1} />
@@ -240,7 +243,7 @@ const DefineInputForm = ({
           data-testid="button-add-field"
           w={['full', 'auto']}
         >
-          Add Field
+          {t('requestTemplates.forms.defineInput.addField')}
         </Button>
       </VStack>
       <Button
@@ -252,7 +255,7 @@ const DefineInputForm = ({
         colorScheme="gray"
         fontSize={['sm', 'md']}
       >
-        Save
+        {t('common.save')}
       </Button>
     </form>
   );
