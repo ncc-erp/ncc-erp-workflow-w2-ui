@@ -140,7 +140,8 @@
       "published": "Published",
       "actions": "Actions",
       "displayName": "Display Name",
-      "requestTemplate": "Request Template"
+      "requestTemplate": "Request Template",
+      "edit": "Edit"
     },
     "modals": {
       "importWorkflow": "Import Workflow",

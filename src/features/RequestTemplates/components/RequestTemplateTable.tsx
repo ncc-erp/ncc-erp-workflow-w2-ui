@@ -198,7 +198,9 @@ export const RequestTemplateTable = ({
             columnHelper.display({
               id: 'designer',
               enableSorting: false,
-              header: () => <Center w="full">Edit</Center>,
+              header: () => (
+                <Center w="full">{t('requestTemplates.columns.edit')}</Center>
+              ),
               cell: (info) => {
                 const {
                   definitionId,

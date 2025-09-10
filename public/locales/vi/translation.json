@@ -139,7 +139,8 @@
       "published": "Đã công khai",
       "actions": "Hành động",
       "displayName": "Tên hiển thị",
-      "requestTemplate": "Mẫu yêu cầu"
+      "requestTemplate": "Mẫu yêu cầu",
+      "edit": "Chỉnh sửa"
     },
     "modals": {
       "importWorkflow": "Nhập quy trình",
