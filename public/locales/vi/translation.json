@@ -14,7 +14,21 @@
     "loading": "Đang tải...",
     "success": "Thao tác thành công",
     "error": "Đã xảy ra lỗi",
-    "remove": "Gỡ bỏ"
+    "remove": "Gỡ bỏ",
+    "requestStatus": {
+      "approved": "Đã duyệt",
+      "rejected": "Đã từ chối",
+      "pending": "Đang chờ",
+      "canceled": "Đã hủy"
+    },
+    "requestTemplates": {
+      "changeOffice": "Yêu cầu đổi văn phòng",
+      "deviceRequest": "Yêu cầu thiết bị",
+      "officeEquipment": "Yêu cầu trang thiết bị văn phòng",
+      "wfhRequest": "Yêu cầu làm việc từ xa",
+      "userTask": "Tác vụ người dùng",
+      "notFound": "Không tìm thấy"
+    }
   },
   "auth": {
     "login": "Đăng nhập",
@@ -176,6 +190,60 @@
       "invalidDate": "Ngày không hợp lệ",
       "invalidDateFormat": "Định dạng ngày không hợp lệ (DD/MM/YYYY)",
       "chooseDatesWithin7Days": "Chọn ngày trong quá khứ trong vòng 7 ngày kể từ hôm nay"
+    }
+  },
+  "myRequests": {
+    "title": "Yêu cầu của tôi",
+    "all": "Yêu cầu",
+    "mine": "Yêu cầu của tôi",
+    "titles": { "requestDetails": "Chi tiết yêu cầu" },
+    "buttons": {
+      "viewWorkflow": "Xem chi tiết quy trình",
+      "onlyMyRequest": "Chỉ yêu cầu của tôi"
+    },
+    "filters": {
+      "allStatus": "Tất cả trạng thái",
+      "allTypes": "Tất cả loại"
+    },
+    "placeholders": {
+      "enterEmail": "Nhập email"
+    },
+    "columns": {
+      "title": "Tiêu đề",
+      "requestUser": "Người yêu cầu",
+      "currentStates": "Trạng thái hiện tại",
+      "stakeholders": "Người liên quan",
+      "createdAt": "Ngày tạo",
+      "lastExecutedAt": "Thời điểm thực thi gần nhất",
+      "status": "Trạng thái",
+      "actions": "Hành động"
+    },
+    "messages": {
+      "confirmTitle": "Xác nhận {{type}} yêu cầu",
+      "confirmDesc": "Yêu cầu sẽ được {{type}}. Bạn có chắc không?",
+      "cancelSuccess": "Hủy thành công!",
+      "cancelFailed": "Hủy không thành công!"
+    },
+    "labels": {
+      "name": "Tên",
+      "email": "Email",
+      "notFound": "Không tìm thấy!",
+      "requestInput": "Đầu vào yêu cầu",
+      "requestUser": "Người yêu cầu",
+      "detail": "Chi tiết",
+      "branchName": "Tên chi nhánh",
+      "requestTemplate": "Mẫu yêu cầu",
+      "status": "Trạng thái",
+      "currentState": "Trạng thái hiện tại",
+      "stakeholders": "Người liên quan",
+      "creationTime": "Thời gian tạo",
+      "reason": "Lý do",
+      "rejectedBy": "Người từ chối"
+    },
+    "actions": {
+      "view": "Xem",
+      "workflow": "Quy trình",
+      "cancel": "Hủy"
     }
   }
 }

@@ -151,8 +151,8 @@ export const SideBarContent = ({
     {
       to: '/my-requests',
       text: hasPermission(Permissions.VIEW_ALL_WORKFLOW_INSTANCES)
-        ? 'Requests'
-        : 'My requests',
+        ? t('myRequests.all')
+        : t('myRequests.mine'),
       icon: TbArticleFilledFilled,
       permission: Permissions.WORKFLOW_INSTANCES,
     },

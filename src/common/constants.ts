@@ -29,6 +29,41 @@ export const requestTemplateWorkflow = {
   WFH_REQUEST: 'WFH Request',
 };
 
+export const REQUEST_TEMPLATE_I18N_KEY: Record<string, string> = {
+  'Change Office Request': 'common.requestTemplates.changeOffice',
+  'Device Request': 'common.requestTemplates.deviceRequest',
+  'Office Equipment Request': 'common.requestTemplates.officeEquipment',
+  'WFH Request': 'common.requestTemplates.wfhRequest',
+  'User Task': 'common.requestTemplates.userTask',
+  'Not Found': 'common.requestTemplates.notFound',
+  'WFH  Request': 'common.requestTemplates.wfhRequest',
+  WFH_Request: 'common.requestTemplates.wfhRequest',
+  NotFound: 'common.requestTemplates.notFound',
+};
+
+export const resolveRequestTemplateI18nKey = (
+  displayName?: string
+): string | undefined => {
+  if (!displayName) return undefined;
+  // try direct exact match first
+  if (REQUEST_TEMPLATE_I18N_KEY[displayName])
+    return REQUEST_TEMPLATE_I18N_KEY[displayName];
+
+  const normalize = (s: string) =>
+    s
+      .replace(/([a-z])([A-Z])/g, '$1 $2') // split camel/pascal: NotFound -> Not Found
+      .replace(/[_-]+/g, ' ') // underscores / hyphens -> space
+      .replace(/\s+/g, ' ') // collapse whitespace
+      .trim()
+      .toLowerCase();
+
+  const norm = normalize(displayName);
+  const found = Object.keys(REQUEST_TEMPLATE_I18N_KEY).find(
+    (k) => normalize(k) === norm
+  );
+  return found ? REQUEST_TEMPLATE_I18N_KEY[found] : undefined;
+};
+
 export const BoardColumnStatus = {
   Pending: 0,
   Approved: 1,

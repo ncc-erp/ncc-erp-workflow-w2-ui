@@ -28,8 +28,19 @@ import { SelectField } from 'common/components/SelectField';
 import { toast } from 'common/components/StandaloneToast';
 import { PageSize } from 'common/components/Table/PageSize';
 import { Table } from 'common/components/Table/Table';
-import { Permissions, QueryKeys, noOfRows } from 'common/constants';
-import { RequestSortField, RequestStatus, SortDirection } from 'common/enums';
+import {
+  Permissions,
+  QueryKeys,
+  resolveRequestTemplateI18nKey,
+  noOfRows,
+  REQUEST_TEMPLATE_I18N_KEY,
+} from 'common/constants';
+import {
+  RequestSortField,
+  RequestStatus,
+  REQUEST_STATUS_I18N_KEY,
+  SortDirection,
+} from 'common/enums';
 import { RowAction } from 'features/requestDevices/components/RowAction';
 import { useCurrentUser } from 'stores/user';
 //import { useIsAdmin } from 'hooks/useIsAdmin';
@@ -52,6 +63,7 @@ import styles from './style.module.scss';
 import { useMediaQuery } from 'hooks/useMediaQuery';
 import { PaginationMobile } from 'common/components/PaginationMobile';
 import { CheckIcon } from '@chakra-ui/icons';
+import { useTranslation } from 'react-i18next';
 
 const initialSorting: SortingState = [
   {
@@ -61,6 +73,7 @@ const initialSorting: SortingState = [
 ];
 
 export const MyRequestTable = () => {
+  const { t } = useTranslation();
   const currentUser = useCurrentUser();
   const isLargeScreen = useMediaQuery('(min-width: 768px)');
   const initialFilter: FilterRequestParams = {
@@ -96,25 +109,37 @@ export const MyRequestTable = () => {
   const [requestWorkflow, setRequestWorkflow] = useState<string>('');
   const [txtSearch, setTxtSearch] = useState<string>('');
   const txtSearchDebounced = useDebounced(txtSearch, 500);
+  // stable callback to avoid "used before declaration" and satisfy exhaustive-deps
+  const onAction = useCallback(
+    (requestIdArg: string, type: 'canceled') => () => {
+      setRequestId(requestIdArg);
+      setModalTitle(t('myRequests.messages.confirmTitle', { type }));
+      setModalDescription(t('myRequests.messages.confirmDesc', { type }));
+      setIsOpen(true);
+    },
+    [t]
+  );
 
   const statusOptions = useMemo(() => {
     const defaultOptions = {
       value: '',
-      label: 'All status',
+      label: t('myRequests.filters.allStatus'),
     };
 
     const options = Object.values(RequestStatus).map((value) => ({
       value,
-      label: value == RequestStatus.Pending ? 'Pending' : value,
+      label: t(
+        REQUEST_STATUS_I18N_KEY[value as RequestStatus] || String(value)
+      ),
     }));
 
     return [defaultOptions, ...options];
-  }, []);
+  }, [t]);
 
   const requestTemplateOtions = useMemo(() => {
     const defaultOptions = {
       value: '',
-      label: 'All types',
+      label: t('myRequests.filters.allTypes'),
     };
 
     const options = requestTemplates.map(({ definitionId, displayName }) => ({
@@ -123,12 +148,14 @@ export const MyRequestTable = () => {
     }));
 
     return [defaultOptions, ...options];
-  }, [requestTemplates]);
+  }, [requestTemplates, t]);
 
   const myRequestColumns = useMemo(() => {
     const displayColumn = columnHelper.accessor('shortTitle', {
       id: 'shortTitle',
-      header: () => <Box textAlign="center">Title</Box>,
+      header: () => (
+        <Box textAlign="center">{t('myRequests.columns.title')}</Box>
+      ),
       enableSorting: false,
       cell: (info) => {
         let colorCode: string = '#aabbcc';
@@ -164,10 +191,28 @@ export const MyRequestTable = () => {
                 backgroundColor: colorCode,
               }}
             >
-              <OverflowText
-                text={info.row.original.workflowDefinitionDisplayName}
-                maxLines={1}
-              />
+              {(() => {
+                const displayName =
+                  info.row.original.workflowDefinitionDisplayName || '';
+                const key = resolveRequestTemplateI18nKey(displayName);
+                const translated = displayName
+                  ? key
+                    ? t(key)
+                    : displayName
+                  : '';
+                // keep a minimal debug if you still need it (remove in prod)
+                // console.debug('[MyRequestTable] displayName:', displayName, 'i18nKey:', key, 'translated:', translated);
+                console.log('[MyRequestTable] translated value:', translated);
+                console.log(
+                  '[MyRequestTable] workflowDefinitionDisplayName:',
+                  displayName
+                );
+                console.log(
+                  '[MyRequestTable] REQUEST_TEMPLATE_I18N_KEY lookup:',
+                  REQUEST_TEMPLATE_I18N_KEY[displayName]
+                );
+                return <OverflowText text={translated} maxLines={1} />;
+              })()}
             </Box>
           </Box>
         );
@@ -176,7 +221,7 @@ export const MyRequestTable = () => {
 
     const editorColumn = columnHelper.accessor('userRequestName', {
       id: 'userRequestName',
-      header: () => <Box>Request user</Box>,
+      header: () => <Box>{t('myRequests.columns.requestUser')}</Box>,
       enableSorting: false,
       cell: (info) => info.getValue(),
     });
@@ -184,7 +229,9 @@ export const MyRequestTable = () => {
     const coreColumn = [
       columnHelper.accessor('currentStates', {
         id: 'currentStates',
-        header: () => <Box textAlign="center">Current states</Box>,
+        header: () => (
+          <Box textAlign="center">{t('myRequests.columns.currentStates')}</Box>
+        ),
         enableSorting: false,
         cell: (info) => {
           const currentStates = info.getValue();
@@ -200,7 +247,7 @@ export const MyRequestTable = () => {
 
       columnHelper.accessor('stakeHolders', {
         id: 'stakeHolders',
-        header: 'Stakeholders',
+        header: () => <Box>{t('myRequests.columns.stakeholders')}</Box>,
         enableSorting: false,
         cell: (info) => {
           const stakeholders = info.getValue();
@@ -215,29 +262,35 @@ export const MyRequestTable = () => {
       }),
       columnHelper.accessor('createdAt', {
         id: 'createdAt',
-        header: 'Created at',
+        header: () => <Box>{t('myRequests.columns.createdAt')}</Box>,
         cell: (info) => formatDate(new Date(info.getValue())),
         sortDescFirst: true,
       }),
 
       columnHelper.accessor('lastExecutedAt', {
         id: 'lastExecutedAt',
-        header: 'Last executed at',
+        header: () => <Box>{t('myRequests.columns.lastExecutedAt')}</Box>,
         cell: (info) => formatDate(new Date(info.getValue())),
         enableSorting: false,
         sortDescFirst: true,
       }),
       columnHelper.accessor('status', {
         id: 'status',
-        header: 'Status',
+        header: () => <Box>{t('myRequests.columns.status')}</Box>,
         enableSorting: false,
         cell: (info) => {
           const status = info.row.original.status;
+          const label = t(
+            REQUEST_STATUS_I18N_KEY[status as RequestStatus] || String(status)
+          );
           return (
             <Box display={'flex'}>
               {
-                <div className={`${styles.badge} ${styles[status]}`}>
-                  {info.getValue()}
+                <div
+                  className={`${styles.badge} ${styles[String(status)]}`}
+                  title={label}
+                >
+                  {label}
                 </div>
               }
             </Box>
@@ -247,7 +300,9 @@ export const MyRequestTable = () => {
       columnHelper.display({
         id: 'actions',
         enableSorting: false,
-        header: () => <Center w="full">Actions</Center>,
+        header: () => (
+          <Center w="full">{t('myRequests.columns.actions')}</Center>
+        ),
         cell: (info) => {
           return (
             // eslint-disable-next-line{}
@@ -274,7 +329,7 @@ export const MyRequestTable = () => {
       ...coreColumn,
     ] as ColumnDef<Request>[];
     return result;
-  }, [columnHelper, hasPermission]);
+  }, [columnHelper, hasPermission, onAction, t]);
 
   useEffect(() => {
     const { id, desc } = sorting?.[0] ?? {};
@@ -331,13 +386,6 @@ export const MyRequestTable = () => {
     setOpenWorkflow(true);
   };
 
-  const onAction = (requestId: string, type: 'canceled') => () => {
-    setRequestId(requestId);
-    setModalTitle(`Confirm ${type} request`);
-    setModalDescription(`Request will be ${type}. Do you confirm that?`);
-    setIsOpen(true);
-  };
-
   const handleConfirmation = async () => {
     setIsOpen(false);
     if (requestId.length === 0) return;
@@ -345,9 +393,12 @@ export const MyRequestTable = () => {
     try {
       await cancelRequestMutation.mutateAsync(requestId);
       queryClient.invalidateQueries({ queryKey: [QueryKeys.FILTER_REQUEST] });
-      toast({ title: 'Cancelled successfully!', status: 'success' });
+      toast({
+        title: t('myRequests.messages.cancelSuccess'),
+        status: 'success',
+      });
     } catch (error) {
-      toast({ title: 'Cancel failed!', status: 'error' });
+      toast({ title: t('myRequests.messages.cancelFailed'), status: 'error' });
     }
   };
 
@@ -390,7 +441,7 @@ export const MyRequestTable = () => {
                     autoFocus
                     value={txtSearch}
                     type="text"
-                    placeholder="Enter email"
+                    placeholder={t('myRequests.placeholders.enterEmail')}
                     fontSize="14px"
                     onChange={(e) =>
                       !isLoading &&
@@ -430,7 +481,7 @@ export const MyRequestTable = () => {
                     fontWeight="medium"
                     mr={2}
                   >
-                    Only my request
+                    {t('myRequests.buttons.onlyMyRequest')}
                   </Button>
                 </WrapItem>
               }
@@ -454,7 +505,7 @@ export const MyRequestTable = () => {
           isEmpty={!requests.length && !isRefetching && !isLoading}
           h="200px"
           fontSize="xs"
-          message={'No request found!'}
+          message={t('myRequests.labels.notFound')}
         >
           <Box
             w={{

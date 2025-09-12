@@ -7,8 +7,10 @@ import NotFound from 'common/components/NotFound';
 import { useMemo } from 'react';
 import { useMediaQuery } from 'hooks/useMediaQuery';
 import { MobileHeader } from 'common/components/MobileHeader';
+import { useTranslation } from 'react-i18next';
 
 const MyRequests = () => {
+  const { t } = useTranslation();
   const isAdmin = useIsAdmin();
   const { hasPermission } = useUserPermissions();
   const isLargeScreen = useMediaQuery('(min-width: 1024px)');
@@ -27,7 +29,9 @@ const MyRequests = () => {
         marginTop={isLargeScreen ? '0px' : '50px'}
       >
         <Page.HeaderLeft>
-          <Page.Heading>{isAdmin ? 'Requests' : 'My requests'}</Page.Heading>
+          <Page.Heading>
+            {isAdmin ? t('myRequests.all') : t('myRequests.mine')}
+          </Page.Heading>
         </Page.HeaderLeft>
         <Page.HeaderRight />
       </Page.Header>

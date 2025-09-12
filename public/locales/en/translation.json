@@ -14,7 +14,21 @@
     "loading": "Loading...",
     "success": "Action completed successfully",
     "error": "An error occurred",
-    "remove": "Remove"
+    "remove": "Remove",
+    "requestStatus": {
+      "approved": "Approved",
+      "rejected": "Rejected",
+      "pending": "Pending",
+      "canceled": "Canceled"
+    },
+    "requestTemplates": {
+      "changeOffice": "Change Office Request",
+      "deviceRequest": "Device Request",
+      "officeEquipment": "Office Equipment Request",
+      "wfhRequest": "WFH Request",
+      "userTask": "User Task",
+      "notFound": "Not Found"
+    }
   },
   "auth": {
     "login": "Sign In",
@@ -177,6 +191,60 @@
       "invalidDate": "Invalid Date",
       "invalidDateFormat": "Invalid date format (DD/MM/YYYY)",
       "chooseDatesWithin7Days": "Choose any dates in the past within last 7 days from today"
+    }
+  },
+  "myRequests": {
+    "title": "My Requests",
+    "all": "Requests",
+    "mine": "My requests",
+    "titles": { "requestDetails": "Request Details" },
+    "buttons": {
+      "viewWorkflow": "View Workflow Detail",
+      "onlyMyRequest": "Only my request"
+    },
+    "filters": {
+      "allStatus": "All status",
+      "allTypes": "All types"
+    },
+    "placeholders": {
+      "enterEmail": "Enter email"
+    },
+    "columns": {
+      "title": "Title",
+      "requestUser": "Request user",
+      "currentStates": "Current states",
+      "stakeholders": "Stakeholders",
+      "createdAt": "Created at",
+      "lastExecutedAt": "Last executed at",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "messages": {
+      "confirmTitle": "Confirm {{type}} request",
+      "confirmDesc": "Request will be {{type}}. Do you confirm that?",
+      "cancelSuccess": "Cancelled successfully!",
+      "cancelFailed": "Cancel failed!"
+    },
+    "labels": {
+      "name": "Name",
+      "email": "Email",
+      "notFound": "Not found!",
+      "requestInput": "Request input",
+      "requestUser": "Request user",
+      "detail": "Detail",
+      "branchName": "Branch name",
+      "requestTemplate": "Request template",
+      "status": "Status",
+      "currentState": "Current state",
+      "stakeholders": "Stakeholders",
+      "creationTime": "Creation time",
+      "reason": "Reason",
+      "rejectedBy": "Rejected by"
+    },
+    "actions": {
+      "view": "View",
+      "workflow": "Workflow",
+      "cancel": "Cancel"
     }
   }
 }

@@ -256,11 +256,15 @@ export const RequestTemplateTable = ({
       }),
       columnHelper.accessor('isPublished', {
         id: 'isPublished',
-        header: () => <Center w="full">Published</Center>,
+        header: () => (
+          <Center w="full">{t('requestTemplates.columns.published')}</Center>
+        ),
         enableSorting: false,
         cell: (info) => (
           <Center w="full">
-            {info.getValue().toString() === 'true' ? 'Yes' : 'No'}
+            {String(info.getValue()) === 'true'
+              ? t('common.yes')
+              : t('common.no')}
           </Center>
         ),
       }),
