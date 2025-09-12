@@ -3,6 +3,32 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { RequestDetailModal } from '../components/DetailModal';
 import { RequestStatus } from 'common/enums';
 
+jest.mock('react-i18next', () => ({
+  useTranslation: () => ({
+    t: (key: string) => {
+      const translations: Record<string, string> = {
+        'common.requestTemplates.officeEquipment': 'Office Equipment Request',
+        'myRequests.titles.requestDetails': 'Request Details',
+        'myRequests.buttons.viewWorkflow': 'View Workflow Detail',
+        'myRequests.labels.requestInput': 'Request input',
+        'myRequests.labels.requestUser': 'Request user',
+        'myRequests.labels.name': 'Name',
+        'myRequests.labels.email': 'Email',
+        'myRequests.labels.branchName': 'Branch name',
+        'myRequests.labels.detail': 'Detail',
+        'myRequests.labels.requestTemplate': 'Request template',
+        'myRequests.labels.status': 'Status',
+        'common.requestStatus.approved': 'Approved',
+        'myRequests.labels.currentState': 'Current state',
+        'myRequests.labels.stakeholders': 'Stakeholders',
+        'myRequests.labels.creationTime': 'Creation time',
+      };
+      return translations[key] || key;
+    },
+    i18n: { changeLanguage: () => Promise.resolve() },
+  }),
+}));
+
 jest.mock('../../../api/apiHooks/index', () => ({
   useAxios: jest.fn(),
 }));
