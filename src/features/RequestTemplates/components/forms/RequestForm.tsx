@@ -60,7 +60,6 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
   const { t } = useTranslation();
   const currentUser = useCurrentUser();
 
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [formParams, setFormParams] = useState<FormParams>({});
   const [emailUser, setEmailUser] = useState<string>(currentUser?.email);
 
@@ -79,7 +78,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
   } = useForm<FormParams>({
     criteriaMode: 'all',
   });
-  const { mutateAsync: createMutate } = useNewRequestWorkflow();
+  const { mutateAsync: createMutate, isLoading } = useNewRequestWorkflow();
   const shortHeader: string = useMemo(() => {
     return (
       inputDefinition?.propertyDefinitions.find((item) => item.isTitle == true)
@@ -88,8 +87,6 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
   }, [inputDefinition?.propertyDefinitions]);
 
   const onSubmit = async () => {
-    setIsLoading(true);
-
     const formParamsFormatted = { ...formParams };
     Object.keys(formParamsFormatted).forEach((key) => {
       if (
@@ -109,7 +106,6 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
     };
 
     await createMutate(RequestFormParams);
-    setIsLoading(false);
     toast({
       description: 'Create Request Successfully',
       status: 'success',
