@@ -120,6 +120,7 @@ export const RequestTemplateTable = ({
   const myRequestColumns = useMemo(() => {
     const displayColumn = columnHelper.accessor('displayName', {
       id: 'displayName',
+      size: 250,
       header: isAdmin ? 'Display Name' : 'Request Template',
       enableSorting: false,
       cell: (info) => info.getValue(),
@@ -127,6 +128,7 @@ export const RequestTemplateTable = ({
 
     const actionColumn = columnHelper.display({
       id: 'actions',
+      size: 70,
       enableSorting: false,
       header: () => <Center w="full">Actions</Center>,
       cell: (info) => {
@@ -156,6 +158,7 @@ export const RequestTemplateTable = ({
         ? [
             columnHelper.display({
               id: 'designer',
+              size: 70,
               enableSorting: false,
               header: () => <Center w="full">Edit</Center>,
               cell: (info) => {
@@ -199,18 +202,21 @@ export const RequestTemplateTable = ({
     const editorColumn = [
       columnHelper.accessor('name', {
         id: 'name',
+        size: 250,
         header: 'Name',
         enableSorting: false,
         cell: (info) => info.getValue(),
       }),
       columnHelper.accessor('version', {
         id: 'version',
+        size: 70,
         header: () => <Center w="full">Version</Center>,
         enableSorting: false,
         cell: (info) => <Center w="full">{info.getValue()}</Center>,
       }),
       columnHelper.accessor('isPublished', {
         id: 'isPublished',
+        size: 70,
         header: () => <Center w="full">Published</Center>,
         enableSorting: false,
         cell: (info) => (

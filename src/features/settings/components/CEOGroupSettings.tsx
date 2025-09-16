@@ -116,6 +116,7 @@ export const CEOSettings = () => {
     return [
       columnHelper.accessor('email', {
         id: 'email',
+        size: 550,
         header: 'Email',
         enableSorting: false,
         cell: (info) => info.getValue(),
@@ -125,7 +126,7 @@ export const CEOSettings = () => {
             columnHelper.display({
               id: 'actions',
               enableSorting: false,
-              size: 50,
+              size: 100,
               header: () => <Center w="full">Actions</Center>,
               cell: (info) => (
                 <Center>

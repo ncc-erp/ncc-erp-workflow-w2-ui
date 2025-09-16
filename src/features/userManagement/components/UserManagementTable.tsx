@@ -106,6 +106,7 @@ export const UserManagementTable = () => {
       [
         columnHelper.accessor('userName', {
           id: 'userName',
+          size: 250,
           header: () => <Box>User name</Box>,
           enableSorting: true,
           sortDescFirst: true,
@@ -120,18 +121,21 @@ export const UserManagementTable = () => {
         }),
         columnHelper.accessor('email', {
           id: 'email',
+          size: 250,
           header: 'Email address',
           enableSorting: true,
           cell: (info) => info.getValue(),
         }),
         columnHelper.accessor('phoneNumber', {
           id: 'phoneNumber',
+          size: 150,
           header: 'Phone number',
           enableSorting: true,
           cell: (info) => info.getValue(),
         }),
         columnHelper.accessor('roles', {
           id: 'roles',
+          size: 150,
           header: 'Roles',
           enableSorting: true,
           cell: (info) => {
@@ -151,6 +155,7 @@ export const UserManagementTable = () => {
         }),
         columnHelper.accessor('mezonUserId', {
           id: 'mezonUserId',
+          size: 150,
           header: 'Mezon User ID',
           enableSorting: true,
           cell: (info) => {
@@ -159,12 +164,14 @@ export const UserManagementTable = () => {
         }),
         columnHelper.accessor('creationTime', {
           id: 'creationTime',
+          size: 200,
           header: 'Create time',
           enableSorting: true,
           cell: (info) => formatDate(info.getValue()),
         }),
         columnHelper.accessor('lastModificationTime', {
           id: 'lastModificationTime',
+          size: 200,
           header: 'Update time',
           enableSorting: true,
           cell: (info) => formatDate(info.getValue()),
@@ -172,6 +179,7 @@ export const UserManagementTable = () => {
         hasPermission(Permissions.UPDATE_USER) &&
           columnHelper.display({
             id: 'actions',
+            size: 100,
             enableSorting: false,
             header: () => <Center w="full">Actions</Center>,
             cell: (info) => (

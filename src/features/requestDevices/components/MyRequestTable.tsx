@@ -128,6 +128,7 @@ export const MyRequestTable = () => {
   const myRequestColumns = useMemo(() => {
     const displayColumn = columnHelper.accessor('shortTitle', {
       id: 'shortTitle',
+      size: 450,
       header: () => <Box textAlign="center">Title</Box>,
       enableSorting: false,
       cell: (info) => {
@@ -176,6 +177,7 @@ export const MyRequestTable = () => {
 
     const editorColumn = columnHelper.accessor('userRequestName', {
       id: 'userRequestName',
+      size: 150,
       header: () => <Box>Request user</Box>,
       enableSorting: false,
       cell: (info) => info.getValue(),
@@ -184,6 +186,7 @@ export const MyRequestTable = () => {
     const coreColumn = [
       columnHelper.accessor('currentStates', {
         id: 'currentStates',
+        size: 150,
         header: () => <Box textAlign="center">Current states</Box>,
         enableSorting: false,
         cell: (info) => {
@@ -200,6 +203,7 @@ export const MyRequestTable = () => {
 
       columnHelper.accessor('stakeHolders', {
         id: 'stakeHolders',
+        size: 150,
         header: 'Stakeholders',
         enableSorting: false,
         cell: (info) => {
@@ -215,6 +219,7 @@ export const MyRequestTable = () => {
       }),
       columnHelper.accessor('createdAt', {
         id: 'createdAt',
+        size: 200,
         header: 'Created at',
         cell: (info) => formatDate(new Date(info.getValue())),
         sortDescFirst: true,
@@ -222,6 +227,7 @@ export const MyRequestTable = () => {
 
       columnHelper.accessor('lastExecutedAt', {
         id: 'lastExecutedAt',
+        size: 200,
         header: 'Last executed at',
         cell: (info) => formatDate(new Date(info.getValue())),
         enableSorting: false,
@@ -229,6 +235,7 @@ export const MyRequestTable = () => {
       }),
       columnHelper.accessor('status', {
         id: 'status',
+        size: 100,
         header: 'Status',
         enableSorting: false,
         cell: (info) => {
@@ -246,6 +253,7 @@ export const MyRequestTable = () => {
       }),
       columnHelper.display({
         id: 'actions',
+        size: 100,
         enableSorting: false,
         header: () => <Center w="full">Actions</Center>,
         cell: (info) => {

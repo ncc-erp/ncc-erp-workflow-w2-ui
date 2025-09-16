@@ -120,7 +120,7 @@ export const AccountantSettings = () => {
         ? [
             columnHelper.display({
               id: 'actions',
-              size: 50,
+              size: 100,
               enableSorting: false,
               header: () => <Center w="full">Actions</Center>,
               cell: (info) => (

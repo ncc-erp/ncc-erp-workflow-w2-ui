@@ -153,6 +153,7 @@ export const DirectorSettings = () => {
     return [
       columnHelper.accessor('name', {
         id: 'name',
+        size: 300,
         header: () => <Box>Name</Box>,
         enableSorting: false,
         sortDescFirst: true,
@@ -160,12 +161,14 @@ export const DirectorSettings = () => {
       }),
       columnHelper.accessor('code', {
         id: 'code',
+        size: 300,
         header: 'Code',
         enableSorting: false,
         cell: (info) => info.getValue(),
       }),
       columnHelper.accessor('email', {
         id: 'email',
+        size: 300,
         header: 'Email',
         enableSorting: false,
         cell: (info) => info.getValue(),
@@ -176,7 +179,7 @@ export const DirectorSettings = () => {
             columnHelper.display({
               id: 'actions',
               enableSorting: false,
-              size: 50,
+              size: 100,
               header: () => <Center w="full">Actions</Center>,
               cell: (info) => (
                 <Center>

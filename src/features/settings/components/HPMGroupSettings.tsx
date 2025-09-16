@@ -115,6 +115,7 @@ export const HPMSettings = () => {
     return [
       columnHelper.accessor('email', {
         id: 'email',
+        size: 550,
         header: 'Email',
         enableSorting: false,
         cell: (info) => info.getValue(),
@@ -123,7 +124,7 @@ export const HPMSettings = () => {
         ? [
             columnHelper.display({
               id: 'actions',
-              size: 50,
+              size: 100,
               enableSorting: false,
               header: () => <Center w="full">Actions</Center>,
               cell: (info) => (
