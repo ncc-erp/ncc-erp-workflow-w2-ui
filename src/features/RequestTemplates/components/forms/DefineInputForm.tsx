@@ -114,7 +114,7 @@ const DefineInputForm = ({
 
     setIsLoading(false);
     toast({
-      description: t('requestTemplates.messages.createRequestSuccess'),
+      description: t('REQUEST_TEMPLATES_PAGE.MESSAGES.CREATE_REQUEST_SUCCESS'),
       status: 'success',
     });
     onCloseModal();
@@ -137,7 +137,7 @@ const DefineInputForm = ({
           >
             <FormControl>
               <FormLabel fontSize={['sm', 'md']} mb={1} fontWeight="normal">
-                {t('requestTemplates.forms.defineInput.propertyName')}
+                {t('REQUEST_TEMPLATES_PAGE.FORMS.DEFINE_INPUT.PROPERTY_NAME')}
                 <FormHelperText mb={1} as="span">
                   {' '}
                   *
@@ -149,7 +149,7 @@ const DefineInputForm = ({
                 fontSize="sm"
                 {...register(`items.${index}.name`, {
                   required: t(
-                    'requestTemplates.forms.defineInput.nameRequired'
+                    'REQUEST_TEMPLATES_PAGE.FORMS.DEFINE_INPUT.NAME_REQUIRED'
                   ),
                 })}
               />
@@ -164,7 +164,7 @@ const DefineInputForm = ({
 
             <FormControl mb="20px">
               <FormLabel fontSize={['sm', 'md']} mb={1} fontWeight="normal">
-                {t('requestTemplates.forms.defineInput.propertyType')}
+                {t('REQUEST_TEMPLATES_PAGE.FORMS.DEFINE_INPUT.PROPERTY_TYPE')}
               </FormLabel>
 
               {inputType ? (
@@ -196,7 +196,7 @@ const DefineInputForm = ({
                 fontWeight="normal"
                 mr={0}
               >
-                {t('requestTemplates.forms.defineInput.required')}
+                {t('REQUEST_TEMPLATES_PAGE.FORMS.DEFINE_INPUT.REQUIRED')}
               </FormLabel>
               <Center h="40px">
                 <Controller
@@ -219,7 +219,7 @@ const DefineInputForm = ({
               isDisabled={!(fields.length > 1)}
               onClick={() => remove(index)}
             >
-              {t('common.remove')}
+              {t('REQUEST_TEMPLATES_PAGE.REMOVE_BUTTON')}
             </Button>
           </Flex>
           <Divider my={1} />
@@ -243,7 +243,7 @@ const DefineInputForm = ({
           data-testid="button-add-field"
           w={['full', 'auto']}
         >
-          {t('requestTemplates.forms.defineInput.addField')}
+          {t('REQUEST_TEMPLATES_PAGE.ADD_FIELD_BUTTON')}
         </Button>
       </VStack>
       <Button
@@ -255,7 +255,7 @@ const DefineInputForm = ({
         colorScheme="gray"
         fontSize={['sm', 'md']}
       >
-        {t('common.save')}
+        {t('REQUEST_TEMPLATES_PAGE.SAVE_BUTTON')}
       </Button>
     </form>
   );

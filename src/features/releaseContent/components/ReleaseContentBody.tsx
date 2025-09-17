@@ -1,57 +1,47 @@
 import { Box, Flex, Skeleton } from '@chakra-ui/react';
 import { useReleaseContent } from 'api/apiHooks/releaseContentHooks';
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { ReleaseItem } from './ReleaseItem';
 import { IReleaseContent } from 'models/request';
+import { useTranslation } from 'react-i18next';
 
 export const ReleaseContentBody = () => {
+  const { t } = useTranslation();
   const { data: releaseContent, isLoading } = useReleaseContent();
 
-  const mergeSections = (text: string): string => {
-    const sections: {
-      current?: "## What's Changed" | '## New Contributors';
-      "## What's Changed": string[];
-      '## New Contributors': string[];
-    } = {
-      "## What's Changed": [],
-      '## New Contributors': [],
-    };
-
-    // Split the input string line by line and process each line
-    text.split('\n').forEach((line) => {
-      if (line.startsWith("## What's Changed")) {
-        sections.current = "## What's Changed";
-      } else if (line.startsWith('## New Contributors')) {
-        sections.current = '## New Contributors';
-      } else if (sections.current && line.trim()) {
-        sections[sections.current].push(line.trim());
-      }
-    });
-
-    // Combine parts into a string
-    return Object.entries(sections)
-      .filter(([key, firstValue]) => key !== 'current' && firstValue.length)
-      .map(([key, values]) => {
-        // Cast the value as a string array
-        if (Array.isArray(values)) {
-          return `${key}\n${values.join('\n')}`;
-        }
+  const mergeSections = useCallback(
+    (text?: string): string => {
+      const whatsChangedKey = t('RELEASE_CONTENT.WHATS_CHANGED');
+      const newContributorsKey = t('RELEASE_CONTENT.NEW_CONTRIBUTORS');
+      const fullChangelogKey = t('RELEASE_CONTENT.FULL_CHANGELOG');
+      if (!text) {
         return '';
-      })
-      .filter(Boolean) // remove empty
-      .join('\n\n');
-  };
+      }
+
+      return (
+        text
+          .replace(/## What's Changed/g, `## ${whatsChangedKey}`)
+          .replace(/## New Contributors/g, `## ${newContributorsKey}`)
+          .replace(/\*\*Full Changelog\*\*/g, `**${fullChangelogKey}**`) || ''
+      );
+    },
+    [t]
+  );
 
   const releaseData = useMemo(() => {
     if (releaseContent?.length) {
       const map = new Map();
       releaseContent.forEach((item) => {
         if (!map.has(item.tag_name)) {
-          // Initialize a new object for base on version tag_name
-          map.set(item.tag_name, { ...item });
+          const translatedItem = {
+            ...item,
+            body: mergeSections(item.body),
+          };
+          map.set(item.tag_name, translatedItem);
         } else {
           const existingItem = map.get(item.tag_name);
-          const existed = existingItem.body.split('**Full Changelog**:');
+          const fullChangelogText = t('RELEASE_CONTENT.FULL_CHANGELOG');
+          const existed = existingItem.body.split(`**${fullChangelogText}**:`);
           const incoming = item?.body?.split('**Full Changelog**:');
 
           existingItem.body = mergeSections(
@@ -60,7 +50,7 @@ export const ReleaseContentBody = () => {
 
           // if existed have change log
           if (existed[1] || incoming?.[1]) {
-            existingItem.body += ` \n\n**Full Changelog**: `;
+            existingItem.body += ` \n\n**${fullChangelogText}**: `;
             if (existed[1]) existingItem.body += ` \r\n* ${existed[1]}`;
             if (incoming?.[1]) existingItem.body += ` \r\n* ${incoming?.[1]}`;
           }
@@ -68,13 +58,9 @@ export const ReleaseContentBody = () => {
       });
 
       const mergedArray: IReleaseContent[] = Array.from(map.values());
-
       return mergedArray.sort((a, b) => {
-        // If a.create_at is null, it will be ranked before b.create_at (if b.create_at is not null)
         if (!a?.created_at) return 1;
         if (!b?.created_at) return -1;
-
-        // If both are not null, sort by time
         return (
           new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
         );
@@ -82,7 +68,7 @@ export const ReleaseContentBody = () => {
     }
 
     return [];
-  }, [releaseContent]);
+  }, [releaseContent, t, mergeSections]);
 
   if (isLoading) {
     return (

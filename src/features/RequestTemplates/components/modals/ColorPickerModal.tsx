@@ -34,7 +34,7 @@ export const ColorPickerModal = ({
       <ModalOverlay />
       <ModalContent className={styles.customModal}>
         <ModalHeader fontSize="md">
-          {t('requestTemplates.modals.changeColorSettings')}
+          {t('REQUEST_TEMPLATES_PAGE.CHANGE_COLOR_SETTINGS')}
         </ModalHeader>
         <Divider></Divider>
         <ModalCloseButton />
@@ -71,7 +71,7 @@ export const ColorPickerModal = ({
               colorScheme="green"
               onClick={onColorChange}
             >
-              {t('common.save')}
+              {t('REQUEST_TEMPLATES_PAGE.SAVE_BUTTON')}
             </Button>
           </div>
         </ModalBody>

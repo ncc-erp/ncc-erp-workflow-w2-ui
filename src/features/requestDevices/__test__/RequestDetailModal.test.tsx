@@ -7,6 +7,28 @@ jest.mock('react-i18next', () => ({
   useTranslation: () => ({
     t: (key: string) => {
       const translations: Record<string, string> = {
+        // Thêm các key đúng như trong HTML output
+        'MY_REQUESTS_PAGE.REQUEST_TEMPLATES.OFFICE_EQUIPMENT':
+          'Office Equipment Request',
+        'MY_REQUESTS_PAGE.TITLES.REQUEST_DETAILS': 'Request Details',
+        'MY_REQUESTS_PAGE.BUTTONS.VIEW_WORKFLOW': 'View Workflow Detail',
+        'MY_REQUESTS_PAGE.LABELS.REQUEST_INPUT': 'Request input',
+        'MY_REQUESTS_PAGE.LABELS.REQUEST_USER': 'Request user',
+        'MY_REQUESTS_PAGE.LABELS.NAME': 'Name',
+        'MY_REQUESTS_PAGE.LABELS.EMAIL': 'Email',
+        'MY_REQUESTS_PAGE.LABELS.BRANCH_NAME': 'Branch name',
+        'MY_REQUESTS_PAGE.LABELS.DETAIL': 'Detail',
+        'MY_REQUESTS_PAGE.LABELS.REQUEST_TEMPLATE': 'Request template',
+        'MY_REQUESTS_PAGE.LABELS.STATUS': 'Status',
+        'MY_REQUESTS_PAGE.REQUEST_STATUS.APPROVED': 'Approved',
+        'MY_REQUESTS_PAGE.LABELS.CURRENT_STATE': 'Current state',
+        'MY_REQUESTS_PAGE.LABELS.STAKEHOLDERS': 'Stakeholders',
+        'MY_REQUESTS_PAGE.LABELS.CREATION_TIME': 'Creation time',
+        'MY_REQUESTS_PAGE.LABELS.CURRENT_OFFICE': 'Current Office',
+        'MY_REQUESTS_PAGE.LABELS.EQUIPMENT': 'Equipment',
+        'MY_REQUESTS_PAGE.LABELS.REASON': 'Reason',
+
+        // Giữ lại các key cũ để backward compatibility
         'common.requestTemplates.officeEquipment': 'Office Equipment Request',
         'myRequests.titles.requestDetails': 'Request Details',
         'myRequests.buttons.viewWorkflow': 'View Workflow Detail',
@@ -27,6 +49,10 @@ jest.mock('react-i18next', () => ({
     },
     i18n: { changeLanguage: () => Promise.resolve() },
   }),
+  initReactI18next: {
+    type: '3rdParty',
+    init: () => {},
+  },
 }));
 
 jest.mock('../../../api/apiHooks/index', () => ({

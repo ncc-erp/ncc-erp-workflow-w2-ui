@@ -16,6 +16,7 @@ import { LocalStorageKeys } from 'common/enums';
 import { useMemo } from 'react';
 import { getItem } from 'utils';
 import IFrame from './IFrame';
+import { useTranslation } from 'react-i18next';
 
 interface IWorkflowModalProps {
   isOpen: boolean;
@@ -31,7 +32,7 @@ export const WorkflowModal = ({
   const token: string | null = useMemo(() => {
     return getItem(LocalStorageKeys.accessToken);
   }, []);
-
+  const { t } = useTranslation();
   return (
     <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false}>
       <ModalOverlay />
@@ -41,7 +42,7 @@ export const WorkflowModal = ({
             <Image h="45px" src={Logo} />
             <Heading ml={1} w="550px">
               <Text fontSize={16} fontWeight={400} mt={1.5}>
-                Workflow Detail
+                {t('WORK_FLOW.WORK_FLOW_DETAIL')}
               </Text>
             </Heading>
           </HStack>

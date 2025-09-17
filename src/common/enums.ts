@@ -11,10 +11,10 @@ export enum RequestStatus {
 }
 
 export const REQUEST_STATUS_I18N_KEY: Record<RequestStatus, string> = {
-  [RequestStatus.Approved]: 'common.requestStatus.approved',
-  [RequestStatus.Rejected]: 'common.requestStatus.rejected',
-  [RequestStatus.Pending]: 'common.requestStatus.pending',
-  [RequestStatus.Canceled]: 'common.requestStatus.canceled',
+  [RequestStatus.Approved]: 'MY_REQUESTS_PAGE.REQUEST_STATUS.APPROVED',
+  [RequestStatus.Rejected]: 'MY_REQUESTS_PAGE.REQUEST_STATUS.REJECTED',
+  [RequestStatus.Pending]: 'MY_REQUESTS_PAGE.REQUEST_STATUS.PENDING',
+  [RequestStatus.Canceled]: 'MY_REQUESTS_PAGE.REQUEST_STATUS.CANCELED',
 };
 
 export enum ETaskStatus {

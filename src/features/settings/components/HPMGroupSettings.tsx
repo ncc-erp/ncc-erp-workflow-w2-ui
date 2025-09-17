@@ -27,6 +27,7 @@ import { SettingForm } from './SettingForm';
 import { HttpStatusCode } from 'axios';
 import { Permissions } from 'common/constants';
 import { useUserPermissions } from 'hooks/useUserPermissions';
+import { useTranslation } from 'react-i18next';
 
 const initialFilter: IFilterSettingParams = {
   settingCode: ESettingCode.HPM,
@@ -40,6 +41,7 @@ export const HPMSettings = () => {
   const { sideBarWidth } = useRecoilValue(appConfigState);
   const { data, isLoading, refetch } = useGetSettingList(initialFilter);
   const { hasPermission } = useUserPermissions();
+  const { t } = useTranslation();
   const { mutateAsync: createMutate, isLoading: isCreating } =
     useCreateSetting();
   const { mutateAsync: deleteMutate } = useDeleteSetting();
@@ -115,7 +117,7 @@ export const HPMSettings = () => {
     return [
       columnHelper.accessor('email', {
         id: 'email',
-        header: 'Email',
+        header: t('SETTING_PAGE.EMAIL'),
         enableSorting: false,
         cell: (info) => info.getValue(),
       }),
@@ -125,7 +127,9 @@ export const HPMSettings = () => {
               id: 'actions',
               size: 50,
               enableSorting: false,
-              header: () => <Center w="full">Actions</Center>,
+              header: () => (
+                <Center w="full">{t('SETTING_PAGE.ACTIONS')}</Center>
+              ),
               cell: (info) => (
                 <Center>
                   <RowAction onDelete={onAction(info.row.original, 'Delete')} />
@@ -135,12 +139,12 @@ export const HPMSettings = () => {
           ]
         : []),
     ] as ColumnDef<ISettingValue>[];
-  }, [columnHelper, deleteMutate, refetch, hasPermission]);
+  }, [columnHelper, deleteMutate, refetch, hasPermission, t]);
 
   return (
     <>
       <Box fontSize="14" fontWeight="bold">
-        HPM Group
+        {t('SETTING_PAGE.HPM_GROUP')}
       </Box>
       <Box fontSize="14" fontWeight="bold">
         <SettingForm
@@ -155,7 +159,7 @@ export const HPMSettings = () => {
           isEmpty={!settings.length && !isLoading}
           h="200px"
           fontSize="xs"
-          message={'No request found!'}
+          message={t('SETTING_PAGE.NO_REQUEST_FOUND')}
         >
           <Box
             p={{ base: '10px 0px 24px 0px' }}

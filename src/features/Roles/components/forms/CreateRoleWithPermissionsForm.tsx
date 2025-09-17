@@ -27,6 +27,7 @@ import {
 import { DeleteIcon } from '@chakra-ui/icons';
 import { useUserPermissions } from 'hooks/useUserPermissions';
 import { Permissions as PermissionConstants } from 'common/constants';
+import { useTranslation } from 'react-i18next';
 
 interface CreateRoleWithPermissionsProps {
   onClose: () => void;
@@ -40,6 +41,7 @@ interface CreateRoleWithPermissionsProps {
 const CreateRoleWithPermissionsForm: React.FC<
   CreateRoleWithPermissionsProps
 > = ({ onClose, onSubmit, permissions, initialRoleName = '', role }) => {
+  const { t } = useTranslation();
   const [roleName, setRoleName] = useState(initialRoleName);
   const [selectedPermissions, setSelectedPermissions] = useState<string[]>([]);
   const [isTreeModified, setIsTreeModified] = useState(false);
@@ -112,10 +114,10 @@ const CreateRoleWithPermissionsForm: React.FC<
     <form onSubmit={handleSubmit} style={{ position: 'relative' }}>
       <VStack spacing="14px">
         <FormControl mb={3}>
-          <FormLabel fontWeight={500}>Role Name</FormLabel>
+          <FormLabel fontWeight={500}>{t('ROLE_PAGE.ROLE_NAME')}</FormLabel>
           <Input
             mt={3}
-            placeholder="Role Name"
+            placeholder={t('ROLE_PAGE.ROLE_NAME_PLACEHOLDER')}
             value={roleName}
             onChange={(e) => setRoleName(e.target.value)}
             required
@@ -133,10 +135,10 @@ const CreateRoleWithPermissionsForm: React.FC<
         >
           <TabList>
             <Tab fontSize="16px" fontWeight="medium">
-              Permissions
+              {t('ROLE_PAGE.PERMISSIONS')}
             </Tab>
             <Tab fontSize="16px" fontWeight="medium">
-              Users
+              {t('ROLE_PAGE.USERS')}
             </Tab>
           </TabList>
           <TabPanels maxH="40vh" overflowY="auto">
@@ -182,7 +184,7 @@ const CreateRoleWithPermissionsForm: React.FC<
                     {renderIfAllowed(
                       PermissionConstants.DELETE_USER_ON_ROLE,
                       <IconButton
-                        aria-label="Delete user"
+                        aria-label={t('ROLE_PAGE.DELETE_USER')}
                         icon={<DeleteIcon />}
                         size="sm"
                         variant="primary"
@@ -203,14 +205,14 @@ const CreateRoleWithPermissionsForm: React.FC<
                     justifyContent: 'center',
                   }}
                 >
-                  <div>No users available</div>
+                  <div>{t('ROLE_PAGE.NO_USERS')}</div>
                   {renderIfAllowed(
                     PermissionConstants.DELETE_ROLE,
                     <Button
                       variant="primary"
                       onClick={() => role && handleOpenModal(role.id)}
                     >
-                      Delete Role
+                      {t('ROLE_PAGE.DELETE_ROLE')}
                     </Button>
                   )}
                 </VStack>
@@ -219,12 +221,12 @@ const CreateRoleWithPermissionsForm: React.FC<
           </TabPanels>
         </Tabs>
         <Button mt="14px" type="submit" width="full">
-          {role ? 'Update' : 'Create'}
+          {role ? t('ROLE_PAGE.UPDATE') : t('ROLE_PAGE.CREATE')}
         </Button>
       </VStack>
       <ModalConfirm
-        title="Delete Confirmation"
-        description="Are you sure you want to delete this role?"
+        title={t('ROLE_PAGE.DELETE_CONFIRMATION_TITLE')}
+        description={t('ROLE_PAGE.DELETE_CONFIRMATION_DESCRIPTION')}
         isOpen={isModalOpen}
         onClose={handleCloseModal}
         onConfirm={handleConfirmDelete}

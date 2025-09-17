@@ -105,7 +105,7 @@ export const DefineTemplateInputModal = ({
         >
           <Box>
             <ModalHeader fontSize={['sm', 'md']} p={0}>
-              {t('requestTemplates.modals.defineWorkflowInput')}
+              {t('REQUEST_TEMPLATES_PAGE.DEFINE_WORKFLOW_INPUT')}
             </ModalHeader>
           </Box>
           <Box ml="auto">

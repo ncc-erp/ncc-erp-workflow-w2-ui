@@ -10,8 +10,10 @@ import { useGetAllPermissions, useGetAllRoles } from 'api/apiHooks/roleHook';
 import { useUserPermissions } from 'hooks/useUserPermissions';
 import { Permissions } from 'common/constants';
 import { BiSolidPencil } from 'react-icons/bi';
+import { useTranslation } from 'react-i18next';
 
 export const RolesBoard = () => {
+  const { t } = useTranslation();
   const { data: rolesData, refetch: refetchRoles } = useGetAllRoles();
   const { data: permissionsData } = useGetAllPermissions();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -22,7 +24,7 @@ export const RolesBoard = () => {
     return [
       {
         accessorKey: 'name',
-        header: 'Role Name',
+        header: t('ROLE_PAGE.ROLE_NAME'),
         cell: (info) => info.row.original.name,
         enableSorting: false,
       },
@@ -30,7 +32,7 @@ export const RolesBoard = () => {
         ? [
             {
               accessorKey: 'action',
-              header: () => <Center w="full">Action</Center>,
+              header: () => <Center w="full">{t('ROLE_PAGE.ACTION')}</Center>,
               cell: ({ row }: { row: { original: Role } }) => (
                 <Center>
                   <IconButton
@@ -47,7 +49,7 @@ export const RolesBoard = () => {
           ]
         : []),
     ];
-  }, [hasPermission]);
+  }, [hasPermission, t]);
 
   const onOpenCreateModal = () => {
     setSelectedRoleId(null);
@@ -80,7 +82,7 @@ export const RolesBoard = () => {
                 variant="primary"
                 onClick={onOpenCreateModal}
               >
-                Create
+                {t('ROLE_PAGE.CREATE')}
               </Button>
             </Box>
           )}
@@ -88,7 +90,7 @@ export const RolesBoard = () => {
             isEmpty={!rolesData?.items.length}
             h="200px"
             fontSize="xs"
-            message={'No roles found!'}
+            message={t('ROLE_PAGE.NO_ROLES_FOUND')}
             boxSizing="border-box"
           >
             <Box

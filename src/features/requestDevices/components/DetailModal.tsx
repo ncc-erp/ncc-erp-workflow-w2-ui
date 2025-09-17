@@ -119,13 +119,57 @@ export const RequestDetailModal = ({
         const data = JSON.parse(payload) as IDynamicDataProps[];
         return data.map((element) => ({
           data: (element.data || '').split('\n'),
-          name: element.name || t('myRequests.labels.noName', 'No name'),
+          name: element.name || t('MY_REQUESTS_PAGE.LABELS.NO_NAME'),
         })) as unknown as IDynamicDataProps[];
       } catch (error) {
         return [];
       }
     },
     [t]
+  );
+
+  // Di chuyển getDynamicReviewFieldI18nKey ra ngoài và sử dụng useCallback
+  const getDynamicReviewFieldI18nKey = useCallback(
+    (fieldName: string): string => {
+      const fieldMappings: Record<string, string> = {
+        'PM Reviews': 'MY_REQUESTS_PAGE.LABELS.PM_REVIEWS',
+        StrengthPoints: 'MY_REQUESTS_PAGE.LABELS.STRENGTH_POINTS',
+        WeaknessPoints: 'MY_REQUESTS_PAGE.LABELS.WEAKNESS_POINTS',
+      };
+
+      return fieldMappings[fieldName] || fieldName;
+    },
+    []
+  );
+
+  // Di chuyển mappingReviewToList ra ngoài và sử dụng useCallback
+  const mappingReviewToList = useCallback(
+    (data: IDynamicDataProps[]) => {
+      return data.map((element, ind) => {
+        if (!Array.isArray(element.data)) return null;
+
+        const filteredData = element.data.filter((item) => item.trim() !== '');
+
+        if (filteredData.length === 0) return null;
+
+        const fieldI18nKey = getDynamicReviewFieldI18nKey(element.name);
+        const fieldLabel = fieldI18nKey.startsWith('MY_REQUESTS_PAGE.')
+          ? t(fieldI18nKey)
+          : convertToCase(element.name);
+
+        return (
+          <List key={element.name + ind} mt={1} spacing={1}>
+            <Text fontSize={14} fontWeight={600} fontStyle="italic">
+              {fieldLabel}:
+            </Text>
+            {filteredData.map((x) => (
+              <ListItem key={x}>{x}</ListItem>
+            ))}
+          </List>
+        );
+      });
+    },
+    [getDynamicReviewFieldI18nKey, t]
   );
 
   const renderDynamicDataContent = useCallback(() => {
@@ -165,7 +209,7 @@ export const RequestDetailModal = ({
         </div>
       );
     });
-  }, [tasks, convertToDynamicArray]);
+  }, [tasks, convertToDynamicArray, mappingReviewToList]); // Thêm mappingReviewToList vào dependency
 
   if (isLoading) {
     return (
@@ -181,27 +225,6 @@ export const RequestDetailModal = ({
       </Modal>
     );
   }
-
-  const mappingReviewToList = (data: IDynamicDataProps[]) => {
-    return data.map((element, ind) => {
-      if (!Array.isArray(element.data)) return null;
-
-      const filteredData = element.data.filter((item) => item.trim() !== '');
-
-      if (filteredData.length === 0) return null;
-
-      return (
-        <List key={element.name + ind} mt={1} spacing={1}>
-          <Text fontSize={14} fontWeight={600} fontStyle="italic">
-            {convertToCase(element.name)}:
-          </Text>
-          {filteredData.map((x) => (
-            <ListItem key={x}>{x}</ListItem>
-          ))}
-        </List>
-      );
-    });
-  };
 
   const templateDisplayName = (() => {
     const dn = requestDetail?.workflowDefinitionDisplayName;
@@ -228,12 +251,12 @@ export const RequestDetailModal = ({
                   {templateDisplayName}
                 </Text>
                 <Text fontSize={16} fontWeight={400} mt={1.5}>
-                  {t('myRequests.titles.requestDetails')}
+                  {t('MY_REQUESTS_PAGE.TITLES.REQUEST_DETAILS')}
                 </Text>
               </Heading>
             </HStack>
             <Button mt={2} onClick={onActionViewWorkflow(requestDetail.id)}>
-              {t('myRequests.buttons.viewWorkflow')}
+              {t('MY_REQUESTS_PAGE.BUTTONS.VIEW_WORKFLOW')}
             </Button>
           </ModalHeader>
           <ModalCloseButton mt="15px" mr="10px" />
@@ -247,7 +270,7 @@ export const RequestDetailModal = ({
                 fontStyle="italic"
                 color="primary"
               >
-                {t('myRequests.labels.requestInput')}
+                {t('MY_REQUESTS_PAGE.LABELS.REQUEST_INPUT')}
               </Text>
               <div className={styles.wrapper}>
                 {hasInputRequestData && inputRequestDetail && (
@@ -262,26 +285,28 @@ export const RequestDetailModal = ({
                 fontStyle="italic"
                 color="primary"
               >
-                {t('myRequests.labels.requestUser')}
+                {t('MY_REQUESTS_PAGE.LABELS.REQUEST_USER')}
               </Text>
               <div className={styles.wrapper}>
                 {inputRequestUser ? (
                   <>
                     <TextGroup
-                      label={t('myRequests.labels.name')}
+                      label={t('MY_REQUESTS_PAGE.LABELS.NAME')}
                       content={inputRequestUser?.name}
                     />
                     <TextGroup
-                      label={t('myRequests.labels.email')}
+                      label={t('MY_REQUESTS_PAGE.LABELS.EMAIL')}
                       content={inputRequestUser?.email}
                     />
                     <TextGroup
-                      label={t('myRequests.labels.branchName')}
+                      label={t('MY_REQUESTS_PAGE.LABELS.BRANCH_NAME')}
                       content={inputRequestUser?.branchName}
                     />
                   </>
                 ) : (
-                  <Text fontSize="15px">{t('myRequests.labels.notFound')}</Text>
+                  <Text fontSize="15px">
+                    {t('MY_REQUESTS_PAGE.LABELS.NOT_FOUND')}
+                  </Text>
                 )}
               </div>
 
@@ -292,12 +317,12 @@ export const RequestDetailModal = ({
                 fontStyle="italic"
                 color="primary"
               >
-                {t('myRequests.labels.detail')}
+                {t('MY_REQUESTS_PAGE.LABELS.DETAIL')}
               </Text>
 
               <div className={styles.wrapper}>
                 <TextGroup
-                  label={t('myRequests.labels.requestTemplate')}
+                  label={t('MY_REQUESTS_PAGE.LABELS.REQUEST_TEMPLATE')}
                   content={
                     requestDetail?.workflowDefinitionDisplayName
                       ? t(
@@ -320,7 +345,7 @@ export const RequestDetailModal = ({
 
                   return (
                     <TextGroup
-                      label={t('myRequests.labels.status')}
+                      label={t('MY_REQUESTS_PAGE.LABELS.STATUS')}
                       content={statusLabel}
                       color={statusColor.color}
                     />
@@ -329,18 +354,18 @@ export const RequestDetailModal = ({
 
                 {requestDetail?.currentStates.length > 0 && (
                   <TextGroup
-                    label={t('myRequests.labels.currentState')}
+                    label={t('MY_REQUESTS_PAGE.LABELS.CURRENT_STATE')}
                     content={requestDetail?.currentStates.join(', ')}
                   />
                 )}
                 {requestDetail?.stakeHolders.length > 0 && (
                   <TextGroup
-                    label={t('myRequests.labels.stakeholders')}
+                    label={t('MY_REQUESTS_PAGE.LABELS.STAKEHOLDERS')}
                     content={requestDetail?.stakeHolders.join(', ')}
                   />
                 )}
                 <TextGroup
-                  label={t('myRequests.labels.creationTime')}
+                  label={t('MY_REQUESTS_PAGE.LABELS.CREATION_TIME')}
                   content={
                     requestDetail?.createdAt
                       ? formatDate(new Date(requestDetail?.createdAt))
@@ -350,14 +375,14 @@ export const RequestDetailModal = ({
 
                 {rejectReason && (
                   <TextGroup
-                    label={t('myRequests.labels.reason')}
+                    label={t('MY_REQUESTS_PAGE.LABELS.REASON')}
                     content={rejectReason}
                   />
                 )}
                 {!rejectReason && <TextGroup label="" content="" />}
                 {getUserReject && (
                   <TextGroup
-                    label={t('myRequests.labels.rejectedBy')}
+                    label={t('MY_REQUESTS_PAGE.LABELS.REJECTED_BY')}
                     content={removeDiacritics(getUserReject)}
                   />
                 )}

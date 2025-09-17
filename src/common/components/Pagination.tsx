@@ -5,6 +5,7 @@ import PaginationComponent, {
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import { useMediaQuery } from 'hooks/useMediaQuery';
 import { BsThreeDots } from 'react-icons/bs';
+import { useTranslation } from 'react-i18next';
 
 interface PaginationProps extends PaginationComponentProps {
   itemRenderProps?: ButtonProps;
@@ -21,7 +22,7 @@ export const Pagination = ({
   ...paginationProps
 }: PaginationProps) => {
   const isLargeScreen = useMediaQuery('(min-width: 1281px)');
-
+  const { t } = useTranslation();
   const isLastPage = (activePage: number) => {
     return (
       Math.ceil(
@@ -93,7 +94,7 @@ export const Pagination = ({
               borderRightRadius="0"
               borderColor="border"
             >
-              Previous
+              {t('PAGINATION.PREVIOUS')}
             </Button>
           );
         case 'next':
@@ -117,7 +118,7 @@ export const Pagination = ({
               borderLeft="0px"
               borderColor="border"
             >
-              Next
+              {t('PAGINATION.NEXT')}
             </Button>
           );
         default:

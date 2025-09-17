@@ -29,8 +29,10 @@ import { toast } from 'common/components/StandaloneToast';
 import { useUserPermissions } from 'hooks/useUserPermissions';
 import { Permissions } from 'common/constants';
 import EditWebhookForm from './forms/EditWebhookForm';
+import { useTranslation } from 'react-i18next';
 
 export const WebhooksBoard = () => {
+  const { t } = useTranslation();
   const { data: webhookData, refetch: refetchWebhooks } = useGetAllWebhooks();
   const { mutate: deleteWebhook } = useDeleteWebhook();
   const { mutate: updateWebhook } = useUpdateWebhook();
@@ -54,13 +56,13 @@ export const WebhooksBoard = () => {
     return [
       {
         accessorKey: 'WebhookName',
-        header: () => <Box mr={6}>Webhook Name</Box>,
+        header: () => <Box mr={6}>{t('WEBHOOKS_PAGE.WEBHOOK_NAME')}</Box>,
         cell: (info) => <Box mr={6}>{info.row.original.webhookName}</Box>,
         enableSorting: false,
       },
       {
         accessorKey: 'url',
-        header: () => <Box px={6}>Webhook URL</Box>,
+        header: () => <Box px={6}>{t('WEBHOOKS_PAGE.WEBHOOK_URL')}</Box>,
         cell: (info) => {
           const fullUrl = info.row.original.url;
           const truncatedUrl =
@@ -84,7 +86,7 @@ export const WebhooksBoard = () => {
       },
       {
         accessorKey: 'action',
-        header: () => <Center w="full">Action</Center>,
+        header: () => <Center w="full">{t('WEBHOOKS_PAGE.ACTION')}</Center>,
         cell: ({ row }: { row: { original: Webhook } }) => (
           <Center>
             {hasPermission(Permissions.UPDATE_WEBHOOK) && (
@@ -111,7 +113,7 @@ export const WebhooksBoard = () => {
         enableSorting: false,
       },
     ];
-  }, [hasPermission]);
+  }, [hasPermission, t]);
 
   const onOpenCreateModal = () => {
     setSelectedWebhookId(null);
@@ -147,7 +149,7 @@ export const WebhooksBoard = () => {
     deleteWebhook(webhookId, {
       onSuccess: () => {
         toast({
-          title: 'Webhook deleted successfully!',
+          title: t('WEBHOOKS_PAGE.WEBHOOK_DELETED_SUCCESSFULLY'),
           status: 'success',
           duration: 3000,
           isClosable: true,
@@ -172,7 +174,7 @@ export const WebhooksBoard = () => {
         {
           onSuccess: () => {
             toast({
-              title: 'Webhook updated successfully!',
+              title: t('WEBHOOKS_PAGE.WEBHOOK_UPDATED_SUCCESSFULLY'),
               status: 'success',
               duration: 3000,
               isClosable: true,
@@ -193,7 +195,7 @@ export const WebhooksBoard = () => {
         {
           onSuccess: () => {
             toast({
-              title: 'Webhook created successfully!',
+              title: t('WEBHOOKS_PAGE.WEBHOOK_CREATED_SUCCESSFULLY'),
               status: 'success',
               duration: 3000,
               isClosable: true,
@@ -223,7 +225,7 @@ export const WebhooksBoard = () => {
                 onClick={onOpenCreateModal}
                 mb={4}
               >
-                Create
+                {t('WEBHOOKS_PAGE.CREATE')}
               </Button>
             </Box>
           )}
@@ -231,7 +233,7 @@ export const WebhooksBoard = () => {
             isEmpty={!webhookData?.items.length}
             h="200px"
             fontSize="xs"
-            message={'No webhooks found!'}
+            message={t('WEBHOOKS_PAGE.NO_WEBHOOKS_FOUND')}
             boxSizing="border-box"
           >
             <Box
@@ -259,7 +261,9 @@ export const WebhooksBoard = () => {
               <ModalOverlay />
               <ModalContent>
                 <ModalHeader fontSize="lg">
-                  {selectedWebhookId ? 'Edit Webhook' : 'Create Webhook'}
+                  {selectedWebhookId
+                    ? t('WEBHOOKS_PAGE.EDIT_WEBHOOK')
+                    : t('WEBHOOKS_PAGE.CREATE_WEBHOOK')}
                 </ModalHeader>
                 <Divider />
                 <ModalCloseButton />
@@ -278,8 +282,8 @@ export const WebhooksBoard = () => {
           )}
 
           <ModalConfirm
-            title="Delete Confirmation"
-            description="Are you sure you want to delete this webhook?"
+            title={t('WEBHOOKS_PAGE.DELETE_CONFIRMATION')}
+            description={t('WEBHOOKS_PAGE.DELETE_CONFIRMATION_MESSAGE')}
             isOpen={isDeleteModalOpen}
             onClose={() => setIsDeleteModalOpen(false)}
             onConfirm={() => {

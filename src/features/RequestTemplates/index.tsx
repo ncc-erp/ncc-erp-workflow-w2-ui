@@ -62,7 +62,7 @@ const RequestTemplates = () => {
         marginTop={isLargeScreen ? '0px' : '50px'}
       >
         <Page.HeaderLeft>
-          <Page.Heading>{t('requestTemplates.title')}</Page.Heading>
+          <Page.Heading>{t('REQUEST_TEMPLATES_PAGE.PAGE_TITLE')}</Page.Heading>
         </Page.HeaderLeft>
         <Page.HeaderRight />
       </Page.Header>

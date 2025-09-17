@@ -9,7 +9,6 @@ import { RowAction } from './RowAction';
 import { useMemo } from 'react';
 import {
   ESettingCode,
-  ESettingError,
   IFilterSettingParams,
   ISettingPayload,
   ISettingValue,
@@ -27,6 +26,7 @@ import { SettingForm } from './SettingForm';
 import { HttpStatusCode } from 'axios';
 import { Permissions } from 'common/constants';
 import { useUserPermissions } from 'hooks/useUserPermissions';
+import { useTranslation } from 'react-i18next';
 
 const initialFilter: IFilterSettingParams = {
   settingCode: ESettingCode.HR,
@@ -37,6 +37,7 @@ const initialValues = {
 };
 
 export const HRSettings = () => {
+  const { t } = useTranslation();
   const { sideBarWidth } = useRecoilValue(appConfigState);
   const { data, isLoading, refetch } = useGetSettingList(initialFilter);
   const { hasPermission } = useUserPermissions();
@@ -70,14 +71,14 @@ export const HRSettings = () => {
       .then(() => {
         refetch();
         toast({
-          description: ESettingError.CREATE_SUCCESSFULLY,
+          description: t('SETTING_PAGE.CREATE_SUCCESS'),
           status: 'success',
         });
         formik.resetForm();
       })
       .catch((err) => {
         if (err.response.data.error.code == HttpStatusCode.Conflict)
-          formik.setFieldError('email', ESettingError.EMAIL_ALREADY_EXIST);
+          formik.setFieldError('email', t('SETTING_PAGE.EMAIL_ALREADY_EXISTS'));
       });
   };
 
@@ -97,7 +98,7 @@ export const HRSettings = () => {
       await deleteMutate(QueryString.stringify(payload)).then(() => {
         refetch();
         toast({
-          description: ESettingError.DELETE_SUCCESSFULLY,
+          description: t('SETTING_PAGE.DELETE_SUCCESS'),
           status: 'success',
         });
       });
@@ -116,7 +117,7 @@ export const HRSettings = () => {
     return [
       columnHelper.accessor('email', {
         id: 'email',
-        header: 'Email',
+        header: t('SETTING_PAGE.EMAIL'),
         enableSorting: false,
         cell: (info) => info.getValue(),
       }),
@@ -126,7 +127,9 @@ export const HRSettings = () => {
               id: 'actions',
               size: 50,
               enableSorting: false,
-              header: () => <Center w="full">Actions</Center>,
+              header: () => (
+                <Center w="full">{t('SETTING_PAGE.ACTIONS')}</Center>
+              ),
               cell: (info) => (
                 <Center>
                   <RowAction onDelete={onAction(info.row.original, 'Delete')} />
@@ -136,12 +139,12 @@ export const HRSettings = () => {
           ]
         : []),
     ] as ColumnDef<ISettingValue>[];
-  }, [columnHelper, deleteMutate, refetch, hasPermission]);
+  }, [columnHelper, deleteMutate, refetch, hasPermission, t]);
 
   return (
     <>
       <Box fontSize="14" fontWeight="bold">
-        HR Group
+        {t('SETTING_PAGE.HR_GROUP')}
       </Box>
       <Box fontSize="14" fontWeight="bold">
         <SettingForm
@@ -156,7 +159,7 @@ export const HRSettings = () => {
           isEmpty={!settings.length && !isLoading}
           h="200px"
           fontSize="xs"
-          message={'No request found!'}
+          message={t('SETTING_PAGE.NO_REQUEST_FOUND')}
         >
           <Box
             p={{ base: '10px 0px 24px 0px' }}

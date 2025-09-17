@@ -60,14 +60,14 @@ export const RowAction = ({
           Permissions.DEFINE_INPUT,
           <MenuItem display="flex" gap="12px" onClick={onDefineInput}>
             <Icon as={FaEye} />
-            {t('requestTemplates.buttons.defineInput')}
+            {t('REQUEST_TEMPLATES_PAGE.DEFINE_INPUT_BUTTON')}
           </MenuItem>
         )}
         {renderIfAllowed(
           Permissions.EDIT_WORKFLOW_DEFINITION,
           <MenuItem display="flex" gap="12px" onClick={onViewWorkflow}>
             <Icon as={FaRegMap} />
-            {t('requestTemplates.buttons.editWorkflow')}
+            {t('REQUEST_TEMPLATES_PAGE.EDIT_WORKFLOW_BUTTON')}
           </MenuItem>
         )}
         {renderIfAllowed(
@@ -75,15 +75,15 @@ export const RowAction = ({
           <MenuItem display="flex" gap="12px" onClick={onTogglePublish}>
             <Icon as={isPublished ? FaRegEyeSlash : FaCheckCircle} />
             {isPublished
-              ? t('requestTemplates.buttons.unpublish')
-              : t('requestTemplates.buttons.publish')}
+              ? t('REQUEST_TEMPLATES_PAGE.UNPUBLISH_BUTTON')
+              : t('REQUEST_TEMPLATES_PAGE.PUBLISH_BUTTON')}
           </MenuItem>
         )}
         {renderIfAllowed(
           Permissions.DELETE_WORKFLOW_DEFINITION,
           <MenuItem display="flex" gap="12px" onClick={onDelete}>
             <Icon as={RiDeleteBin6Fill} />
-            {t('requestTemplates.buttons.delete')}
+            {t('REQUEST_TEMPLATES_PAGE.DELETE_BUTTON')}
           </MenuItem>
         )}
       </MenuList>

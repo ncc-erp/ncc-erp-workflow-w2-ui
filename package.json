@@ -14,6 +14,7 @@
     "prepare": "husky install",
     "preinstall": "npx only-allow pnpm",
     "test": "jest --verbose --coverage",
+    "test:update": "jest --updateSnapshot",
     "test:watch": "jest --watch",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",

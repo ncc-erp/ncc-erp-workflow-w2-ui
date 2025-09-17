@@ -1,0 +1,481 @@
+{
+    "LOGIN_PAGE":{
+        "TITLE":"Sign In",
+        "USER_NAME_PLACEHOLDER":"Username or email address",
+        "USER_NAME_REQUIRED":"The Username or email address field is required!",
+        "PASSWORD_PLACEHOLDER":"Password",
+        "PASSWORD_REQUIRED":"The password field is required!",
+        "BUTTON_TITLE_SIGN_IN":"Sign in",
+        "BUTTON_TITLE_SIGN_IN_WITH_MEZON":"Sign in with Mezon"
+    },
+    "LANGUAGE_SWITCHER":{
+        "VIETNAM":"Viet Nam",
+        "ENGLISH":"English"
+    },
+    "SIDE_BAR": {
+        "REQUEST_TEMPLATES": "Request templates",
+        "REQUESTS": "Requests",
+        "TASKS": "Tasks",
+        "ADMINISTRATION": "Administration",
+        "USER_MANAGEMENT": "User management",
+        "SETTINGS": "Settings",
+        "ROLES": "Roles",
+        "MANAGE_PERMISSIONS": "Manage permissions",
+        "WEBHOOKS": "Webhooks",
+        "REPORT": "Report",
+        "REPORT_WFH": "Report WFH",
+        "RELEASE_NOTE": "Release note",
+        "USER_GUIDE": "User guide",
+        "LOG_OUT": "Log out",
+        "DARK": "Dark",
+        "LIGHT":"Light"
+    },
+    "REQUEST_TEMPLATES_PAGE": {
+        "PAGE_TITLE": "Request Templates",
+        "CREATE_BUTTON": "Create",
+        "IMPORT_BUTTON": "Import",
+        "EXPORT_BUTTON": "Export",
+        "DELETE_BUTTON": "Delete",
+        "DEFINE_INPUT_BUTTON": "Define Input",
+        "EDIT_WORKFLOW_BUTTON": "Edit Workflow",
+        "PUBLISH_BUTTON": "Publish",
+        "UNPUBLISH_BUTTON": "Unpublish",
+        "SAVE_BUTTON": "Save",
+        "REMOVE_BUTTON": "Remove",
+        "ADD_FIELD_BUTTON": "Add Field",
+        "CHOOSE_FILE_BUTTON": "Choose file",
+        "YES": "Yes",
+        "NO": "No",
+        "TABLE_HEADERS": {
+            "DISPLAY_NAME": "Display Name",
+            "NAME": "Name",
+            "VERSION": "Version",
+            "PUBLISHED": "Published",
+            "ACTIONS": "Actions",
+            "EDIT": "Edit"
+        },
+        "REQUEST_TEMPLATE": "Request Template",
+        "NO_REQUEST_FOUND": "No request found!",
+        "DELETE_CONFIRMATION": "Are you sure you want to delete this workflow?",
+        "DEFINE_INPUT_WARNING": "Please define input for this workflow first",
+        "EXPORT_ARIA_LABEL": "Export workflow",
+        "IMPORT_ARIA_LABEL": "Import workflow",
+        "CREATE_WORKFLOW_DEFINITION": {
+            "TITLE": "Create Workflow Definition",
+            "NAME_LABEL": "Name",
+            "NAME_PLACEHOLDER": "Name",
+            "DISPLAY_NAME_LABEL": "Display Name",
+            "DISPLAY_NAME_PLACEHOLDER": "Display Name",
+            "TAG_LABEL": "Tag",
+            "TAG_PLACEHOLDER": "Tag",
+            "CREATE_BUTTON": "Create",
+            "REQUIRED_FIELD": "*"
+        },
+        "IMPORT_WORKFLOW": {
+            "TITLE": "Import Workflow",
+            "CHOOSE_FILE": "Choose file",
+            "NO_FILE_SELECTED": "No file selected",
+            "IMPORT_DATA_LABEL": "Import data:",
+            "NO_DATA_IMPORTED": "No data imported!",
+            "IMPORT_BUTTON": "Import"
+        },
+        "DEFINE_WORKFLOW_INPUT": "Define Workflow Input",
+        "CHANGE_COLOR_SETTINGS": "Change Color Settings",
+        "FORMS": {
+            "SETTINGS": {
+                "COLOR": "Color",
+                "SEND_KOMU_MESSAGE": "Send Komu Message",
+                "TITLE": "Title",
+                "NAME_REQUEST_DEFAULT": "Request"
+            },
+            "DEFINE_INPUT": {
+                "PROPERTY_NAME": "Property Name",
+                "PROPERTY_TYPE": "Property Type",
+                "REQUIRED": "Required",
+                "NAME_REQUIRED": "Name is required",
+                "ADD_FIELD": "Add Field"
+            },
+            "REQUEST_FORM": {
+                "FIELD_REQUIRED": "{{field}} is required"
+            },
+            "CREATE_FORM": {
+                "FIELDS": {
+                    "NAME": "Name",
+                    "DISPLAYNAME": "Display Name",
+                    "TAG": "Tag"
+                },
+                "FIELD_REQUIRED": "{{field}} is required"
+            }
+        },
+        "MESSAGES": {
+            "CREATE_REQUEST_SUCCESS": "Create Request Successfully",
+            "CREATE_WORKFLOW_SUCCESS": "Create Workflow Successfully",
+            "IMPORT_SUCCESS": "Import Successfully",
+            "IMPORT_ERROR": "Import Error",
+            "INVALID_JSON_FORMAT": "Invalid JSON format",
+            "INVALID_DATE": "Invalid date",
+            "INVALID_DATE_FORMAT": "Invalid date format",
+            "CHOOSE_DATES_WITHIN_7_DAYS": "Please choose dates within 7 days"
+        }
+    },
+    "MY_REQUESTS_PAGE": {
+        "PAGE_TITLE": {
+            "ALL": "All Requests",
+            "MINE": "My Requests"
+        },
+        "COLUMNS": {
+            "TITLE": "Title",
+            "REQUEST_USER": "Request User",
+            "CURRENT_STATES": "Current States",
+            "STAKEHOLDERS": "Stakeholders",
+            "CREATED_AT": "Created At",
+            "LAST_EXECUTED_AT": "Last Executed At",
+            "STATUS": "Status",
+            "ACTIONS": "Actions"
+        },
+        "FILTERS": {
+            "ALL_STATUS": "All Status",
+            "ALL_TYPES": "All Types"
+        },
+        "PLACEHOLDERS": {
+            "ENTER_EMAIL": "Enter email"
+        },
+        "BUTTONS": {
+            "ONLY_MY_REQUEST": "Only My Requests",
+            "VIEW_WORKFLOW": "View Workflow",
+            "VIEW_WORKFLOW_DETAIL": "View Workflow Detail"
+        },
+        "REQUEST_STATUS": {
+            "APPROVED": "Approved",
+            "REJECTED": "Rejected",
+            "PENDING": "Pending",
+            "CANCELED": "Canceled"
+        },
+        "REQUEST_TEMPLATES": {
+            "CHANGE_OFFICE": "Change Office Request",
+            "DEVICE_REQUEST": "Device Request",
+            "OFFICE_EQUIPMENT": "Office Equipment Request",
+            "PROBATION_CONFIRMATION_REQUEST": "Probationary Confirmation Request",
+            "WFH_REQUEST": "WFH Request",
+            "USER_TASK": "User Task",
+            "NOT_FOUND": "Not Found"
+        },
+        "ACTIONS": {
+            "VIEW": "View",
+            "WORKFLOW": "Workflow",
+            "CANCEL": "Cancel"
+        },
+        "LABELS": {
+            "NOT_FOUND": "No requests found",
+            "NO_NAME": "No name",
+            "REQUEST_INPUT": "Request input",
+            "REQUEST_USER": "Request user",
+            "DETAIL": "Detail",
+            "NAME": "Name",
+            "EMAIL": "Email",
+            "BRANCH_NAME": "Branch name",
+            "REQUEST_TEMPLATE": "Request template",
+            "STATUS": "Status",
+            "CURRENT_STATE": "Current state",
+            "STAKEHOLDERS": "Stakeholders",
+            "CREATION_TIME": "Creation time",
+            "REASON": "Reason",
+            "REJECTED_BY": "Rejected By",
+            "STAFF": "Staff",
+            "PROJECT": "Project", 
+            "CURRENT_OFFICE": "Current Office",
+            "CONTENT": "Content",
+            "START_DATE": "Start Date",
+            "END_DATE": "End Date",
+            "SHORT_HEADER": "Short Header",
+            "PM_REVIEWS": "PM Reviews",
+            "STRENGTH_POINTS": "Strength Points", 
+            "WEAKNESS_POINTS": "Weakness Points",
+            "EQUIPMENT": "Equipment"
+        },
+        "TITLES": {
+            "REQUEST_DETAILS": "Request Details"
+        },
+        "MESSAGES": {
+            "CONFIRM_TITLE": "Confirm {{type}}",
+            "CONFIRM_DESC": "Are you sure you want to {{type}} this request?",
+            "CANCEL_SUCCESS": "Request cancelled successfully",
+            "CANCEL_FAILED": "Failed to cancel request"
+        }
+    },
+    
+    "TASKS_PAGE": {
+        "PAGE_TITLE": "Task Board",
+        "FILTERS": {
+          "ALL_TYPES": "All Types",
+          "ALL_STATUS": "All Status", 
+          "ALL_DATE": "All Date",
+          "ENTER_EMAIL": "Enter email"
+        },
+        "BUTTONS": {
+          "ONLY_MY_TASK": "Only My Tasks",
+          "VIEW_WORKFLOW_DETAIL": "View Workflow Detail",
+          "APPROVE": "Approve",
+          "REJECT": "Reject"
+        },
+        "DISPLAY_OPTIONS": {
+          "BOARD_ITEMS": "Board View",
+          "LIST_ITEMS": "List View"
+        },
+        "TASK_STATUS": {
+          "PENDING": "Pending",
+          "APPROVED": "Approved", 
+          "REJECTED": "Rejected"
+        },
+        "FILTER_DATE": {
+          "1_MONTH": "1 month",
+          "1_WEEK": "1 week",
+          "2_MONTHS": "2 months",
+          "3_MONTHS": "3 months",
+          "6_MONTHS": "6 months",
+          "1_YEARS": "1 year"
+        },
+        "TABLE": {
+          "HEADERS": {
+            "ID": "ID",
+            "TITLE": "Title",
+            "REQUEST_USER": "Request User",
+            "CURRENT_STATE": "Current State",
+            "ASSIGNED_TO": "Assigned To",
+            "STATE": "State",
+            "CREATED_AT": "Created At",
+            "ACTIONS": "Actions"
+          },
+          "ACTIONS": {
+            "VIEW": "View",
+            "WORKFLOW": "Workflow",
+            "APPROVE": "Approve",
+            "REJECT": "Reject"
+          }
+        },
+        "BOARD": {
+          "REQUEST_USER": "Request user",
+          "CURRENT_STATE": "Current State",
+          "ASSIGN": "Assign",
+          "DATE": "Date",
+          "MORE_ACTIONS": "More Actions"
+        },
+        "LABELS": {
+          "REQUEST_INPUT": "Request Input",
+          "REQUEST_USER": "Request User",
+          "DETAIL": "Detail",
+          "NAME": "Name",
+          "EMAIL": "Email",
+          "BRANCH_NAME": "Branch Name",
+          "REQUEST_TEMPLATE": "Request Template",
+          "STATE": "State",
+          "REASON": "Reason",
+          "EMAIL_ASSIGNMENT": "Email Assignment",
+          "CREATION_TIME": "Creation Time",
+          "REJECTED_BY": "Rejected By",
+          "NO_NAME": "No Name"
+        },
+        "MESSAGES": {
+          "REJECTED_TASK_SUCCESS": "Task rejected successfully!",
+          "APPROVED_TASK_SUCCESS": "Task approved successfully!",
+          "SEND_ACTION_SUCCESS": "Action sent successfully!",
+          "NO_REQUEST_FOUND": "No request found!",
+          "NO_PERMISSION": "You don't have permission!"
+        },
+        "MODAL": {
+          "TASK_DETAIL_TITLE": "Task Detail"
+        }
+      },
+
+      
+      
+      
+"PAGINATION":{
+    "ROWS_PER_PAGE":"Rows per page",
+    "NEXT":"Next",
+    "PREVIOUS":"Previous"
+},
+"PERMISSIONS_PAGE": {
+  "PAGE_TITLE": "Permissions Board",
+  "BUTTONS": {
+    "CREATE_PERMISSION": "Create Permission",
+    "EDIT": "Edit",
+    "DELETE": "Delete",
+    "ADD_CHILD": "Add Child Permission"
+  },
+  "TABLE": {
+    "PERMISSION_GROUP": "Permission Group",
+    "CODE": "Code",
+    "ACTIONS": "Actions",
+    "NO_PERMISSIONS_FOUND": "No permissions found"
+  },
+  "FORM": {
+    "NAME": "Name",
+    "CODE": "Code"
+  },
+  "MODAL": {
+    "ADD_PARENT_PERMISSION": "Add Parent Permission",
+    "ADD_CHILD_PERMISSION": "Add Child Permission",
+    "EDIT_PERMISSION": "Edit Permission",
+    "CONFIRM_DELETE": "Confirm Delete",
+    "DELETE_CONFIRMATION": "Are you sure you want to delete this permission? This action cannot be undone."
+  },
+  "VALIDATION": {
+    "NAME_REQUIRED": "Name is required",
+    "CODE_REQUIRED": "Code is required"
+  },
+  "MESSAGES": {
+    "CREATE_SUCCESS": "Permission created successfully!",
+    "CREATE_ERROR": "Failed to create permission",
+    "UPDATE_SUCCESS": "Permission updated successfully!",
+    "UPDATE_ERROR": "Failed to update permission",
+    "DELETE_SUCCESS": "Permission deleted successfully!",
+    "DELETE_ERROR": "Failed to delete permission"
+  }
+},
+"RELEASE_NOTE_PAGE":{
+    "TITLE":"Release Note",
+    "READ_LESS":"Read less",
+    "READ_MORE":"Read more"
+},
+"REPORT_PAGE": {
+    "EMAIL_PLACE_HOLDER": "Enter email",
+    "ALL_STATUS": "All Status",
+    "PENDING": "Pending",
+    "APPROVED": "Approved",
+    "REJECTED": "Rejected",
+    "ALL_DATE":"All Date",
+    "NO_REQUEST_FOUND": "No request found!",
+    "REMOTE_DATE": "Remote Date",
+    "CREATED_AT": "Created At",
+    "EXPORT": "Export",
+    "RELOAD": "Reload",
+    "VIEW":"View",
+    "REPORT_WFH":"Report WFH",
+    "current month": "Current month",
+    "2 month": "2 months",
+    "3 months": "3 months",
+    "REASON":"Reason"
+  },
+  "ROLE_PAGE": {
+    "ROLE_NAME": "Role Name",
+    "ROLE_NAME_PLACEHOLDER": "Enter role name",
+    "PERMISSIONS": "Permissions",
+    "USERS": "Users",
+    "DELETE_USER": "Delete user",
+    "NO_USERS": "No users available",
+    "DELETE_ROLE": "Delete role",
+    "UPDATE": "Update",
+    "CREATE": "Create",
+    "DELETE_CONFIRMATION_TITLE": "Delete Confirmation",
+    "DELETE_CONFIRMATION_DESCRIPTION": "Are you sure you want to delete this role?",
+    "EDIT_ROLE": "Edit Role",
+    "CREATE_ROLE": "Create Role",
+    "ACTION": "Action",
+    "NO_ROLES_FOUND": "No roles found!",
+    "ROLES_BOARD": "Roles Board"
+},
+"SETTING_PAGE": {
+    "EMAIL": "Email",
+    "ACTIONS": "Actions",
+    "ACCOUNTANT_GROUP": "Accountant Group",
+    "CEO_GROUP": "CEO Group",
+    "GDVP_GROUP": "GDVP Group",
+    "HPM_GROUP": "HPM Group",
+    "HR_GROUP": "HR Group",
+    "IT_GROUP": "IT Group",
+    "SALE_GROUP": "SALE Group",
+    "SAODO_GROUP": "Saodo Group",
+    "NAME": "Name",
+    "CODE": "Code",
+    "NO_REQUEST_FOUND": "No request found!",
+    "CREATE_SUCCESS": "Create setting Successfully",
+    "UPDATE_SUCCESS": "Update setting Successfully",
+    "DELETE_SUCCESS": "Delete setting Successfully",
+    "EMAIL_ALREADY_EXISTS": "This email is already in use",
+    "CODE_ALREADY_EXISTS": "This code is already in use",
+    "EDIT": "Edit",
+    "DELETE": "Delete",
+    "ADD": "Add",
+    "CANCEL": "Cancel",
+    "SETTINGS": "Settings"
+},
+"USER_MANAGEMENT_PAGE": {
+    "USER_MANAGEMENT": "User Management",
+    "ACTIONS": "Actions",
+    "EDIT": "Edit",
+    "USER": "user",
+    "USER_INFORMATION": "User information",
+    "ROLES": "Roles",
+    "USER_NAME": "User name",
+    "NAME": "Name",
+    "PASSWORD": "Password",
+    "CONFIRM_PASSWORD": "Confirm Password",
+    "EMAIL_ADDRESS": "Email address",
+    "PHONE_NUMBER": "Phone number",
+    "MEZON_USER_ID": "Mezon User ID",
+    "ACTIVE": "Active",
+    "LOCK_ACCOUNT_AFTER_FAILED_LOGIN": "Lock account after failed login attempts",
+    "CANCEL": "Cancel",
+    "SUBMIT": "Submit",
+    "PASSWORDS_DO_NOT_MATCH": "Passwords do not match",
+    "UPDATED_SUCCESSFULLY": "Updated successfully",
+    "UPDATE_FAILED": "Update failed",
+    "LOG_OUT_TO_APPLY_CHANGES": "Log out to apply changes?",
+    "YES": "Yes",
+    "ALL_ROLES": "All Roles",
+    "NO_ROLE": "No Role",
+    "DISABLED": "Disabled",
+    "CREATE_TIME": "Create time",
+    "UPDATE_TIME": "Update time",
+    "ENTER_EMAIL": "Enter email",
+    "NO_REQUEST_FOUND": "No request found!"
+  },
+  "WEBHOOKS_PAGE": {
+    "WEBHOOKS_BOARD": "Webhooks Board",
+    "WEBHOOK_NAME": "Webhook Name",
+    "WEBHOOK_URL": "Webhook URL",
+    "ACTION": "Action",
+    "CREATE": "Create",
+    "EDIT_WEBHOOK": "Edit Webhook",
+    "CREATE_WEBHOOK": "Create Webhook",
+    "EVENT_NAME": "Event Name",
+    "ENTER_WEBHOOK_URL": "Enter webhook URL",
+    "SAVE": "Save",
+    "CANCEL": "Cancel",
+    "WEBHOOK_URL_REQUIRED": "Webhook URL is required",
+    "WEBHOOK_NAME_REQUIRED": "Webhook Name is required",
+    "SELECT_AT_LEAST_ONE_EVENT": "Select at least one event",
+    "NO_WEBHOOKS_FOUND": "No webhooks found!",
+    "DELETE_CONFIRMATION": "Delete Confirmation",
+    "DELETE_CONFIRMATION_MESSAGE": "Are you sure you want to delete this webhook?",
+    "WEBHOOK_DELETED_SUCCESSFULLY": "Webhook deleted successfully!",
+    "WEBHOOK_UPDATED_SUCCESSFULLY": "Webhook updated successfully!",
+    "WEBHOOK_CREATED_SUCCESSFULLY": "Webhook created successfully!"
+  },
+  "VALIDATION": {
+    "USER_NAME_REQUIRED": "User name field is required!",
+    "PASSWORD_MIN_LENGTH": "Passwords must be at least 6 characters",
+    "PASSWORD_NON_ALPHANUMERIC": "Passwords must have at least one non alphanumeric character",
+    "PASSWORD_DIGIT": "Passwords must have at least one digit",
+    "PASSWORD_UPPERCASE": "Passwords must have at least one uppercase",
+    "PASSWORD_SPECIAL_CHARACTER": "Passwords must include at least one special character",
+    "EMAIL_REQUIRED": "Email address field is required!",
+    "EMAIL_INVALID": "Email address field is not a valid e-mail address.",
+    "PHONE_MIN_LENGTH": "Phone number is not valid",
+    "PHONE_INVALID": "Phone number is not valid",
+    "NAME_REQUIRED": "Name field is required!",
+    "CODE_REQUIRED": "Code field is required!"
+  },
+  "WORK_FLOW":{
+    "WORK_FLOW_DETAIL":"Workflow detail"
+  },
+  "RELEASE_CONTENT": {
+    "WHATS_CHANGED": "What's Changed",
+    "NEW_CONTRIBUTORS": "New Contributors", 
+    "FULL_CHANGELOG": "Full Changelog"
+  }
+
+
+
+}

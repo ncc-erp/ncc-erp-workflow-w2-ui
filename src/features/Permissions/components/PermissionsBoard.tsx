@@ -24,7 +24,7 @@ import {
   FormErrorMessage,
 } from '@chakra-ui/react';
 import { AddIcon, DeleteIcon, EditIcon } from '@chakra-ui/icons';
-import { useTranslation } from 'react-i18next'; // Import useTranslation
+import { useTranslation } from 'react-i18next';
 import { useGetAllPermissions } from 'api/apiHooks/roleHook';
 import {
   useCreatePermission,
@@ -45,7 +45,7 @@ interface Permission {
 }
 
 const PermissionsTable = () => {
-  const { t } = useTranslation(); // Initialize useTranslation
+  const { t } = useTranslation();
   const { renderIfAllowed } = useUserPermissions();
   const { data: permissionsData, refetch } = useGetAllPermissions();
   const { mutate: updatePermission } = useUpdatePermission();
@@ -95,8 +95,12 @@ const PermissionsTable = () => {
 
   const handleSavePermission = async () => {
     const newErrors = {
-      name: newPermission.name.trim() ? '' : t('permissions.nameRequired'),
-      code: newPermission.code.trim() ? '' : t('permissions.codeRequired'),
+      name: newPermission.name.trim()
+        ? ''
+        : t('PERMISSIONS_PAGE.VALIDATION.NAME_REQUIRED'),
+      code: newPermission.code.trim()
+        ? ''
+        : t('PERMISSIONS_PAGE.VALIDATION.CODE_REQUIRED'),
     };
     setErrors(newErrors);
     if (newErrors.name || newErrors.code) return;
@@ -120,7 +124,7 @@ const PermissionsTable = () => {
         {
           onSuccess: () => {
             toast({
-              title: t('permissions.updateSuccess'),
+              title: t('PERMISSIONS_PAGE.MESSAGES.UPDATE_SUCCESS'),
               status: 'success',
               duration: 3000,
               isClosable: true,
@@ -131,7 +135,7 @@ const PermissionsTable = () => {
           },
           onError: () => {
             toast({
-              title: t('permissions.updateError'),
+              title: t('PERMISSIONS_PAGE.MESSAGES.UPDATE_ERROR'),
               status: 'error',
               duration: 3000,
               isClosable: true,
@@ -144,7 +148,7 @@ const PermissionsTable = () => {
       createPermission.mutate(payload, {
         onSuccess: () => {
           toast({
-            title: t('permissions.createSuccess'),
+            title: t('PERMISSIONS_PAGE.MESSAGES.CREATE_SUCCESS'),
             status: 'success',
             duration: 3000,
             isClosable: true,
@@ -155,7 +159,7 @@ const PermissionsTable = () => {
         },
         onError: () => {
           toast({
-            title: t('permissions.createError'),
+            title: t('PERMISSIONS_PAGE.MESSAGES.CREATE_ERROR'),
             status: 'error',
             duration: 3000,
             isClosable: true,
@@ -170,7 +174,7 @@ const PermissionsTable = () => {
     deleteMutate(permissionId, {
       onSuccess: () => {
         toast({
-          title: t('permissions.deleteSuccess'),
+          title: t('PERMISSIONS_PAGE.MESSAGES.DELETE_SUCCESS'),
           status: 'success',
           duration: 3000,
           isClosable: true,
@@ -180,7 +184,7 @@ const PermissionsTable = () => {
       },
       onError: () => {
         toast({
-          title: t('permissions.deleteError'),
+          title: t('PERMISSIONS_PAGE.MESSAGES.DELETE_ERROR'),
           status: 'error',
           duration: 3000,
           isClosable: true,
@@ -206,6 +210,15 @@ const PermissionsTable = () => {
     setConfirmData(null);
   };
 
+  const getModalTitle = () => {
+    if (modalType === 'edit') {
+      return t('PERMISSIONS_PAGE.MODAL.EDIT_PERMISSION');
+    }
+    return modalType === 'parent'
+      ? t('PERMISSIONS_PAGE.MODAL.ADD_PARENT_PERMISSION')
+      : t('PERMISSIONS_PAGE.MODAL.ADD_CHILD_PERMISSION');
+  };
+
   return (
     <Box py={5}>
       <Box
@@ -219,17 +232,19 @@ const PermissionsTable = () => {
           onClick={handleAddParentPermission}
           variant="primary"
         >
-          {t('permissions.createPermission')}
+          {t('PERMISSIONS_PAGE.BUTTONS.CREATE_PERMISSION')}
         </Button>
       </Box>
       <Box overflowX="auto">
         <Table variant="simple">
           <Thead>
             <Tr>
-              <Th px={['8px', '12px']}>{t('permissions.permissionGroup')}</Th>
-              <Th px={['8px', '12px']}>{t('permissions.code')}</Th>
+              <Th px={['8px', '12px']}>
+                {t('PERMISSIONS_PAGE.TABLE.PERMISSION_GROUP')}
+              </Th>
+              <Th px={['8px', '12px']}>{t('PERMISSIONS_PAGE.TABLE.CODE')}</Th>
               <Th px={['8px', '12px']} textAlign="center">
-                {t('permissions.actions')}
+                {t('PERMISSIONS_PAGE.TABLE.ACTIONS')}
               </Th>
             </Tr>
           </Thead>
@@ -248,7 +263,7 @@ const PermissionsTable = () => {
                       {renderIfAllowed(
                         Permissions.UPDATE_PERMISSION,
                         <IconButton
-                          aria-label={t('permissions.edit')}
+                          aria-label={t('PERMISSIONS_PAGE.BUTTONS.EDIT')}
                           icon={<EditIcon />}
                           colorScheme="yellow"
                           onClick={() => handleEditPermission(parent)}
@@ -260,7 +275,7 @@ const PermissionsTable = () => {
                         Permissions.DELETE_PERMISSION,
                         parent.children && parent.children.length === 0 && (
                           <IconButton
-                            aria-label={t('permissions.delete')}
+                            aria-label={t('PERMISSIONS_PAGE.BUTTONS.DELETE')}
                             icon={<DeleteIcon />}
                             variant="primary"
                             onClick={() => handleOpenConfirm(parent.id)}
@@ -272,7 +287,7 @@ const PermissionsTable = () => {
                       {renderIfAllowed(
                         Permissions.CREATE_PERMISSION,
                         <IconButton
-                          aria-label={t('permissions.addChild')}
+                          aria-label={t('PERMISSIONS_PAGE.BUTTONS.ADD_CHILD')}
                           icon={<AddIcon />}
                           colorScheme="blue"
                           onClick={() => handleAddChildPermission(parent.id)}
@@ -294,7 +309,7 @@ const PermissionsTable = () => {
                           {renderIfAllowed(
                             Permissions.UPDATE_PERMISSION,
                             <IconButton
-                              aria-label={t('permissions.edit')}
+                              aria-label={t('PERMISSIONS_PAGE.BUTTONS.EDIT')}
                               icon={<EditIcon />}
                               colorScheme="yellow"
                               onClick={() =>
@@ -307,7 +322,7 @@ const PermissionsTable = () => {
                           {renderIfAllowed(
                             Permissions.DELETE_PERMISSION,
                             <IconButton
-                              aria-label={t('permissions.delete')}
+                              aria-label={t('PERMISSIONS_PAGE.BUTTONS.DELETE')}
                               icon={<DeleteIcon />}
                               variant="primary"
                               onClick={() => handleOpenConfirm(child.id)}
@@ -322,7 +337,7 @@ const PermissionsTable = () => {
             ) : (
               <Tr>
                 <Td textAlign={'center'} colSpan={3}>
-                  {t('permissions.noPermissionsFound')}
+                  {t('PERMISSIONS_PAGE.TABLE.NO_PERMISSIONS_FOUND')}
                 </Td>
               </Tr>
             )}
@@ -332,15 +347,11 @@ const PermissionsTable = () => {
       <Modal isOpen={isOpen} onClose={handleClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>
-            {modalType === 'parent'
-              ? t('permissions.addParentPermission')
-              : t('permissions.addChildPermission')}
-          </ModalHeader>
+          <ModalHeader>{getModalTitle()}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <FormControl mb={4} isInvalid={!!errors.name}>
-              <FormLabel>{t('permissions.name')}</FormLabel>
+              <FormLabel>{t('PERMISSIONS_PAGE.FORM.NAME')}</FormLabel>
               <Input
                 required
                 value={newPermission.name}
@@ -354,7 +365,7 @@ const PermissionsTable = () => {
               <FormErrorMessage>{errors.name}</FormErrorMessage>
             </FormControl>
             <FormControl isInvalid={!!errors.code}>
-              <FormLabel>{t('permissions.code')}</FormLabel>
+              <FormLabel>{t('PERMISSIONS_PAGE.FORM.CODE')}</FormLabel>
               <Input
                 required
                 value={newPermission.code}
@@ -370,17 +381,17 @@ const PermissionsTable = () => {
           </ModalBody>
           <ModalFooter>
             <Button colorScheme="blue" mr={3} onClick={handleSavePermission}>
-              {t('common.save')}
+              {t('PERMISSIONS_PAGE.BUTTONS.SAVE')}
             </Button>
             <Button variant="ghost" onClick={handleClose}>
-              {t('common.cancel')}
+              {t('PERMISSIONS_PAGE.BUTTONS.CANCEL')}
             </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
       <ModalConfirm
-        title={t('permissions.confirmDelete')}
-        description={t('permissions.deleteConfirmation')}
+        title={t('PERMISSIONS_PAGE.MODAL.CONFIRM_DELETE')}
+        description={t('PERMISSIONS_PAGE.MODAL.DELETE_CONFIRMATION')}
         isOpen={isConfirmOpen}
         onClose={handleCloseConfirm}
         onConfirm={() => {

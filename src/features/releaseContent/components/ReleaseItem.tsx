@@ -3,6 +3,7 @@ import { MaxReleaseContentLine } from 'common/constants';
 import Markdown from 'markdown-to-jsx';
 import { IReleaseContent } from 'models/request';
 import { Children, useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 export const ReleaseItem = ({ data }: { data: IReleaseContent }) => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -36,6 +37,7 @@ export const ReleaseItem = ({ data }: { data: IReleaseContent }) => {
 
     return null;
   };
+  const { t } = useTranslation();
 
   return (
     <Box p={6} borderRadius="md" border="1px" borderColor="gray.400">
@@ -174,7 +176,9 @@ export const ReleaseItem = ({ data }: { data: IReleaseContent }) => {
             colorScheme="blue"
             variant="link"
           >
-            {isExpanded ? 'Read Less' : 'Read More'}
+            {isExpanded
+              ? t('RELEASE_NOTE_PAGE.READ_LESS')
+              : t('RELEASE_NOTE_PAGE.READ_MORE')}
           </Button>
         </Box>
       )}

@@ -30,15 +30,17 @@ export const requestTemplateWorkflow = {
 };
 
 export const REQUEST_TEMPLATE_I18N_KEY: Record<string, string> = {
-  'Change Office Request': 'common.requestTemplates.changeOffice',
-  'Device Request': 'common.requestTemplates.deviceRequest',
-  'Office Equipment Request': 'common.requestTemplates.officeEquipment',
-  'WFH Request': 'common.requestTemplates.wfhRequest',
-  'User Task': 'common.requestTemplates.userTask',
-  'Not Found': 'common.requestTemplates.notFound',
-  'WFH  Request': 'common.requestTemplates.wfhRequest',
-  WFH_Request: 'common.requestTemplates.wfhRequest',
-  NotFound: 'common.requestTemplates.notFound',
+  'Change Office Request': 'MY_REQUESTS_PAGE.REQUEST_TEMPLATES.CHANGE_OFFICE',
+  'Device Request': 'MY_REQUESTS_PAGE.REQUEST_TEMPLATES.DEVICE_REQUEST',
+  'Office Equipment Request':
+    'MY_REQUESTS_PAGE.REQUEST_TEMPLATES.OFFICE_EQUIPMENT',
+  'WFH Request': 'MY_REQUESTS_PAGE.REQUEST_TEMPLATES.WFH_REQUEST',
+  'User Task': 'MY_REQUESTS_PAGE.REQUEST_TEMPLATES.USER_TASK',
+  'Not Found': 'MY_REQUESTS_PAGE.REQUEST_TEMPLATES.NOT_FOUND',
+  'Probationary Confirmation Request':
+    'MY_REQUESTS_PAGE.REQUEST_TEMPLATES.PROBATION_CONFIRMATION_REQUEST',
+  WFH_Request: 'MY_REQUESTS_PAGE.REQUEST_TEMPLATES.WFH_REQUEST',
+  NotFound: 'MY_REQUESTS_PAGE.REQUEST_TEMPLATES.NOT_FOUND',
 };
 
 export const resolveRequestTemplateI18nKey = (

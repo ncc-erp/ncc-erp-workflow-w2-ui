@@ -1,0 +1,490 @@
+{
+    "LOGIN_PAGE":{
+        "TITLE":"Đăng nhập",
+        "USER_NAME_PLACEHOLDER":"Tên đăng nhập hoặc email",
+        "USER_NAME_REQUIRED":"Yêu cầu tên đăng nhập hoặc email!",
+        "PASSWORD_PLACEHOLDER":"Mật khẩu",
+        "PASSWORD_REQUIRED":"Yêu cầu mật khẩu!",
+        "BUTTON_TITLE_SIGN_IN":"Đăng nhập",
+        "BUTTON_TITLE_SIGN_IN_WITH_MEZON":"Đăng nhập bằng Mezon"
+    },
+    "LANGUAGE_SWITCHER":{
+        "VIETNAM":"Tiếng Việt",
+        "ENGLISH":"Tiếng Anh"
+    },
+
+    "SIDE_BAR": {
+        "REQUEST_TEMPLATES": "Mẫu yêu cầu",
+        "REQUESTS": "Yêu cầu",
+        "MY_REQUESTS": "Yêu cầu của tôi",
+        "TASKS": "Nhiệm vụ",
+        "MY_TASKS": "Nhiệm vụ của tôi",
+        "ADMINISTRATION": "Quản trị",
+        "USER_MANAGEMENT": "Quản lý người dùng",
+        "SETTINGS": "Cài đặt",
+        "ROLES": "Vai trò",
+        "MANAGE_PERMISSIONS": "Quản lý quyền",
+        "WEBHOOKS": "Webhooks",
+        "REPORT": "Báo cáo",
+        "REPORT_WFH": "Báo cáo WFH",
+        "RELEASE_NOTE": "Ghi chú phát hành",
+        "USER_GUIDE": "Hướng dẫn sử dụng",
+        "LOG_OUT": "Đăng xuất",
+        "DARK": "Chế độ tối",
+        "LIGHT":"Chế độ sáng"
+},
+
+   "REQUEST_TEMPLATES_PAGE": {
+    "PAGE_TITLE": "Mẫu Yêu Cầu",
+    "CREATE_BUTTON": "Tạo Mới",
+    "IMPORT_BUTTON": "Nhập",
+    "EXPORT_BUTTON": "Xuất",
+    "DELETE_BUTTON": "Xóa",
+    "DEFINE_INPUT_BUTTON": "Định Nghĩa Đầu Vào",
+    "EDIT_WORKFLOW_BUTTON": "Chỉnh Sửa Quy Trình",
+    "PUBLISH_BUTTON": "Xuất Bản",
+    "UNPUBLISH_BUTTON": "Hủy Xuất Bản",
+    "SAVE_BUTTON": "Lưu",
+    "REMOVE_BUTTON": "Xóa",
+    "ADD_FIELD_BUTTON": "Thêm Trường",
+    "CHOOSE_FILE_BUTTON": "Chọn tệp",
+    "YES": "Có",
+    "NO": "Không",
+    "TABLE_HEADERS": {
+        "DISPLAY_NAME": "Tên Hiển Thị",
+        "NAME": "Tên",
+        "VERSION": "Phiên Bản",
+        "PUBLISHED": "Đã Xuất Bản",
+        "ACTIONS": "Thao Tác",
+        "EDIT": "Chỉnh Sửa"
+    },
+    "REQUEST_TEMPLATE": "Mẫu Yêu Cầu",
+    "NO_REQUEST_FOUND": "Không tìm thấy yêu cầu nào!",
+    "DELETE_CONFIRMATION": "Bạn có chắc chắn muốn xóa quy trình này không?",
+    "DEFINE_INPUT_WARNING": "Vui lòng định nghĩa đầu vào cho quy trình này trước",
+    "EXPORT_ARIA_LABEL": "Xuất quy trình",
+    "IMPORT_ARIA_LABEL": "Nhập quy trình",
+    "CREATE_WORKFLOW_DEFINITION": {
+        "TITLE": "Tạo Định Nghĩa Quy Trình",
+        "NAME_LABEL": "Tên",
+        "NAME_PLACEHOLDER": "Tên",
+        "DISPLAY_NAME_LABEL": "Tên Hiển Thị",
+        "DISPLAY_NAME_PLACEHOLDER": "Tên Hiển Thị",
+        "TAG_LABEL": "Thẻ",
+        "TAG_PLACEHOLDER": "Thẻ",
+        "CREATE_BUTTON": "Tạo",
+        "REQUIRED_FIELD": "*"
+    },
+    "IMPORT_WORKFLOW": {
+        "TITLE": "Nhập Quy Trình",
+        "CHOOSE_FILE": "Chọn tệp",
+        "NO_FILE_SELECTED": "Chưa chọn tệp",
+        "IMPORT_DATA_LABEL": "Dữ liệu nhập:",
+        "NO_DATA_IMPORTED": "Chưa có dữ liệu được nhập!",
+        "IMPORT_BUTTON": "Nhập"
+    },
+    "DEFINE_WORKFLOW_INPUT": "Định Nghĩa Đầu Vào Quy Trình",
+    "CHANGE_COLOR_SETTINGS": "Thay Đổi Cài Đặt Màu Sắc",
+    "FORMS": {
+        "SETTINGS": {
+            "COLOR": "Màu Sắc",
+            "SEND_KOMU_MESSAGE": "Gửi Tin Nhắn Komu",
+            "TITLE": "Tiêu Đề",
+            "NAME_REQUEST_DEFAULT": "Yêu Cầu"
+        },
+        "DEFINE_INPUT": {
+            "PROPERTY_NAME": "Tên Thuộc Tính",
+            "PROPERTY_TYPE": "Loại Thuộc Tính",
+            "REQUIRED": "Bắt Buộc",
+            "NAME_REQUIRED": "Tên là bắt buộc",
+            "ADD_FIELD": "Thêm Trường"
+        },
+        "REQUEST_FORM": {
+            "FIELD_REQUIRED": "{{field}} là bắt buộc"
+        },
+        "CREATE_FORM": {
+            "FIELDS": {
+                "NAME": "Tên",
+                "DISPLAYNAME": "Tên Hiển Thị",
+                "TAG": "Thẻ"
+            },
+            "FIELD_REQUIRED": "{{field}} là bắt buộc"
+        }
+    },
+    "MESSAGES": {
+        "CREATE_REQUEST_SUCCESS": "Tạo Yêu Cầu Thành Công",
+        "CREATE_WORKFLOW_SUCCESS": "Tạo Quy Trình Thành Công",
+        "IMPORT_SUCCESS": "Nhập Thành Công",
+        "IMPORT_ERROR": "Lỗi Nhập",
+        "INVALID_JSON_FORMAT": "Định dạng JSON không hợp lệ",
+        "INVALID_DATE": "Ngày không hợp lệ",
+        "INVALID_DATE_FORMAT": "Định dạng ngày không hợp lệ",
+        "CHOOSE_DATES_WITHIN_7_DAYS": "Vui lòng chọn ngày trong vòng 7 ngày"
+    }
+},
+
+"MY_REQUESTS_PAGE": {
+    "PAGE_TITLE": {
+        "ALL": "Tất Cả Yêu Cầu",
+        "MINE": "Yêu Cầu Của Tôi"
+    },
+    "COLUMNS": {
+        "TITLE": "Tiêu Đề",
+        "REQUEST_USER": "Người Yêu Cầu",
+        "CURRENT_STATES": "Trạng Thái Hiện Tại",
+        "STAKEHOLDERS": "Người Liên Quan",
+        "CREATED_AT": "Ngày Tạo",
+        "LAST_EXECUTED_AT": "Lần Thực Hiện Cuối",
+        "STATUS": "Trạng Thái",
+        "ACTIONS": "Thao Tác"
+    },
+    "FILTERS": {
+        "ALL_STATUS": "Tất Cả Trạng Thái",
+        "ALL_TYPES": "Tất Cả Loại"
+    },
+    "PLACEHOLDERS": {
+        "ENTER_EMAIL": "Nhập email"
+    },
+    "BUTTONS": {
+        "ONLY_MY_REQUEST": "Chỉ Yêu Cầu Của Tôi",
+        "VIEW_WORKFLOW": "Xem Quy Trình",
+        "VIEW_WORKFLOW_DETAIL": "Xem Chi Tiết Quy Trình"
+    },
+    "REQUEST_STATUS": {
+        "APPROVED": "Đã Duyệt",
+        "REJECTED": "Đã Từ Chối",
+        "PENDING": "Đang Chờ",
+        "CANCELED": "Đã Hủy"
+    },
+    "REQUEST_TEMPLATES": {
+        "CHANGE_OFFICE": "Yêu Cầu Đổi Văn Phòng",
+        "DEVICE_REQUEST": "Yêu Cầu Thiết Bị",
+        "OFFICE_EQUIPMENT": "Yêu Cầu Trang Thiết Bị Văn Phòng",
+        "WFH_REQUEST": "Yêu Cầu Làm Việc Tại Nhà",
+        "PROBATION_CONFIRMATION_REQUEST": "Yêu cầu xác nhận hết thử việc",
+        "USER_TASK": "Nhiệm Vụ Người Dùng",
+        "NOT_FOUND": "Không Tìm Thấy"
+    },
+    "ACTIONS": {
+        "VIEW": "Xem",
+        "WORKFLOW": "Quy Trình",
+        "CANCEL": "Hủy"
+    },
+    "LABELS": {
+        "NOT_FOUND": "Không tìm thấy yêu cầu nào",
+        "NO_NAME": "Không có tên",
+        "REQUEST_INPUT": "Dữ liệu đầu vào",
+        "REQUEST_USER": "Người yêu cầu",
+        "DETAIL": "Chi tiết",
+        "NAME": "Tên",
+        "EMAIL": "Email",
+        "BRANCH_NAME": "Tên chi nhánh",
+        "REQUEST_TEMPLATE": "Mẫu yêu cầu",
+        "STATUS": "Trạng thái",
+        "CURRENT_STATE": "Trạng thái hiện tại",
+        "STAKEHOLDERS": "Người liên quan",
+        "CREATION_TIME": "Thời gian tạo",
+        "REASON": "Lý Do",
+        "REJECTED_BY": "Bị Từ Chối Bởi",
+        "STAFF": "Nhân viên",
+        "PROJECT": "Dự án", 
+        "CURRENT_OFFICE": "Văn phòng hiện tại",
+        "CONTENT": "Nội dung",
+        "START_DATE": "Ngày bắt đầu",
+        "END_DATE": "Ngày kết thúc",
+        "SHORT_HEADER": "Tiêu đề ngắn",
+        "PM_REVIEWS": "Đánh giá của PM",
+      "STRENGTH_POINTS": "Điểm mạnh",
+      "WEAKNESS_POINTS": "Điểm yếu",
+      "EQUIPMENT": "Thiết bị"
+    },
+    "TITLES": {
+        "REQUEST_DETAILS": "Chi Tiết Yêu Cầu"
+    },
+    "MESSAGES": {
+        "CONFIRM_TITLE": "Xác nhận {{type}}",
+        "CONFIRM_DESC": "Bạn có chắc chắn muốn {{type}} yêu cầu này không?",
+        "CANCEL_SUCCESS": "Hủy yêu cầu thành công",
+        "CANCEL_FAILED": "Hủy yêu cầu thất bại"
+    }
+},
+"TASKS_PAGE": {
+    "PAGE_TITLE": "Bảng Công Việc",
+    "FILTERS": {
+      "ALL_TYPES": "Tất cả loại",
+      "ALL_STATUS": "Tất cả trạng thái", 
+      "ALL_DATE": "Tất cả ngày",
+      "ENTER_EMAIL": "Nhập email"
+    },
+    "BUTTONS": {
+      "ONLY_MY_TASK": "Chỉ công việc của tôi",
+      "VIEW_WORKFLOW_DETAIL": "Xem Chi Tiết Quy Trình",
+      "APPROVE": "Phê duyệt",
+      "REJECT": "Từ chối"
+    },
+    "DISPLAY_OPTIONS": {
+      "BOARD_ITEMS": "Hiển thị dạng bảng",
+      "LIST_ITEMS": "Hiển thị dạng danh sách"
+    },
+    "TASK_STATUS": {
+      "PENDING": "Đang chờ",
+      "APPROVED": "Đã phê duyệt", 
+      "REJECTED": "Đã từ chối"
+    },
+    "FILTER_DATE": {
+      "1_MONTH": "1 tháng",
+      "1_WEEK": "1 tuần",
+      "2_MONTHS": "2 tháng",
+      "3_MONTHS": "3 tháng",
+      "6_MONTHS": "6 tháng",
+      "1_YEARS": "1 năm"
+    },
+    "TABLE": {
+      "HEADERS": {
+        "ID": "ID",
+        "TITLE": "Tiêu đề",
+        "REQUEST_USER": "Người yêu cầu",
+        "CURRENT_STATE": "Trạng thái hiện tại",
+        "ASSIGNED_TO": "Được giao cho",
+        "STATE": "Trạng thái",
+        "CREATED_AT": "Ngày tạo",
+        "ACTIONS": "Hành động"
+      },
+      "ACTIONS": {
+        "VIEW": "Xem",
+        "WORKFLOW": "Quy trình",
+        "APPROVE": "Phê duyệt",
+        "REJECT": "Từ chối"
+      }
+    },
+    "BOARD": {
+      "REQUEST_USER": "Người yêu cầu",
+      "CURRENT_STATE": "Trạng thái hiện tại",
+      "ASSIGN": "Phân công",
+      "DATE": "Ngày",
+      "MORE_ACTIONS": "Thêm hành động"
+    },
+    "LABELS": {
+      "REQUEST_INPUT": "Thông tin yêu cầu",
+      "REQUEST_USER": "Người yêu cầu",
+      "DETAIL": "Chi tiết",
+      "NAME": "Tên",
+      "EMAIL": "Email",
+      "BRANCH_NAME": "Tên chi nhánh",
+      "REQUEST_TEMPLATE": "Mẫu yêu cầu",
+      "STATE": "Trạng thái",
+      "REASON": "Lý do",
+      "EMAIL_ASSIGNMENT": "Email được giao",
+      "CREATION_TIME": "Thời gian tạo",
+      "REJECTED_BY": "Từ chối bởi",
+      "NO_NAME": "Không có tên"
+    },
+    "MESSAGES": {
+      "REJECTED_TASK_SUCCESS": "Từ chối công việc thành công!",
+      "APPROVED_TASK_SUCCESS": "Phê duyệt công việc thành công!",
+      "SEND_ACTION_SUCCESS": "Gửi hành động thành công!",
+      "NO_REQUEST_FOUND": "Không tìm thấy yêu cầu nào!",
+      "NO_PERMISSION": "Bạn không có quyền thực hiện hành động này!"
+    },
+    "MODAL": {
+      "TASK_DETAIL_TITLE": "Chi Tiết Công Việc"
+    }
+  },
+"PAGINATION":{
+    "ROWS_PER_PAGE":"Số hàng mỗi trang",
+    "NEXT":"Sau",
+    "PREVIOUS":"Trước"
+},
+"PERMISSIONS_PAGE": {
+  "PAGE_TITLE": "Bảng Phân Quyền",
+  "BUTTONS": {
+    "CREATE_PERMISSION": "Tạo Phân Quyền",
+    "EDIT": "Chỉnh sửa",
+    "DELETE": "Xóa",
+    "ADD_CHILD": "Thêm Quyền Con",
+    "SAVE":"Lưu",
+    "CANCEL":"Hủy"
+  },
+  "TABLE": {
+    "PERMISSION_GROUP": "Nhóm Phân Quyền",
+    "CODE": "Mã",
+    "ACTIONS": "Hành Động",
+    "NO_PERMISSIONS_FOUND": "Không tìm thấy phân quyền nào"
+  },
+  "FORM": {
+    "NAME": "Tên",
+    "CODE": "Mã"
+  },
+  "MODAL": {
+    "ADD_PARENT_PERMISSION": "Thêm Phân Quyền Cha",
+    "ADD_CHILD_PERMISSION": "Thêm Phân Quyền Con",
+    "EDIT_PERMISSION": "Chỉnh Sửa Phân Quyền",
+    "CONFIRM_DELETE": "Xác Nhận Xóa",
+    "DELETE_CONFIRMATION": "Bạn có chắc chắn muốn xóa phân quyền này? Hành động này không thể hoàn tác."
+  },
+  "VALIDATION": {
+    "NAME_REQUIRED": "Tên là bắt buộc",
+    "CODE_REQUIRED": "Mã là bắt buộc"
+  },
+  "MESSAGES": {
+    "CREATE_SUCCESS": "Tạo phân quyền thành công!",
+    "CREATE_ERROR": "Tạo phân quyền thất bại",
+    "UPDATE_SUCCESS": "Cập nhật phân quyền thành công!",
+    "UPDATE_ERROR": "Cập nhật phân quyền thất bại",
+    "DELETE_SUCCESS": "Xóa phân quyền thành công!",
+    "DELETE_ERROR": "Xóa phân quyền thất bại"
+  }
+
+
+},
+"RELEASE_NOTE_PAGE":{
+    "TITLE":"Ghi chú phát hành",
+    "READ_LESS":"Thu gọn",
+    "READ_MORE":"Mở rộng",
+    "CHANGES":"Những thứ thay đổi",
+    "CONTRIBUTORS":"Người cống hiến"
+},
+"REPORT_PAGE":{
+    "EMAIL_PLACE_HOLDER": "Nhập email",
+    "ALL_STATUS": "Tất Cả Trạng Thái",
+    "PENDING": "Đang Chờ",
+    "APPROVED": "Phê duyệt",
+    "REJECTED": "Từ chối",
+    "ALL_DATE":"Tất cả ngày",
+    "NO_REQUEST_FOUND": "Không tìm thấy yêu cầu!",
+    "REMOTE_DATE": "Ngày xa",
+    "CREATED_AT": "Ngày tạo",
+    "EXPORT": "Xuất",
+    "RELOAD": "Tải lại",
+    "VIEW":"Xem",
+    "REPORT_WFH":"Báo cáo WFH",
+    "current month": "Tháng hiện tại",
+    "2 month": "2 tháng",
+    "3 months": "3 tháng",
+    "REASON":"Lí do"
+},
+"ROLE_PAGE": {
+    "ROLE_NAME": "Tên vai trò",
+    "ROLE_NAME_PLACEHOLDER": "Nhập tên vai trò",
+    "PERMISSIONS": "Quyền hạn",
+    "USERS": "Người dùng",
+    "DELETE_USER": "Xóa người dùng",
+    "NO_USERS": "Không có người dùng nào",
+    "DELETE_ROLE": "Xóa vai trò",
+    "UPDATE": "Cập nhật",
+    "CREATE": "Tạo mới",
+    "DELETE_CONFIRMATION_TITLE": "Xác nhận xóa",
+    "DELETE_CONFIRMATION_DESCRIPTION": "Bạn có chắc chắn muốn xóa vai trò này không?",
+    "EDIT_ROLE": "Chỉnh sửa vai trò",
+    "CREATE_ROLE": "Tạo vai trò",
+    "ACTION": "Thao tác",
+    "NO_ROLES_FOUND": "Không tìm thấy vai trò nào!",
+     "ROLES_BOARD": "Bảng Vai Trò"
+},
+"SETTING_PAGE": {
+    "EMAIL": "Địa chỉ email",
+    "ACTIONS": "Thao tác",
+    "ACCOUNTANT_GROUP": "Nhóm Kế Toán",
+    "CEO_GROUP": "Nhóm CEO",
+    "GDVP_GROUP": "Nhóm GDVP",
+    "HPM_GROUP": "Nhóm HPM",
+    "HR_GROUP": "Nhóm HR",
+    "IT_GROUP": "Nhóm IT",
+    "SALE_GROUP": "Nhóm SALE",
+    "SAODO_GROUP": "Nhóm Saodo",
+    "NAME": "Tên",
+    "CODE": "Mã",
+    "NO_REQUEST_FOUND": "Không tìm thấy yêu cầu nào!",
+    "CREATE_SUCCESS": "Tạo cài đặt thành công",
+    "UPDATE_SUCCESS": "Cập nhật cài đặt thành công",
+    "DELETE_SUCCESS": "Xóa cài đặt thành công",
+    "EMAIL_ALREADY_EXISTS": "Email này đã được sử dụng",
+    "CODE_ALREADY_EXISTS": "Mã này đã được sử dụng",
+    "EDIT": "Chỉnh sửa",
+    "DELETE": "Xóa",
+    "ADD": "Thêm",
+    "CANCEL": "Hủy",
+    "SETTINGS": "Cài Đặt"
+},
+"USER_MANAGEMENT_PAGE": {
+    "USER_MANAGEMENT": "Quản lý người dùng",
+    "ACTIONS": "Hành động",
+    "EDIT": "Chỉnh sửa",
+    "USER": "người dùng",
+    "USER_INFORMATION": "Thông tin người dùng",
+    "ROLES": "Vai trò",
+    "USER_NAME": "Tên người dùng",
+    "NAME": "Tên",
+    "PASSWORD": "Mật khẩu",
+    "CONFIRM_PASSWORD": "Xác nhận mật khẩu",
+    "EMAIL_ADDRESS": "Địa chỉ email",
+    "PHONE_NUMBER": "Số điện thoại",
+    "MEZON_USER_ID": "Mezon User ID",
+    "ACTIVE": "Hoạt động",
+    "LOCK_ACCOUNT_AFTER_FAILED_LOGIN": "Khóa tài khoản sau khi đăng nhập sai",
+    "CANCEL": "Hủy",
+    "SUBMIT": "Gửi",
+    "PASSWORDS_DO_NOT_MATCH": "Mật khẩu không khớp",
+    "UPDATED_SUCCESSFULLY": "Cập nhật thành công",
+    "UPDATE_FAILED": "Cập nhật thất bại",
+    "LOG_OUT_TO_APPLY_CHANGES": "Đăng xuất để áp dụng thay đổi?",
+    "YES": "Có",
+    "ALL_ROLES": "Tất cả vai trò",
+    "NO_ROLE": "Không có vai trò",
+    "DISABLED": "Vô hiệu hóa",
+    "CREATE_TIME": "Thời gian tạo",
+    "UPDATE_TIME": "Thời gian cập nhật",
+    "ENTER_EMAIL": "Nhập email",
+    "NO_REQUEST_FOUND": "Không tìm thấy yêu cầu nào!"
+  },
+  "WEBHOOKS_PAGE": {
+    "WEBHOOKS_BOARD": "Bảng Webhooks",
+    "WEBHOOK_NAME": "Tên Webhook",
+    "WEBHOOK_URL": "Đường dẫn Webhook",
+    "ACTION": "Hành động",
+    "CREATE": "Tạo mới",
+    "EDIT_WEBHOOK": "Chỉnh sửa Webhook",
+    "CREATE_WEBHOOK": "Tạo Webhook",
+    "EVENT_NAME": "Tên sự kiện",
+    "ENTER_WEBHOOK_URL": "Nhập URL webhook",
+    "SAVE": "Lưu",
+    "CANCEL": "Hủy",
+    "WEBHOOK_URL_REQUIRED": "URL Webhook là bắt buộc",
+    "WEBHOOK_NAME_REQUIRED": "Tên Webhook là bắt buộc",
+    "SELECT_AT_LEAST_ONE_EVENT": "Chọn ít nhất một sự kiện",
+    "NO_WEBHOOKS_FOUND": "Không tìm thấy webhook nào!",
+    "DELETE_CONFIRMATION": "Xác nhận xóa",
+    "DELETE_CONFIRMATION_MESSAGE": "Bạn có chắc chắn muốn xóa webhook này?",
+    "WEBHOOK_DELETED_SUCCESSFULLY": "Xóa webhook thành công!",
+    "WEBHOOK_UPDATED_SUCCESSFULLY": "Cập nhật webhook thành công!",
+    "WEBHOOK_CREATED_SUCCESSFULLY": "Tạo webhook thành công!"
+  },
+  "VALIDATION": {
+    "USER_NAME_REQUIRED": "Trường tên người dùng là bắt buộc!",
+    "PASSWORD_MIN_LENGTH": "Mật khẩu phải có ít nhất 6 ký tự",
+    "PASSWORD_NON_ALPHANUMERIC": "Mật khẩu phải có ít nhất một ký tự không phải chữ cái",
+    "PASSWORD_DIGIT": "Mật khẩu phải có ít nhất một chữ số",
+    "PASSWORD_UPPERCASE": "Mật khẩu phải có ít nhất một chữ hoa",
+    "PASSWORD_SPECIAL_CHARACTER": "Mật khẩu phải bao gồm ít nhất một ký tự đặc biệt",
+    "EMAIL_REQUIRED": "Trường địa chỉ email là bắt buộc!",
+    "EMAIL_INVALID": "Trường địa chỉ email không phải là địa chỉ e-mail hợp lệ.",
+    "PHONE_MIN_LENGTH": "Số điện thoại không hợp lệ",
+    "PHONE_INVALID": "Số điện thoại không hợp lệ",
+    "NAME_REQUIRED": "Trường tên là bắt buộc!",
+    "CODE_REQUIRED": "Trường mã là bắt buộc!"
+  },
+
+  "WORK_FLOW":{
+    "WORK_FLOW_DETAIL":"Chi tiết luồng công việc"
+  },
+  "RELEASE_CONTENT": {
+    "WHATS_CHANGED": "Những thay đổi",
+    "NEW_CONTRIBUTORS": "Người đóng góp mới",
+    "FULL_CHANGELOG": "Nhật ký thay đổi đầy đủ"
+  }
+
+
+
+
+
+}

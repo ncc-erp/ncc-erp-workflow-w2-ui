@@ -87,7 +87,7 @@ exports[`Request My Requests Page 1`] = `
                     <div
                       class="css-alaj7i"
                     >
-                      Request user
+                      Request User
                     </div>
                   </th>
                   <th
@@ -355,7 +355,7 @@ exports[`Request My Requests Page 1`] = `
           <p
             class="chakra-text css-1ttuwaw"
           >
-            Rows per page:
+            Rows per page
           </p>
           <div
             class="chakra-form-control css-0"

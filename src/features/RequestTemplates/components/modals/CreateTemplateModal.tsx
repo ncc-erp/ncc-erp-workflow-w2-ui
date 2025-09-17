@@ -30,7 +30,7 @@ export const CreateTemplateModal = ({
       <ModalOverlay />
       <ModalContent className={styles.customModal}>
         <ModalHeader fontSize="md">
-          {t('requestTemplates.modals.createWorkflowDefinition')}
+          {t('REQUEST_TEMPLATES_PAGE.CREATE_WORKFLOW_DEFINITION.TITLE')}
         </ModalHeader>
         <Divider></Divider>
         <ModalCloseButton />

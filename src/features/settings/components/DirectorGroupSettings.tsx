@@ -8,7 +8,6 @@ import { RowAction } from './RowAction';
 import { useMemo, useState } from 'react';
 import {
   ESettingCode,
-  ESettingError,
   IFilterSettingParams,
   ISettingPayload,
   ISettingValue,
@@ -27,6 +26,7 @@ import { SettingForm } from './SettingForm';
 import { HttpStatusCode } from 'axios';
 import { Permissions } from 'common/constants';
 import { useUserPermissions } from 'hooks/useUserPermissions';
+import { useTranslation } from 'react-i18next';
 
 const initialFilter: IFilterSettingParams = {
   settingCode: ESettingCode.DIRECTOR,
@@ -39,6 +39,7 @@ const initialValues: ISettingValue = {
 };
 
 export const DirectorSettings = () => {
+  const { t } = useTranslation();
   const { sideBarWidth } = useRecoilValue(appConfigState);
   const { data, isLoading, refetch } = useGetSettingList(initialFilter);
   const [updateSetting, setUpdateSetting] = useState({ ...initialValues });
@@ -80,7 +81,7 @@ export const DirectorSettings = () => {
       await updateMutate().then(() => {
         refetch();
         toast({
-          description: ESettingError.UPDATE_SUCCESSFULLY,
+          description: t('SETTING_PAGE.UPDATE_SUCCESS'),
           status: 'success',
         });
         setUpdateSetting(initialValues);
@@ -92,7 +93,7 @@ export const DirectorSettings = () => {
         .then(() => {
           refetch();
           toast({
-            description: ESettingError.CREATE_SUCCESSFULLY,
+            description: t('SETTING_PAGE.CREATE_SUCCESS'),
             status: 'success',
           });
           formik.resetForm();
@@ -100,7 +101,7 @@ export const DirectorSettings = () => {
         })
         .catch((err) => {
           if (err.response.data.error.code == HttpStatusCode.Conflict)
-            formik.setFieldError('code', ESettingError.CODE_ALREADY_EXIST);
+            formik.setFieldError('code', t('SETTING_PAGE.CODE_ALREADY_EXISTS'));
         });
     }
   };
@@ -126,7 +127,7 @@ export const DirectorSettings = () => {
       await deleteMutate(QueryString.stringify(payload)).then(() => {
         refetch();
         toast({
-          description: ESettingError.DELETE_SUCCESSFULLY,
+          description: t('SETTING_PAGE.DELETE_SUCCESS'),
           status: 'success',
         });
       });
@@ -153,20 +154,20 @@ export const DirectorSettings = () => {
     return [
       columnHelper.accessor('name', {
         id: 'name',
-        header: () => <Box>Name</Box>,
+        header: () => <Box>{t('SETTING_PAGE.NAME')}</Box>,
         enableSorting: false,
         sortDescFirst: true,
         cell: (info) => <Box>{info.getValue()}</Box>,
       }),
       columnHelper.accessor('code', {
         id: 'code',
-        header: 'Code',
+        header: t('SETTING_PAGE.CODE'),
         enableSorting: false,
         cell: (info) => info.getValue(),
       }),
       columnHelper.accessor('email', {
         id: 'email',
-        header: 'Email',
+        header: t('SETTING_PAGE.EMAIL'),
         enableSorting: false,
         cell: (info) => info.getValue(),
       }),
@@ -177,7 +178,9 @@ export const DirectorSettings = () => {
               id: 'actions',
               enableSorting: false,
               size: 50,
-              header: () => <Center w="full">Actions</Center>,
+              header: () => (
+                <Center w="full">{t('SETTING_PAGE.ACTIONS')}</Center>
+              ),
               cell: (info) => (
                 <Center>
                   <RowAction
@@ -193,12 +196,12 @@ export const DirectorSettings = () => {
           ]
         : []),
     ] as ColumnDef<ISettingValue>[];
-  }, [columnHelper, deleteMutate, formik, refetch, hasPermission]);
+  }, [columnHelper, deleteMutate, formik, refetch, hasPermission, t]);
 
   return (
     <>
       <Box fontSize="14" fontWeight="bold">
-        GDVP Group
+        {t('SETTING_PAGE.GDVP_GROUP')}
       </Box>
       <Box fontSize="14" fontWeight="bold">
         <SettingForm
@@ -215,7 +218,7 @@ export const DirectorSettings = () => {
           isEmpty={!settings?.length && !isLoading}
           h="200px"
           fontSize="xs"
-          message={'No request found!'}
+          message={t('SETTING_PAGE.NO_REQUEST_FOUND')}
         >
           <Box
             p={{ base: '10px 0px 24px 0px' }}

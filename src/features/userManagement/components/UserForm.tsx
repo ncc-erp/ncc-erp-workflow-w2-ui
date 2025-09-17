@@ -32,6 +32,7 @@ import { ModalUserParams } from 'models/userIdentity';
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { convertToCase, validationSchema } from 'utils';
+import { useTranslation } from 'react-i18next';
 
 interface UserFormProps {
   initialValues: ModalUserParams;
@@ -46,6 +47,7 @@ const UserForm = ({
   onClose,
   isOpen,
 }: UserFormProps) => {
+  const { t } = useTranslation();
   const [userValues, setUserValues] = useState(initialValues);
   const [passwordConfirm, setPasswordConfirm] = useState('');
   const [passwordError, setPasswordError] = useState('');
@@ -85,7 +87,7 @@ const UserForm = ({
   const handleSubmit = async (values: ModalUserParams) => {
     // Kiểm tra password
     if (values.password !== undefined && values.password !== passwordConfirm) {
-      setPasswordError('Passwords do not match');
+      setPasswordError(t('USER_MANAGEMENT_PAGE.PASSWORDS_DO_NOT_MATCH'));
       return;
     } else {
       setPasswordError('');
@@ -127,13 +129,19 @@ const UserForm = ({
         queryClient.invalidateQueries([QueryKeys.FILTER_USER]);
         queryClient.invalidateQueries([QueryKeys.GET_ROLE_BY_USER, userId]);
         onClose();
-        toast({ title: 'Updated successfully', status: 'success' });
+        toast({
+          title: t('USER_MANAGEMENT_PAGE.UPDATED_SUCCESSFULLY'),
+          status: 'success',
+        });
       } else if (isError) {
-        toast({ title: 'Update failed', status: 'error' });
+        toast({
+          title: t('USER_MANAGEMENT_PAGE.UPDATE_FAILED'),
+          status: 'error',
+        });
       }
     };
     handleUpdateResult();
-  }, [isSuccess, isError, onClose, queryClient, userId]);
+  }, [isSuccess, isError, onClose, queryClient, userId, t]);
 
   const handleChangeCheckbox = (field: string, value: boolean | string[]) => {
     formik.setFieldValue(field, value);
@@ -190,10 +198,10 @@ const UserForm = ({
       <Tabs size="md" variant="enclosed">
         <TabList>
           <Tab fontSize="16px" fontWeight="medium">
-            User information
+            {t('USER_MANAGEMENT_PAGE.USER_INFORMATION')}
           </Tab>
           <Tab fontSize="16px" fontWeight="medium">
-            Roles
+            {t('USER_MANAGEMENT_PAGE.ROLES')}
           </Tab>
           {/*<Tab fontSize="16px" fontWeight="medium">
           Permissions
@@ -205,8 +213,8 @@ const UserForm = ({
               <TextField
                 h="10"
                 isRequired
-                label="User name"
-                placeholder="User name"
+                label={t('USER_MANAGEMENT_PAGE.USER_NAME')}
+                placeholder={t('USER_MANAGEMENT_PAGE.USER_NAME')}
                 fontSize={15}
                 error={formik.errors.userName}
                 name="userName"
@@ -217,8 +225,8 @@ const UserForm = ({
               />
               <TextField
                 h="10"
-                label="Name"
-                placeholder="Name"
+                label={t('USER_MANAGEMENT_PAGE.NAME')}
+                placeholder={t('USER_MANAGEMENT_PAGE.NAME')}
                 fontSize={15}
                 error={formik.errors.name}
                 name="name"
@@ -228,8 +236,8 @@ const UserForm = ({
               />
               <PasswordField
                 h="10"
-                label="Password"
-                placeholder="Password"
+                label={t('USER_MANAGEMENT_PAGE.PASSWORD')}
+                placeholder={t('USER_MANAGEMENT_PAGE.PASSWORD')}
                 fontSize={15}
                 error={formik.errors.password}
                 name="password"
@@ -247,8 +255,8 @@ const UserForm = ({
               />
               <PasswordField
                 h="10"
-                label="Confirm Password"
-                placeholder="Confirm Password"
+                label={t('USER_MANAGEMENT_PAGE.CONFIRM_PASSWORD')}
+                placeholder={t('USER_MANAGEMENT_PAGE.CONFIRM_PASSWORD')}
                 fontSize={15}
                 error={passwordError}
                 name="passwordConfirm"
@@ -266,8 +274,8 @@ const UserForm = ({
               />
               <TextField
                 h="10"
-                label="Email address"
-                placeholder="Email address"
+                label={t('USER_MANAGEMENT_PAGE.EMAIL_ADDRESS')}
+                placeholder={t('USER_MANAGEMENT_PAGE.EMAIL_ADDRESS')}
                 isRequired
                 fontSize={15}
                 error={formik.errors.email}
@@ -279,8 +287,8 @@ const UserForm = ({
               />
               <TextField
                 h="10"
-                label="Phone number"
-                placeholder="Phone number"
+                label={t('USER_MANAGEMENT_PAGE.PHONE_NUMBER')}
+                placeholder={t('USER_MANAGEMENT_PAGE.PHONE_NUMBER')}
                 fontSize={15}
                 error={formik.errors.phoneNumber}
                 name="phoneNumber"
@@ -290,8 +298,8 @@ const UserForm = ({
               />
               <TextField
                 h="10"
-                label="Mezon User ID"
-                placeholder="Mezon User ID"
+                label={t('USER_MANAGEMENT_PAGE.MEZON_USER_ID')}
+                placeholder={t('USER_MANAGEMENT_PAGE.MEZON_USER_ID')}
                 fontSize={15}
                 error={formik.errors.mezonUserId}
                 name="mezonUserId"
@@ -309,7 +317,7 @@ const UserForm = ({
                     handleChangeCheckbox('isActive', e.target.checked)
                   }
                 >
-                  Active
+                  {t('USER_MANAGEMENT_PAGE.ACTIVE')}
                 </Checkbox>
                 <Checkbox
                   colorScheme="gray"
@@ -320,7 +328,7 @@ const UserForm = ({
                     handleChangeCheckbox('lockoutEnabled', e.target.checked)
                   }
                 >
-                  Lock account after failed login attempts
+                  {t('USER_MANAGEMENT_PAGE.LOCK_ACCOUNT_AFTER_FAILED_LOGIN')}
                 </Checkbox>
               </Stack>
             </TabPanel>
@@ -345,10 +353,10 @@ const UserForm = ({
           <Divider></Divider>
           <Stack mb={3} mt={5} direction="row" justifyContent="center">
             <Button colorScheme="gray" color="gray" onClick={() => onClose()}>
-              Cancel
+              {t('USER_MANAGEMENT_PAGE.CANCEL')}
             </Button>
             <Button variant="primary" type="submit" isLoading={isLoading}>
-              Submit
+              {t('USER_MANAGEMENT_PAGE.SUBMIT')}
             </Button>
           </Stack>
         </form>
@@ -360,21 +368,25 @@ const UserForm = ({
       >
         <AlertDialogOverlay>
           <AlertDialogContent>
-            <AlertDialogHeader>Updated successfully</AlertDialogHeader>
-            <AlertDialogBody>Log out to apply changes?</AlertDialogBody>
+            <AlertDialogHeader>
+              {t('USER_MANAGEMENT_PAGE.UPDATED_SUCCESSFULLY')}
+            </AlertDialogHeader>
+            <AlertDialogBody>
+              {t('USER_MANAGEMENT_PAGE.LOG_OUT_TO_APPLY_CHANGES')}
+            </AlertDialogBody>
             <AlertDialogFooter>
               <Button
                 ref={cancelRef}
                 onClick={() => handleLogoutAndNavigate(false)}
               >
-                Cancel
+                {t('USER_MANAGEMENT_PAGE.CANCEL')}
               </Button>
               <Button
                 colorScheme="blue"
                 onClick={() => handleLogoutAndNavigate(true)}
                 ml={3}
               >
-                Yes
+                {t('USER_MANAGEMENT_PAGE.YES')}
               </Button>
             </AlertDialogFooter>
           </AlertDialogContent>

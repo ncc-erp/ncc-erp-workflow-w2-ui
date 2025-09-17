@@ -53,6 +53,7 @@ import { useClearCacheTask } from 'common/components/Boards/useClearCacheTask';
 import { FilterTasks } from 'models/task';
 import { useCurrentUser } from 'stores/user';
 import { useUserPermissions } from 'hooks/useUserPermissions';
+import { useTranslation } from 'react-i18next';
 
 const initialFilter: FilterTasks = {
   skipCount: 0,
@@ -86,6 +87,7 @@ export const TaskDetailModal = ({
   taskId,
   otherTasks,
 }: IDetailModalProps) => {
+  const { t } = useTranslation();
   const { data: users } = useUserList();
   const actionTaskMutation = useActionTask();
   const {
@@ -166,7 +168,10 @@ export const TaskDetailModal = ({
         reason,
       })
       .then(() => {
-        toast({ title: 'Rejected Task Successfully!', status: 'success' });
+        toast({
+          title: t('TASKS_PAGE.MESSAGES.REJECTED_TASK_SUCCESS'),
+          status: 'success',
+        });
       })
       .catch((error) => {
         console.error(error.response.data.error.message);
@@ -190,7 +195,10 @@ export const TaskDetailModal = ({
         dynamicActionData: approvedData,
       })
       .then(() => {
-        toast({ title: 'Approved Task Successfully!', status: 'success' });
+        toast({
+          title: t('TASKS_PAGE.MESSAGES.APPROVED_TASK_SUCCESS'),
+          status: 'success',
+        });
       })
       .catch((error) => {
         console.error(error.response.data.error.message);
@@ -244,7 +252,10 @@ export const TaskDetailModal = ({
     try {
       setIsLoading(true);
       await actionTaskMutation.mutateAsync({ id, action });
-      toast({ title: 'Send action successfully!', status: 'success' });
+      toast({
+        title: t('TASKS_PAGE.MESSAGES.SEND_ACTION_SUCCESS'),
+        status: 'success',
+      });
       refetch();
     } catch (error) {
       console.error(error);
@@ -282,19 +293,22 @@ export const TaskDetailModal = ({
     }
   }, [isOpen, isRejected, tasks]);
 
-  const convertToDynamicArray = (payload: string | null | undefined) => {
-    if (!payload) return [];
+  const convertToDynamicArray = useCallback(
+    (payload: string | null | undefined) => {
+      if (!payload) return [];
 
-    try {
-      const data = JSON.parse(payload) as IDynamicDataProps[];
-      return data.map((element) => ({
-        data: (element.data || '').split('\n'),
-        name: element.name || 'No Name',
-      })) as unknown as IDynamicDataProps[];
-    } catch (error) {
-      return [];
-    }
-  };
+      try {
+        const data = JSON.parse(payload) as IDynamicDataProps[];
+        return data.map((element) => ({
+          data: (element.data || '').split('\n'),
+          name: element.name || t('TASKS_PAGE.LABELS.NO_NAME'),
+        })) as unknown as IDynamicDataProps[];
+      } catch (error) {
+        return [];
+      }
+    },
+    [t]
+  );
 
   const getUserReject = useMemo(() => {
     if (
@@ -343,9 +357,9 @@ export const TaskDetailModal = ({
 
     const filterOtherTask: IDynamicReviewProps[] = otherTasks.items.map((x) => {
       return {
-        title: `${x.description || 'No name'} (${x.updatedBy
-          ?.split('@')
-          .shift()})`,
+        title: `${
+          x.description || t('TASKS_PAGE.LABELS.NO_NAME')
+        } (${x.updatedBy?.split('@').shift()})`,
         items: convertToDynamicArray(x.dynamicActionData),
       };
     });
@@ -375,7 +389,7 @@ export const TaskDetailModal = ({
         </div>
       );
     });
-  }, [otherTasks]);
+  }, [otherTasks, t, convertToDynamicArray]);
 
   if (hasGetTaskLoading) {
     return (
@@ -423,7 +437,7 @@ export const TaskDetailModal = ({
                 )}
                 mt={2}
               >
-                View Workflow Detail
+                {t('TASKS_PAGE.BUTTONS.VIEW_WORKFLOW_DETAIL')}
               </Button>
               <div className={styles.actions}>
                 <div className={styles.spinner}>
@@ -467,7 +481,7 @@ export const TaskDetailModal = ({
                         mt={2}
                         className={styles.btnApproveTask}
                       >
-                        Approve
+                        {t('TASKS_PAGE.BUTTONS.APPROVE')}
                       </Button>
                       <Button
                         fontSize={['16px']}
@@ -477,7 +491,7 @@ export const TaskDetailModal = ({
                         mt={2}
                         className={styles.btnRejectTask}
                       >
-                        Reject
+                        {t('TASKS_PAGE.BUTTONS.REJECT')}
                       </Button>
                     </>
                   )}
@@ -495,7 +509,7 @@ export const TaskDetailModal = ({
                 fontStyle="italic"
                 color="primary"
               >
-                Request input
+                {t('TASKS_PAGE.LABELS.REQUEST_INPUT')}
               </Text>
 
               <div className={styles.wrapper}>
@@ -511,14 +525,20 @@ export const TaskDetailModal = ({
                 fontStyle="italic"
                 color="primary"
               >
-                Request user
+                {t('TASKS_PAGE.LABELS.REQUEST_USER')}
               </Text>
 
               <div className={styles.wrapper}>
-                <TextGroup label="Name" content={inputRequestUser?.name} />
-                <TextGroup label="Email" content={inputRequestUser?.email} />
                 <TextGroup
-                  label="Branch name"
+                  label={t('TASKS_PAGE.LABELS.NAME')}
+                  content={inputRequestUser?.name}
+                />
+                <TextGroup
+                  label={t('TASKS_PAGE.LABELS.EMAIL')}
+                  content={inputRequestUser?.email}
+                />
+                <TextGroup
+                  label={t('TASKS_PAGE.LABELS.BRANCH_NAME')}
                   content={inputRequestUser?.branchName}
                 />
               </div>
@@ -530,25 +550,31 @@ export const TaskDetailModal = ({
                 fontStyle="italic"
                 color="primary"
               >
-                Detail
+                {t('TASKS_PAGE.LABELS.DETAIL')}
               </Text>
               <div className={styles.wrapper}>
-                <TextGroup label="Request template" content={tasks?.name} />
                 <TextGroup
-                  label="State"
+                  label={t('TASKS_PAGE.LABELS.REQUEST_TEMPLATE')}
+                  content={tasks?.name}
+                />
+                <TextGroup
+                  label={t('TASKS_PAGE.LABELS.STATE')}
                   content={getStatusByIndex(tasks?.status).status}
                   color={getStatusByIndex(tasks?.status).color}
                 />
                 {tasks?.reason && (
-                  <TextGroup label="Reason" content={tasks.reason} />
+                  <TextGroup
+                    label={t('TASKS_PAGE.LABELS.REASON')}
+                    content={tasks.reason}
+                  />
                 )}
 
                 <TextGroup
-                  label="Email assignment"
+                  label={t('TASKS_PAGE.LABELS.EMAIL_ASSIGNMENT')}
                   content={emailTo?.join(', ')}
                 />
                 <TextGroup
-                  label="Creation time"
+                  label={t('TASKS_PAGE.LABELS.CREATION_TIME')}
                   content={
                     tasks?.creationTime
                       ? formatDate(new Date(tasks?.creationTime))
@@ -557,7 +583,7 @@ export const TaskDetailModal = ({
                 />
                 {getUserReject && (
                   <TextGroup
-                    label="Rejected by"
+                    label={t('TASKS_PAGE.LABELS.REJECTED_BY')}
                     content={removeDiacritics(getUserReject)}
                   />
                 )}
