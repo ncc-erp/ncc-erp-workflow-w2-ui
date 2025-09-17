@@ -41,7 +41,7 @@ exports[`Request My Requests Page 1`] = `
             class="chakra-table__container tableContainer css-nkv5sy"
           >
             <table
-              class="chakra-table css-1392dy8"
+              class="chakra-table css-182ipm"
             >
               <thead
                 class="css-0"
@@ -52,7 +52,7 @@ exports[`Request My Requests Page 1`] = `
                   <th
                     class="css-1dgr8ha"
                     colspan="1"
-                    style="width: auto;"
+                    style="width: 50px;"
                   >
                     <div
                       class="css-alaj7i"
@@ -67,7 +67,7 @@ exports[`Request My Requests Page 1`] = `
                   <th
                     class="css-1dgr8ha"
                     colspan="1"
-                    style="width: auto;"
+                    style="width: 250px;"
                   >
                     <div
                       class="css-alaj7i"
@@ -82,7 +82,7 @@ exports[`Request My Requests Page 1`] = `
                   <th
                     class="css-1dgr8ha"
                     colspan="1"
-                    style="width: auto;"
+                    style="width: 150px;"
                   >
                     <div
                       class="css-alaj7i"
@@ -93,7 +93,7 @@ exports[`Request My Requests Page 1`] = `
                   <th
                     class="css-1dgr8ha"
                     colspan="1"
-                    style="width: auto;"
+                    style="width: 200px;"
                   >
                     <div
                       class="css-alaj7i"
@@ -104,7 +104,7 @@ exports[`Request My Requests Page 1`] = `
                   <th
                     class="css-1dgr8ha"
                     colspan="1"
-                    style="width: auto;"
+                    style="width: 200px;"
                   >
                     <div
                       class="css-alaj7i"
@@ -115,7 +115,7 @@ exports[`Request My Requests Page 1`] = `
                   <th
                     class="css-1dgr8ha"
                     colspan="1"
-                    style="width: auto;"
+                    style="width: 150px;"
                   >
                     <div
                       class="css-alaj7i"
@@ -126,7 +126,7 @@ exports[`Request My Requests Page 1`] = `
                   <th
                     class="css-1dgr8ha"
                     colspan="1"
-                    style="width: auto;"
+                    style="width: 150px;"
                   >
                     <div
                       class="css-alaj7i"
@@ -137,7 +137,7 @@ exports[`Request My Requests Page 1`] = `
                   <th
                     class="css-1dgr8ha"
                     colspan="1"
-                    style="width: auto;"
+                    style="width: 100px;"
                   >
                     <div
                       class="css-alaj7i"
@@ -161,7 +161,7 @@ exports[`Request My Requests Page 1`] = `
                   data-testid="task-item"
                 >
                   <td
-                    class="css-e5b623"
+                    class="css-e6kfxl"
                   >
                     <div
                       class="css-gmuwbf"
@@ -170,7 +170,7 @@ exports[`Request My Requests Page 1`] = `
                     </div>
                   </td>
                   <td
-                    class="css-e5b623"
+                    class="css-e6kfxl"
                   >
                     <div
                       class="css-0"
@@ -199,7 +199,7 @@ exports[`Request My Requests Page 1`] = `
                     </div>
                   </td>
                   <td
-                    class="css-e5b623"
+                    class="css-e6kfxl"
                   >
                     <div
                       class="css-0"
@@ -208,17 +208,17 @@ exports[`Request My Requests Page 1`] = `
                     </div>
                   </td>
                   <td
-                    class="css-e5b623"
+                    class="css-e6kfxl"
                   >
                     PM Reviews
                   </td>
                   <td
-                    class="css-e5b623"
+                    class="css-e6kfxl"
                   >
                     trang.danghuyen, long.vodinhhoang
                   </td>
                   <td
-                    class="css-e5b623"
+                    class="css-e6kfxl"
                   >
                     <div
                       class="css-k008qs"
@@ -231,12 +231,12 @@ exports[`Request My Requests Page 1`] = `
                     </div>
                   </td>
                   <td
-                    class="css-e5b623"
+                    class="css-e6kfxl"
                   >
                     10-10-2023 16:39
                   </td>
                   <td
-                    class="css-e5b623"
+                    class="css-e6kfxl"
                   >
                     <div
                       class="css-h607p5"
