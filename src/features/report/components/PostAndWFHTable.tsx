@@ -123,16 +123,26 @@ export const TablePostAndWFH = () => {
           size: 50,
           enableSorting: false,
           cell: (info) => {
-            const status =
-              info.getValue() === ETaskStatus.Approved
-                ? t('REPORT_PAGE.APPROVED')
-                : info.getValue() === ETaskStatus.Rejected
-                ? t('REPORT_PAGE.REJECTED')
-                : t('REPORT_PAGE.PENDING');
+            const value = info.getValue();
+
+            let statusKey = '';
+            let statusText = '';
+
+            if (value === ETaskStatus.Approved) {
+              statusKey = 'Approved';
+              statusText = t('REPORT_PAGE.APPROVED');
+            } else if (value === ETaskStatus.Rejected) {
+              statusKey = 'Rejected';
+              statusText = t('REPORT_PAGE.REJECTED');
+            } else {
+              statusKey = 'Pending';
+              statusText = t('REPORT_PAGE.PENDING');
+            }
+
             return (
               <Box>
-                <div className={`${styles.badge} ${styles[status]}`}>
-                  {status}
+                <div className={`${styles.badge} ${styles[statusKey]}`}>
+                  {statusText}
                 </div>
               </Box>
             );

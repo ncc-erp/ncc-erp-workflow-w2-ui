@@ -31,8 +31,9 @@ import { useCurrentUser } from 'stores/user';
 import { ModalUserParams } from 'models/userIdentity';
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
-import { convertToCase, validationSchema } from 'utils';
+import { convertToCase } from 'utils';
 import { useTranslation } from 'react-i18next';
+import { getValidationSchema } from 'utils/validationSchema'; // ✅ Import function
 
 interface UserFormProps {
   initialValues: ModalUserParams;
@@ -48,6 +49,9 @@ const UserForm = ({
   isOpen,
 }: UserFormProps) => {
   const { t } = useTranslation();
+  const validationSchema = () => {
+    return getValidationSchema();
+  };
   const [userValues, setUserValues] = useState(initialValues);
   const [passwordConfirm, setPasswordConfirm] = useState('');
   const [passwordError, setPasswordError] = useState('');

@@ -14,7 +14,7 @@ import {
   ISettingValue,
 } from 'models/settings';
 import { useFormik } from 'formik';
-import { validationSettingForm } from 'utils/validationSchema';
+
 import {
   useCreateSetting,
   useDeleteSetting,
@@ -27,7 +27,7 @@ import { HttpStatusCode } from 'axios';
 import { useUserPermissions } from 'hooks/useUserPermissions';
 import { Permissions } from 'common/constants';
 import { useTranslation } from 'react-i18next';
-
+import { getValidationSettingForm } from 'utils/validationSchema'; // ✅ Import function
 const initialFilter: IFilterSettingParams = {
   settingCode: ESettingCode.SALE,
 };
@@ -38,6 +38,9 @@ const initialValues = {
 
 export const SaleSettings = () => {
   const { t } = useTranslation();
+  const validationSchema = () => {
+    return getValidationSettingForm();
+  };
   const { sideBarWidth } = useRecoilValue(appConfigState);
   const { data, isLoading, refetch } = useGetSettingList(initialFilter);
   const { hasPermission } = useUserPermissions();
@@ -83,7 +86,7 @@ export const SaleSettings = () => {
 
   const formik = useFormik({
     initialValues,
-    validationSchema: validationSettingForm,
+    validationSchema,
     onSubmit: handleSubmit,
   });
 

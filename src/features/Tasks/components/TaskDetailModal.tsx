@@ -44,7 +44,7 @@ import {
 import { RequestInput } from './RequestInput';
 import { IOtherTasks } from './TasksBoard';
 import styles from './style.module.scss';
-import { RequestStatus } from 'common/enums';
+import { ETaskStatus } from 'common/enums';
 import { useUserList } from 'api/apiHooks/requestHooks';
 import { removeDiacritics } from 'utils/removeDiacritics';
 import { BiPencil } from 'react-icons/bi';
@@ -311,10 +311,7 @@ export const TaskDetailModal = ({
   );
 
   const getUserReject = useMemo(() => {
-    if (
-      (getStatusByIndex(tasks?.status).status as string) !==
-      RequestStatus.Rejected
-    ) {
+    if (tasks?.status !== ETaskStatus.Rejected) {
       return null;
     }
 
@@ -559,8 +556,8 @@ export const TaskDetailModal = ({
                 />
                 <TextGroup
                   label={t('TASKS_PAGE.LABELS.STATE')}
-                  content={getStatusByIndex(tasks?.status).status}
-                  color={getStatusByIndex(tasks?.status).color}
+                  content={getStatusByIndex(tasks?.status, t).status}
+                  color={getStatusByIndex(tasks?.status, t).color}
                 />
                 {tasks?.reason && (
                   <TextGroup

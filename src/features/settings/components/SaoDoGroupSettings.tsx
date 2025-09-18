@@ -14,7 +14,7 @@ import {
   ISettingValue,
 } from 'models/settings';
 import { useFormik } from 'formik';
-import { validationSettingForm } from 'utils/validationSchema';
+
 import {
   useCreateSetting,
   useDeleteSetting,
@@ -26,6 +26,7 @@ import { SettingForm } from './SettingForm';
 import { useUserPermissions } from 'hooks/useUserPermissions';
 import { Permissions } from 'common/constants';
 import { useTranslation } from 'react-i18next';
+import { getValidationSettingForm } from 'utils/validationSchema';
 
 const initialFilter: IFilterSettingParams = {
   settingCode: ESettingCode.SAODO,
@@ -42,6 +43,9 @@ export const SaoDoSettings = () => {
   const { mutateAsync: createMutate, isLoading: isCreating } =
     useCreateSetting();
   const { t } = useTranslation();
+  const validationSchema = () => {
+    return getValidationSettingForm();
+  };
   const { mutateAsync: deleteMutate } = useDeleteSetting();
   const settings = useMemo(
     () =>
@@ -82,7 +86,7 @@ export const SaoDoSettings = () => {
 
   const formik = useFormik({
     initialValues,
-    validationSchema: validationSettingForm,
+    validationSchema,
     onSubmit: handleSubmit,
   });
 

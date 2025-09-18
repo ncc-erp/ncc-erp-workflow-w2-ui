@@ -14,7 +14,7 @@ import {
   ISettingValue,
 } from 'models/settings';
 import { useFormik } from 'formik';
-import { validationSettingForm } from 'utils/validationSchema';
+
 import {
   useCreateSetting,
   useDeleteSetting,
@@ -27,7 +27,7 @@ import { HttpStatusCode } from 'axios';
 import { useUserPermissions } from 'hooks/useUserPermissions';
 import { Permissions } from 'common/constants';
 import { useTranslation } from 'react-i18next';
-
+import { getValidationSettingForm } from 'utils/validationSchema'; // ✅ Import function
 const initialFilter: IFilterSettingParams = {
   settingCode: ESettingCode.IT,
 };
@@ -38,6 +38,9 @@ const initialValues: ISettingValue = {
 
 export const ITSettings = () => {
   const { t } = useTranslation();
+  const validationSchema = () => {
+    return getValidationSettingForm();
+  };
   const { sideBarWidth } = useRecoilValue(appConfigState);
   const { data, isLoading, refetch } = useGetSettingList(initialFilter);
   const { mutateAsync: createMutate, isLoading: isCreating } =
@@ -84,7 +87,7 @@ export const ITSettings = () => {
 
   const formik = useFormik({
     initialValues,
-    validationSchema: validationSettingForm,
+    validationSchema,
     onSubmit: handleSubmit,
   });
 

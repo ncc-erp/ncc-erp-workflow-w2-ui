@@ -232,7 +232,10 @@
     "TASK_STATUS": {
       "PENDING": "Đang chờ",
       "APPROVED": "Đã phê duyệt", 
-      "REJECTED": "Đã từ chối"
+      "REJECTED": "Đã từ chối",
+      "FAULTED": "Lỗi",
+      "CANCELED": "Đã hủy",
+      "UNKNOWN":"Không xác định"
     },
     "FILTER_DATE": {
       "1_MONTH": "1 tháng",

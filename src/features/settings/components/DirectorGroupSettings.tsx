@@ -13,7 +13,7 @@ import {
   ISettingValue,
 } from 'models/settings';
 import { useFormik } from 'formik';
-import { validationDirectorSettingForm } from 'utils/validationSchema';
+
 import {
   useCreateSetting,
   useDeleteSetting,
@@ -27,7 +27,7 @@ import { HttpStatusCode } from 'axios';
 import { Permissions } from 'common/constants';
 import { useUserPermissions } from 'hooks/useUserPermissions';
 import { useTranslation } from 'react-i18next';
-
+import { getValidationDirectorSettingForm } from 'utils/validationSchema'; // ✅ Import function
 const initialFilter: IFilterSettingParams = {
   settingCode: ESettingCode.DIRECTOR,
 };
@@ -40,6 +40,9 @@ const initialValues: ISettingValue = {
 
 export const DirectorSettings = () => {
   const { t } = useTranslation();
+  const validationSchema = () => {
+    return getValidationDirectorSettingForm();
+  };
   const { sideBarWidth } = useRecoilValue(appConfigState);
   const { data, isLoading, refetch } = useGetSettingList(initialFilter);
   const [updateSetting, setUpdateSetting] = useState({ ...initialValues });
@@ -113,7 +116,7 @@ export const DirectorSettings = () => {
 
   const formik = useFormik({
     initialValues,
-    validationSchema: validationDirectorSettingForm,
+    validationSchema,
     onSubmit: handleSubmit,
   });
 

@@ -15,7 +15,7 @@ import {
   ISettingValue,
 } from 'models/settings';
 import { useFormik } from 'formik';
-import { validationSettingForm } from 'utils/validationSchema';
+
 import {
   useCreateSetting,
   useDeleteSetting,
@@ -28,7 +28,7 @@ import { HttpStatusCode } from 'axios';
 import { Permissions } from 'common/constants';
 import { useUserPermissions } from 'hooks/useUserPermissions';
 import { useTranslation } from 'react-i18next';
-
+import { getValidationSettingForm } from 'utils/validationSchema';
 const initialFilter: IFilterSettingParams = {
   settingCode: ESettingCode.HPM,
 };
@@ -42,6 +42,9 @@ export const HPMSettings = () => {
   const { data, isLoading, refetch } = useGetSettingList(initialFilter);
   const { hasPermission } = useUserPermissions();
   const { t } = useTranslation();
+  const validationSchema = () => {
+    return getValidationSettingForm();
+  };
   const { mutateAsync: createMutate, isLoading: isCreating } =
     useCreateSetting();
   const { mutateAsync: deleteMutate } = useDeleteSetting();
@@ -84,7 +87,7 @@ export const HPMSettings = () => {
 
   const formik = useFormik({
     initialValues,
-    validationSchema: validationSettingForm,
+    validationSchema,
     onSubmit: handleSubmit,
   });
 

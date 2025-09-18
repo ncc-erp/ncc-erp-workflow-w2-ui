@@ -228,7 +228,10 @@
         "TASK_STATUS": {
           "PENDING": "Pending",
           "APPROVED": "Approved", 
-          "REJECTED": "Rejected"
+          "REJECTED": "Rejected",
+           "FAULTED": "Faulted",
+          "CANCELED": "Canceled",
+          "UNKNOWN":"Unknown"
         },
         "FILTER_DATE": {
           "1_MONTH": "1 month",
@@ -304,7 +307,9 @@
     "CREATE_PERMISSION": "Create Permission",
     "EDIT": "Edit",
     "DELETE": "Delete",
-    "ADD_CHILD": "Add Child Permission"
+    "ADD_CHILD": "Add Child Permission",
+    "CANCEL":"Cancel",
+    "SAVE":"Save"
   },
   "TABLE": {
     "PERMISSION_GROUP": "Permission Group",

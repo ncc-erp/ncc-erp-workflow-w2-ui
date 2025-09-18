@@ -14,7 +14,7 @@ import {
   ISettingValue,
 } from 'models/settings';
 import { useFormik } from 'formik';
-import { validationSettingForm } from 'utils/validationSchema';
+
 import {
   useCreateSetting,
   useDeleteSetting,
@@ -26,7 +26,7 @@ import { SettingForm } from './SettingForm';
 import { useUserPermissions } from 'hooks/useUserPermissions';
 import { Permissions } from 'common/constants';
 import { useTranslation } from 'react-i18next';
-
+import { getValidationSettingForm } from 'utils/validationSchema';
 const initialFilter: IFilterSettingParams = {
   settingCode: ESettingCode.ACCOUNTANT,
 };
@@ -37,6 +37,9 @@ const initialValues: ISettingValue = {
 
 export const AccountantSettings = () => {
   const { t } = useTranslation();
+  const validationSchema = () => {
+    return getValidationSettingForm();
+  };
   const { sideBarWidth } = useRecoilValue(appConfigState);
   const { data, isLoading, refetch } = useGetSettingList(initialFilter);
   const { mutateAsync: createMutate, isLoading: isCreating } =
@@ -81,7 +84,7 @@ export const AccountantSettings = () => {
 
   const formik = useFormik({
     initialValues,
-    validationSchema: validationSettingForm,
+    validationSchema,
     onSubmit: handleSubmit,
   });
 
