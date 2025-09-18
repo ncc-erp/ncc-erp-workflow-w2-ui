@@ -6,24 +6,96 @@ import { IReleaseContent } from 'models/request';
 import { useTranslation } from 'react-i18next';
 
 export const ReleaseContentBody = () => {
-  const { t } = useTranslation();
   const { data: releaseContent, isLoading } = useReleaseContent();
-
+  const { t } = useTranslation();
   const mergeSections = useCallback(
     (text?: string): string => {
       const whatsChangedKey = t('RELEASE_CONTENT.WHATS_CHANGED');
       const newContributorsKey = t('RELEASE_CONTENT.NEW_CONTRIBUTORS');
       const fullChangelogKey = t('RELEASE_CONTENT.FULL_CHANGELOG');
-      if (!text) {
-        return '';
+
+      const sections: {
+        current?: string;
+        [key: string]: string[] | string | undefined;
+      } = {
+        [whatsChangedKey]: [],
+        [newContributorsKey]: [],
+      };
+
+      const fullChangelogLinks: string[] = [];
+
+      text?.split('\n').forEach((line) => {
+        if (
+          line.startsWith("## What's Changed") ||
+          line.startsWith(`## ${whatsChangedKey}`)
+        ) {
+          sections.current = whatsChangedKey;
+        } else if (
+          line.startsWith('## New Contributors') ||
+          line.startsWith(`## ${newContributorsKey}`)
+        ) {
+          sections.current = newContributorsKey;
+        } else if (
+          line.startsWith('## Full Changelog') ||
+          line.startsWith(`## ${fullChangelogKey}`) ||
+          line.startsWith('Full Changelog:')
+        ) {
+          sections.current = 'fullChangelog';
+        } else if (sections.current && line.trim()) {
+          if (sections.current === 'fullChangelog') {
+            const trimmedLine = line.trim();
+            if (trimmedLine.startsWith('*') || trimmedLine.startsWith('·')) {
+              fullChangelogLinks.push(trimmedLine.substring(1).trim());
+            } else if (trimmedLine) {
+              fullChangelogLinks.push(trimmedLine);
+            }
+            return;
+          }
+
+          const currentSection = sections[sections.current];
+          if (Array.isArray(currentSection)) {
+            if (line.includes('**Full Changelog**:')) {
+              const changelogMatch = line.match(
+                /\*\*Full Changelog\*\*:\s*(.+)/
+              );
+              if (changelogMatch && changelogMatch[1]) {
+                fullChangelogLinks.push(changelogMatch[1].trim());
+              }
+
+              return;
+            }
+
+            currentSection.push(line.trim());
+          }
+        }
+      });
+
+      // ✅ Combine sections chính
+      let result = Object.entries(sections)
+        .filter(
+          ([key, firstValue]) =>
+            key !== 'current' &&
+            key !== 'fullChangelog' &&
+            Array.isArray(firstValue) &&
+            firstValue.length
+        )
+        .map(([key, values]) => {
+          if (Array.isArray(values)) {
+            return `## ${key}\n${values.join('\n')}`;
+          }
+          return '';
+        })
+        .filter(Boolean)
+        .join('\n\n');
+
+      if (fullChangelogLinks.length > 0) {
+        const uniqueLinks = [...new Set(fullChangelogLinks)];
+        result += `\n\n## ${fullChangelogKey}\n${uniqueLinks
+          .map((link) => `* ${link}`)
+          .join('\n')}`;
       }
 
-      return (
-        text
-          .replace(/## What's Changed/g, `## ${whatsChangedKey}`)
-          .replace(/## New Contributors/g, `## ${newContributorsKey}`)
-          .replace(/\*\*Full Changelog\*\*/g, `**${fullChangelogKey}**`) || ''
-      );
+      return result;
     },
     [t]
   );
@@ -40,20 +112,15 @@ export const ReleaseContentBody = () => {
           map.set(item.tag_name, translatedItem);
         } else {
           const existingItem = map.get(item.tag_name);
-          const fullChangelogText = t('RELEASE_CONTENT.FULL_CHANGELOG');
-          const existed = existingItem.body.split(`**${fullChangelogText}**:`);
-          const incoming = item?.body?.split('**Full Changelog**:');
 
-          existingItem.body = mergeSections(
-            `${existed[0]} \r\n${incoming?.[0]}`
-          );
+          const existedBody = existingItem.body
+            .replace(/## Full Changelog[\s\S]*$/, '')
+            .trim();
+          const incomingBody = item?.body
+            ?.replace(/## Full Changelog[\s\S]*$/, '')
+            .trim();
 
-          // if existed have change log
-          if (existed[1] || incoming?.[1]) {
-            existingItem.body += ` \n\n**${fullChangelogText}**: `;
-            if (existed[1]) existingItem.body += ` \r\n* ${existed[1]}`;
-            if (incoming?.[1]) existingItem.body += ` \r\n* ${incoming?.[1]}`;
-          }
+          existingItem.body = mergeSections(`${existedBody}\n${incomingBody}`);
         }
       });
 
@@ -68,7 +135,7 @@ export const ReleaseContentBody = () => {
     }
 
     return [];
-  }, [releaseContent, t, mergeSections]);
+  }, [releaseContent, mergeSections]);
 
   if (isLoading) {
     return (

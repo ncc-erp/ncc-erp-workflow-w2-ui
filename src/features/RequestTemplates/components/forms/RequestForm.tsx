@@ -329,7 +329,14 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
               value={formParams[fieldname] as string}
               {...register(fieldname, {
                 required: Field?.isRequired
-                  ? `${fieldname} is Required`
+                  ? t(
+                      'REQUEST_TEMPLATES_PAGE.FORMS.REQUEST_FORM.FIELD_REQUIRED',
+                      {
+                        field: convertToCase(
+                          fieldname.replace(/([A-Z])/g, ' $1')
+                        ),
+                      }
+                    )
                   : false,
                 onChange: (e) => handleChangeValue(e, fieldname),
               })}

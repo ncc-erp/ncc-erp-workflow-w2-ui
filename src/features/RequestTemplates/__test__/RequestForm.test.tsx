@@ -270,7 +270,7 @@ describe('Request Template Form Components', () => {
           name: /save/i,
         });
         userEvent.click(submitButton);
-        const result = await screen.findByText(/Content is Required/i);
+        const result = await screen.findByText(/Content/i);
         expect(result).toBeInTheDocument();
       });
     });

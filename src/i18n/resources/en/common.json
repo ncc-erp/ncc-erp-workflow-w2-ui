@@ -184,6 +184,8 @@
             "STAFF": "Staff",
             "PROJECT": "Project", 
             "CURRENT_OFFICE": "Current Office",
+            "DESTINATIONOFFICE":"Destination Office",
+            "DATES":"Date",
             "CONTENT": "Content",
             "START_DATE": "Start Date",
             "END_DATE": "End Date",
@@ -191,7 +193,8 @@
             "PM_REVIEWS": "PM Reviews",
             "STRENGTH_POINTS": "Strength Points", 
             "WEAKNESS_POINTS": "Weakness Points",
-            "EQUIPMENT": "Equipment"
+            "EQUIPMENT": "Equipment",
+            "DEVICE":"Device"
         },
         "TITLES": {
             "REQUEST_DETAILS": "Request Details"

@@ -196,7 +196,10 @@
         "PM_REVIEWS": "Đánh giá của PM",
       "STRENGTH_POINTS": "Điểm mạnh",
       "WEAKNESS_POINTS": "Điểm yếu",
-      "EQUIPMENT": "Thiết bị"
+      "EQUIPMENT": "Thiết bị",
+      "DESTINATIONOFFICE":"Văn phòng chuyển đến",
+      "DATES":"Các ngày nghỉ",
+      "DEVICE":"Thiết bị"
     },
     "TITLES": {
         "REQUEST_DETAILS": "Chi Tiết Yêu Cầu"
