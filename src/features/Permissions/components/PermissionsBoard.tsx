@@ -211,9 +211,13 @@ const PermissionsTable = () => {
         <Table variant="simple">
           <Thead>
             <Tr>
-              <Th px={['8px', '12px']}>Permission Group</Th>
-              <Th px={['8px', '12px']}>Code</Th>
-              <Th px={['8px', '12px']} textAlign="center">
+              <Th px={['8px', '12px']} width="40%">
+                Permission Group
+              </Th>
+              <Th px={['8px', '12px']} width="40%">
+                Code
+              </Th>
+              <Th px={['8px', '12px']} width="40%">
                 Actions
               </Th>
             </Tr>
