@@ -114,7 +114,9 @@ const CreateForm = ({
       refetch();
       setIsLoading(false);
       toast({
-        description: t('requestTemplates.messages.createWorkflowSuccess'),
+        description: t(
+          'REQUEST_TEMPLATES_PAGE.MESSAGES.CREATE_WORKFLOW_SUCCESS'
+        ),
         status: 'success',
       });
       onCloseModal();
@@ -124,7 +126,7 @@ const CreateForm = ({
 
   const getField = (Field: CreateWorkflowPropertyDefinition) => {
     const fieldName = Field?.name ? Field.name : '';
-    const labelKey = `requestTemplates.forms.createForm.fields.${fieldName}`;
+    const labelKey = `REQUEST_TEMPLATES_PAGE.FORMS.CREATE_FORM.FIELDS.${fieldName.toUpperCase()}`;
     const label = t(labelKey, { defaultValue: convertToCase(fieldName) });
     const placeholder = label;
     return (
@@ -146,7 +148,7 @@ const CreateForm = ({
           fontSize="sm"
           {...register(fieldName, {
             required: Field?.isRequired
-              ? t('requestTemplates.forms.createForm.fieldRequired', {
+              ? t('REQUEST_TEMPLATES_PAGE.FORMS.CREATE_FORM.FIELD_REQUIRED', {
                   field: label,
                 })
               : false,
@@ -183,7 +185,7 @@ const CreateForm = ({
           size="full"
           colorScheme="gray"
         >
-          {t('requestTemplates.buttons.create')}
+          {t('REQUEST_TEMPLATES_PAGE.CREATE_BUTTON')}
         </Button>
       </VStack>
     </form>

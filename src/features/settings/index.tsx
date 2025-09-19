@@ -13,8 +13,10 @@ import NotFound from 'common/components/NotFound';
 import { useMemo } from 'react';
 import { useMediaQuery } from 'hooks/useMediaQuery';
 import { MobileHeader } from 'common/components/MobileHeader';
+import { useTranslation } from 'react-i18next';
 
 const SettingsComponent = () => {
+  const { t } = useTranslation();
   const { hasPermission } = useUserPermissions();
   const isLargeScreen = useMediaQuery('(min-width: 1024px)');
   const canViewSettings = useMemo(
@@ -32,7 +34,7 @@ const SettingsComponent = () => {
         marginTop={isLargeScreen ? '0px' : '50px'}
       >
         <Page.HeaderLeft>
-          <Page.Heading>Settings</Page.Heading>
+          <Page.Heading>{t('SETTING_PAGE.SETTINGS')}</Page.Heading>
         </Page.HeaderLeft>
         <Page.HeaderRight />
       </Page.Header>

@@ -3,6 +3,7 @@ import styles from './styles.module.scss';
 import { Box } from '@chakra-ui/react';
 import classNames from 'classnames';
 import { ComponentProps } from 'react';
+import { useTranslation } from 'react-i18next';
 
 type DatePickerProps = Pick<
   ReactDatePickerProps,
@@ -33,7 +34,7 @@ const DateRangePicker = ({
 }: IDateRangePickerProps) => {
   const { className: sdClass, ...sdProps } = providedStartDateProps ?? {};
   const { className: edClass, ...edPRops } = providedEndDateProps ?? {};
-
+  const { t } = useTranslation();
   return (
     <Box
       width={'auto'}
@@ -49,7 +50,7 @@ const DateRangePicker = ({
         selectsStart
         startDate={startDate}
         endDate={endDate}
-        placeholderText="Start Date"
+        placeholderText={t('MY_REQUESTS_PAGE.LABELS.START_DATE')}
         enableTabLoop={false}
         className={classNames(
           styles.datePicker,
@@ -73,7 +74,7 @@ const DateRangePicker = ({
         endDate={endDate}
         enableTabLoop={false}
         minDate={startDate}
-        placeholderText="End Date"
+        placeholderText={t('MY_REQUESTS_PAGE.LABELS.END_DATE')}
         className={classNames(
           styles.datePicker,
           {

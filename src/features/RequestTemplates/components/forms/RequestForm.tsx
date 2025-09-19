@@ -107,7 +107,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
 
     await createMutate(RequestFormParams);
     toast({
-      description: 'Create Request Successfully',
+      description: t('REQUEST_TEMPLATES_PAGE.MESSAGES.CREATE_REQUEST_SUCCESS'),
       status: 'success',
     });
     onCloseModal();
@@ -197,14 +197,14 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
         const month = dateObject.month.number;
         const year = dateObject.year;
         if (day === undefined || month === undefined || year === undefined) {
-          return t('requestTemplates.validation.invalidDate');
+          return t('REQUEST_TEMPLATES_PAGE.MESSAGES.INVALID_DATE');
         }
 
         const dateStr = `${year}-${createDateString(month)}-${createDateString(
           day
         )}`;
         if (!/^\d{4}-\d{1,2}-\d{1,2}$/.test(dateStr)) {
-          return t('requestTemplates.validation.invalidDateFormat');
+          return t('REQUEST_TEMPLATES_PAGE.MESSAGES.INVALID_DATE_FORMAT');
         }
         const dateToCheck = new Date(dateStr);
         const currentDate = new Date();
@@ -214,7 +214,9 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
           dateToCheck <= currentDate &&
           !isWithinInterval(dateToCheck, { start: lastWeek, end: currentDate })
         ) {
-          return t('requestTemplates.validation.chooseDatesWithin7Days');
+          return t(
+            'REQUEST_TEMPLATES_PAGE.MESSAGES.CHOOSE_DATES_WITHIN_7_DAYS'
+          );
         }
       }
     }
@@ -290,9 +292,12 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
               value={formParams[fieldname] as string}
               {...register(fieldname, {
                 required: Field?.isRequired
-                  ? t('requestTemplates.forms.requestForm.fieldRequired', {
-                      field: convertToCase(fieldname),
-                    })
+                  ? t(
+                      'REQUEST_TEMPLATES_PAGE.FORMS.REQUEST_FORM.FIELD_REQUIRED',
+                      {
+                        field: convertToCase(fieldname),
+                      }
+                    )
                   : false,
                 onChange: (e) => handleChangeValue(e, fieldname),
               })}
@@ -324,7 +329,14 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
               value={formParams[fieldname] as string}
               {...register(fieldname, {
                 required: Field?.isRequired
-                  ? `${fieldname} is Required`
+                  ? t(
+                      'REQUEST_TEMPLATES_PAGE.FORMS.REQUEST_FORM.FIELD_REQUIRED',
+                      {
+                        field: convertToCase(
+                          fieldname.replace(/([A-Z])/g, ' $1')
+                        ),
+                      }
+                    )
                   : false,
                 onChange: (e) => handleChangeValue(e, fieldname),
               })}
@@ -361,11 +373,14 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
               control={control}
               rules={{
                 required: Field?.isRequired
-                  ? t('requestTemplates.forms.requestForm.fieldRequired', {
-                      field: convertToCase(
-                        fieldname.replace(/([A-Z])/g, ' $1')
-                      ),
-                    })
+                  ? t(
+                      'REQUEST_TEMPLATES_PAGE.FORMS.REQUEST_FORM.FIELD_REQUIRED',
+                      {
+                        field: convertToCase(
+                          fieldname.replace(/([A-Z])/g, ' $1')
+                        ),
+                      }
+                    )
                   : false,
                 validate: () => {
                   const startDate = watch('StartDate');
@@ -446,9 +461,12 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
               control={control}
               rules={{
                 required: Field?.isRequired
-                  ? t('requestTemplates.forms.requestForm.fieldRequired', {
-                      field: convertToCase(fieldname),
-                    })
+                  ? t(
+                      'REQUEST_TEMPLATES_PAGE.FORMS.REQUEST_FORM.FIELD_REQUIRED',
+                      {
+                        field: convertToCase(fieldname),
+                      }
+                    )
                   : false,
                 validate: validateMultiDatePicker,
               }}
@@ -500,9 +518,12 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
               value={formParams[fieldname] as string}
               {...register(fieldname, {
                 required: Field?.isRequired
-                  ? t('requestTemplates.forms.requestForm.fieldRequired', {
-                      field: convertToCase(fieldname),
-                    })
+                  ? t(
+                      'REQUEST_TEMPLATES_PAGE.FORMS.REQUEST_FORM.FIELD_REQUIRED',
+                      {
+                        field: convertToCase(fieldname),
+                      }
+                    )
                   : false,
                 onChange: (e) => handleChangeValue(e, fieldname),
               })}
@@ -537,7 +558,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
           isLoading={isLoading}
           colorScheme="gray"
         >
-          {t('common.save')}
+          {t('REQUEST_TEMPLATES_PAGE.SAVE_BUTTON')}
         </Button>
       </VStack>
     </form>

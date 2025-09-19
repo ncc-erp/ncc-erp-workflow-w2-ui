@@ -1,80 +1,133 @@
 import { Box, Flex, Skeleton } from '@chakra-ui/react';
 import { useReleaseContent } from 'api/apiHooks/releaseContentHooks';
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { ReleaseItem } from './ReleaseItem';
 import { IReleaseContent } from 'models/request';
+import { useTranslation } from 'react-i18next';
 
 export const ReleaseContentBody = () => {
   const { data: releaseContent, isLoading } = useReleaseContent();
+  const { t } = useTranslation();
+  const mergeSections = useCallback(
+    (text?: string): string => {
+      const whatsChangedKey = t('RELEASE_CONTENT.WHATS_CHANGED');
+      const newContributorsKey = t('RELEASE_CONTENT.NEW_CONTRIBUTORS');
+      const fullChangelogKey = t('RELEASE_CONTENT.FULL_CHANGELOG');
 
-  const mergeSections = (text: string): string => {
-    const sections: {
-      current?: "## What's Changed" | '## New Contributors';
-      "## What's Changed": string[];
-      '## New Contributors': string[];
-    } = {
-      "## What's Changed": [],
-      '## New Contributors': [],
-    };
+      const sections: {
+        current?: string;
+        [key: string]: string[] | string | undefined;
+      } = {
+        [whatsChangedKey]: [],
+        [newContributorsKey]: [],
+      };
 
-    // Split the input string line by line and process each line
-    text.split('\n').forEach((line) => {
-      if (line.startsWith("## What's Changed")) {
-        sections.current = "## What's Changed";
-      } else if (line.startsWith('## New Contributors')) {
-        sections.current = '## New Contributors';
-      } else if (sections.current && line.trim()) {
-        sections[sections.current].push(line.trim());
-      }
-    });
+      const fullChangelogLinks: string[] = [];
 
-    // Combine parts into a string
-    return Object.entries(sections)
-      .filter(([key, firstValue]) => key !== 'current' && firstValue.length)
-      .map(([key, values]) => {
-        // Cast the value as a string array
-        if (Array.isArray(values)) {
-          return `${key}\n${values.join('\n')}`;
+      text?.split('\n').forEach((line) => {
+        if (
+          line.startsWith("## What's Changed") ||
+          line.startsWith(`## ${whatsChangedKey}`)
+        ) {
+          sections.current = whatsChangedKey;
+        } else if (
+          line.startsWith('## New Contributors') ||
+          line.startsWith(`## ${newContributorsKey}`)
+        ) {
+          sections.current = newContributorsKey;
+        } else if (
+          line.startsWith('## Full Changelog') ||
+          line.startsWith(`## ${fullChangelogKey}`) ||
+          line.startsWith('Full Changelog:')
+        ) {
+          sections.current = 'fullChangelog';
+        } else if (sections.current && line.trim()) {
+          if (sections.current === 'fullChangelog') {
+            const trimmedLine = line.trim();
+            if (trimmedLine.startsWith('*') || trimmedLine.startsWith('·')) {
+              fullChangelogLinks.push(trimmedLine.substring(1).trim());
+            } else if (trimmedLine) {
+              fullChangelogLinks.push(trimmedLine);
+            }
+            return;
+          }
+
+          const currentSection = sections[sections.current];
+          if (Array.isArray(currentSection)) {
+            if (line.includes('**Full Changelog**:')) {
+              const changelogMatch = line.match(
+                /\*\*Full Changelog\*\*:\s*(.+)/
+              );
+              if (changelogMatch && changelogMatch[1]) {
+                fullChangelogLinks.push(changelogMatch[1].trim());
+              }
+
+              return;
+            }
+
+            currentSection.push(line.trim());
+          }
         }
-        return '';
-      })
-      .filter(Boolean) // remove empty
-      .join('\n\n');
-  };
+      });
+
+      // ✅ Combine sections chính
+      let result = Object.entries(sections)
+        .filter(
+          ([key, firstValue]) =>
+            key !== 'current' &&
+            key !== 'fullChangelog' &&
+            Array.isArray(firstValue) &&
+            firstValue.length
+        )
+        .map(([key, values]) => {
+          if (Array.isArray(values)) {
+            return `## ${key}\n${values.join('\n')}`;
+          }
+          return '';
+        })
+        .filter(Boolean)
+        .join('\n\n');
+
+      if (fullChangelogLinks.length > 0) {
+        const uniqueLinks = [...new Set(fullChangelogLinks)];
+        result += `\n\n## ${fullChangelogKey}\n${uniqueLinks
+          .map((link) => `* ${link}`)
+          .join('\n')}`;
+      }
+
+      return result;
+    },
+    [t]
+  );
 
   const releaseData = useMemo(() => {
     if (releaseContent?.length) {
       const map = new Map();
       releaseContent.forEach((item) => {
         if (!map.has(item.tag_name)) {
-          // Initialize a new object for base on version tag_name
-          map.set(item.tag_name, { ...item });
+          const translatedItem = {
+            ...item,
+            body: mergeSections(item.body),
+          };
+          map.set(item.tag_name, translatedItem);
         } else {
           const existingItem = map.get(item.tag_name);
-          const existed = existingItem.body.split('**Full Changelog**:');
-          const incoming = item?.body?.split('**Full Changelog**:');
 
-          existingItem.body = mergeSections(
-            `${existed[0]} \r\n${incoming?.[0]}`
-          );
+          const existedBody = existingItem.body
+            .replace(/## Full Changelog[\s\S]*$/, '')
+            .trim();
+          const incomingBody = item?.body
+            ?.replace(/## Full Changelog[\s\S]*$/, '')
+            .trim();
 
-          // if existed have change log
-          if (existed[1] || incoming?.[1]) {
-            existingItem.body += ` \n\n**Full Changelog**: `;
-            if (existed[1]) existingItem.body += ` \r\n* ${existed[1]}`;
-            if (incoming?.[1]) existingItem.body += ` \r\n* ${incoming?.[1]}`;
-          }
+          existingItem.body = mergeSections(`${existedBody}\n${incomingBody}`);
         }
       });
 
       const mergedArray: IReleaseContent[] = Array.from(map.values());
-
       return mergedArray.sort((a, b) => {
-        // If a.create_at is null, it will be ranked before b.create_at (if b.create_at is not null)
         if (!a?.created_at) return 1;
         if (!b?.created_at) return -1;
-
-        // If both are not null, sort by time
         return (
           new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
         );
@@ -82,7 +135,7 @@ export const ReleaseContentBody = () => {
     }
 
     return [];
-  }, [releaseContent]);
+  }, [releaseContent, mergeSections]);
 
   if (isLoading) {
     return (

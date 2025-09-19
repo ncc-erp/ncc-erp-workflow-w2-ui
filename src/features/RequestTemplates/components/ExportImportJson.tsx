@@ -117,11 +117,11 @@ const ExportImportJson: React.FC<ExportImportJsonProps> = ({
             size={['xs', 'md']}
             display={['none', 'flex']}
           >
-            {t('requestTemplates.buttons.export')}
+            {t('REQUEST_TEMPLATES_PAGE.EXPORT_BUTTON')}
           </Button>
           <IconButton
             onClick={handleExport}
-            aria-label={t('requestTemplates.ariaLabels.export')}
+            aria-label={t('REQUEST_TEMPLATES_PAGE.EXPORT_ARIA_LABEL')}
             variant="ghost"
             size="sm"
             icon={<BiExport size={18} />}
@@ -147,11 +147,11 @@ const ExportImportJson: React.FC<ExportImportJsonProps> = ({
             size={['xs', 'md']}
             display={['none', 'flex']}
           >
-            {t('requestTemplates.buttons.import')}
+            {t('REQUEST_TEMPLATES_PAGE.IMPORT_BUTTON')}
           </Button>
           <IconButton
             onClick={onOpenImportJsonModal}
-            aria-label={t('requestTemplates.ariaLabels.import')}
+            aria-label={t('REQUEST_TEMPLATES_PAGE.IMPORT_ARIA_LABEL')}
             variant="ghost"
             size="sm"
             icon={<TbFileImport size={18} />}

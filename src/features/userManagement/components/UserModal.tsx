@@ -12,6 +12,7 @@ import { ModalUserParams, UserIdentity } from 'models/userIdentity';
 import { useRoleByUserId } from 'api/apiHooks/userIdentityHooks';
 import { Role } from 'models/roles';
 import styles from './style.module.scss';
+import { useTranslation } from 'react-i18next';
 
 interface IUserModalProps {
   isOpen: boolean;
@@ -26,6 +27,7 @@ export const UserModal = ({
   modalTitle,
   user,
 }: IUserModalProps) => {
+  const { t } = useTranslation();
   const { data: rolesList } = useRoleByUserId(user.id);
   const itemsArray = Object.values(rolesList || []);
   let initialValues: ModalUserParams;
@@ -59,7 +61,9 @@ export const UserModal = ({
     <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false}>
       <ModalOverlay />
       <ModalContent className={styles.modalContent}>
-        <ModalHeader fontSize="18px">{modalTitle} user</ModalHeader>
+        <ModalHeader fontSize="18px">
+          {modalTitle} {t('USER_MANAGEMENT_PAGE.USER')}
+        </ModalHeader>
         <ModalCloseButton />
         {UserComponent && <ModalBody>{UserComponent[modalTitle]}</ModalBody>}
       </ModalContent>

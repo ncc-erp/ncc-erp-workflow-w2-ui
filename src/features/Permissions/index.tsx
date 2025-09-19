@@ -6,8 +6,10 @@ import { Permissions } from 'common/constants';
 import NotFound from 'common/components/NotFound';
 import { useMediaQuery } from 'hooks/useMediaQuery';
 import { MobileHeader } from 'common/components/MobileHeader';
+import { useTranslation } from 'react-i18next';
 
 const Permission = () => {
+  const { t } = useTranslation();
   const { hasPermission } = useUserPermissions();
   const isLargeScreen = useMediaQuery('(min-width: 1024px)');
   const canViewPerrmissions = useMemo(
@@ -24,7 +26,7 @@ const Permission = () => {
         marginTop={isLargeScreen ? '0px' : '50px'}
       >
         <Page.HeaderLeft>
-          <Page.Heading>Permissions Board</Page.Heading>
+          <Page.Heading>{t('PERMISSIONS_PAGE.PAGE_TITLE')}</Page.Heading>
         </Page.HeaderLeft>
         <Page.HeaderRight />
       </Page.Header>

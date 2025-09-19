@@ -14,7 +14,7 @@ import router from 'routes/index';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { ToastContainer } from 'common/components/StandaloneToast';
 import { AntThemeProvider } from 'themes/AntThemeProvider';
-import './i18n';
+import './i18n/config';
 
 const manager = createLocalStorageManager('chakra-ui-color-mode');
 

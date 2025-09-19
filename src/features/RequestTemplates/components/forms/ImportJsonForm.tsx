@@ -40,7 +40,7 @@ const ImportJsonForm = ({
         } catch (error) {
           setImportedData('');
           toast({
-            description: t('requestTemplates.messages.importError'),
+            description: t('REQUEST_TEMPLATES_PAGE.MESSAGES.IMPORT_ERROR'),
             status: 'error',
           });
         }
@@ -60,14 +60,14 @@ const ImportJsonForm = ({
 
     if (isInvalidFormat) {
       toast({
-        description: t('requestTemplates.messages.invalidJsonFormat'),
+        description: t('REQUEST_TEMPLATES_PAGE.MESSAGES.INVALID_JSON_FORMAT'),
         status: 'error',
       });
       return;
     }
     try {
       toast({
-        description: t('requestTemplates.messages.importSuccess'),
+        description: t('REQUEST_TEMPLATES_PAGE.MESSAGES.IMPORT_SUCCESS'),
         status: 'success',
       });
       onCloseModal();
@@ -75,7 +75,7 @@ const ImportJsonForm = ({
     } catch (error) {
       console.log(error);
       toast({
-        description: t('requestTemplates.messages.importError'),
+        description: t('REQUEST_TEMPLATES_PAGE.MESSAGES.IMPORT_ERROR'),
         status: 'error',
       });
     }
@@ -84,7 +84,7 @@ const ImportJsonForm = ({
   return (
     <Box padding="20px">
       <ModalHeader fontSize="xl" paddingLeft="0px">
-        {t('requestTemplates.modals.importWorkflow')}
+        {t('REQUEST_TEMPLATES_PAGE.IMPORT_WORKFLOW.TITLE')}
       </ModalHeader>
       <InputGroup>
         <InputLeftElement pointerEvents="none" />
@@ -102,7 +102,7 @@ const ImportJsonForm = ({
       </InputGroup>
       <Box marginTop="20px">
         <Text fontSize="lg" fontWeight="bold">
-          {t('requestTemplates.import.dataLabel')}
+          {t('REQUEST_TEMPLATES_PAGE.IMPORT_WORKFLOW.IMPORT_DATA_LABEL')}
         </Text>
         <Box
           as="pre"
@@ -115,12 +115,14 @@ const ImportJsonForm = ({
             backgroundColor: 'stone.900',
           }}
         >
-          {importedData ? importedData : t('requestTemplates.import.noData')}
+          {importedData
+            ? importedData
+            : t('REQUEST_TEMPLATES_PAGE.IMPORT_WORKFLOW.NO_DATA_IMPORTED')}
         </Box>
       </Box>
 
       <Button mt="14px" size="full" colorScheme="green" onClick={onSubmit}>
-        {t('requestTemplates.buttons.import')}
+        {t('REQUEST_TEMPLATES_PAGE.IMPORT_BUTTON')}
       </Button>
     </Box>
   );

@@ -23,7 +23,9 @@ export const SettingForm = ({
   const { t } = useTranslation();
   const [formState, setFormState] = useState({
     colorCode: '#aabbcc',
-    nameRequest: t('requestTemplates.forms.settings.nameRequestDefault'),
+    nameRequest: t(
+      'REQUEST_TEMPLATES_PAGE.FORMS.SETTINGS.NAME_REQUEST_DEFAULT'
+    ),
     title: '',
     isSendKomuMessage: false,
   });
@@ -83,7 +85,7 @@ export const SettingForm = ({
         title: settings?.titleTemplate ?? '',
         nameRequest:
           nameRequest ??
-          t('requestTemplates.forms.settings.nameRequestDefault'),
+          t('REQUEST_TEMPLATES_PAGE.FORMS.SETTINGS.NAME_REQUEST_DEFAULT'),
         isSendKomuMessage: settings?.isSendKomuMessage ?? false,
       });
     }
@@ -100,7 +102,7 @@ export const SettingForm = ({
           mr={3}
           mb={0}
         >
-          {t('requestTemplates.forms.settings.color')}
+          {t('REQUEST_TEMPLATES_PAGE.FORMS.SETTINGS.COLOR')}
         </FormLabel>
         <Box
           bg={formState.colorCode}
@@ -132,7 +134,7 @@ export const SettingForm = ({
           mb={0}
           mr={3}
         >
-          {t('requestTemplates.forms.settings.sendKomuMessage')}
+          {t('REQUEST_TEMPLATES_PAGE.FORMS.SETTINGS.SEND_KOMU_MESSAGE')}
         </FormLabel>
         <Checkbox
           size="lg"
@@ -149,7 +151,7 @@ export const SettingForm = ({
           mb={0}
           mr={3}
         >
-          {t('requestTemplates.forms.settings.title')}
+          {t('REQUEST_TEMPLATES_PAGE.FORMS.SETTINGS.TITLE')}
         </FormLabel>
         <Box flex="1">
           <TextField

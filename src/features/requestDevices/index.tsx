@@ -30,7 +30,9 @@ const MyRequests = () => {
       >
         <Page.HeaderLeft>
           <Page.Heading>
-            {isAdmin ? t('myRequests.all') : t('myRequests.mine')}
+            {isAdmin
+              ? t('MY_REQUESTS_PAGE.PAGE_TITLE.ALL')
+              : t('MY_REQUESTS_PAGE.PAGE_TITLE.MINE')}
           </Page.Heading>
         </Page.HeaderLeft>
         <Page.HeaderRight />

@@ -15,7 +15,6 @@ import { SelectField } from 'common/components/SelectField';
 import {
   DEFAULT_TASK_PER_PAGE,
   DislayValue,
-  FilterAll,
   FilterDate,
   Permissions,
   TaskStatus,
@@ -37,6 +36,7 @@ import { useDynamicDataTask } from 'api/apiHooks/taskHooks';
 import { useMediaQuery } from 'hooks/useMediaQuery';
 import { useUserPermissions } from 'hooks/useUserPermissions';
 import { CheckIcon } from '@chakra-ui/icons';
+import { useTranslation } from 'react-i18next';
 
 const initialFilter: FilterTasks = {
   skipCount: 0,
@@ -68,20 +68,22 @@ const initialModalStatus: ModalDetail = {
   },
 };
 
-export const OptionsDisplay = [
-  {
-    value: DislayValue.BOARD,
-    label: 'Board Items',
-    icon: <BsCardText />,
-  },
-  {
-    value: DislayValue.LIST,
-    label: 'List Items',
-    icon: <FaTable />,
-  },
-];
-
 export const TasksBoard = () => {
+  const { t } = useTranslation();
+
+  const OptionsDisplay = [
+    {
+      value: DislayValue.BOARD,
+      label: t('TASKS_PAGE.DISPLAY_OPTIONS.BOARD_ITEMS'),
+      icon: <BsCardText />,
+    },
+    {
+      value: DislayValue.LIST,
+      label: t('TASKS_PAGE.DISPLAY_OPTIONS.LIST_ITEMS'),
+      icon: <FaTable />,
+    },
+  ];
+
   const isLargeScreen = useMediaQuery('(min-width: 768px)');
   const user = useCurrentUser();
   const isPublish = true;
@@ -102,28 +104,27 @@ export const TasksBoard = () => {
     if (requestTemplateData?.items) {
       return requestTemplateData.items;
     }
-
     return [];
   }, [requestTemplateData]);
 
   const statusOptions = useMemo(() => {
     const defaultOptions = {
       value: -1,
-      label: FilterAll.STATUS,
+      label: t('TASKS_PAGE.FILTERS.ALL_STATUS'),
     };
 
     const options = Object.entries(TaskStatus).map(([key, value]) => ({
       value,
-      label: key,
+      label: t(`TASKS_PAGE.TASK_STATUS.${key.toUpperCase()}`),
     }));
 
     return [defaultOptions, ...options];
-  }, []);
+  }, [t]);
 
   const requestTemplateOtions = useMemo(() => {
     const defaultOptions = {
       value: '',
-      label: 'All types',
+      label: t('TASKS_PAGE.FILTERS.ALL_TYPES'),
     };
 
     const options = requestTemplates.map(({ definitionId, displayName }) => ({
@@ -132,21 +133,23 @@ export const TasksBoard = () => {
     }));
 
     return [defaultOptions, ...options];
-  }, [requestTemplates]);
+  }, [requestTemplates, t]);
 
   const dateOptions = useMemo(() => {
     const defaultOptions = {
       value: '',
-      label: FilterAll.DATE,
+      label: t('TASKS_PAGE.FILTERS.ALL_DATE'),
     };
 
     const options = Object.values(FilterDate).map((value) => ({
       value: subtractTime(value.split(' ')[1], +value.split(' ')[0]),
-      label: value,
+      label: t(
+        `TASKS_PAGE.FILTER_DATE.${value.replace(' ', '_').toUpperCase()}`
+      ),
     }));
 
     return [defaultOptions, ...options];
-  }, []);
+  }, [t]);
 
   const onTemplateStatusChange = useCallback(
     (key: TFilterTask, value?: string) => {
@@ -235,7 +238,7 @@ export const TasksBoard = () => {
               autoFocus
               value={txtSearch}
               type="text"
-              placeholder="Enter email"
+              placeholder={t('TASKS_PAGE.FILTERS.ENTER_EMAIL')}
               fontSize="14px"
               mb={2}
               onChange={(e) => setTxtSearch(e.target.value)}
@@ -260,7 +263,7 @@ export const TasksBoard = () => {
                 leftIcon={showOnlyMyTask ? <CheckIcon /> : <></>}
                 mr={2}
               >
-                Only my task
+                {t('TASKS_PAGE.BUTTONS.ONLY_MY_TASK')}
               </Button>
             </WrapItem>
           )}

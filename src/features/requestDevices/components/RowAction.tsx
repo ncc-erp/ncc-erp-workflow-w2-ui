@@ -53,7 +53,7 @@ export const RowAction = ({
           onClick={onViewDetails}
         >
           <Icon as={FaEye} />
-          {t('myRequests.actions.view')}
+          {t('MY_REQUESTS_PAGE.ACTIONS.VIEW')}
         </MenuItem>
         {onViewWorkflow && (
           <MenuItem
@@ -63,7 +63,7 @@ export const RowAction = ({
             onClick={onViewWorkflow}
           >
             <Icon as={FaRegMap} />
-            {t('myRequests.actions.workflow')}
+            {t('MY_REQUESTS_PAGE.ACTIONS.WORKFLOW')}
           </MenuItem>
         )}
         {actions.cancel &&
@@ -76,7 +76,7 @@ export const RowAction = ({
               onClick={onCancel}
             >
               <Icon as={MdCancel} />
-              {t('myRequests.actions.cancel')}
+              {t('MY_REQUESTS_PAGE.ACTIONS.CANCEL')}
             </MenuItem>
           )}
       </MenuList>

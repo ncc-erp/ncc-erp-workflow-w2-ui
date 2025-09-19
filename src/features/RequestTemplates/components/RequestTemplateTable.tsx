@@ -80,10 +80,8 @@ export const RequestTemplateTable = ({
     (workflowId: string) => () => {
       setIsModalConfirmOpen(true);
       setRequestId(workflowId);
-      setModalTitle(t('requestTemplates.buttons.delete'));
-      setModalDescription(
-        t('requestTemplates.messages.deleteWorkflowConfirmation')
-      );
+      setModalTitle(t('REQUEST_TEMPLATES_PAGE.DELETE_BUTTON'));
+      setModalDescription(t('REQUEST_TEMPLATES_PAGE.DELETE_CONFIRMATION'));
     },
     [t]
   );
@@ -117,7 +115,7 @@ export const RequestTemplateTable = ({
           !inputDefinitionArg?.propertyDefinitions?.[0]?.name
         ) {
           toast({
-            title: t('requestTemplates.messages.defineInputWarning'),
+            title: t('REQUEST_TEMPLATES_PAGE.DEFINE_INPUT_WARNING'),
             status: 'warning',
           });
           return;
@@ -158,8 +156,8 @@ export const RequestTemplateTable = ({
     const displayColumn = columnHelper.accessor('displayName', {
       id: 'displayName',
       header: isAdmin
-        ? t('requestTemplates.columns.displayName')
-        : t('requestTemplates.columns.requestTemplate'),
+        ? t('REQUEST_TEMPLATES_PAGE.TABLE_HEADERS.DISPLAY_NAME')
+        : t('REQUEST_TEMPLATES_PAGE.REQUEST_TEMPLATE'),
       enableSorting: false,
       cell: (info) => info.getValue(),
     });
@@ -168,7 +166,9 @@ export const RequestTemplateTable = ({
       id: 'actions',
       enableSorting: false,
       header: () => (
-        <Center w="full">{t('requestTemplates.columns.actions')}</Center>
+        <Center w="full">
+          {t('REQUEST_TEMPLATES_PAGE.TABLE_HEADERS.ACTIONS')}
+        </Center>
       ),
       cell: (info) => {
         const { definitionId, displayName, name, inputDefinition } =
@@ -199,7 +199,9 @@ export const RequestTemplateTable = ({
               id: 'designer',
               enableSorting: false,
               header: () => (
-                <Center w="full">{t('requestTemplates.columns.edit')}</Center>
+                <Center w="full">
+                  {t('REQUEST_TEMPLATES_PAGE.TABLE_HEADERS.EDIT')}
+                </Center>
               ),
               cell: (info) => {
                 const {
@@ -242,14 +244,16 @@ export const RequestTemplateTable = ({
     const editorColumn = [
       columnHelper.accessor('name', {
         id: 'name',
-        header: t('requestTemplates.columns.name'),
+        header: t('REQUEST_TEMPLATES_PAGE.TABLE_HEADERS.NAME'),
         enableSorting: false,
         cell: (info) => info.getValue(),
       }),
       columnHelper.accessor('version', {
         id: 'version',
         header: () => (
-          <Center w="full">{t('requestTemplates.columns.version')}</Center>
+          <Center w="full">
+            {t('REQUEST_TEMPLATES_PAGE.TABLE_HEADERS.VERSION')}
+          </Center>
         ),
         enableSorting: false,
         cell: (info) => <Center w="full">{info.getValue()}</Center>,
@@ -257,14 +261,16 @@ export const RequestTemplateTable = ({
       columnHelper.accessor('isPublished', {
         id: 'isPublished',
         header: () => (
-          <Center w="full">{t('requestTemplates.columns.published')}</Center>
+          <Center w="full">
+            {t('REQUEST_TEMPLATES_PAGE.TABLE_HEADERS.PUBLISHED')}
+          </Center>
         ),
         enableSorting: false,
         cell: (info) => (
           <Center w="full">
             {String(info.getValue()) === 'true'
-              ? t('common.yes')
-              : t('common.no')}
+              ? t('REQUEST_TEMPLATES_PAGE.YES')
+              : t('REQUEST_TEMPLATES_PAGE.NO')}
           </Center>
         ),
       }),
@@ -272,9 +278,7 @@ export const RequestTemplateTable = ({
 
     const result = [
       displayColumn,
-      ...//isAdmin ?
-      editorColumn,
-      //: []
+      ...editorColumn,
       ...(hasPermission(Permissions.CREATE_WORKFLOW_INSTANCE)
         ? [actionColumn]
         : []),
@@ -322,7 +326,7 @@ export const RequestTemplateTable = ({
               onClick={onOpenCreateModal}
               variant="primary"
             >
-              {t('requestTemplates.buttons.create')}
+              {t('REQUEST_TEMPLATES_PAGE.CREATE_BUTTON')}
             </Button>
           )}
 
@@ -348,7 +352,7 @@ export const RequestTemplateTable = ({
         isEmpty={!items.length && !isLoading}
         h="200px"
         fontSize="xs"
-        message={'No request found!'}
+        message={t('REQUEST_TEMPLATES_PAGE.NO_REQUEST_FOUND')}
         boxSizing="border-box"
       >
         <Box

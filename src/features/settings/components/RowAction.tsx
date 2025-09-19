@@ -10,6 +10,7 @@ import {
 import { ColorThemeMode, Permissions } from 'common/constants';
 import { useUserPermissions } from 'hooks/useUserPermissions';
 import { RiSettings4Fill, RiEdit2Fill, RiDeleteBin6Fill } from 'react-icons/ri';
+import { useTranslation } from 'react-i18next';
 
 interface RowActionProps {
   onEdit?: () => void;
@@ -22,6 +23,7 @@ export const RowAction = ({
   onDelete,
   disableDeleteButton,
 }: RowActionProps) => {
+  const { t } = useTranslation();
   const bg = useColorModeValue(ColorThemeMode.LIGHT, ColorThemeMode.DARK);
   const color = useColorModeValue(ColorThemeMode.DARK, ColorThemeMode.LIGHT);
   const { renderIfAllowed } = useUserPermissions();
@@ -35,7 +37,7 @@ export const RowAction = ({
         size="sm"
         icon={<Icon color="gray.500" fontSize="lg" as={RiSettings4Fill} />}
       >
-        Actions
+        {t('SETTING_PAGE.ACTIONS')}
       </MenuButton>
 
       <MenuList minW="100px" bg={bg}>
@@ -44,7 +46,7 @@ export const RowAction = ({
             Permissions.UPDATE_SETTINGS,
             <MenuItem color={color} display="flex" gap="12px" onClick={onEdit}>
               <Icon as={RiEdit2Fill} />
-              Edit
+              {t('SETTING_PAGE.EDIT')}
             </MenuItem>
           )}
         {renderIfAllowed(
@@ -57,7 +59,7 @@ export const RowAction = ({
             isDisabled={disableDeleteButton}
           >
             <Icon as={RiDeleteBin6Fill} />
-            Delete
+            {t('SETTING_PAGE.DELETE')}
           </MenuItem>
         )}
       </MenuList>

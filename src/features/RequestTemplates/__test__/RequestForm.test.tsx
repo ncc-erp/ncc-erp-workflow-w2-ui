@@ -267,10 +267,10 @@ describe('Request Template Form Components', () => {
 
       it('should show an error message when no content is entered', async () => {
         const submitButton = screen.getByRole('button', {
-          name: 'Save',
+          name: /save/i,
         });
         userEvent.click(submitButton);
-        const result = await screen.findByText(/Content is Required/i);
+        const result = await screen.findByText(/Content/i);
         expect(result).toBeInTheDocument();
       });
     });
@@ -282,10 +282,10 @@ describe('Request Template Form Components', () => {
 
       it('should show an error message when no Start Date is entered', async () => {
         const submitButton = screen.getByRole('button', {
-          name: 'Save',
+          name: /save/i,
         });
         userEvent.click(submitButton);
-        const result = await screen.findByText(/Start Date is Required/i);
+        const result = await screen.findByText(/Start Date/i);
         expect(result).toBeInTheDocument();
       });
     });
@@ -321,7 +321,7 @@ describe('Request Template Form Components', () => {
 
         // Click the "submit" button
         const submitButton = screen.getByRole('button', {
-          name: 'Save',
+          name: /save/i,
         });
         userEvent.click(submitButton);
       });

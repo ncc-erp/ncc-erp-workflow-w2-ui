@@ -113,8 +113,10 @@ export const MyRequestTable = () => {
   const onAction = useCallback(
     (requestIdArg: string, type: 'canceled') => () => {
       setRequestId(requestIdArg);
-      setModalTitle(t('myRequests.messages.confirmTitle', { type }));
-      setModalDescription(t('myRequests.messages.confirmDesc', { type }));
+      setModalTitle(t('MY_REQUESTS_PAGE.MESSAGES.CONFIRM_TITLE', { type }));
+      setModalDescription(
+        t('MY_REQUESTS_PAGE.MESSAGES.CONFIRM_DESC', { type })
+      );
       setIsOpen(true);
     },
     [t]
@@ -123,7 +125,7 @@ export const MyRequestTable = () => {
   const statusOptions = useMemo(() => {
     const defaultOptions = {
       value: '',
-      label: t('myRequests.filters.allStatus'),
+      label: t('MY_REQUESTS_PAGE.FILTERS.ALL_STATUS'),
     };
 
     const options = Object.values(RequestStatus).map((value) => ({
@@ -139,7 +141,7 @@ export const MyRequestTable = () => {
   const requestTemplateOtions = useMemo(() => {
     const defaultOptions = {
       value: '',
-      label: t('myRequests.filters.allTypes'),
+      label: t('MY_REQUESTS_PAGE.FILTERS.ALL_TYPES'),
     };
 
     const options = requestTemplates.map(({ definitionId, displayName }) => ({
@@ -154,7 +156,7 @@ export const MyRequestTable = () => {
     const displayColumn = columnHelper.accessor('shortTitle', {
       id: 'shortTitle',
       header: () => (
-        <Box textAlign="center">{t('myRequests.columns.title')}</Box>
+        <Box textAlign="center">{t('MY_REQUESTS_PAGE.COLUMNS.TITLE')}</Box>
       ),
       enableSorting: false,
       cell: (info) => {
@@ -221,7 +223,7 @@ export const MyRequestTable = () => {
 
     const editorColumn = columnHelper.accessor('userRequestName', {
       id: 'userRequestName',
-      header: () => <Box>{t('myRequests.columns.requestUser')}</Box>,
+      header: () => <Box>{t('MY_REQUESTS_PAGE.COLUMNS.REQUEST_USER')}</Box>,
       enableSorting: false,
       cell: (info) => info.getValue(),
     });
@@ -230,7 +232,9 @@ export const MyRequestTable = () => {
       columnHelper.accessor('currentStates', {
         id: 'currentStates',
         header: () => (
-          <Box textAlign="center">{t('myRequests.columns.currentStates')}</Box>
+          <Box textAlign="center">
+            {t('MY_REQUESTS_PAGE.COLUMNS.CURRENT_STATES')}
+          </Box>
         ),
         enableSorting: false,
         cell: (info) => {
@@ -247,7 +251,7 @@ export const MyRequestTable = () => {
 
       columnHelper.accessor('stakeHolders', {
         id: 'stakeHolders',
-        header: () => <Box>{t('myRequests.columns.stakeholders')}</Box>,
+        header: () => <Box>{t('MY_REQUESTS_PAGE.COLUMNS.STAKEHOLDERS')}</Box>,
         enableSorting: false,
         cell: (info) => {
           const stakeholders = info.getValue();
@@ -262,21 +266,23 @@ export const MyRequestTable = () => {
       }),
       columnHelper.accessor('createdAt', {
         id: 'createdAt',
-        header: () => <Box>{t('myRequests.columns.createdAt')}</Box>,
+        header: () => <Box>{t('MY_REQUESTS_PAGE.COLUMNS.CREATED_AT')}</Box>,
         cell: (info) => formatDate(new Date(info.getValue())),
         sortDescFirst: true,
       }),
 
       columnHelper.accessor('lastExecutedAt', {
         id: 'lastExecutedAt',
-        header: () => <Box>{t('myRequests.columns.lastExecutedAt')}</Box>,
+        header: () => (
+          <Box>{t('MY_REQUESTS_PAGE.COLUMNS.LAST_EXECUTED_AT')}</Box>
+        ),
         cell: (info) => formatDate(new Date(info.getValue())),
         enableSorting: false,
         sortDescFirst: true,
       }),
       columnHelper.accessor('status', {
         id: 'status',
-        header: () => <Box>{t('myRequests.columns.status')}</Box>,
+        header: () => <Box>{t('MY_REQUESTS_PAGE.COLUMNS.STATUS')}</Box>,
         enableSorting: false,
         cell: (info) => {
           const status = info.row.original.status;
@@ -301,7 +307,7 @@ export const MyRequestTable = () => {
         id: 'actions',
         enableSorting: false,
         header: () => (
-          <Center w="full">{t('myRequests.columns.actions')}</Center>
+          <Center w="full">{t('MY_REQUESTS_PAGE.COLUMNS.ACTIONS')}</Center>
         ),
         cell: (info) => {
           return (
@@ -394,11 +400,14 @@ export const MyRequestTable = () => {
       await cancelRequestMutation.mutateAsync(requestId);
       queryClient.invalidateQueries({ queryKey: [QueryKeys.FILTER_REQUEST] });
       toast({
-        title: t('myRequests.messages.cancelSuccess'),
+        title: t('MY_REQUESTS_PAGE.MESSAGES.CANCEL_SUCCESS'),
         status: 'success',
       });
     } catch (error) {
-      toast({ title: t('myRequests.messages.cancelFailed'), status: 'error' });
+      toast({
+        title: t('MY_REQUESTS_PAGE.MESSAGES.CANCEL_FAILED'),
+        status: 'error',
+      });
     }
   };
 
@@ -441,7 +450,7 @@ export const MyRequestTable = () => {
                     autoFocus
                     value={txtSearch}
                     type="text"
-                    placeholder={t('myRequests.placeholders.enterEmail')}
+                    placeholder={t('MY_REQUESTS_PAGE.PLACEHOLDERS.ENTER_EMAIL')}
                     fontSize="14px"
                     onChange={(e) =>
                       !isLoading &&
@@ -481,7 +490,7 @@ export const MyRequestTable = () => {
                     fontWeight="medium"
                     mr={2}
                   >
-                    {t('myRequests.buttons.onlyMyRequest')}
+                    {t('MY_REQUESTS_PAGE.BUTTONS.ONLY_MY_REQUEST')}
                   </Button>
                 </WrapItem>
               }
@@ -505,7 +514,7 @@ export const MyRequestTable = () => {
           isEmpty={!requests.length && !isRefetching && !isLoading}
           h="200px"
           fontSize="xs"
-          message={t('myRequests.labels.notFound')}
+          message={t('MY_REQUESTS_PAGE.LABELS.NOT_FOUND')}
         >
           <Box
             w={{

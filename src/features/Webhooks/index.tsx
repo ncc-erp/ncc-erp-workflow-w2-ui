@@ -6,8 +6,10 @@ import { useMemo } from 'react';
 import { useMediaQuery } from 'hooks/useMediaQuery';
 import { MobileHeader } from 'common/components/MobileHeader';
 import { WebhooksBoard } from './components/WebhooksBoard';
+import { useTranslation } from 'react-i18next';
 
 const Webhooks = () => {
+  const { t } = useTranslation();
   const { hasPermission } = useUserPermissions();
   const isLargeScreen = useMediaQuery('(min-width: 1024px)');
   const canViewWebhook = useMemo(
@@ -25,7 +27,7 @@ const Webhooks = () => {
         marginTop={isLargeScreen ? '0px' : '50px'}
       >
         <Page.HeaderLeft>
-          <Page.Heading>Webhooks Board</Page.Heading>
+          <Page.Heading>{t('WEBHOOKS_PAGE.WEBHOOKS_BOARD')}</Page.Heading>
         </Page.HeaderLeft>
         <Page.HeaderRight />
       </Page.Header>

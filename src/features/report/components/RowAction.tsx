@@ -10,6 +10,7 @@ import {
 import { RiSettings4Fill } from 'react-icons/ri';
 import { FaEye } from 'react-icons/fa';
 import { ColorThemeMode } from 'common/constants';
+import { useTranslation } from 'react-i18next';
 
 interface IRowActionProps {
   onViewDetails: () => void;
@@ -18,7 +19,7 @@ interface IRowActionProps {
 export const RowAction = ({ onViewDetails }: IRowActionProps) => {
   const bg = useColorModeValue(ColorThemeMode.LIGHT, ColorThemeMode.DARK);
   const color = useColorModeValue(ColorThemeMode.DARK, ColorThemeMode.LIGHT);
-
+  const { t } = useTranslation();
   return (
     <Menu>
       <MenuButton
@@ -36,7 +37,7 @@ export const RowAction = ({ onViewDetails }: IRowActionProps) => {
           onClick={onViewDetails}
         >
           <Icon as={FaEye} />
-          View
+          {t('REPORT_PAGE.VIEW')}
         </MenuItem>
       </MenuList>
     </Menu>

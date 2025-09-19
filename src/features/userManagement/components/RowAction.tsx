@@ -14,6 +14,7 @@ import {
   RiEdit2Fill,
   // RiUser2Fill,
 } from 'react-icons/ri';
+import { useTranslation } from 'react-i18next';
 
 interface RowActionProps {
   onEdit: () => void;
@@ -23,8 +24,9 @@ interface RowActionProps {
 
 export const RowAction = ({
   onEdit, // onPermissions,
-  // onDelete,
-}: RowActionProps) => {
+} // onDelete,
+: RowActionProps) => {
+  const { t } = useTranslation();
   const bg = useColorModeValue(ColorThemeMode.LIGHT, ColorThemeMode.DARK);
   const color = useColorModeValue(ColorThemeMode.DARK, ColorThemeMode.LIGHT);
 
@@ -38,12 +40,12 @@ export const RowAction = ({
         icon={<Icon color="gray.500" fontSize="lg" as={RiSettings4Fill} />}
         onClick={(e) => e.stopPropagation()}
       >
-        Actions
+        {t('USER_MANAGEMENT_PAGE.ACTIONS')}
       </MenuButton>
       <MenuList minW="100px" bg={bg}>
         <MenuItem color={color} display="flex" gap="12px" onClick={onEdit}>
           <Icon as={RiEdit2Fill} />
-          Edit
+          {t('USER_MANAGEMENT_PAGE.EDIT')}
         </MenuItem>
         {/* <MenuItem
           color={color}
