@@ -51,6 +51,7 @@ import { RequestDetailModal } from './DetailModal';
 import styles from './style.module.scss';
 import { useMediaQuery } from 'hooks/useMediaQuery';
 import { PaginationMobile } from 'common/components/PaginationMobile';
+import { CheckIcon } from '@chakra-ui/icons';
 
 const initialSorting: SortingState = [
   {
@@ -413,6 +414,7 @@ export const MyRequestTable = () => {
               {
                 <WrapItem>
                   <Button
+                    leftIcon={filter.RequestUser ? <CheckIcon /> : <></>}
                     isDisabled={isLoading || isRefetching}
                     size={'md'}
                     colorScheme={filter.RequestUser ? 'green' : 'gray'}
@@ -508,14 +510,16 @@ export const MyRequestTable = () => {
               p={['0px 16px 20px 16px', '0px 16px 20px 16px']}
               justifyContent={['center', 'space-between']}
             >
-              <PaginationMobile
-                total={data?.totalCount ?? 0}
-                pageSize={filter.maxResultCount}
-                current={currentPage}
-                onChange={onPageChange}
-                hideOnSinglePage
-                data-testid="pagination"
-              />
+              {(data?.totalCount ?? 0) > 0 && (
+                <PaginationMobile
+                  total={data?.totalCount ?? 0}
+                  pageSize={filter.maxResultCount}
+                  current={currentPage}
+                  onChange={onPageChange}
+                  hideOnSinglePage
+                  data-testid="pagination"
+                />
+              )}
             </HStack>
           )}
         </EmptyWrapper>

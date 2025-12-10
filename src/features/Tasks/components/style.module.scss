@@ -20,6 +20,51 @@
         width: 46%;
     }
 }
+
+@media (max-width: 576px) {
+  .listActionContainer {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    align-items: center !important;
+    width: 100%;
+    margin-left: 0 !important;
+
+    > button,
+    > .actions {
+      margin: 0 !important;
+      flex-shrink: 0;
+      width: 100% !important;
+      margin-top: 10px !important;
+    }
+
+    .actions {
+      margin: 0 !important;
+      flex-shrink: 0;
+      width: 70% !important;
+      margin-top: 10px !important;
+    }
+
+    .listBtnActionTask {
+      display: flex !important;
+      flex-direction: row !important;
+      justify-content: center !important;
+      align-items: center !important;
+      width: 100%;
+      gap: 4px !important;
+      margin-left: 0 !important;
+    }
+
+    .btnApproveTask,
+    .btnRejectTask {
+      width: 100% !important;
+      margin-right: 0 !important;
+      margin-bottom: 10px !important;
+    }
+  }
+}
+
 @media (max-width: 768px) {
   .modalContent {
     width: 90vw !important;
@@ -28,6 +73,11 @@
 .modalContent {
   padding: 10px !important;
   max-width: 700px !important;
+}
+
+:global(.chakra-modal__body) {
+  overflow: auto !important;
+  max-height: 80vh !important;
 }
 .modalBody {
     max-height: 70vh;

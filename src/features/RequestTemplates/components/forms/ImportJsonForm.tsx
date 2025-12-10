@@ -114,13 +114,7 @@ const ImportJsonForm = ({
         </Box>
       </Box>
 
-      <Button
-        mt="14px"
-        h="50px"
-        w="100%"
-        colorScheme="green"
-        onClick={onSubmit}
-      >
+      <Button mt="14px" size="full" colorScheme="green" onClick={onSubmit}>
         Import
       </Button>
     </Box>

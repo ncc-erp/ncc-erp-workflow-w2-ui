@@ -21,6 +21,7 @@ import ReleaseContent from 'features/releaseContent';
 import { AuthProvider } from 'providers';
 import Error from 'features/Error';
 import LoginMezonByHash from 'features/auth/pages/LoginMezonByHash';
+import Webhooks from 'features/Webhooks';
 
 const NotFound = lazy(() => import('common/components/NotFound'));
 const routeList: RouteObject[] = [
@@ -107,6 +108,14 @@ const routeList: RouteObject[] = [
             element: (
               <WrapperRouteComponent>
                 <Permissions />
+              </WrapperRouteComponent>
+            ),
+          },
+          {
+            path: 'webhooks',
+            element: (
+              <WrapperRouteComponent>
+                <Webhooks />
               </WrapperRouteComponent>
             ),
           },

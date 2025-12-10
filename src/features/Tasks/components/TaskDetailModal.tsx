@@ -417,7 +417,7 @@ export const TaskDetailModal = ({
             <div className={styles.listActionContainer}>
               <Button
                 width="fit-content"
-                fontSize={['12px', '16px']}
+                fontSize={['16px']}
                 onClick={onActionViewWorkflow(
                   data?.tasks.workflowInstanceId as string
                 )}
@@ -460,7 +460,7 @@ export const TaskDetailModal = ({
                   tasks?.status === TaskStatus.Rejected ? null : (
                     <>
                       <Button
-                        fontSize={['12px', '16px']}
+                        fontSize={['16px']}
                         colorScheme="green"
                         isLoading={isLoadingBtnApprove}
                         onClick={handleApproveClick}
@@ -470,8 +470,8 @@ export const TaskDetailModal = ({
                         Approve
                       </Button>
                       <Button
-                        fontSize={['12px', '16px']}
-                        colorScheme="red"
+                        fontSize={['16px']}
+                        variant="primary"
                         isLoading={isLoadingBtnReject}
                         onClick={handleRejectClick}
                         mt={2}

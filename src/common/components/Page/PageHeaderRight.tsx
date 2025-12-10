@@ -12,7 +12,9 @@ export const PageHeaderRight = () => {
   return (
     <StackItem justifySelf="flex-end">
       <Flex alignItems="center">
-        {hasPermission(Permissions.UPDATE_USER) && <SyncButton />}
+        {isLargeScreen && hasPermission(Permissions.UPDATE_USER) && (
+          <SyncButton />
+        )}
         {isLargeScreen && <CurrentUser isMobile={false} />}
       </Flex>
     </StackItem>

@@ -4,6 +4,7 @@ import { Permissions } from 'common/constants';
 import { FormikProps } from 'formik';
 import { useUserPermissions } from 'hooks/useUserPermissions';
 import { ESettingCode, ISettingValue } from 'models/settings';
+import { BiPlusCircle, BiSolidPencil } from 'react-icons/bi';
 
 interface SettingFormProps {
   formik: FormikProps<ISettingValue>;
@@ -111,9 +112,16 @@ export const SettingForm = ({
               </Button>
             )}
             <Button
+              leftIcon={
+                isUpdateStatus ? (
+                  <BiSolidPencil size={15} />
+                ) : (
+                  <BiPlusCircle size={15} />
+                )
+              }
               size={'md'}
-              mt={['8px', '32px']}
-              colorScheme="green"
+              mt={['8px', '30px']}
+              variant="primary"
               type="submit"
               fontSize="sm"
               fontWeight="medium"

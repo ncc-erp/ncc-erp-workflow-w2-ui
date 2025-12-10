@@ -29,6 +29,12 @@ const initialLoginParams: LoginParams = {
 
 const Login = () => {
   const bg = useColorModeValue(ColorThemeMode.LIGHT, ColorThemeMode.DARK);
+
+  // Mezon button styles
+  const mezonBtnColor = useColorModeValue('white', 'stone.900');
+  const mezonBtnBackground = useColorModeValue('stone.900', 'stone.100');
+  const mezonBtnHoverBackground = useColorModeValue('stone.700', 'stone.300');
+
   const redirectURL = getItem(LocalStorageKeys.prevURL)
     ? getItem(LocalStorageKeys.prevURL)
     : '/';
@@ -163,13 +169,20 @@ const Login = () => {
               </VStack>
             </form>
           )}
+
+          {/* Mezon Login Button */}
           <Button
             isLoading={isMezonLoginLoading}
             onClick={handleLoginWithMezon}
             w="full"
             h="50px"
             colorScheme="white"
-            background="black"
+            background={mezonBtnBackground}
+            color={mezonBtnColor}
+            _hover={{
+              background: mezonBtnHoverBackground,
+            }}
+            transition="background 0.3s"
             flexDirection="row"
             gap={4}
           >

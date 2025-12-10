@@ -30,7 +30,7 @@ import { RowAction } from './RowAction';
 import { UserModal } from './UserModal';
 import useDebounced from 'hooks/useDebounced';
 import { TbSearch } from 'react-icons/tb';
-import { convertToCase } from 'utils';
+import { convertToCase, formatDate } from 'utils';
 import { SelectField } from 'common/components/SelectField';
 import { AiOutlineReload } from 'react-icons/ai';
 import { UserRoleLabelMapping } from '../../../common/constants';
@@ -112,7 +112,7 @@ export const UserManagementTable = () => {
           cell: (info) => (
             <Box>
               {!info.row.original.isActive && (
-                <Badge colorScheme="red">Disabled</Badge>
+                <Badge variant="primary">Disabled</Badge>
               )}{' '}
               {info.getValue()}
             </Box>
@@ -156,6 +156,18 @@ export const UserManagementTable = () => {
           cell: (info) => {
             return info.getValue() || 'N/A';
           },
+        }),
+        columnHelper.accessor('creationTime', {
+          id: 'creationTime',
+          header: 'Create time',
+          enableSorting: true,
+          cell: (info) => formatDate(info.getValue()),
+        }),
+        columnHelper.accessor('lastModificationTime', {
+          id: 'lastModificationTime',
+          header: 'Update time',
+          enableSorting: true,
+          cell: (info) => formatDate(info.getValue()),
         }),
         hasPermission(Permissions.UPDATE_USER) &&
           columnHelper.display({
@@ -225,6 +237,11 @@ export const UserManagementTable = () => {
   const onCloseModal = () => {
     setIsModalOpen(false);
   };
+  const handleRowClick = (user: UserIdentity) => () => {
+    setUser(user);
+    setIsModalOpen(true);
+    setModalTitle('Edit');
+  };
 
   return (
     <>
@@ -288,54 +305,62 @@ export const UserManagementTable = () => {
             onSortingChange={setSorting}
             isLoading={isLoading}
             pageSize={filterUser.maxResultCount}
-            onRowHover={true}
+            onRowHover={false}
             isHighlight={true}
             dataTestId="user-manager-item"
+            onRowClick={handleRowClick}
           />
         </Box>
       </EmptyWrapper>
-      {isLargeScreen ? (
-        <HStack
-          py="20px"
-          justifyContent={['center', 'space-between']}
-          borderBottom="1px"
-          borderColor="gray.200"
-          flexWrap="wrap"
-        >
-          <HStack alignItems="center" spacing="6px" flexWrap="wrap">
-            <PageSize
-              noOfRows={noOfRows}
-              onChange={onPageSizeChange}
-              value={filterUser.maxResultCount}
-            />
-            <Spacer w="12px" />
-          </HStack>
-          <Pagination
-            total={totalCount}
-            pageSize={filterUser.maxResultCount}
-            current={currentPage}
-            onChange={onPageChange}
-            hideOnSinglePage
-            data-testid="pagination"
-          />
-        </HStack>
-      ) : (
-        <HStack
-          display={'flex'}
-          width={'100%'}
-          p={['0px 16px 20px 16px', '0px 16px 20px 16px']}
-          justifyContent={['center', 'space-between']}
-        >
-          <PaginationMobile
-            total={data?.totalCount ?? 0}
-            pageSize={filterUser.maxResultCount}
-            current={currentPage}
-            onChange={onPageChange}
-            hideOnSinglePage
-            data-testid="pagination"
-          />
-        </HStack>
+
+      {/* Pagination */}
+      {!isLoading && !isRefetching && (totalCount ?? 0) > 0 && (
+        <Box>
+          {isLargeScreen ? (
+            <HStack
+              py="20px"
+              justifyContent={['center', 'space-between']}
+              borderBottom="1px"
+              borderColor="gray.200"
+              flexWrap="wrap"
+            >
+              <HStack alignItems="center" spacing="6px" flexWrap="wrap">
+                <PageSize
+                  noOfRows={noOfRows}
+                  onChange={onPageSizeChange}
+                  value={filterUser.maxResultCount}
+                />
+                <Spacer w="12px" />
+              </HStack>
+              <Pagination
+                total={totalCount}
+                pageSize={filterUser.maxResultCount}
+                current={currentPage}
+                onChange={onPageChange}
+                hideOnSinglePage
+                data-testid="pagination"
+              />
+            </HStack>
+          ) : (
+            <HStack
+              display={'flex'}
+              width={'100%'}
+              p={['0px 16px 20px 16px', '0px 16px 20px 16px']}
+              justifyContent={['center', 'space-between']}
+            >
+              <PaginationMobile
+                total={totalCount ?? 0}
+                pageSize={filterUser.maxResultCount}
+                current={currentPage}
+                onChange={onPageChange}
+                hideOnSinglePage
+                data-testid="pagination"
+              />
+            </HStack>
+          )}
+        </Box>
       )}
+
       {user && (
         <UserModal
           isOpen={isModalOpen}

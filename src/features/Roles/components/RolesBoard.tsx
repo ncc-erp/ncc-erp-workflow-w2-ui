@@ -9,6 +9,7 @@ import { AiOutlineEdit } from 'react-icons/ai';
 import { useGetAllPermissions, useGetAllRoles } from 'api/apiHooks/roleHook';
 import { useUserPermissions } from 'hooks/useUserPermissions';
 import { Permissions } from 'common/constants';
+import { BiSolidPencil } from 'react-icons/bi';
 
 export const RolesBoard = () => {
   const { data: rolesData, refetch: refetchRoles } = useGetAllRoles();
@@ -75,10 +76,8 @@ export const RolesBoard = () => {
             Permissions.CREATE_ROLE,
             <Box>
               <Button
-                size="md"
-                fontSize="sm"
-                fontWeight="medium"
-                colorScheme="green"
+                leftIcon={<BiSolidPencil size={20} />}
+                variant="primary"
                 onClick={onOpenCreateModal}
               >
                 Create

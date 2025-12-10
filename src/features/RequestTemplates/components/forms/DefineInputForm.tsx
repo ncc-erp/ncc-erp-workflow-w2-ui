@@ -210,12 +210,11 @@ const DefineInputForm = ({
               </Center>
             </FormControl>
             <Button
-              colorScheme="red"
+              variant="primary"
               mb={[0, '20px']}
               w={['full', '250px']}
               isDisabled={!(fields.length > 1)}
               onClick={() => remove(index)}
-              fontSize={['sm', 'md']}
             >
               Remove
             </Button>
@@ -240,7 +239,6 @@ const DefineInputForm = ({
           onClick={onAddField}
           data-testid="button-add-field"
           w={['full', 'auto']}
-          fontSize={['sm', 'md']}
         >
           Add Field
         </Button>

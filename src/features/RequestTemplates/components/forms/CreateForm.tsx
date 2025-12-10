@@ -171,10 +171,9 @@ const CreateForm = ({
         {renderFormContent(CreateWorkflowPropertyField)}
         <Button
           mt="14px"
-          h="50px"
           type="submit"
           isLoading={isLoading}
-          w="full"
+          size="full"
           colorScheme="gray"
         >
           Create

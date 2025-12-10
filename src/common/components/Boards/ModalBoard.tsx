@@ -272,7 +272,7 @@ const ModalBoard = ({
             <AlertDialogFooter>
               <Button onClick={onClose}>Cancel</Button>
               <Button
-                colorScheme="red"
+                variant="primary"
                 onClick={handleSubmit(onSubmit)}
                 ml={3}
                 isDisabled={
