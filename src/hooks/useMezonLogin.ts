@@ -12,6 +12,24 @@ import { useNavigate } from 'react-router';
 import { getItem, setItem } from 'utils/localStorage';
 
 const { VITE_MEZON_APP_ID } = import.meta.env;
+const getUrlParam = (key: string) => {
+  const qs = new URLSearchParams(window.location.search);
+  const v1 = qs.get(key);
+  if (v1) return v1;
+
+  const hash = (window.location.hash || '').replace(/^#/, '');
+  const hs = new URLSearchParams(hash);
+  const v2 = hs.get(key);
+  if (v2) return v2;
+
+  const idx = hash.indexOf('?');
+  if (idx >= 0) {
+    const hs2 = new URLSearchParams(hash.slice(idx + 1));
+    return hs2.get(key);
+  }
+
+  return null;
+};
 
 export const useMezonLogin = () => {
   const navigate = useNavigate();
@@ -40,6 +58,15 @@ export const useMezonLogin = () => {
   }, [accessToken, redirectURL, navigate]);
 
   useEffect(() => {
+    const dataFromUrl = getUrlParam('data');
+
+    if (dataFromUrl) {
+      setItem(LocalStorageKeys.isInMezon, 'true');
+      setUserHashInfo({ web_app_data: dataFromUrl });
+
+      return;
+    }
+
     if (window.Mezon && window.Mezon.WebView) {
       window.Mezon.WebView.postEvent('PING', { message: 'PING' }, () => {});
 
@@ -76,18 +103,37 @@ export const useMezonLogin = () => {
   }, [setUserHashInfo, setMezonUserProfile]);
 
   useEffect(() => {
-    if (!userHashInfo?.web_app_data || !mezonUserProfile?.user) {
-      return;
-    }
+    if (!userHashInfo?.web_app_data) return;
 
     const loginMezonByHash = async () => {
       try {
-        const [dataCheck, hashKey] = userHashInfo.web_app_data.split('&hash=');
+        const raw = userHashInfo.web_app_data;
+
+        const marker = '&hash=';
+        const idx = raw.lastIndexOf(marker);
+        if (idx < 0) {
+          setLoginMezonFailed(true);
+          return;
+        }
+
+        const dataCheck = raw.slice(0, idx);
+        const hashKey = raw.slice(idx + marker.length);
+
+        let userName = mezonUserProfile?.user?.username || '';
+        const userEmail = mezonUserProfile?.email || '';
+
+        const userMatch = raw.match(/(?:^|&)user=([^&]+)/);
+        if (userMatch) {
+          const userJson = decodeURIComponent(userMatch[1]);
+          const u = JSON.parse(userJson);
+          userName = u?.username || userName;
+        }
+
         const { token, accessFailedCount } = await loginMezonByHashMutate({
           dataCheck,
           hashKey,
-          userEmail: mezonUserProfile.email || '',
-          userName: mezonUserProfile.user.username || '',
+          userName,
+          userEmail,
         });
 
         if (token) {

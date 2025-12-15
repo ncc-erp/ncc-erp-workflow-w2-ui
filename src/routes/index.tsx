@@ -4,6 +4,7 @@ import {
   Outlet,
   RouteObject,
   createBrowserRouter,
+  redirect,
 } from 'react-router-dom';
 import WrapperRouteComponent from 'routes/WrapperRoute';
 import Layout from 'common/components/Layout';
@@ -24,9 +25,21 @@ import LoginMezonByHash from 'features/auth/pages/LoginMezonByHash';
 import Webhooks from 'features/Webhooks';
 
 const NotFound = lazy(() => import('common/components/NotFound'));
+const rootLoader = ({ request }: { request: Request }) => {
+  const url = new URL(request.url);
+  const data = url.searchParams.get('data');
+
+  if (data) {
+    return redirect(`/login-mezon?data=${encodeURIComponent(data)}`);
+  }
+
+  return null;
+};
+
 const routeList: RouteObject[] = [
   {
     path: '/',
+    loader: rootLoader,
     element: (
       <WrapperRouteComponent auth={true}>
         <AuthProvider>
