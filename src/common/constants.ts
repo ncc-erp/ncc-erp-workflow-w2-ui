@@ -232,3 +232,45 @@ export const EVENT_OPTIONS = [
 ];
 
 export const MaxReleaseContentLine = 8;
+
+export const DayoffReasons = [
+  {
+    status: 1,
+    name: 'Nghỉ cưới bản thân (3 ngày phép)',
+    length: 3,
+    id: 2,
+  },
+  {
+    status: 1,
+    name: 'Nghỉ vợ sinh thường (5 ngày phép)',
+    length: 5,
+    id: 3,
+  },
+  {
+    status: 1,
+    name: 'Nghỉ vợ sinh mổ (7 ngày phép)',
+    length: 7,
+    id: 4,
+  },
+  {
+    status: 1,
+    name: 'Nghỉ sinh đôi (sinh thường)',
+    length: 10,
+    id: 6,
+  },
+  {
+    status: 1,
+    name: 'Nghỉ sinh đôi (sinh mổ)',
+    length: 14,
+    id: 7,
+  },
+];
+
+export const DayoffReasonOptions = DayoffReasons.map((reason) => ({
+  value: String(reason.id),
+  label: reason.name,
+}));
+
+export const PropertyTypes: option[] = [
+  { value: 'DayoffReason', label: 'DayoffReason' },
+];
