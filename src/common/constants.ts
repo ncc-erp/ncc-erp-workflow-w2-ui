@@ -260,7 +260,3 @@ export const DayoffReasonOptions = DayoffReasons.map((reason) => ({
   label: reason.name,
   value: reason.value,
 }));
-
-export const PropertyTypes: option[] = [
-  { value: 'DayoffReason', label: 'DayoffReason' },
-];
