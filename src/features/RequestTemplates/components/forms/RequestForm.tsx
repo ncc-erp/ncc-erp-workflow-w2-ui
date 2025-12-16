@@ -124,7 +124,11 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
     setFormParams(updatedFormParams);
   };
 
-  const handleSelectChangeValue = (value: string, variable: string) => {
+  const handleSelectChangeValue = (
+    value: string,
+    variable: string,
+    label?: string
+  ) => {
     let updatedFormParams = { ...formParams };
 
     if (variable == 'Staff') {
@@ -133,6 +137,9 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
     }
 
     updatedFormParams[variable] = value;
+    if (label) {
+      updatedFormParams[`${variable}_label`] = label;
+    }
     setFormParams(updatedFormParams);
   };
 
