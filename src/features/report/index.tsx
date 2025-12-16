@@ -6,6 +6,7 @@ import { Permissions } from 'common/constants';
 import NotFound from 'common/components/NotFound';
 import { useMediaQuery } from 'hooks/useMediaQuery';
 import { MobileHeader } from 'common/components/MobileHeader';
+import { useTranslation } from 'react-i18next';
 
 const PostAndWFH = () => {
   const { hasPermission } = useUserPermissions();
@@ -14,6 +15,7 @@ const PostAndWFH = () => {
     () => hasPermission(Permissions.VIEW_WFH_REPORTS),
     [hasPermission]
   );
+  const { t } = useTranslation();
 
   return isHasPermission ? (
     <Page>
@@ -25,7 +27,7 @@ const PostAndWFH = () => {
         marginTop={isLargeScreen ? '0px' : '50px'}
       >
         <Page.HeaderLeft>
-          <Page.Heading>Report WFH</Page.Heading>
+          <Page.Heading>{t('REPORT_PAGE.REPORT_WFH')}</Page.Heading>
         </Page.HeaderLeft>
         <Page.HeaderRight />
       </Page.Header>

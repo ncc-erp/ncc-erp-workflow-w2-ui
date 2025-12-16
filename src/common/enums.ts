@@ -10,6 +10,13 @@ export enum RequestStatus {
   Canceled = 'Canceled',
 }
 
+export const REQUEST_STATUS_I18N_KEY: Record<RequestStatus, string> = {
+  [RequestStatus.Approved]: 'MY_REQUESTS_PAGE.REQUEST_STATUS.APPROVED',
+  [RequestStatus.Rejected]: 'MY_REQUESTS_PAGE.REQUEST_STATUS.REJECTED',
+  [RequestStatus.Pending]: 'MY_REQUESTS_PAGE.REQUEST_STATUS.PENDING',
+  [RequestStatus.Canceled]: 'MY_REQUESTS_PAGE.REQUEST_STATUS.CANCELED',
+};
+
 export enum ETaskStatus {
   Pending = 0,
   Approved = 1,

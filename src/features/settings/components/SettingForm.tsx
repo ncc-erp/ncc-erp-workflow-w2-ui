@@ -5,6 +5,7 @@ import { FormikProps } from 'formik';
 import { useUserPermissions } from 'hooks/useUserPermissions';
 import { ESettingCode, ISettingValue } from 'models/settings';
 import { BiPlusCircle, BiSolidPencil } from 'react-icons/bi';
+import { useTranslation } from 'react-i18next';
 
 interface SettingFormProps {
   formik: FormikProps<ISettingValue>;
@@ -23,6 +24,7 @@ export const SettingForm = ({
   isUpdateStatus,
   handleCancel,
 }: SettingFormProps) => {
+  const { t } = useTranslation();
   const { renderIfAllowed } = useUserPermissions();
   return (
     <>
@@ -40,8 +42,8 @@ export const SettingForm = ({
                 <TextField
                   h="10"
                   mb={formik.errors.name && formik.touched.name ? '0' : '26px'}
-                  label="Name"
-                  placeholder="Name"
+                  label={t('SETTING_PAGE.NAME')}
+                  placeholder={t('SETTING_PAGE.NAME')}
                   fontSize={15}
                   error={
                     formik.errors.name && formik.touched.name
@@ -58,8 +60,8 @@ export const SettingForm = ({
                 <TextField
                   h="10"
                   mb={formik.errors.code && formik.touched.code ? '0' : '26px'}
-                  label="Code"
-                  placeholder="Code"
+                  label={t('SETTING_PAGE.CODE')}
+                  placeholder={t('SETTING_PAGE.CODE')}
                   isDisabled={isUpdateStatus}
                   fontSize={15}
                   error={
@@ -79,8 +81,8 @@ export const SettingForm = ({
             <TextField
               h="10"
               mb={formik.errors.email && formik.touched.email ? '0' : '26px'}
-              label="Email"
-              placeholder="Email"
+              label={t('SETTING_PAGE.EMAIL')}
+              placeholder={t('SETTING_PAGE.EMAIL')}
               fontSize={15}
               error={
                 formik.errors.email && formik.touched.email
@@ -108,7 +110,7 @@ export const SettingForm = ({
                 minW={['100%', '70px']}
                 isLoading={isLoading}
               >
-                Cancel
+                {t('SETTING_PAGE.CANCEL')}
               </Button>
             )}
             <Button
@@ -128,7 +130,7 @@ export const SettingForm = ({
               minW={['100%', '70px']}
               isLoading={isLoading || isCreating}
             >
-              {isUpdateStatus ? 'Edit' : 'Add'}
+              {isUpdateStatus ? t('SETTING_PAGE.EDIT') : t('SETTING_PAGE.ADD')}
             </Button>
           </Flex>
         </form>

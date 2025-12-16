@@ -114,7 +114,7 @@ exports[`Task Detail Modal 1`] = `
               <p
                 class="chakra-text css-10g9qth"
               >
-                Request input
+                Request Input
               </p>
               <div
                 class="wrapper"
@@ -139,7 +139,7 @@ exports[`Task Detail Modal 1`] = `
                   <label
                     class="label"
                   >
-                    Current Office
+                    MY_REQUESTS_PAGE.LABELS.CURRENTOFFICE
                   </label>
                   <p
                     class="content "
@@ -153,7 +153,7 @@ exports[`Task Detail Modal 1`] = `
                   <label
                     class="label"
                   >
-                    Start Date
+                    MY_REQUESTS_PAGE.LABELS.STARTDATE
                   </label>
                   <div
                     class="dates"
@@ -171,7 +171,7 @@ exports[`Task Detail Modal 1`] = `
                   <label
                     class="label"
                   >
-                    End Date
+                    MY_REQUESTS_PAGE.LABELS.ENDDATE
                   </label>
                   <div
                     class="dates"
@@ -191,7 +191,7 @@ exports[`Task Detail Modal 1`] = `
               <p
                 class="chakra-text css-10g9qth"
               >
-                Request user
+                Request User
               </p>
               <div
                 class="wrapper"
@@ -230,7 +230,7 @@ exports[`Task Detail Modal 1`] = `
                   <label
                     class="label"
                   >
-                    Branch name
+                    Branch Name
                   </label>
                   <p
                     class="content "
@@ -257,7 +257,7 @@ exports[`Task Detail Modal 1`] = `
                   <label
                     class="label"
                   >
-                    Request template
+                    Request Template
                   </label>
                   <p
                     class="content "
@@ -285,7 +285,7 @@ exports[`Task Detail Modal 1`] = `
                   <label
                     class="label"
                   >
-                    Email assignment
+                    Email Assignment
                   </label>
                   <p
                     class="content "
@@ -299,7 +299,7 @@ exports[`Task Detail Modal 1`] = `
                   <label
                     class="label"
                   >
-                    Creation time
+                    Creation Time
                   </label>
                   <p
                     class="content "

@@ -39,6 +39,8 @@ import { Permissions } from 'common/constants';
 import { useGetAllRoles } from 'api/apiHooks/roleHook';
 import { PaginationMobile } from 'common/components/PaginationMobile';
 import { useMediaQuery } from 'hooks/useMediaQuery';
+import { useTranslation } from 'react-i18next';
+
 const initialFilter: FilterUserParams = {
   filter: '',
   maxResultCount: +noOfRows[0].value,
@@ -55,6 +57,7 @@ const initialSorting: SortingState = [
 ];
 
 export const UserManagementTable = () => {
+  const { t } = useTranslation();
   const { sideBarWidth } = useRecoilValue(appConfigState);
   const [filterUser, setFilterUser] = useState<FilterUserParams>(initialFilter);
   const [sorting, setSorting] = useState<SortingState>(initialSorting);
@@ -95,24 +98,26 @@ export const UserManagementTable = () => {
       new Set(filterRoles.map((x) => JSON.stringify(x)))
     ).map((x) => JSON.parse(x));
     return [
-      { value: '', label: 'All Roles' },
-      { value: 'empty', label: 'No Role' },
+      { value: '', label: t('USER_MANAGEMENT_PAGE.ALL_ROLES') },
+      { value: 'empty', label: t('USER_MANAGEMENT_PAGE.NO_ROLE') },
       ...result,
     ];
-  }, [roles]);
+  }, [roles, t]);
 
   const userColumns = useMemo(
     () =>
       [
         columnHelper.accessor('userName', {
           id: 'userName',
-          header: () => <Box>User name</Box>,
+          header: () => <Box>{t('USER_MANAGEMENT_PAGE.USER_NAME')}</Box>,
           enableSorting: true,
           sortDescFirst: true,
           cell: (info) => (
             <Box>
               {!info.row.original.isActive && (
-                <Badge variant="primary">Disabled</Badge>
+                <Badge variant="primary">
+                  {t('USER_MANAGEMENT_PAGE.DISABLED')}
+                </Badge>
               )}{' '}
               {info.getValue()}
             </Box>
@@ -120,19 +125,19 @@ export const UserManagementTable = () => {
         }),
         columnHelper.accessor('email', {
           id: 'email',
-          header: 'Email address',
+          header: t('USER_MANAGEMENT_PAGE.EMAIL_ADDRESS'),
           enableSorting: true,
           cell: (info) => info.getValue(),
         }),
         columnHelper.accessor('phoneNumber', {
           id: 'phoneNumber',
-          header: 'Phone number',
+          header: t('USER_MANAGEMENT_PAGE.PHONE_NUMBER'),
           enableSorting: true,
           cell: (info) => info.getValue(),
         }),
         columnHelper.accessor('roles', {
           id: 'roles',
-          header: 'Roles',
+          header: t('USER_MANAGEMENT_PAGE.ROLES'),
           enableSorting: true,
           cell: (info) => {
             const roles = info.getValue();
@@ -151,7 +156,7 @@ export const UserManagementTable = () => {
         }),
         columnHelper.accessor('mezonUserId', {
           id: 'mezonUserId',
-          header: 'Mezon User ID',
+          header: t('USER_MANAGEMENT_PAGE.MEZON_USER_ID'),
           enableSorting: true,
           cell: (info) => {
             return info.getValue() || 'N/A';
@@ -159,13 +164,13 @@ export const UserManagementTable = () => {
         }),
         columnHelper.accessor('creationTime', {
           id: 'creationTime',
-          header: 'Create time',
+          header: t('USER_MANAGEMENT_PAGE.CREATE_TIME'),
           enableSorting: true,
           cell: (info) => formatDate(info.getValue()),
         }),
         columnHelper.accessor('lastModificationTime', {
           id: 'lastModificationTime',
-          header: 'Update time',
+          header: t('USER_MANAGEMENT_PAGE.UPDATE_TIME'),
           enableSorting: true,
           cell: (info) => formatDate(info.getValue()),
         }),
@@ -173,7 +178,9 @@ export const UserManagementTable = () => {
           columnHelper.display({
             id: 'actions',
             enableSorting: false,
-            header: () => <Center w="full">Actions</Center>,
+            header: () => (
+              <Center w="full">{t('USER_MANAGEMENT_PAGE.ACTIONS')}</Center>
+            ),
             cell: (info) => (
               <Center>
                 <RowAction
@@ -185,7 +192,7 @@ export const UserManagementTable = () => {
             ),
           }),
       ].filter(Boolean) as ColumnDef<UserIdentity>[],
-    [columnHelper, hasPermission, rolesData?.items]
+    [columnHelper, hasPermission, rolesData?.items, t]
   );
 
   const currentPage = useMemo(() => {
@@ -251,7 +258,7 @@ export const UserManagementTable = () => {
             <Input
               isDisabled={isLoading || isRefetching}
               type="text"
-              placeholder="Enter email"
+              placeholder={t('USER_MANAGEMENT_PAGE.ENTER_EMAIL')}
               fontSize={{ base: '12px', lg: '14px' }}
               value={txtSearch}
               onChange={(e) => setTxtSearch(e.target.value)}
@@ -286,7 +293,7 @@ export const UserManagementTable = () => {
         isEmpty={!requests.length && !isLoading}
         h="200px"
         fontSize="xs"
-        message={'No request found!'}
+        message={t('USER_MANAGEMENT_PAGE.NO_REQUEST_FOUND')}
       >
         <Box
           pt="10px"

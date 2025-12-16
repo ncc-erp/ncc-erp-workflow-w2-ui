@@ -9,7 +9,7 @@ import {
 import { toast } from 'common/components/StandaloneToast';
 import { IJsonObject } from 'models/request';
 import { useState, ChangeEvent } from 'react';
-
+import { useTranslation } from 'react-i18next';
 interface ImportJsonFormProps {
   onCloseModal: () => void;
   id: string | undefined;
@@ -22,6 +22,7 @@ const ImportJsonForm = ({
   onChangeData,
   isPublishWfStatus,
 }: ImportJsonFormProps) => {
+  const { t } = useTranslation();
   const [importedData, setImportedData] = useState<string>('');
 
   const handleImport = (event: ChangeEvent<HTMLInputElement>) => {
@@ -39,7 +40,7 @@ const ImportJsonForm = ({
         } catch (error) {
           setImportedData('');
           toast({
-            description: 'Can not parse JSON!',
+            description: t('REQUEST_TEMPLATES_PAGE.MESSAGES.IMPORT_ERROR'),
             status: 'error',
           });
         }
@@ -59,27 +60,31 @@ const ImportJsonForm = ({
 
     if (isInvalidFormat) {
       toast({
-        description: 'Invalid JSON format!',
+        description: t('REQUEST_TEMPLATES_PAGE.MESSAGES.INVALID_JSON_FORMAT'),
         status: 'error',
       });
       return;
     }
     try {
       toast({
-        description: 'Import workflow data successfully!',
+        description: t('REQUEST_TEMPLATES_PAGE.MESSAGES.IMPORT_SUCCESS'),
         status: 'success',
       });
       onCloseModal();
       onChangeData(jsonObject);
     } catch (error) {
       console.log(error);
+      toast({
+        description: t('REQUEST_TEMPLATES_PAGE.MESSAGES.IMPORT_ERROR'),
+        status: 'error',
+      });
     }
   };
 
   return (
     <Box padding="20px">
       <ModalHeader fontSize="xl" paddingLeft="0px">
-        Import Workflow
+        {t('REQUEST_TEMPLATES_PAGE.IMPORT_WORKFLOW.TITLE')}
       </ModalHeader>
       <InputGroup>
         <InputLeftElement pointerEvents="none" />
@@ -97,7 +102,7 @@ const ImportJsonForm = ({
       </InputGroup>
       <Box marginTop="20px">
         <Text fontSize="lg" fontWeight="bold">
-          Import Data:
+          {t('REQUEST_TEMPLATES_PAGE.IMPORT_WORKFLOW.IMPORT_DATA_LABEL')}
         </Text>
         <Box
           as="pre"
@@ -110,12 +115,14 @@ const ImportJsonForm = ({
             backgroundColor: 'stone.900',
           }}
         >
-          {importedData ? importedData : 'No data imported !'}
+          {importedData
+            ? importedData
+            : t('REQUEST_TEMPLATES_PAGE.IMPORT_WORKFLOW.NO_DATA_IMPORTED')}
         </Box>
       </Box>
 
       <Button mt="14px" size="full" colorScheme="green" onClick={onSubmit}>
-        Import
+        {t('REQUEST_TEMPLATES_PAGE.IMPORT_BUTTON')}
       </Button>
     </Box>
   );

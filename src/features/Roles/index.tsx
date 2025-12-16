@@ -6,8 +6,10 @@ import NotFound from 'common/components/NotFound';
 import { useMemo } from 'react';
 import { useMediaQuery } from 'hooks/useMediaQuery';
 import { MobileHeader } from 'common/components/MobileHeader';
+import { useTranslation } from 'react-i18next';
 
 const Roles = () => {
+  const { t } = useTranslation();
   const { hasPermission } = useUserPermissions();
   const isLargeScreen = useMediaQuery('(min-width: 1024px)');
   const canViewRoles = useMemo(
@@ -25,7 +27,7 @@ const Roles = () => {
         marginTop={isLargeScreen ? '0px' : '50px'}
       >
         <Page.HeaderLeft>
-          <Page.Heading>Roles Board</Page.Heading>
+          <Page.Heading>{t('ROLE_PAGE.ROLES_BOARD')}</Page.Heading>
         </Page.HeaderLeft>
         <Page.HeaderRight />
       </Page.Header>

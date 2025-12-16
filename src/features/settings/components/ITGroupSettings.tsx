@@ -9,13 +9,12 @@ import { RowAction } from './RowAction';
 import { useMemo } from 'react';
 import {
   ESettingCode,
-  ESettingError,
   IFilterSettingParams,
   ISettingPayload,
   ISettingValue,
 } from 'models/settings';
 import { useFormik } from 'formik';
-import { validationSettingForm } from 'utils/validationSchema';
+
 import {
   useCreateSetting,
   useDeleteSetting,
@@ -27,7 +26,8 @@ import { SettingForm } from './SettingForm';
 import { HttpStatusCode } from 'axios';
 import { useUserPermissions } from 'hooks/useUserPermissions';
 import { Permissions } from 'common/constants';
-
+import { useTranslation } from 'react-i18next';
+import { getValidationSettingForm } from 'utils/validationSchema'; // ✅ Import function
 const initialFilter: IFilterSettingParams = {
   settingCode: ESettingCode.IT,
 };
@@ -37,6 +37,10 @@ const initialValues: ISettingValue = {
 };
 
 export const ITSettings = () => {
+  const { t } = useTranslation();
+  const validationSchema = () => {
+    return getValidationSettingForm();
+  };
   const { sideBarWidth } = useRecoilValue(appConfigState);
   const { data, isLoading, refetch } = useGetSettingList(initialFilter);
   const { mutateAsync: createMutate, isLoading: isCreating } =
@@ -70,20 +74,20 @@ export const ITSettings = () => {
       .then(() => {
         refetch();
         toast({
-          description: ESettingError.CREATE_SUCCESSFULLY,
+          description: t('SETTING_PAGE.CREATE_SUCCESS'),
           status: 'success',
         });
         formik.resetForm();
       })
       .catch((err) => {
         if (err.response.data.error.code == HttpStatusCode.Conflict)
-          formik.setFieldError('email', ESettingError.EMAIL_ALREADY_EXIST);
+          formik.setFieldError('email', t('SETTING_PAGE.EMAIL_ALREADY_EXISTS'));
       });
   };
 
   const formik = useFormik({
     initialValues,
-    validationSchema: validationSettingForm,
+    validationSchema,
     onSubmit: handleSubmit,
   });
 
@@ -97,7 +101,7 @@ export const ITSettings = () => {
       await deleteMutate(QueryString.stringify(payload)).then(() => {
         refetch();
         toast({
-          description: ESettingError.DELETE_SUCCESSFULLY,
+          description: t('SETTING_PAGE.DELETE_SUCCESS'),
           status: 'success',
         });
       });
@@ -116,7 +120,7 @@ export const ITSettings = () => {
     return [
       columnHelper.accessor('email', {
         id: 'email',
-        header: 'Email',
+        header: t('SETTING_PAGE.EMAIL'),
         enableSorting: false,
         cell: (info) => info.getValue(),
       }),
@@ -126,7 +130,9 @@ export const ITSettings = () => {
               id: 'actions',
               size: 50,
               enableSorting: false,
-              header: () => <Center w="full">Actions</Center>,
+              header: () => (
+                <Center w="full">{t('SETTING_PAGE.ACTIONS')}</Center>
+              ),
               cell: (info) => (
                 <Center>
                   <RowAction onDelete={onAction(info.row.original, 'Delete')} />
@@ -136,12 +142,12 @@ export const ITSettings = () => {
           ]
         : []),
     ] as ColumnDef<ISettingValue>[];
-  }, [columnHelper, deleteMutate, refetch, hasPermission]);
+  }, [columnHelper, deleteMutate, refetch, hasPermission, t]);
 
   return (
     <>
       <Box fontSize="14" fontWeight="bold">
-        IT Group
+        {t('SETTING_PAGE.IT_GROUP')}
       </Box>
       <Box fontSize="14" fontWeight="bold">
         <SettingForm
@@ -156,7 +162,7 @@ export const ITSettings = () => {
           isEmpty={!settings.length && !isLoading}
           h="200px"
           fontSize="xs"
-          message={'No request found!'}
+          message={t('SETTING_PAGE.NO_REQUEST_FOUND')}
         >
           <Box
             p={{ base: '10px 0px 24px 0px' }}

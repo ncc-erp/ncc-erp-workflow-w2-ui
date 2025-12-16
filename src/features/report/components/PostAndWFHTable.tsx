@@ -44,6 +44,7 @@ import { SelectField } from 'common/components/SelectField';
 import { TFilterTask } from 'common/types';
 import { useMediaQuery } from 'hooks/useMediaQuery';
 import { PaginationMobile } from 'common/components/PaginationMobile';
+import { useTranslation } from 'react-i18next';
 
 const initialFilter: FilterWfhParams = {
   maxResultCount: +noOfRows[0].value,
@@ -69,6 +70,7 @@ const initialSorting: SortingState = [
 ];
 
 export const TablePostAndWFH = () => {
+  const { t } = useTranslation();
   const [filter, setFilter] = useState<FilterWfhParams>(initialFilter);
   const [sorting, setSorting] = useState<SortingState>(initialSorting);
   const columnHelper = createColumnHelper<IPostAndWFH>();
@@ -93,7 +95,7 @@ export const TablePostAndWFH = () => {
           enableSorting: true,
           sortDescFirst: true,
           minSize: 300,
-          header: () => <Box>Email address</Box>,
+          header: () => <Box>{t('REPORT_PAGE.EMAIL_PLACE_HOLDER')}</Box>,
           cell: (info) => <Box>{info.getValue()}</Box>,
         }),
         columnHelper.accessor('reason', {
@@ -101,7 +103,7 @@ export const TablePostAndWFH = () => {
           enableSorting: false,
           sortDescFirst: true,
           maxSize: 800,
-          header: () => <Box>Reason</Box>,
+          header: () => <Box>{t('REPORT_PAGE.REASON')}</Box>,
           cell: (info) => (
             <Box
               sx={{
@@ -117,20 +119,30 @@ export const TablePostAndWFH = () => {
         }),
         columnHelper.accessor('status', {
           id: 'status',
-          header: 'Status',
+          header: t('REPORT_PAGE.ALL_STATUS'),
           size: 50,
           enableSorting: false,
           cell: (info) => {
-            const status =
-              info.getValue() === ETaskStatus.Approved
-                ? 'Approved'
-                : info.getValue() === ETaskStatus.Rejected
-                ? 'Rejected'
-                : 'Pending';
+            const value = info.getValue();
+
+            let statusKey = '';
+            let statusText = '';
+
+            if (value === ETaskStatus.Approved) {
+              statusKey = 'Approved';
+              statusText = t('REPORT_PAGE.APPROVED');
+            } else if (value === ETaskStatus.Rejected) {
+              statusKey = 'Rejected';
+              statusText = t('REPORT_PAGE.REJECTED');
+            } else {
+              statusKey = 'Pending';
+              statusText = t('REPORT_PAGE.PENDING');
+            }
+
             return (
               <Box>
-                <div className={`${styles.badge} ${styles[status]}`}>
-                  {status}
+                <div className={`${styles.badge} ${styles[statusKey]}`}>
+                  {statusText}
                 </div>
               </Box>
             );
@@ -138,7 +150,7 @@ export const TablePostAndWFH = () => {
         }),
         columnHelper.accessor('remoteDate', {
           id: 'remoteDate',
-          header: 'Remote Date',
+          header: t('REPORT_PAGE.REMOTE_DATE'),
           size: 80,
           cell: (info) => {
             const remoteDate = info.getValue().toString() ?? '';
@@ -157,7 +169,7 @@ export const TablePostAndWFH = () => {
         }),
         columnHelper.accessor('creationTime', {
           id: 'creationTime',
-          header: 'Created At',
+          header: t('REPORT_PAGE.CREATED_AT'),
           size: 150,
           cell: (info) => (
             <Box>{info.getValue() ? formatDate(info.getValue()!) : '-'}</Box>
@@ -165,7 +177,7 @@ export const TablePostAndWFH = () => {
           sortDescFirst: false,
         }),
       ] as ColumnDef<IPostAndWFH>[],
-    [columnHelper]
+    [columnHelper, t]
   );
 
   const currentPage = useMemo(() => {
@@ -211,16 +223,16 @@ export const TablePostAndWFH = () => {
   const statusOptions = useMemo(() => {
     const defaultOptions = {
       value: -1,
-      label: FilterAll.STATUS,
+      label: t('REPORT_PAGE.ALL_STATUS'),
     };
 
     const options = Object.entries(TaskStatus).map(([key, value]) => ({
       value,
-      label: key,
+      label: t(`REPORT_PAGE.${key.toUpperCase()}`), // Assuming keys in TaskStatus match the translation keys
     }));
 
     return [defaultOptions, ...options];
-  }, []);
+  }, [t]);
 
   const onTemplateStatusChange = useCallback(
     (key: TFilterTask, value?: string) => {
@@ -341,16 +353,16 @@ export const TablePostAndWFH = () => {
   const dateOptions = useMemo(() => {
     const defaultOptions = {
       value: '',
-      label: FilterAll.DATE,
+      label: t('REPORT_PAGE.ALL_DATE'),
     };
 
     const options = Object.values(WFHFilterDate).map((value) => ({
       value: value,
-      label: value,
+      label: t(`REPORT_PAGE.${value}`), // Assuming values in WFHFilterDate match the translation keys
     }));
 
     return [defaultOptions, ...options];
-  }, []);
+  }, [t]);
 
   useEffect(() => {
     setFilter((filter) => ({
@@ -405,7 +417,7 @@ export const TablePostAndWFH = () => {
           <InputGroup alignItems={'center'} flexBasis={{ xl: '200px' }}>
             <Input
               type="text"
-              placeholder="Enter email"
+              placeholder={t('REPORT_PAGE.EMAIL_PLACE_HOLDER')}
               fontSize="14px"
               onChange={(e) => setTxtSearch(e.target.value)}
             />
@@ -478,7 +490,7 @@ export const TablePostAndWFH = () => {
                 isDisabled={isLoading || isRefetching}
                 isRound={true}
                 variant="solid"
-                aria-label="Done"
+                aria-label={t('REPORT_PAGE.RELOAD')}
                 fontSize="20px"
                 icon={<AiOutlineReload />}
                 onClick={() => refetch()}
@@ -491,7 +503,7 @@ export const TablePostAndWFH = () => {
           isEmpty={!wfhList.length && !isLoading && !isRefetching}
           h="200px"
           fontSize="xs"
-          message={'No request found!'}
+          message={t('REPORT_PAGE.NO_REQUEST_FOUND')}
           display={'flex'}
           justifyContent={'center'}
           alignItems={'center'}

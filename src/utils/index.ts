@@ -4,7 +4,7 @@ import { extractContent } from './extractContent';
 import { getStatusByIndex, getColorByStatus } from './getStatusByIndex';
 import { getItem, setItem, removeItem, clearStorage } from './localStorage';
 import { parseJwt } from './parseJwt';
-import { validationSchema } from './validationSchema';
+import { getValidationSchema } from './validationSchema';
 import { subtractTime } from './subtractTime';
 import { isValidJSON } from './isValidJson';
 import { isObjectEmpty } from './isObjectEmpty';
@@ -23,7 +23,7 @@ export {
   removeItem,
   clearStorage,
   parseJwt,
-  validationSchema,
+  getValidationSchema,
   subtractTime,
   isValidJSON,
   isObjectEmpty,

@@ -3,6 +3,7 @@ import { SelectField } from 'common/components/SelectField';
 import { ColorThemeMode } from 'common/constants';
 import { option } from 'common/types';
 import { ChangeEvent } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface PageSizeProps {
   noOfRows: option[];
@@ -19,6 +20,7 @@ export const PageSize = ({
   value,
   isLoading,
 }: PageSizeProps) => {
+  const { t } = useTranslation();
   const color = useColorModeValue(ColorThemeMode.DARK, ColorThemeMode.LIGHT);
 
   const handleChange = (event: ChangeEvent<HTMLSelectElement>) => {
@@ -28,7 +30,7 @@ export const PageSize = ({
   return (
     <HStack spacing="12px">
       <Text whiteSpace="nowrap" fontSize="sm" color="paginationText">
-        Rows per page:
+        {t('PAGINATION.ROWS_PER_PAGE')}
       </Text>
       <SelectField
         isDisabled={isLoading}

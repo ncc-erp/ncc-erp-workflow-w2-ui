@@ -13,6 +13,7 @@ import {
 import { useState } from 'react';
 import { Webhook } from 'models/webhook';
 import { EVENT_OPTIONS } from 'common/constants';
+import { useTranslation } from 'react-i18next';
 
 interface EditWebhookModalProps {
   isOpen: boolean;
@@ -31,6 +32,7 @@ const EditWebhookForm: React.FC<EditWebhookModalProps> = ({
   url,
   eventNames = [],
 }) => {
+  const { t } = useTranslation();
   const [name, setName] = useState(webhookName);
   const [webhookUrl, setWebhookUrl] = useState(url);
   const [selectedEvents, setSelectedEvents] = useState<string[]>(
@@ -56,10 +58,16 @@ const EditWebhookForm: React.FC<EditWebhookModalProps> = ({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const newErrors = {
-      webhookUrl: webhookUrl.trim() ? null : 'Webhook URL is required',
-      webhookName: name.trim() ? null : 'Webhook Name is required',
+      webhookUrl: webhookUrl.trim()
+        ? null
+        : t('WEBHOOKS_PAGE.WEBHOOK_URL_REQUIRED'),
+      webhookName: name.trim()
+        ? null
+        : t('WEBHOOKS_PAGE.WEBHOOK_NAME_REQUIRED'),
       eventNames:
-        selectedEvents.length > 0 ? null : 'Select at least one event',
+        selectedEvents.length > 0
+          ? null
+          : t('WEBHOOKS_PAGE.SELECT_AT_LEAST_ONE_EVENT'),
     };
     setErrors(newErrors);
     if (newErrors.webhookUrl || newErrors.webhookName || newErrors.eventNames)
@@ -73,18 +81,20 @@ const EditWebhookForm: React.FC<EditWebhookModalProps> = ({
     <form onSubmit={handleSubmit}>
       <ModalBody>
         <FormControl mb={4} isInvalid={!!errors.webhookName}>
-          <FormLabel htmlFor="webhookName">Webhook Name</FormLabel>
+          <FormLabel htmlFor="webhookName">
+            {t('WEBHOOKS_PAGE.WEBHOOK_NAME')}
+          </FormLabel>
           <Input
             id="webhookName"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="Webhook Name"
+            placeholder={t('WEBHOOKS_PAGE.WEBHOOK_NAME')}
           />
           <FormErrorMessage>{errors.webhookName}</FormErrorMessage>
         </FormControl>
 
         <FormControl mb={4} isInvalid={!!errors.eventNames}>
-          <FormLabel>Event Name</FormLabel>
+          <FormLabel>{t('WEBHOOKS_PAGE.EVENT_NAME')}</FormLabel>
           <Stack spacing={2}>
             {EVENT_OPTIONS.map((event) => (
               <Checkbox
@@ -101,12 +111,14 @@ const EditWebhookForm: React.FC<EditWebhookModalProps> = ({
         </FormControl>
 
         <FormControl isInvalid={!!errors.webhookUrl}>
-          <FormLabel htmlFor="webhookUrl">Webhook URL</FormLabel>
+          <FormLabel htmlFor="webhookUrl">
+            {t('WEBHOOKS_PAGE.WEBHOOK_URL')}
+          </FormLabel>
           <Textarea
             id="webhookUrl"
             value={webhookUrl}
             onChange={(e) => setWebhookUrl(e.target.value)}
-            placeholder="Enter webhook URL"
+            placeholder={t('WEBHOOKS_PAGE.ENTER_WEBHOOK_URL')}
             rows={6}
           />
           <FormErrorMessage>{errors.webhookUrl}</FormErrorMessage>
@@ -114,10 +126,10 @@ const EditWebhookForm: React.FC<EditWebhookModalProps> = ({
       </ModalBody>
       <ModalFooter>
         <Button colorScheme="blue" type="submit" mr={3}>
-          Save
+          {t('WEBHOOKS_PAGE.SAVE')}
         </Button>
         <Button variant="ghost" onClick={onClose}>
-          Cancel
+          {t('WEBHOOKS_PAGE.CANCEL')}
         </Button>
       </ModalFooter>
     </form>

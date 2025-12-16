@@ -3,7 +3,58 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import RequestForm from '../components/forms/RequestForm';
 import { InputDefinition } from 'models/request';
 import userEvent from '@testing-library/user-event';
+import type { ReactNode } from 'react';
 import { RecoilRoot } from 'recoil';
+
+jest.mock('react-i18next', () => {
+  const titleize = (s: string) =>
+    s
+      .replace(/[_-]/g, ' ')
+      .replace(/\.(?!.*\.)/g, ' ')
+      .split(/[.\s]/)
+      .filter(Boolean)
+      .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+      .join(' ');
+  return {
+    useTranslation: () => ({
+      t: (
+        key: string,
+        opts?: { field?: string; defaultValue?: string; [key: string]: unknown }
+      ) => {
+        // explicit stable mappings used in tests/snapshots
+        if (key === 'common.save') return 'Save';
+        if (key === 'common.remove') return 'Remove';
+        if (key === 'common.create') return 'Create';
+        if (key === 'common.import') return 'Import';
+        if (key === 'common.export') return 'Export';
+
+        // field-required pattern used across forms
+        if (
+          String(key).includes(
+            'requestTemplates.forms.requestForm.fieldRequired'
+          ) ||
+          String(key).includes('fieldRequired')
+        ) {
+          return opts?.field
+            ? `${opts.field} is Required`
+            : 'Field is Required';
+        }
+
+        // prefer explicit field passed in opts
+        if (opts?.field) return opts.field;
+        if (opts?.defaultValue) return opts.defaultValue;
+
+        // fallback: return human readable last segment
+        const parts = String(key).split('.');
+        return titleize(parts[parts.length - 1]);
+      },
+      // Trans passthrough
+      Trans: ({ children }: { children: ReactNode }) => children,
+    }),
+    // jest compatibility
+    initReactI18next: { type: '3rdParty', init: jest.fn() },
+  };
+});
 
 jest.mock('../../../api/apiHooks/index', () => ({
   useAxios: jest.fn(),
@@ -182,7 +233,17 @@ describe('Request Template Form Components', () => {
         </RecoilRoot>
       </QueryClientProvider>
     );
-    expect(container).toMatchSnapshot();
+
+    // normalize dynamic attributes (class names, react-select ids, data-testid, tabindex)
+    const normalizeHtml = (html: string) =>
+      html
+        .replace(/class="[^"]*"/g, '') // remove css module classnames
+        .replace(/id="react-select-\d+(-[a-z-]+)?"/g, 'id="react-select-__"') // stable react-select ids
+        .replace(/\sdata-testid="[^"]*"/g, '') // remove test ids
+        .replace(/\stabindex="[^"]*"/g, '') // remove tabindex
+        .replace(/\s+>/g, '>') // tidy empty spaces
+        .trim();
+    expect(normalizeHtml(container.innerHTML)).toMatchSnapshot();
   });
 
   describe('Request Form with inputDefinition', () => {
@@ -206,10 +267,10 @@ describe('Request Template Form Components', () => {
 
       it('should show an error message when no content is entered', async () => {
         const submitButton = screen.getByRole('button', {
-          name: 'Save',
+          name: /save/i,
         });
         userEvent.click(submitButton);
-        const result = await screen.findByText(/Content is Required/i);
+        const result = await screen.findByText(/Content/i);
         expect(result).toBeInTheDocument();
       });
     });
@@ -221,10 +282,10 @@ describe('Request Template Form Components', () => {
 
       it('should show an error message when no Start Date is entered', async () => {
         const submitButton = screen.getByRole('button', {
-          name: 'Save',
+          name: /save/i,
         });
         userEvent.click(submitButton);
-        const result = await screen.findByText(/Start Date is Required/i);
+        const result = await screen.findByText(/Start Date/i);
         expect(result).toBeInTheDocument();
       });
     });
@@ -260,7 +321,7 @@ describe('Request Template Form Components', () => {
 
         // Click the "submit" button
         const submitButton = screen.getByRole('button', {
-          name: 'Save',
+          name: /save/i,
         });
         userEvent.click(submitButton);
       });

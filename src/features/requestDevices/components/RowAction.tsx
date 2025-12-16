@@ -12,6 +12,7 @@ import { MdCancel } from 'react-icons/md';
 import { FaEye, FaRegMap } from 'react-icons/fa';
 import { ColorThemeMode, Permissions } from 'common/constants';
 import { useUserPermissions } from 'hooks/useUserPermissions';
+import { useTranslation } from 'react-i18next';
 
 interface RowActionProps {
   onViewDetails: () => void;
@@ -30,6 +31,7 @@ export const RowAction = ({
     cancel: false,
   },
 }: RowActionProps) => {
+  const { t } = useTranslation();
   const bg = useColorModeValue(ColorThemeMode.LIGHT, ColorThemeMode.DARK);
   const color = useColorModeValue(ColorThemeMode.DARK, ColorThemeMode.LIGHT);
   const { renderIfAllowed } = useUserPermissions();
@@ -51,7 +53,7 @@ export const RowAction = ({
           onClick={onViewDetails}
         >
           <Icon as={FaEye} />
-          View
+          {t('MY_REQUESTS_PAGE.ACTIONS.VIEW')}
         </MenuItem>
         {onViewWorkflow && (
           <MenuItem
@@ -61,7 +63,7 @@ export const RowAction = ({
             onClick={onViewWorkflow}
           >
             <Icon as={FaRegMap} />
-            Workflow
+            {t('MY_REQUESTS_PAGE.ACTIONS.WORKFLOW')}
           </MenuItem>
         )}
         {actions.cancel &&
@@ -74,7 +76,7 @@ export const RowAction = ({
               onClick={onCancel}
             >
               <Icon as={MdCancel} />
-              Cancel
+              {t('MY_REQUESTS_PAGE.ACTIONS.CANCEL')}
             </MenuItem>
           )}
       </MenuList>

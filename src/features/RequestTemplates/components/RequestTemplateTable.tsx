@@ -30,6 +30,7 @@ import { useUserPermissions } from 'hooks/useUserPermissions';
 import { Permissions } from 'common/constants';
 import { BiSolidPencil } from 'react-icons/bi';
 import { useMediaQuery } from 'hooks/useMediaQuery';
+import { useTranslation } from 'react-i18next';
 
 interface RequestTemplateTableProps {
   data: RequestTemplateResult;
@@ -42,6 +43,7 @@ export const RequestTemplateTable = ({
   isLoading,
   refetch,
 }: RequestTemplateTableProps) => {
+  const { t } = useTranslation();
   const isLargeScreen = useMediaQuery('(min-width: 1024px)');
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState<boolean>(false);
@@ -72,12 +74,17 @@ export const RequestTemplateTable = ({
   const [workflowCreateData, setWorkflowCreateData] =
     useState<IJsonObject | null>(null);
   const [isPublishWfStatus, setisPublishWfStatus] = useState<boolean>(false);
-  const onConfirmDeleteWorkflow = (workflowId: string) => () => {
-    setIsModalConfirmOpen(true);
-    setRequestId(workflowId);
-    setModalTitle('Delete workflow');
-    setModalDescription('Do you want to delete workflow?');
-  };
+
+  // stable callbacks to satisfy react-hooks/exhaustive-deps
+  const onConfirmDeleteWorkflow = useCallback(
+    (workflowId: string) => () => {
+      setIsModalConfirmOpen(true);
+      setRequestId(workflowId);
+      setModalTitle(t('REQUEST_TEMPLATES_PAGE.DELETE_BUTTON'));
+      setModalDescription(t('REQUEST_TEMPLATES_PAGE.DELETE_CONFIRMATION'));
+    },
+    [t]
+  );
 
   const onDefineInputWorkflow =
     (
@@ -93,6 +100,34 @@ export const RequestTemplateTable = ({
       setModalTitle(name);
       setisPublishWfStatus(isPublish);
     };
+
+  const onAction = useCallback(
+    (
+      requestIdArg: string,
+      displayNameArg: string,
+      workflowArg: string,
+      inputDefinitionArg: InputDefinition
+    ) =>
+      () => {
+        if (
+          !inputDefinitionArg ||
+          !inputDefinitionArg.propertyDefinitions?.length ||
+          !inputDefinitionArg?.propertyDefinitions?.[0]?.name
+        ) {
+          toast({
+            title: t('REQUEST_TEMPLATES_PAGE.DEFINE_INPUT_WARNING'),
+            status: 'warning',
+          });
+          return;
+        }
+        setIsModalOpen(true);
+        setRequestId(requestIdArg);
+        setModalTitle(displayNameArg);
+        setModalWorkflow(workflowArg);
+        setModalInputDefinition(inputDefinitionArg);
+      },
+    [t]
+  );
 
   const onDeleteWorkflow = async () => {
     await deleteWorkflowDefinitionMutation.mutateAsync(requestId);
@@ -120,7 +155,9 @@ export const RequestTemplateTable = ({
   const myRequestColumns = useMemo(() => {
     const displayColumn = columnHelper.accessor('displayName', {
       id: 'displayName',
-      header: isAdmin ? 'Display Name' : 'Request Template',
+      header: isAdmin
+        ? t('REQUEST_TEMPLATES_PAGE.TABLE_HEADERS.DISPLAY_NAME')
+        : t('REQUEST_TEMPLATES_PAGE.REQUEST_TEMPLATE'),
       enableSorting: false,
       cell: (info) => info.getValue(),
     });
@@ -128,7 +165,11 @@ export const RequestTemplateTable = ({
     const actionColumn = columnHelper.display({
       id: 'actions',
       enableSorting: false,
-      header: () => <Center w="full">Actions</Center>,
+      header: () => (
+        <Center w="full">
+          {t('REQUEST_TEMPLATES_PAGE.TABLE_HEADERS.ACTIONS')}
+        </Center>
+      ),
       cell: (info) => {
         const { definitionId, displayName, name, inputDefinition } =
           info.row.original;
@@ -157,7 +198,11 @@ export const RequestTemplateTable = ({
             columnHelper.display({
               id: 'designer',
               enableSorting: false,
-              header: () => <Center w="full">Edit</Center>,
+              header: () => (
+                <Center w="full">
+                  {t('REQUEST_TEMPLATES_PAGE.TABLE_HEADERS.EDIT')}
+                </Center>
+              ),
               cell: (info) => {
                 const {
                   definitionId,
@@ -199,23 +244,33 @@ export const RequestTemplateTable = ({
     const editorColumn = [
       columnHelper.accessor('name', {
         id: 'name',
-        header: 'Name',
+        header: t('REQUEST_TEMPLATES_PAGE.TABLE_HEADERS.NAME'),
         enableSorting: false,
         cell: (info) => info.getValue(),
       }),
       columnHelper.accessor('version', {
         id: 'version',
-        header: () => <Center w="full">Version</Center>,
+        header: () => (
+          <Center w="full">
+            {t('REQUEST_TEMPLATES_PAGE.TABLE_HEADERS.VERSION')}
+          </Center>
+        ),
         enableSorting: false,
         cell: (info) => <Center w="full">{info.getValue()}</Center>,
       }),
       columnHelper.accessor('isPublished', {
         id: 'isPublished',
-        header: () => <Center w="full">Published</Center>,
+        header: () => (
+          <Center w="full">
+            {t('REQUEST_TEMPLATES_PAGE.TABLE_HEADERS.PUBLISHED')}
+          </Center>
+        ),
         enableSorting: false,
         cell: (info) => (
           <Center w="full">
-            {info.getValue().toString() === 'true' ? 'Yes' : 'No'}
+            {String(info.getValue()) === 'true'
+              ? t('REQUEST_TEMPLATES_PAGE.YES')
+              : t('REQUEST_TEMPLATES_PAGE.NO')}
           </Center>
         ),
       }),
@@ -223,9 +278,7 @@ export const RequestTemplateTable = ({
 
     const result = [
       displayColumn,
-      ...//isAdmin ?
-      editorColumn,
-      //: []
+      ...editorColumn,
       ...(hasPermission(Permissions.CREATE_WORKFLOW_INSTANCE)
         ? [actionColumn]
         : []),
@@ -239,33 +292,10 @@ export const RequestTemplateTable = ({
     handleTogglePublish,
     hasPermission,
     canViewDesignerColumn,
+    onAction,
+    onConfirmDeleteWorkflow,
+    t,
   ]);
-
-  const onAction =
-    (
-      requestId: string,
-      displayName: string,
-      workflow: string,
-      inputDefinition: InputDefinition
-    ) =>
-    () => {
-      if (
-        !inputDefinition ||
-        !inputDefinition.propertyDefinitions?.length ||
-        !inputDefinition?.propertyDefinitions?.[0]?.name
-      ) {
-        toast({
-          title: 'Please define input for the workflow!',
-          status: 'warning',
-        });
-        return;
-      }
-      setIsModalOpen(true);
-      setRequestId(requestId);
-      setModalTitle(displayName);
-      setModalWorkflow(workflow);
-      setModalInputDefinition(inputDefinition);
-    };
 
   const onCloseModal = () => {
     setWorkflowCreateData(null);
@@ -296,7 +326,7 @@ export const RequestTemplateTable = ({
               onClick={onOpenCreateModal}
               variant="primary"
             >
-              Create
+              {t('REQUEST_TEMPLATES_PAGE.CREATE_BUTTON')}
             </Button>
           )}
 
@@ -322,7 +352,7 @@ export const RequestTemplateTable = ({
         isEmpty={!items.length && !isLoading}
         h="200px"
         fontSize="xs"
-        message={'No request found!'}
+        message={t('REQUEST_TEMPLATES_PAGE.NO_REQUEST_FOUND')}
         boxSizing="border-box"
       >
         <Box

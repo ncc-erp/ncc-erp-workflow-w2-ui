@@ -48,6 +48,7 @@ import TextToolTip from '../textTooltip';
 import { useUserPermissions } from 'hooks/useUserPermissions';
 import { useMediaQuery } from 'hooks/useMediaQuery';
 import { PaginationMobile } from '../PaginationMobile';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   filters: FilterTasks;
@@ -60,6 +61,7 @@ const initDataForm = {
 };
 
 export const ListTask = ({ filters, openDetailModal }: Props) => {
+  const { t } = useTranslation();
   const [filter, setFilter] = useState<FilterTasks>(filters);
   const columnHelper = createColumnHelper<ITask>();
   const isLargeScreen = useMediaQuery('(min-width: 1024px)');
@@ -103,7 +105,10 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
           id,
         });
         await actionTaskMutation.mutateAsync({ id, action });
-        toast({ title: 'Send action successfully!', status: 'success' });
+        toast({
+          title: t('TASKS_PAGE.MESSAGES.SEND_ACTION_SUCCESS'),
+          status: 'success',
+        });
         refetch();
       } catch (error) {
         console.error(error);
@@ -120,7 +125,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
         id: 'id',
         header: () => (
           <Box textAlign="center" w="full">
-            ID
+            {t('TASKS_PAGE.TABLE.HEADERS.ID')}
           </Box>
         ),
         enableSorting: false,
@@ -143,7 +148,9 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
       // }),
       columnHelper.accessor('title', {
         id: 'title',
-        header: () => <Box textAlign="center">Title</Box>,
+        header: () => (
+          <Box textAlign="center">{t('TASKS_PAGE.TABLE.HEADERS.TITLE')}</Box>
+        ),
         enableSorting: false,
         cell: (info) => {
           const { settings } = info.row.original;
@@ -182,7 +189,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
       }),
       columnHelper.accessor('authorName', {
         id: 'authorName',
-        header: 'Request user',
+        header: t('TASKS_PAGE.TABLE.HEADERS.REQUEST_USER'),
         enableSorting: false,
         cell: (info) => {
           const authorName = info.getValue();
@@ -195,13 +202,13 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
       }),
       columnHelper.accessor('description', {
         id: 'description',
-        header: 'Current State',
+        header: t('TASKS_PAGE.TABLE.HEADERS.CURRENT_STATE'),
         enableSorting: false,
         cell: (info) => info.getValue(),
       }),
       columnHelper.accessor('emailTo', {
         id: 'emailTo',
-        header: 'Assigned To',
+        header: t('TASKS_PAGE.TABLE.HEADERS.ASSIGNED_TO'),
         enableSorting: false,
         cell: (info) =>
           info
@@ -211,10 +218,11 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
       }),
       columnHelper.accessor('status', {
         id: 'status',
-        header: 'State',
+        header: t('TASKS_PAGE.TABLE.HEADERS.STATE'),
         enableSorting: false,
         cell: (info) => {
           const status = info.row.original.status;
+          const statusKey = Object.keys(TaskStatus)[info.getValue()];
           return (
             <Box display={'flex'}>
               {
@@ -229,7 +237,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
                       : ''
                   }`}
                 >
-                  {Object.keys(TaskStatus)[info.getValue()]}
+                  {t(`TASKS_PAGE.TASK_STATUS.${statusKey.toUpperCase()}`)}
                 </div>
               }
             </Box>
@@ -239,14 +247,16 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
 
       columnHelper.accessor('creationTime', {
         id: 'creationTime',
-        header: 'Created At',
+        header: t('TASKS_PAGE.TABLE.HEADERS.CREATED_AT'),
         enableSorting: false,
         cell: (info) => formatDate(info.getValue()),
       }),
       columnHelper.display({
         id: 'actions',
         enableSorting: false,
-        header: () => <Center w="full">Actions</Center>,
+        header: () => (
+          <Center w="full">{t('TASKS_PAGE.TABLE.HEADERS.ACTIONS')}</Center>
+        ),
         cell: (info) => {
           return (
             <Center mr={1} onClick={(e) => e.stopPropagation()}>
@@ -273,7 +283,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
                     onClick={() => openDetailModal(info.row.original)()}
                   >
                     <Icon as={RiEyeFill} />
-                    View
+                    {t('TASKS_PAGE.TABLE.ACTIONS.VIEW')}
                   </MenuItem>
                   <MenuItem
                     display="flex"
@@ -285,7 +295,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
                     }
                   >
                     <Icon as={RiMapFill} />
-                    Workflow
+                    {t('TASKS_PAGE.TABLE.ACTIONS.WORKFLOW')}
                   </MenuItem>
                   {renderIfAllowed(
                     Permissions.UPDATE_TASK_STATUS,
@@ -312,7 +322,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
                           }}
                         >
                           <Icon as={AiFillCheckCircle} />
-                          Approve
+                          {t('TASKS_PAGE.BUTTONS.APPROVE')}
                         </MenuItem>
                         <MenuItem
                           display="flex"
@@ -326,7 +336,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
                           }}
                         >
                           <Icon as={MdCancel} />
-                          Reject
+                          {t('TASKS_PAGE.BUTTONS.REJECT')}
                         </MenuItem>
                         {info.row.original.otherActionSignals &&
                           info.row.original.otherActionSignals.map(
@@ -372,6 +382,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
     refetch,
     user.email,
     renderIfAllowed,
+    t,
   ]);
 
   const handleClose = useCallback(() => {
@@ -396,7 +407,10 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
             });
             refetch();
             clear();
-            toast({ title: 'Approved Task Successfully!', status: 'success' });
+            toast({
+              title: t('TASKS_PAGE.MESSAGES.APPROVED_TASK_SUCCESS'),
+              status: 'success',
+            });
             break;
           case TaskStatus.Rejected:
             if (!reason) return;
@@ -406,7 +420,10 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
             });
             refetch();
             clear();
-            toast({ title: 'Rejected Task Successfully!', status: 'success' });
+            toast({
+              title: t('TASKS_PAGE.MESSAGES.REJECTED_TASK_SUCCESS'),
+              status: 'success',
+            });
             break;
           default:
             break;
@@ -427,6 +444,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
       reason,
       refetch,
       rejectTaskMutation,
+      t,
     ]
   );
 
@@ -493,7 +511,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
             isEmpty={false}
             h="200px"
             fontSize="xs"
-            message={'No request found!'}
+            message={t('TASKS_PAGE.MESSAGES.NO_REQUEST_FOUND')}
           >
             <Box py="10px" data-testid="list-tasks-view">
               <Box w={'100%'} overflowX="auto" className={styles.tableContent}>

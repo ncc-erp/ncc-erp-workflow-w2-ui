@@ -1,0 +1,249 @@
+{
+  "common": {
+    "save": "Lưu",
+    "cancel": "Hủy",
+    "delete": "Xóa",
+    "edit": "Chỉnh sửa",
+    "update": "Cập nhật",
+    "create": "Tạo mới",
+    "search": "Tìm kiếm",
+    "confirm": "Xác nhận",
+    "close": "Đóng",
+    "yes": "Có",
+    "no": "Không",
+    "loading": "Đang tải...",
+    "success": "Thao tác thành công",
+    "error": "Đã xảy ra lỗi",
+    "remove": "Gỡ bỏ",
+    "requestStatus": {
+      "approved": "Đã duyệt",
+      "rejected": "Đã từ chối",
+      "pending": "Đang chờ",
+      "canceled": "Đã hủy"
+    },
+    "requestTemplates": {
+      "changeOffice": "Yêu cầu đổi văn phòng",
+      "deviceRequest": "Yêu cầu thiết bị",
+      "officeEquipment": "Yêu cầu trang thiết bị văn phòng",
+      "wfhRequest": "Yêu cầu làm việc từ xa",
+      "userTask": "Tác vụ người dùng",
+      "notFound": "Không tìm thấy"
+    }
+  },
+  "auth": {
+    "login": "Đăng nhập",
+    "logout": "Đăng xuất",
+    "username": "Tên đăng nhập hoặc email",
+    "password": "Mật khẩu",
+    "rememberMe": "Ghi nhớ đăng nhập",
+    "forgotPassword": "Quên mật khẩu?",
+    "signInWithMezon": "Đăng nhập bằng Mezon",
+    "loginCallback": "Đang xử lý đăng nhập...",
+    "loginSuccess": "Đăng nhập thành công!",
+    "loginError": "Đăng nhập thất bại. Vui lòng thử lại."
+  },
+  "errors": {
+    "notFound": "Không tìm thấy trang",
+    "unauthorized": "Bạn không có quyền truy cập trang này",
+    "serverError": "Đã xảy ra lỗi không mong muốn",
+    "validationError": "Vui lòng kiểm tra các trường nhập liệu",
+    "sessionExpired": "Phiên làm việc của bạn đã hết hạn. Vui lòng đăng nhập lại."
+  },
+  "permissions": {
+    "title": "Quyền",
+    "description": "Quản lý quyền cho người dùng",
+    "createPermission": "Tạo quyền",
+    "editPermission": "Chỉnh sửa quyền",
+    "deletePermission": "Xóa quyền",
+    "permissionName": "Tên quyền",
+    "permissionCode": "Mã quyền",
+    "confirmDelete": "Bạn có chắc chắn muốn xóa quyền này không?",
+    "noPermissionsFound": "Không tìm thấy quyền nào!",
+    "addParentPermission": "Thêm quyền cha",
+    "addChildPermission": "Thêm quyền con",
+    "nameRequired": "Tên là bắt buộc.",
+    "codeRequired": "Mã là bắt buộc.",
+    "createSuccess": "Tạo quyền thành công!",
+    "createError": "Lỗi khi tạo quyền.",
+    "updateSuccess": "Cập nhật quyền thành công!",
+    "updateError": "Lỗi khi cập nhật quyền.",
+    "deleteSuccess": "Xóa quyền thành công!",
+    "deleteError": "Lỗi khi xóa quyền.",
+    "permissionGroup": "Nhóm quyền",
+    "actions": "Hành động",
+    "edit": "Chỉnh sửa",
+    "delete": "Xóa",
+    "addChild": "Thêm quyền con",
+    "code": "Code",
+    "name": "Tên",
+    "usernameRequired": "Tên đăng nhập hoặc địa chỉ email là bắt buộc!",
+    "passwordRequired": "Mật khẩu là bắt buộc!",
+    "remainingAttempts": "Bạn còn {{count}} lần thử trước khi tài khoản bị khóa",
+    "accountLocked": "Tài khoản đã bị khóa!"
+  },
+  "report": {
+    "title": "Báo cáo WFH",
+    "description": "Xem và quản lý báo cáo làm việc từ xa",
+    "email": "Địa chỉ Email",
+    "reason": "Lý do",
+    "status": "Trạng thái",
+    "remoteDate": "Ngày làm việc từ xa",
+    "createdAt": "Ngày tạo",
+    "noRequestFound": "Không tìm thấy yêu cầu nào!",
+    "filterByStatus": "Lọc theo trạng thái",
+    "filterByDate": "Lọc theo ngày",
+    "reload": "Tải lại",
+    "export": "Xuất dữ liệu",
+    "viewDetails": "Xem chi tiết"
+  },
+  "releaseContent": {
+    "title": "Ghi chú phát hành",
+    "description": "Xem các cập nhật và thay đổi mới nhất",
+    "readMore": "Xem thêm",
+    "readLess": "Thu gọn",
+    "newContributors": "Những người đóng góp mới",
+    "whatsChanged": "Những thay đổi",
+    "fullChangelog": "Nhật ký thay đổi đầy đủ",
+    "tagName": "Phiên bản",
+    "createdAt": "Ngày tạo"
+  },
+  "requestTemplates": {
+    "title": "Mẫu yêu cầu",
+    "buttons": {
+      "export": "Xuất",
+      "import": "Nhập",
+      "create": "Tạo mới",
+      "edit": "Chỉnh sửa",
+      "editWorkflow": "Chỉnh sửa Quy trình",
+      "delete": "Xóa",
+      "defineInput": "Định nghĩa đầu vào",
+      "viewWorkflow": "Xem quy trình",
+      "publish": "Công khai",
+      "unpublish": "Hủy công khai"
+    },
+    "ariaLabels": {
+      "export": "Xuất",
+      "import": "Nhập",
+      "create": "Tạo mới",
+      "edit": "Chỉnh sửa",
+      "delete": "Xóa",
+      "defineInput": "Định nghĩa đầu vào",
+      "viewWorkflow": "Xem quy trình",
+      "publish": "Công khai",
+      "unpublish": "Hủy công khai"
+    },
+    "import": {
+      "dataLabel": "Dữ liệu nhập:",
+      "noData": "Chưa có dữ liệu được nhập !"
+    },
+    "messages": {
+      "createWorkflowSuccess": "Tạo quy trình thành công",
+      "exportSuccess": "Quy trình đã được xuất thành công.",
+      "importSuccess": "Quy trình đã được nhập thành công.",
+      "importError": "Không thể phân tích JSON!",
+      "deleteWorkflowConfirmation": "Bạn có muốn xóa quy trình này không?",
+      "deleteWorkflowSuccess": "Quy trình đã được xóa thành công.",
+      "defineInputWarning": "Vui lòng định nghĩa đầu vào cho quy trình!",
+      "invalidJsonFormat": "Định dạng JSON không hợp lệ!",
+      "createRequestSuccess": "Tạo yêu cầu thành công"
+    },
+    "columns": {
+      "name": "Tên",
+      "version": "Phiên bản",
+      "published": "Đã công khai",
+      "actions": "Hành động",
+      "displayName": "Tên hiển thị",
+      "requestTemplate": "Mẫu yêu cầu",
+      "edit": "Chỉnh sửa"
+    },
+    "modals": {
+      "importWorkflow": "Nhập quy trình",
+      "defineWorkflowInput": "Định nghĩa đầu vào quy trình",
+      "createWorkflowDefinition": "Tạo định nghĩa quy trình"
+    },
+    "forms": {
+      "createForm": {
+        "fields": {
+          "name": "Tên",
+          "displayName": "Tên hiển thị",
+          "tag": "Thẻ"
+        }
+      },
+      "requestForm": {
+        "fieldRequired": "{{field}} là bắt buộc!"
+      },
+      "defineInput": {
+        "propertyName": "Tên thuộc tính",
+        "propertyType": "Loại thuộc tính",
+        "required": "Bắt buộc",
+        "addField": "Thêm trường",
+        "nameRequired": "Tên là bắt buộc."
+      },
+      "settings": {
+        "color": "Màu",
+        "sendKomuMessage": "Gửi tin nhắn Komu",
+        "title": "Tiêu đề",
+        "nameRequestDefault": "Tên yêu cầu"
+      }
+    },
+    "validation": {
+      "invalidDate": "Ngày không hợp lệ",
+      "invalidDateFormat": "Định dạng ngày không hợp lệ (DD/MM/YYYY)",
+      "chooseDatesWithin7Days": "Chọn ngày trong quá khứ trong vòng 7 ngày kể từ hôm nay"
+    }
+  },
+  "myRequests": {
+    "title": "Yêu cầu của tôi",
+    "all": "Yêu cầu",
+    "mine": "Yêu cầu của tôi",
+    "titles": { "requestDetails": "Chi tiết yêu cầu" },
+    "buttons": {
+      "viewWorkflow": "Xem chi tiết quy trình",
+      "onlyMyRequest": "Chỉ yêu cầu của tôi"
+    },
+    "filters": {
+      "allStatus": "Tất cả trạng thái",
+      "allTypes": "Tất cả loại"
+    },
+    "placeholders": {
+      "enterEmail": "Nhập email"
+    },
+    "columns": {
+      "title": "Tiêu đề",
+      "requestUser": "Người yêu cầu",
+      "currentStates": "Trạng thái hiện tại",
+      "stakeholders": "Người liên quan",
+      "createdAt": "Ngày tạo",
+      "lastExecutedAt": "Thời điểm thực thi gần nhất",
+      "status": "Trạng thái",
+      "actions": "Hành động"
+    },
+    "messages": {
+      "confirmTitle": "Xác nhận {{type}} yêu cầu",
+      "confirmDesc": "Yêu cầu sẽ được {{type}}. Bạn có chắc không?",
+      "cancelSuccess": "Hủy thành công!",
+      "cancelFailed": "Hủy không thành công!"
+    },
+    "labels": {
+      "name": "Tên",
+      "email": "Email",
+      "notFound": "Không tìm thấy!",
+      "requestInput": "Đầu vào yêu cầu",
+      "requestUser": "Người yêu cầu",
+      "detail": "Chi tiết",
+      "branchName": "Tên chi nhánh",
+      "requestTemplate": "Mẫu yêu cầu",
+      "status": "Trạng thái",
+      "currentState": "Trạng thái hiện tại",
+      "stakeholders": "Người liên quan",
+      "creationTime": "Thời gian tạo",
+      "reason": "Lý do",
+      "rejectedBy": "Người từ chối"
+    },
+    "actions": {
+      "view": "Xem",
+      "workflow": "Quy trình",
+      "cancel": "Hủy"
+    }
+  }
+}

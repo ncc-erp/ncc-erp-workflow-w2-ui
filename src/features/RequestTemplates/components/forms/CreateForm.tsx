@@ -26,6 +26,7 @@ import {
 } from 'models/request';
 import { useEffect, useState } from 'react';
 import { convertToCase } from 'utils';
+import { useTranslation } from 'react-i18next';
 
 interface CreateFormProps {
   inputDefinition?: InputDefinition;
@@ -55,6 +56,7 @@ const CreateForm = ({
   onSuccess,
   workflowCreateData,
 }: CreateFormProps) => {
+  const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const {
     register,
@@ -112,7 +114,9 @@ const CreateForm = ({
       refetch();
       setIsLoading(false);
       toast({
-        description: 'Create Workflow Successfully',
+        description: t(
+          'REQUEST_TEMPLATES_PAGE.MESSAGES.CREATE_WORKFLOW_SUCCESS'
+        ),
         status: 'success',
       });
       onCloseModal();
@@ -122,10 +126,13 @@ const CreateForm = ({
 
   const getField = (Field: CreateWorkflowPropertyDefinition) => {
     const fieldName = Field?.name ? Field.name : '';
+    const labelKey = `REQUEST_TEMPLATES_PAGE.FORMS.CREATE_FORM.FIELDS.${fieldName.toUpperCase()}`;
+    const label = t(labelKey, { defaultValue: convertToCase(fieldName) });
+    const placeholder = label;
     return (
       <FormControl key={Field?.name}>
         <FormLabel fontSize={16} my={1} fontWeight="normal">
-          {convertToCase(fieldName)}
+          {label}
           {Field?.isRequired ? (
             <FormHelperText my={1} style={{ color: 'red' }} as="span">
               {' '}
@@ -137,11 +144,13 @@ const CreateForm = ({
         </FormLabel>
         <TextField
           h="50px"
-          placeholder={convertToCase(fieldName)}
+          placeholder={placeholder}
           fontSize="sm"
           {...register(fieldName, {
             required: Field?.isRequired
-              ? `${convertToCase(fieldName)} is Required!`
+              ? t('REQUEST_TEMPLATES_PAGE.FORMS.CREATE_FORM.FIELD_REQUIRED', {
+                  field: label,
+                })
               : false,
           })}
         />
@@ -176,7 +185,7 @@ const CreateForm = ({
           size="full"
           colorScheme="gray"
         >
-          Create
+          {t('REQUEST_TEMPLATES_PAGE.CREATE_BUTTON')}
         </Button>
       </VStack>
     </form>

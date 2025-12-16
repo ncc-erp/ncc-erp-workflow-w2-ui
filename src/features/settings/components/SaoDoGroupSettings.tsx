@@ -14,7 +14,7 @@ import {
   ISettingValue,
 } from 'models/settings';
 import { useFormik } from 'formik';
-import { validationSettingForm } from 'utils/validationSchema';
+
 import {
   useCreateSetting,
   useDeleteSetting,
@@ -25,6 +25,8 @@ import QueryString from 'qs';
 import { SettingForm } from './SettingForm';
 import { useUserPermissions } from 'hooks/useUserPermissions';
 import { Permissions } from 'common/constants';
+import { useTranslation } from 'react-i18next';
+import { getValidationSettingForm } from 'utils/validationSchema';
 
 const initialFilter: IFilterSettingParams = {
   settingCode: ESettingCode.SAODO,
@@ -40,6 +42,10 @@ export const SaoDoSettings = () => {
   const { hasPermission } = useUserPermissions();
   const { mutateAsync: createMutate, isLoading: isCreating } =
     useCreateSetting();
+  const { t } = useTranslation();
+  const validationSchema = () => {
+    return getValidationSettingForm();
+  };
   const { mutateAsync: deleteMutate } = useDeleteSetting();
   const settings = useMemo(
     () =>
@@ -67,20 +73,20 @@ export const SaoDoSettings = () => {
       .then(() => {
         refetch();
         toast({
-          description: 'Create setting Successfully',
+          description: t('SETTING_PAGE.CREATE_SUCCESS'),
           status: 'success',
         });
         formik.resetForm();
       })
       .catch((err) => {
         if (err.response.data.error.code === '409')
-          formik.setFieldError('email', 'This email is already in use');
+          formik.setFieldError('email', t('SETTING_PAGE.EMAIL_ALREADY_EXISTS'));
       });
   };
 
   const formik = useFormik({
     initialValues,
-    validationSchema: validationSettingForm,
+    validationSchema,
     onSubmit: handleSubmit,
   });
 
@@ -94,7 +100,7 @@ export const SaoDoSettings = () => {
       await deleteMutate(QueryString.stringify(payload)).then(() => {
         refetch();
         toast({
-          description: 'Delete setting Successfully',
+          description: t('SETTING_PAGE.DELETE_SUCCESS'),
           status: 'success',
         });
       });
@@ -133,12 +139,12 @@ export const SaoDoSettings = () => {
           ]
         : []),
     ] as ColumnDef<ISettingValue>[];
-  }, [columnHelper, deleteMutate, refetch, hasPermission]);
+  }, [columnHelper, deleteMutate, refetch, hasPermission, t]);
 
   return (
     <>
       <Box fontSize="14" fontWeight="bold">
-        Saodo Group
+        {t('SETTING_PAGE.SAODO_GROUP')}
       </Box>
       <Box fontSize="14" fontWeight="bold">
         <SettingForm

@@ -49,6 +49,7 @@ import { ChangeEvent, useMemo, useState } from 'react';
 import { NumericField } from 'common/components/NumericField';
 import { convertToCase } from 'utils';
 import { formatDateForm } from 'utils/dateUtils';
+import { useTranslation } from 'react-i18next';
 
 interface RequestFormProps {
   inputDefinition?: InputDefinition;
@@ -60,6 +61,7 @@ export type FormParams = Record<
 >;
 
 const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
+  const { t } = useTranslation();
   const currentUser = useCurrentUser();
 
   const [formParams, setFormParams] = useState<FormParams>({});
@@ -109,7 +111,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
 
     await createMutate(RequestFormParams);
     toast({
-      description: 'Create Request Successfully',
+      description: t('REQUEST_TEMPLATES_PAGE.MESSAGES.CREATE_REQUEST_SUCCESS'),
       status: 'success',
     });
     onCloseModal();
@@ -212,14 +214,14 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
         const month = dateObject.month.number;
         const year = dateObject.year;
         if (day === undefined || month === undefined || year === undefined) {
-          return 'Invalid Date';
+          return t('REQUEST_TEMPLATES_PAGE.MESSAGES.INVALID_DATE');
         }
 
         const dateStr = `${year}-${createDateString(month)}-${createDateString(
           day
         )}`;
         if (!/^\d{4}-\d{1,2}-\d{1,2}$/.test(dateStr)) {
-          return 'Invalid date format (DD/MM/YYYY)';
+          return t('REQUEST_TEMPLATES_PAGE.MESSAGES.INVALID_DATE_FORMAT');
         }
         const dateToCheck = new Date(dateStr);
         const currentDate = new Date();
@@ -229,7 +231,9 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
           dateToCheck <= currentDate &&
           !isWithinInterval(dateToCheck, { start: lastWeek, end: currentDate })
         ) {
-          return 'Choose any dates in the past within last 7 days from today';
+          return t(
+            'REQUEST_TEMPLATES_PAGE.MESSAGES.CHOOSE_DATES_WITHIN_7_DAYS'
+          );
         }
       }
     }
@@ -306,7 +310,12 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
               value={formParams[fieldname] as string}
               {...register(fieldname, {
                 required: Field?.isRequired
-                  ? `${fieldname} is Required`
+                  ? t(
+                      'REQUEST_TEMPLATES_PAGE.FORMS.REQUEST_FORM.FIELD_REQUIRED',
+                      {
+                        field: convertToCase(fieldname),
+                      }
+                    )
                   : false,
                 onChange: (e) => handleChangeValue(e, fieldname),
               })}
@@ -338,7 +347,14 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
               value={formParams[fieldname] as string}
               {...register(fieldname, {
                 required: Field?.isRequired
-                  ? `${fieldname} is Required`
+                  ? t(
+                      'REQUEST_TEMPLATES_PAGE.FORMS.REQUEST_FORM.FIELD_REQUIRED',
+                      {
+                        field: convertToCase(
+                          fieldname.replace(/([A-Z])/g, ' $1')
+                        ),
+                      }
+                    )
                   : false,
                 onChange: (e) => handleChangeValue(e, fieldname),
               })}
@@ -375,7 +391,14 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
               control={control}
               rules={{
                 required: Field?.isRequired
-                  ? `${fieldname.replace(/([A-Z])/g, ' $1')} is Required`
+                  ? t(
+                      'REQUEST_TEMPLATES_PAGE.FORMS.REQUEST_FORM.FIELD_REQUIRED',
+                      {
+                        field: convertToCase(
+                          fieldname.replace(/([A-Z])/g, ' $1')
+                        ),
+                      }
+                    )
                   : false,
                 validate: () => {
                   const startDate = watch('StartDate');
@@ -456,7 +479,12 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
               control={control}
               rules={{
                 required: Field?.isRequired
-                  ? `${fieldname} is Required`
+                  ? t(
+                      'REQUEST_TEMPLATES_PAGE.FORMS.REQUEST_FORM.FIELD_REQUIRED',
+                      {
+                        field: convertToCase(fieldname),
+                      }
+                    )
                   : false,
                 validate: validateMultiDatePicker,
               }}
@@ -508,7 +536,12 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
               value={formParams[fieldname] as string}
               {...register(fieldname, {
                 required: Field?.isRequired
-                  ? `${fieldname} is Required`
+                  ? t(
+                      'REQUEST_TEMPLATES_PAGE.FORMS.REQUEST_FORM.FIELD_REQUIRED',
+                      {
+                        field: convertToCase(fieldname),
+                      }
+                    )
                   : false,
                 onChange: (e) => handleChangeValue(e, fieldname),
               })}
@@ -543,7 +576,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
           isLoading={isLoading}
           colorScheme="gray"
         >
-          Save
+          {t('REQUEST_TEMPLATES_PAGE.SAVE_BUTTON')}
         </Button>
       </VStack>
     </form>

@@ -1,0 +1,250 @@
+{
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "update": "Update",
+    "create": "Create",
+    "search": "Search",
+    "confirm": "Confirm",
+    "close": "Close",
+    "yes": "Yes",
+    "no": "No",
+    "loading": "Loading...",
+    "success": "Action completed successfully",
+    "error": "An error occurred",
+    "remove": "Remove",
+    "requestStatus": {
+      "approved": "Approved",
+      "rejected": "Rejected",
+      "pending": "Pending",
+      "canceled": "Canceled"
+    },
+    "requestTemplates": {
+      "changeOffice": "Change Office Request",
+      "deviceRequest": "Device Request",
+      "officeEquipment": "Office Equipment Request",
+      "wfhRequest": "WFH Request",
+      "userTask": "User Task",
+      "notFound": "Not Found"
+    }
+  },
+  "auth": {
+    "login": "Sign In",
+    "logout": "Logout",
+    "username": "Username or email address",
+    "password": "Password",
+    "rememberMe": "Remember Me",
+    "forgotPassword": "Forgot Password?",
+    "signInWithMezon": "Sign in with Mezon",
+    "loginCallback": "Processing login callback...",
+    "loginSuccess": "Login successful!",
+    "loginError": "Login failed. Please try again.",
+    "usernameRequired": "The Username or email address field is required!",
+    "passwordRequired": "The password field is required!",
+    "remainingAttempts": "You have {{count}} attempts left before your account is locked",
+    "accountLocked": "User is locked out!"
+  },
+  "errors": {
+    "notFound": "Page not found",
+    "unauthorized": "You are not authorized to access this page",
+    "serverError": "An unexpected error occurred",
+    "validationError": "Please check the input fields",
+    "sessionExpired": "Your session has expired. Please log in again."
+  },
+  "permissions": {
+    "title": "Permissions",
+    "description": "Manage permissions for users",
+    "createPermission": "Create Permission",
+    "editPermission": "Edit Permission",
+    "deletePermission": "Delete Permission",
+    "permissionName": "Permission Name",
+    "permissionCode": "Permission Code",
+    "confirmDelete": "Confirm Deletion",
+    "deleteConfirmation": "Are you sure you want to delete this permission? This action cannot be undone.",
+    "noPermissionsFound": "No permissions found!",
+    "addParentPermission": "Add Parent Permission",
+    "addChildPermission": "Add Child Permission",
+    "nameRequired": "Name is required.",
+    "codeRequired": "Code is required.",
+    "createSuccess": "Permission created successfully!",
+    "createError": "Error creating permission.",
+    "updateSuccess": "Permission updated successfully!",
+    "updateError": "Error updating permission.",
+    "deleteSuccess": "Permission deleted successfully!",
+    "deleteError": "Error deleting permission.",
+    "permissionGroup": "Permission Group",
+    "actions": "Actions",
+    "edit": "Edit",
+    "delete": "Delete",
+    "addChild": "Add Child",
+    "code": "Code",
+    "name": "Name"
+  },
+  "report": {
+    "title": "Report WFH",
+    "description": "View and manage work-from-home reports",
+    "email": "Email Address",
+    "reason": "Reason",
+    "status": "Status",
+    "remoteDate": "Remote Date",
+    "createdAt": "Created At",
+    "noRequestFound": "No request found!",
+    "filterByStatus": "Filter by Status",
+    "filterByDate": "Filter by Date",
+    "reload": "Reload",
+    "export": "Export",
+    "viewDetails": "View Details"
+  },
+  "releaseContent": {
+    "title": "Release Notes",
+    "description": "View the latest updates and changes",
+    "readMore": "Read More",
+    "readLess": "Read Less",
+    "newContributors": "New Contributors",
+    "whatsChanged": "What's Changed",
+    "fullChangelog": "Full Changelog",
+    "tagName": "Version Tag",
+    "createdAt": "Created At"
+  },
+  "requestTemplates": {
+    "title": "Request Templates",
+    "buttons": {
+      "export": "Export",
+      "import": "Import",
+      "create": "Create",
+      "edit": "Edit",
+      "editWorkflow": "Edit Workflow",
+      "delete": "Delete",
+      "defineInput": "Define Input",
+      "viewWorkflow": "View Workflow",
+      "publish": "Publish",
+      "unpublish": "Unpublish"
+    },
+    "ariaLabels": {
+      "export": "Export",
+      "import": "Import",
+      "create": "Create",
+      "edit": "Edit",
+      "delete": "Delete",
+      "defineInput": "Define Input",
+      "viewWorkflow": "View Workflow",
+      "publish": "Publish",
+      "unpublish": "Unpublish"
+    },
+    "import": {
+      "dataLabel": "Import Data:",
+      "noData": "No data imported !"
+    },
+    "messages": {
+      "createWorkflowSuccess": "Create Workflow Successfully",
+      "exportSuccess": "The workflow has been exported successfully.",
+      "importSuccess": "The workflow has been imported successfully.",
+      "importError": "Can not parse JSON!",
+      "deleteWorkflowConfirmation": "Do you want to delete this workflow?",
+      "deleteWorkflowSuccess": "The workflow has been deleted successfully.",
+      "defineInputWarning": "Please define input for the workflow!",
+      "invalidJsonFormat": "Invalid JSON format!",
+      "createRequestSuccess": "Create Request Successfully"
+    },
+    "columns": {
+      "name": "Name",
+      "version": "Version",
+      "published": "Published",
+      "actions": "Actions",
+      "displayName": "Display Name",
+      "requestTemplate": "Request Template",
+      "edit": "Edit"
+    },
+    "modals": {
+      "importWorkflow": "Import Workflow",
+      "defineWorkflowInput": "Define Workflow Input",
+      "createWorkflowDefinition": "Create Workflow Definition"
+    },
+    "forms": {
+      "createForm": {
+        "fields": {
+          "name": "Name",
+          "displayName": "Display Name",
+          "tag": "Tag"
+        }
+      },
+      "requestForm": {
+          "fieldRequired": "{{field}} is Required!"
+      },
+      "defineInput": {
+        "propertyName": "Property Name",
+        "propertyType": "Property Type",
+        "required": "Required",
+        "addField": "Add Field",
+        "nameRequired": "Name is required."
+      },
+      "settings": {
+        "color": "Color",
+        "sendKomuMessage": "Send Komu Message",
+        "title": "Title",
+        "nameRequestDefault": "Name request"
+      }
+    },
+    "validation": {
+      "invalidDate": "Invalid Date",
+      "invalidDateFormat": "Invalid date format (DD/MM/YYYY)",
+      "chooseDatesWithin7Days": "Choose any dates in the past within last 7 days from today"
+    }
+  },
+  "myRequests": {
+    "title": "My Requests",
+    "all": "Requests",
+    "mine": "My requests",
+    "titles": { "requestDetails": "Request Details" },
+    "buttons": {
+      "viewWorkflow": "View Workflow Detail",
+      "onlyMyRequest": "Only my request"
+    },
+    "filters": {
+      "allStatus": "All status",
+      "allTypes": "All types"
+    },
+    "placeholders": {
+      "enterEmail": "Enter email"
+    },
+    "columns": {
+      "title": "Title",
+      "requestUser": "Request user",
+      "currentStates": "Current states",
+      "stakeholders": "Stakeholders",
+      "createdAt": "Created at",
+      "lastExecutedAt": "Last executed at",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "messages": {
+      "confirmTitle": "Confirm {{type}} request",
+      "confirmDesc": "Request will be {{type}}. Do you confirm that?",
+      "cancelSuccess": "Cancelled successfully!",
+      "cancelFailed": "Cancel failed!"
+    },
+    "labels": {
+      "name": "Name",
+      "email": "Email",
+      "notFound": "Not found!",
+      "requestInput": "Request input",
+      "requestUser": "Request user",
+      "detail": "Detail",
+      "branchName": "Branch name",
+      "requestTemplate": "Request template",
+      "status": "Status",
+      "currentState": "Current state",
+      "stakeholders": "Stakeholders",
+      "creationTime": "Creation time",
+      "reason": "Reason",
+      "rejectedBy": "Rejected by"
+    },
+    "actions": {
+      "view": "View",
+      "workflow": "Workflow",
+      "cancel": "Cancel"
+    }
+  }
+}

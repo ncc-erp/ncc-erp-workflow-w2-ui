@@ -10,6 +10,7 @@ import { MobileHeader } from 'common/components/MobileHeader';
 import { removeItem } from 'utils';
 import { useNavigate } from 'react-router';
 import { LocalStorageKeys } from 'common/enums';
+import { useTranslation } from 'react-i18next';
 
 export interface IFilterPagination {
   skipCount: number;
@@ -19,6 +20,7 @@ export interface IFilterPagination {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 let failTokenRecheck: any = null;
 const RequestTemplates = () => {
+  const { t } = useTranslation();
   const isLargeScreen = useMediaQuery('(min-width: 1024px)');
   const { hasPermission } = useUserPermissions();
   const navigate = useNavigate();
@@ -42,7 +44,7 @@ const RequestTemplates = () => {
   }, [data]);
 
   // make sure no leak
-  failTokenRecheck && clearTimeout(failTokenRecheck)
+  failTokenRecheck && clearTimeout(failTokenRecheck);
   failTokenRecheck = setTimeout(() => {
     if (!hasPermission(Permissions.VIEW_WORKFLOW_DEFINITIONS)) {
       removeItem(LocalStorageKeys.accessToken);
@@ -60,7 +62,7 @@ const RequestTemplates = () => {
         marginTop={isLargeScreen ? '0px' : '50px'}
       >
         <Page.HeaderLeft>
-          <Page.Heading>Request Templates</Page.Heading>
+          <Page.Heading>{t('REQUEST_TEMPLATES_PAGE.PAGE_TITLE')}</Page.Heading>
         </Page.HeaderLeft>
         <Page.HeaderRight />
       </Page.Header>

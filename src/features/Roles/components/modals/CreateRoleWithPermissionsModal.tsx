@@ -16,6 +16,7 @@ import {
 } from 'api/apiHooks/roleHook';
 import { useEffect } from 'react';
 import styles from '../style.module.scss';
+import { useTranslation } from 'react-i18next';
 
 interface CreateRoleModalProps {
   isOpen: boolean;
@@ -37,7 +38,7 @@ export const CreateRoleModal = ({
   const { data: selectedRole, refetch } = useGetOneRole(selectedRoleId || '');
   const { mutate: createRole } = useCreateRole();
   const { mutate: updateRole } = useUpdateRole();
-
+  const { t } = useTranslation();
   const roleName = selectedRole ? selectedRole.name : initialRoleName;
 
   useEffect(() => {
@@ -67,7 +68,9 @@ export const CreateRoleModal = ({
       <ModalOverlay />
       <ModalContent className={styles.modalContent}>
         <ModalHeader fontSize="lg">
-          {selectedRoleId ? 'Edit Role' : 'Create Role'}
+          {selectedRoleId
+            ? t('ROLE_PAGE.EDIT_ROLE')
+            : t('ROLE_PAGE.CREATE_ROLE')}
         </ModalHeader>
         <Divider />
         <ModalCloseButton />

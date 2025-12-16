@@ -9,12 +9,56 @@ exports[`Login Page Check Display form Log in 1`] = `
       class="chakra-stack css-1ftleaf"
     >
       <div
-        class="css-13rbvqk"
+        class="css-800tke"
       >
         <img
           class="chakra-image css-1fzkik5"
           src=""
         />
+        <div
+          class="css-0"
+          style="margin-right: 16px;"
+        >
+          <div
+            class="chakra-select__wrapper css-lwt7by"
+          >
+            <select
+              class="chakra-select css-1lbqa4q"
+            >
+              <option
+                value="vi"
+              >
+                🇻🇳
+                 
+                Viet Nam
+              </option>
+              <option
+                value="en"
+              >
+                🇺🇸
+                 
+                English
+              </option>
+            </select>
+            <div
+              class="chakra-select__icon-wrapper css-162mkon"
+            >
+              <svg
+                aria-hidden="true"
+                class="chakra-select__icon"
+                focusable="false"
+                role="presentation"
+                style="width: 1em; height: 1em; color: currentColor;"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"
+                  fill="currentColor"
+                />
+              </svg>
+            </div>
+          </div>
+        </div>
       </div>
       <div
         class="chakra-stack css-6jsom3"

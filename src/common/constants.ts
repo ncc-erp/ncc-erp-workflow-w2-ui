@@ -29,6 +29,43 @@ export const requestTemplateWorkflow = {
   WFH_REQUEST: 'WFH Request',
 };
 
+export const REQUEST_TEMPLATE_I18N_KEY: Record<string, string> = {
+  'Change Office Request': 'MY_REQUESTS_PAGE.REQUEST_TEMPLATES.CHANGE_OFFICE',
+  'Device Request': 'MY_REQUESTS_PAGE.REQUEST_TEMPLATES.DEVICE_REQUEST',
+  'Office Equipment Request':
+    'MY_REQUESTS_PAGE.REQUEST_TEMPLATES.OFFICE_EQUIPMENT',
+  'WFH Request': 'MY_REQUESTS_PAGE.REQUEST_TEMPLATES.WFH_REQUEST',
+  'User Task': 'MY_REQUESTS_PAGE.REQUEST_TEMPLATES.USER_TASK',
+  'Not Found': 'MY_REQUESTS_PAGE.REQUEST_TEMPLATES.NOT_FOUND',
+  'Probationary Confirmation Request':
+    'MY_REQUESTS_PAGE.REQUEST_TEMPLATES.PROBATION_CONFIRMATION_REQUEST',
+  WFH_Request: 'MY_REQUESTS_PAGE.REQUEST_TEMPLATES.WFH_REQUEST',
+  NotFound: 'MY_REQUESTS_PAGE.REQUEST_TEMPLATES.NOT_FOUND',
+};
+
+export const resolveRequestTemplateI18nKey = (
+  displayName?: string
+): string | undefined => {
+  if (!displayName) return undefined;
+  // try direct exact match first
+  if (REQUEST_TEMPLATE_I18N_KEY[displayName])
+    return REQUEST_TEMPLATE_I18N_KEY[displayName];
+
+  const normalize = (s: string) =>
+    s
+      .replace(/([a-z])([A-Z])/g, '$1 $2') // split camel/pascal: NotFound -> Not Found
+      .replace(/[_-]+/g, ' ') // underscores / hyphens -> space
+      .replace(/\s+/g, ' ') // collapse whitespace
+      .trim()
+      .toLowerCase();
+
+  const norm = normalize(displayName);
+  const found = Object.keys(REQUEST_TEMPLATE_I18N_KEY).find(
+    (k) => normalize(k) === norm
+  );
+  return found ? REQUEST_TEMPLATE_I18N_KEY[found] : undefined;
+};
+
 export const BoardColumnStatus = {
   Pending: 0,
   Approved: 1,

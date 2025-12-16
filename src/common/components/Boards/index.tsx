@@ -56,11 +56,13 @@ import { useClearCacheTask } from './useClearCacheTask';
 import { useNavigate } from 'react-router';
 import TextToolTip from '../textTooltip';
 import { useUserPermissions } from 'hooks/useUserPermissions';
+import { useTranslation } from 'react-i18next';
 
 const fadeIn = keyframes`
   from { opacity: 0; }
   to { opacity: 1; }
 `;
+
 export interface BoardsProps {
   filters: FilterTasks;
   openDetailModal: (task: ITask) => () => void;
@@ -68,6 +70,7 @@ export interface BoardsProps {
 }
 
 const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
+  const { t } = useTranslation();
   const [filter, setFilter] = useState<FilterTasks>(filters);
   const [shortTitle, setShortTitle] = useState<string>('');
   const [requestUser, setRequestUser] = useState<string>('');
@@ -135,6 +138,8 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
   const { reorder, move, getItemStyle, getListStyle } = useBoard();
   const currentUser = useCurrentUser();
   const { clear } = useClearCacheTask();
+  const navigate = useNavigate();
+
   const handleClose = () => {
     onClose();
     setIsRejected(false);
@@ -252,7 +257,7 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
       });
       await actionTaskMutation.mutateAsync({ id, action });
       toast({
-        title: `Send action successfully!`,
+        title: t('TASKS_PAGE.MESSAGES.SEND_ACTION_SUCCESS'),
         status: 'success',
       });
       refetchPending();
@@ -308,7 +313,10 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
         reason,
       })
       .then(() => {
-        toast({ title: 'Rejected Task Successfully!', status: 'success' });
+        toast({
+          title: t('TASKS_PAGE.MESSAGES.REJECTED_TASK_SUCCESS'),
+          status: 'success',
+        });
       })
       .catch((error) => {
         console.error(error.response.data.error.message);
@@ -328,7 +336,10 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
         dynamicActionData: approvedData,
       })
       .then(() => {
-        toast({ title: 'Approved Task Successfully!', status: 'success' });
+        toast({
+          title: t('TASKS_PAGE.MESSAGES.APPROVED_TASK_SUCCESS'),
+          status: 'success',
+        });
       })
       .catch((error) => {
         console.error(error.response.data.error.message);
@@ -342,7 +353,6 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
   const id = searchParams.get('id');
   const action = searchParams.get('action');
   const dynamicInput = searchParams.get('input');
-  const navigate = useNavigate();
 
   const handleConfirmExternal = (approvedData?: string) => {
     try {
@@ -382,7 +392,7 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
     }
 
     if (!checkPermissionConfirmTask(id)) {
-      toast({ title: "you don't have permission!", status: 'error' });
+      toast({ title: t('TASKS_PAGE.MESSAGES.NO_PERMISSION'), status: 'error' });
       return navigate('/request-templates');
     }
 
@@ -403,7 +413,7 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
 
     setIsExternal(true);
     onOpen();
-  }, [id, action, dynamicInput, onOpen, loadPending, listPending, navigate]);
+  }, [id, action, dynamicInput, onOpen, loadPending, listPending, navigate, t]);
 
   const getQuantityTasks = (ind: number) => {
     let result = '';
@@ -435,6 +445,11 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
 
   const formatShortId = (id: string) => {
     return id.slice(0, 5);
+  };
+
+  const getColumnLabel = (ind: number) => {
+    const statusKeys = ['PENDING', 'APPROVED', 'REJECTED'];
+    return t(`TASKS_PAGE.TASK_STATUS.${statusKeys[ind]}`);
   };
 
   return (
@@ -494,7 +509,7 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
                       className={styles.columnLabel}
                       style={{ color: color, backgroundColor: bg }}
                     >
-                      {Object.keys(BoardColumnStatus)[ind]}
+                      {getColumnLabel(ind)}
                       {getQuantityTasks(ind)}
                     </div>
 
@@ -584,13 +599,17 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
                                     </Flex>
 
                                     <Flex gap={2}>
-                                      <Text>Request user:</Text>
+                                      <Text>
+                                        {t('TASKS_PAGE.BOARD.REQUEST_USER')}:
+                                      </Text>
                                       <Tooltip label={item.email}>
                                         <div>{item.authorName}</div>
                                       </Tooltip>
                                     </Flex>
                                     <Flex gap={2}>
-                                      <Text>Current State:</Text>
+                                      <Text>
+                                        {t('TASKS_PAGE.BOARD.CURRENT_STATE')}:
+                                      </Text>
                                       {item.description}
                                     </Flex>
                                     <Flex
@@ -602,7 +621,9 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
                                       }}
                                     >
                                       <Flex gap={2}>
-                                        <Text>Assign:</Text>
+                                        <Text>
+                                          {t('TASKS_PAGE.BOARD.ASSIGN')}:
+                                        </Text>
                                         {item.emailTo
                                           .map((email) => email.split('@')[0])
                                           .join(', ')}
@@ -636,7 +657,9 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
                                                 _hover={{ bg: buttonHover }}
                                                 iconSpacing={1}
                                               >
-                                                More Actions
+                                                {t(
+                                                  'TASKS_PAGE.BOARD.MORE_ACTIONS'
+                                                )}
                                               </MenuButton>
                                               <MenuList>
                                                 {item.otherActionSignals.map(
@@ -672,7 +695,9 @@ const Boards = ({ filters, openDetailModal }: BoardsProps): JSX.Element => {
                                       flexWrap="wrap"
                                     >
                                       <Flex gap={2}>
-                                        <Text>Date:</Text>
+                                        <Text>
+                                          {t('TASKS_PAGE.BOARD.DATE')}:
+                                        </Text>
                                         {formatDate(
                                           new Date(item?.creationTime)
                                         )}

@@ -20,6 +20,8 @@ import { ColorThemeMode, MaxFailedAccessAttempts } from 'common/constants';
 import { useEffect } from 'react';
 import { toast } from 'common/components/StandaloneToast';
 import SvgMezon from 'assets/svg/mezon-logo-black.svg';
+import { LanguageSwitcher } from 'common/components/LanguageSwitcher';
+import { useTranslation } from 'react-i18next';
 
 const initialLoginParams: LoginParams = {
   userNameOrEmailAddress: '',
@@ -30,6 +32,7 @@ const initialLoginParams: LoginParams = {
 const Login = () => {
   const bg = useColorModeValue(ColorThemeMode.LIGHT, ColorThemeMode.DARK);
 
+  const { t } = useTranslation();
   // Mezon button styles
   const mezonBtnColor = useColorModeValue('white', 'stone.900');
   const mezonBtnBackground = useColorModeValue('stone.900', 'stone.100');
@@ -109,8 +112,14 @@ const Login = () => {
         backgroundColor={bg}
         alignItems="left"
       >
-        <Box width="full">
+        <Box
+          width="full"
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
+        >
           <Image h="36px" src={Logo} />
+          <LanguageSwitcher />
         </Box>
         <VStack
           flex={1}
@@ -120,7 +129,7 @@ const Login = () => {
           spacing="20px"
         >
           <Heading as="h1" size="md" textAlign="left" w="full" fontWeight={700}>
-            Sign In
+            {t('LOGIN_PAGE.TITLE')}
           </Heading>
           {(import.meta.env.VITE_MODE == 'development' ||
             import.meta.env.MODE !== 'production') && (
@@ -132,21 +141,20 @@ const Login = () => {
               <VStack spacing="14px">
                 <TextField
                   h="50px"
-                  placeholder="Username or email address"
+                  placeholder={t('LOGIN_PAGE.USER_NAME_PLACEHOLDER')}
                   fontSize="sm"
                   error={errors.userNameOrEmailAddress?.message}
                   {...register('userNameOrEmailAddress', {
-                    required:
-                      'The Username or email address field is required!',
+                    required: `${t('LOGIN_PAGE.USER_NAME_REQUIRED')}`,
                   })}
                 />
                 <PasswordField
                   h="50px"
-                  placeholder="Password"
+                  placeholder={t('LOGIN_PAGE.PASSWORD_PLACEHOLDER')}
                   fontSize="sm"
                   error={errors.password?.message}
                   {...register('password', {
-                    required: 'The password field is required!',
+                    required: `${t('LOGIN_PAGE.PASSWORD_REQUIRED')}`,
                   })}
                   iconsProps={{
                     w: '18px',
@@ -164,7 +172,7 @@ const Login = () => {
                   colorScheme="gray"
                   w="full"
                 >
-                  Sign in
+                  {t('LOGIN_PAGE.BUTTON_TITLE_SIGN_IN')}
                 </Button>
               </VStack>
             </form>
@@ -187,7 +195,7 @@ const Login = () => {
             gap={4}
           >
             <img src={SvgMezon} width={24} />
-            Sign in with Mezon
+            {t('LOGIN_PAGE.BUTTON_TITLE_SIGN_IN_WITH_MEZON')}
           </Button>
         </VStack>
       </VStack>

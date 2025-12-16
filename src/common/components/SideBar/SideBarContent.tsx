@@ -40,6 +40,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSetAppConfig } from 'stores/appConfig';
 import { removeItem } from 'utils';
 import { CurrentUser } from '../CurrentUser';
+import { useTranslation } from 'react-i18next';
 
 interface SideBarContentProps {
   isLargeScreen: boolean;
@@ -50,15 +51,16 @@ export const SideBarContent = ({
   isLargeScreen,
   isInMezon,
 }: SideBarContentProps) => {
+  const { t } = useTranslation();
   const { colorMode, toggleColorMode } = useColorMode();
   const { renderIfAllowed, hasPermission } = useUserPermissions();
-  
+
   const styles = {
     commonHoverEffect: {
       backgroundColor: 'rgba(255, 255, 255, 0.1)',
       borderColor: 'stoneAlpha.200/20',
     },
-    
+
     accordionButton: {
       borderRadius: '0.375rem',
       p: 0,
@@ -142,21 +144,23 @@ export const SideBarContent = ({
   const NavList = [
     {
       to: '/request-templates',
-      text: 'Request templates',
+      text: t('SIDE_BAR.REQUEST_TEMPLATES'),
       icon: TbAppsFilled,
       permission: Permissions.WORKFLOW_DEFINITIONS,
     },
     {
       to: '/my-requests',
       text: hasPermission(Permissions.VIEW_ALL_WORKFLOW_INSTANCES)
-        ? 'Requests'
-        : 'My requests',
+        ? t('SIDE_BAR.REQUESTS')
+        : t('SIDE_BAR.MY_REQUESTS'),
       icon: TbArticleFilledFilled,
       permission: Permissions.WORKFLOW_INSTANCES,
     },
     {
       to: '/tasks',
-      text: hasPermission(Permissions.VIEW_ALL_TASKS) ? 'Tasks' : 'My tasks',
+      text: hasPermission(Permissions.VIEW_ALL_TASKS)
+        ? t('SIDE_BAR.TASKS')
+        : t('SIDE_BAR.MY_TASKS'),
       icon: TbLayoutBoard,
       permission: Permissions.TASKS,
     },
@@ -165,36 +169,36 @@ export const SideBarContent = ({
   const AdminNavList = [
     {
       to: '/administration',
-      text: 'Administration',
+      text: t('SIDE_BAR.ADMINISTRATION'),
       icon: TbUserCog,
       subMenu: [
         {
           to: '/administration/user-management',
-          text: 'User management',
+          text: t('SIDE_BAR.USER_MANAGEMENT'),
           icon: TbBrandMastercard,
           permission: Permissions.USERS,
         },
         {
           to: '/administration/settings',
-          text: 'Settings',
+          text: t('SIDE_BAR.SETTINGS'),
           icon: TbSettingsBolt,
           permission: Permissions.SETTINGS,
         },
         {
           to: '/administration/roles',
-          text: 'Roles',
+          text: t('SIDE_BAR.ROLES'),
           icon: TbUserShield,
           permission: Permissions.ROLES,
         },
         {
           to: '/administration/permissions',
-          text: 'Manage permissions',
+          text: t('SIDE_BAR.MANAGE_PERMISSIONS'),
           icon: TbShieldLock,
           permission: Permissions.PERMISSIONS,
         },
         {
           to: 'administration/webhooks',
-          text: 'Webhooks',
+          text: t('SIDE_BAR.WEBHOOKS'),
           icon: TbBell,
           permission: Permissions.WEBHOOKS,
         },
@@ -202,19 +206,19 @@ export const SideBarContent = ({
     },
   ];
   const ReportNavList = [
-  {
-    to: '/report',
-    text: 'Report',
-    icon: TbReportSearch,
-    subMenu: [
-      {
-        to: '/report/report-wfh',
-        text: 'Report WFH',
-        icon: TbHomeEdit,
-        permission: Permissions.VIEW_WFH_REPORTS,
-      },
-    ],
-  },
+    {
+      to: '/report',
+      text: t('SIDE_BAR.REPORT'),
+      icon: TbReportSearch,
+      subMenu: [
+        {
+          to: '/report/report-wfh',
+          text: t('SIDE_BAR.REPORT_WFH'),
+          icon: TbHomeEdit,
+          permission: Permissions.VIEW_WFH_REPORTS,
+        },
+      ],
+    },
   ];
 
   const navigate = useNavigate();
@@ -289,17 +293,10 @@ export const SideBarContent = ({
               Permissions.WEBHOOKS,
             ].some(hasPermission);
             return hasAdminPermission ? (
-              <Accordion
-                {...styles.accordionContainer}
-                key={adminNav.to}
-              >
+              <Accordion {...styles.accordionContainer} key={adminNav.to}>
                 <AccordionItem>
-                  <AccordionButton
-                    {...styles.accordionButton}
-                  >
-                    <Link
-                      {...styles.adminLink}
-                    >
+                  <AccordionButton {...styles.accordionButton}>
+                    <Link {...styles.adminLink}>
                       <Icon fontSize="xl" as={adminNav.icon} />
                       {adminNav.text}
                     </Link>
@@ -326,21 +323,11 @@ export const SideBarContent = ({
               hasPermission
             );
             return hasReportPermission ? (
-              <Accordion
-                {...styles.accordionContainer}
-                key={reportNav.to}
-              >
+              <Accordion {...styles.accordionContainer} key={reportNav.to}>
                 <AccordionItem>
-                  <AccordionButton
-                    {...styles.accordionButton}
-                  >
-                    <Link
-                      {...styles.reportLink}
-                    >
-                      <Icon
-                        fontSize="xl"
-                        as={reportNav.icon}
-                      />
+                  <AccordionButton {...styles.accordionButton}>
+                    <Link {...styles.reportLink}>
+                      <Icon fontSize="xl" as={reportNav.icon} />
                       {reportNav.text}
                     </Link>
                     <AccordionIcon />
@@ -382,18 +369,18 @@ export const SideBarContent = ({
             {...styles.footerButton}
           >
             <HiDocumentArrowUp size="20px" />
-            <Text>Release note</Text>
+            <Text>{t('SIDE_BAR.RELEASE_NOTE')}</Text>
           </Button>
 
           <Button
             onClick={() => {
               window.open(LinkDocRedirect.USER_GUIDE_DOCS, '_blank');
             }}
-            title="User guide"
+            title={t('SIDE_BAR.USER_GUIDE')}
             {...styles.footerButton}
           >
             <FaQuestionCircle size="20px" />
-            <Text>User guide</Text>
+            <Text>{t('SIDE_BAR.USER_GUIDE')}</Text>
           </Button>
         </Box>
         <Box
@@ -418,7 +405,7 @@ export const SideBarContent = ({
               >
                 <MdLogout size={20} />
                 <Text fontWeight={500} fontSize={14}>
-                  Log out
+                  {t('SIDE_BAR.LOG_OUT')}
                 </Text>
               </Button>
             ) : null}
@@ -433,12 +420,12 @@ export const SideBarContent = ({
             {colorMode === 'light' ? (
               <>
                 <FaMoon />
-                <Text ml={2}>Dark</Text>
+                <Text ml={2}>{t('SIDE_BAR.DARK')}</Text>
               </>
             ) : (
               <>
                 <FaSun />
-                <Text ml={2}>Light</Text>
+                <Text ml={2}>{t('SIDE_BAR.LIGHT')}</Text>
               </>
             )}
           </Button>

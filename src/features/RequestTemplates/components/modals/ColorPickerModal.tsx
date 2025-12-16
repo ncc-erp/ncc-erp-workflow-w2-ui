@@ -11,6 +11,7 @@ import {
 import { useState } from 'react';
 import { HexColorPicker } from 'react-colorful';
 import styles from '../style.module.scss';
+import { useTranslation } from 'react-i18next';
 interface ColorPickerModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -22,6 +23,7 @@ export const ColorPickerModal = ({
   onClose,
   OnColorSave,
 }: ColorPickerModalProps) => {
+  const { t } = useTranslation();
   const [color, setColor] = useState('#aabbcc');
   const onColorChange = () => {
     OnColorSave(color);
@@ -31,7 +33,9 @@ export const ColorPickerModal = ({
     <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={true}>
       <ModalOverlay />
       <ModalContent className={styles.customModal}>
-        <ModalHeader fontSize="md">Change color settings:</ModalHeader>
+        <ModalHeader fontSize="md">
+          {t('REQUEST_TEMPLATES_PAGE.CHANGE_COLOR_SETTINGS')}
+        </ModalHeader>
         <Divider></Divider>
         <ModalCloseButton />
         <ModalBody>
@@ -67,7 +71,7 @@ export const ColorPickerModal = ({
               colorScheme="green"
               onClick={onColorChange}
             >
-              Save
+              {t('REQUEST_TEMPLATES_PAGE.SAVE_BUTTON')}
             </Button>
           </div>
         </ModalBody>
