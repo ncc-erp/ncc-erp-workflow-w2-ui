@@ -24,7 +24,11 @@ import {
 } from 'api/apiHooks/requestHooks';
 import { ErrorDisplay } from 'common/components/ErrorDisplay';
 import { toast } from 'common/components/StandaloneToast';
-import { GUID_ID_DEFAULT_VALUE, QueryKeys } from 'common/constants';
+import {
+  GUID_ID_DEFAULT_VALUE,
+  QueryKeys,
+  PropertyTypes,
+} from 'common/constants';
 import { option } from 'common/types';
 import {
   IUpdateInputFormParams,
@@ -55,7 +59,11 @@ const DefineInputForm = ({
   isChangedBySubmitSettings,
 }: DefineInputFormProps) => {
   const queryClient = useQueryClient();
-  const { data: inputType } = useInputDefinition();
+  const { data: inputTypeFromApi } = useInputDefinition();
+  const inputType: option[] = [
+    ...(Array.isArray(inputTypeFromApi) ? inputTypeFromApi : []),
+    ...PropertyTypes,
+  ];
   const { mutateAsync: updateMutate } = useUpdateWorkflowInput();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const {
