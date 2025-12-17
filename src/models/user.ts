@@ -49,6 +49,7 @@ export interface LoginMezonByHashParams {
   userEmail: string;
   dataCheck: string;
   hashKey: string;
+  mezonUserId: string;
 }
 
 export interface MezonUser {

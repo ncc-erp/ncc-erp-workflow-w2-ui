@@ -121,12 +121,13 @@ export const useMezonLogin = () => {
 
         let userName = mezonUserProfile?.user?.username || '';
         const userEmail = mezonUserProfile?.email || '';
-
+        let mezonUserId = '';
         const userMatch = raw.match(/(?:^|&)user=([^&]+)/);
         if (userMatch) {
           const userJson = decodeURIComponent(userMatch[1]);
           const u = JSON.parse(userJson);
           userName = u?.username || userName;
+          mezonUserId = u?.id || '';
         }
 
         const { token, accessFailedCount } = await loginMezonByHashMutate({
@@ -134,6 +135,7 @@ export const useMezonLogin = () => {
           hashKey,
           userName,
           userEmail,
+          mezonUserId,
         });
 
         if (token) {

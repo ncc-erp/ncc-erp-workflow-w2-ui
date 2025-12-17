@@ -10,7 +10,7 @@ type SelectFieldFieldProps = Omit<InputWrapperProps, 'children'> & {
   value: string;
   name: string;
   control: Control;
-  handleChange: (value: string, variable: string) => void;
+  handleChange: (value: string, variable: string, label?: string) => void;
   options: option[];
   isRequired: boolean;
 };
@@ -82,7 +82,7 @@ export const SearchableSelectField = ({
           {...field}
           onChange={(e) => {
             field.onChange(e);
-            handleChange(e?.value as string, name);
+            handleChange(e?.value as string, name, e?.label as string);
           }}
           onMenuOpen={() => {
             setIsMenuOpen(true);

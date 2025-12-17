@@ -28,7 +28,11 @@ import { ErrorMessage } from '@hookform/error-message';
 import { ErrorDisplay } from 'common/components/ErrorDisplay';
 import { SearchableSelectField } from 'common/components/SearchableSelectField';
 import { toast } from 'common/components/StandaloneToast';
-import { ColorThemeMode, WFH_FORMAT_DATE } from 'common/constants';
+import {
+  ColorThemeMode,
+  DayoffReasonOptions,
+  WFH_FORMAT_DATE,
+} from 'common/constants';
 import { option } from 'common/types';
 import { isWithinInterval, subWeeks } from 'date-fns';
 import { useCurrentUser } from 'stores/user';
@@ -76,7 +80,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
   } = useForm<FormParams>({
     criteriaMode: 'all',
   });
-  const { mutateAsync: createMutate , isLoading} = useNewRequestWorkflow();
+  const { mutateAsync: createMutate, isLoading } = useNewRequestWorkflow();
   const shortHeader: string = useMemo(() => {
     return (
       inputDefinition?.propertyDefinitions.find((item) => item.isTitle == true)
@@ -85,7 +89,6 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
   }, [inputDefinition?.propertyDefinitions]);
 
   const onSubmit = async () => {
-
     const formParamsFormatted = { ...formParams };
     Object.keys(formParamsFormatted).forEach((key) => {
       if (
@@ -121,7 +124,11 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
     setFormParams(updatedFormParams);
   };
 
-  const handleSelectChangeValue = (value: string, variable: string) => {
+  const handleSelectChangeValue = (
+    value: string,
+    variable: string,
+    label?: string
+  ) => {
     let updatedFormParams = { ...formParams };
 
     if (variable == 'Staff') {
@@ -130,6 +137,9 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
     }
 
     updatedFormParams[variable] = value;
+    if (label) {
+      updatedFormParams[`${variable}_label`] = label;
+    }
     setFormParams(updatedFormParams);
   };
 
@@ -158,6 +168,11 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
         }));
         break;
       }
+
+      case 'DayoffReason': {
+        transformedData = [...DayoffReasonOptions];
+        break;
+      }
     }
 
     transformedData.unshift({ value: '', label: '' });
@@ -173,6 +188,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
         return formParams[fieldname] ?? userCurrentProject?.code;
 
       case 'UserList':
+      case 'DayoffReason':
         return formParams[fieldname] ?? '';
     }
   };
@@ -226,6 +242,7 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
       case 'OfficeList':
       case 'MyProject':
       case 'UserList':
+      case 'DayoffReason':
         formParams[fieldname] = getDefaultValueSelected(Field?.type, fieldname);
         return (
           <FormControl key={Field?.name} color={'dark'}>
