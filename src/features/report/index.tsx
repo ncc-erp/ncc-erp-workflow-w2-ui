@@ -10,6 +10,14 @@ import { MobileHeader } from 'common/components/MobileHeader';
 const PostAndWFH = () => {
   const { hasPermission } = useUserPermissions();
   const isLargeScreen = useMediaQuery('(min-width: 1024px)');
+  const isMediumScreen = useMediaQuery('(min-width: 768px)');
+  const columnVisibility = useMemo(
+    () => ({
+      creationTime: isMediumScreen,
+      remoteDate: isMediumScreen,
+    }),
+    [isMediumScreen]
+  );
   const isHasPermission = useMemo(
     () => hasPermission(Permissions.VIEW_WFH_REPORTS),
     [hasPermission]
@@ -30,7 +38,7 @@ const PostAndWFH = () => {
         <Page.HeaderRight />
       </Page.Header>
       <Page.Body>
-        <TablePostAndWFH />
+        <TablePostAndWFH columnVisibility={columnVisibility} />
       </Page.Body>
     </Page>
   ) : (

@@ -37,8 +37,12 @@ const initialValues: ISettingValue = {
   name: '',
   email: '',
 };
-
-export const DirectorSettings = () => {
+interface DirectorSettingsProps {
+  columnVisibility?: Record<string, boolean>;
+}
+export const DirectorSettings = ({
+  columnVisibility,
+}: DirectorSettingsProps) => {
   const { sideBarWidth } = useRecoilValue(appConfigState);
   const { data, isLoading, refetch } = useGetSettingList(initialFilter);
   const [updateSetting, setUpdateSetting] = useState({ ...initialValues });
@@ -234,6 +238,7 @@ export const DirectorSettings = () => {
               isHighlight={true}
               onRowHover={true}
               dataTestId="director-group-setting-item"
+              columnVisibility={columnVisibility}
             />
           </Box>
         </EmptyWrapper>

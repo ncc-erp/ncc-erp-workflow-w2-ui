@@ -53,8 +53,12 @@ const initialSorting: SortingState = [
     desc: false,
   },
 ];
-
-export const UserManagementTable = () => {
+interface UserManagementTableProps {
+  columnVisibility?: Record<string, boolean>;
+}
+export const UserManagementTable = ({
+  columnVisibility,
+}: UserManagementTableProps) => {
   const { sideBarWidth } = useRecoilValue(appConfigState);
   const [filterUser, setFilterUser] = useState<FilterUserParams>(initialFilter);
   const [sorting, setSorting] = useState<SortingState>(initialSorting);
@@ -309,6 +313,7 @@ export const UserManagementTable = () => {
             isHighlight={true}
             dataTestId="user-manager-item"
             onRowClick={handleRowClick}
+            columnVisibility={columnVisibility}
           />
         </Box>
       </EmptyWrapper>

@@ -83,6 +83,18 @@ export const OptionsDisplay = [
 
 export const TasksBoard = () => {
   const isLargeScreen = useMediaQuery('(min-width: 768px)');
+  const isSmallScreen = useMediaQuery('(min-width: 480px)');
+  const columnVisibility = useMemo(
+    () => ({
+      creationTime: isLargeScreen,
+      id: isLargeScreen,
+      emailTo: isLargeScreen,
+      status: isSmallScreen,
+      authorName: isSmallScreen,
+      description: isLargeScreen,
+    }),
+    [isLargeScreen, isSmallScreen]
+  );
   const user = useCurrentUser();
   const isPublish = true;
   const [modalState, setModalState] = useState(initialModalStatus);
@@ -290,7 +302,11 @@ export const TasksBoard = () => {
           ))}
         </Wrap>
         {(display === DislayValue.LIST || !isLargeScreen) && (
-          <ListTask filters={filter} openDetailModal={openModal} />
+          <ListTask
+            filters={filter}
+            openDetailModal={openModal}
+            columnVisibility={columnVisibility}
+          />
         )}
         {display === DislayValue.BOARD && isLargeScreen && (
           <Boards

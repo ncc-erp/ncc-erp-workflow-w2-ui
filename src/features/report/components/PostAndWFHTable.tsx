@@ -67,8 +67,10 @@ const initialSorting: SortingState = [
     desc: true,
   },
 ];
-
-export const TablePostAndWFH = () => {
+interface TablePostAndWFHProps {
+  columnVisibility?: Record<string, boolean>;
+}
+export const TablePostAndWFH = ({ columnVisibility }: TablePostAndWFHProps) => {
   const [filter, setFilter] = useState<FilterWfhParams>(initialFilter);
   const [sorting, setSorting] = useState<SortingState>(initialSorting);
   const columnHelper = createColumnHelper<IPostAndWFH>();
@@ -92,7 +94,7 @@ export const TablePostAndWFH = () => {
           id: 'email',
           enableSorting: true,
           sortDescFirst: true,
-          minSize: 300,
+          minSize: 250,
           header: () => <Box>Email address</Box>,
           cell: (info) => <Box>{info.getValue()}</Box>,
         }),
@@ -107,7 +109,7 @@ export const TablePostAndWFH = () => {
               sx={{
                 wordWrap: 'break-word',
                 whiteSpace: 'normal',
-                minWidth: { base: '200px', md: '400px' },
+                minWidth: { base: '200px', md: '250px' },
                 maxWidth: { base: '90vw', md: '800px' },
               }}
             >
@@ -504,6 +506,7 @@ export const TablePostAndWFH = () => {
               sorting={sorting}
               onRowHover={true}
               isLoading={isLoading || isRefetching}
+              columnVisibility={columnVisibility}
             />
           </Box>
         </EmptyWrapper>

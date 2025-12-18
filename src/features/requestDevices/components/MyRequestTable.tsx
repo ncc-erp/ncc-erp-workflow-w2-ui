@@ -59,8 +59,10 @@ const initialSorting: SortingState = [
     desc: true,
   },
 ];
-
-export const MyRequestTable = () => {
+interface MyRequestTableProps {
+  columnVisibility?: Record<string, boolean>;
+}
+export const MyRequestTable = ({ columnVisibility }: MyRequestTableProps) => {
   const currentUser = useCurrentUser();
   const isLargeScreen = useMediaQuery('(min-width: 768px)');
   const initialFilter: FilterRequestParams = {
@@ -148,7 +150,7 @@ export const MyRequestTable = () => {
               alignItems: 'start',
               flexDirection: 'column',
               gap: '5px',
-              minWidth: '400px',
+              minWidth: '200px',
             }}
           >
             <TextToolTip
@@ -477,6 +479,7 @@ export const MyRequestTable = () => {
               isRefetching={isRefetching}
               pageSize={filter.maxResultCount}
               dataTestId="my-request-item"
+              columnVisibility={columnVisibility}
             />
           </Box>
 

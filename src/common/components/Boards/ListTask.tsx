@@ -52,6 +52,7 @@ import { PaginationMobile } from '../PaginationMobile';
 interface Props {
   filters: FilterTasks;
   openDetailModal: (data: ITask) => () => void;
+  columnVisibility?: Record<string, boolean>;
 }
 
 const initDataForm = {
@@ -59,7 +60,11 @@ const initDataForm = {
   taskId: '',
 };
 
-export const ListTask = ({ filters, openDetailModal }: Props) => {
+export const ListTask = ({
+  filters,
+  openDetailModal,
+  columnVisibility,
+}: Props) => {
   const [filter, setFilter] = useState<FilterTasks>(filters);
   const columnHelper = createColumnHelper<ITask>();
   const isLargeScreen = useMediaQuery('(min-width: 1024px)');
@@ -157,7 +162,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
                   alignItems: 'start',
                   flexDirection: 'column',
                   gap: '5px',
-                  minWidth: '400px',
+                  minWidth: '230px',
                 }}
               >
                 <TextToolTip
@@ -507,6 +512,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
                   isRefetching={isRefetching}
                   pageSize={filter.maxResultCount}
                   dataTestId="task-item"
+                  columnVisibility={columnVisibility}
                 />
               </Box>
             </Box>

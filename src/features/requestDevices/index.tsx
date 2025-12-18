@@ -16,7 +16,19 @@ const MyRequests = () => {
     () => hasPermission(Permissions.VIEW_WORKFLOW_INSTANCES),
     [hasPermission]
   );
-
+  const isMediumScreen = useMediaQuery('(min-width: 768px)');
+  const isSmallScreen = useMediaQuery('(min-width: 480px)');
+  const columnVisibility = useMemo(
+    () => ({
+      stakeHolders: isMediumScreen,
+      createdAt: isMediumScreen,
+      lastExecutedAt: isMediumScreen,
+      status: isMediumScreen,
+      currentStates: isSmallScreen,
+      userRequestName: isSmallScreen,
+    }),
+    [isMediumScreen, isSmallScreen]
+  );
   return canViewRequests ? (
     <Page>
       {!isLargeScreen && <MobileHeader />}
@@ -32,7 +44,7 @@ const MyRequests = () => {
         <Page.HeaderRight />
       </Page.Header>
       <Page.Body>
-        <MyRequestTable />
+        <MyRequestTable columnVisibility={columnVisibility} />
       </Page.Body>
     </Page>
   ) : (
