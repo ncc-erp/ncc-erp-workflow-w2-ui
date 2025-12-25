@@ -244,7 +244,7 @@ importers:
         specifier: ^0.6.15
         version: 0.6.15(eslint@8.49.0)(typescript@5.2.2)
       husky:
-        specifier: ^8.0.3
+        specifier: ^8.0.0
         version: 8.0.3
       jest:
         specifier: ^29.7.0
