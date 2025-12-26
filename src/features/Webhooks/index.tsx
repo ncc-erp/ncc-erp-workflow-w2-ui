@@ -10,6 +10,13 @@ import { WebhooksBoard } from './components/WebhooksBoard';
 const Webhooks = () => {
   const { hasPermission } = useUserPermissions();
   const isLargeScreen = useMediaQuery('(min-width: 1024px)');
+  const isMediumScreen = useMediaQuery('(min-width: 768px)');
+  const columnVisibility = useMemo(
+    () => ({
+      url: isMediumScreen,
+    }),
+    [isMediumScreen]
+  );
   const canViewWebhook = useMemo(
     () => hasPermission(Permissions.VIEW_WEBHOOKS),
     [hasPermission]
@@ -30,7 +37,7 @@ const Webhooks = () => {
         <Page.HeaderRight />
       </Page.Header>
       <Page.Body>
-        <WebhooksBoard />
+        <WebhooksBoard columnVisibility={columnVisibility} />
       </Page.Body>
     </Page>
   ) : (

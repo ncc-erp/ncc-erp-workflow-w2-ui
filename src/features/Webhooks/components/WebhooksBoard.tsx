@@ -30,7 +30,10 @@ import { useUserPermissions } from 'hooks/useUserPermissions';
 import { Permissions } from 'common/constants';
 import EditWebhookForm from './forms/EditWebhookForm';
 
-export const WebhooksBoard = () => {
+interface WebhooksBoardProps {
+  columnVisibility?: Record<string, boolean>;
+}
+export const WebhooksBoard = ({ columnVisibility }: WebhooksBoardProps) => {
   const { data: webhookData, refetch: refetchWebhooks } = useGetAllWebhooks();
   const { mutate: deleteWebhook } = useDeleteWebhook();
   const { mutate: updateWebhook } = useUpdateWebhook();
@@ -59,6 +62,7 @@ export const WebhooksBoard = () => {
         enableSorting: false,
       },
       {
+        id: 'url',
         accessorKey: 'url',
         header: () => <Box px={6}>Webhook URL</Box>,
         cell: (info) => {
@@ -246,6 +250,7 @@ export const WebhooksBoard = () => {
                 onRowHover={true}
                 isHighlight={true}
                 dataTestId="webhooks-item"
+                columnVisibility={columnVisibility}
               />
             </Box>
           </EmptyWrapper>

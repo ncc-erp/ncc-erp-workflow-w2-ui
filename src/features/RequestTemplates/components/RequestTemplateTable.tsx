@@ -35,12 +35,14 @@ interface RequestTemplateTableProps {
   data: RequestTemplateResult;
   isLoading: boolean;
   refetch: () => void;
+  columnVisibility?: Record<string, boolean>;
 }
 
 export const RequestTemplateTable = ({
   data: { items },
   isLoading,
   refetch,
+  columnVisibility,
 }: RequestTemplateTableProps) => {
   const isLargeScreen = useMediaQuery('(min-width: 1024px)');
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -341,6 +343,7 @@ export const RequestTemplateTable = ({
             isLoading={isLoading}
             onRowHover={true}
             isHighlight={true}
+            columnVisibility={columnVisibility}
             dataTestId="request-template-item"
           />
         </Box>

@@ -47,6 +47,7 @@ interface TableProps<D> {
   isRefetching?: boolean;
   pageSize?: number;
   dataTestId?: string;
+  columnVisibility?: Record<string, boolean>;
 }
 
 const DEFAULT_SKELETON_AMOUNT = 5;
@@ -54,6 +55,7 @@ const DEFAULT_SKELETON_AMOUNT = 5;
 export const Table = <D,>({
   columns,
   data,
+  columnVisibility,
   sorting,
   onSortingChange,
   onRowClick,
@@ -76,6 +78,7 @@ export const Table = <D,>({
     enableSortingRemoval: false,
     state: {
       sorting,
+      columnVisibility,
     },
     onSortingChange,
     getCoreRowModel: getCoreRowModel(),
@@ -227,7 +230,7 @@ export const Table = <D,>({
               {Array.from({ length: pageSize ?? DEFAULT_SKELETON_AMOUNT }).map(
                 (_, rowIndex) => (
                   <Tr key={rowIndex} height="65px">
-                    {table.getAllColumns().map((_column, colIndex) => (
+                    {table.getVisibleLeafColumns().map((_column, colIndex) => (
                       <Td
                         key={colIndex}
                         fontSize={['12px', '12px', '12px', '14px']}

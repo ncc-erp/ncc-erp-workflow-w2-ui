@@ -14,7 +14,18 @@ const UserManagement = () => {
     () => hasPermission(Permissions.VIEW_USERS),
     [hasPermission]
   );
-
+  const isMediumScreen = useMediaQuery('(min-width: 768px)');
+  const isSmallScreen = useMediaQuery('(min-width: 480px)');
+  const columnVisibility = useMemo(
+    () => ({
+      lastModificationTime: isMediumScreen,
+      creationTime: isMediumScreen,
+      mezonUserId: isMediumScreen,
+      roles: isMediumScreen,
+      email: isSmallScreen,
+    }),
+    [isMediumScreen, isSmallScreen]
+  );
   return canViewUsers ? (
     <Page>
       {!isLargeScreen && <MobileHeader />}
@@ -30,7 +41,7 @@ const UserManagement = () => {
         <Page.HeaderRight />
       </Page.Header>
       <Page.Body>
-        <UserManagementTable />
+        <UserManagementTable columnVisibility={columnVisibility} />
       </Page.Body>
     </Page>
   ) : (

@@ -212,7 +212,12 @@ const PermissionsTable = () => {
           <Thead>
             <Tr>
               <Th px={['8px', '12px']}>Permission Group</Th>
-              <Th px={['8px', '12px']}>Code</Th>
+              <Th
+                px={['8px', '12px']}
+                display={{ base: 'none', md: 'table-cell' }}
+              >
+                Code
+              </Th>
               <Th px={['8px', '12px']} textAlign="center">
                 Actions
               </Th>
@@ -226,7 +231,11 @@ const PermissionsTable = () => {
                     <Td fontWeight="bold" fontSize={15} px={['8px', '12px']}>
                       {parent.name}
                     </Td>
-                    <Td fontSize={15} px={['8px', '12px']}>
+                    <Td
+                      fontSize={15}
+                      px={['8px', '12px']}
+                      display={{ base: 'none', md: 'table-cell' }}
+                    >
                       {parent.code}
                     </Td>
                     <Td px={['8px', '12px']}>
@@ -272,7 +281,11 @@ const PermissionsTable = () => {
                         <Td px={['8px', '12px']} fontSize={15}>
                           {child.name}
                         </Td>
-                        <Td fontSize={14} px={['8px', '12px']}>
+                        <Td
+                          fontSize={14}
+                          px={['8px', '12px']}
+                          display={{ base: 'none', md: 'table-cell' }}
+                        >
                           {child.code}
                         </Td>
                         <Td display="flex" px={['8px', '12px']}>
