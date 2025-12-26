@@ -92,7 +92,10 @@ export const SearchableSelectField = ({
           }}
           value={displayValue}
           options={options}
+          menuPortalTarget={document.body}
+          menuPosition="fixed"
           styles={{
+            menuPortal: (base) => ({ ...base, zIndex: 9999 }),
             control: (base, props) => {
               return {
                 ...base,
