@@ -59,4 +59,41 @@
       }
     }
   }
+  .attachments {
+    margin-top: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    .attachmentRow {
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: 6px;
+      background: var(--chakra-colors-gray-50);
+      border: 1px solid var(--chakra-colors-gray-200);
+    }
+
+    .attachmentIcon {
+      color: var(--chakra-colors-blue-500);
+      font-size: 20px; 
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .fileName {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--chakra-colors-gray-700);
+      flex: 1;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .attachmentActions {
+      justify-content: flex-end;
+    }
+  }
   
