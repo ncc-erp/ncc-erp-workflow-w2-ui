@@ -119,7 +119,10 @@ export const Table = <D,>({
       className={styles.tableContainer}
       border={`1px solid ${borderColor}`}
     >
-      <TableComponent border={`1px solid ${borderColor}`}>
+      <TableComponent
+        sx={{ tableLayout: 'fixed' }}
+        border={`1px solid ${borderColor}`}
+      >
         <Thead>
           {table.getHeaderGroups().map((headerGroup) => (
             <Tr key={headerGroup.id} bg={borderColor}>
@@ -227,16 +230,27 @@ export const Table = <D,>({
               {Array.from({ length: pageSize ?? DEFAULT_SKELETON_AMOUNT }).map(
                 (_, rowIndex) => (
                   <Tr key={rowIndex} height="65px">
-                    {table.getAllColumns().map((_column, colIndex) => (
-                      <Td
-                        key={colIndex}
-                        fontSize={['12px', '12px', '12px', '14px']}
-                        borderColor={borderColor}
-                        px={['8px', '12px']}
-                      >
-                        <TableSkeleton />
-                      </Td>
-                    ))}
+                    {table
+                      .getHeaderGroups()[0]
+                      .headers.map((header, colIndex) => {
+                        const DEFAULT_COLUMN_LOADING_WIDTH = '35%';
+                        const columnCustomSize = header.getSize();
+                        const colWidth =
+                          columnCustomSize > 0
+                            ? columnCustomSize
+                            : DEFAULT_COLUMN_LOADING_WIDTH;
+
+                        return (
+                          <Td
+                            key={colIndex}
+                            fontSize={['12px', '12px', '12px', '14px']}
+                            borderColor={borderColor}
+                            px={['8px', '12px']}
+                          >
+                            <TableSkeleton width={colWidth} />
+                          </Td>
+                        );
+                      })}
                   </Tr>
                 )
               )}
@@ -276,6 +290,12 @@ export const Table = <D,>({
                         height={'72px'}
                         fontWeight="medium"
                         px={['8px', '12px']}
+                        sx={{
+                          maxW: '200px',
+                          whiteSpace: 'nowrap',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                        }}
                       >
                         {flexRender(
                           cell.column.columnDef.cell,

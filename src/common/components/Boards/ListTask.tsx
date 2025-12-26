@@ -118,6 +118,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
     return [
       columnHelper.accessor('requestId', {
         id: 'id',
+        size: 50,
         header: () => (
           <Box textAlign="center" w="full">
             ID
@@ -143,6 +144,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
       // }),
       columnHelper.accessor('title', {
         id: 'title',
+        size: 250,
         header: () => <Box textAlign="center">Title</Box>,
         enableSorting: false,
         cell: (info) => {
@@ -182,6 +184,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
       }),
       columnHelper.accessor('authorName', {
         id: 'authorName',
+        size: 150,
         header: 'Request user',
         enableSorting: false,
         cell: (info) => {
@@ -195,12 +198,14 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
       }),
       columnHelper.accessor('description', {
         id: 'description',
+        size: 200,
         header: 'Current State',
         enableSorting: false,
         cell: (info) => info.getValue(),
       }),
       columnHelper.accessor('emailTo', {
         id: 'emailTo',
+        size: 200,
         header: 'Assigned To',
         enableSorting: false,
         cell: (info) =>
@@ -211,6 +216,7 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
       }),
       columnHelper.accessor('status', {
         id: 'status',
+        size: 150,
         header: 'State',
         enableSorting: false,
         cell: (info) => {
@@ -240,11 +246,13 @@ export const ListTask = ({ filters, openDetailModal }: Props) => {
       columnHelper.accessor('creationTime', {
         id: 'creationTime',
         header: 'Created At',
+        size: 150,
         enableSorting: false,
         cell: (info) => formatDate(info.getValue()),
       }),
       columnHelper.display({
         id: 'actions',
+        size: 100,
         enableSorting: false,
         header: () => <Center w="full">Actions</Center>,
         cell: (info) => {
