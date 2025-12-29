@@ -1,7 +1,7 @@
 import { useOffices } from 'api/apiHooks/requestHooks';
 import styles from './style.module.scss';
-import { TbDownload, TbEye, TbFile } from 'react-icons/tb';
-import { Icon } from '@chakra-ui/react';
+import { TbDownload, TbFile } from 'react-icons/tb';
+import { Icon, IconButton, Tooltip, HStack, Text } from '@chakra-ui/react';
 import { useDownloadFile } from 'api/apiHooks';
 
 interface ITextGroup {
@@ -41,21 +41,41 @@ export const TextGroup = ({
         </div>
       )}
       {urls && (
-        <div>
-          {urls.map((url, index) => (
-            <p key={index}>
-              <Icon as={TbFile} />
-              <span>{url.split('/').pop()}</span>
-              <a href={url} target="_blank">
-                <Icon as={TbEye} />
-              </a>
-              <Icon
-                cursor="pointer"
-                as={TbDownload}
-                onClick={() => handleDownload(url.split('/').pop() ?? '')}
-              />
-            </p>
-          ))}
+        <div className={styles.attachments}>
+          {urls.map((url, index) => {
+            const fileName = url.split('/').pop() ?? '';
+
+            return (
+              <HStack
+                key={index}
+                className={styles.attachmentRow}
+                spacing={3}
+                align="center"
+              >
+                <Icon
+                  as={TbFile}
+                  className={styles.attachmentIcon}
+                  boxSize={6}
+                />
+                <Tooltip label={fileName} hasArrow>
+                  <Text className={styles.fileName} isTruncated maxW="100%">
+                    {fileName}
+                  </Text>
+                </Tooltip>
+                <HStack spacing={2} className={styles.attachmentActions}>
+                  <Tooltip label="Download" hasArrow>
+                    <IconButton
+                      aria-label="Download file"
+                      icon={<Icon as={TbDownload} boxSize={5} />}
+                      size="sm"
+                      variant="outline"
+                      onClick={() => handleDownload(fileName)}
+                    />
+                  </Tooltip>
+                </HStack>
+              </HStack>
+            );
+          })}
         </div>
       )}
       {!dates && !urls && (

@@ -191,10 +191,14 @@ exports[`Task Detail Modal 1`] = `
                   >
                     Image
                   </label>
-                  <div>
-                    <p>
+                  <div
+                    class="attachments"
+                  >
+                    <div
+                      class="chakra-stack attachmentRow css-12cfr4k"
+                    >
                       <svg
-                        class="chakra-icon css-13otjrl"
+                        class="chakra-icon attachmentIcon css-1lz7u3x"
                         fill="none"
                         focusable="false"
                         height="1em"
@@ -218,71 +222,56 @@ exports[`Task Detail Modal 1`] = `
                           d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z"
                         />
                       </svg>
-                      <span>
+                      <p
+                        class="chakra-text fileName css-z41lk4"
+                      >
                         sake20.jpg
-                      </span>
-                      <a
-                        href="https://cdn-api.mezon.vn/dev-nccerp/w2/upload/sake20.jpg"
-                        target="_blank"
+                      </p>
+                      <div
+                        class="chakra-stack attachmentActions css-9hjtr8"
                       >
-                        <svg
-                          class="chakra-icon css-13otjrl"
-                          fill="none"
-                          focusable="false"
-                          height="1em"
-                          stroke="currentColor"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          viewBox="0 0 24 24"
-                          width="1em"
-                          xmlns="http://www.w3.org/2000/svg"
+                        <button
+                          aria-label="Download file"
+                          class="chakra-button css-p7mkev"
+                          type="button"
                         >
-                          <path
-                            d="M0 0h24v24H0z"
+                          <svg
+                            aria-hidden="true"
+                            class="chakra-icon css-1vp16hi"
                             fill="none"
-                            stroke="none"
-                          />
-                          <path
-                            d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"
-                          />
-                          <path
-                            d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6"
-                          />
-                        </svg>
-                      </a>
+                            focusable="false"
+                            height="1em"
+                            stroke="currentColor"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            viewBox="0 0 24 24"
+                            width="1em"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M0 0h24v24H0z"
+                              fill="none"
+                              stroke="none"
+                            />
+                            <path
+                              d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2"
+                            />
+                            <path
+                              d="M7 11l5 5l5 -5"
+                            />
+                            <path
+                              d="M12 4l0 12"
+                            />
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
+                    <div
+                      class="chakra-stack attachmentRow css-12cfr4k"
+                    >
                       <svg
-                        class="chakra-icon css-174i3u4"
-                        fill="none"
-                        focusable="false"
-                        height="1em"
-                        stroke="currentColor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        viewBox="0 0 24 24"
-                        width="1em"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M0 0h24v24H0z"
-                          fill="none"
-                          stroke="none"
-                        />
-                        <path
-                          d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2"
-                        />
-                        <path
-                          d="M7 11l5 5l5 -5"
-                        />
-                        <path
-                          d="M12 4l0 12"
-                        />
-                      </svg>
-                    </p>
-                    <p>
-                      <svg
-                        class="chakra-icon css-13otjrl"
+                        class="chakra-icon attachmentIcon css-1lz7u3x"
                         fill="none"
                         focusable="false"
                         height="1em"
@@ -306,68 +295,51 @@ exports[`Task Detail Modal 1`] = `
                           d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z"
                         />
                       </svg>
-                      <span>
+                      <p
+                        class="chakra-text fileName css-z41lk4"
+                      >
                         sake14.jpg
-                      </span>
-                      <a
-                        href="https://cdn-api.mezon.vn/dev-nccerp/w2/upload/sake14.jpg"
-                        target="_blank"
+                      </p>
+                      <div
+                        class="chakra-stack attachmentActions css-9hjtr8"
                       >
-                        <svg
-                          class="chakra-icon css-13otjrl"
-                          fill="none"
-                          focusable="false"
-                          height="1em"
-                          stroke="currentColor"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          viewBox="0 0 24 24"
-                          width="1em"
-                          xmlns="http://www.w3.org/2000/svg"
+                        <button
+                          aria-label="Download file"
+                          class="chakra-button css-p7mkev"
+                          type="button"
                         >
-                          <path
-                            d="M0 0h24v24H0z"
+                          <svg
+                            aria-hidden="true"
+                            class="chakra-icon css-1vp16hi"
                             fill="none"
-                            stroke="none"
-                          />
-                          <path
-                            d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"
-                          />
-                          <path
-                            d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6"
-                          />
-                        </svg>
-                      </a>
-                      <svg
-                        class="chakra-icon css-174i3u4"
-                        fill="none"
-                        focusable="false"
-                        height="1em"
-                        stroke="currentColor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        viewBox="0 0 24 24"
-                        width="1em"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M0 0h24v24H0z"
-                          fill="none"
-                          stroke="none"
-                        />
-                        <path
-                          d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2"
-                        />
-                        <path
-                          d="M7 11l5 5l5 -5"
-                        />
-                        <path
-                          d="M12 4l0 12"
-                        />
-                      </svg>
-                    </p>
+                            focusable="false"
+                            height="1em"
+                            stroke="currentColor"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            viewBox="0 0 24 24"
+                            width="1em"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M0 0h24v24H0z"
+                              fill="none"
+                              stroke="none"
+                            />
+                            <path
+                              d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2"
+                            />
+                            <path
+                              d="M7 11l5 5l5 -5"
+                            />
+                            <path
+                              d="M12 4l0 12"
+                            />
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
