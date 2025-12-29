@@ -230,40 +230,6 @@ exports[`Task Detail Modal 1`] = `
                       <div
                         class="chakra-stack attachmentActions css-9hjtr8"
                       >
-                        <a
-                          aria-label="Preview file"
-                          class="chakra-button css-p7mkev"
-                          href="https://cdn-api.mezon.vn/dev-nccerp/w2/upload/sake20.jpg"
-                          rel="noreferrer"
-                          target="_blank"
-                        >
-                          <svg
-                            aria-hidden="true"
-                            class="chakra-icon css-1vp16hi"
-                            fill="none"
-                            focusable="false"
-                            height="1em"
-                            stroke="currentColor"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            viewBox="0 0 24 24"
-                            width="1em"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              d="M0 0h24v24H0z"
-                              fill="none"
-                              stroke="none"
-                            />
-                            <path
-                              d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"
-                            />
-                            <path
-                              d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6"
-                            />
-                          </svg>
-                        </a>
                         <button
                           aria-label="Download file"
                           class="chakra-button css-p7mkev"
@@ -337,40 +303,6 @@ exports[`Task Detail Modal 1`] = `
                       <div
                         class="chakra-stack attachmentActions css-9hjtr8"
                       >
-                        <a
-                          aria-label="Preview file"
-                          class="chakra-button css-p7mkev"
-                          href="https://cdn-api.mezon.vn/dev-nccerp/w2/upload/sake14.jpg"
-                          rel="noreferrer"
-                          target="_blank"
-                        >
-                          <svg
-                            aria-hidden="true"
-                            class="chakra-icon css-1vp16hi"
-                            fill="none"
-                            focusable="false"
-                            height="1em"
-                            stroke="currentColor"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            viewBox="0 0 24 24"
-                            width="1em"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              d="M0 0h24v24H0z"
-                              fill="none"
-                              stroke="none"
-                            />
-                            <path
-                              d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"
-                            />
-                            <path
-                              d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6"
-                            />
-                          </svg>
-                        </a>
                         <button
                           aria-label="Download file"
                           class="chakra-button css-p7mkev"

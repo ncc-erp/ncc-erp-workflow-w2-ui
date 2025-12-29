@@ -1,6 +1,6 @@
 import { useOffices } from 'api/apiHooks/requestHooks';
 import styles from './style.module.scss';
-import { TbDownload, TbEye, TbFile } from 'react-icons/tb';
+import { TbDownload, TbFile } from 'react-icons/tb';
 import { Icon, IconButton, Tooltip, HStack, Text } from '@chakra-ui/react';
 import { useDownloadFile } from 'api/apiHooks';
 
@@ -63,18 +63,6 @@ export const TextGroup = ({
                   </Text>
                 </Tooltip>
                 <HStack spacing={2} className={styles.attachmentActions}>
-                  <Tooltip label="Preview" hasArrow>
-                    <IconButton
-                      aria-label="Preview file"
-                      icon={<Icon as={TbEye} boxSize={5} />}
-                      size="sm"
-                      variant="ghost"
-                      as="a"
-                      href={url}
-                      target="_blank"
-                      rel="noreferrer"
-                    />
-                  </Tooltip>
                   <Tooltip label="Download" hasArrow>
                     <IconButton
                       aria-label="Download file"
