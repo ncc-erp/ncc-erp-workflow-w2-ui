@@ -9,10 +9,19 @@ export const RequestInput = ({ inputRequestDetail }: IRequestProps) => {
   return (
     <>
       {Object.keys(inputRequestDetail).map((key) => {
+        if (key.endsWith('_label')) {
+          return null;
+        }
+
         const value = inputRequestDetail[key];
         if (!value) {
           return null;
         }
+
+        const labelKey = `${key}_label`;
+        const labelValue = inputRequestDetail[labelKey];
+        const displayContent = labelValue || value;
+
         if (typeof value === 'object') {
           const { displayName } = value as { displayName?: string };
           if (displayName) {
@@ -30,7 +39,7 @@ export const RequestInput = ({ inputRequestDetail }: IRequestProps) => {
             <TextGroup
               key={key}
               label={convertToCase(key)}
-              content={extractContent(value)}
+              content={extractContent(displayContent as string)}
               dates={dates}
             />
           );
