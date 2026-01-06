@@ -17,6 +17,13 @@ import { MobileHeader } from 'common/components/MobileHeader';
 const SettingsComponent = () => {
   const { hasPermission } = useUserPermissions();
   const isLargeScreen = useMediaQuery('(min-width: 1024px)');
+  const isSmallScreen = useMediaQuery('(min-width: 480px)');
+  const columnVisibility = useMemo(
+    () => ({
+      code: isSmallScreen,
+    }),
+    [isSmallScreen]
+  );
   const canViewSettings = useMemo(
     () => hasPermission(Permissions.VIEW_SETTINGS),
     [hasPermission]
@@ -37,7 +44,7 @@ const SettingsComponent = () => {
         <Page.HeaderRight />
       </Page.Header>
       <Page.Body>
-        <DirectorSettings />
+        <DirectorSettings columnVisibility={columnVisibility} />
         <HPMSettings />
         <ITSettings />
         <HRSettings />

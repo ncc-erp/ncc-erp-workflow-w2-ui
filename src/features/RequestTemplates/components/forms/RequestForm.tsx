@@ -473,6 +473,8 @@ const RequestForm = ({ inputDefinition, onCloseModal }: RequestFormProps) => {
                       plugins={[<Toolbar position="bottom" sort={['close']} />]}
                       inputClass={styles.multiDatePicker}
                       containerStyle={{ width: '100%' }}
+                      portal
+                      zIndex={9999}
                     />
                   </div>
                 );

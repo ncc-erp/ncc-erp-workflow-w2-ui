@@ -22,7 +22,17 @@ const RequestTemplates = () => {
   const isLargeScreen = useMediaQuery('(min-width: 1024px)');
   const { hasPermission } = useUserPermissions();
   const navigate = useNavigate();
+  const isMediumScreen = useMediaQuery('(min-width: 768px)');
 
+  const columnVisibility = useMemo(
+    () => ({
+      version: isMediumScreen,
+      isPublished: isMediumScreen,
+
+      displayName: isMediumScreen,
+    }),
+    [isMediumScreen]
+  );
   const canViewTemplates = useMemo(
     () => hasPermission(Permissions.VIEW_WORKFLOW_DEFINITIONS),
     [hasPermission]
@@ -42,7 +52,7 @@ const RequestTemplates = () => {
   }, [data]);
 
   // make sure no leak
-  failTokenRecheck && clearTimeout(failTokenRecheck)
+  failTokenRecheck && clearTimeout(failTokenRecheck);
   failTokenRecheck = setTimeout(() => {
     if (!hasPermission(Permissions.VIEW_WORKFLOW_DEFINITIONS)) {
       removeItem(LocalStorageKeys.accessToken);
@@ -69,6 +79,7 @@ const RequestTemplates = () => {
           data={temp || { items: [], totalCount: 0 }}
           isLoading={isLoading}
           refetch={refetch}
+          columnVisibility={columnVisibility}
         />
       </Page.Body>
     </Page>
