@@ -11,11 +11,12 @@ interface SideNavProps {
 export const SideNav = ({ isLargeScreen }: SideNavProps) => {
   const sideBarRef = useRef<HTMLDivElement>(null);
   const { openSideBar, isInMezon } = useRecoilValue(appConfigState);
-  const { setSideBarWidth } = useSetAppConfig();
-  const { onCloseSideBar } = useSetAppConfig();
+  const { setSideBarWidth, onCloseSideBar } = useSetAppConfig();
+
   useEffect(() => {
     sideBarRef.current && setSideBarWidth(sideBarRef.current.offsetWidth);
   }, [setSideBarWidth, sideBarRef]);
+
   return (
     <>
       <Box
@@ -35,6 +36,7 @@ export const SideNav = ({ isLargeScreen }: SideNavProps) => {
           <></>
         )}
       </Box>
+
       <Drawer
         size="sideNav"
         placement="left"
@@ -44,17 +46,6 @@ export const SideNav = ({ isLargeScreen }: SideNavProps) => {
         <DrawerOverlay />
         <DrawerContent w="280px" position="relative">
           <SideBarContent isLargeScreen={isLargeScreen} isInMezon={isInMezon} />
-          {/* <IconButton
-            aria-label=""
-            position="absolute"
-            variant="ghost"
-            right="12px"
-            top="20px"
-            size="xs"
-            onClick={onCloseSideBar}
-          >
-            <Icon fontSize="xl" as={IoCloseOutline} />
-          </IconButton> */}
         </DrawerContent>
       </Drawer>
     </>
