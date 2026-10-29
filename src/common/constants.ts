@@ -235,6 +235,10 @@ export const MaxReleaseContentLine = 8;
 
 export const DayoffReasons = [
   {
+    name: 'Nghỉ thông thường (mất ngày phép)',
+    value: '6',
+  },
+  {
     name: 'Nghỉ cưới bản thân (3 ngày phép)',
     value: '1',
   },
@@ -247,12 +251,16 @@ export const DayoffReasons = [
     value: '3',
   },
   {
-    name: 'Nghỉ sinh đôi (sinh thường)',
+    name: 'Nghỉ sinh đôi (sinh thường 10 ngày phép)',
     value: '4',
   },
   {
-    name: 'Nghỉ sinh đôi (sinh mổ)',
+    name: 'Nghỉ sinh đôi (sinh mổ 14 ngày phép)',
     value: '5',
+  },
+  {
+    name: 'Nghỉ vợ sinh bé thứ 2 trở lên (10 ngày phép)',
+    value: '7',
   },
 ];
 
