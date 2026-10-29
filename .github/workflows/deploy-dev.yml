@@ -30,7 +30,7 @@ jobs:
           node-version: 18
 
       - name: Install pnpm
-        run: npm install -g pnpm
+        run: npm install -g pnpm@9
 
       - name: Install package
         run: pnpm install
@@ -72,4 +72,3 @@ jobs:
           rm -rf ~/apps/ncc-erp-w2/workflow-w2-ui/*
           unzip fe.zip -d ~/apps/ncc-erp-w2/workflow-w2-ui
           rm -rf fe.zip
-
