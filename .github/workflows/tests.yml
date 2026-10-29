@@ -32,7 +32,7 @@ jobs:
           node-version: 18 # or your preferred version
 
       - name: Install pnpm
-        run: npm install -g pnpm
+        run: npm install -g pnpm@9
 
       - name: Install dependencies
         run: pnpm install
