@@ -1,2 +1,4 @@
 **/*.md
 public/js/mezon-web-sdk.js
+# Mezon bot là project Node riêng (npm, tsconfig riêng)
+bot/
